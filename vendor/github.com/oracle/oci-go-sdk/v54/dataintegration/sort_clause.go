@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SortClause The information about the sort object.
@@ -25,6 +27,21 @@ func (m SortClause) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SortClause) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSortClauseOrderEnum[string(m.Order)]; !ok && m.Order != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Order: %s. Supported values are: %s.", m.Order, strings.Join(GetSortClauseOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SortClauseOrderEnum Enum with underlying type: string
 type SortClauseOrderEnum string
 
@@ -34,7 +51,7 @@ const (
 	SortClauseOrderDesc SortClauseOrderEnum = "DESC"
 )
 
-var mappingSortClauseOrder = map[string]SortClauseOrderEnum{
+var mappingSortClauseOrderEnum = map[string]SortClauseOrderEnum{
 	"ASC":  SortClauseOrderAsc,
 	"DESC": SortClauseOrderDesc,
 }
@@ -42,8 +59,16 @@ var mappingSortClauseOrder = map[string]SortClauseOrderEnum{
 // GetSortClauseOrderEnumValues Enumerates the set of values for SortClauseOrderEnum
 func GetSortClauseOrderEnumValues() []SortClauseOrderEnum {
 	values := make([]SortClauseOrderEnum, 0)
-	for _, v := range mappingSortClauseOrder {
+	for _, v := range mappingSortClauseOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSortClauseOrderEnumStringValues Enumerates the set of values in String for SortClauseOrderEnum
+func GetSortClauseOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

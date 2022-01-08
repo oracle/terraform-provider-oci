@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateCompartmentDetails The representation of CreateCompartmentDetails
@@ -26,6 +28,9 @@ type CreateCompartmentDetails struct {
 	// The description you assign to the compartment during creation. Does not have to be unique, and it's changeable.
 	Description *string `mandatory:"true" json:"description"`
 
+	// The OCID of the Security Zone to associate this compartment with.
+	SecurityZoneId *string `mandatory:"false" json:"securityZoneId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -39,4 +44,16 @@ type CreateCompartmentDetails struct {
 
 func (m CreateCompartmentDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateCompartmentDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

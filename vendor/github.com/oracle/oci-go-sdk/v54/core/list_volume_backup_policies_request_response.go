@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListVolumeBackupPoliciesRequest wrapper for the ListVolumeBackupPolicies operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumeBackupPolicies.go.html to see an example of how to use ListVolumeBackupPoliciesRequest.
 type ListVolumeBackupPoliciesRequest struct {
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -47,6 +45,10 @@ func (request ListVolumeBackupPoliciesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVolumeBackupPoliciesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -60,6 +62,17 @@ func (request ListVolumeBackupPoliciesRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVolumeBackupPoliciesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVolumeBackupPoliciesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVolumeBackupPoliciesResponse wrapper for the ListVolumeBackupPolicies operation

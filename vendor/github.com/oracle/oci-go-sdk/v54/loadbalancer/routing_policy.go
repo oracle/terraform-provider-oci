@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RoutingPolicy A named ordered list of routing rules that is applied to a listener.
@@ -33,6 +35,21 @@ func (m RoutingPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RoutingPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRoutingPolicyConditionLanguageVersionEnum[string(m.ConditionLanguageVersion)]; !ok && m.ConditionLanguageVersion != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConditionLanguageVersion: %s. Supported values are: %s.", m.ConditionLanguageVersion, strings.Join(GetRoutingPolicyConditionLanguageVersionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RoutingPolicyConditionLanguageVersionEnum Enum with underlying type: string
 type RoutingPolicyConditionLanguageVersionEnum string
 
@@ -41,15 +58,22 @@ const (
 	RoutingPolicyConditionLanguageVersionV1 RoutingPolicyConditionLanguageVersionEnum = "V1"
 )
 
-var mappingRoutingPolicyConditionLanguageVersion = map[string]RoutingPolicyConditionLanguageVersionEnum{
+var mappingRoutingPolicyConditionLanguageVersionEnum = map[string]RoutingPolicyConditionLanguageVersionEnum{
 	"V1": RoutingPolicyConditionLanguageVersionV1,
 }
 
 // GetRoutingPolicyConditionLanguageVersionEnumValues Enumerates the set of values for RoutingPolicyConditionLanguageVersionEnum
 func GetRoutingPolicyConditionLanguageVersionEnumValues() []RoutingPolicyConditionLanguageVersionEnum {
 	values := make([]RoutingPolicyConditionLanguageVersionEnum, 0)
-	for _, v := range mappingRoutingPolicyConditionLanguageVersion {
+	for _, v := range mappingRoutingPolicyConditionLanguageVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRoutingPolicyConditionLanguageVersionEnumStringValues Enumerates the set of values in String for RoutingPolicyConditionLanguageVersionEnum
+func GetRoutingPolicyConditionLanguageVersionEnumStringValues() []string {
+	return []string{
+		"V1",
+	}
 }

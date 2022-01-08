@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteDomainRecordsRequest wrapper for the DeleteDomainRecords operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteDomainRecords.go.html to see an example of how to use DeleteDomainRecordsRequest.
 type DeleteDomainRecordsRequest struct {
 
 	// The name or OCID of the target zone.
@@ -62,6 +60,10 @@ func (request DeleteDomainRecordsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteDomainRecordsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +77,20 @@ func (request DeleteDomainRecordsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteDomainRecordsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteDomainRecordsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDeleteDomainRecordsScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetDeleteDomainRecordsScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteDomainRecordsResponse wrapper for the DeleteDomainRecords operation
@@ -106,7 +122,7 @@ const (
 	DeleteDomainRecordsScopePrivate DeleteDomainRecordsScopeEnum = "PRIVATE"
 )
 
-var mappingDeleteDomainRecordsScope = map[string]DeleteDomainRecordsScopeEnum{
+var mappingDeleteDomainRecordsScopeEnum = map[string]DeleteDomainRecordsScopeEnum{
 	"GLOBAL":  DeleteDomainRecordsScopeGlobal,
 	"PRIVATE": DeleteDomainRecordsScopePrivate,
 }
@@ -114,8 +130,16 @@ var mappingDeleteDomainRecordsScope = map[string]DeleteDomainRecordsScopeEnum{
 // GetDeleteDomainRecordsScopeEnumValues Enumerates the set of values for DeleteDomainRecordsScopeEnum
 func GetDeleteDomainRecordsScopeEnumValues() []DeleteDomainRecordsScopeEnum {
 	values := make([]DeleteDomainRecordsScopeEnum, 0)
-	for _, v := range mappingDeleteDomainRecordsScope {
+	for _, v := range mappingDeleteDomainRecordsScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeleteDomainRecordsScopeEnumStringValues Enumerates the set of values in String for DeleteDomainRecordsScopeEnum
+func GetDeleteDomainRecordsScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

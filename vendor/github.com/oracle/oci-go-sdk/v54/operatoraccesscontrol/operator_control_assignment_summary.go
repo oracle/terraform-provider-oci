@@ -12,7 +12,9 @@
 package operatoraccesscontrol
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // OperatorControlAssignmentSummary Details of the operator control assignment.
@@ -72,4 +74,22 @@ type OperatorControlAssignmentSummary struct {
 
 func (m OperatorControlAssignmentSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OperatorControlAssignmentSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingResourceTypesEnum[string(m.ResourceType)]; !ok && m.ResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetResourceTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOperatorControlAssignmentLifecycleStatesEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOperatorControlAssignmentLifecycleStatesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

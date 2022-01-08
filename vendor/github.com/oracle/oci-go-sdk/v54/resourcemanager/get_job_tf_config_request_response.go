@@ -5,16 +5,14 @@
 package resourcemanager
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // GetJobTfConfigRequest wrapper for the GetJobTfConfig operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobTfConfig.go.html to see an example of how to use GetJobTfConfigRequest.
 type GetJobTfConfigRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
@@ -36,6 +34,10 @@ func (request GetJobTfConfigRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetJobTfConfigRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -49,6 +51,17 @@ func (request GetJobTfConfigRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetJobTfConfigRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetJobTfConfigRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetJobTfConfigResponse wrapper for the GetJobTfConfig operation

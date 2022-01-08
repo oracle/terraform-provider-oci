@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TopologyRoutesToRelationshipDetails Defines route rule details for a `routesTo` relationship.
@@ -39,6 +41,21 @@ func (m TopologyRoutesToRelationshipDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TopologyRoutesToRelationshipDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTopologyRoutesToRelationshipDetailsRouteTypeEnum[string(m.RouteType)]; !ok && m.RouteType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RouteType: %s. Supported values are: %s.", m.RouteType, strings.Join(GetTopologyRoutesToRelationshipDetailsRouteTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TopologyRoutesToRelationshipDetailsRouteTypeEnum Enum with underlying type: string
 type TopologyRoutesToRelationshipDetailsRouteTypeEnum string
 
@@ -48,7 +65,7 @@ const (
 	TopologyRoutesToRelationshipDetailsRouteTypeDynamic TopologyRoutesToRelationshipDetailsRouteTypeEnum = "DYNAMIC"
 )
 
-var mappingTopologyRoutesToRelationshipDetailsRouteType = map[string]TopologyRoutesToRelationshipDetailsRouteTypeEnum{
+var mappingTopologyRoutesToRelationshipDetailsRouteTypeEnum = map[string]TopologyRoutesToRelationshipDetailsRouteTypeEnum{
 	"STATIC":  TopologyRoutesToRelationshipDetailsRouteTypeStatic,
 	"DYNAMIC": TopologyRoutesToRelationshipDetailsRouteTypeDynamic,
 }
@@ -56,8 +73,16 @@ var mappingTopologyRoutesToRelationshipDetailsRouteType = map[string]TopologyRou
 // GetTopologyRoutesToRelationshipDetailsRouteTypeEnumValues Enumerates the set of values for TopologyRoutesToRelationshipDetailsRouteTypeEnum
 func GetTopologyRoutesToRelationshipDetailsRouteTypeEnumValues() []TopologyRoutesToRelationshipDetailsRouteTypeEnum {
 	values := make([]TopologyRoutesToRelationshipDetailsRouteTypeEnum, 0)
-	for _, v := range mappingTopologyRoutesToRelationshipDetailsRouteType {
+	for _, v := range mappingTopologyRoutesToRelationshipDetailsRouteTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTopologyRoutesToRelationshipDetailsRouteTypeEnumStringValues Enumerates the set of values in String for TopologyRoutesToRelationshipDetailsRouteTypeEnum
+func GetTopologyRoutesToRelationshipDetailsRouteTypeEnumStringValues() []string {
+	return []string{
+		"STATIC",
+		"DYNAMIC",
+	}
 }

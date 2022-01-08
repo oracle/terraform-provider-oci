@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateDataAssetDetails Properties used in data asset update operations.
@@ -178,6 +180,18 @@ func (m createdataassetdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createdataassetdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateDataAssetDetailsModelTypeEnum Enum with underlying type: string
 type CreateDataAssetDetailsModelTypeEnum string
 
@@ -193,7 +207,7 @@ const (
 	CreateDataAssetDetailsModelTypeAmazonS3DataAsset            CreateDataAssetDetailsModelTypeEnum = "AMAZON_S3_DATA_ASSET"
 )
 
-var mappingCreateDataAssetDetailsModelType = map[string]CreateDataAssetDetailsModelTypeEnum{
+var mappingCreateDataAssetDetailsModelTypeEnum = map[string]CreateDataAssetDetailsModelTypeEnum{
 	"ORACLE_DATA_ASSET":                CreateDataAssetDetailsModelTypeOracleDataAsset,
 	"ORACLE_OBJECT_STORAGE_DATA_ASSET": CreateDataAssetDetailsModelTypeOracleObjectStorageDataAsset,
 	"ORACLE_ATP_DATA_ASSET":            CreateDataAssetDetailsModelTypeOracleAtpDataAsset,
@@ -207,8 +221,22 @@ var mappingCreateDataAssetDetailsModelType = map[string]CreateDataAssetDetailsMo
 // GetCreateDataAssetDetailsModelTypeEnumValues Enumerates the set of values for CreateDataAssetDetailsModelTypeEnum
 func GetCreateDataAssetDetailsModelTypeEnumValues() []CreateDataAssetDetailsModelTypeEnum {
 	values := make([]CreateDataAssetDetailsModelTypeEnum, 0)
-	for _, v := range mappingCreateDataAssetDetailsModelType {
+	for _, v := range mappingCreateDataAssetDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDataAssetDetailsModelTypeEnumStringValues Enumerates the set of values in String for CreateDataAssetDetailsModelTypeEnum
+func GetCreateDataAssetDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_DATA_ASSET",
+		"ORACLE_OBJECT_STORAGE_DATA_ASSET",
+		"ORACLE_ATP_DATA_ASSET",
+		"ORACLE_ADWC_DATA_ASSET",
+		"MYSQL_DATA_ASSET",
+		"GENERIC_JDBC_DATA_ASSET",
+		"FUSION_APP_DATA_ASSET",
+		"AMAZON_S3_DATA_ASSET",
+	}
 }

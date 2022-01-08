@@ -5,15 +5,13 @@
 package resourcemanager
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListStacksRequest wrapper for the ListStacks operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListStacks.go.html to see an example of how to use ListStacksRequest.
 type ListStacksRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -72,6 +70,10 @@ func (request ListStacksRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListStacksRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +87,26 @@ func (request ListStacksRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListStacksRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListStacksRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingStackLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetStackLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListStacksSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListStacksSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListStacksSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListStacksSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListStacksResponse wrapper for the ListStacks operation
@@ -126,7 +148,7 @@ const (
 	ListStacksSortByDisplayname ListStacksSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListStacksSortBy = map[string]ListStacksSortByEnum{
+var mappingListStacksSortByEnum = map[string]ListStacksSortByEnum{
 	"TIMECREATED": ListStacksSortByTimecreated,
 	"DISPLAYNAME": ListStacksSortByDisplayname,
 }
@@ -134,10 +156,18 @@ var mappingListStacksSortBy = map[string]ListStacksSortByEnum{
 // GetListStacksSortByEnumValues Enumerates the set of values for ListStacksSortByEnum
 func GetListStacksSortByEnumValues() []ListStacksSortByEnum {
 	values := make([]ListStacksSortByEnum, 0)
-	for _, v := range mappingListStacksSortBy {
+	for _, v := range mappingListStacksSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStacksSortByEnumStringValues Enumerates the set of values in String for ListStacksSortByEnum
+func GetListStacksSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListStacksSortOrderEnum Enum with underlying type: string
@@ -149,7 +179,7 @@ const (
 	ListStacksSortOrderDesc ListStacksSortOrderEnum = "DESC"
 )
 
-var mappingListStacksSortOrder = map[string]ListStacksSortOrderEnum{
+var mappingListStacksSortOrderEnum = map[string]ListStacksSortOrderEnum{
 	"ASC":  ListStacksSortOrderAsc,
 	"DESC": ListStacksSortOrderDesc,
 }
@@ -157,8 +187,16 @@ var mappingListStacksSortOrder = map[string]ListStacksSortOrderEnum{
 // GetListStacksSortOrderEnumValues Enumerates the set of values for ListStacksSortOrderEnum
 func GetListStacksSortOrderEnumValues() []ListStacksSortOrderEnum {
 	values := make([]ListStacksSortOrderEnum, 0)
-	for _, v := range mappingListStacksSortOrder {
+	for _, v := range mappingListStacksSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStacksSortOrderEnumStringValues Enumerates the set of values in String for ListStacksSortOrderEnum
+func GetListStacksSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

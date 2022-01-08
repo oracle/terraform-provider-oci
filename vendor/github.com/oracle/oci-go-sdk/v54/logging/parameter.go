@@ -10,7 +10,9 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Parameter Parameters that a resource category supports.
@@ -30,6 +32,21 @@ func (m Parameter) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Parameter) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingParameterTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetParameterTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ParameterTypeEnum Enum with underlying type: string
 type ParameterTypeEnum string
 
@@ -40,7 +57,7 @@ const (
 	ParameterTypeBoolean ParameterTypeEnum = "boolean"
 )
 
-var mappingParameterType = map[string]ParameterTypeEnum{
+var mappingParameterTypeEnum = map[string]ParameterTypeEnum{
 	"integer": ParameterTypeInteger,
 	"string":  ParameterTypeString,
 	"boolean": ParameterTypeBoolean,
@@ -49,8 +66,17 @@ var mappingParameterType = map[string]ParameterTypeEnum{
 // GetParameterTypeEnumValues Enumerates the set of values for ParameterTypeEnum
 func GetParameterTypeEnumValues() []ParameterTypeEnum {
 	values := make([]ParameterTypeEnum, 0)
-	for _, v := range mappingParameterType {
+	for _, v := range mappingParameterTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetParameterTypeEnumStringValues Enumerates the set of values in String for ParameterTypeEnum
+func GetParameterTypeEnumStringValues() []string {
+	return []string{
+		"integer",
+		"string",
+		"boolean",
+	}
 }

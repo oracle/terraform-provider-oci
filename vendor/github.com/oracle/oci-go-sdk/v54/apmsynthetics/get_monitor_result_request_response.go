@@ -5,15 +5,13 @@
 package apmsynthetics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetMonitorResultRequest wrapper for the GetMonitorResult operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetMonitorResult.go.html to see an example of how to use GetMonitorResultRequest.
 type GetMonitorResultRequest struct {
 
 	// The APM domain ID the request is intended for.
@@ -25,10 +23,10 @@ type GetMonitorResultRequest struct {
 	// The vantagePoint name.
 	VantagePoint *string `mandatory:"true" contributesTo:"query" name:"vantagePoint"`
 
-	// The result type har, screenshot, log or network.
+	// The result type: har, screenshot, log, or network.
 	ResultType *string `mandatory:"true" contributesTo:"query" name:"resultType"`
 
-	// The result content type zip or raw.
+	// The result content type: zip or raw.
 	ResultContentType *string `mandatory:"true" contributesTo:"query" name:"resultContentType"`
 
 	// The time the object was posted.
@@ -50,6 +48,10 @@ func (request GetMonitorResultRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetMonitorResultRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +65,17 @@ func (request GetMonitorResultRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetMonitorResultRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetMonitorResultRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetMonitorResultResponse wrapper for the GetMonitorResult operation

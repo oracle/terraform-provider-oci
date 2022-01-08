@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -18,7 +18,7 @@ const (
 	OrchestrationVariableTypeEnumInteger OrchestrationVariableTypeEnumEnum = "INTEGER"
 )
 
-var mappingOrchestrationVariableTypeEnum = map[string]OrchestrationVariableTypeEnumEnum{
+var mappingOrchestrationVariableTypeEnumEnum = map[string]OrchestrationVariableTypeEnumEnum{
 	"STRING":  OrchestrationVariableTypeEnumString,
 	"INTEGER": OrchestrationVariableTypeEnumInteger,
 }
@@ -26,8 +26,16 @@ var mappingOrchestrationVariableTypeEnum = map[string]OrchestrationVariableTypeE
 // GetOrchestrationVariableTypeEnumEnumValues Enumerates the set of values for OrchestrationVariableTypeEnumEnum
 func GetOrchestrationVariableTypeEnumEnumValues() []OrchestrationVariableTypeEnumEnum {
 	values := make([]OrchestrationVariableTypeEnumEnum, 0)
-	for _, v := range mappingOrchestrationVariableTypeEnum {
+	for _, v := range mappingOrchestrationVariableTypeEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOrchestrationVariableTypeEnumEnumStringValues Enumerates the set of values in String for OrchestrationVariableTypeEnumEnum
+func GetOrchestrationVariableTypeEnumEnumStringValues() []string {
+	return []string{
+		"STRING",
+		"INTEGER",
+	}
 }

@@ -15,11 +15,12 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// AmdMilanBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with an E4 shape
-// (the AMD Milan platform).
+// AmdMilanBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with an E4 shape.
 type AmdMilanBmLaunchInstancePlatformConfig struct {
 
 	// Whether Secure Boot is enabled on the instance.
@@ -31,8 +32,14 @@ type AmdMilanBmLaunchInstancePlatformConfig struct {
 	// Whether the Measured Boot feature is enabled on the instance.
 	IsMeasuredBootEnabled *bool `mandatory:"false" json:"isMeasuredBootEnabled"`
 
+	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
+	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
+
 	// The number of NUMA nodes per socket (NPS).
 	NumaNodesPerSocket AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum `mandatory:"false" json:"numaNodesPerSocket,omitempty"`
+
+	// The manufacturer specific technology used for memory encryption.
+	MemoryEncryptionTechnology AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum `mandatory:"false" json:"memoryEncryptionTechnology,omitempty"`
 }
 
 //GetIsSecureBootEnabled returns IsSecureBootEnabled
@@ -50,8 +57,31 @@ func (m AmdMilanBmLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool
 	return m.IsMeasuredBootEnabled
 }
 
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+func (m AmdMilanBmLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
+	return m.IsMemoryEncryptionEnabled
+}
+
 func (m AmdMilanBmLaunchInstancePlatformConfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AmdMilanBmLaunchInstancePlatformConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum[string(m.NumaNodesPerSocket)]; !ok && m.NumaNodesPerSocket != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NumaNodesPerSocket: %s. Supported values are: %s.", m.NumaNodesPerSocket, strings.Join(GetAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum[string(m.MemoryEncryptionTechnology)]; !ok && m.MemoryEncryptionTechnology != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MemoryEncryptionTechnology: %s. Supported values are: %s.", m.MemoryEncryptionTechnology, strings.Join(GetAmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -79,7 +109,7 @@ const (
 	AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketNps4 AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS4"
 )
 
-var mappingAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocket = map[string]AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum{
+var mappingAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = map[string]AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum{
 	"NPS0": AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketNps0,
 	"NPS1": AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketNps1,
 	"NPS2": AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketNps2,
@@ -89,8 +119,49 @@ var mappingAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocket = map[string
 // GetAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumValues Enumerates the set of values for AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum
 func GetAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumValues() []AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum {
 	values := make([]AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum, 0)
-	for _, v := range mappingAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocket {
+	for _, v := range mappingAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues Enumerates the set of values in String for AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum
+func GetAmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues() []string {
+	return []string{
+		"NPS0",
+		"NPS1",
+		"NPS2",
+		"NPS4",
+	}
+}
+
+// AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum Enum with underlying type: string
+type AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum string
+
+// Set of constants representing the allowable values for AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum
+const (
+	AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyTsme AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum = "TSME"
+	AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologySmee AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum = "SMEE"
+)
+
+var mappingAmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum = map[string]AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum{
+	"TSME": AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyTsme,
+	"SMEE": AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologySmee,
+}
+
+// GetAmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumValues Enumerates the set of values for AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum
+func GetAmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumValues() []AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum {
+	values := make([]AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum, 0)
+	for _, v := range mappingAmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumStringValues Enumerates the set of values in String for AmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum
+func GetAmdMilanBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumStringValues() []string {
+	return []string{
+		"TSME",
+		"SMEE",
+	}
 }

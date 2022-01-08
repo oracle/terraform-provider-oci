@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateTaskScheduleDetails The update task details.
@@ -86,6 +88,27 @@ func (m UpdateTaskScheduleDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateTaskScheduleDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateTaskScheduleDetailsRetryDelayUnitEnum[string(m.RetryDelayUnit)]; !ok && m.RetryDelayUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RetryDelayUnit: %s. Supported values are: %s.", m.RetryDelayUnit, strings.Join(GetUpdateTaskScheduleDetailsRetryDelayUnitEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateTaskScheduleDetailsAuthModeEnum[string(m.AuthMode)]; !ok && m.AuthMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthMode: %s. Supported values are: %s.", m.AuthMode, strings.Join(GetUpdateTaskScheduleDetailsAuthModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateTaskScheduleDetailsExpectedDurationUnitEnum[string(m.ExpectedDurationUnit)]; !ok && m.ExpectedDurationUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExpectedDurationUnit: %s. Supported values are: %s.", m.ExpectedDurationUnit, strings.Join(GetUpdateTaskScheduleDetailsExpectedDurationUnitEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateTaskScheduleDetailsRetryDelayUnitEnum Enum with underlying type: string
 type UpdateTaskScheduleDetailsRetryDelayUnitEnum string
 
@@ -97,7 +120,7 @@ const (
 	UpdateTaskScheduleDetailsRetryDelayUnitDays    UpdateTaskScheduleDetailsRetryDelayUnitEnum = "DAYS"
 )
 
-var mappingUpdateTaskScheduleDetailsRetryDelayUnit = map[string]UpdateTaskScheduleDetailsRetryDelayUnitEnum{
+var mappingUpdateTaskScheduleDetailsRetryDelayUnitEnum = map[string]UpdateTaskScheduleDetailsRetryDelayUnitEnum{
 	"SECONDS": UpdateTaskScheduleDetailsRetryDelayUnitSeconds,
 	"MINUTES": UpdateTaskScheduleDetailsRetryDelayUnitMinutes,
 	"HOURS":   UpdateTaskScheduleDetailsRetryDelayUnitHours,
@@ -107,10 +130,20 @@ var mappingUpdateTaskScheduleDetailsRetryDelayUnit = map[string]UpdateTaskSchedu
 // GetUpdateTaskScheduleDetailsRetryDelayUnitEnumValues Enumerates the set of values for UpdateTaskScheduleDetailsRetryDelayUnitEnum
 func GetUpdateTaskScheduleDetailsRetryDelayUnitEnumValues() []UpdateTaskScheduleDetailsRetryDelayUnitEnum {
 	values := make([]UpdateTaskScheduleDetailsRetryDelayUnitEnum, 0)
-	for _, v := range mappingUpdateTaskScheduleDetailsRetryDelayUnit {
+	for _, v := range mappingUpdateTaskScheduleDetailsRetryDelayUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTaskScheduleDetailsRetryDelayUnitEnumStringValues Enumerates the set of values in String for UpdateTaskScheduleDetailsRetryDelayUnitEnum
+func GetUpdateTaskScheduleDetailsRetryDelayUnitEnumStringValues() []string {
+	return []string{
+		"SECONDS",
+		"MINUTES",
+		"HOURS",
+		"DAYS",
+	}
 }
 
 // UpdateTaskScheduleDetailsAuthModeEnum Enum with underlying type: string
@@ -123,7 +156,7 @@ const (
 	UpdateTaskScheduleDetailsAuthModeUserCertificate   UpdateTaskScheduleDetailsAuthModeEnum = "USER_CERTIFICATE"
 )
 
-var mappingUpdateTaskScheduleDetailsAuthMode = map[string]UpdateTaskScheduleDetailsAuthModeEnum{
+var mappingUpdateTaskScheduleDetailsAuthModeEnum = map[string]UpdateTaskScheduleDetailsAuthModeEnum{
 	"OBO":                UpdateTaskScheduleDetailsAuthModeObo,
 	"RESOURCE_PRINCIPAL": UpdateTaskScheduleDetailsAuthModeResourcePrincipal,
 	"USER_CERTIFICATE":   UpdateTaskScheduleDetailsAuthModeUserCertificate,
@@ -132,10 +165,19 @@ var mappingUpdateTaskScheduleDetailsAuthMode = map[string]UpdateTaskScheduleDeta
 // GetUpdateTaskScheduleDetailsAuthModeEnumValues Enumerates the set of values for UpdateTaskScheduleDetailsAuthModeEnum
 func GetUpdateTaskScheduleDetailsAuthModeEnumValues() []UpdateTaskScheduleDetailsAuthModeEnum {
 	values := make([]UpdateTaskScheduleDetailsAuthModeEnum, 0)
-	for _, v := range mappingUpdateTaskScheduleDetailsAuthMode {
+	for _, v := range mappingUpdateTaskScheduleDetailsAuthModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTaskScheduleDetailsAuthModeEnumStringValues Enumerates the set of values in String for UpdateTaskScheduleDetailsAuthModeEnum
+func GetUpdateTaskScheduleDetailsAuthModeEnumStringValues() []string {
+	return []string{
+		"OBO",
+		"RESOURCE_PRINCIPAL",
+		"USER_CERTIFICATE",
+	}
 }
 
 // UpdateTaskScheduleDetailsExpectedDurationUnitEnum Enum with underlying type: string
@@ -149,7 +191,7 @@ const (
 	UpdateTaskScheduleDetailsExpectedDurationUnitDays    UpdateTaskScheduleDetailsExpectedDurationUnitEnum = "DAYS"
 )
 
-var mappingUpdateTaskScheduleDetailsExpectedDurationUnit = map[string]UpdateTaskScheduleDetailsExpectedDurationUnitEnum{
+var mappingUpdateTaskScheduleDetailsExpectedDurationUnitEnum = map[string]UpdateTaskScheduleDetailsExpectedDurationUnitEnum{
 	"SECONDS": UpdateTaskScheduleDetailsExpectedDurationUnitSeconds,
 	"MINUTES": UpdateTaskScheduleDetailsExpectedDurationUnitMinutes,
 	"HOURS":   UpdateTaskScheduleDetailsExpectedDurationUnitHours,
@@ -159,8 +201,18 @@ var mappingUpdateTaskScheduleDetailsExpectedDurationUnit = map[string]UpdateTask
 // GetUpdateTaskScheduleDetailsExpectedDurationUnitEnumValues Enumerates the set of values for UpdateTaskScheduleDetailsExpectedDurationUnitEnum
 func GetUpdateTaskScheduleDetailsExpectedDurationUnitEnumValues() []UpdateTaskScheduleDetailsExpectedDurationUnitEnum {
 	values := make([]UpdateTaskScheduleDetailsExpectedDurationUnitEnum, 0)
-	for _, v := range mappingUpdateTaskScheduleDetailsExpectedDurationUnit {
+	for _, v := range mappingUpdateTaskScheduleDetailsExpectedDurationUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTaskScheduleDetailsExpectedDurationUnitEnumStringValues Enumerates the set of values in String for UpdateTaskScheduleDetailsExpectedDurationUnitEnum
+func GetUpdateTaskScheduleDetailsExpectedDurationUnitEnumStringValues() []string {
+	return []string{
+		"SECONDS",
+		"MINUTES",
+		"HOURS",
+		"DAYS",
+	}
 }

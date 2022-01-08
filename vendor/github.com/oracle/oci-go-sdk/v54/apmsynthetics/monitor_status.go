@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -19,7 +19,7 @@ const (
 	MonitorStatusInvalid  MonitorStatusEnum = "INVALID"
 )
 
-var mappingMonitorStatus = map[string]MonitorStatusEnum{
+var mappingMonitorStatusEnum = map[string]MonitorStatusEnum{
 	"ENABLED":  MonitorStatusEnabled,
 	"DISABLED": MonitorStatusDisabled,
 	"INVALID":  MonitorStatusInvalid,
@@ -28,8 +28,17 @@ var mappingMonitorStatus = map[string]MonitorStatusEnum{
 // GetMonitorStatusEnumValues Enumerates the set of values for MonitorStatusEnum
 func GetMonitorStatusEnumValues() []MonitorStatusEnum {
 	values := make([]MonitorStatusEnum, 0)
-	for _, v := range mappingMonitorStatus {
+	for _, v := range mappingMonitorStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMonitorStatusEnumStringValues Enumerates the set of values in String for MonitorStatusEnum
+func GetMonitorStatusEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+		"INVALID",
+	}
 }

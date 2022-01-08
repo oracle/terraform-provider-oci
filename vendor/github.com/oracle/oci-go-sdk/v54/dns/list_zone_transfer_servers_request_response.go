@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListZoneTransferServersRequest wrapper for the ListZoneTransferServers operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListZoneTransferServers.go.html to see an example of how to use ListZoneTransferServersRequest.
 type ListZoneTransferServersRequest struct {
 
 	// The OCID of the compartment the resource belongs to.
@@ -42,6 +40,10 @@ func (request ListZoneTransferServersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListZoneTransferServersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -55,6 +57,20 @@ func (request ListZoneTransferServersRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListZoneTransferServersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListZoneTransferServersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListZoneTransferServersScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListZoneTransferServersScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListZoneTransferServersResponse wrapper for the ListZoneTransferServers operation
@@ -94,7 +110,7 @@ const (
 	ListZoneTransferServersScopePrivate ListZoneTransferServersScopeEnum = "PRIVATE"
 )
 
-var mappingListZoneTransferServersScope = map[string]ListZoneTransferServersScopeEnum{
+var mappingListZoneTransferServersScopeEnum = map[string]ListZoneTransferServersScopeEnum{
 	"GLOBAL":  ListZoneTransferServersScopeGlobal,
 	"PRIVATE": ListZoneTransferServersScopePrivate,
 }
@@ -102,8 +118,16 @@ var mappingListZoneTransferServersScope = map[string]ListZoneTransferServersScop
 // GetListZoneTransferServersScopeEnumValues Enumerates the set of values for ListZoneTransferServersScopeEnum
 func GetListZoneTransferServersScopeEnumValues() []ListZoneTransferServersScopeEnum {
 	values := make([]ListZoneTransferServersScopeEnum, 0)
-	for _, v := range mappingListZoneTransferServersScope {
+	for _, v := range mappingListZoneTransferServersScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListZoneTransferServersScopeEnumStringValues Enumerates the set of values in String for ListZoneTransferServersScopeEnum
+func GetListZoneTransferServersScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

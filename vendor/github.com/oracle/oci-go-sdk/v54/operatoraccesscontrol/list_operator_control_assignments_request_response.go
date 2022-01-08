@@ -5,15 +5,13 @@
 package operatoraccesscontrol
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListOperatorControlAssignmentsRequest wrapper for the ListOperatorControlAssignments operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControlAssignments.go.html to see an example of how to use ListOperatorControlAssignmentsRequest.
 type ListOperatorControlAssignmentsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -58,6 +56,10 @@ func (request ListOperatorControlAssignmentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListOperatorControlAssignmentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +73,26 @@ func (request ListOperatorControlAssignmentsRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListOperatorControlAssignmentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListOperatorControlAssignmentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListOperatorControlAssignmentsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListOperatorControlAssignmentsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOperatorControlAssignmentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOperatorControlAssignmentsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOperatorControlAssignmentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListOperatorControlAssignmentsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListOperatorControlAssignmentsResponse wrapper for the ListOperatorControlAssignments operation
@@ -115,7 +137,7 @@ const (
 	ListOperatorControlAssignmentsLifecycleStateDeletionfailed ListOperatorControlAssignmentsLifecycleStateEnum = "DELETIONFAILED"
 )
 
-var mappingListOperatorControlAssignmentsLifecycleState = map[string]ListOperatorControlAssignmentsLifecycleStateEnum{
+var mappingListOperatorControlAssignmentsLifecycleStateEnum = map[string]ListOperatorControlAssignmentsLifecycleStateEnum{
 	"CREATED":        ListOperatorControlAssignmentsLifecycleStateCreated,
 	"APPLIED":        ListOperatorControlAssignmentsLifecycleStateApplied,
 	"APPLYFAILED":    ListOperatorControlAssignmentsLifecycleStateApplyfailed,
@@ -128,10 +150,23 @@ var mappingListOperatorControlAssignmentsLifecycleState = map[string]ListOperato
 // GetListOperatorControlAssignmentsLifecycleStateEnumValues Enumerates the set of values for ListOperatorControlAssignmentsLifecycleStateEnum
 func GetListOperatorControlAssignmentsLifecycleStateEnumValues() []ListOperatorControlAssignmentsLifecycleStateEnum {
 	values := make([]ListOperatorControlAssignmentsLifecycleStateEnum, 0)
-	for _, v := range mappingListOperatorControlAssignmentsLifecycleState {
+	for _, v := range mappingListOperatorControlAssignmentsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperatorControlAssignmentsLifecycleStateEnumStringValues Enumerates the set of values in String for ListOperatorControlAssignmentsLifecycleStateEnum
+func GetListOperatorControlAssignmentsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"APPLIED",
+		"APPLYFAILED",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"DELETIONFAILED",
+	}
 }
 
 // ListOperatorControlAssignmentsSortOrderEnum Enum with underlying type: string
@@ -143,7 +178,7 @@ const (
 	ListOperatorControlAssignmentsSortOrderDesc ListOperatorControlAssignmentsSortOrderEnum = "DESC"
 )
 
-var mappingListOperatorControlAssignmentsSortOrder = map[string]ListOperatorControlAssignmentsSortOrderEnum{
+var mappingListOperatorControlAssignmentsSortOrderEnum = map[string]ListOperatorControlAssignmentsSortOrderEnum{
 	"ASC":  ListOperatorControlAssignmentsSortOrderAsc,
 	"DESC": ListOperatorControlAssignmentsSortOrderDesc,
 }
@@ -151,10 +186,18 @@ var mappingListOperatorControlAssignmentsSortOrder = map[string]ListOperatorCont
 // GetListOperatorControlAssignmentsSortOrderEnumValues Enumerates the set of values for ListOperatorControlAssignmentsSortOrderEnum
 func GetListOperatorControlAssignmentsSortOrderEnumValues() []ListOperatorControlAssignmentsSortOrderEnum {
 	values := make([]ListOperatorControlAssignmentsSortOrderEnum, 0)
-	for _, v := range mappingListOperatorControlAssignmentsSortOrder {
+	for _, v := range mappingListOperatorControlAssignmentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperatorControlAssignmentsSortOrderEnumStringValues Enumerates the set of values in String for ListOperatorControlAssignmentsSortOrderEnum
+func GetListOperatorControlAssignmentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListOperatorControlAssignmentsSortByEnum Enum with underlying type: string
@@ -166,7 +209,7 @@ const (
 	ListOperatorControlAssignmentsSortByDisplayname ListOperatorControlAssignmentsSortByEnum = "displayName"
 )
 
-var mappingListOperatorControlAssignmentsSortBy = map[string]ListOperatorControlAssignmentsSortByEnum{
+var mappingListOperatorControlAssignmentsSortByEnum = map[string]ListOperatorControlAssignmentsSortByEnum{
 	"timeCreated": ListOperatorControlAssignmentsSortByTimecreated,
 	"displayName": ListOperatorControlAssignmentsSortByDisplayname,
 }
@@ -174,8 +217,16 @@ var mappingListOperatorControlAssignmentsSortBy = map[string]ListOperatorControl
 // GetListOperatorControlAssignmentsSortByEnumValues Enumerates the set of values for ListOperatorControlAssignmentsSortByEnum
 func GetListOperatorControlAssignmentsSortByEnumValues() []ListOperatorControlAssignmentsSortByEnum {
 	values := make([]ListOperatorControlAssignmentsSortByEnum, 0)
-	for _, v := range mappingListOperatorControlAssignmentsSortBy {
+	for _, v := range mappingListOperatorControlAssignmentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperatorControlAssignmentsSortByEnumStringValues Enumerates the set of values in String for ListOperatorControlAssignmentsSortByEnum
+func GetListOperatorControlAssignmentsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

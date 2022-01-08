@@ -5,15 +5,13 @@
 package aianomalydetection
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeDataAssetCompartmentRequest wrapper for the ChangeDataAssetCompartment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeDataAssetCompartment.go.html to see an example of how to use ChangeDataAssetCompartmentRequest.
 type ChangeDataAssetCompartmentRequest struct {
 
 	// The OCID of the Data Asset.
@@ -51,6 +49,10 @@ func (request ChangeDataAssetCompartmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeDataAssetCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +66,17 @@ func (request ChangeDataAssetCompartmentRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeDataAssetCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeDataAssetCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeDataAssetCompartmentResponse wrapper for the ChangeDataAssetCompartment operation

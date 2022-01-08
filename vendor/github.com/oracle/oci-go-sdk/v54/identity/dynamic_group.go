@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DynamicGroup A dynamic group defines a matching rule. Every bare metal or virtual machine instance is deployed with an instance certificate.
@@ -20,7 +22,7 @@ import (
 // based on the permissions granted in policies written for the dynamic groups.
 // This works like regular user/group membership. But in that case, the membership is a static relationship, whereas
 // in a dynamic group, the membership of an instance certificate to a dynamic group is determined during runtime.
-// For more information, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingdynamicgroups.htm).
+// For more information, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/dynamicgroups/managingdynamicgroups.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using
 // the API.
 type DynamicGroup struct {
@@ -36,10 +38,11 @@ type DynamicGroup struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The description you assign to the group. Does not have to be unique, and it's changeable.
+	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"true" json:"description"`
 
 	// A rule string that defines which instance certificates will be matched.
-	// For syntax, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingdynamicgroups.htm).
+	// For syntax, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/dynamicgroups/managingdynamicgroups.htm).
 	MatchingRule *string `mandatory:"true" json:"matchingRule"`
 
 	// Date and time the group was created, in the format defined by RFC3339.
@@ -68,6 +71,21 @@ func (m DynamicGroup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DynamicGroup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDynamicGroupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDynamicGroupLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DynamicGroupLifecycleStateEnum Enum with underlying type: string
 type DynamicGroupLifecycleStateEnum string
 
@@ -80,7 +98,7 @@ const (
 	DynamicGroupLifecycleStateDeleted  DynamicGroupLifecycleStateEnum = "DELETED"
 )
 
-var mappingDynamicGroupLifecycleState = map[string]DynamicGroupLifecycleStateEnum{
+var mappingDynamicGroupLifecycleStateEnum = map[string]DynamicGroupLifecycleStateEnum{
 	"CREATING": DynamicGroupLifecycleStateCreating,
 	"ACTIVE":   DynamicGroupLifecycleStateActive,
 	"INACTIVE": DynamicGroupLifecycleStateInactive,
@@ -91,8 +109,19 @@ var mappingDynamicGroupLifecycleState = map[string]DynamicGroupLifecycleStateEnu
 // GetDynamicGroupLifecycleStateEnumValues Enumerates the set of values for DynamicGroupLifecycleStateEnum
 func GetDynamicGroupLifecycleStateEnumValues() []DynamicGroupLifecycleStateEnum {
 	values := make([]DynamicGroupLifecycleStateEnum, 0)
-	for _, v := range mappingDynamicGroupLifecycleState {
+	for _, v := range mappingDynamicGroupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDynamicGroupLifecycleStateEnumStringValues Enumerates the set of values in String for DynamicGroupLifecycleStateEnum
+func GetDynamicGroupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

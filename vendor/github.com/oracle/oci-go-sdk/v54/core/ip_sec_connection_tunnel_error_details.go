@@ -14,31 +14,45 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// IpSecConnectionTunnelErrorDetails Ipsec tunnels error details
+// IpSecConnectionTunnelErrorDetails Details for an error on an IPSec tunnel.
 type IpSecConnectionTunnelErrorDetails struct {
 
-	// unique id generated for each error report
+	// Unique ID generated for each error report.
 	Id *string `mandatory:"true" json:"id"`
 
-	// unique code describes error type
+	// Unique code describes the error type.
 	ErrorCode *string `mandatory:"true" json:"errorCode"`
 
-	// detailed description of the error
+	// A detailed description of the error.
 	ErrorDescription *string `mandatory:"true" json:"errorDescription"`
 
-	// how to resolve the error
+	// Resolution for the error.
 	Solution *string `mandatory:"true" json:"solution"`
 
-	// link to oracle resources
+	// Link to more Oracle resources or relevant documentation.
 	OciResourcesLink *string `mandatory:"true" json:"ociResourcesLink"`
 
-	// timestamp when error occurred.
+	// Timestamp when the error occurred.
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 
 func (m IpSecConnectionTunnelErrorDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IpSecConnectionTunnelErrorDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

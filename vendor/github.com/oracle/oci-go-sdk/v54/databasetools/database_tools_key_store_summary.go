@@ -11,7 +11,9 @@ package databasetools
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseToolsKeyStoreSummary The key store secrets.
@@ -27,6 +29,21 @@ type DatabaseToolsKeyStoreSummary struct {
 
 func (m DatabaseToolsKeyStoreSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseToolsKeyStoreSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingKeyStoreTypeEnum[string(m.KeyStoreType)]; !ok && m.KeyStoreType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KeyStoreType: %s. Supported values are: %s.", m.KeyStoreType, strings.Join(GetKeyStoreTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json

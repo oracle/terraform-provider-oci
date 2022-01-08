@@ -11,7 +11,9 @@ package waas
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AccessRule A content access rule. An access rule specifies an action to take if a set of criteria is matched by a request.
@@ -81,6 +83,33 @@ type AccessRule struct {
 
 func (m AccessRule) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AccessRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAccessRuleActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetAccessRuleActionEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAccessRuleBlockActionEnum[string(m.BlockAction)]; !ok && m.BlockAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BlockAction: %s. Supported values are: %s.", m.BlockAction, strings.Join(GetAccessRuleBlockActionEnumStringValues(), ",")))
+	}
+	for _, val := range m.BypassChallenges {
+		if _, ok := mappingAccessRuleBypassChallengesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BypassChallenges: %s. Supported values are: %s.", val, strings.Join(GetAccessRuleBypassChallengesEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingAccessRuleRedirectResponseCodeEnum[string(m.RedirectResponseCode)]; !ok && m.RedirectResponseCode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RedirectResponseCode: %s. Supported values are: %s.", m.RedirectResponseCode, strings.Join(GetAccessRuleRedirectResponseCodeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -174,7 +203,7 @@ const (
 	AccessRuleActionShowCaptcha AccessRuleActionEnum = "SHOW_CAPTCHA"
 )
 
-var mappingAccessRuleAction = map[string]AccessRuleActionEnum{
+var mappingAccessRuleActionEnum = map[string]AccessRuleActionEnum{
 	"ALLOW":        AccessRuleActionAllow,
 	"DETECT":       AccessRuleActionDetect,
 	"BLOCK":        AccessRuleActionBlock,
@@ -186,10 +215,22 @@ var mappingAccessRuleAction = map[string]AccessRuleActionEnum{
 // GetAccessRuleActionEnumValues Enumerates the set of values for AccessRuleActionEnum
 func GetAccessRuleActionEnumValues() []AccessRuleActionEnum {
 	values := make([]AccessRuleActionEnum, 0)
-	for _, v := range mappingAccessRuleAction {
+	for _, v := range mappingAccessRuleActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAccessRuleActionEnumStringValues Enumerates the set of values in String for AccessRuleActionEnum
+func GetAccessRuleActionEnumStringValues() []string {
+	return []string{
+		"ALLOW",
+		"DETECT",
+		"BLOCK",
+		"BYPASS",
+		"REDIRECT",
+		"SHOW_CAPTCHA",
+	}
 }
 
 // AccessRuleBlockActionEnum Enum with underlying type: string
@@ -201,7 +242,7 @@ const (
 	AccessRuleBlockActionShowErrorPage   AccessRuleBlockActionEnum = "SHOW_ERROR_PAGE"
 )
 
-var mappingAccessRuleBlockAction = map[string]AccessRuleBlockActionEnum{
+var mappingAccessRuleBlockActionEnum = map[string]AccessRuleBlockActionEnum{
 	"SET_RESPONSE_CODE": AccessRuleBlockActionSetResponseCode,
 	"SHOW_ERROR_PAGE":   AccessRuleBlockActionShowErrorPage,
 }
@@ -209,10 +250,18 @@ var mappingAccessRuleBlockAction = map[string]AccessRuleBlockActionEnum{
 // GetAccessRuleBlockActionEnumValues Enumerates the set of values for AccessRuleBlockActionEnum
 func GetAccessRuleBlockActionEnumValues() []AccessRuleBlockActionEnum {
 	values := make([]AccessRuleBlockActionEnum, 0)
-	for _, v := range mappingAccessRuleBlockAction {
+	for _, v := range mappingAccessRuleBlockActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAccessRuleBlockActionEnumStringValues Enumerates the set of values in String for AccessRuleBlockActionEnum
+func GetAccessRuleBlockActionEnumStringValues() []string {
+	return []string{
+		"SET_RESPONSE_CODE",
+		"SHOW_ERROR_PAGE",
+	}
 }
 
 // AccessRuleBypassChallengesEnum Enum with underlying type: string
@@ -226,7 +275,7 @@ const (
 	AccessRuleBypassChallengesCaptcha                    AccessRuleBypassChallengesEnum = "CAPTCHA"
 )
 
-var mappingAccessRuleBypassChallenges = map[string]AccessRuleBypassChallengesEnum{
+var mappingAccessRuleBypassChallengesEnum = map[string]AccessRuleBypassChallengesEnum{
 	"JS_CHALLENGE":                 AccessRuleBypassChallengesJsChallenge,
 	"DEVICE_FINGERPRINT_CHALLENGE": AccessRuleBypassChallengesDeviceFingerprintChallenge,
 	"HUMAN_INTERACTION_CHALLENGE":  AccessRuleBypassChallengesHumanInteractionChallenge,
@@ -236,10 +285,20 @@ var mappingAccessRuleBypassChallenges = map[string]AccessRuleBypassChallengesEnu
 // GetAccessRuleBypassChallengesEnumValues Enumerates the set of values for AccessRuleBypassChallengesEnum
 func GetAccessRuleBypassChallengesEnumValues() []AccessRuleBypassChallengesEnum {
 	values := make([]AccessRuleBypassChallengesEnum, 0)
-	for _, v := range mappingAccessRuleBypassChallenges {
+	for _, v := range mappingAccessRuleBypassChallengesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAccessRuleBypassChallengesEnumStringValues Enumerates the set of values in String for AccessRuleBypassChallengesEnum
+func GetAccessRuleBypassChallengesEnumStringValues() []string {
+	return []string{
+		"JS_CHALLENGE",
+		"DEVICE_FINGERPRINT_CHALLENGE",
+		"HUMAN_INTERACTION_CHALLENGE",
+		"CAPTCHA",
+	}
 }
 
 // AccessRuleRedirectResponseCodeEnum Enum with underlying type: string
@@ -251,7 +310,7 @@ const (
 	AccessRuleRedirectResponseCodeFound            AccessRuleRedirectResponseCodeEnum = "FOUND"
 )
 
-var mappingAccessRuleRedirectResponseCode = map[string]AccessRuleRedirectResponseCodeEnum{
+var mappingAccessRuleRedirectResponseCodeEnum = map[string]AccessRuleRedirectResponseCodeEnum{
 	"MOVED_PERMANENTLY": AccessRuleRedirectResponseCodeMovedPermanently,
 	"FOUND":             AccessRuleRedirectResponseCodeFound,
 }
@@ -259,8 +318,16 @@ var mappingAccessRuleRedirectResponseCode = map[string]AccessRuleRedirectRespons
 // GetAccessRuleRedirectResponseCodeEnumValues Enumerates the set of values for AccessRuleRedirectResponseCodeEnum
 func GetAccessRuleRedirectResponseCodeEnumValues() []AccessRuleRedirectResponseCodeEnum {
 	values := make([]AccessRuleRedirectResponseCodeEnum, 0)
-	for _, v := range mappingAccessRuleRedirectResponseCode {
+	for _, v := range mappingAccessRuleRedirectResponseCodeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAccessRuleRedirectResponseCodeEnumStringValues Enumerates the set of values in String for AccessRuleRedirectResponseCodeEnum
+func GetAccessRuleRedirectResponseCodeEnumStringValues() []string {
+	return []string{
+		"MOVED_PERMANENTLY",
+		"FOUND",
+	}
 }

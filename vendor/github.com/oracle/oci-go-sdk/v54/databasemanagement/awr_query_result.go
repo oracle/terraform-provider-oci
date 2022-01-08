@@ -13,7 +13,9 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AwrQueryResult The AWR query result.
@@ -151,6 +153,18 @@ func (m awrqueryresult) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m awrqueryresult) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AwrQueryResultAwrResultTypeEnum Enum with underlying type: string
 type AwrQueryResultAwrResultTypeEnum string
 
@@ -171,7 +185,7 @@ const (
 	AwrQueryResultAwrResultTypeSqlReport         AwrQueryResultAwrResultTypeEnum = "AWRDB_SQL_REPORT"
 )
 
-var mappingAwrQueryResultAwrResultType = map[string]AwrQueryResultAwrResultTypeEnum{
+var mappingAwrQueryResultAwrResultTypeEnum = map[string]AwrQueryResultAwrResultTypeEnum{
 	"AWRDB_SET":                 AwrQueryResultAwrResultTypeSet,
 	"AWRDB_SNAPSHOT_RANGE_SET":  AwrQueryResultAwrResultTypeSnapshotRangeSet,
 	"AWRDB_SNAPSHOT_SET":        AwrQueryResultAwrResultTypeSnapshotSet,
@@ -190,8 +204,27 @@ var mappingAwrQueryResultAwrResultType = map[string]AwrQueryResultAwrResultTypeE
 // GetAwrQueryResultAwrResultTypeEnumValues Enumerates the set of values for AwrQueryResultAwrResultTypeEnum
 func GetAwrQueryResultAwrResultTypeEnumValues() []AwrQueryResultAwrResultTypeEnum {
 	values := make([]AwrQueryResultAwrResultTypeEnum, 0)
-	for _, v := range mappingAwrQueryResultAwrResultType {
+	for _, v := range mappingAwrQueryResultAwrResultTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAwrQueryResultAwrResultTypeEnumStringValues Enumerates the set of values in String for AwrQueryResultAwrResultTypeEnum
+func GetAwrQueryResultAwrResultTypeEnumStringValues() []string {
+	return []string{
+		"AWRDB_SET",
+		"AWRDB_SNAPSHOT_RANGE_SET",
+		"AWRDB_SNAPSHOT_SET",
+		"AWRDB_METRICS_SET",
+		"AWRDB_SYSSTAT_SET",
+		"AWRDB_TOP_EVENT_SET",
+		"AWRDB_EVENT_SET",
+		"AWRDB_EVENT_HISTOGRAM",
+		"AWRDB_DB_PARAMETER_SET",
+		"AWRDB_DB_PARAMETER_CHANGE",
+		"AWRDB_ASH_CPU_USAGE_SET",
+		"AWRDB_DB_REPORT",
+		"AWRDB_SQL_REPORT",
+	}
 }

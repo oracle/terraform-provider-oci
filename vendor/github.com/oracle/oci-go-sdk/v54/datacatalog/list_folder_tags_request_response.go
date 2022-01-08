@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListFolderTagsRequest wrapper for the ListFolderTags operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListFolderTags.go.html to see an example of how to use ListFolderTagsRequest.
 type ListFolderTagsRequest struct {
 
 	// Unique catalog identifier.
@@ -73,6 +71,10 @@ func (request ListFolderTagsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListFolderTagsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -86,6 +88,32 @@ func (request ListFolderTagsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListFolderTagsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListFolderTagsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListFolderTagsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListFolderTagsLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListFolderTagsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListFolderTagsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListFolderTagsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListFolderTagsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFolderTagsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFolderTagsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListFolderTagsResponse wrapper for the ListFolderTags operation
@@ -129,7 +157,7 @@ const (
 	ListFolderTagsLifecycleStateMoving   ListFolderTagsLifecycleStateEnum = "MOVING"
 )
 
-var mappingListFolderTagsLifecycleState = map[string]ListFolderTagsLifecycleStateEnum{
+var mappingListFolderTagsLifecycleStateEnum = map[string]ListFolderTagsLifecycleStateEnum{
 	"CREATING": ListFolderTagsLifecycleStateCreating,
 	"ACTIVE":   ListFolderTagsLifecycleStateActive,
 	"INACTIVE": ListFolderTagsLifecycleStateInactive,
@@ -143,10 +171,24 @@ var mappingListFolderTagsLifecycleState = map[string]ListFolderTagsLifecycleStat
 // GetListFolderTagsLifecycleStateEnumValues Enumerates the set of values for ListFolderTagsLifecycleStateEnum
 func GetListFolderTagsLifecycleStateEnumValues() []ListFolderTagsLifecycleStateEnum {
 	values := make([]ListFolderTagsLifecycleStateEnum, 0)
-	for _, v := range mappingListFolderTagsLifecycleState {
+	for _, v := range mappingListFolderTagsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFolderTagsLifecycleStateEnumStringValues Enumerates the set of values in String for ListFolderTagsLifecycleStateEnum
+func GetListFolderTagsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListFolderTagsFieldsEnum Enum with underlying type: string
@@ -166,7 +208,7 @@ const (
 	ListFolderTagsFieldsFolderkey       ListFolderTagsFieldsEnum = "folderKey"
 )
 
-var mappingListFolderTagsFields = map[string]ListFolderTagsFieldsEnum{
+var mappingListFolderTagsFieldsEnum = map[string]ListFolderTagsFieldsEnum{
 	"key":             ListFolderTagsFieldsKey,
 	"name":            ListFolderTagsFieldsName,
 	"termKey":         ListFolderTagsFieldsTermkey,
@@ -182,10 +224,26 @@ var mappingListFolderTagsFields = map[string]ListFolderTagsFieldsEnum{
 // GetListFolderTagsFieldsEnumValues Enumerates the set of values for ListFolderTagsFieldsEnum
 func GetListFolderTagsFieldsEnumValues() []ListFolderTagsFieldsEnum {
 	values := make([]ListFolderTagsFieldsEnum, 0)
-	for _, v := range mappingListFolderTagsFields {
+	for _, v := range mappingListFolderTagsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFolderTagsFieldsEnumStringValues Enumerates the set of values in String for ListFolderTagsFieldsEnum
+func GetListFolderTagsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"name",
+		"termKey",
+		"termPath",
+		"termDescription",
+		"lifecycleState",
+		"timeCreated",
+		"uri",
+		"glossaryKey",
+		"folderKey",
+	}
 }
 
 // ListFolderTagsSortByEnum Enum with underlying type: string
@@ -197,7 +255,7 @@ const (
 	ListFolderTagsSortByDisplayname ListFolderTagsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListFolderTagsSortBy = map[string]ListFolderTagsSortByEnum{
+var mappingListFolderTagsSortByEnum = map[string]ListFolderTagsSortByEnum{
 	"TIMECREATED": ListFolderTagsSortByTimecreated,
 	"DISPLAYNAME": ListFolderTagsSortByDisplayname,
 }
@@ -205,10 +263,18 @@ var mappingListFolderTagsSortBy = map[string]ListFolderTagsSortByEnum{
 // GetListFolderTagsSortByEnumValues Enumerates the set of values for ListFolderTagsSortByEnum
 func GetListFolderTagsSortByEnumValues() []ListFolderTagsSortByEnum {
 	values := make([]ListFolderTagsSortByEnum, 0)
-	for _, v := range mappingListFolderTagsSortBy {
+	for _, v := range mappingListFolderTagsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFolderTagsSortByEnumStringValues Enumerates the set of values in String for ListFolderTagsSortByEnum
+func GetListFolderTagsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListFolderTagsSortOrderEnum Enum with underlying type: string
@@ -220,7 +286,7 @@ const (
 	ListFolderTagsSortOrderDesc ListFolderTagsSortOrderEnum = "DESC"
 )
 
-var mappingListFolderTagsSortOrder = map[string]ListFolderTagsSortOrderEnum{
+var mappingListFolderTagsSortOrderEnum = map[string]ListFolderTagsSortOrderEnum{
 	"ASC":  ListFolderTagsSortOrderAsc,
 	"DESC": ListFolderTagsSortOrderDesc,
 }
@@ -228,8 +294,16 @@ var mappingListFolderTagsSortOrder = map[string]ListFolderTagsSortOrderEnum{
 // GetListFolderTagsSortOrderEnumValues Enumerates the set of values for ListFolderTagsSortOrderEnum
 func GetListFolderTagsSortOrderEnumValues() []ListFolderTagsSortOrderEnum {
 	values := make([]ListFolderTagsSortOrderEnum, 0)
-	for _, v := range mappingListFolderTagsSortOrder {
+	for _, v := range mappingListFolderTagsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFolderTagsSortOrderEnumStringValues Enumerates the set of values in String for ListFolderTagsSortOrderEnum
+func GetListFolderTagsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -4,17 +4,19 @@
 
 // Work Requests API
 //
-// Many of the API operations that you use to create and configure Compute resources do not take effect
+// Many of the API operations that you use to create and configure cloud resources do not take effect
 // immediately. In these cases, the operation spawns an asynchronous workflow to fulfill the request.
 // Work requests provide visibility into the status of these in-progress, long-running workflows.
 // For more information about work requests and the operations that spawn work requests, see
-// Viewing the State of a Compute Work Request (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/viewingworkrequestcompute.htm).
+// Work Requests (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/workrequestoverview.htm).
 //
 
 package workrequests
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WorkRequestResource A resource that is created or operated on by an asynchronous operation that is tracked by
@@ -40,6 +42,21 @@ func (m WorkRequestResource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestResource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestResourceActionTypeEnum[string(m.ActionType)]; !ok && m.ActionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionType: %s. Supported values are: %s.", m.ActionType, strings.Join(GetWorkRequestResourceActionTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestResourceActionTypeEnum Enum with underlying type: string
 type WorkRequestResourceActionTypeEnum string
 
@@ -50,21 +67,35 @@ const (
 	WorkRequestResourceActionTypeDeleted    WorkRequestResourceActionTypeEnum = "DELETED"
 	WorkRequestResourceActionTypeRelated    WorkRequestResourceActionTypeEnum = "RELATED"
 	WorkRequestResourceActionTypeInProgress WorkRequestResourceActionTypeEnum = "IN_PROGRESS"
+	WorkRequestResourceActionTypeFailed     WorkRequestResourceActionTypeEnum = "FAILED"
 )
 
-var mappingWorkRequestResourceActionType = map[string]WorkRequestResourceActionTypeEnum{
+var mappingWorkRequestResourceActionTypeEnum = map[string]WorkRequestResourceActionTypeEnum{
 	"CREATED":     WorkRequestResourceActionTypeCreated,
 	"UPDATED":     WorkRequestResourceActionTypeUpdated,
 	"DELETED":     WorkRequestResourceActionTypeDeleted,
 	"RELATED":     WorkRequestResourceActionTypeRelated,
 	"IN_PROGRESS": WorkRequestResourceActionTypeInProgress,
+	"FAILED":      WorkRequestResourceActionTypeFailed,
 }
 
 // GetWorkRequestResourceActionTypeEnumValues Enumerates the set of values for WorkRequestResourceActionTypeEnum
 func GetWorkRequestResourceActionTypeEnumValues() []WorkRequestResourceActionTypeEnum {
 	values := make([]WorkRequestResourceActionTypeEnum, 0)
-	for _, v := range mappingWorkRequestResourceActionType {
+	for _, v := range mappingWorkRequestResourceActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceActionTypeEnumStringValues Enumerates the set of values in String for WorkRequestResourceActionTypeEnum
+func GetWorkRequestResourceActionTypeEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"UPDATED",
+		"DELETED",
+		"RELATED",
+		"IN_PROGRESS",
+		"FAILED",
+	}
 }

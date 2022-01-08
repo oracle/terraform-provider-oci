@@ -20,7 +20,7 @@ const (
 	NotebookSessionShapeSeriesLegacy       NotebookSessionShapeSeriesEnum = "LEGACY"
 )
 
-var mappingNotebookSessionShapeSeries = map[string]NotebookSessionShapeSeriesEnum{
+var mappingNotebookSessionShapeSeriesEnum = map[string]NotebookSessionShapeSeriesEnum{
 	"AMD_ROME":      NotebookSessionShapeSeriesAmdRome,
 	"INTEL_SKYLAKE": NotebookSessionShapeSeriesIntelSkylake,
 	"NVIDIA_GPU":    NotebookSessionShapeSeriesNvidiaGpu,
@@ -30,8 +30,18 @@ var mappingNotebookSessionShapeSeries = map[string]NotebookSessionShapeSeriesEnu
 // GetNotebookSessionShapeSeriesEnumValues Enumerates the set of values for NotebookSessionShapeSeriesEnum
 func GetNotebookSessionShapeSeriesEnumValues() []NotebookSessionShapeSeriesEnum {
 	values := make([]NotebookSessionShapeSeriesEnum, 0)
-	for _, v := range mappingNotebookSessionShapeSeries {
+	for _, v := range mappingNotebookSessionShapeSeriesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNotebookSessionShapeSeriesEnumStringValues Enumerates the set of values in String for NotebookSessionShapeSeriesEnum
+func GetNotebookSessionShapeSeriesEnumStringValues() []string {
+	return []string{
+		"AMD_ROME",
+		"INTEL_SKYLAKE",
+		"NVIDIA_GPU",
+		"LEGACY",
+	}
 }

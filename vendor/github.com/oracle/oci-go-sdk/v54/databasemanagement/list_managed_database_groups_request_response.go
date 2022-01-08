@@ -5,15 +5,13 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListManagedDatabaseGroupsRequest wrapper for the ListManagedDatabaseGroups operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedDatabaseGroups.go.html to see an example of how to use ListManagedDatabaseGroupsRequest.
 type ListManagedDatabaseGroupsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -58,6 +56,10 @@ func (request ListManagedDatabaseGroupsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListManagedDatabaseGroupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +73,26 @@ func (request ListManagedDatabaseGroupsRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListManagedDatabaseGroupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListManagedDatabaseGroupsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListManagedDatabaseGroupsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListManagedDatabaseGroupsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedDatabaseGroupsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagedDatabaseGroupsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedDatabaseGroupsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagedDatabaseGroupsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListManagedDatabaseGroupsResponse wrapper for the ListManagedDatabaseGroups operation
@@ -114,7 +136,7 @@ const (
 	ListManagedDatabaseGroupsLifecycleStateFailed   ListManagedDatabaseGroupsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListManagedDatabaseGroupsLifecycleState = map[string]ListManagedDatabaseGroupsLifecycleStateEnum{
+var mappingListManagedDatabaseGroupsLifecycleStateEnum = map[string]ListManagedDatabaseGroupsLifecycleStateEnum{
 	"CREATING": ListManagedDatabaseGroupsLifecycleStateCreating,
 	"UPDATING": ListManagedDatabaseGroupsLifecycleStateUpdating,
 	"ACTIVE":   ListManagedDatabaseGroupsLifecycleStateActive,
@@ -126,10 +148,22 @@ var mappingListManagedDatabaseGroupsLifecycleState = map[string]ListManagedDatab
 // GetListManagedDatabaseGroupsLifecycleStateEnumValues Enumerates the set of values for ListManagedDatabaseGroupsLifecycleStateEnum
 func GetListManagedDatabaseGroupsLifecycleStateEnumValues() []ListManagedDatabaseGroupsLifecycleStateEnum {
 	values := make([]ListManagedDatabaseGroupsLifecycleStateEnum, 0)
-	for _, v := range mappingListManagedDatabaseGroupsLifecycleState {
+	for _, v := range mappingListManagedDatabaseGroupsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedDatabaseGroupsLifecycleStateEnumStringValues Enumerates the set of values in String for ListManagedDatabaseGroupsLifecycleStateEnum
+func GetListManagedDatabaseGroupsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListManagedDatabaseGroupsSortByEnum Enum with underlying type: string
@@ -141,7 +175,7 @@ const (
 	ListManagedDatabaseGroupsSortByName        ListManagedDatabaseGroupsSortByEnum = "NAME"
 )
 
-var mappingListManagedDatabaseGroupsSortBy = map[string]ListManagedDatabaseGroupsSortByEnum{
+var mappingListManagedDatabaseGroupsSortByEnum = map[string]ListManagedDatabaseGroupsSortByEnum{
 	"TIMECREATED": ListManagedDatabaseGroupsSortByTimecreated,
 	"NAME":        ListManagedDatabaseGroupsSortByName,
 }
@@ -149,10 +183,18 @@ var mappingListManagedDatabaseGroupsSortBy = map[string]ListManagedDatabaseGroup
 // GetListManagedDatabaseGroupsSortByEnumValues Enumerates the set of values for ListManagedDatabaseGroupsSortByEnum
 func GetListManagedDatabaseGroupsSortByEnumValues() []ListManagedDatabaseGroupsSortByEnum {
 	values := make([]ListManagedDatabaseGroupsSortByEnum, 0)
-	for _, v := range mappingListManagedDatabaseGroupsSortBy {
+	for _, v := range mappingListManagedDatabaseGroupsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedDatabaseGroupsSortByEnumStringValues Enumerates the set of values in String for ListManagedDatabaseGroupsSortByEnum
+func GetListManagedDatabaseGroupsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListManagedDatabaseGroupsSortOrderEnum Enum with underlying type: string
@@ -164,7 +206,7 @@ const (
 	ListManagedDatabaseGroupsSortOrderDesc ListManagedDatabaseGroupsSortOrderEnum = "DESC"
 )
 
-var mappingListManagedDatabaseGroupsSortOrder = map[string]ListManagedDatabaseGroupsSortOrderEnum{
+var mappingListManagedDatabaseGroupsSortOrderEnum = map[string]ListManagedDatabaseGroupsSortOrderEnum{
 	"ASC":  ListManagedDatabaseGroupsSortOrderAsc,
 	"DESC": ListManagedDatabaseGroupsSortOrderDesc,
 }
@@ -172,8 +214,16 @@ var mappingListManagedDatabaseGroupsSortOrder = map[string]ListManagedDatabaseGr
 // GetListManagedDatabaseGroupsSortOrderEnumValues Enumerates the set of values for ListManagedDatabaseGroupsSortOrderEnum
 func GetListManagedDatabaseGroupsSortOrderEnumValues() []ListManagedDatabaseGroupsSortOrderEnum {
 	values := make([]ListManagedDatabaseGroupsSortOrderEnum, 0)
-	for _, v := range mappingListManagedDatabaseGroupsSortOrder {
+	for _, v := range mappingListManagedDatabaseGroupsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedDatabaseGroupsSortOrderEnumStringValues Enumerates the set of values in String for ListManagedDatabaseGroupsSortOrderEnum
+func GetListManagedDatabaseGroupsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

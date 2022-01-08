@@ -10,7 +10,9 @@
 package vault
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SecretVersionSummary The secret version summary object, which doesn't include the contents of the secret.
@@ -53,6 +55,27 @@ func (m SecretVersionSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SecretVersionSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSecretVersionSummaryContentTypeEnum[string(m.ContentType)]; !ok && m.ContentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContentType: %s. Supported values are: %s.", m.ContentType, strings.Join(GetSecretVersionSummaryContentTypeEnumStringValues(), ",")))
+	}
+	for _, val := range m.Stages {
+		if _, ok := mappingSecretVersionSummaryStagesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Stages: %s. Supported values are: %s.", val, strings.Join(GetSecretVersionSummaryStagesEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecretVersionSummaryContentTypeEnum Enum with underlying type: string
 type SecretVersionSummaryContentTypeEnum string
 
@@ -61,17 +84,24 @@ const (
 	SecretVersionSummaryContentTypeBase64 SecretVersionSummaryContentTypeEnum = "BASE64"
 )
 
-var mappingSecretVersionSummaryContentType = map[string]SecretVersionSummaryContentTypeEnum{
+var mappingSecretVersionSummaryContentTypeEnum = map[string]SecretVersionSummaryContentTypeEnum{
 	"BASE64": SecretVersionSummaryContentTypeBase64,
 }
 
 // GetSecretVersionSummaryContentTypeEnumValues Enumerates the set of values for SecretVersionSummaryContentTypeEnum
 func GetSecretVersionSummaryContentTypeEnumValues() []SecretVersionSummaryContentTypeEnum {
 	values := make([]SecretVersionSummaryContentTypeEnum, 0)
-	for _, v := range mappingSecretVersionSummaryContentType {
+	for _, v := range mappingSecretVersionSummaryContentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecretVersionSummaryContentTypeEnumStringValues Enumerates the set of values in String for SecretVersionSummaryContentTypeEnum
+func GetSecretVersionSummaryContentTypeEnumStringValues() []string {
+	return []string{
+		"BASE64",
+	}
 }
 
 // SecretVersionSummaryStagesEnum Enum with underlying type: string
@@ -86,7 +116,7 @@ const (
 	SecretVersionSummaryStagesDeprecated SecretVersionSummaryStagesEnum = "DEPRECATED"
 )
 
-var mappingSecretVersionSummaryStages = map[string]SecretVersionSummaryStagesEnum{
+var mappingSecretVersionSummaryStagesEnum = map[string]SecretVersionSummaryStagesEnum{
 	"CURRENT":    SecretVersionSummaryStagesCurrent,
 	"PENDING":    SecretVersionSummaryStagesPending,
 	"LATEST":     SecretVersionSummaryStagesLatest,
@@ -97,8 +127,19 @@ var mappingSecretVersionSummaryStages = map[string]SecretVersionSummaryStagesEnu
 // GetSecretVersionSummaryStagesEnumValues Enumerates the set of values for SecretVersionSummaryStagesEnum
 func GetSecretVersionSummaryStagesEnumValues() []SecretVersionSummaryStagesEnum {
 	values := make([]SecretVersionSummaryStagesEnum, 0)
-	for _, v := range mappingSecretVersionSummaryStages {
+	for _, v := range mappingSecretVersionSummaryStagesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecretVersionSummaryStagesEnumStringValues Enumerates the set of values in String for SecretVersionSummaryStagesEnum
+func GetSecretVersionSummaryStagesEnumStringValues() []string {
+	return []string{
+		"CURRENT",
+		"PENDING",
+		"LATEST",
+		"PREVIOUS",
+		"DEPRECATED",
+	}
 }

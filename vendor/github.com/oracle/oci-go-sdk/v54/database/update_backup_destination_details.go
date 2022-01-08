@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateBackupDestinationDetails For a RECOVERY_APPLIANCE backup destination, used to update the connection string and/or the list of VPC users.
@@ -49,6 +51,21 @@ func (m UpdateBackupDestinationDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateBackupDestinationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateBackupDestinationDetailsNfsMountTypeEnum[string(m.NfsMountType)]; !ok && m.NfsMountType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NfsMountType: %s. Supported values are: %s.", m.NfsMountType, strings.Join(GetUpdateBackupDestinationDetailsNfsMountTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateBackupDestinationDetailsNfsMountTypeEnum Enum with underlying type: string
 type UpdateBackupDestinationDetailsNfsMountTypeEnum string
 
@@ -58,7 +75,7 @@ const (
 	UpdateBackupDestinationDetailsNfsMountTypeAutomatedMount UpdateBackupDestinationDetailsNfsMountTypeEnum = "AUTOMATED_MOUNT"
 )
 
-var mappingUpdateBackupDestinationDetailsNfsMountType = map[string]UpdateBackupDestinationDetailsNfsMountTypeEnum{
+var mappingUpdateBackupDestinationDetailsNfsMountTypeEnum = map[string]UpdateBackupDestinationDetailsNfsMountTypeEnum{
 	"SELF_MOUNT":      UpdateBackupDestinationDetailsNfsMountTypeSelfMount,
 	"AUTOMATED_MOUNT": UpdateBackupDestinationDetailsNfsMountTypeAutomatedMount,
 }
@@ -66,8 +83,16 @@ var mappingUpdateBackupDestinationDetailsNfsMountType = map[string]UpdateBackupD
 // GetUpdateBackupDestinationDetailsNfsMountTypeEnumValues Enumerates the set of values for UpdateBackupDestinationDetailsNfsMountTypeEnum
 func GetUpdateBackupDestinationDetailsNfsMountTypeEnumValues() []UpdateBackupDestinationDetailsNfsMountTypeEnum {
 	values := make([]UpdateBackupDestinationDetailsNfsMountTypeEnum, 0)
-	for _, v := range mappingUpdateBackupDestinationDetailsNfsMountType {
+	for _, v := range mappingUpdateBackupDestinationDetailsNfsMountTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateBackupDestinationDetailsNfsMountTypeEnumStringValues Enumerates the set of values in String for UpdateBackupDestinationDetailsNfsMountTypeEnum
+func GetUpdateBackupDestinationDetailsNfsMountTypeEnumStringValues() []string {
+	return []string{
+		"SELF_MOUNT",
+		"AUTOMATED_MOUNT",
+	}
 }

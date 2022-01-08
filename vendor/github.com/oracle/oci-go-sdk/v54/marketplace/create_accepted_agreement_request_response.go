@@ -5,15 +5,13 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // CreateAcceptedAgreementRequest wrapper for the CreateAcceptedAgreement operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/CreateAcceptedAgreement.go.html to see an example of how to use CreateAcceptedAgreementRequest.
 type CreateAcceptedAgreementRequest struct {
 
 	// Details necessary to accept an agreement.
@@ -41,6 +39,10 @@ func (request CreateAcceptedAgreementRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CreateAcceptedAgreementRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -54,6 +56,17 @@ func (request CreateAcceptedAgreementRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateAcceptedAgreementRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateAcceptedAgreementRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateAcceptedAgreementResponse wrapper for the CreateAcceptedAgreement operation

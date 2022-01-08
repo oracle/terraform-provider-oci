@@ -20,7 +20,7 @@ const (
 	SqlTuningTaskCredentialTypesPassword SqlTuningTaskCredentialTypesEnum = "PASSWORD"
 )
 
-var mappingSqlTuningTaskCredentialTypes = map[string]SqlTuningTaskCredentialTypesEnum{
+var mappingSqlTuningTaskCredentialTypesEnum = map[string]SqlTuningTaskCredentialTypesEnum{
 	"SECRET":   SqlTuningTaskCredentialTypesSecret,
 	"PASSWORD": SqlTuningTaskCredentialTypesPassword,
 }
@@ -28,8 +28,16 @@ var mappingSqlTuningTaskCredentialTypes = map[string]SqlTuningTaskCredentialType
 // GetSqlTuningTaskCredentialTypesEnumValues Enumerates the set of values for SqlTuningTaskCredentialTypesEnum
 func GetSqlTuningTaskCredentialTypesEnumValues() []SqlTuningTaskCredentialTypesEnum {
 	values := make([]SqlTuningTaskCredentialTypesEnum, 0)
-	for _, v := range mappingSqlTuningTaskCredentialTypes {
+	for _, v := range mappingSqlTuningTaskCredentialTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSqlTuningTaskCredentialTypesEnumStringValues Enumerates the set of values in String for SqlTuningTaskCredentialTypesEnum
+func GetSqlTuningTaskCredentialTypesEnumStringValues() []string {
+	return []string{
+		"SECRET",
+		"PASSWORD",
+	}
 }

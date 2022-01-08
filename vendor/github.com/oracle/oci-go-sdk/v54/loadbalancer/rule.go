@@ -12,7 +12,9 @@ package loadbalancer
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Rule An object that represents an action to apply to a listener.
@@ -98,6 +100,18 @@ func (m rule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m rule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RuleActionEnum Enum with underlying type: string
 type RuleActionEnum string
 
@@ -115,7 +129,7 @@ const (
 	RuleActionHttpHeader                    RuleActionEnum = "HTTP_HEADER"
 )
 
-var mappingRuleAction = map[string]RuleActionEnum{
+var mappingRuleActionEnum = map[string]RuleActionEnum{
 	"ADD_HTTP_REQUEST_HEADER":           RuleActionAddHttpRequestHeader,
 	"EXTEND_HTTP_REQUEST_HEADER_VALUE":  RuleActionExtendHttpRequestHeaderValue,
 	"REMOVE_HTTP_REQUEST_HEADER":        RuleActionRemoveHttpRequestHeader,
@@ -131,8 +145,24 @@ var mappingRuleAction = map[string]RuleActionEnum{
 // GetRuleActionEnumValues Enumerates the set of values for RuleActionEnum
 func GetRuleActionEnumValues() []RuleActionEnum {
 	values := make([]RuleActionEnum, 0)
-	for _, v := range mappingRuleAction {
+	for _, v := range mappingRuleActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRuleActionEnumStringValues Enumerates the set of values in String for RuleActionEnum
+func GetRuleActionEnumStringValues() []string {
+	return []string{
+		"ADD_HTTP_REQUEST_HEADER",
+		"EXTEND_HTTP_REQUEST_HEADER_VALUE",
+		"REMOVE_HTTP_REQUEST_HEADER",
+		"ADD_HTTP_RESPONSE_HEADER",
+		"EXTEND_HTTP_RESPONSE_HEADER_VALUE",
+		"REMOVE_HTTP_RESPONSE_HEADER",
+		"ALLOW",
+		"CONTROL_ACCESS_USING_HTTP_METHODS",
+		"REDIRECT",
+		"HTTP_HEADER",
+	}
 }

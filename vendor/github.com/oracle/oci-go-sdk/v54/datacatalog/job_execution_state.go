@@ -24,7 +24,7 @@ const (
 	JobExecutionStateSucceededWithWarnings JobExecutionStateEnum = "SUCCEEDED_WITH_WARNINGS"
 )
 
-var mappingJobExecutionState = map[string]JobExecutionStateEnum{
+var mappingJobExecutionStateEnum = map[string]JobExecutionStateEnum{
 	"CREATED":                 JobExecutionStateCreated,
 	"IN_PROGRESS":             JobExecutionStateInProgress,
 	"INACTIVE":                JobExecutionStateInactive,
@@ -37,8 +37,21 @@ var mappingJobExecutionState = map[string]JobExecutionStateEnum{
 // GetJobExecutionStateEnumValues Enumerates the set of values for JobExecutionStateEnum
 func GetJobExecutionStateEnumValues() []JobExecutionStateEnum {
 	values := make([]JobExecutionStateEnum, 0)
-	for _, v := range mappingJobExecutionState {
+	for _, v := range mappingJobExecutionStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobExecutionStateEnumStringValues Enumerates the set of values in String for JobExecutionStateEnum
+func GetJobExecutionStateEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"IN_PROGRESS",
+		"INACTIVE",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELED",
+		"SUCCEEDED_WITH_WARNINGS",
+	}
 }

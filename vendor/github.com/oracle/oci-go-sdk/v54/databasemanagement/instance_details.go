@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceDetails The details of the Oracle Real Application Clusters (Oracle RAC) database instance.
@@ -35,6 +37,21 @@ func (m InstanceDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstanceDetailsStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetInstanceDetailsStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceDetailsStatusEnum Enum with underlying type: string
 type InstanceDetailsStatusEnum string
 
@@ -45,7 +62,7 @@ const (
 	InstanceDetailsStatusUnknown InstanceDetailsStatusEnum = "UNKNOWN"
 )
 
-var mappingInstanceDetailsStatus = map[string]InstanceDetailsStatusEnum{
+var mappingInstanceDetailsStatusEnum = map[string]InstanceDetailsStatusEnum{
 	"UP":      InstanceDetailsStatusUp,
 	"DOWN":    InstanceDetailsStatusDown,
 	"UNKNOWN": InstanceDetailsStatusUnknown,
@@ -54,8 +71,17 @@ var mappingInstanceDetailsStatus = map[string]InstanceDetailsStatusEnum{
 // GetInstanceDetailsStatusEnumValues Enumerates the set of values for InstanceDetailsStatusEnum
 func GetInstanceDetailsStatusEnumValues() []InstanceDetailsStatusEnum {
 	values := make([]InstanceDetailsStatusEnum, 0)
-	for _, v := range mappingInstanceDetailsStatus {
+	for _, v := range mappingInstanceDetailsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceDetailsStatusEnumStringValues Enumerates the set of values in String for InstanceDetailsStatusEnum
+func GetInstanceDetailsStatusEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+		"UNKNOWN",
+	}
 }

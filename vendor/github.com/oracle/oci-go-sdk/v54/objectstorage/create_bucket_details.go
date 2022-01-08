@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateBucketDetails To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
@@ -43,6 +45,12 @@ type CreateBucketDetails struct {
 	// When 'Archive' tier type is set explicitly, the bucket is put in the Archive Storage tier. The 'storageTier'
 	// property is immutable after bucket is created.
 	StorageTier CreateBucketDetailsStorageTierEnum `mandatory:"false" json:"storageTier,omitempty"`
+
+	// The type of requests for which object-level audit logging is enabled on this bucket.
+	// This property is set to `Disabled` by default, where no audit logs will be produced at the object level for this
+	// bucket. If the property is set to `Write`, audit logs will be produced for operations such as `Put Object`. If the
+	// property is set to `ReadWrite`, audit logs will be produced for operations such as `Put Object` and `Get Object`.
+	ObjectLevelAuditMode CreateBucketDetailsObjectLevelAuditModeEnum `mandatory:"false" json:"objectLevelAuditMode,omitempty"`
 
 	// Whether or not events are emitted for object state changes in this bucket. By default, `objectEventsEnabled` is
 	// set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information
@@ -77,6 +85,33 @@ func (m CreateBucketDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateBucketDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateBucketDetailsPublicAccessTypeEnum[string(m.PublicAccessType)]; !ok && m.PublicAccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PublicAccessType: %s. Supported values are: %s.", m.PublicAccessType, strings.Join(GetCreateBucketDetailsPublicAccessTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateBucketDetailsStorageTierEnum[string(m.StorageTier)]; !ok && m.StorageTier != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageTier: %s. Supported values are: %s.", m.StorageTier, strings.Join(GetCreateBucketDetailsStorageTierEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateBucketDetailsObjectLevelAuditModeEnum[string(m.ObjectLevelAuditMode)]; !ok && m.ObjectLevelAuditMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ObjectLevelAuditMode: %s. Supported values are: %s.", m.ObjectLevelAuditMode, strings.Join(GetCreateBucketDetailsObjectLevelAuditModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateBucketDetailsVersioningEnum[string(m.Versioning)]; !ok && m.Versioning != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Versioning: %s. Supported values are: %s.", m.Versioning, strings.Join(GetCreateBucketDetailsVersioningEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBucketAutoTieringEnum[string(m.AutoTiering)]; !ok && m.AutoTiering != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoTiering: %s. Supported values are: %s.", m.AutoTiering, strings.Join(GetBucketAutoTieringEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateBucketDetailsPublicAccessTypeEnum Enum with underlying type: string
 type CreateBucketDetailsPublicAccessTypeEnum string
 
@@ -87,7 +122,7 @@ const (
 	CreateBucketDetailsPublicAccessTypeObjectreadwithoutlist CreateBucketDetailsPublicAccessTypeEnum = "ObjectReadWithoutList"
 )
 
-var mappingCreateBucketDetailsPublicAccessType = map[string]CreateBucketDetailsPublicAccessTypeEnum{
+var mappingCreateBucketDetailsPublicAccessTypeEnum = map[string]CreateBucketDetailsPublicAccessTypeEnum{
 	"NoPublicAccess":        CreateBucketDetailsPublicAccessTypeNopublicaccess,
 	"ObjectRead":            CreateBucketDetailsPublicAccessTypeObjectread,
 	"ObjectReadWithoutList": CreateBucketDetailsPublicAccessTypeObjectreadwithoutlist,
@@ -96,10 +131,19 @@ var mappingCreateBucketDetailsPublicAccessType = map[string]CreateBucketDetailsP
 // GetCreateBucketDetailsPublicAccessTypeEnumValues Enumerates the set of values for CreateBucketDetailsPublicAccessTypeEnum
 func GetCreateBucketDetailsPublicAccessTypeEnumValues() []CreateBucketDetailsPublicAccessTypeEnum {
 	values := make([]CreateBucketDetailsPublicAccessTypeEnum, 0)
-	for _, v := range mappingCreateBucketDetailsPublicAccessType {
+	for _, v := range mappingCreateBucketDetailsPublicAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateBucketDetailsPublicAccessTypeEnumStringValues Enumerates the set of values in String for CreateBucketDetailsPublicAccessTypeEnum
+func GetCreateBucketDetailsPublicAccessTypeEnumStringValues() []string {
+	return []string{
+		"NoPublicAccess",
+		"ObjectRead",
+		"ObjectReadWithoutList",
+	}
 }
 
 // CreateBucketDetailsStorageTierEnum Enum with underlying type: string
@@ -109,20 +153,65 @@ type CreateBucketDetailsStorageTierEnum string
 const (
 	CreateBucketDetailsStorageTierStandard CreateBucketDetailsStorageTierEnum = "Standard"
 	CreateBucketDetailsStorageTierArchive  CreateBucketDetailsStorageTierEnum = "Archive"
+	CreateBucketDetailsStorageTierQuery    CreateBucketDetailsStorageTierEnum = "Query"
 )
 
-var mappingCreateBucketDetailsStorageTier = map[string]CreateBucketDetailsStorageTierEnum{
+var mappingCreateBucketDetailsStorageTierEnum = map[string]CreateBucketDetailsStorageTierEnum{
 	"Standard": CreateBucketDetailsStorageTierStandard,
 	"Archive":  CreateBucketDetailsStorageTierArchive,
+	"Query":    CreateBucketDetailsStorageTierQuery,
 }
 
 // GetCreateBucketDetailsStorageTierEnumValues Enumerates the set of values for CreateBucketDetailsStorageTierEnum
 func GetCreateBucketDetailsStorageTierEnumValues() []CreateBucketDetailsStorageTierEnum {
 	values := make([]CreateBucketDetailsStorageTierEnum, 0)
-	for _, v := range mappingCreateBucketDetailsStorageTier {
+	for _, v := range mappingCreateBucketDetailsStorageTierEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateBucketDetailsStorageTierEnumStringValues Enumerates the set of values in String for CreateBucketDetailsStorageTierEnum
+func GetCreateBucketDetailsStorageTierEnumStringValues() []string {
+	return []string{
+		"Standard",
+		"Archive",
+		"Query",
+	}
+}
+
+// CreateBucketDetailsObjectLevelAuditModeEnum Enum with underlying type: string
+type CreateBucketDetailsObjectLevelAuditModeEnum string
+
+// Set of constants representing the allowable values for CreateBucketDetailsObjectLevelAuditModeEnum
+const (
+	CreateBucketDetailsObjectLevelAuditModeDisabled  CreateBucketDetailsObjectLevelAuditModeEnum = "Disabled"
+	CreateBucketDetailsObjectLevelAuditModeWrite     CreateBucketDetailsObjectLevelAuditModeEnum = "Write"
+	CreateBucketDetailsObjectLevelAuditModeReadwrite CreateBucketDetailsObjectLevelAuditModeEnum = "ReadWrite"
+)
+
+var mappingCreateBucketDetailsObjectLevelAuditModeEnum = map[string]CreateBucketDetailsObjectLevelAuditModeEnum{
+	"Disabled":  CreateBucketDetailsObjectLevelAuditModeDisabled,
+	"Write":     CreateBucketDetailsObjectLevelAuditModeWrite,
+	"ReadWrite": CreateBucketDetailsObjectLevelAuditModeReadwrite,
+}
+
+// GetCreateBucketDetailsObjectLevelAuditModeEnumValues Enumerates the set of values for CreateBucketDetailsObjectLevelAuditModeEnum
+func GetCreateBucketDetailsObjectLevelAuditModeEnumValues() []CreateBucketDetailsObjectLevelAuditModeEnum {
+	values := make([]CreateBucketDetailsObjectLevelAuditModeEnum, 0)
+	for _, v := range mappingCreateBucketDetailsObjectLevelAuditModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateBucketDetailsObjectLevelAuditModeEnumStringValues Enumerates the set of values in String for CreateBucketDetailsObjectLevelAuditModeEnum
+func GetCreateBucketDetailsObjectLevelAuditModeEnumStringValues() []string {
+	return []string{
+		"Disabled",
+		"Write",
+		"ReadWrite",
+	}
 }
 
 // CreateBucketDetailsVersioningEnum Enum with underlying type: string
@@ -134,7 +223,7 @@ const (
 	CreateBucketDetailsVersioningDisabled CreateBucketDetailsVersioningEnum = "Disabled"
 )
 
-var mappingCreateBucketDetailsVersioning = map[string]CreateBucketDetailsVersioningEnum{
+var mappingCreateBucketDetailsVersioningEnum = map[string]CreateBucketDetailsVersioningEnum{
 	"Enabled":  CreateBucketDetailsVersioningEnabled,
 	"Disabled": CreateBucketDetailsVersioningDisabled,
 }
@@ -142,8 +231,16 @@ var mappingCreateBucketDetailsVersioning = map[string]CreateBucketDetailsVersion
 // GetCreateBucketDetailsVersioningEnumValues Enumerates the set of values for CreateBucketDetailsVersioningEnum
 func GetCreateBucketDetailsVersioningEnumValues() []CreateBucketDetailsVersioningEnum {
 	values := make([]CreateBucketDetailsVersioningEnum, 0)
-	for _, v := range mappingCreateBucketDetailsVersioning {
+	for _, v := range mappingCreateBucketDetailsVersioningEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateBucketDetailsVersioningEnumStringValues Enumerates the set of values in String for CreateBucketDetailsVersioningEnum
+func GetCreateBucketDetailsVersioningEnumStringValues() []string {
+	return []string{
+		"Enabled",
+		"Disabled",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RemotePeeringConnection A remote peering connection (RPC) is an object on a DRG that lets the VCN that is attached
@@ -81,6 +83,24 @@ func (m RemotePeeringConnection) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RemotePeeringConnection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRemotePeeringConnectionLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRemotePeeringConnectionLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRemotePeeringConnectionPeeringStatusEnum[string(m.PeeringStatus)]; !ok && m.PeeringStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PeeringStatus: %s. Supported values are: %s.", m.PeeringStatus, strings.Join(GetRemotePeeringConnectionPeeringStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RemotePeeringConnectionLifecycleStateEnum Enum with underlying type: string
 type RemotePeeringConnectionLifecycleStateEnum string
 
@@ -92,7 +112,7 @@ const (
 	RemotePeeringConnectionLifecycleStateTerminated   RemotePeeringConnectionLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingRemotePeeringConnectionLifecycleState = map[string]RemotePeeringConnectionLifecycleStateEnum{
+var mappingRemotePeeringConnectionLifecycleStateEnum = map[string]RemotePeeringConnectionLifecycleStateEnum{
 	"AVAILABLE":    RemotePeeringConnectionLifecycleStateAvailable,
 	"PROVISIONING": RemotePeeringConnectionLifecycleStateProvisioning,
 	"TERMINATING":  RemotePeeringConnectionLifecycleStateTerminating,
@@ -102,10 +122,20 @@ var mappingRemotePeeringConnectionLifecycleState = map[string]RemotePeeringConne
 // GetRemotePeeringConnectionLifecycleStateEnumValues Enumerates the set of values for RemotePeeringConnectionLifecycleStateEnum
 func GetRemotePeeringConnectionLifecycleStateEnumValues() []RemotePeeringConnectionLifecycleStateEnum {
 	values := make([]RemotePeeringConnectionLifecycleStateEnum, 0)
-	for _, v := range mappingRemotePeeringConnectionLifecycleState {
+	for _, v := range mappingRemotePeeringConnectionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRemotePeeringConnectionLifecycleStateEnumStringValues Enumerates the set of values in String for RemotePeeringConnectionLifecycleStateEnum
+func GetRemotePeeringConnectionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"PROVISIONING",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }
 
 // RemotePeeringConnectionPeeringStatusEnum Enum with underlying type: string
@@ -120,7 +150,7 @@ const (
 	RemotePeeringConnectionPeeringStatusRevoked RemotePeeringConnectionPeeringStatusEnum = "REVOKED"
 )
 
-var mappingRemotePeeringConnectionPeeringStatus = map[string]RemotePeeringConnectionPeeringStatusEnum{
+var mappingRemotePeeringConnectionPeeringStatusEnum = map[string]RemotePeeringConnectionPeeringStatusEnum{
 	"INVALID": RemotePeeringConnectionPeeringStatusInvalid,
 	"NEW":     RemotePeeringConnectionPeeringStatusNew,
 	"PENDING": RemotePeeringConnectionPeeringStatusPending,
@@ -131,8 +161,19 @@ var mappingRemotePeeringConnectionPeeringStatus = map[string]RemotePeeringConnec
 // GetRemotePeeringConnectionPeeringStatusEnumValues Enumerates the set of values for RemotePeeringConnectionPeeringStatusEnum
 func GetRemotePeeringConnectionPeeringStatusEnumValues() []RemotePeeringConnectionPeeringStatusEnum {
 	values := make([]RemotePeeringConnectionPeeringStatusEnum, 0)
-	for _, v := range mappingRemotePeeringConnectionPeeringStatus {
+	for _, v := range mappingRemotePeeringConnectionPeeringStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRemotePeeringConnectionPeeringStatusEnumStringValues Enumerates the set of values in String for RemotePeeringConnectionPeeringStatusEnum
+func GetRemotePeeringConnectionPeeringStatusEnumStringValues() []string {
+	return []string{
+		"INVALID",
+		"NEW",
+		"PENDING",
+		"PEERED",
+		"REVOKED",
+	}
 }

@@ -12,7 +12,9 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RecommendationCollection A list of recommendations that match filter criteria, if any. Results contain `RecommendationSummary` objects.
@@ -24,4 +26,16 @@ type RecommendationCollection struct {
 
 func (m RecommendationCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RecommendationCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

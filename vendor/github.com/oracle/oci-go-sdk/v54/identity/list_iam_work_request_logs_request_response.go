@@ -5,15 +5,13 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListIamWorkRequestLogsRequest wrapper for the ListIamWorkRequestLogs operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListIamWorkRequestLogs.go.html to see an example of how to use ListIamWorkRequestLogsRequest.
 type ListIamWorkRequestLogsRequest struct {
 
 	// The OCID of the IAM work request.
@@ -45,6 +43,10 @@ func (request ListIamWorkRequestLogsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListIamWorkRequestLogsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -58,6 +60,20 @@ func (request ListIamWorkRequestLogsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListIamWorkRequestLogsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListIamWorkRequestLogsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListIamWorkRequestLogsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListIamWorkRequestLogsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListIamWorkRequestLogsResponse wrapper for the ListIamWorkRequestLogs operation
@@ -100,7 +116,7 @@ const (
 	ListIamWorkRequestLogsSortOrderDesc ListIamWorkRequestLogsSortOrderEnum = "DESC"
 )
 
-var mappingListIamWorkRequestLogsSortOrder = map[string]ListIamWorkRequestLogsSortOrderEnum{
+var mappingListIamWorkRequestLogsSortOrderEnum = map[string]ListIamWorkRequestLogsSortOrderEnum{
 	"ASC":  ListIamWorkRequestLogsSortOrderAsc,
 	"DESC": ListIamWorkRequestLogsSortOrderDesc,
 }
@@ -108,8 +124,16 @@ var mappingListIamWorkRequestLogsSortOrder = map[string]ListIamWorkRequestLogsSo
 // GetListIamWorkRequestLogsSortOrderEnumValues Enumerates the set of values for ListIamWorkRequestLogsSortOrderEnum
 func GetListIamWorkRequestLogsSortOrderEnumValues() []ListIamWorkRequestLogsSortOrderEnum {
 	values := make([]ListIamWorkRequestLogsSortOrderEnum, 0)
-	for _, v := range mappingListIamWorkRequestLogsSortOrder {
+	for _, v := range mappingListIamWorkRequestLogsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIamWorkRequestLogsSortOrderEnumStringValues Enumerates the set of values in String for ListIamWorkRequestLogsSortOrderEnum
+func GetListIamWorkRequestLogsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

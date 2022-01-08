@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LogAnalyticsEmBridge Configuration details for enterprise manager bridge.
@@ -70,4 +72,22 @@ type LogAnalyticsEmBridge struct {
 
 func (m LogAnalyticsEmBridge) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsEmBridge) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingEmBridgeLifecycleStatesEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetEmBridgeLifecycleStatesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingEmBridgeLatestImportProcessingStatusEnum[string(m.LastImportProcessingStatus)]; !ok && m.LastImportProcessingStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastImportProcessingStatus: %s. Supported values are: %s.", m.LastImportProcessingStatus, strings.Join(GetEmBridgeLatestImportProcessingStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

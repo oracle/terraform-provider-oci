@@ -11,7 +11,9 @@ package apmconfig
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateConfigDetails The request body used to create new Configuration entities. It must specify the configuration type of the item to
@@ -90,4 +92,16 @@ func (m createconfigdetails) GetDefinedTags() map[string]map[string]interface{} 
 
 func (m createconfigdetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createconfigdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

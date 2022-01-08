@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAutonomousDatabaseClonesRequest wrapper for the ListAutonomousDatabaseClones operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousDatabaseClones.go.html to see an example of how to use ListAutonomousDatabaseClonesRequest.
 type ListAutonomousDatabaseClonesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -59,6 +57,10 @@ func (request ListAutonomousDatabaseClonesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAutonomousDatabaseClonesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +74,29 @@ func (request ListAutonomousDatabaseClonesRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAutonomousDatabaseClonesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAutonomousDatabaseClonesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAutonomousDatabaseClonesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAutonomousDatabaseClonesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutonomousDatabaseClonesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAutonomousDatabaseClonesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutonomousDatabaseClonesCloneTypeEnum[string(request.CloneType)]; !ok && request.CloneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneType: %s. Supported values are: %s.", request.CloneType, strings.Join(GetListAutonomousDatabaseClonesCloneTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAutonomousDatabaseClonesResponse wrapper for the ListAutonomousDatabaseClones operation
@@ -112,7 +137,7 @@ const (
 	ListAutonomousDatabaseClonesSortOrderDesc ListAutonomousDatabaseClonesSortOrderEnum = "DESC"
 )
 
-var mappingListAutonomousDatabaseClonesSortOrder = map[string]ListAutonomousDatabaseClonesSortOrderEnum{
+var mappingListAutonomousDatabaseClonesSortOrderEnum = map[string]ListAutonomousDatabaseClonesSortOrderEnum{
 	"ASC":  ListAutonomousDatabaseClonesSortOrderAsc,
 	"DESC": ListAutonomousDatabaseClonesSortOrderDesc,
 }
@@ -120,10 +145,18 @@ var mappingListAutonomousDatabaseClonesSortOrder = map[string]ListAutonomousData
 // GetListAutonomousDatabaseClonesSortOrderEnumValues Enumerates the set of values for ListAutonomousDatabaseClonesSortOrderEnum
 func GetListAutonomousDatabaseClonesSortOrderEnumValues() []ListAutonomousDatabaseClonesSortOrderEnum {
 	values := make([]ListAutonomousDatabaseClonesSortOrderEnum, 0)
-	for _, v := range mappingListAutonomousDatabaseClonesSortOrder {
+	for _, v := range mappingListAutonomousDatabaseClonesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousDatabaseClonesSortOrderEnumStringValues Enumerates the set of values in String for ListAutonomousDatabaseClonesSortOrderEnum
+func GetListAutonomousDatabaseClonesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAutonomousDatabaseClonesSortByEnum Enum with underlying type: string
@@ -136,7 +169,7 @@ const (
 	ListAutonomousDatabaseClonesSortByDisplayname ListAutonomousDatabaseClonesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAutonomousDatabaseClonesSortBy = map[string]ListAutonomousDatabaseClonesSortByEnum{
+var mappingListAutonomousDatabaseClonesSortByEnum = map[string]ListAutonomousDatabaseClonesSortByEnum{
 	"NONE":        ListAutonomousDatabaseClonesSortByNone,
 	"TIMECREATED": ListAutonomousDatabaseClonesSortByTimecreated,
 	"DISPLAYNAME": ListAutonomousDatabaseClonesSortByDisplayname,
@@ -145,10 +178,19 @@ var mappingListAutonomousDatabaseClonesSortBy = map[string]ListAutonomousDatabas
 // GetListAutonomousDatabaseClonesSortByEnumValues Enumerates the set of values for ListAutonomousDatabaseClonesSortByEnum
 func GetListAutonomousDatabaseClonesSortByEnumValues() []ListAutonomousDatabaseClonesSortByEnum {
 	values := make([]ListAutonomousDatabaseClonesSortByEnum, 0)
-	for _, v := range mappingListAutonomousDatabaseClonesSortBy {
+	for _, v := range mappingListAutonomousDatabaseClonesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousDatabaseClonesSortByEnumStringValues Enumerates the set of values in String for ListAutonomousDatabaseClonesSortByEnum
+func GetListAutonomousDatabaseClonesSortByEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAutonomousDatabaseClonesCloneTypeEnum Enum with underlying type: string
@@ -157,17 +199,27 @@ type ListAutonomousDatabaseClonesCloneTypeEnum string
 // Set of constants representing the allowable values for ListAutonomousDatabaseClonesCloneTypeEnum
 const (
 	ListAutonomousDatabaseClonesCloneTypeRefreshableClone ListAutonomousDatabaseClonesCloneTypeEnum = "REFRESHABLE_CLONE"
+	ListAutonomousDatabaseClonesCloneTypeVirtualClone     ListAutonomousDatabaseClonesCloneTypeEnum = "VIRTUAL_CLONE"
 )
 
-var mappingListAutonomousDatabaseClonesCloneType = map[string]ListAutonomousDatabaseClonesCloneTypeEnum{
+var mappingListAutonomousDatabaseClonesCloneTypeEnum = map[string]ListAutonomousDatabaseClonesCloneTypeEnum{
 	"REFRESHABLE_CLONE": ListAutonomousDatabaseClonesCloneTypeRefreshableClone,
+	"VIRTUAL_CLONE":     ListAutonomousDatabaseClonesCloneTypeVirtualClone,
 }
 
 // GetListAutonomousDatabaseClonesCloneTypeEnumValues Enumerates the set of values for ListAutonomousDatabaseClonesCloneTypeEnum
 func GetListAutonomousDatabaseClonesCloneTypeEnumValues() []ListAutonomousDatabaseClonesCloneTypeEnum {
 	values := make([]ListAutonomousDatabaseClonesCloneTypeEnum, 0)
-	for _, v := range mappingListAutonomousDatabaseClonesCloneType {
+	for _, v := range mappingListAutonomousDatabaseClonesCloneTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousDatabaseClonesCloneTypeEnumStringValues Enumerates the set of values in String for ListAutonomousDatabaseClonesCloneTypeEnum
+func GetListAutonomousDatabaseClonesCloneTypeEnumStringValues() []string {
+	return []string{
+		"REFRESHABLE_CLONE",
+		"VIRTUAL_CLONE",
+	}
 }

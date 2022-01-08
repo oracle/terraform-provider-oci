@@ -10,10 +10,12 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// UpdateLogSavedSearchDetails The update details to update a log saved search.
+// UpdateLogSavedSearchDetails The update details to update a LogSavedSearch.
 type UpdateLogSavedSearchDetails struct {
 
 	// The user-friendly display name. This must be unique within the enclosing resource,
@@ -39,4 +41,16 @@ type UpdateLogSavedSearchDetails struct {
 
 func (m UpdateLogSavedSearchDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateLogSavedSearchDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -4,13 +4,15 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Script The information about the script.
@@ -37,7 +39,7 @@ type Script struct {
 	// Note that the content is valid if it matches the given content type. For example, if the content type is SIDE, then the content should be in Side script format. If the content type is JS, then the content should be in JavaScript format.
 	Content *string `mandatory:"false" json:"content"`
 
-	// The time when the script was uploaded.
+	// The time the script was uploaded.
 	TimeUploaded *common.SDKTime `mandatory:"false" json:"timeUploaded"`
 
 	// Size of the script content.
@@ -70,4 +72,19 @@ type Script struct {
 
 func (m Script) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Script) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingContentTypesEnum[string(m.ContentType)]; !ok && m.ContentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContentType: %s. Supported values are: %s.", m.ContentType, strings.Join(GetContentTypesEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListRouteTablesRequest wrapper for the ListRouteTables operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListRouteTables.go.html to see an example of how to use ListRouteTablesRequest.
 type ListRouteTablesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -69,6 +67,10 @@ func (request ListRouteTablesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRouteTablesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +84,26 @@ func (request ListRouteTablesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRouteTablesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRouteTablesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRouteTablesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRouteTablesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRouteTablesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRouteTablesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRouteTableLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetRouteTableLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRouteTablesResponse wrapper for the ListRouteTables operation
@@ -121,7 +143,7 @@ const (
 	ListRouteTablesSortByDisplayname ListRouteTablesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListRouteTablesSortBy = map[string]ListRouteTablesSortByEnum{
+var mappingListRouteTablesSortByEnum = map[string]ListRouteTablesSortByEnum{
 	"TIMECREATED": ListRouteTablesSortByTimecreated,
 	"DISPLAYNAME": ListRouteTablesSortByDisplayname,
 }
@@ -129,10 +151,18 @@ var mappingListRouteTablesSortBy = map[string]ListRouteTablesSortByEnum{
 // GetListRouteTablesSortByEnumValues Enumerates the set of values for ListRouteTablesSortByEnum
 func GetListRouteTablesSortByEnumValues() []ListRouteTablesSortByEnum {
 	values := make([]ListRouteTablesSortByEnum, 0)
-	for _, v := range mappingListRouteTablesSortBy {
+	for _, v := range mappingListRouteTablesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRouteTablesSortByEnumStringValues Enumerates the set of values in String for ListRouteTablesSortByEnum
+func GetListRouteTablesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListRouteTablesSortOrderEnum Enum with underlying type: string
@@ -144,7 +174,7 @@ const (
 	ListRouteTablesSortOrderDesc ListRouteTablesSortOrderEnum = "DESC"
 )
 
-var mappingListRouteTablesSortOrder = map[string]ListRouteTablesSortOrderEnum{
+var mappingListRouteTablesSortOrderEnum = map[string]ListRouteTablesSortOrderEnum{
 	"ASC":  ListRouteTablesSortOrderAsc,
 	"DESC": ListRouteTablesSortOrderDesc,
 }
@@ -152,8 +182,16 @@ var mappingListRouteTablesSortOrder = map[string]ListRouteTablesSortOrderEnum{
 // GetListRouteTablesSortOrderEnumValues Enumerates the set of values for ListRouteTablesSortOrderEnum
 func GetListRouteTablesSortOrderEnumValues() []ListRouteTablesSortOrderEnum {
 	values := make([]ListRouteTablesSortOrderEnum, 0)
-	for _, v := range mappingListRouteTablesSortOrder {
+	for _, v := range mappingListRouteTablesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRouteTablesSortOrderEnumStringValues Enumerates the set of values in String for ListRouteTablesSortOrderEnum
+func GetListRouteTablesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

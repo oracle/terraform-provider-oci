@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LogAnalyticsLabelSummary LogAnalytics label
@@ -61,6 +63,24 @@ func (m LogAnalyticsLabelSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsLabelSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsLabelSummaryPriorityEnum[string(m.Priority)]; !ok && m.Priority != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Priority: %s. Supported values are: %s.", m.Priority, strings.Join(GetLogAnalyticsLabelSummaryPriorityEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLogAnalyticsLabelSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetLogAnalyticsLabelSummaryTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsLabelSummaryPriorityEnum Enum with underlying type: string
 type LogAnalyticsLabelSummaryPriorityEnum string
 
@@ -72,7 +92,7 @@ const (
 	LogAnalyticsLabelSummaryPriorityHigh   LogAnalyticsLabelSummaryPriorityEnum = "HIGH"
 )
 
-var mappingLogAnalyticsLabelSummaryPriority = map[string]LogAnalyticsLabelSummaryPriorityEnum{
+var mappingLogAnalyticsLabelSummaryPriorityEnum = map[string]LogAnalyticsLabelSummaryPriorityEnum{
 	"NONE":   LogAnalyticsLabelSummaryPriorityNone,
 	"LOW":    LogAnalyticsLabelSummaryPriorityLow,
 	"MEDIUM": LogAnalyticsLabelSummaryPriorityMedium,
@@ -82,10 +102,20 @@ var mappingLogAnalyticsLabelSummaryPriority = map[string]LogAnalyticsLabelSummar
 // GetLogAnalyticsLabelSummaryPriorityEnumValues Enumerates the set of values for LogAnalyticsLabelSummaryPriorityEnum
 func GetLogAnalyticsLabelSummaryPriorityEnumValues() []LogAnalyticsLabelSummaryPriorityEnum {
 	values := make([]LogAnalyticsLabelSummaryPriorityEnum, 0)
-	for _, v := range mappingLogAnalyticsLabelSummaryPriority {
+	for _, v := range mappingLogAnalyticsLabelSummaryPriorityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsLabelSummaryPriorityEnumStringValues Enumerates the set of values in String for LogAnalyticsLabelSummaryPriorityEnum
+func GetLogAnalyticsLabelSummaryPriorityEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"LOW",
+		"MEDIUM",
+		"HIGH",
+	}
 }
 
 // LogAnalyticsLabelSummaryTypeEnum Enum with underlying type: string
@@ -97,7 +127,7 @@ const (
 	LogAnalyticsLabelSummaryTypeProblem LogAnalyticsLabelSummaryTypeEnum = "PROBLEM"
 )
 
-var mappingLogAnalyticsLabelSummaryType = map[string]LogAnalyticsLabelSummaryTypeEnum{
+var mappingLogAnalyticsLabelSummaryTypeEnum = map[string]LogAnalyticsLabelSummaryTypeEnum{
 	"INFO":    LogAnalyticsLabelSummaryTypeInfo,
 	"PROBLEM": LogAnalyticsLabelSummaryTypeProblem,
 }
@@ -105,8 +135,16 @@ var mappingLogAnalyticsLabelSummaryType = map[string]LogAnalyticsLabelSummaryTyp
 // GetLogAnalyticsLabelSummaryTypeEnumValues Enumerates the set of values for LogAnalyticsLabelSummaryTypeEnum
 func GetLogAnalyticsLabelSummaryTypeEnumValues() []LogAnalyticsLabelSummaryTypeEnum {
 	values := make([]LogAnalyticsLabelSummaryTypeEnum, 0)
-	for _, v := range mappingLogAnalyticsLabelSummaryType {
+	for _, v := range mappingLogAnalyticsLabelSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsLabelSummaryTypeEnumStringValues Enumerates the set of values in String for LogAnalyticsLabelSummaryTypeEnum
+func GetLogAnalyticsLabelSummaryTypeEnumStringValues() []string {
+	return []string{
+		"INFO",
+		"PROBLEM",
+	}
 }

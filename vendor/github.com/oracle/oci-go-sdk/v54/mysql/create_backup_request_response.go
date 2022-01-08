@@ -5,15 +5,13 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // CreateBackupRequest wrapper for the CreateBackup operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateBackup.go.html to see an example of how to use CreateBackupRequest.
 type CreateBackupRequest struct {
 
 	// Create a Backup of a DB System.
@@ -44,6 +42,10 @@ func (request CreateBackupRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CreateBackupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -57,6 +59,17 @@ func (request CreateBackupRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateBackupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateBackupRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateBackupResponse wrapper for the CreateBackup operation

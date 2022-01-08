@@ -20,7 +20,7 @@ const (
 	TaskTypeAccelerationMaintenance TaskTypeEnum = "ACCELERATION_MAINTENANCE"
 )
 
-var mappingTaskType = map[string]TaskTypeEnum{
+var mappingTaskTypeEnum = map[string]TaskTypeEnum{
 	"SAVED_SEARCH":             TaskTypeSavedSearch,
 	"ACCELERATION":             TaskTypeAcceleration,
 	"PURGE":                    TaskTypePurge,
@@ -30,8 +30,18 @@ var mappingTaskType = map[string]TaskTypeEnum{
 // GetTaskTypeEnumValues Enumerates the set of values for TaskTypeEnum
 func GetTaskTypeEnumValues() []TaskTypeEnum {
 	values := make([]TaskTypeEnum, 0)
-	for _, v := range mappingTaskType {
+	for _, v := range mappingTaskTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskTypeEnumStringValues Enumerates the set of values in String for TaskTypeEnum
+func GetTaskTypeEnumStringValues() []string {
+	return []string{
+		"SAVED_SEARCH",
+		"ACCELERATION",
+		"PURGE",
+		"ACCELERATION_MAINTENANCE",
+	}
 }

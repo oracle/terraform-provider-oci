@@ -22,7 +22,7 @@ const (
 	StrategyParameterTypeDatetime StrategyParameterTypeEnum = "DATETIME"
 )
 
-var mappingStrategyParameterType = map[string]StrategyParameterTypeEnum{
+var mappingStrategyParameterTypeEnum = map[string]StrategyParameterTypeEnum{
 	"STRING":   StrategyParameterTypeString,
 	"BOOLEAN":  StrategyParameterTypeBoolean,
 	"NUMBER":   StrategyParameterTypeNumber,
@@ -32,8 +32,18 @@ var mappingStrategyParameterType = map[string]StrategyParameterTypeEnum{
 // GetStrategyParameterTypeEnumValues Enumerates the set of values for StrategyParameterTypeEnum
 func GetStrategyParameterTypeEnumValues() []StrategyParameterTypeEnum {
 	values := make([]StrategyParameterTypeEnum, 0)
-	for _, v := range mappingStrategyParameterType {
+	for _, v := range mappingStrategyParameterTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStrategyParameterTypeEnumStringValues Enumerates the set of values in String for StrategyParameterTypeEnum
+func GetStrategyParameterTypeEnumStringValues() []string {
+	return []string{
+		"STRING",
+		"BOOLEAN",
+		"NUMBER",
+		"DATETIME",
+	}
 }

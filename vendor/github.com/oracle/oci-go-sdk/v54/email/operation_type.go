@@ -28,7 +28,7 @@ const (
 	OperationTypeUpdateEmailDomain OperationTypeEnum = "UPDATE_EMAIL_DOMAIN"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_DKIM":         OperationTypeCreateDkim,
 	"DELETE_DKIM":         OperationTypeDeleteDkim,
 	"MOVE_DKIM":           OperationTypeMoveDkim,
@@ -42,8 +42,22 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_DKIM",
+		"DELETE_DKIM",
+		"MOVE_DKIM",
+		"UPDATE_DKIM",
+		"CREATE_EMAIL_DOMAIN",
+		"DELETE_EMAIL_DOMAIN",
+		"MOVE_EMAIL_DOMAIN",
+		"UPDATE_EMAIL_DOMAIN",
+	}
 }

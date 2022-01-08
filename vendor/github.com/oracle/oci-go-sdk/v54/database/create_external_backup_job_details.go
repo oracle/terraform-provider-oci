@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateExternalBackupJobDetails The representation of CreateExternalBackupJobDetails
@@ -58,6 +60,24 @@ func (m CreateExternalBackupJobDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateExternalBackupJobDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateExternalBackupJobDetailsDatabaseModeEnum[string(m.DatabaseMode)]; !ok && m.DatabaseMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseMode: %s. Supported values are: %s.", m.DatabaseMode, strings.Join(GetCreateExternalBackupJobDetailsDatabaseModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateExternalBackupJobDetailsDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetCreateExternalBackupJobDetailsDatabaseEditionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateExternalBackupJobDetailsDatabaseModeEnum Enum with underlying type: string
 type CreateExternalBackupJobDetailsDatabaseModeEnum string
 
@@ -67,7 +87,7 @@ const (
 	CreateExternalBackupJobDetailsDatabaseModeRac CreateExternalBackupJobDetailsDatabaseModeEnum = "RAC"
 )
 
-var mappingCreateExternalBackupJobDetailsDatabaseMode = map[string]CreateExternalBackupJobDetailsDatabaseModeEnum{
+var mappingCreateExternalBackupJobDetailsDatabaseModeEnum = map[string]CreateExternalBackupJobDetailsDatabaseModeEnum{
 	"SI":  CreateExternalBackupJobDetailsDatabaseModeSi,
 	"RAC": CreateExternalBackupJobDetailsDatabaseModeRac,
 }
@@ -75,10 +95,18 @@ var mappingCreateExternalBackupJobDetailsDatabaseMode = map[string]CreateExterna
 // GetCreateExternalBackupJobDetailsDatabaseModeEnumValues Enumerates the set of values for CreateExternalBackupJobDetailsDatabaseModeEnum
 func GetCreateExternalBackupJobDetailsDatabaseModeEnumValues() []CreateExternalBackupJobDetailsDatabaseModeEnum {
 	values := make([]CreateExternalBackupJobDetailsDatabaseModeEnum, 0)
-	for _, v := range mappingCreateExternalBackupJobDetailsDatabaseMode {
+	for _, v := range mappingCreateExternalBackupJobDetailsDatabaseModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateExternalBackupJobDetailsDatabaseModeEnumStringValues Enumerates the set of values in String for CreateExternalBackupJobDetailsDatabaseModeEnum
+func GetCreateExternalBackupJobDetailsDatabaseModeEnumStringValues() []string {
+	return []string{
+		"SI",
+		"RAC",
+	}
 }
 
 // CreateExternalBackupJobDetailsDatabaseEditionEnum Enum with underlying type: string
@@ -92,7 +120,7 @@ const (
 	CreateExternalBackupJobDetailsDatabaseEditionEnterpriseEditionExtremePerformance CreateExternalBackupJobDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 )
 
-var mappingCreateExternalBackupJobDetailsDatabaseEdition = map[string]CreateExternalBackupJobDetailsDatabaseEditionEnum{
+var mappingCreateExternalBackupJobDetailsDatabaseEditionEnum = map[string]CreateExternalBackupJobDetailsDatabaseEditionEnum{
 	"STANDARD_EDITION":                       CreateExternalBackupJobDetailsDatabaseEditionStandardEdition,
 	"ENTERPRISE_EDITION":                     CreateExternalBackupJobDetailsDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    CreateExternalBackupJobDetailsDatabaseEditionEnterpriseEditionHighPerformance,
@@ -102,8 +130,18 @@ var mappingCreateExternalBackupJobDetailsDatabaseEdition = map[string]CreateExte
 // GetCreateExternalBackupJobDetailsDatabaseEditionEnumValues Enumerates the set of values for CreateExternalBackupJobDetailsDatabaseEditionEnum
 func GetCreateExternalBackupJobDetailsDatabaseEditionEnumValues() []CreateExternalBackupJobDetailsDatabaseEditionEnum {
 	values := make([]CreateExternalBackupJobDetailsDatabaseEditionEnum, 0)
-	for _, v := range mappingCreateExternalBackupJobDetailsDatabaseEdition {
+	for _, v := range mappingCreateExternalBackupJobDetailsDatabaseEditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateExternalBackupJobDetailsDatabaseEditionEnumStringValues Enumerates the set of values in String for CreateExternalBackupJobDetailsDatabaseEditionEnum
+func GetCreateExternalBackupJobDetailsDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+	}
 }

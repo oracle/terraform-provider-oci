@@ -5,25 +5,23 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListLogSavedSearchesRequest wrapper for the ListLogSavedSearches operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListLogSavedSearches.go.html to see an example of how to use ListLogSavedSearchesRequest.
 type ListLogSavedSearchesRequest struct {
 
 	// Compartment OCID to list resources in. See compartmentIdInSubtree
 	//      for nested compartments traversal.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// OCID of the LogSavedSearch
+	// OCID of the LogSavedSearch.
 	LogSavedSearchId *string `mandatory:"false" contributesTo:"query" name:"logSavedSearchId"`
 
-	// Resource name
+	// Resource name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// For list pagination. The value of the `opc-next-page` or `opc-previous-page` response header from the previous "List" call.
@@ -56,6 +54,10 @@ func (request ListLogSavedSearchesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLogSavedSearchesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,23 @@ func (request ListLogSavedSearchesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLogSavedSearchesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLogSavedSearchesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLogSavedSearchesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLogSavedSearchesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogSavedSearchesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLogSavedSearchesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLogSavedSearchesResponse wrapper for the ListLogSavedSearches operation
@@ -113,7 +132,7 @@ const (
 	ListLogSavedSearchesSortByDisplayname ListLogSavedSearchesSortByEnum = "displayName"
 )
 
-var mappingListLogSavedSearchesSortBy = map[string]ListLogSavedSearchesSortByEnum{
+var mappingListLogSavedSearchesSortByEnum = map[string]ListLogSavedSearchesSortByEnum{
 	"timeCreated": ListLogSavedSearchesSortByTimecreated,
 	"displayName": ListLogSavedSearchesSortByDisplayname,
 }
@@ -121,10 +140,18 @@ var mappingListLogSavedSearchesSortBy = map[string]ListLogSavedSearchesSortByEnu
 // GetListLogSavedSearchesSortByEnumValues Enumerates the set of values for ListLogSavedSearchesSortByEnum
 func GetListLogSavedSearchesSortByEnumValues() []ListLogSavedSearchesSortByEnum {
 	values := make([]ListLogSavedSearchesSortByEnum, 0)
-	for _, v := range mappingListLogSavedSearchesSortBy {
+	for _, v := range mappingListLogSavedSearchesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogSavedSearchesSortByEnumStringValues Enumerates the set of values in String for ListLogSavedSearchesSortByEnum
+func GetListLogSavedSearchesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListLogSavedSearchesSortOrderEnum Enum with underlying type: string
@@ -136,7 +163,7 @@ const (
 	ListLogSavedSearchesSortOrderDesc ListLogSavedSearchesSortOrderEnum = "DESC"
 )
 
-var mappingListLogSavedSearchesSortOrder = map[string]ListLogSavedSearchesSortOrderEnum{
+var mappingListLogSavedSearchesSortOrderEnum = map[string]ListLogSavedSearchesSortOrderEnum{
 	"ASC":  ListLogSavedSearchesSortOrderAsc,
 	"DESC": ListLogSavedSearchesSortOrderDesc,
 }
@@ -144,8 +171,16 @@ var mappingListLogSavedSearchesSortOrder = map[string]ListLogSavedSearchesSortOr
 // GetListLogSavedSearchesSortOrderEnumValues Enumerates the set of values for ListLogSavedSearchesSortOrderEnum
 func GetListLogSavedSearchesSortOrderEnumValues() []ListLogSavedSearchesSortOrderEnum {
 	values := make([]ListLogSavedSearchesSortOrderEnum, 0)
-	for _, v := range mappingListLogSavedSearchesSortOrder {
+	for _, v := range mappingListLogSavedSearchesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogSavedSearchesSortOrderEnumStringValues Enumerates the set of values in String for ListLogSavedSearchesSortOrderEnum
+func GetListLogSavedSearchesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -20,7 +20,7 @@ const (
 	PingProbeProtocolTcp  PingProbeProtocolEnum = "TCP"
 )
 
-var mappingPingProbeProtocol = map[string]PingProbeProtocolEnum{
+var mappingPingProbeProtocolEnum = map[string]PingProbeProtocolEnum{
 	"ICMP": PingProbeProtocolIcmp,
 	"TCP":  PingProbeProtocolTcp,
 }
@@ -28,8 +28,16 @@ var mappingPingProbeProtocol = map[string]PingProbeProtocolEnum{
 // GetPingProbeProtocolEnumValues Enumerates the set of values for PingProbeProtocolEnum
 func GetPingProbeProtocolEnumValues() []PingProbeProtocolEnum {
 	values := make([]PingProbeProtocolEnum, 0)
-	for _, v := range mappingPingProbeProtocol {
+	for _, v := range mappingPingProbeProtocolEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPingProbeProtocolEnumStringValues Enumerates the set of values in String for PingProbeProtocolEnum
+func GetPingProbeProtocolEnumStringValues() []string {
+	return []string{
+		"ICMP",
+		"TCP",
+	}
 }

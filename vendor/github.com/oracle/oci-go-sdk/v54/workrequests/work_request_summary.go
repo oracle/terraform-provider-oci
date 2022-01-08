@@ -4,17 +4,19 @@
 
 // Work Requests API
 //
-// Many of the API operations that you use to create and configure Compute resources do not take effect
+// Many of the API operations that you use to create and configure cloud resources do not take effect
 // immediately. In these cases, the operation spawns an asynchronous workflow to fulfill the request.
 // Work requests provide visibility into the status of these in-progress, long-running workflows.
 // For more information about work requests and the operations that spawn work requests, see
-// Viewing the State of a Compute Work Request (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/viewingworkrequestcompute.htm).
+// Work Requests (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/workrequestoverview.htm).
 //
 
 package workrequests
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WorkRequestSummary A summary of the status of a work request.
@@ -52,6 +54,21 @@ func (m WorkRequestSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestSummaryStatusEnum Enum with underlying type: string
 type WorkRequestSummaryStatusEnum string
 
@@ -65,7 +82,7 @@ const (
 	WorkRequestSummaryStatusCanceled   WorkRequestSummaryStatusEnum = "CANCELED"
 )
 
-var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
+var mappingWorkRequestSummaryStatusEnum = map[string]WorkRequestSummaryStatusEnum{
 	"ACCEPTED":    WorkRequestSummaryStatusAccepted,
 	"IN_PROGRESS": WorkRequestSummaryStatusInProgress,
 	"FAILED":      WorkRequestSummaryStatusFailed,
@@ -77,8 +94,20 @@ var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
 // GetWorkRequestSummaryStatusEnumValues Enumerates the set of values for WorkRequestSummaryStatusEnum
 func GetWorkRequestSummaryStatusEnumValues() []WorkRequestSummaryStatusEnum {
 	values := make([]WorkRequestSummaryStatusEnum, 0)
-	for _, v := range mappingWorkRequestSummaryStatus {
+	for _, v := range mappingWorkRequestSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestSummaryStatusEnumStringValues Enumerates the set of values in String for WorkRequestSummaryStatusEnum
+func GetWorkRequestSummaryStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

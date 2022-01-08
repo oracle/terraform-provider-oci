@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteConnectionRequest wrapper for the DeleteConnection operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteConnection.go.html to see an example of how to use DeleteConnectionRequest.
 type DeleteConnectionRequest struct {
 
 	// Unique catalog identifier.
@@ -47,6 +45,10 @@ func (request DeleteConnectionRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteConnectionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -60,6 +62,17 @@ func (request DeleteConnectionRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteConnectionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteConnectionRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteConnectionResponse wrapper for the DeleteConnection operation

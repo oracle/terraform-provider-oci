@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListSchemasRequest wrapper for the ListSchemas operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListSchemas.go.html to see an example of how to use ListSchemasRequest.
 type ListSchemasRequest struct {
 
 	// The workspace ID.
@@ -63,6 +61,10 @@ func (request ListSchemasRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSchemasRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +78,23 @@ func (request ListSchemasRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSchemasRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSchemasRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSchemasSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSchemasSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSchemasSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSchemasSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSchemasResponse wrapper for the ListSchemas operation
@@ -119,7 +138,7 @@ const (
 	ListSchemasSortByDisplayName ListSchemasSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListSchemasSortBy = map[string]ListSchemasSortByEnum{
+var mappingListSchemasSortByEnum = map[string]ListSchemasSortByEnum{
 	"TIME_CREATED": ListSchemasSortByTimeCreated,
 	"DISPLAY_NAME": ListSchemasSortByDisplayName,
 }
@@ -127,10 +146,18 @@ var mappingListSchemasSortBy = map[string]ListSchemasSortByEnum{
 // GetListSchemasSortByEnumValues Enumerates the set of values for ListSchemasSortByEnum
 func GetListSchemasSortByEnumValues() []ListSchemasSortByEnum {
 	values := make([]ListSchemasSortByEnum, 0)
-	for _, v := range mappingListSchemasSortBy {
+	for _, v := range mappingListSchemasSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSchemasSortByEnumStringValues Enumerates the set of values in String for ListSchemasSortByEnum
+func GetListSchemasSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }
 
 // ListSchemasSortOrderEnum Enum with underlying type: string
@@ -142,7 +169,7 @@ const (
 	ListSchemasSortOrderDesc ListSchemasSortOrderEnum = "DESC"
 )
 
-var mappingListSchemasSortOrder = map[string]ListSchemasSortOrderEnum{
+var mappingListSchemasSortOrderEnum = map[string]ListSchemasSortOrderEnum{
 	"ASC":  ListSchemasSortOrderAsc,
 	"DESC": ListSchemasSortOrderDesc,
 }
@@ -150,8 +177,16 @@ var mappingListSchemasSortOrder = map[string]ListSchemasSortOrderEnum{
 // GetListSchemasSortOrderEnumValues Enumerates the set of values for ListSchemasSortOrderEnum
 func GetListSchemasSortOrderEnumValues() []ListSchemasSortOrderEnum {
 	values := make([]ListSchemasSortOrderEnum, 0)
-	for _, v := range mappingListSchemasSortOrder {
+	for _, v := range mappingListSchemasSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSchemasSortOrderEnumStringValues Enumerates the set of values in String for ListSchemasSortOrderEnum
+func GetListSchemasSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

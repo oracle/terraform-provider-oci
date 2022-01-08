@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SearchLookupCommandDescriptor Command descriptor for querylanguage SEARCHLOOKUP command.
@@ -60,6 +62,18 @@ func (m SearchLookupCommandDescriptor) GetDeclaredFields() []AbstractField {
 
 func (m SearchLookupCommandDescriptor) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SearchLookupCommandDescriptor) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

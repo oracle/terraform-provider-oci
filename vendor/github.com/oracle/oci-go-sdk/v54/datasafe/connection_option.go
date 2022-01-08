@@ -11,7 +11,9 @@ package datasafe
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ConnectionOption Types of connection supported by Data Safe.
@@ -65,6 +67,18 @@ func (m connectionoption) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m connectionoption) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConnectionOptionConnectionTypeEnum Enum with underlying type: string
 type ConnectionOptionConnectionTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	ConnectionOptionConnectionTypeOnpremConnector ConnectionOptionConnectionTypeEnum = "ONPREM_CONNECTOR"
 )
 
-var mappingConnectionOptionConnectionType = map[string]ConnectionOptionConnectionTypeEnum{
+var mappingConnectionOptionConnectionTypeEnum = map[string]ConnectionOptionConnectionTypeEnum{
 	"PRIVATE_ENDPOINT": ConnectionOptionConnectionTypePrivateEndpoint,
 	"ONPREM_CONNECTOR": ConnectionOptionConnectionTypeOnpremConnector,
 }
@@ -82,8 +96,16 @@ var mappingConnectionOptionConnectionType = map[string]ConnectionOptionConnectio
 // GetConnectionOptionConnectionTypeEnumValues Enumerates the set of values for ConnectionOptionConnectionTypeEnum
 func GetConnectionOptionConnectionTypeEnumValues() []ConnectionOptionConnectionTypeEnum {
 	values := make([]ConnectionOptionConnectionTypeEnum, 0)
-	for _, v := range mappingConnectionOptionConnectionType {
+	for _, v := range mappingConnectionOptionConnectionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConnectionOptionConnectionTypeEnumStringValues Enumerates the set of values in String for ConnectionOptionConnectionTypeEnum
+func GetConnectionOptionConnectionTypeEnumStringValues() []string {
+	return []string{
+		"PRIVATE_ENDPOINT",
+		"ONPREM_CONNECTOR",
+	}
 }

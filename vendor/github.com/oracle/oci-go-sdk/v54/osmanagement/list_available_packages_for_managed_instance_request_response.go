@@ -5,15 +5,13 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAvailablePackagesForManagedInstanceRequest wrapper for the ListAvailablePackagesForManagedInstance operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailablePackagesForManagedInstance.go.html to see an example of how to use ListAvailablePackagesForManagedInstanceRequest.
 type ListAvailablePackagesForManagedInstanceRequest struct {
 
 	// OCID for the managed instance
@@ -53,6 +51,10 @@ func (request ListAvailablePackagesForManagedInstanceRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAvailablePackagesForManagedInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +68,23 @@ func (request ListAvailablePackagesForManagedInstanceRequest) BinaryRequestBody(
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAvailablePackagesForManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAvailablePackagesForManagedInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAvailablePackagesForManagedInstanceSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAvailablePackagesForManagedInstanceSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAvailablePackagesForManagedInstanceSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAvailablePackagesForManagedInstanceSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAvailablePackagesForManagedInstanceResponse wrapper for the ListAvailablePackagesForManagedInstance operation
@@ -106,7 +125,7 @@ const (
 	ListAvailablePackagesForManagedInstanceSortOrderDesc ListAvailablePackagesForManagedInstanceSortOrderEnum = "DESC"
 )
 
-var mappingListAvailablePackagesForManagedInstanceSortOrder = map[string]ListAvailablePackagesForManagedInstanceSortOrderEnum{
+var mappingListAvailablePackagesForManagedInstanceSortOrderEnum = map[string]ListAvailablePackagesForManagedInstanceSortOrderEnum{
 	"ASC":  ListAvailablePackagesForManagedInstanceSortOrderAsc,
 	"DESC": ListAvailablePackagesForManagedInstanceSortOrderDesc,
 }
@@ -114,10 +133,18 @@ var mappingListAvailablePackagesForManagedInstanceSortOrder = map[string]ListAva
 // GetListAvailablePackagesForManagedInstanceSortOrderEnumValues Enumerates the set of values for ListAvailablePackagesForManagedInstanceSortOrderEnum
 func GetListAvailablePackagesForManagedInstanceSortOrderEnumValues() []ListAvailablePackagesForManagedInstanceSortOrderEnum {
 	values := make([]ListAvailablePackagesForManagedInstanceSortOrderEnum, 0)
-	for _, v := range mappingListAvailablePackagesForManagedInstanceSortOrder {
+	for _, v := range mappingListAvailablePackagesForManagedInstanceSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailablePackagesForManagedInstanceSortOrderEnumStringValues Enumerates the set of values in String for ListAvailablePackagesForManagedInstanceSortOrderEnum
+func GetListAvailablePackagesForManagedInstanceSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAvailablePackagesForManagedInstanceSortByEnum Enum with underlying type: string
@@ -129,7 +156,7 @@ const (
 	ListAvailablePackagesForManagedInstanceSortByDisplayname ListAvailablePackagesForManagedInstanceSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAvailablePackagesForManagedInstanceSortBy = map[string]ListAvailablePackagesForManagedInstanceSortByEnum{
+var mappingListAvailablePackagesForManagedInstanceSortByEnum = map[string]ListAvailablePackagesForManagedInstanceSortByEnum{
 	"TIMECREATED": ListAvailablePackagesForManagedInstanceSortByTimecreated,
 	"DISPLAYNAME": ListAvailablePackagesForManagedInstanceSortByDisplayname,
 }
@@ -137,8 +164,16 @@ var mappingListAvailablePackagesForManagedInstanceSortBy = map[string]ListAvaila
 // GetListAvailablePackagesForManagedInstanceSortByEnumValues Enumerates the set of values for ListAvailablePackagesForManagedInstanceSortByEnum
 func GetListAvailablePackagesForManagedInstanceSortByEnumValues() []ListAvailablePackagesForManagedInstanceSortByEnum {
 	values := make([]ListAvailablePackagesForManagedInstanceSortByEnum, 0)
-	for _, v := range mappingListAvailablePackagesForManagedInstanceSortBy {
+	for _, v := range mappingListAvailablePackagesForManagedInstanceSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailablePackagesForManagedInstanceSortByEnumStringValues Enumerates the set of values in String for ListAvailablePackagesForManagedInstanceSortByEnum
+func GetListAvailablePackagesForManagedInstanceSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

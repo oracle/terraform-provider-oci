@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateLogAnalyticsEmBridgeDetails Log analytics entity type definition to be updated.
@@ -36,4 +38,16 @@ type UpdateLogAnalyticsEmBridgeDetails struct {
 
 func (m UpdateLogAnalyticsEmBridgeDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateLogAnalyticsEmBridgeDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

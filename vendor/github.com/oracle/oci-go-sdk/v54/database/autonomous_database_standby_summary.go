@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutonomousDatabaseStandbySummary Autonomous Data Guard standby database details.
@@ -31,6 +33,21 @@ type AutonomousDatabaseStandbySummary struct {
 
 func (m AutonomousDatabaseStandbySummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDatabaseStandbySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAutonomousDatabaseStandbySummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseStandbySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // AutonomousDatabaseStandbySummaryLifecycleStateEnum Enum with underlying type: string
@@ -60,7 +77,7 @@ const (
 	AutonomousDatabaseStandbySummaryLifecycleStateInaccessible            AutonomousDatabaseStandbySummaryLifecycleStateEnum = "INACCESSIBLE"
 )
 
-var mappingAutonomousDatabaseStandbySummaryLifecycleState = map[string]AutonomousDatabaseStandbySummaryLifecycleStateEnum{
+var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnum = map[string]AutonomousDatabaseStandbySummaryLifecycleStateEnum{
 	"PROVISIONING":              AutonomousDatabaseStandbySummaryLifecycleStateProvisioning,
 	"AVAILABLE":                 AutonomousDatabaseStandbySummaryLifecycleStateAvailable,
 	"STOPPING":                  AutonomousDatabaseStandbySummaryLifecycleStateStopping,
@@ -86,8 +103,34 @@ var mappingAutonomousDatabaseStandbySummaryLifecycleState = map[string]Autonomou
 // GetAutonomousDatabaseStandbySummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseStandbySummaryLifecycleStateEnum
 func GetAutonomousDatabaseStandbySummaryLifecycleStateEnumValues() []AutonomousDatabaseStandbySummaryLifecycleStateEnum {
 	values := make([]AutonomousDatabaseStandbySummaryLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousDatabaseStandbySummaryLifecycleState {
+	for _, v := range mappingAutonomousDatabaseStandbySummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseStandbySummaryLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousDatabaseStandbySummaryLifecycleStateEnum
+func GetAutonomousDatabaseStandbySummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"STOPPING",
+		"STOPPED",
+		"STARTING",
+		"TERMINATING",
+		"TERMINATED",
+		"UNAVAILABLE",
+		"RESTORE_IN_PROGRESS",
+		"RESTORE_FAILED",
+		"BACKUP_IN_PROGRESS",
+		"SCALE_IN_PROGRESS",
+		"AVAILABLE_NEEDS_ATTENTION",
+		"UPDATING",
+		"MAINTENANCE_IN_PROGRESS",
+		"RESTARTING",
+		"RECREATING",
+		"ROLE_CHANGE_IN_PROGRESS",
+		"UPGRADING",
+		"INACCESSIBLE",
+	}
 }

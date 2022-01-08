@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateCloudAutonomousVmClusterDetails Details for updating the cloud Autonomous VM cluster.
@@ -24,8 +26,8 @@ type UpdateCloudAutonomousVmClusterDetails struct {
 
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
-	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
-	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the
+	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
@@ -47,6 +49,21 @@ func (m UpdateCloudAutonomousVmClusterDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateCloudAutonomousVmClusterDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateCloudAutonomousVmClusterDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateCloudAutonomousVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum Enum with underlying type: string
 type UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum string
 
@@ -56,7 +73,7 @@ const (
 	UpdateCloudAutonomousVmClusterDetailsLicenseModelBringYourOwnLicense UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingUpdateCloudAutonomousVmClusterDetailsLicenseModel = map[string]UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum{
+var mappingUpdateCloudAutonomousVmClusterDetailsLicenseModelEnum = map[string]UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       UpdateCloudAutonomousVmClusterDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": UpdateCloudAutonomousVmClusterDetailsLicenseModelBringYourOwnLicense,
 }
@@ -64,8 +81,16 @@ var mappingUpdateCloudAutonomousVmClusterDetailsLicenseModel = map[string]Update
 // GetUpdateCloudAutonomousVmClusterDetailsLicenseModelEnumValues Enumerates the set of values for UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum
 func GetUpdateCloudAutonomousVmClusterDetailsLicenseModelEnumValues() []UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum {
 	values := make([]UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum, 0)
-	for _, v := range mappingUpdateCloudAutonomousVmClusterDetailsLicenseModel {
+	for _, v := range mappingUpdateCloudAutonomousVmClusterDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateCloudAutonomousVmClusterDetailsLicenseModelEnumStringValues Enumerates the set of values in String for UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum
+func GetUpdateCloudAutonomousVmClusterDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

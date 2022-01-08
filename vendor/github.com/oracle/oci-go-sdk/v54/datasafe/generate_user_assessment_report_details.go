@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // GenerateUserAssessmentReportDetails The details used to generate a new user assessment report.
@@ -24,6 +26,21 @@ func (m GenerateUserAssessmentReportDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m GenerateUserAssessmentReportDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGenerateUserAssessmentReportDetailsFormatEnum[string(m.Format)]; !ok && m.Format != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Format: %s. Supported values are: %s.", m.Format, strings.Join(GetGenerateUserAssessmentReportDetailsFormatEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // GenerateUserAssessmentReportDetailsFormatEnum Enum with underlying type: string
 type GenerateUserAssessmentReportDetailsFormatEnum string
 
@@ -33,7 +50,7 @@ const (
 	GenerateUserAssessmentReportDetailsFormatXls GenerateUserAssessmentReportDetailsFormatEnum = "XLS"
 )
 
-var mappingGenerateUserAssessmentReportDetailsFormat = map[string]GenerateUserAssessmentReportDetailsFormatEnum{
+var mappingGenerateUserAssessmentReportDetailsFormatEnum = map[string]GenerateUserAssessmentReportDetailsFormatEnum{
 	"PDF": GenerateUserAssessmentReportDetailsFormatPdf,
 	"XLS": GenerateUserAssessmentReportDetailsFormatXls,
 }
@@ -41,8 +58,16 @@ var mappingGenerateUserAssessmentReportDetailsFormat = map[string]GenerateUserAs
 // GetGenerateUserAssessmentReportDetailsFormatEnumValues Enumerates the set of values for GenerateUserAssessmentReportDetailsFormatEnum
 func GetGenerateUserAssessmentReportDetailsFormatEnumValues() []GenerateUserAssessmentReportDetailsFormatEnum {
 	values := make([]GenerateUserAssessmentReportDetailsFormatEnum, 0)
-	for _, v := range mappingGenerateUserAssessmentReportDetailsFormat {
+	for _, v := range mappingGenerateUserAssessmentReportDetailsFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGenerateUserAssessmentReportDetailsFormatEnumStringValues Enumerates the set of values in String for GenerateUserAssessmentReportDetailsFormatEnum
+func GetGenerateUserAssessmentReportDetailsFormatEnumStringValues() []string {
+	return []string{
+		"PDF",
+		"XLS",
+	}
 }

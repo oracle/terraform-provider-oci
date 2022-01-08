@@ -12,31 +12,45 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// SqlTuningAdvisorTaskSummaryFindingCounts The finding counts data for the SQL Tuning Advisor summary report.
+// SqlTuningAdvisorTaskSummaryFindingCounts The number of findings in the SQL Tuning Advisor summary report.
 type SqlTuningAdvisorTaskSummaryFindingCounts struct {
 
-	// The count of distinct SQL statements with recommended SQL profiles.
+	// The number of distinct SQL statements with recommended SQL profiles.
 	RecommendedSqlProfile *int `mandatory:"true" json:"recommendedSqlProfile"`
 
-	// The count of distinct SQL statements with implemented SQL profiles.
+	// The number of distinct SQL statements with implemented SQL profiles.
 	ImplementedSqlProfile *int `mandatory:"true" json:"implementedSqlProfile"`
 
-	// The count of distinct SQL statements with index recommendations.
+	// The number of distinct SQL statements with index recommendations.
 	Index *int `mandatory:"true" json:"index"`
 
-	// The count of distinct SQL statements with restructure SQL recommendations.
+	// The number of distinct SQL statements with restructured SQL recommendations.
 	Restructure *int `mandatory:"true" json:"restructure"`
 
-	// The count of distinct SQL statements with stale/missing optimizer statistics recommendations.
+	// The number of distinct SQL statements with stale or missing optimizer statistics recommendations.
 	Statistics *int `mandatory:"true" json:"statistics"`
 
-	// The count of distinct SQL statements with alternative plan recommendations.
+	// The number of distinct SQL statements with alternative plan recommendations.
 	AlternatePlan *int `mandatory:"true" json:"alternatePlan"`
 }
 
 func (m SqlTuningAdvisorTaskSummaryFindingCounts) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningAdvisorTaskSummaryFindingCounts) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

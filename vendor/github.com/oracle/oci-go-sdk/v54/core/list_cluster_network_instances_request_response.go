@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListClusterNetworkInstancesRequest wrapper for the ListClusterNetworkInstances operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListClusterNetworkInstances.go.html to see an example of how to use ListClusterNetworkInstancesRequest.
 type ListClusterNetworkInstancesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -65,6 +63,10 @@ func (request ListClusterNetworkInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListClusterNetworkInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +80,23 @@ func (request ListClusterNetworkInstancesRequest) BinaryRequestBody() (*common.O
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListClusterNetworkInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListClusterNetworkInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListClusterNetworkInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListClusterNetworkInstancesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListClusterNetworkInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListClusterNetworkInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListClusterNetworkInstancesResponse wrapper for the ListClusterNetworkInstances operation
@@ -117,7 +136,7 @@ const (
 	ListClusterNetworkInstancesSortByDisplayname ListClusterNetworkInstancesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListClusterNetworkInstancesSortBy = map[string]ListClusterNetworkInstancesSortByEnum{
+var mappingListClusterNetworkInstancesSortByEnum = map[string]ListClusterNetworkInstancesSortByEnum{
 	"TIMECREATED": ListClusterNetworkInstancesSortByTimecreated,
 	"DISPLAYNAME": ListClusterNetworkInstancesSortByDisplayname,
 }
@@ -125,10 +144,18 @@ var mappingListClusterNetworkInstancesSortBy = map[string]ListClusterNetworkInst
 // GetListClusterNetworkInstancesSortByEnumValues Enumerates the set of values for ListClusterNetworkInstancesSortByEnum
 func GetListClusterNetworkInstancesSortByEnumValues() []ListClusterNetworkInstancesSortByEnum {
 	values := make([]ListClusterNetworkInstancesSortByEnum, 0)
-	for _, v := range mappingListClusterNetworkInstancesSortBy {
+	for _, v := range mappingListClusterNetworkInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListClusterNetworkInstancesSortByEnumStringValues Enumerates the set of values in String for ListClusterNetworkInstancesSortByEnum
+func GetListClusterNetworkInstancesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListClusterNetworkInstancesSortOrderEnum Enum with underlying type: string
@@ -140,7 +167,7 @@ const (
 	ListClusterNetworkInstancesSortOrderDesc ListClusterNetworkInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListClusterNetworkInstancesSortOrder = map[string]ListClusterNetworkInstancesSortOrderEnum{
+var mappingListClusterNetworkInstancesSortOrderEnum = map[string]ListClusterNetworkInstancesSortOrderEnum{
 	"ASC":  ListClusterNetworkInstancesSortOrderAsc,
 	"DESC": ListClusterNetworkInstancesSortOrderDesc,
 }
@@ -148,8 +175,16 @@ var mappingListClusterNetworkInstancesSortOrder = map[string]ListClusterNetworkI
 // GetListClusterNetworkInstancesSortOrderEnumValues Enumerates the set of values for ListClusterNetworkInstancesSortOrderEnum
 func GetListClusterNetworkInstancesSortOrderEnumValues() []ListClusterNetworkInstancesSortOrderEnum {
 	values := make([]ListClusterNetworkInstancesSortOrderEnum, 0)
-	for _, v := range mappingListClusterNetworkInstancesSortOrder {
+	for _, v := range mappingListClusterNetworkInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListClusterNetworkInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListClusterNetworkInstancesSortOrderEnum
+func GetListClusterNetworkInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

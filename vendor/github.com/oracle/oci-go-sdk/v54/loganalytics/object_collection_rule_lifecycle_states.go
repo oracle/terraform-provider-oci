@@ -19,7 +19,7 @@ const (
 	ObjectCollectionRuleLifecycleStatesInactive ObjectCollectionRuleLifecycleStatesEnum = "INACTIVE"
 )
 
-var mappingObjectCollectionRuleLifecycleStates = map[string]ObjectCollectionRuleLifecycleStatesEnum{
+var mappingObjectCollectionRuleLifecycleStatesEnum = map[string]ObjectCollectionRuleLifecycleStatesEnum{
 	"ACTIVE":   ObjectCollectionRuleLifecycleStatesActive,
 	"DELETED":  ObjectCollectionRuleLifecycleStatesDeleted,
 	"INACTIVE": ObjectCollectionRuleLifecycleStatesInactive,
@@ -28,8 +28,17 @@ var mappingObjectCollectionRuleLifecycleStates = map[string]ObjectCollectionRule
 // GetObjectCollectionRuleLifecycleStatesEnumValues Enumerates the set of values for ObjectCollectionRuleLifecycleStatesEnum
 func GetObjectCollectionRuleLifecycleStatesEnumValues() []ObjectCollectionRuleLifecycleStatesEnum {
 	values := make([]ObjectCollectionRuleLifecycleStatesEnum, 0)
-	for _, v := range mappingObjectCollectionRuleLifecycleStates {
+	for _, v := range mappingObjectCollectionRuleLifecycleStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetObjectCollectionRuleLifecycleStatesEnumStringValues Enumerates the set of values in String for ObjectCollectionRuleLifecycleStatesEnum
+func GetObjectCollectionRuleLifecycleStatesEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+		"INACTIVE",
+	}
 }

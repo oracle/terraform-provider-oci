@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Compartment A collection of related resources. Compartments are a fundamental component of Oracle Cloud Infrastructure
@@ -18,7 +20,7 @@ import (
 // of measuring usage and billing, access (through the use of IAM Service policies), and isolation (separating the
 // resources for one project or business unit from another). A common approach is to create a compartment for each
 // major part of your organization. For more information, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm) and also
+// Overview of IAM (https://docs.cloud.oracle.com//Content/Identity/getstarted/identity-domains.htm) and also
 // Setting Up Your Tenancy (https://docs.cloud.oracle.com/Content/GSG/Concepts/settinguptenancy.htm).
 // To place a resource in a compartment, simply specify the compartment ID in the "Create" request object when
 // initially creating the resource. For example, to launch an instance into a particular compartment, specify
@@ -26,7 +28,7 @@ import (
 // compartment to another.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// see Get Started with Policies (https://docs.cloud.oracle.com/Content/Identity/policiesgs/get-started-with-policies.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values
 // using the API.
 type Compartment struct {
@@ -60,6 +62,9 @@ type Compartment struct {
 	// compartment or indirectly (permissions can be on a resource in a subcompartment).
 	IsAccessible *bool `mandatory:"false" json:"isAccessible"`
 
+	// The OCID of the Security Zone this compartment is associated with.
+	SecurityZoneId *string `mandatory:"false" json:"securityZoneId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -75,6 +80,21 @@ func (m Compartment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Compartment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCompartmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCompartmentLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CompartmentLifecycleStateEnum Enum with underlying type: string
 type CompartmentLifecycleStateEnum string
 
@@ -87,7 +107,7 @@ const (
 	CompartmentLifecycleStateDeleted  CompartmentLifecycleStateEnum = "DELETED"
 )
 
-var mappingCompartmentLifecycleState = map[string]CompartmentLifecycleStateEnum{
+var mappingCompartmentLifecycleStateEnum = map[string]CompartmentLifecycleStateEnum{
 	"CREATING": CompartmentLifecycleStateCreating,
 	"ACTIVE":   CompartmentLifecycleStateActive,
 	"INACTIVE": CompartmentLifecycleStateInactive,
@@ -98,8 +118,19 @@ var mappingCompartmentLifecycleState = map[string]CompartmentLifecycleStateEnum{
 // GetCompartmentLifecycleStateEnumValues Enumerates the set of values for CompartmentLifecycleStateEnum
 func GetCompartmentLifecycleStateEnumValues() []CompartmentLifecycleStateEnum {
 	values := make([]CompartmentLifecycleStateEnum, 0)
-	for _, v := range mappingCompartmentLifecycleState {
+	for _, v := range mappingCompartmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCompartmentLifecycleStateEnumStringValues Enumerates the set of values in String for CompartmentLifecycleStateEnum
+func GetCompartmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -18,7 +18,7 @@ const (
 	OAuthSchemesBasic OAuthSchemesEnum = "BASIC"
 )
 
-var mappingOAuthSchemes = map[string]OAuthSchemesEnum{
+var mappingOAuthSchemesEnum = map[string]OAuthSchemesEnum{
 	"NONE":  OAuthSchemesNone,
 	"BASIC": OAuthSchemesBasic,
 }
@@ -26,8 +26,16 @@ var mappingOAuthSchemes = map[string]OAuthSchemesEnum{
 // GetOAuthSchemesEnumValues Enumerates the set of values for OAuthSchemesEnum
 func GetOAuthSchemesEnumValues() []OAuthSchemesEnum {
 	values := make([]OAuthSchemesEnum, 0)
-	for _, v := range mappingOAuthSchemes {
+	for _, v := range mappingOAuthSchemesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOAuthSchemesEnumStringValues Enumerates the set of values in String for OAuthSchemesEnum
+func GetOAuthSchemesEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"BASIC",
+	}
 }

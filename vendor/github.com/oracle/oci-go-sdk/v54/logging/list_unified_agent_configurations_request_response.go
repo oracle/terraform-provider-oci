@@ -5,15 +5,13 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListUnifiedAgentConfigurationsRequest wrapper for the ListUnifiedAgentConfigurations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListUnifiedAgentConfigurations.go.html to see an example of how to use ListUnifiedAgentConfigurationsRequest.
 type ListUnifiedAgentConfigurationsRequest struct {
 
 	// Compartment OCID to list resources in. See compartmentIdInSubtree
@@ -29,7 +27,7 @@ type ListUnifiedAgentConfigurationsRequest struct {
 	// The OCID of a group or a dynamic group.
 	GroupId *string `mandatory:"false" contributesTo:"query" name:"groupId"`
 
-	// Resource name
+	// Resource name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Lifecycle state of the log object
@@ -65,6 +63,10 @@ func (request ListUnifiedAgentConfigurationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListUnifiedAgentConfigurationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +80,26 @@ func (request ListUnifiedAgentConfigurationsRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListUnifiedAgentConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListUnifiedAgentConfigurationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListUnifiedAgentConfigurationsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListUnifiedAgentConfigurationsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUnifiedAgentConfigurationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListUnifiedAgentConfigurationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUnifiedAgentConfigurationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListUnifiedAgentConfigurationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListUnifiedAgentConfigurationsResponse wrapper for the ListUnifiedAgentConfigurations operation
@@ -126,7 +148,7 @@ const (
 	ListUnifiedAgentConfigurationsLifecycleStateFailed   ListUnifiedAgentConfigurationsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListUnifiedAgentConfigurationsLifecycleState = map[string]ListUnifiedAgentConfigurationsLifecycleStateEnum{
+var mappingListUnifiedAgentConfigurationsLifecycleStateEnum = map[string]ListUnifiedAgentConfigurationsLifecycleStateEnum{
 	"CREATING": ListUnifiedAgentConfigurationsLifecycleStateCreating,
 	"ACTIVE":   ListUnifiedAgentConfigurationsLifecycleStateActive,
 	"UPDATING": ListUnifiedAgentConfigurationsLifecycleStateUpdating,
@@ -138,10 +160,22 @@ var mappingListUnifiedAgentConfigurationsLifecycleState = map[string]ListUnified
 // GetListUnifiedAgentConfigurationsLifecycleStateEnumValues Enumerates the set of values for ListUnifiedAgentConfigurationsLifecycleStateEnum
 func GetListUnifiedAgentConfigurationsLifecycleStateEnumValues() []ListUnifiedAgentConfigurationsLifecycleStateEnum {
 	values := make([]ListUnifiedAgentConfigurationsLifecycleStateEnum, 0)
-	for _, v := range mappingListUnifiedAgentConfigurationsLifecycleState {
+	for _, v := range mappingListUnifiedAgentConfigurationsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUnifiedAgentConfigurationsLifecycleStateEnumStringValues Enumerates the set of values in String for ListUnifiedAgentConfigurationsLifecycleStateEnum
+func GetListUnifiedAgentConfigurationsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"INACTIVE",
+		"DELETING",
+		"FAILED",
+	}
 }
 
 // ListUnifiedAgentConfigurationsSortByEnum Enum with underlying type: string
@@ -153,7 +187,7 @@ const (
 	ListUnifiedAgentConfigurationsSortByDisplayname ListUnifiedAgentConfigurationsSortByEnum = "displayName"
 )
 
-var mappingListUnifiedAgentConfigurationsSortBy = map[string]ListUnifiedAgentConfigurationsSortByEnum{
+var mappingListUnifiedAgentConfigurationsSortByEnum = map[string]ListUnifiedAgentConfigurationsSortByEnum{
 	"timeCreated": ListUnifiedAgentConfigurationsSortByTimecreated,
 	"displayName": ListUnifiedAgentConfigurationsSortByDisplayname,
 }
@@ -161,10 +195,18 @@ var mappingListUnifiedAgentConfigurationsSortBy = map[string]ListUnifiedAgentCon
 // GetListUnifiedAgentConfigurationsSortByEnumValues Enumerates the set of values for ListUnifiedAgentConfigurationsSortByEnum
 func GetListUnifiedAgentConfigurationsSortByEnumValues() []ListUnifiedAgentConfigurationsSortByEnum {
 	values := make([]ListUnifiedAgentConfigurationsSortByEnum, 0)
-	for _, v := range mappingListUnifiedAgentConfigurationsSortBy {
+	for _, v := range mappingListUnifiedAgentConfigurationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUnifiedAgentConfigurationsSortByEnumStringValues Enumerates the set of values in String for ListUnifiedAgentConfigurationsSortByEnum
+func GetListUnifiedAgentConfigurationsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListUnifiedAgentConfigurationsSortOrderEnum Enum with underlying type: string
@@ -176,7 +218,7 @@ const (
 	ListUnifiedAgentConfigurationsSortOrderDesc ListUnifiedAgentConfigurationsSortOrderEnum = "DESC"
 )
 
-var mappingListUnifiedAgentConfigurationsSortOrder = map[string]ListUnifiedAgentConfigurationsSortOrderEnum{
+var mappingListUnifiedAgentConfigurationsSortOrderEnum = map[string]ListUnifiedAgentConfigurationsSortOrderEnum{
 	"ASC":  ListUnifiedAgentConfigurationsSortOrderAsc,
 	"DESC": ListUnifiedAgentConfigurationsSortOrderDesc,
 }
@@ -184,8 +226,16 @@ var mappingListUnifiedAgentConfigurationsSortOrder = map[string]ListUnifiedAgent
 // GetListUnifiedAgentConfigurationsSortOrderEnumValues Enumerates the set of values for ListUnifiedAgentConfigurationsSortOrderEnum
 func GetListUnifiedAgentConfigurationsSortOrderEnumValues() []ListUnifiedAgentConfigurationsSortOrderEnum {
 	values := make([]ListUnifiedAgentConfigurationsSortOrderEnum, 0)
-	for _, v := range mappingListUnifiedAgentConfigurationsSortOrder {
+	for _, v := range mappingListUnifiedAgentConfigurationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUnifiedAgentConfigurationsSortOrderEnumStringValues Enumerates the set of values in String for ListUnifiedAgentConfigurationsSortOrderEnum
+func GetListUnifiedAgentConfigurationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

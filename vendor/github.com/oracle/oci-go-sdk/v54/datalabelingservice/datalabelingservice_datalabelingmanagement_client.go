@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// DataLabelingService API
+// Data Labeling Management API
 //
-// A description of the DataLabelingService API
+// Use Data Labeling Management API to create, list, edit & delete datasets.
 //
 
 package datalabelingservice
@@ -85,10 +85,6 @@ func (client *DataLabelingManagementClient) ConfigurationProvider() *common.Conf
 }
 
 // AddDatasetLabels Add Labels to the Dataset LabelSet until the maximum number of Labels has been reached.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/AddDatasetLabels.go.html to see an example of how to use AddDatasetLabels API.
 func (client DataLabelingManagementClient) AddDatasetLabels(ctx context.Context, request AddDatasetLabelsRequest) (response AddDatasetLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,10 +141,6 @@ func (client DataLabelingManagementClient) addDatasetLabels(ctx context.Context,
 }
 
 // ChangeDatasetCompartment Moves a Dataset resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ChangeDatasetCompartment.go.html to see an example of how to use ChangeDatasetCompartment API.
 func (client DataLabelingManagementClient) ChangeDatasetCompartment(ctx context.Context, request ChangeDatasetCompartmentRequest) (response ChangeDatasetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -200,10 +192,6 @@ func (client DataLabelingManagementClient) changeDatasetCompartment(ctx context.
 }
 
 // CreateDataset Creates a new Dataset.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/CreateDataset.go.html to see an example of how to use CreateDataset API.
 func (client DataLabelingManagementClient) CreateDataset(ctx context.Context, request CreateDatasetRequest) (response CreateDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -260,10 +248,6 @@ func (client DataLabelingManagementClient) createDataset(ctx context.Context, re
 }
 
 // DeleteDataset Deletes a Dataset resource by identifier
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/DeleteDataset.go.html to see an example of how to use DeleteDataset API.
 func (client DataLabelingManagementClient) DeleteDataset(ctx context.Context, request DeleteDatasetRequest) (response DeleteDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -315,10 +299,6 @@ func (client DataLabelingManagementClient) deleteDataset(ctx context.Context, re
 }
 
 // GenerateDatasetRecords Generates Record resources from the Dataset's data source
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/GenerateDatasetRecords.go.html to see an example of how to use GenerateDatasetRecords API.
 func (client DataLabelingManagementClient) GenerateDatasetRecords(ctx context.Context, request GenerateDatasetRecordsRequest) (response GenerateDatasetRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -375,10 +355,6 @@ func (client DataLabelingManagementClient) generateDatasetRecords(ctx context.Co
 }
 
 // GetDataset Gets a Dataset by identifier
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/GetDataset.go.html to see an example of how to use GetDataset API.
 func (client DataLabelingManagementClient) GetDataset(ctx context.Context, request GetDatasetRequest) (response GetDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -430,10 +406,6 @@ func (client DataLabelingManagementClient) getDataset(ctx context.Context, reque
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client DataLabelingManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -485,10 +457,6 @@ func (client DataLabelingManagementClient) getWorkRequest(ctx context.Context, r
 }
 
 // ListAnnotationFormats These are a static list in a given region.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ListAnnotationFormats.go.html to see an example of how to use ListAnnotationFormats API.
 func (client DataLabelingManagementClient) ListAnnotationFormats(ctx context.Context, request ListAnnotationFormatsRequest) (response ListAnnotationFormatsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -540,10 +508,6 @@ func (client DataLabelingManagementClient) listAnnotationFormats(ctx context.Con
 }
 
 // ListDatasets Returns a list of Datasets.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ListDatasets.go.html to see an example of how to use ListDatasets API.
 func (client DataLabelingManagementClient) ListDatasets(ctx context.Context, request ListDatasetsRequest) (response ListDatasetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -595,10 +559,6 @@ func (client DataLabelingManagementClient) listDatasets(ctx context.Context, req
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client DataLabelingManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -650,10 +610,6 @@ func (client DataLabelingManagementClient) listWorkRequestErrors(ctx context.Con
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client DataLabelingManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -705,10 +661,6 @@ func (client DataLabelingManagementClient) listWorkRequestLogs(ctx context.Conte
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client DataLabelingManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -760,10 +712,6 @@ func (client DataLabelingManagementClient) listWorkRequests(ctx context.Context,
 }
 
 // RemoveDatasetLabels Removes the labels from the Dataset Labelset.  Labels can only be removed if there are no Annotations associated with the Dataset that reference the Label names.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/RemoveDatasetLabels.go.html to see an example of how to use RemoveDatasetLabels API.
 func (client DataLabelingManagementClient) RemoveDatasetLabels(ctx context.Context, request RemoveDatasetLabelsRequest) (response RemoveDatasetLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -820,10 +768,6 @@ func (client DataLabelingManagementClient) removeDatasetLabels(ctx context.Conte
 }
 
 // RenameDatasetLabels Renames the labels from the Dataset Labelset.  Labels that are renamed will be reflected in Annotations associated with the Dataset that reference the Label names.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/RenameDatasetLabels.go.html to see an example of how to use RenameDatasetLabels API.
 func (client DataLabelingManagementClient) RenameDatasetLabels(ctx context.Context, request RenameDatasetLabelsRequest) (response RenameDatasetLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -881,10 +825,6 @@ func (client DataLabelingManagementClient) renameDatasetLabels(ctx context.Conte
 
 // SnapshotDataset Writes the dataset records and annotations in a consolidated format out to an object storage reference for consumption.
 // While the snapshot takes place, there may be a time while records and annotations cannot be created to ensure the snapshot is a point in time.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/SnapshotDataset.go.html to see an example of how to use SnapshotDataset API.
 func (client DataLabelingManagementClient) SnapshotDataset(ctx context.Context, request SnapshotDatasetRequest) (response SnapshotDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -941,10 +881,6 @@ func (client DataLabelingManagementClient) snapshotDataset(ctx context.Context, 
 }
 
 // UpdateDataset Updates the Dataset
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/UpdateDataset.go.html to see an example of how to use UpdateDataset API.
 func (client DataLabelingManagementClient) UpdateDataset(ctx context.Context, request UpdateDatasetRequest) (response UpdateDatasetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

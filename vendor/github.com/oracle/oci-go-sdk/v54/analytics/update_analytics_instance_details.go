@@ -10,7 +10,9 @@
 package analytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateAnalyticsInstanceDetails Input payload to update an Analytics instance. Fields that are not provided
@@ -39,4 +41,19 @@ type UpdateAnalyticsInstanceDetails struct {
 
 func (m UpdateAnalyticsInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateAnalyticsInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLicenseTypeEnum[string(m.LicenseType)]; !ok && m.LicenseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

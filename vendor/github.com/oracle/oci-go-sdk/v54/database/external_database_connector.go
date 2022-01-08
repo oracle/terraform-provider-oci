@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExternalDatabaseConnector An Oracle Cloud Infrastructure resource used to connect to an external Oracle Database.
@@ -179,6 +181,21 @@ func (m externaldatabaseconnector) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m externaldatabaseconnector) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExternalDatabaseConnectorLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExternalDatabaseConnectorLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExternalDatabaseConnectorLifecycleStateEnum Enum with underlying type: string
 type ExternalDatabaseConnectorLifecycleStateEnum string
 
@@ -192,7 +209,7 @@ const (
 	ExternalDatabaseConnectorLifecycleStateFailed       ExternalDatabaseConnectorLifecycleStateEnum = "FAILED"
 )
 
-var mappingExternalDatabaseConnectorLifecycleState = map[string]ExternalDatabaseConnectorLifecycleStateEnum{
+var mappingExternalDatabaseConnectorLifecycleStateEnum = map[string]ExternalDatabaseConnectorLifecycleStateEnum{
 	"PROVISIONING": ExternalDatabaseConnectorLifecycleStateProvisioning,
 	"AVAILABLE":    ExternalDatabaseConnectorLifecycleStateAvailable,
 	"UPDATING":     ExternalDatabaseConnectorLifecycleStateUpdating,
@@ -204,10 +221,22 @@ var mappingExternalDatabaseConnectorLifecycleState = map[string]ExternalDatabase
 // GetExternalDatabaseConnectorLifecycleStateEnumValues Enumerates the set of values for ExternalDatabaseConnectorLifecycleStateEnum
 func GetExternalDatabaseConnectorLifecycleStateEnumValues() []ExternalDatabaseConnectorLifecycleStateEnum {
 	values := make([]ExternalDatabaseConnectorLifecycleStateEnum, 0)
-	for _, v := range mappingExternalDatabaseConnectorLifecycleState {
+	for _, v := range mappingExternalDatabaseConnectorLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalDatabaseConnectorLifecycleStateEnumStringValues Enumerates the set of values in String for ExternalDatabaseConnectorLifecycleStateEnum
+func GetExternalDatabaseConnectorLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }
 
 // ExternalDatabaseConnectorConnectorTypeEnum Enum with underlying type: string
@@ -218,15 +247,22 @@ const (
 	ExternalDatabaseConnectorConnectorTypeMacs ExternalDatabaseConnectorConnectorTypeEnum = "MACS"
 )
 
-var mappingExternalDatabaseConnectorConnectorType = map[string]ExternalDatabaseConnectorConnectorTypeEnum{
+var mappingExternalDatabaseConnectorConnectorTypeEnum = map[string]ExternalDatabaseConnectorConnectorTypeEnum{
 	"MACS": ExternalDatabaseConnectorConnectorTypeMacs,
 }
 
 // GetExternalDatabaseConnectorConnectorTypeEnumValues Enumerates the set of values for ExternalDatabaseConnectorConnectorTypeEnum
 func GetExternalDatabaseConnectorConnectorTypeEnumValues() []ExternalDatabaseConnectorConnectorTypeEnum {
 	values := make([]ExternalDatabaseConnectorConnectorTypeEnum, 0)
-	for _, v := range mappingExternalDatabaseConnectorConnectorType {
+	for _, v := range mappingExternalDatabaseConnectorConnectorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalDatabaseConnectorConnectorTypeEnumStringValues Enumerates the set of values in String for ExternalDatabaseConnectorConnectorTypeEnum
+func GetExternalDatabaseConnectorConnectorTypeEnumStringValues() []string {
+	return []string{
+		"MACS",
+	}
 }

@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListResourceCategoriesRequest wrapper for the ListResourceCategories operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListResourceCategories.go.html to see an example of how to use ListResourceCategoriesRequest.
 type ListResourceCategoriesRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -57,6 +55,10 @@ func (request ListResourceCategoriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListResourceCategoriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,23 @@ func (request ListResourceCategoriesRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListResourceCategoriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListResourceCategoriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListResourceCategoriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListResourceCategoriesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResourceCategoriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListResourceCategoriesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListResourceCategoriesResponse wrapper for the ListResourceCategories operation
@@ -113,7 +132,7 @@ const (
 	ListResourceCategoriesSortOrderDesc ListResourceCategoriesSortOrderEnum = "DESC"
 )
 
-var mappingListResourceCategoriesSortOrder = map[string]ListResourceCategoriesSortOrderEnum{
+var mappingListResourceCategoriesSortOrderEnum = map[string]ListResourceCategoriesSortOrderEnum{
 	"ASC":  ListResourceCategoriesSortOrderAsc,
 	"DESC": ListResourceCategoriesSortOrderDesc,
 }
@@ -121,10 +140,18 @@ var mappingListResourceCategoriesSortOrder = map[string]ListResourceCategoriesSo
 // GetListResourceCategoriesSortOrderEnumValues Enumerates the set of values for ListResourceCategoriesSortOrderEnum
 func GetListResourceCategoriesSortOrderEnumValues() []ListResourceCategoriesSortOrderEnum {
 	values := make([]ListResourceCategoriesSortOrderEnum, 0)
-	for _, v := range mappingListResourceCategoriesSortOrder {
+	for _, v := range mappingListResourceCategoriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResourceCategoriesSortOrderEnumStringValues Enumerates the set of values in String for ListResourceCategoriesSortOrderEnum
+func GetListResourceCategoriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListResourceCategoriesSortByEnum Enum with underlying type: string
@@ -137,7 +164,7 @@ const (
 	ListResourceCategoriesSortByResourceid   ListResourceCategoriesSortByEnum = "resourceId"
 )
 
-var mappingListResourceCategoriesSortBy = map[string]ListResourceCategoriesSortByEnum{
+var mappingListResourceCategoriesSortByEnum = map[string]ListResourceCategoriesSortByEnum{
 	"resourceType": ListResourceCategoriesSortByResourcetype,
 	"categoryName": ListResourceCategoriesSortByCategoryname,
 	"resourceId":   ListResourceCategoriesSortByResourceid,
@@ -146,8 +173,17 @@ var mappingListResourceCategoriesSortBy = map[string]ListResourceCategoriesSortB
 // GetListResourceCategoriesSortByEnumValues Enumerates the set of values for ListResourceCategoriesSortByEnum
 func GetListResourceCategoriesSortByEnumValues() []ListResourceCategoriesSortByEnum {
 	values := make([]ListResourceCategoriesSortByEnum, 0)
-	for _, v := range mappingListResourceCategoriesSortBy {
+	for _, v := range mappingListResourceCategoriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResourceCategoriesSortByEnumStringValues Enumerates the set of values in String for ListResourceCategoriesSortByEnum
+func GetListResourceCategoriesSortByEnumStringValues() []string {
+	return []string{
+		"resourceType",
+		"categoryName",
+		"resourceId",
+	}
 }

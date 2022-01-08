@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DeployArtifact Artifacts are deployment manifests that are referenced in a pipeline stage for automated deployment to the target environment.  DevOps artifacts can be an OCI Container image repository, Kubernetes manifest, an Artifact Registry artifact, or defined inline.
@@ -64,6 +66,27 @@ type DeployArtifact struct {
 
 func (m DeployArtifact) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DeployArtifact) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDeployArtifactDeployArtifactTypeEnum[string(m.DeployArtifactType)]; !ok && m.DeployArtifactType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeployArtifactType: %s. Supported values are: %s.", m.DeployArtifactType, strings.Join(GetDeployArtifactDeployArtifactTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDeployArtifactArgumentSubstitutionModeEnum[string(m.ArgumentSubstitutionMode)]; !ok && m.ArgumentSubstitutionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArgumentSubstitutionMode: %s. Supported values are: %s.", m.ArgumentSubstitutionMode, strings.Join(GetDeployArtifactArgumentSubstitutionModeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDeployArtifactLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeployArtifactLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -144,7 +167,7 @@ const (
 	DeployArtifactDeployArtifactTypeDockerImage        DeployArtifactDeployArtifactTypeEnum = "DOCKER_IMAGE"
 )
 
-var mappingDeployArtifactDeployArtifactType = map[string]DeployArtifactDeployArtifactTypeEnum{
+var mappingDeployArtifactDeployArtifactTypeEnum = map[string]DeployArtifactDeployArtifactTypeEnum{
 	"DEPLOYMENT_SPEC":     DeployArtifactDeployArtifactTypeDeploymentSpec,
 	"JOB_SPEC":            DeployArtifactDeployArtifactTypeJobSpec,
 	"KUBERNETES_MANIFEST": DeployArtifactDeployArtifactTypeKubernetesManifest,
@@ -155,10 +178,21 @@ var mappingDeployArtifactDeployArtifactType = map[string]DeployArtifactDeployArt
 // GetDeployArtifactDeployArtifactTypeEnumValues Enumerates the set of values for DeployArtifactDeployArtifactTypeEnum
 func GetDeployArtifactDeployArtifactTypeEnumValues() []DeployArtifactDeployArtifactTypeEnum {
 	values := make([]DeployArtifactDeployArtifactTypeEnum, 0)
-	for _, v := range mappingDeployArtifactDeployArtifactType {
+	for _, v := range mappingDeployArtifactDeployArtifactTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployArtifactDeployArtifactTypeEnumStringValues Enumerates the set of values in String for DeployArtifactDeployArtifactTypeEnum
+func GetDeployArtifactDeployArtifactTypeEnumStringValues() []string {
+	return []string{
+		"DEPLOYMENT_SPEC",
+		"JOB_SPEC",
+		"KUBERNETES_MANIFEST",
+		"GENERIC_FILE",
+		"DOCKER_IMAGE",
+	}
 }
 
 // DeployArtifactArgumentSubstitutionModeEnum Enum with underlying type: string
@@ -170,7 +204,7 @@ const (
 	DeployArtifactArgumentSubstitutionModeSubstitutePlaceholders DeployArtifactArgumentSubstitutionModeEnum = "SUBSTITUTE_PLACEHOLDERS"
 )
 
-var mappingDeployArtifactArgumentSubstitutionMode = map[string]DeployArtifactArgumentSubstitutionModeEnum{
+var mappingDeployArtifactArgumentSubstitutionModeEnum = map[string]DeployArtifactArgumentSubstitutionModeEnum{
 	"NONE":                    DeployArtifactArgumentSubstitutionModeNone,
 	"SUBSTITUTE_PLACEHOLDERS": DeployArtifactArgumentSubstitutionModeSubstitutePlaceholders,
 }
@@ -178,10 +212,18 @@ var mappingDeployArtifactArgumentSubstitutionMode = map[string]DeployArtifactArg
 // GetDeployArtifactArgumentSubstitutionModeEnumValues Enumerates the set of values for DeployArtifactArgumentSubstitutionModeEnum
 func GetDeployArtifactArgumentSubstitutionModeEnumValues() []DeployArtifactArgumentSubstitutionModeEnum {
 	values := make([]DeployArtifactArgumentSubstitutionModeEnum, 0)
-	for _, v := range mappingDeployArtifactArgumentSubstitutionMode {
+	for _, v := range mappingDeployArtifactArgumentSubstitutionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployArtifactArgumentSubstitutionModeEnumStringValues Enumerates the set of values in String for DeployArtifactArgumentSubstitutionModeEnum
+func GetDeployArtifactArgumentSubstitutionModeEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"SUBSTITUTE_PLACEHOLDERS",
+	}
 }
 
 // DeployArtifactLifecycleStateEnum Enum with underlying type: string
@@ -197,7 +239,7 @@ const (
 	DeployArtifactLifecycleStateFailed   DeployArtifactLifecycleStateEnum = "FAILED"
 )
 
-var mappingDeployArtifactLifecycleState = map[string]DeployArtifactLifecycleStateEnum{
+var mappingDeployArtifactLifecycleStateEnum = map[string]DeployArtifactLifecycleStateEnum{
 	"CREATING": DeployArtifactLifecycleStateCreating,
 	"UPDATING": DeployArtifactLifecycleStateUpdating,
 	"ACTIVE":   DeployArtifactLifecycleStateActive,
@@ -209,8 +251,20 @@ var mappingDeployArtifactLifecycleState = map[string]DeployArtifactLifecycleStat
 // GetDeployArtifactLifecycleStateEnumValues Enumerates the set of values for DeployArtifactLifecycleStateEnum
 func GetDeployArtifactLifecycleStateEnumValues() []DeployArtifactLifecycleStateEnum {
 	values := make([]DeployArtifactLifecycleStateEnum, 0)
-	for _, v := range mappingDeployArtifactLifecycleState {
+	for _, v := range mappingDeployArtifactLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployArtifactLifecycleStateEnumStringValues Enumerates the set of values in String for DeployArtifactLifecycleStateEnum
+func GetDeployArtifactLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

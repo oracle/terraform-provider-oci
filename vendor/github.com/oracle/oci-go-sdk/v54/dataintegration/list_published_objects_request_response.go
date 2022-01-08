@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListPublishedObjectsRequest wrapper for the ListPublishedObjects operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListPublishedObjects.go.html to see an example of how to use ListPublishedObjectsRequest.
 type ListPublishedObjectsRequest struct {
 
 	// The workspace ID.
@@ -76,6 +74,10 @@ func (request ListPublishedObjectsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPublishedObjectsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -89,6 +91,23 @@ func (request ListPublishedObjectsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPublishedObjectsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPublishedObjectsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPublishedObjectsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPublishedObjectsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPublishedObjectsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPublishedObjectsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPublishedObjectsResponse wrapper for the ListPublishedObjects operation
@@ -132,7 +151,7 @@ const (
 	ListPublishedObjectsSortOrderDesc ListPublishedObjectsSortOrderEnum = "DESC"
 )
 
-var mappingListPublishedObjectsSortOrder = map[string]ListPublishedObjectsSortOrderEnum{
+var mappingListPublishedObjectsSortOrderEnum = map[string]ListPublishedObjectsSortOrderEnum{
 	"ASC":  ListPublishedObjectsSortOrderAsc,
 	"DESC": ListPublishedObjectsSortOrderDesc,
 }
@@ -140,10 +159,18 @@ var mappingListPublishedObjectsSortOrder = map[string]ListPublishedObjectsSortOr
 // GetListPublishedObjectsSortOrderEnumValues Enumerates the set of values for ListPublishedObjectsSortOrderEnum
 func GetListPublishedObjectsSortOrderEnumValues() []ListPublishedObjectsSortOrderEnum {
 	values := make([]ListPublishedObjectsSortOrderEnum, 0)
-	for _, v := range mappingListPublishedObjectsSortOrder {
+	for _, v := range mappingListPublishedObjectsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublishedObjectsSortOrderEnumStringValues Enumerates the set of values in String for ListPublishedObjectsSortOrderEnum
+func GetListPublishedObjectsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListPublishedObjectsSortByEnum Enum with underlying type: string
@@ -155,7 +182,7 @@ const (
 	ListPublishedObjectsSortByDisplayName ListPublishedObjectsSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListPublishedObjectsSortBy = map[string]ListPublishedObjectsSortByEnum{
+var mappingListPublishedObjectsSortByEnum = map[string]ListPublishedObjectsSortByEnum{
 	"TIME_CREATED": ListPublishedObjectsSortByTimeCreated,
 	"DISPLAY_NAME": ListPublishedObjectsSortByDisplayName,
 }
@@ -163,8 +190,16 @@ var mappingListPublishedObjectsSortBy = map[string]ListPublishedObjectsSortByEnu
 // GetListPublishedObjectsSortByEnumValues Enumerates the set of values for ListPublishedObjectsSortByEnum
 func GetListPublishedObjectsSortByEnumValues() []ListPublishedObjectsSortByEnum {
 	values := make([]ListPublishedObjectsSortByEnum, 0)
-	for _, v := range mappingListPublishedObjectsSortBy {
+	for _, v := range mappingListPublishedObjectsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublishedObjectsSortByEnumStringValues Enumerates the set of values in String for ListPublishedObjectsSortByEnum
+func GetListPublishedObjectsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

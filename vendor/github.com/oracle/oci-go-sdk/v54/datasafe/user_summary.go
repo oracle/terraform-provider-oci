@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UserSummary The summary of information about the database user. It includes details such as user type, account status,
@@ -64,6 +66,39 @@ func (m UserSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUserSummaryUserCategoryEnum[string(m.UserCategory)]; !ok && m.UserCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UserCategory: %s. Supported values are: %s.", m.UserCategory, strings.Join(GetUserSummaryUserCategoryEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUserSummaryAccountStatusEnum[string(m.AccountStatus)]; !ok && m.AccountStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccountStatus: %s. Supported values are: %s.", m.AccountStatus, strings.Join(GetUserSummaryAccountStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUserSummaryAuthenticationTypeEnum[string(m.AuthenticationType)]; !ok && m.AuthenticationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationType: %s. Supported values are: %s.", m.AuthenticationType, strings.Join(GetUserSummaryAuthenticationTypeEnumStringValues(), ",")))
+	}
+	for _, val := range m.UserTypes {
+		if _, ok := mappingUserSummaryUserTypesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UserTypes: %s. Supported values are: %s.", val, strings.Join(GetUserSummaryUserTypesEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range m.AdminRoles {
+		if _, ok := mappingUserSummaryAdminRolesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdminRoles: %s. Supported values are: %s.", val, strings.Join(GetUserSummaryAdminRolesEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UserSummaryUserCategoryEnum Enum with underlying type: string
 type UserSummaryUserCategoryEnum string
 
@@ -75,7 +110,7 @@ const (
 	UserSummaryUserCategoryLow      UserSummaryUserCategoryEnum = "LOW"
 )
 
-var mappingUserSummaryUserCategory = map[string]UserSummaryUserCategoryEnum{
+var mappingUserSummaryUserCategoryEnum = map[string]UserSummaryUserCategoryEnum{
 	"CRITICAL": UserSummaryUserCategoryCritical,
 	"HIGH":     UserSummaryUserCategoryHigh,
 	"MEDIUM":   UserSummaryUserCategoryMedium,
@@ -85,10 +120,20 @@ var mappingUserSummaryUserCategory = map[string]UserSummaryUserCategoryEnum{
 // GetUserSummaryUserCategoryEnumValues Enumerates the set of values for UserSummaryUserCategoryEnum
 func GetUserSummaryUserCategoryEnumValues() []UserSummaryUserCategoryEnum {
 	values := make([]UserSummaryUserCategoryEnum, 0)
-	for _, v := range mappingUserSummaryUserCategory {
+	for _, v := range mappingUserSummaryUserCategoryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserSummaryUserCategoryEnumStringValues Enumerates the set of values in String for UserSummaryUserCategoryEnum
+func GetUserSummaryUserCategoryEnumStringValues() []string {
+	return []string{
+		"CRITICAL",
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+	}
 }
 
 // UserSummaryAccountStatusEnum Enum with underlying type: string
@@ -103,7 +148,7 @@ const (
 	UserSummaryAccountStatusNone             UserSummaryAccountStatusEnum = "NONE"
 )
 
-var mappingUserSummaryAccountStatus = map[string]UserSummaryAccountStatusEnum{
+var mappingUserSummaryAccountStatusEnum = map[string]UserSummaryAccountStatusEnum{
 	"OPEN":               UserSummaryAccountStatusOpen,
 	"LOCKED":             UserSummaryAccountStatusLocked,
 	"EXPIRED":            UserSummaryAccountStatusExpired,
@@ -114,10 +159,21 @@ var mappingUserSummaryAccountStatus = map[string]UserSummaryAccountStatusEnum{
 // GetUserSummaryAccountStatusEnumValues Enumerates the set of values for UserSummaryAccountStatusEnum
 func GetUserSummaryAccountStatusEnumValues() []UserSummaryAccountStatusEnum {
 	values := make([]UserSummaryAccountStatusEnum, 0)
-	for _, v := range mappingUserSummaryAccountStatus {
+	for _, v := range mappingUserSummaryAccountStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserSummaryAccountStatusEnumStringValues Enumerates the set of values in String for UserSummaryAccountStatusEnum
+func GetUserSummaryAccountStatusEnumStringValues() []string {
+	return []string{
+		"OPEN",
+		"LOCKED",
+		"EXPIRED",
+		"EXPIRED_AND_LOCKED",
+		"NONE",
+	}
 }
 
 // UserSummaryAuthenticationTypeEnum Enum with underlying type: string
@@ -129,7 +185,7 @@ const (
 	UserSummaryAuthenticationTypeNone     UserSummaryAuthenticationTypeEnum = "NONE"
 )
 
-var mappingUserSummaryAuthenticationType = map[string]UserSummaryAuthenticationTypeEnum{
+var mappingUserSummaryAuthenticationTypeEnum = map[string]UserSummaryAuthenticationTypeEnum{
 	"PASSWORD": UserSummaryAuthenticationTypePassword,
 	"NONE":     UserSummaryAuthenticationTypeNone,
 }
@@ -137,10 +193,18 @@ var mappingUserSummaryAuthenticationType = map[string]UserSummaryAuthenticationT
 // GetUserSummaryAuthenticationTypeEnumValues Enumerates the set of values for UserSummaryAuthenticationTypeEnum
 func GetUserSummaryAuthenticationTypeEnumValues() []UserSummaryAuthenticationTypeEnum {
 	values := make([]UserSummaryAuthenticationTypeEnum, 0)
-	for _, v := range mappingUserSummaryAuthenticationType {
+	for _, v := range mappingUserSummaryAuthenticationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserSummaryAuthenticationTypeEnumStringValues Enumerates the set of values in String for UserSummaryAuthenticationTypeEnum
+func GetUserSummaryAuthenticationTypeEnumStringValues() []string {
+	return []string{
+		"PASSWORD",
+		"NONE",
+	}
 }
 
 // UserSummaryUserTypesEnum Enum with underlying type: string
@@ -155,7 +219,7 @@ const (
 	UserSummaryUserTypesNonPrivileged   UserSummaryUserTypesEnum = "NON_PRIVILEGED"
 )
 
-var mappingUserSummaryUserTypes = map[string]UserSummaryUserTypesEnum{
+var mappingUserSummaryUserTypesEnum = map[string]UserSummaryUserTypesEnum{
 	"ADMIN_PRIVILEGED": UserSummaryUserTypesAdminPrivileged,
 	"APPLICATION":      UserSummaryUserTypesApplication,
 	"PRIVILEGED":       UserSummaryUserTypesPrivileged,
@@ -166,10 +230,21 @@ var mappingUserSummaryUserTypes = map[string]UserSummaryUserTypesEnum{
 // GetUserSummaryUserTypesEnumValues Enumerates the set of values for UserSummaryUserTypesEnum
 func GetUserSummaryUserTypesEnumValues() []UserSummaryUserTypesEnum {
 	values := make([]UserSummaryUserTypesEnum, 0)
-	for _, v := range mappingUserSummaryUserTypes {
+	for _, v := range mappingUserSummaryUserTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserSummaryUserTypesEnumStringValues Enumerates the set of values in String for UserSummaryUserTypesEnum
+func GetUserSummaryUserTypesEnumStringValues() []string {
+	return []string{
+		"ADMIN_PRIVILEGED",
+		"APPLICATION",
+		"PRIVILEGED",
+		"SCHEMA",
+		"NON_PRIVILEGED",
+	}
 }
 
 // UserSummaryAdminRolesEnum Enum with underlying type: string
@@ -183,7 +258,7 @@ const (
 	UserSummaryAdminRolesAuditAdmin UserSummaryAdminRolesEnum = "AUDIT_ADMIN"
 )
 
-var mappingUserSummaryAdminRoles = map[string]UserSummaryAdminRolesEnum{
+var mappingUserSummaryAdminRolesEnum = map[string]UserSummaryAdminRolesEnum{
 	"PDB_DBA":     UserSummaryAdminRolesPdbDba,
 	"DBA":         UserSummaryAdminRolesDba,
 	"DV_ADMIN":    UserSummaryAdminRolesDvAdmin,
@@ -193,8 +268,18 @@ var mappingUserSummaryAdminRoles = map[string]UserSummaryAdminRolesEnum{
 // GetUserSummaryAdminRolesEnumValues Enumerates the set of values for UserSummaryAdminRolesEnum
 func GetUserSummaryAdminRolesEnumValues() []UserSummaryAdminRolesEnum {
 	values := make([]UserSummaryAdminRolesEnum, 0)
-	for _, v := range mappingUserSummaryAdminRoles {
+	for _, v := range mappingUserSummaryAdminRolesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserSummaryAdminRolesEnumStringValues Enumerates the set of values in String for UserSummaryAdminRolesEnum
+func GetUserSummaryAdminRolesEnumStringValues() []string {
+	return []string{
+		"PDB_DBA",
+		"DBA",
+		"DV_ADMIN",
+		"AUDIT_ADMIN",
+	}
 }

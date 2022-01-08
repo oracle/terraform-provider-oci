@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateBucketDetails To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
@@ -39,6 +41,12 @@ type UpdateBucketDetails struct {
 	// is allowed for the `GetObject`, `HeadObject`, and `ListObjects` operations. When `ObjectReadWithoutList` is enabled
 	// on the bucket, public access is allowed for the `GetObject` and `HeadObject` operations.
 	PublicAccessType UpdateBucketDetailsPublicAccessTypeEnum `mandatory:"false" json:"publicAccessType,omitempty"`
+
+	// The type of requests for which object-level audit logging is enabled on this bucket.
+	// This property is set to `Disabled` by default, so no audit logs will be produced at the object level for this
+	// bucket. If the property is set to `Write`, audit logs will be produced for operations such as `Put Object`. If the
+	// property is set to `ReadWrite`, audit logs will be produced for operations such as `Put Object` and `Get Object`.
+	ObjectLevelAuditMode UpdateBucketDetailsObjectLevelAuditModeEnum `mandatory:"false" json:"objectLevelAuditMode,omitempty"`
 
 	// Whether or not events are emitted for object state changes in this bucket. By default, `objectEventsEnabled` is
 	// set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information
@@ -76,6 +84,30 @@ func (m UpdateBucketDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateBucketDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateBucketDetailsPublicAccessTypeEnum[string(m.PublicAccessType)]; !ok && m.PublicAccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PublicAccessType: %s. Supported values are: %s.", m.PublicAccessType, strings.Join(GetUpdateBucketDetailsPublicAccessTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateBucketDetailsObjectLevelAuditModeEnum[string(m.ObjectLevelAuditMode)]; !ok && m.ObjectLevelAuditMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ObjectLevelAuditMode: %s. Supported values are: %s.", m.ObjectLevelAuditMode, strings.Join(GetUpdateBucketDetailsObjectLevelAuditModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateBucketDetailsVersioningEnum[string(m.Versioning)]; !ok && m.Versioning != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Versioning: %s. Supported values are: %s.", m.Versioning, strings.Join(GetUpdateBucketDetailsVersioningEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBucketAutoTieringEnum[string(m.AutoTiering)]; !ok && m.AutoTiering != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoTiering: %s. Supported values are: %s.", m.AutoTiering, strings.Join(GetBucketAutoTieringEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateBucketDetailsPublicAccessTypeEnum Enum with underlying type: string
 type UpdateBucketDetailsPublicAccessTypeEnum string
 
@@ -86,7 +118,7 @@ const (
 	UpdateBucketDetailsPublicAccessTypeObjectreadwithoutlist UpdateBucketDetailsPublicAccessTypeEnum = "ObjectReadWithoutList"
 )
 
-var mappingUpdateBucketDetailsPublicAccessType = map[string]UpdateBucketDetailsPublicAccessTypeEnum{
+var mappingUpdateBucketDetailsPublicAccessTypeEnum = map[string]UpdateBucketDetailsPublicAccessTypeEnum{
 	"NoPublicAccess":        UpdateBucketDetailsPublicAccessTypeNopublicaccess,
 	"ObjectRead":            UpdateBucketDetailsPublicAccessTypeObjectread,
 	"ObjectReadWithoutList": UpdateBucketDetailsPublicAccessTypeObjectreadwithoutlist,
@@ -95,10 +127,53 @@ var mappingUpdateBucketDetailsPublicAccessType = map[string]UpdateBucketDetailsP
 // GetUpdateBucketDetailsPublicAccessTypeEnumValues Enumerates the set of values for UpdateBucketDetailsPublicAccessTypeEnum
 func GetUpdateBucketDetailsPublicAccessTypeEnumValues() []UpdateBucketDetailsPublicAccessTypeEnum {
 	values := make([]UpdateBucketDetailsPublicAccessTypeEnum, 0)
-	for _, v := range mappingUpdateBucketDetailsPublicAccessType {
+	for _, v := range mappingUpdateBucketDetailsPublicAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateBucketDetailsPublicAccessTypeEnumStringValues Enumerates the set of values in String for UpdateBucketDetailsPublicAccessTypeEnum
+func GetUpdateBucketDetailsPublicAccessTypeEnumStringValues() []string {
+	return []string{
+		"NoPublicAccess",
+		"ObjectRead",
+		"ObjectReadWithoutList",
+	}
+}
+
+// UpdateBucketDetailsObjectLevelAuditModeEnum Enum with underlying type: string
+type UpdateBucketDetailsObjectLevelAuditModeEnum string
+
+// Set of constants representing the allowable values for UpdateBucketDetailsObjectLevelAuditModeEnum
+const (
+	UpdateBucketDetailsObjectLevelAuditModeDisabled  UpdateBucketDetailsObjectLevelAuditModeEnum = "Disabled"
+	UpdateBucketDetailsObjectLevelAuditModeWrite     UpdateBucketDetailsObjectLevelAuditModeEnum = "Write"
+	UpdateBucketDetailsObjectLevelAuditModeReadwrite UpdateBucketDetailsObjectLevelAuditModeEnum = "ReadWrite"
+)
+
+var mappingUpdateBucketDetailsObjectLevelAuditModeEnum = map[string]UpdateBucketDetailsObjectLevelAuditModeEnum{
+	"Disabled":  UpdateBucketDetailsObjectLevelAuditModeDisabled,
+	"Write":     UpdateBucketDetailsObjectLevelAuditModeWrite,
+	"ReadWrite": UpdateBucketDetailsObjectLevelAuditModeReadwrite,
+}
+
+// GetUpdateBucketDetailsObjectLevelAuditModeEnumValues Enumerates the set of values for UpdateBucketDetailsObjectLevelAuditModeEnum
+func GetUpdateBucketDetailsObjectLevelAuditModeEnumValues() []UpdateBucketDetailsObjectLevelAuditModeEnum {
+	values := make([]UpdateBucketDetailsObjectLevelAuditModeEnum, 0)
+	for _, v := range mappingUpdateBucketDetailsObjectLevelAuditModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateBucketDetailsObjectLevelAuditModeEnumStringValues Enumerates the set of values in String for UpdateBucketDetailsObjectLevelAuditModeEnum
+func GetUpdateBucketDetailsObjectLevelAuditModeEnumStringValues() []string {
+	return []string{
+		"Disabled",
+		"Write",
+		"ReadWrite",
+	}
 }
 
 // UpdateBucketDetailsVersioningEnum Enum with underlying type: string
@@ -110,7 +185,7 @@ const (
 	UpdateBucketDetailsVersioningSuspended UpdateBucketDetailsVersioningEnum = "Suspended"
 )
 
-var mappingUpdateBucketDetailsVersioning = map[string]UpdateBucketDetailsVersioningEnum{
+var mappingUpdateBucketDetailsVersioningEnum = map[string]UpdateBucketDetailsVersioningEnum{
 	"Enabled":   UpdateBucketDetailsVersioningEnabled,
 	"Suspended": UpdateBucketDetailsVersioningSuspended,
 }
@@ -118,8 +193,16 @@ var mappingUpdateBucketDetailsVersioning = map[string]UpdateBucketDetailsVersion
 // GetUpdateBucketDetailsVersioningEnumValues Enumerates the set of values for UpdateBucketDetailsVersioningEnum
 func GetUpdateBucketDetailsVersioningEnumValues() []UpdateBucketDetailsVersioningEnum {
 	values := make([]UpdateBucketDetailsVersioningEnum, 0)
-	for _, v := range mappingUpdateBucketDetailsVersioning {
+	for _, v := range mappingUpdateBucketDetailsVersioningEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateBucketDetailsVersioningEnumStringValues Enumerates the set of values in String for UpdateBucketDetailsVersioningEnum
+func GetUpdateBucketDetailsVersioningEnumStringValues() []string {
+	return []string{
+		"Enabled",
+		"Suspended",
+	}
 }

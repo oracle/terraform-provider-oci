@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListMetastoresRequest wrapper for the ListMetastores operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListMetastores.go.html to see an example of how to use ListMetastoresRequest.
 type ListMetastoresRequest struct {
 
 	// The OCID of the compartment where you want to list resources.
@@ -52,6 +50,10 @@ func (request ListMetastoresRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListMetastoresRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +67,26 @@ func (request ListMetastoresRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListMetastoresRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListMetastoresRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListMetastoresLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListMetastoresLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMetastoresSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMetastoresSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMetastoresSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMetastoresSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListMetastoresResponse wrapper for the ListMetastores operation
@@ -108,7 +130,7 @@ const (
 	ListMetastoresLifecycleStateMoving   ListMetastoresLifecycleStateEnum = "MOVING"
 )
 
-var mappingListMetastoresLifecycleState = map[string]ListMetastoresLifecycleStateEnum{
+var mappingListMetastoresLifecycleStateEnum = map[string]ListMetastoresLifecycleStateEnum{
 	"CREATING": ListMetastoresLifecycleStateCreating,
 	"ACTIVE":   ListMetastoresLifecycleStateActive,
 	"INACTIVE": ListMetastoresLifecycleStateInactive,
@@ -122,10 +144,24 @@ var mappingListMetastoresLifecycleState = map[string]ListMetastoresLifecycleStat
 // GetListMetastoresLifecycleStateEnumValues Enumerates the set of values for ListMetastoresLifecycleStateEnum
 func GetListMetastoresLifecycleStateEnumValues() []ListMetastoresLifecycleStateEnum {
 	values := make([]ListMetastoresLifecycleStateEnum, 0)
-	for _, v := range mappingListMetastoresLifecycleState {
+	for _, v := range mappingListMetastoresLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMetastoresLifecycleStateEnumStringValues Enumerates the set of values in String for ListMetastoresLifecycleStateEnum
+func GetListMetastoresLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListMetastoresSortOrderEnum Enum with underlying type: string
@@ -137,7 +173,7 @@ const (
 	ListMetastoresSortOrderDesc ListMetastoresSortOrderEnum = "DESC"
 )
 
-var mappingListMetastoresSortOrder = map[string]ListMetastoresSortOrderEnum{
+var mappingListMetastoresSortOrderEnum = map[string]ListMetastoresSortOrderEnum{
 	"ASC":  ListMetastoresSortOrderAsc,
 	"DESC": ListMetastoresSortOrderDesc,
 }
@@ -145,10 +181,18 @@ var mappingListMetastoresSortOrder = map[string]ListMetastoresSortOrderEnum{
 // GetListMetastoresSortOrderEnumValues Enumerates the set of values for ListMetastoresSortOrderEnum
 func GetListMetastoresSortOrderEnumValues() []ListMetastoresSortOrderEnum {
 	values := make([]ListMetastoresSortOrderEnum, 0)
-	for _, v := range mappingListMetastoresSortOrder {
+	for _, v := range mappingListMetastoresSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMetastoresSortOrderEnumStringValues Enumerates the set of values in String for ListMetastoresSortOrderEnum
+func GetListMetastoresSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListMetastoresSortByEnum Enum with underlying type: string
@@ -160,7 +204,7 @@ const (
 	ListMetastoresSortByDisplayname ListMetastoresSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListMetastoresSortBy = map[string]ListMetastoresSortByEnum{
+var mappingListMetastoresSortByEnum = map[string]ListMetastoresSortByEnum{
 	"TIMECREATED": ListMetastoresSortByTimecreated,
 	"DISPLAYNAME": ListMetastoresSortByDisplayname,
 }
@@ -168,8 +212,16 @@ var mappingListMetastoresSortBy = map[string]ListMetastoresSortByEnum{
 // GetListMetastoresSortByEnumValues Enumerates the set of values for ListMetastoresSortByEnum
 func GetListMetastoresSortByEnumValues() []ListMetastoresSortByEnum {
 	values := make([]ListMetastoresSortByEnum, 0)
-	for _, v := range mappingListMetastoresSortBy {
+	for _, v := range mappingListMetastoresSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMetastoresSortByEnumStringValues Enumerates the set of values in String for ListMetastoresSortByEnum
+func GetListMetastoresSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

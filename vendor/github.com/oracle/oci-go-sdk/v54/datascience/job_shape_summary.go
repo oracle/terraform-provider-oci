@@ -10,7 +10,9 @@
 package datascience
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // JobShapeSummary The compute shape used to launch a job compute instance.
@@ -33,6 +35,21 @@ func (m JobShapeSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m JobShapeSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJobShapeSummaryShapeSeriesEnum[string(m.ShapeSeries)]; !ok && m.ShapeSeries != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeSeries: %s. Supported values are: %s.", m.ShapeSeries, strings.Join(GetJobShapeSummaryShapeSeriesEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // JobShapeSummaryShapeSeriesEnum Enum with underlying type: string
 type JobShapeSummaryShapeSeriesEnum string
 
@@ -44,7 +61,7 @@ const (
 	JobShapeSummaryShapeSeriesLegacy       JobShapeSummaryShapeSeriesEnum = "LEGACY"
 )
 
-var mappingJobShapeSummaryShapeSeries = map[string]JobShapeSummaryShapeSeriesEnum{
+var mappingJobShapeSummaryShapeSeriesEnum = map[string]JobShapeSummaryShapeSeriesEnum{
 	"AMD_ROME":      JobShapeSummaryShapeSeriesAmdRome,
 	"INTEL_SKYLAKE": JobShapeSummaryShapeSeriesIntelSkylake,
 	"NVIDIA_GPU":    JobShapeSummaryShapeSeriesNvidiaGpu,
@@ -54,8 +71,18 @@ var mappingJobShapeSummaryShapeSeries = map[string]JobShapeSummaryShapeSeriesEnu
 // GetJobShapeSummaryShapeSeriesEnumValues Enumerates the set of values for JobShapeSummaryShapeSeriesEnum
 func GetJobShapeSummaryShapeSeriesEnumValues() []JobShapeSummaryShapeSeriesEnum {
 	values := make([]JobShapeSummaryShapeSeriesEnum, 0)
-	for _, v := range mappingJobShapeSummaryShapeSeries {
+	for _, v := range mappingJobShapeSummaryShapeSeriesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobShapeSummaryShapeSeriesEnumStringValues Enumerates the set of values in String for JobShapeSummaryShapeSeriesEnum
+func GetJobShapeSummaryShapeSeriesEnumStringValues() []string {
+	return []string{
+		"AMD_ROME",
+		"INTEL_SKYLAKE",
+		"NVIDIA_GPU",
+		"LEGACY",
+	}
 }

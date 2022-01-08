@@ -5,15 +5,13 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetChannelRequest wrapper for the GetChannel operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetChannel.go.html to see an example of how to use GetChannelRequest.
 type GetChannelRequest struct {
 
 	// The Channel OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -43,6 +41,10 @@ func (request GetChannelRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetChannelRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +58,17 @@ func (request GetChannelRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetChannelRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetChannelRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetChannelResponse wrapper for the GetChannel operation

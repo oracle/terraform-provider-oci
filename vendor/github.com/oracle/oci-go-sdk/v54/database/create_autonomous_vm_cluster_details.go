@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateAutonomousVmClusterDetails Details for the create Autonomous VM cluster operation.
@@ -37,6 +39,20 @@ type CreateAutonomousVmClusterDetails struct {
 	// The Oracle license model that applies to the Autonomous VM cluster. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel CreateAutonomousVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
+	// The total number of Autonomous Container Databases that can be created.
+	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
+
+	// The number of OCPU cores to enable per VM cluster node.
+	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
+
+	// The amount of memory (in GBs) to be enabled per each OCPU core.
+	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// The data disk group size to be allocated for Autonomous Databases, in TBs.
+	AutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"autonomousDataStorageSizeInTBs"`
+
+	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -51,6 +67,21 @@ func (m CreateAutonomousVmClusterDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateAutonomousVmClusterDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateAutonomousVmClusterDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateAutonomousVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateAutonomousVmClusterDetailsLicenseModelEnum Enum with underlying type: string
 type CreateAutonomousVmClusterDetailsLicenseModelEnum string
 
@@ -60,7 +91,7 @@ const (
 	CreateAutonomousVmClusterDetailsLicenseModelBringYourOwnLicense CreateAutonomousVmClusterDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingCreateAutonomousVmClusterDetailsLicenseModel = map[string]CreateAutonomousVmClusterDetailsLicenseModelEnum{
+var mappingCreateAutonomousVmClusterDetailsLicenseModelEnum = map[string]CreateAutonomousVmClusterDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       CreateAutonomousVmClusterDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": CreateAutonomousVmClusterDetailsLicenseModelBringYourOwnLicense,
 }
@@ -68,8 +99,16 @@ var mappingCreateAutonomousVmClusterDetailsLicenseModel = map[string]CreateAuton
 // GetCreateAutonomousVmClusterDetailsLicenseModelEnumValues Enumerates the set of values for CreateAutonomousVmClusterDetailsLicenseModelEnum
 func GetCreateAutonomousVmClusterDetailsLicenseModelEnumValues() []CreateAutonomousVmClusterDetailsLicenseModelEnum {
 	values := make([]CreateAutonomousVmClusterDetailsLicenseModelEnum, 0)
-	for _, v := range mappingCreateAutonomousVmClusterDetailsLicenseModel {
+	for _, v := range mappingCreateAutonomousVmClusterDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousVmClusterDetailsLicenseModelEnumStringValues Enumerates the set of values in String for CreateAutonomousVmClusterDetailsLicenseModelEnum
+func GetCreateAutonomousVmClusterDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

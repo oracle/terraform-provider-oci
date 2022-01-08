@@ -5,15 +5,13 @@
 package ons
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListTopicsRequest wrapper for the ListTopics operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ListTopics.go.html to see an example of how to use ListTopicsRequest.
 type ListTopicsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -58,6 +56,10 @@ func (request ListTopicsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListTopicsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +73,26 @@ func (request ListTopicsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTopicsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListTopicsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListTopicsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTopicsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTopicsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListTopicsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingNotificationTopicSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetNotificationTopicSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListTopicsResponse wrapper for the ListTopics operation
@@ -113,7 +135,7 @@ const (
 	ListTopicsSortByLifecyclestate ListTopicsSortByEnum = "LIFECYCLESTATE"
 )
 
-var mappingListTopicsSortBy = map[string]ListTopicsSortByEnum{
+var mappingListTopicsSortByEnum = map[string]ListTopicsSortByEnum{
 	"TIMECREATED":    ListTopicsSortByTimecreated,
 	"LIFECYCLESTATE": ListTopicsSortByLifecyclestate,
 }
@@ -121,10 +143,18 @@ var mappingListTopicsSortBy = map[string]ListTopicsSortByEnum{
 // GetListTopicsSortByEnumValues Enumerates the set of values for ListTopicsSortByEnum
 func GetListTopicsSortByEnumValues() []ListTopicsSortByEnum {
 	values := make([]ListTopicsSortByEnum, 0)
-	for _, v := range mappingListTopicsSortBy {
+	for _, v := range mappingListTopicsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTopicsSortByEnumStringValues Enumerates the set of values in String for ListTopicsSortByEnum
+func GetListTopicsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"LIFECYCLESTATE",
+	}
 }
 
 // ListTopicsSortOrderEnum Enum with underlying type: string
@@ -136,7 +166,7 @@ const (
 	ListTopicsSortOrderDesc ListTopicsSortOrderEnum = "DESC"
 )
 
-var mappingListTopicsSortOrder = map[string]ListTopicsSortOrderEnum{
+var mappingListTopicsSortOrderEnum = map[string]ListTopicsSortOrderEnum{
 	"ASC":  ListTopicsSortOrderAsc,
 	"DESC": ListTopicsSortOrderDesc,
 }
@@ -144,8 +174,16 @@ var mappingListTopicsSortOrder = map[string]ListTopicsSortOrderEnum{
 // GetListTopicsSortOrderEnumValues Enumerates the set of values for ListTopicsSortOrderEnum
 func GetListTopicsSortOrderEnumValues() []ListTopicsSortOrderEnum {
 	values := make([]ListTopicsSortOrderEnum, 0)
-	for _, v := range mappingListTopicsSortOrder {
+	for _, v := range mappingListTopicsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTopicsSortOrderEnumStringValues Enumerates the set of values in String for ListTopicsSortOrderEnum
+func GetListTopicsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -12,7 +12,9 @@
 package monitoring
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateAlarmDetails The configuration details for creating an alarm.
@@ -134,6 +136,24 @@ func (m CreateAlarmDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateAlarmDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAlarmSeverityEnum[string(m.Severity)]; !ok && m.Severity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetAlarmSeverityEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCreateAlarmDetailsMessageFormatEnum[string(m.MessageFormat)]; !ok && m.MessageFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MessageFormat: %s. Supported values are: %s.", m.MessageFormat, strings.Join(GetCreateAlarmDetailsMessageFormatEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateAlarmDetailsMessageFormatEnum Enum with underlying type: string
 type CreateAlarmDetailsMessageFormatEnum string
 
@@ -144,7 +164,7 @@ const (
 	CreateAlarmDetailsMessageFormatOnsOptimized CreateAlarmDetailsMessageFormatEnum = "ONS_OPTIMIZED"
 )
 
-var mappingCreateAlarmDetailsMessageFormat = map[string]CreateAlarmDetailsMessageFormatEnum{
+var mappingCreateAlarmDetailsMessageFormatEnum = map[string]CreateAlarmDetailsMessageFormatEnum{
 	"RAW":           CreateAlarmDetailsMessageFormatRaw,
 	"PRETTY_JSON":   CreateAlarmDetailsMessageFormatPrettyJson,
 	"ONS_OPTIMIZED": CreateAlarmDetailsMessageFormatOnsOptimized,
@@ -153,8 +173,17 @@ var mappingCreateAlarmDetailsMessageFormat = map[string]CreateAlarmDetailsMessag
 // GetCreateAlarmDetailsMessageFormatEnumValues Enumerates the set of values for CreateAlarmDetailsMessageFormatEnum
 func GetCreateAlarmDetailsMessageFormatEnumValues() []CreateAlarmDetailsMessageFormatEnum {
 	values := make([]CreateAlarmDetailsMessageFormatEnum, 0)
-	for _, v := range mappingCreateAlarmDetailsMessageFormat {
+	for _, v := range mappingCreateAlarmDetailsMessageFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAlarmDetailsMessageFormatEnumStringValues Enumerates the set of values in String for CreateAlarmDetailsMessageFormatEnum
+func GetCreateAlarmDetailsMessageFormatEnumStringValues() []string {
+	return []string{
+		"RAW",
+		"PRETTY_JSON",
+		"ONS_OPTIMIZED",
+	}
 }

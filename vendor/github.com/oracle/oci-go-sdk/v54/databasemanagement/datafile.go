@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Datafile The details of a data file.
@@ -68,6 +70,30 @@ func (m Datafile) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Datafile) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDatafileStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetDatafileStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatafileOnlineStatusEnum[string(m.OnlineStatus)]; !ok && m.OnlineStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OnlineStatus: %s. Supported values are: %s.", m.OnlineStatus, strings.Join(GetDatafileOnlineStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatafileLostWriteProtectEnum[string(m.LostWriteProtect)]; !ok && m.LostWriteProtect != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LostWriteProtect: %s. Supported values are: %s.", m.LostWriteProtect, strings.Join(GetDatafileLostWriteProtectEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatafileSharedEnum[string(m.Shared)]; !ok && m.Shared != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shared: %s. Supported values are: %s.", m.Shared, strings.Join(GetDatafileSharedEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatafileStatusEnum Enum with underlying type: string
 type DatafileStatusEnum string
 
@@ -80,7 +106,7 @@ const (
 	DatafileStatusUnknown   DatafileStatusEnum = "UNKNOWN"
 )
 
-var mappingDatafileStatus = map[string]DatafileStatusEnum{
+var mappingDatafileStatusEnum = map[string]DatafileStatusEnum{
 	"AVAILABLE": DatafileStatusAvailable,
 	"INVALID":   DatafileStatusInvalid,
 	"OFFLINE":   DatafileStatusOffline,
@@ -91,10 +117,21 @@ var mappingDatafileStatus = map[string]DatafileStatusEnum{
 // GetDatafileStatusEnumValues Enumerates the set of values for DatafileStatusEnum
 func GetDatafileStatusEnumValues() []DatafileStatusEnum {
 	values := make([]DatafileStatusEnum, 0)
-	for _, v := range mappingDatafileStatus {
+	for _, v := range mappingDatafileStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatafileStatusEnumStringValues Enumerates the set of values in String for DatafileStatusEnum
+func GetDatafileStatusEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"INVALID",
+		"OFFLINE",
+		"ONLINE",
+		"UNKNOWN",
+	}
 }
 
 // DatafileOnlineStatusEnum Enum with underlying type: string
@@ -109,7 +146,7 @@ const (
 	DatafileOnlineStatusRecover DatafileOnlineStatusEnum = "RECOVER"
 )
 
-var mappingDatafileOnlineStatus = map[string]DatafileOnlineStatusEnum{
+var mappingDatafileOnlineStatusEnum = map[string]DatafileOnlineStatusEnum{
 	"SYSOFF":  DatafileOnlineStatusSysoff,
 	"SYSTEM":  DatafileOnlineStatusSystem,
 	"OFFLINE": DatafileOnlineStatusOffline,
@@ -120,10 +157,21 @@ var mappingDatafileOnlineStatus = map[string]DatafileOnlineStatusEnum{
 // GetDatafileOnlineStatusEnumValues Enumerates the set of values for DatafileOnlineStatusEnum
 func GetDatafileOnlineStatusEnumValues() []DatafileOnlineStatusEnum {
 	values := make([]DatafileOnlineStatusEnum, 0)
-	for _, v := range mappingDatafileOnlineStatus {
+	for _, v := range mappingDatafileOnlineStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatafileOnlineStatusEnumStringValues Enumerates the set of values in String for DatafileOnlineStatusEnum
+func GetDatafileOnlineStatusEnumStringValues() []string {
+	return []string{
+		"SYSOFF",
+		"SYSTEM",
+		"OFFLINE",
+		"ONLINE",
+		"RECOVER",
+	}
 }
 
 // DatafileLostWriteProtectEnum Enum with underlying type: string
@@ -136,7 +184,7 @@ const (
 	DatafileLostWriteProtectSuspend    DatafileLostWriteProtectEnum = "SUSPEND"
 )
 
-var mappingDatafileLostWriteProtect = map[string]DatafileLostWriteProtectEnum{
+var mappingDatafileLostWriteProtectEnum = map[string]DatafileLostWriteProtectEnum{
 	"ENABLED":     DatafileLostWriteProtectEnabled,
 	"PROTECT_OFF": DatafileLostWriteProtectProtectOff,
 	"SUSPEND":     DatafileLostWriteProtectSuspend,
@@ -145,10 +193,19 @@ var mappingDatafileLostWriteProtect = map[string]DatafileLostWriteProtectEnum{
 // GetDatafileLostWriteProtectEnumValues Enumerates the set of values for DatafileLostWriteProtectEnum
 func GetDatafileLostWriteProtectEnumValues() []DatafileLostWriteProtectEnum {
 	values := make([]DatafileLostWriteProtectEnum, 0)
-	for _, v := range mappingDatafileLostWriteProtect {
+	for _, v := range mappingDatafileLostWriteProtectEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatafileLostWriteProtectEnumStringValues Enumerates the set of values in String for DatafileLostWriteProtectEnum
+func GetDatafileLostWriteProtectEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"PROTECT_OFF",
+		"SUSPEND",
+	}
 }
 
 // DatafileSharedEnum Enum with underlying type: string
@@ -161,7 +218,7 @@ const (
 	DatafileSharedLocalForAll DatafileSharedEnum = "LOCAL_FOR_ALL"
 )
 
-var mappingDatafileShared = map[string]DatafileSharedEnum{
+var mappingDatafileSharedEnum = map[string]DatafileSharedEnum{
 	"SHARED":        DatafileSharedShared,
 	"LOCAL_FOR_RIM": DatafileSharedLocalForRim,
 	"LOCAL_FOR_ALL": DatafileSharedLocalForAll,
@@ -170,8 +227,17 @@ var mappingDatafileShared = map[string]DatafileSharedEnum{
 // GetDatafileSharedEnumValues Enumerates the set of values for DatafileSharedEnum
 func GetDatafileSharedEnumValues() []DatafileSharedEnum {
 	values := make([]DatafileSharedEnum, 0)
-	for _, v := range mappingDatafileShared {
+	for _, v := range mappingDatafileSharedEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatafileSharedEnumStringValues Enumerates the set of values in String for DatafileSharedEnum
+func GetDatafileSharedEnumStringValues() []string {
+	return []string{
+		"SHARED",
+		"LOCAL_FOR_RIM",
+		"LOCAL_FOR_ALL",
+	}
 }

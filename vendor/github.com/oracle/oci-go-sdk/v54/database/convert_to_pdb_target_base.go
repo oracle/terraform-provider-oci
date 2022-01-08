@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ConvertToPdbTargetBase Details of the container database in which the converted pluggable database will be located.
@@ -61,6 +63,18 @@ func (m converttopdbtargetbase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m converttopdbtargetbase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConvertToPdbTargetBaseTargetEnum Enum with underlying type: string
 type ConvertToPdbTargetBaseTargetEnum string
 
@@ -69,15 +83,22 @@ const (
 	ConvertToPdbTargetBaseTargetNewDatabase ConvertToPdbTargetBaseTargetEnum = "NEW_DATABASE"
 )
 
-var mappingConvertToPdbTargetBaseTarget = map[string]ConvertToPdbTargetBaseTargetEnum{
+var mappingConvertToPdbTargetBaseTargetEnum = map[string]ConvertToPdbTargetBaseTargetEnum{
 	"NEW_DATABASE": ConvertToPdbTargetBaseTargetNewDatabase,
 }
 
 // GetConvertToPdbTargetBaseTargetEnumValues Enumerates the set of values for ConvertToPdbTargetBaseTargetEnum
 func GetConvertToPdbTargetBaseTargetEnumValues() []ConvertToPdbTargetBaseTargetEnum {
 	values := make([]ConvertToPdbTargetBaseTargetEnum, 0)
-	for _, v := range mappingConvertToPdbTargetBaseTarget {
+	for _, v := range mappingConvertToPdbTargetBaseTargetEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConvertToPdbTargetBaseTargetEnumStringValues Enumerates the set of values in String for ConvertToPdbTargetBaseTargetEnum
+func GetConvertToPdbTargetBaseTargetEnumStringValues() []string {
+	return []string{
+		"NEW_DATABASE",
+	}
 }

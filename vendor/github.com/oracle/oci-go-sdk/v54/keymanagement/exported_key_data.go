@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExportedKeyData The response to a request to export key material.
@@ -46,6 +48,21 @@ func (m ExportedKeyData) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExportedKeyData) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExportedKeyDataAlgorithmEnum[string(m.Algorithm)]; !ok && m.Algorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Algorithm: %s. Supported values are: %s.", m.Algorithm, strings.Join(GetExportedKeyDataAlgorithmEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExportedKeyDataAlgorithmEnum Enum with underlying type: string
 type ExportedKeyDataAlgorithmEnum string
 
@@ -55,7 +72,7 @@ const (
 	ExportedKeyDataAlgorithmSha256    ExportedKeyDataAlgorithmEnum = "RSA_OAEP_SHA256"
 )
 
-var mappingExportedKeyDataAlgorithm = map[string]ExportedKeyDataAlgorithmEnum{
+var mappingExportedKeyDataAlgorithmEnum = map[string]ExportedKeyDataAlgorithmEnum{
 	"RSA_OAEP_AES_SHA256": ExportedKeyDataAlgorithmAesSha256,
 	"RSA_OAEP_SHA256":     ExportedKeyDataAlgorithmSha256,
 }
@@ -63,8 +80,16 @@ var mappingExportedKeyDataAlgorithm = map[string]ExportedKeyDataAlgorithmEnum{
 // GetExportedKeyDataAlgorithmEnumValues Enumerates the set of values for ExportedKeyDataAlgorithmEnum
 func GetExportedKeyDataAlgorithmEnumValues() []ExportedKeyDataAlgorithmEnum {
 	values := make([]ExportedKeyDataAlgorithmEnum, 0)
-	for _, v := range mappingExportedKeyDataAlgorithm {
+	for _, v := range mappingExportedKeyDataAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExportedKeyDataAlgorithmEnumStringValues Enumerates the set of values in String for ExportedKeyDataAlgorithmEnum
+func GetExportedKeyDataAlgorithmEnumStringValues() []string {
+	return []string{
+		"RSA_OAEP_AES_SHA256",
+		"RSA_OAEP_SHA256",
+	}
 }

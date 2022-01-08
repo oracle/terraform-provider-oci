@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ComputeInstanceGroupRolloutPolicy Specifies the rollout policy for compute instance group stages.
@@ -75,6 +77,18 @@ func (m computeinstancegrouprolloutpolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m computeinstancegrouprolloutpolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ComputeInstanceGroupRolloutPolicyPolicyTypeEnum Enum with underlying type: string
 type ComputeInstanceGroupRolloutPolicyPolicyTypeEnum string
 
@@ -84,7 +98,7 @@ const (
 	ComputeInstanceGroupRolloutPolicyPolicyTypePercentage ComputeInstanceGroupRolloutPolicyPolicyTypeEnum = "COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_PERCENTAGE"
 )
 
-var mappingComputeInstanceGroupRolloutPolicyPolicyType = map[string]ComputeInstanceGroupRolloutPolicyPolicyTypeEnum{
+var mappingComputeInstanceGroupRolloutPolicyPolicyTypeEnum = map[string]ComputeInstanceGroupRolloutPolicyPolicyTypeEnum{
 	"COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT":      ComputeInstanceGroupRolloutPolicyPolicyTypeCount,
 	"COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_PERCENTAGE": ComputeInstanceGroupRolloutPolicyPolicyTypePercentage,
 }
@@ -92,8 +106,16 @@ var mappingComputeInstanceGroupRolloutPolicyPolicyType = map[string]ComputeInsta
 // GetComputeInstanceGroupRolloutPolicyPolicyTypeEnumValues Enumerates the set of values for ComputeInstanceGroupRolloutPolicyPolicyTypeEnum
 func GetComputeInstanceGroupRolloutPolicyPolicyTypeEnumValues() []ComputeInstanceGroupRolloutPolicyPolicyTypeEnum {
 	values := make([]ComputeInstanceGroupRolloutPolicyPolicyTypeEnum, 0)
-	for _, v := range mappingComputeInstanceGroupRolloutPolicyPolicyType {
+	for _, v := range mappingComputeInstanceGroupRolloutPolicyPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetComputeInstanceGroupRolloutPolicyPolicyTypeEnumStringValues Enumerates the set of values in String for ComputeInstanceGroupRolloutPolicyPolicyTypeEnum
+func GetComputeInstanceGroupRolloutPolicyPolicyTypeEnumStringValues() []string {
+	return []string{
+		"COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT",
+		"COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_PERCENTAGE",
+	}
 }

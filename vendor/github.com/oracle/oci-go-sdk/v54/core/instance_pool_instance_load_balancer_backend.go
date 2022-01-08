@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstancePoolInstanceLoadBalancerBackend Represents the load balancer Backend that is configured for an instance pool instance.
@@ -37,6 +39,21 @@ func (m InstancePoolInstanceLoadBalancerBackend) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstancePoolInstanceLoadBalancerBackend) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum[string(m.BackendHealthStatus)]; !ok && m.BackendHealthStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackendHealthStatus: %s. Supported values are: %s.", m.BackendHealthStatus, strings.Join(GetInstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum Enum with underlying type: string
 type InstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum string
 
@@ -48,7 +65,7 @@ const (
 	InstancePoolInstanceLoadBalancerBackendBackendHealthStatusUnknown  InstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum = "UNKNOWN"
 )
 
-var mappingInstancePoolInstanceLoadBalancerBackendBackendHealthStatus = map[string]InstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum{
+var mappingInstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum = map[string]InstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum{
 	"OK":       InstancePoolInstanceLoadBalancerBackendBackendHealthStatusOk,
 	"WARNING":  InstancePoolInstanceLoadBalancerBackendBackendHealthStatusWarning,
 	"CRITICAL": InstancePoolInstanceLoadBalancerBackendBackendHealthStatusCritical,
@@ -58,8 +75,18 @@ var mappingInstancePoolInstanceLoadBalancerBackendBackendHealthStatus = map[stri
 // GetInstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnumValues Enumerates the set of values for InstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum
 func GetInstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnumValues() []InstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum {
 	values := make([]InstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum, 0)
-	for _, v := range mappingInstancePoolInstanceLoadBalancerBackendBackendHealthStatus {
+	for _, v := range mappingInstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnumStringValues Enumerates the set of values in String for InstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnum
+func GetInstancePoolInstanceLoadBalancerBackendBackendHealthStatusEnumStringValues() []string {
+	return []string{
+		"OK",
+		"WARNING",
+		"CRITICAL",
+		"UNKNOWN",
+	}
 }

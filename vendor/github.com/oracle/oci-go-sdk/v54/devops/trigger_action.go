@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TriggerAction The trigger action to be performed.
@@ -69,6 +71,18 @@ func (m triggeraction) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m triggeraction) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TriggerActionTypeEnum Enum with underlying type: string
 type TriggerActionTypeEnum string
 
@@ -77,15 +91,22 @@ const (
 	TriggerActionTypeTriggerBuildPipeline TriggerActionTypeEnum = "TRIGGER_BUILD_PIPELINE"
 )
 
-var mappingTriggerActionType = map[string]TriggerActionTypeEnum{
+var mappingTriggerActionTypeEnum = map[string]TriggerActionTypeEnum{
 	"TRIGGER_BUILD_PIPELINE": TriggerActionTypeTriggerBuildPipeline,
 }
 
 // GetTriggerActionTypeEnumValues Enumerates the set of values for TriggerActionTypeEnum
 func GetTriggerActionTypeEnumValues() []TriggerActionTypeEnum {
 	values := make([]TriggerActionTypeEnum, 0)
-	for _, v := range mappingTriggerActionType {
+	for _, v := range mappingTriggerActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTriggerActionTypeEnumStringValues Enumerates the set of values in String for TriggerActionTypeEnum
+func GetTriggerActionTypeEnumStringValues() []string {
+	return []string{
+		"TRIGGER_BUILD_PIPELINE",
+	}
 }

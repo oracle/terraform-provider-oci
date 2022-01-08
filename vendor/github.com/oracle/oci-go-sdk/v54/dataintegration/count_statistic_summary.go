@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CountStatisticSummary Details of the count statistic summary object.
@@ -25,6 +27,21 @@ type CountStatisticSummary struct {
 
 func (m CountStatisticSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CountStatisticSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCountStatisticSummaryObjectTypeEnum[string(m.ObjectType)]; !ok && m.ObjectType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ObjectType: %s. Supported values are: %s.", m.ObjectType, strings.Join(GetCountStatisticSummaryObjectTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CountStatisticSummaryObjectTypeEnum Enum with underlying type: string
@@ -43,7 +60,7 @@ const (
 	CountStatisticSummaryObjectTypeUserDefinedFunction CountStatisticSummaryObjectTypeEnum = "USER_DEFINED_FUNCTION"
 )
 
-var mappingCountStatisticSummaryObjectType = map[string]CountStatisticSummaryObjectTypeEnum{
+var mappingCountStatisticSummaryObjectTypeEnum = map[string]CountStatisticSummaryObjectTypeEnum{
 	"PROJECT":               CountStatisticSummaryObjectTypeProject,
 	"FOLDER":                CountStatisticSummaryObjectTypeFolder,
 	"DATA_FLOW":             CountStatisticSummaryObjectTypeDataFlow,
@@ -58,8 +75,23 @@ var mappingCountStatisticSummaryObjectType = map[string]CountStatisticSummaryObj
 // GetCountStatisticSummaryObjectTypeEnumValues Enumerates the set of values for CountStatisticSummaryObjectTypeEnum
 func GetCountStatisticSummaryObjectTypeEnumValues() []CountStatisticSummaryObjectTypeEnum {
 	values := make([]CountStatisticSummaryObjectTypeEnum, 0)
-	for _, v := range mappingCountStatisticSummaryObjectType {
+	for _, v := range mappingCountStatisticSummaryObjectTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCountStatisticSummaryObjectTypeEnumStringValues Enumerates the set of values in String for CountStatisticSummaryObjectTypeEnum
+func GetCountStatisticSummaryObjectTypeEnumStringValues() []string {
+	return []string{
+		"PROJECT",
+		"FOLDER",
+		"DATA_FLOW",
+		"DATA_ASSET",
+		"CONNECTION",
+		"TASK",
+		"APPLICATION",
+		"FUNCTION_LIBRARY",
+		"USER_DEFINED_FUNCTION",
+	}
 }

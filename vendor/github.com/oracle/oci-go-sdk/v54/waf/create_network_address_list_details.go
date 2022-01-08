@@ -12,7 +12,9 @@ package waf
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateNetworkAddressListDetails The information about new NetworkAddressList.
@@ -119,6 +121,18 @@ func (m createnetworkaddresslistdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createnetworkaddresslistdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateNetworkAddressListDetailsTypeEnum Enum with underlying type: string
 type CreateNetworkAddressListDetailsTypeEnum string
 
@@ -128,7 +142,7 @@ const (
 	CreateNetworkAddressListDetailsTypeVcnAddresses CreateNetworkAddressListDetailsTypeEnum = "VCN_ADDRESSES"
 )
 
-var mappingCreateNetworkAddressListDetailsType = map[string]CreateNetworkAddressListDetailsTypeEnum{
+var mappingCreateNetworkAddressListDetailsTypeEnum = map[string]CreateNetworkAddressListDetailsTypeEnum{
 	"ADDRESSES":     CreateNetworkAddressListDetailsTypeAddresses,
 	"VCN_ADDRESSES": CreateNetworkAddressListDetailsTypeVcnAddresses,
 }
@@ -136,8 +150,16 @@ var mappingCreateNetworkAddressListDetailsType = map[string]CreateNetworkAddress
 // GetCreateNetworkAddressListDetailsTypeEnumValues Enumerates the set of values for CreateNetworkAddressListDetailsTypeEnum
 func GetCreateNetworkAddressListDetailsTypeEnumValues() []CreateNetworkAddressListDetailsTypeEnum {
 	values := make([]CreateNetworkAddressListDetailsTypeEnum, 0)
-	for _, v := range mappingCreateNetworkAddressListDetailsType {
+	for _, v := range mappingCreateNetworkAddressListDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateNetworkAddressListDetailsTypeEnumStringValues Enumerates the set of values in String for CreateNetworkAddressListDetailsTypeEnum
+func GetCreateNetworkAddressListDetailsTypeEnumStringValues() []string {
+	return []string{
+		"ADDRESSES",
+		"VCN_ADDRESSES",
+	}
 }

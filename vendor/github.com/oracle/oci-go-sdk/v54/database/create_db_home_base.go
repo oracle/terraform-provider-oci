@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateDbHomeBase Details for creating a Database Home.
@@ -151,6 +153,18 @@ func (m createdbhomebase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createdbhomebase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateDbHomeBaseSourceEnum Enum with underlying type: string
 type CreateDbHomeBaseSourceEnum string
 
@@ -163,7 +177,7 @@ const (
 	CreateDbHomeBaseSourceVmClusterNew    CreateDbHomeBaseSourceEnum = "VM_CLUSTER_NEW"
 )
 
-var mappingCreateDbHomeBaseSource = map[string]CreateDbHomeBaseSourceEnum{
+var mappingCreateDbHomeBaseSourceEnum = map[string]CreateDbHomeBaseSourceEnum{
 	"NONE":              CreateDbHomeBaseSourceNone,
 	"DB_BACKUP":         CreateDbHomeBaseSourceDbBackup,
 	"DATABASE":          CreateDbHomeBaseSourceDatabase,
@@ -174,8 +188,19 @@ var mappingCreateDbHomeBaseSource = map[string]CreateDbHomeBaseSourceEnum{
 // GetCreateDbHomeBaseSourceEnumValues Enumerates the set of values for CreateDbHomeBaseSourceEnum
 func GetCreateDbHomeBaseSourceEnumValues() []CreateDbHomeBaseSourceEnum {
 	values := make([]CreateDbHomeBaseSourceEnum, 0)
-	for _, v := range mappingCreateDbHomeBaseSource {
+	for _, v := range mappingCreateDbHomeBaseSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDbHomeBaseSourceEnumStringValues Enumerates the set of values in String for CreateDbHomeBaseSourceEnum
+func GetCreateDbHomeBaseSourceEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"DB_BACKUP",
+		"DATABASE",
+		"VM_CLUSTER_BACKUP",
+		"VM_CLUSTER_NEW",
+	}
 }

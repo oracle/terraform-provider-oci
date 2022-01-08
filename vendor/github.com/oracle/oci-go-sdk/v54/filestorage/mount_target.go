@@ -4,19 +4,21 @@
 
 // File Storage API
 //
-// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// Use the File Storage service API to manage file systems, mount targets, and snapshots.
+// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // MountTarget Provides access to a collection of file systems through one or more VNICs on a
 // specified subnet. The set of file systems is controlled through the
 // referenced export set.
-// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type MountTarget struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the mount target.
@@ -57,11 +59,18 @@ type MountTarget struct {
 	// mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
 
+	// Describes whether Idmapping is turned on or off. If on, describes method used to perform ID Mapping
+	IdmapType MountTargetIdmapTypeEnum `mandatory:"false" json:"idmapType,omitempty"`
+
+	LdapIdmap *LdapIdmap `mandatory:"false" json:"ldapIdmap"`
+
 	// A list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this mount target.
 	// A maximum of 5 is allowed.
 	// Setting this to an empty array after the list is created removes the mount target from all NSGs.
 	// For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	Kerberos *Kerberos `mandatory:"false" json:"kerberos"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
@@ -79,6 +88,24 @@ func (m MountTarget) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MountTarget) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMountTargetLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMountTargetLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingMountTargetIdmapTypeEnum[string(m.IdmapType)]; !ok && m.IdmapType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IdmapType: %s. Supported values are: %s.", m.IdmapType, strings.Join(GetMountTargetIdmapTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MountTargetLifecycleStateEnum Enum with underlying type: string
 type MountTargetLifecycleStateEnum string
 
@@ -91,7 +118,7 @@ const (
 	MountTargetLifecycleStateFailed   MountTargetLifecycleStateEnum = "FAILED"
 )
 
-var mappingMountTargetLifecycleState = map[string]MountTargetLifecycleStateEnum{
+var mappingMountTargetLifecycleStateEnum = map[string]MountTargetLifecycleStateEnum{
 	"CREATING": MountTargetLifecycleStateCreating,
 	"ACTIVE":   MountTargetLifecycleStateActive,
 	"DELETING": MountTargetLifecycleStateDeleting,
@@ -102,8 +129,50 @@ var mappingMountTargetLifecycleState = map[string]MountTargetLifecycleStateEnum{
 // GetMountTargetLifecycleStateEnumValues Enumerates the set of values for MountTargetLifecycleStateEnum
 func GetMountTargetLifecycleStateEnumValues() []MountTargetLifecycleStateEnum {
 	values := make([]MountTargetLifecycleStateEnum, 0)
-	for _, v := range mappingMountTargetLifecycleState {
+	for _, v := range mappingMountTargetLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMountTargetLifecycleStateEnumStringValues Enumerates the set of values in String for MountTargetLifecycleStateEnum
+func GetMountTargetLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
+}
+
+// MountTargetIdmapTypeEnum Enum with underlying type: string
+type MountTargetIdmapTypeEnum string
+
+// Set of constants representing the allowable values for MountTargetIdmapTypeEnum
+const (
+	MountTargetIdmapTypeLdap MountTargetIdmapTypeEnum = "LDAP"
+	MountTargetIdmapTypeNone MountTargetIdmapTypeEnum = "NONE"
+)
+
+var mappingMountTargetIdmapTypeEnum = map[string]MountTargetIdmapTypeEnum{
+	"LDAP": MountTargetIdmapTypeLdap,
+	"NONE": MountTargetIdmapTypeNone,
+}
+
+// GetMountTargetIdmapTypeEnumValues Enumerates the set of values for MountTargetIdmapTypeEnum
+func GetMountTargetIdmapTypeEnumValues() []MountTargetIdmapTypeEnum {
+	values := make([]MountTargetIdmapTypeEnum, 0)
+	for _, v := range mappingMountTargetIdmapTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMountTargetIdmapTypeEnumStringValues Enumerates the set of values in String for MountTargetIdmapTypeEnum
+func GetMountTargetIdmapTypeEnumStringValues() []string {
+	return []string{
+		"LDAP",
+		"NONE",
+	}
 }

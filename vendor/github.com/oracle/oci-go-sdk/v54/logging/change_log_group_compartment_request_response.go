@@ -5,15 +5,13 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeLogGroupCompartmentRequest wrapper for the ChangeLogGroupCompartment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ChangeLogGroupCompartment.go.html to see an example of how to use ChangeLogGroupCompartmentRequest.
 type ChangeLogGroupCompartmentRequest struct {
 
 	// OCID of a log group to work with.
@@ -45,6 +43,10 @@ func (request ChangeLogGroupCompartmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeLogGroupCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -58,6 +60,17 @@ func (request ChangeLogGroupCompartmentRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeLogGroupCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeLogGroupCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeLogGroupCompartmentResponse wrapper for the ChangeLogGroupCompartment operation

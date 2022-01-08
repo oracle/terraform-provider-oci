@@ -14,19 +14,22 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AttachVnicDetails The representation of AttachVnicDetails
 type AttachVnicDetails struct {
 	CreateVnicDetails *CreateVnicDetails `mandatory:"true" json:"createVnicDetails"`
 
-	// The OCID of the instance.
-	InstanceId *string `mandatory:"true" json:"instanceId"`
-
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The OCID of the instance. For AttachVnic operation, this is a required field for the request,
+	// see AttachVnic.
+	InstanceId *string `mandatory:"false" json:"instanceId"`
 
 	// Which physical network interface card (NIC) the VNIC will use. Defaults to 0.
 	// Certain bare metal instance shapes have two active physical NICs (0 and 1). If
@@ -38,4 +41,16 @@ type AttachVnicDetails struct {
 
 func (m AttachVnicDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AttachVnicDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExecuteRestCallConfig The REST API configuration for execution.
@@ -29,6 +31,21 @@ func (m ExecuteRestCallConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExecuteRestCallConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingExecuteRestCallConfigMethodTypeEnum[string(m.MethodType)]; !ok && m.MethodType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MethodType: %s. Supported values are: %s.", m.MethodType, strings.Join(GetExecuteRestCallConfigMethodTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExecuteRestCallConfigMethodTypeEnum Enum with underlying type: string
 type ExecuteRestCallConfigMethodTypeEnum string
 
@@ -41,7 +58,7 @@ const (
 	ExecuteRestCallConfigMethodTypePut    ExecuteRestCallConfigMethodTypeEnum = "PUT"
 )
 
-var mappingExecuteRestCallConfigMethodType = map[string]ExecuteRestCallConfigMethodTypeEnum{
+var mappingExecuteRestCallConfigMethodTypeEnum = map[string]ExecuteRestCallConfigMethodTypeEnum{
 	"GET":    ExecuteRestCallConfigMethodTypeGet,
 	"POST":   ExecuteRestCallConfigMethodTypePost,
 	"PATCH":  ExecuteRestCallConfigMethodTypePatch,
@@ -52,8 +69,19 @@ var mappingExecuteRestCallConfigMethodType = map[string]ExecuteRestCallConfigMet
 // GetExecuteRestCallConfigMethodTypeEnumValues Enumerates the set of values for ExecuteRestCallConfigMethodTypeEnum
 func GetExecuteRestCallConfigMethodTypeEnumValues() []ExecuteRestCallConfigMethodTypeEnum {
 	values := make([]ExecuteRestCallConfigMethodTypeEnum, 0)
-	for _, v := range mappingExecuteRestCallConfigMethodType {
+	for _, v := range mappingExecuteRestCallConfigMethodTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExecuteRestCallConfigMethodTypeEnumStringValues Enumerates the set of values in String for ExecuteRestCallConfigMethodTypeEnum
+func GetExecuteRestCallConfigMethodTypeEnumStringValues() []string {
+	return []string{
+		"GET",
+		"POST",
+		"PATCH",
+		"DELETE",
+		"PUT",
+	}
 }

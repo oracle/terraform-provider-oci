@@ -5,15 +5,13 @@
 package operatoraccesscontrol
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListOperatorControlsRequest wrapper for the ListOperatorControls operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControls.go.html to see an example of how to use ListOperatorControlsRequest.
 type ListOperatorControlsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -55,6 +53,10 @@ func (request ListOperatorControlsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListOperatorControlsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,26 @@ func (request ListOperatorControlsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListOperatorControlsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListOperatorControlsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListOperatorControlsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListOperatorControlsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOperatorControlsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOperatorControlsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOperatorControlsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListOperatorControlsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListOperatorControlsResponse wrapper for the ListOperatorControls operation
@@ -109,7 +131,7 @@ const (
 	ListOperatorControlsLifecycleStateDeleted    ListOperatorControlsLifecycleStateEnum = "DELETED"
 )
 
-var mappingListOperatorControlsLifecycleState = map[string]ListOperatorControlsLifecycleStateEnum{
+var mappingListOperatorControlsLifecycleStateEnum = map[string]ListOperatorControlsLifecycleStateEnum{
 	"CREATED":    ListOperatorControlsLifecycleStateCreated,
 	"ASSIGNED":   ListOperatorControlsLifecycleStateAssigned,
 	"UNASSIGNED": ListOperatorControlsLifecycleStateUnassigned,
@@ -119,10 +141,20 @@ var mappingListOperatorControlsLifecycleState = map[string]ListOperatorControlsL
 // GetListOperatorControlsLifecycleStateEnumValues Enumerates the set of values for ListOperatorControlsLifecycleStateEnum
 func GetListOperatorControlsLifecycleStateEnumValues() []ListOperatorControlsLifecycleStateEnum {
 	values := make([]ListOperatorControlsLifecycleStateEnum, 0)
-	for _, v := range mappingListOperatorControlsLifecycleState {
+	for _, v := range mappingListOperatorControlsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperatorControlsLifecycleStateEnumStringValues Enumerates the set of values in String for ListOperatorControlsLifecycleStateEnum
+func GetListOperatorControlsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"ASSIGNED",
+		"UNASSIGNED",
+		"DELETED",
+	}
 }
 
 // ListOperatorControlsSortOrderEnum Enum with underlying type: string
@@ -134,7 +166,7 @@ const (
 	ListOperatorControlsSortOrderDesc ListOperatorControlsSortOrderEnum = "DESC"
 )
 
-var mappingListOperatorControlsSortOrder = map[string]ListOperatorControlsSortOrderEnum{
+var mappingListOperatorControlsSortOrderEnum = map[string]ListOperatorControlsSortOrderEnum{
 	"ASC":  ListOperatorControlsSortOrderAsc,
 	"DESC": ListOperatorControlsSortOrderDesc,
 }
@@ -142,10 +174,18 @@ var mappingListOperatorControlsSortOrder = map[string]ListOperatorControlsSortOr
 // GetListOperatorControlsSortOrderEnumValues Enumerates the set of values for ListOperatorControlsSortOrderEnum
 func GetListOperatorControlsSortOrderEnumValues() []ListOperatorControlsSortOrderEnum {
 	values := make([]ListOperatorControlsSortOrderEnum, 0)
-	for _, v := range mappingListOperatorControlsSortOrder {
+	for _, v := range mappingListOperatorControlsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperatorControlsSortOrderEnumStringValues Enumerates the set of values in String for ListOperatorControlsSortOrderEnum
+func GetListOperatorControlsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListOperatorControlsSortByEnum Enum with underlying type: string
@@ -157,7 +197,7 @@ const (
 	ListOperatorControlsSortByDisplayname ListOperatorControlsSortByEnum = "displayName"
 )
 
-var mappingListOperatorControlsSortBy = map[string]ListOperatorControlsSortByEnum{
+var mappingListOperatorControlsSortByEnum = map[string]ListOperatorControlsSortByEnum{
 	"timeCreated": ListOperatorControlsSortByTimecreated,
 	"displayName": ListOperatorControlsSortByDisplayname,
 }
@@ -165,8 +205,16 @@ var mappingListOperatorControlsSortBy = map[string]ListOperatorControlsSortByEnu
 // GetListOperatorControlsSortByEnumValues Enumerates the set of values for ListOperatorControlsSortByEnum
 func GetListOperatorControlsSortByEnumValues() []ListOperatorControlsSortByEnum {
 	values := make([]ListOperatorControlsSortByEnum, 0)
-	for _, v := range mappingListOperatorControlsSortBy {
+	for _, v := range mappingListOperatorControlsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperatorControlsSortByEnumStringValues Enumerates the set of values in String for ListOperatorControlsSortByEnum
+func GetListOperatorControlsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

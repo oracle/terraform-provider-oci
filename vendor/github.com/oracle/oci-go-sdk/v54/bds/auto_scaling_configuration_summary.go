@@ -10,7 +10,9 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutoScalingConfigurationSummary The information about the autoscale configuration.
@@ -39,4 +41,22 @@ type AutoScalingConfigurationSummary struct {
 
 func (m AutoScalingConfigurationSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutoScalingConfigurationSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutoScalingConfigurationLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutoScalingConfigurationLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingNodeNodeTypeEnum[string(m.NodeType)]; !ok && m.NodeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NodeType: %s. Supported values are: %s.", m.NodeType, strings.Join(GetNodeNodeTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

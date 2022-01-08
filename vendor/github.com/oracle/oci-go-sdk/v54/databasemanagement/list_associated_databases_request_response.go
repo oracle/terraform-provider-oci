@@ -5,15 +5,13 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAssociatedDatabasesRequest wrapper for the ListAssociatedDatabases operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListAssociatedDatabases.go.html to see an example of how to use ListAssociatedDatabasesRequest.
 type ListAssociatedDatabasesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
@@ -50,6 +48,10 @@ func (request ListAssociatedDatabasesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAssociatedDatabasesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +65,23 @@ func (request ListAssociatedDatabasesRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAssociatedDatabasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAssociatedDatabasesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAssociatedDatabasesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAssociatedDatabasesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAssociatedDatabasesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAssociatedDatabasesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAssociatedDatabasesResponse wrapper for the ListAssociatedDatabases operation
@@ -102,7 +121,7 @@ const (
 	ListAssociatedDatabasesSortOrderDesc ListAssociatedDatabasesSortOrderEnum = "DESC"
 )
 
-var mappingListAssociatedDatabasesSortOrder = map[string]ListAssociatedDatabasesSortOrderEnum{
+var mappingListAssociatedDatabasesSortOrderEnum = map[string]ListAssociatedDatabasesSortOrderEnum{
 	"ASC":  ListAssociatedDatabasesSortOrderAsc,
 	"DESC": ListAssociatedDatabasesSortOrderDesc,
 }
@@ -110,10 +129,18 @@ var mappingListAssociatedDatabasesSortOrder = map[string]ListAssociatedDatabases
 // GetListAssociatedDatabasesSortOrderEnumValues Enumerates the set of values for ListAssociatedDatabasesSortOrderEnum
 func GetListAssociatedDatabasesSortOrderEnumValues() []ListAssociatedDatabasesSortOrderEnum {
 	values := make([]ListAssociatedDatabasesSortOrderEnum, 0)
-	for _, v := range mappingListAssociatedDatabasesSortOrder {
+	for _, v := range mappingListAssociatedDatabasesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociatedDatabasesSortOrderEnumStringValues Enumerates the set of values in String for ListAssociatedDatabasesSortOrderEnum
+func GetListAssociatedDatabasesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAssociatedDatabasesSortByEnum Enum with underlying type: string
@@ -124,15 +151,22 @@ const (
 	ListAssociatedDatabasesSortByTimeregistered ListAssociatedDatabasesSortByEnum = "timeRegistered"
 )
 
-var mappingListAssociatedDatabasesSortBy = map[string]ListAssociatedDatabasesSortByEnum{
+var mappingListAssociatedDatabasesSortByEnum = map[string]ListAssociatedDatabasesSortByEnum{
 	"timeRegistered": ListAssociatedDatabasesSortByTimeregistered,
 }
 
 // GetListAssociatedDatabasesSortByEnumValues Enumerates the set of values for ListAssociatedDatabasesSortByEnum
 func GetListAssociatedDatabasesSortByEnumValues() []ListAssociatedDatabasesSortByEnum {
 	values := make([]ListAssociatedDatabasesSortByEnum, 0)
-	for _, v := range mappingListAssociatedDatabasesSortBy {
+	for _, v := range mappingListAssociatedDatabasesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociatedDatabasesSortByEnumStringValues Enumerates the set of values in String for ListAssociatedDatabasesSortByEnum
+func GetListAssociatedDatabasesSortByEnumStringValues() []string {
+	return []string{
+		"timeRegistered",
+	}
 }

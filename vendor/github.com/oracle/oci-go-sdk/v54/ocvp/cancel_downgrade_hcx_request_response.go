@@ -5,15 +5,13 @@
 package ocvp
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // CancelDowngradeHcxRequest wrapper for the CancelDowngradeHcx operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CancelDowngradeHcx.go.html to see an example of how to use CancelDowngradeHcxRequest.
 type CancelDowngradeHcxRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.
@@ -49,6 +47,10 @@ func (request CancelDowngradeHcxRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CancelDowngradeHcxRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +64,17 @@ func (request CancelDowngradeHcxRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CancelDowngradeHcxRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CancelDowngradeHcxRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CancelDowngradeHcxResponse wrapper for the CancelDowngradeHcx operation

@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDrgRouteRulesRequest wrapper for the ListDrgRouteRules operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDrgRouteRules.go.html to see an example of how to use ListDrgRouteRulesRequest.
 type ListDrgRouteRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
@@ -50,6 +48,10 @@ func (request ListDrgRouteRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDrgRouteRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +65,20 @@ func (request ListDrgRouteRulesRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDrgRouteRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDrgRouteRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDrgRouteRulesRouteTypeEnum[string(request.RouteType)]; !ok && request.RouteType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RouteType: %s. Supported values are: %s.", request.RouteType, strings.Join(GetListDrgRouteRulesRouteTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDrgRouteRulesResponse wrapper for the ListDrgRouteRules operation
@@ -102,7 +118,7 @@ const (
 	ListDrgRouteRulesRouteTypeDynamic ListDrgRouteRulesRouteTypeEnum = "DYNAMIC"
 )
 
-var mappingListDrgRouteRulesRouteType = map[string]ListDrgRouteRulesRouteTypeEnum{
+var mappingListDrgRouteRulesRouteTypeEnum = map[string]ListDrgRouteRulesRouteTypeEnum{
 	"STATIC":  ListDrgRouteRulesRouteTypeStatic,
 	"DYNAMIC": ListDrgRouteRulesRouteTypeDynamic,
 }
@@ -110,8 +126,16 @@ var mappingListDrgRouteRulesRouteType = map[string]ListDrgRouteRulesRouteTypeEnu
 // GetListDrgRouteRulesRouteTypeEnumValues Enumerates the set of values for ListDrgRouteRulesRouteTypeEnum
 func GetListDrgRouteRulesRouteTypeEnumValues() []ListDrgRouteRulesRouteTypeEnum {
 	values := make([]ListDrgRouteRulesRouteTypeEnum, 0)
-	for _, v := range mappingListDrgRouteRulesRouteType {
+	for _, v := range mappingListDrgRouteRulesRouteTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDrgRouteRulesRouteTypeEnumStringValues Enumerates the set of values in String for ListDrgRouteRulesRouteTypeEnum
+func GetListDrgRouteRulesRouteTypeEnumStringValues() []string {
+	return []string{
+		"STATIC",
+		"DYNAMIC",
+	}
 }

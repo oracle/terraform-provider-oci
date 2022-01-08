@@ -10,7 +10,9 @@
 package oce
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateOceInstanceDetails The information to be updated.
@@ -19,7 +21,14 @@ type UpdateOceInstanceDetails struct {
 	// OceInstance description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Web Application Firewall(WAF) primary domain
+	// A list of vanity domains to be updated for the instance. The value can be any valid domain/nested domain.
+	// If the property is not specified, or it is null, no update to existing vanityDomains.
+	// If the property is empty array, update will clear existing vanityDomains
+	// If the property has new value, the new vanityDomains value will replace existing vanityDomains previously set for the instance.
+	// Example: `{ "vanityDomains": ["mysite1.mycompany.com", "mysite2.mycompany.com"] }`
+	VanityDomains []string `mandatory:"false" json:"vanityDomains"`
+
+	// Deprecated. Web Application Firewall(WAF) primary domain. To set domain, use vanityDomains property instead.
 	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
 
 	// Flag indicating whether the instance license is new cloud or bring your own license
@@ -41,6 +50,24 @@ func (m UpdateOceInstanceDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateOceInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLicenseTypeEnum[string(m.InstanceLicenseType)]; !ok && m.InstanceLicenseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceLicenseType: %s. Supported values are: %s.", m.InstanceLicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateOceInstanceDetailsInstanceUsageTypeEnum[string(m.InstanceUsageType)]; !ok && m.InstanceUsageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceUsageType: %s. Supported values are: %s.", m.InstanceUsageType, strings.Join(GetUpdateOceInstanceDetailsInstanceUsageTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateOceInstanceDetailsInstanceUsageTypeEnum Enum with underlying type: string
 type UpdateOceInstanceDetailsInstanceUsageTypeEnum string
 
@@ -50,7 +77,7 @@ const (
 	UpdateOceInstanceDetailsInstanceUsageTypeNonprimary UpdateOceInstanceDetailsInstanceUsageTypeEnum = "NONPRIMARY"
 )
 
-var mappingUpdateOceInstanceDetailsInstanceUsageType = map[string]UpdateOceInstanceDetailsInstanceUsageTypeEnum{
+var mappingUpdateOceInstanceDetailsInstanceUsageTypeEnum = map[string]UpdateOceInstanceDetailsInstanceUsageTypeEnum{
 	"PRIMARY":    UpdateOceInstanceDetailsInstanceUsageTypePrimary,
 	"NONPRIMARY": UpdateOceInstanceDetailsInstanceUsageTypeNonprimary,
 }
@@ -58,8 +85,16 @@ var mappingUpdateOceInstanceDetailsInstanceUsageType = map[string]UpdateOceInsta
 // GetUpdateOceInstanceDetailsInstanceUsageTypeEnumValues Enumerates the set of values for UpdateOceInstanceDetailsInstanceUsageTypeEnum
 func GetUpdateOceInstanceDetailsInstanceUsageTypeEnumValues() []UpdateOceInstanceDetailsInstanceUsageTypeEnum {
 	values := make([]UpdateOceInstanceDetailsInstanceUsageTypeEnum, 0)
-	for _, v := range mappingUpdateOceInstanceDetailsInstanceUsageType {
+	for _, v := range mappingUpdateOceInstanceDetailsInstanceUsageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateOceInstanceDetailsInstanceUsageTypeEnumStringValues Enumerates the set of values in String for UpdateOceInstanceDetailsInstanceUsageTypeEnum
+func GetUpdateOceInstanceDetailsInstanceUsageTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"NONPRIMARY",
+	}
 }

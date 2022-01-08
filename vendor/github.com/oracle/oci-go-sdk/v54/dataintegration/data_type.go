@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataType A `DataType` object is a simple primitive type that describes the type of a single atomic unit of data.  For example, `INT`, `VARCHAR`, `NUMBER`, and so on.
@@ -77,6 +79,21 @@ func (m DataType) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataType) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataTypeDtTypeEnum[string(m.DtType)]; !ok && m.DtType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DtType: %s. Supported values are: %s.", m.DtType, strings.Join(GetDataTypeDtTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m DataType) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeDataType DataType
@@ -100,7 +117,7 @@ const (
 	DataTypeDtTypeStructured DataTypeDtTypeEnum = "STRUCTURED"
 )
 
-var mappingDataTypeDtType = map[string]DataTypeDtTypeEnum{
+var mappingDataTypeDtTypeEnum = map[string]DataTypeDtTypeEnum{
 	"PRIMITIVE":  DataTypeDtTypePrimitive,
 	"STRUCTURED": DataTypeDtTypeStructured,
 }
@@ -108,8 +125,16 @@ var mappingDataTypeDtType = map[string]DataTypeDtTypeEnum{
 // GetDataTypeDtTypeEnumValues Enumerates the set of values for DataTypeDtTypeEnum
 func GetDataTypeDtTypeEnumValues() []DataTypeDtTypeEnum {
 	values := make([]DataTypeDtTypeEnum, 0)
-	for _, v := range mappingDataTypeDtType {
+	for _, v := range mappingDataTypeDtTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataTypeDtTypeEnumStringValues Enumerates the set of values in String for DataTypeDtTypeEnum
+func GetDataTypeDtTypeEnumStringValues() []string {
+	return []string{
+		"PRIMITIVE",
+		"STRUCTURED",
+	}
 }

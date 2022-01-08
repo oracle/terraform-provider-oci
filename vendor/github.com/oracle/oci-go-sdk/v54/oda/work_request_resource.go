@@ -10,7 +10,9 @@
 package oda
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WorkRequestResource A resource created or operated on by a work request.
@@ -41,6 +43,24 @@ func (m WorkRequestResource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestResource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestResourceResourceActionEnum[string(m.ResourceAction)]; !ok && m.ResourceAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceAction: %s. Supported values are: %s.", m.ResourceAction, strings.Join(GetWorkRequestResourceResourceActionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingWorkRequestResourceStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestResourceStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestResourceResourceActionEnum Enum with underlying type: string
 type WorkRequestResourceResourceActionEnum string
 
@@ -58,7 +78,7 @@ const (
 	WorkRequestResourceResourceActionUpdateEntitlementsForCacct WorkRequestResourceResourceActionEnum = "UPDATE_ENTITLEMENTS_FOR_CACCT"
 )
 
-var mappingWorkRequestResourceResourceAction = map[string]WorkRequestResourceResourceActionEnum{
+var mappingWorkRequestResourceResourceActionEnum = map[string]WorkRequestResourceResourceActionEnum{
 	"CREATE":                        WorkRequestResourceResourceActionCreate,
 	"DELETE":                        WorkRequestResourceResourceActionDelete,
 	"PURGE":                         WorkRequestResourceResourceActionPurge,
@@ -74,10 +94,26 @@ var mappingWorkRequestResourceResourceAction = map[string]WorkRequestResourceRes
 // GetWorkRequestResourceResourceActionEnumValues Enumerates the set of values for WorkRequestResourceResourceActionEnum
 func GetWorkRequestResourceResourceActionEnumValues() []WorkRequestResourceResourceActionEnum {
 	values := make([]WorkRequestResourceResourceActionEnum, 0)
-	for _, v := range mappingWorkRequestResourceResourceAction {
+	for _, v := range mappingWorkRequestResourceResourceActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceResourceActionEnumStringValues Enumerates the set of values in String for WorkRequestResourceResourceActionEnum
+func GetWorkRequestResourceResourceActionEnumStringValues() []string {
+	return []string{
+		"CREATE",
+		"DELETE",
+		"PURGE",
+		"RECOVER",
+		"STOP",
+		"START",
+		"CHANGE_COMPARTMENT",
+		"CREATE_ASSOCIATION",
+		"DELETE_ASSOCIATION",
+		"UPDATE_ENTITLEMENTS_FOR_CACCT",
+	}
 }
 
 // WorkRequestResourceStatusEnum Enum with underlying type: string
@@ -93,7 +129,7 @@ const (
 	WorkRequestResourceStatusCanceled   WorkRequestResourceStatusEnum = "CANCELED"
 )
 
-var mappingWorkRequestResourceStatus = map[string]WorkRequestResourceStatusEnum{
+var mappingWorkRequestResourceStatusEnum = map[string]WorkRequestResourceStatusEnum{
 	"ACCEPTED":    WorkRequestResourceStatusAccepted,
 	"IN_PROGRESS": WorkRequestResourceStatusInProgress,
 	"SUCCEEDED":   WorkRequestResourceStatusSucceeded,
@@ -105,8 +141,20 @@ var mappingWorkRequestResourceStatus = map[string]WorkRequestResourceStatusEnum{
 // GetWorkRequestResourceStatusEnumValues Enumerates the set of values for WorkRequestResourceStatusEnum
 func GetWorkRequestResourceStatusEnumValues() []WorkRequestResourceStatusEnum {
 	values := make([]WorkRequestResourceStatusEnum, 0)
-	for _, v := range mappingWorkRequestResourceStatus {
+	for _, v := range mappingWorkRequestResourceStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceStatusEnumStringValues Enumerates the set of values in String for WorkRequestResourceStatusEnum
+func GetWorkRequestResourceStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

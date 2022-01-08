@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SetQueryParameterPolicyItem Set will add a new query parameter if it was not in the original request.  If the parameter already exists on the
@@ -35,6 +37,21 @@ func (m SetQueryParameterPolicyItem) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SetQueryParameterPolicyItem) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSetQueryParameterPolicyItemIfExistsEnum[string(m.IfExists)]; !ok && m.IfExists != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IfExists: %s. Supported values are: %s.", m.IfExists, strings.Join(GetSetQueryParameterPolicyItemIfExistsEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SetQueryParameterPolicyItemIfExistsEnum Enum with underlying type: string
 type SetQueryParameterPolicyItemIfExistsEnum string
 
@@ -45,7 +62,7 @@ const (
 	SetQueryParameterPolicyItemIfExistsSkip      SetQueryParameterPolicyItemIfExistsEnum = "SKIP"
 )
 
-var mappingSetQueryParameterPolicyItemIfExists = map[string]SetQueryParameterPolicyItemIfExistsEnum{
+var mappingSetQueryParameterPolicyItemIfExistsEnum = map[string]SetQueryParameterPolicyItemIfExistsEnum{
 	"OVERWRITE": SetQueryParameterPolicyItemIfExistsOverwrite,
 	"APPEND":    SetQueryParameterPolicyItemIfExistsAppend,
 	"SKIP":      SetQueryParameterPolicyItemIfExistsSkip,
@@ -54,8 +71,17 @@ var mappingSetQueryParameterPolicyItemIfExists = map[string]SetQueryParameterPol
 // GetSetQueryParameterPolicyItemIfExistsEnumValues Enumerates the set of values for SetQueryParameterPolicyItemIfExistsEnum
 func GetSetQueryParameterPolicyItemIfExistsEnumValues() []SetQueryParameterPolicyItemIfExistsEnum {
 	values := make([]SetQueryParameterPolicyItemIfExistsEnum, 0)
-	for _, v := range mappingSetQueryParameterPolicyItemIfExists {
+	for _, v := range mappingSetQueryParameterPolicyItemIfExistsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSetQueryParameterPolicyItemIfExistsEnumStringValues Enumerates the set of values in String for SetQueryParameterPolicyItemIfExistsEnum
+func GetSetQueryParameterPolicyItemIfExistsEnumStringValues() []string {
+	return []string{
+		"OVERWRITE",
+		"APPEND",
+		"SKIP",
+	}
 }

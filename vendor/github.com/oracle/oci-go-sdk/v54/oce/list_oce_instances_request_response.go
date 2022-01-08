@@ -5,15 +5,13 @@
 package oce
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListOceInstancesRequest wrapper for the ListOceInstances operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/ListOceInstances.go.html to see an example of how to use ListOceInstancesRequest.
 type ListOceInstancesRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -56,6 +54,10 @@ func (request ListOceInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListOceInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,26 @@ func (request ListOceInstancesRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListOceInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListOceInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListOceInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOceInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOceInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListOceInstancesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOceInstancesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListOceInstancesLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListOceInstancesResponse wrapper for the ListOceInstances operation
@@ -109,7 +131,7 @@ const (
 	ListOceInstancesSortOrderDesc ListOceInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListOceInstancesSortOrder = map[string]ListOceInstancesSortOrderEnum{
+var mappingListOceInstancesSortOrderEnum = map[string]ListOceInstancesSortOrderEnum{
 	"ASC":  ListOceInstancesSortOrderAsc,
 	"DESC": ListOceInstancesSortOrderDesc,
 }
@@ -117,10 +139,18 @@ var mappingListOceInstancesSortOrder = map[string]ListOceInstancesSortOrderEnum{
 // GetListOceInstancesSortOrderEnumValues Enumerates the set of values for ListOceInstancesSortOrderEnum
 func GetListOceInstancesSortOrderEnumValues() []ListOceInstancesSortOrderEnum {
 	values := make([]ListOceInstancesSortOrderEnum, 0)
-	for _, v := range mappingListOceInstancesSortOrder {
+	for _, v := range mappingListOceInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOceInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListOceInstancesSortOrderEnum
+func GetListOceInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListOceInstancesSortByEnum Enum with underlying type: string
@@ -132,7 +162,7 @@ const (
 	ListOceInstancesSortByDisplayname ListOceInstancesSortByEnum = "displayName"
 )
 
-var mappingListOceInstancesSortBy = map[string]ListOceInstancesSortByEnum{
+var mappingListOceInstancesSortByEnum = map[string]ListOceInstancesSortByEnum{
 	"timeCreated": ListOceInstancesSortByTimecreated,
 	"displayName": ListOceInstancesSortByDisplayname,
 }
@@ -140,10 +170,18 @@ var mappingListOceInstancesSortBy = map[string]ListOceInstancesSortByEnum{
 // GetListOceInstancesSortByEnumValues Enumerates the set of values for ListOceInstancesSortByEnum
 func GetListOceInstancesSortByEnumValues() []ListOceInstancesSortByEnum {
 	values := make([]ListOceInstancesSortByEnum, 0)
-	for _, v := range mappingListOceInstancesSortBy {
+	for _, v := range mappingListOceInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOceInstancesSortByEnumStringValues Enumerates the set of values in String for ListOceInstancesSortByEnum
+func GetListOceInstancesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListOceInstancesLifecycleStateEnum Enum with underlying type: string
@@ -159,7 +197,7 @@ const (
 	ListOceInstancesLifecycleStateFailed   ListOceInstancesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListOceInstancesLifecycleState = map[string]ListOceInstancesLifecycleStateEnum{
+var mappingListOceInstancesLifecycleStateEnum = map[string]ListOceInstancesLifecycleStateEnum{
 	"CREATING": ListOceInstancesLifecycleStateCreating,
 	"UPDATING": ListOceInstancesLifecycleStateUpdating,
 	"ACTIVE":   ListOceInstancesLifecycleStateActive,
@@ -171,8 +209,20 @@ var mappingListOceInstancesLifecycleState = map[string]ListOceInstancesLifecycle
 // GetListOceInstancesLifecycleStateEnumValues Enumerates the set of values for ListOceInstancesLifecycleStateEnum
 func GetListOceInstancesLifecycleStateEnumValues() []ListOceInstancesLifecycleStateEnum {
 	values := make([]ListOceInstancesLifecycleStateEnum, 0)
-	for _, v := range mappingListOceInstancesLifecycleState {
+	for _, v := range mappingListOceInstancesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOceInstancesLifecycleStateEnumStringValues Enumerates the set of values in String for ListOceInstancesLifecycleStateEnum
+func GetListOceInstancesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

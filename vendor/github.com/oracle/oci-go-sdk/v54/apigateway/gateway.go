@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Gateway A gateway is a virtual network appliance in a regional subnet. A gateway routes inbound traffic to back-end services including public, private, and partner HTTP APIs, as well as Oracle Functions. Avoid entering confidential information. For more information, see
@@ -87,6 +89,24 @@ type Gateway struct {
 
 func (m Gateway) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Gateway) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGatewayEndpointTypeEnum[string(m.EndpointType)]; !ok && m.EndpointType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EndpointType: %s. Supported values are: %s.", m.EndpointType, strings.Join(GetGatewayEndpointTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingGatewayLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetGatewayLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -187,7 +207,7 @@ const (
 	GatewayEndpointTypePrivate GatewayEndpointTypeEnum = "PRIVATE"
 )
 
-var mappingGatewayEndpointType = map[string]GatewayEndpointTypeEnum{
+var mappingGatewayEndpointTypeEnum = map[string]GatewayEndpointTypeEnum{
 	"PUBLIC":  GatewayEndpointTypePublic,
 	"PRIVATE": GatewayEndpointTypePrivate,
 }
@@ -195,10 +215,18 @@ var mappingGatewayEndpointType = map[string]GatewayEndpointTypeEnum{
 // GetGatewayEndpointTypeEnumValues Enumerates the set of values for GatewayEndpointTypeEnum
 func GetGatewayEndpointTypeEnumValues() []GatewayEndpointTypeEnum {
 	values := make([]GatewayEndpointTypeEnum, 0)
-	for _, v := range mappingGatewayEndpointType {
+	for _, v := range mappingGatewayEndpointTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGatewayEndpointTypeEnumStringValues Enumerates the set of values in String for GatewayEndpointTypeEnum
+func GetGatewayEndpointTypeEnumStringValues() []string {
+	return []string{
+		"PUBLIC",
+		"PRIVATE",
+	}
 }
 
 // GatewayLifecycleStateEnum Enum with underlying type: string
@@ -214,7 +242,7 @@ const (
 	GatewayLifecycleStateFailed   GatewayLifecycleStateEnum = "FAILED"
 )
 
-var mappingGatewayLifecycleState = map[string]GatewayLifecycleStateEnum{
+var mappingGatewayLifecycleStateEnum = map[string]GatewayLifecycleStateEnum{
 	"CREATING": GatewayLifecycleStateCreating,
 	"ACTIVE":   GatewayLifecycleStateActive,
 	"UPDATING": GatewayLifecycleStateUpdating,
@@ -226,8 +254,20 @@ var mappingGatewayLifecycleState = map[string]GatewayLifecycleStateEnum{
 // GetGatewayLifecycleStateEnumValues Enumerates the set of values for GatewayLifecycleStateEnum
 func GetGatewayLifecycleStateEnumValues() []GatewayLifecycleStateEnum {
 	values := make([]GatewayLifecycleStateEnum, 0)
-	for _, v := range mappingGatewayLifecycleState {
+	for _, v := range mappingGatewayLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGatewayLifecycleStateEnumStringValues Enumerates the set of values in String for GatewayLifecycleStateEnum
+func GetGatewayLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

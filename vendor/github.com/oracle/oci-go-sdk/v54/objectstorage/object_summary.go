@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ObjectSummary To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
@@ -42,10 +44,34 @@ type ObjectSummary struct {
 	// Archival state of an object. This field is set only for objects in Archive tier.
 	ArchivalState ArchivalStateEnum `mandatory:"false" json:"archivalState,omitempty"`
 
+	// Query state of an object. This field is set only for objects in Query tier.
+	QueryState QueryStateEnum `mandatory:"false" json:"queryState,omitempty"`
+
 	// The date and time the object was modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 }
 
 func (m ObjectSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ObjectSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingStorageTierEnum[string(m.StorageTier)]; !ok && m.StorageTier != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageTier: %s. Supported values are: %s.", m.StorageTier, strings.Join(GetStorageTierEnumStringValues(), ",")))
+	}
+	if _, ok := mappingArchivalStateEnum[string(m.ArchivalState)]; !ok && m.ArchivalState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchivalState: %s. Supported values are: %s.", m.ArchivalState, strings.Join(GetArchivalStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingQueryStateEnum[string(m.QueryState)]; !ok && m.QueryState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for QueryState: %s. Supported values are: %s.", m.QueryState, strings.Join(GetQueryStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

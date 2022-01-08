@@ -10,7 +10,9 @@
 package oda
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WorkRequest The description of work request, including its status.
@@ -58,6 +60,24 @@ func (m WorkRequest) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestRequestActionEnum[string(m.RequestAction)]; !ok && m.RequestAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequestAction: %s. Supported values are: %s.", m.RequestAction, strings.Join(GetWorkRequestRequestActionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingWorkRequestStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestRequestActionEnum Enum with underlying type: string
 type WorkRequestRequestActionEnum string
 
@@ -77,7 +97,7 @@ const (
 	WorkRequestRequestActionLookupOdaInstancesForCacct   WorkRequestRequestActionEnum = "LOOKUP_ODA_INSTANCES_FOR_CACCT"
 )
 
-var mappingWorkRequestRequestAction = map[string]WorkRequestRequestActionEnum{
+var mappingWorkRequestRequestActionEnum = map[string]WorkRequestRequestActionEnum{
 	"CREATE_ODA_INSTANCE":             WorkRequestRequestActionCreateOdaInstance,
 	"UPGRADE_ODA_INSTANCE":            WorkRequestRequestActionUpgradeOdaInstance,
 	"DELETE_ODA_INSTANCE":             WorkRequestRequestActionDeleteOdaInstance,
@@ -95,10 +115,28 @@ var mappingWorkRequestRequestAction = map[string]WorkRequestRequestActionEnum{
 // GetWorkRequestRequestActionEnumValues Enumerates the set of values for WorkRequestRequestActionEnum
 func GetWorkRequestRequestActionEnumValues() []WorkRequestRequestActionEnum {
 	values := make([]WorkRequestRequestActionEnum, 0)
-	for _, v := range mappingWorkRequestRequestAction {
+	for _, v := range mappingWorkRequestRequestActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestRequestActionEnumStringValues Enumerates the set of values in String for WorkRequestRequestActionEnum
+func GetWorkRequestRequestActionEnumStringValues() []string {
+	return []string{
+		"CREATE_ODA_INSTANCE",
+		"UPGRADE_ODA_INSTANCE",
+		"DELETE_ODA_INSTANCE",
+		"PURGE_ODA_INSTANCE",
+		"RECOVER_ODA_INSTANCE",
+		"STOP_ODA_INSTANCE",
+		"START_ODA_INSTANCE",
+		"CHANGE_ODA_INSTANCE_COMPARTMENT",
+		"CREATE_ASSOCIATION",
+		"DELETE_ASSOCIATION",
+		"UPDATE_ENTITLEMENTS_FOR_CACCT",
+		"LOOKUP_ODA_INSTANCES_FOR_CACCT",
+	}
 }
 
 // WorkRequestStatusEnum Enum with underlying type: string
@@ -114,7 +152,7 @@ const (
 	WorkRequestStatusCanceled   WorkRequestStatusEnum = "CANCELED"
 )
 
-var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
+var mappingWorkRequestStatusEnum = map[string]WorkRequestStatusEnum{
 	"ACCEPTED":    WorkRequestStatusAccepted,
 	"IN_PROGRESS": WorkRequestStatusInProgress,
 	"SUCCEEDED":   WorkRequestStatusSucceeded,
@@ -126,8 +164,20 @@ var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
 // GetWorkRequestStatusEnumValues Enumerates the set of values for WorkRequestStatusEnum
 func GetWorkRequestStatusEnumValues() []WorkRequestStatusEnum {
 	values := make([]WorkRequestStatusEnum, 0)
-	for _, v := range mappingWorkRequestStatus {
+	for _, v := range mappingWorkRequestStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestStatusEnumStringValues Enumerates the set of values in String for WorkRequestStatusEnum
+func GetWorkRequestStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

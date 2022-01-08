@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DbServer Details of the Exacc Db server resource. Applies to Exadata Cloud@Customer instances only.
@@ -61,6 +63,8 @@ type DbServer struct {
 	// The date and time that the Db Server was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	DbServerPatchingDetails *DbServerPatchingDetails `mandatory:"false" json:"dbServerPatchingDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -73,6 +77,21 @@ type DbServer struct {
 
 func (m DbServer) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbServer) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDbServerLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbServerLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DbServerLifecycleStateEnum Enum with underlying type: string
@@ -88,7 +107,7 @@ const (
 	DbServerLifecycleStateMaintenanceInProgress DbServerLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingDbServerLifecycleState = map[string]DbServerLifecycleStateEnum{
+var mappingDbServerLifecycleStateEnum = map[string]DbServerLifecycleStateEnum{
 	"CREATING":                DbServerLifecycleStateCreating,
 	"AVAILABLE":               DbServerLifecycleStateAvailable,
 	"UNAVAILABLE":             DbServerLifecycleStateUnavailable,
@@ -100,8 +119,20 @@ var mappingDbServerLifecycleState = map[string]DbServerLifecycleStateEnum{
 // GetDbServerLifecycleStateEnumValues Enumerates the set of values for DbServerLifecycleStateEnum
 func GetDbServerLifecycleStateEnumValues() []DbServerLifecycleStateEnum {
 	values := make([]DbServerLifecycleStateEnum, 0)
-	for _, v := range mappingDbServerLifecycleState {
+	for _, v := range mappingDbServerLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbServerLifecycleStateEnumStringValues Enumerates the set of values in String for DbServerLifecycleStateEnum
+func GetDbServerLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"AVAILABLE",
+		"UNAVAILABLE",
+		"DELETING",
+		"DELETED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }

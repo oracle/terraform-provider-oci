@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummary A summary for all the statistic findings of an object in a SQL Tuning Advisor task. Includes the object's hash, name, type, schema, problem type and the object reference count.
@@ -41,6 +43,21 @@ func (m SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummary) String() stri
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum[string(m.ProblemType)]; !ok && m.ProblemType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProblemType: %s. Supported values are: %s.", m.ProblemType, strings.Join(GetSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum Enum with underlying type: string
 type SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum string
 
@@ -50,7 +67,7 @@ const (
 	SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeStale   SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum = "STALE"
 )
 
-var mappingSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemType = map[string]SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum{
+var mappingSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum = map[string]SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum{
 	"MISSING": SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeMissing,
 	"STALE":   SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeStale,
 }
@@ -58,8 +75,16 @@ var mappingSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemType 
 // GetSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnumValues Enumerates the set of values for SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum
 func GetSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnumValues() []SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum {
 	values := make([]SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum, 0)
-	for _, v := range mappingSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemType {
+	for _, v := range mappingSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnumStringValues Enumerates the set of values in String for SqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnum
+func GetSqlTuningAdvisorTaskSummaryReportObjectStatFindingSummaryProblemTypeEnumStringValues() []string {
+	return []string{
+		"MISSING",
+		"STALE",
+	}
 }

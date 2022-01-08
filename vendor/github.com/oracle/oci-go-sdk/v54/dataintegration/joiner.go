@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Joiner The information about a joiner object.
@@ -121,6 +123,21 @@ func (m Joiner) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Joiner) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJoinerJoinTypeEnum[string(m.JoinType)]; !ok && m.JoinType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JoinType: %s. Supported values are: %s.", m.JoinType, strings.Join(GetJoinerJoinTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m Joiner) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeJoiner Joiner
@@ -146,7 +163,7 @@ const (
 	JoinerJoinTypeRight JoinerJoinTypeEnum = "RIGHT"
 )
 
-var mappingJoinerJoinType = map[string]JoinerJoinTypeEnum{
+var mappingJoinerJoinTypeEnum = map[string]JoinerJoinTypeEnum{
 	"INNER": JoinerJoinTypeInner,
 	"FULL":  JoinerJoinTypeFull,
 	"LEFT":  JoinerJoinTypeLeft,
@@ -156,8 +173,18 @@ var mappingJoinerJoinType = map[string]JoinerJoinTypeEnum{
 // GetJoinerJoinTypeEnumValues Enumerates the set of values for JoinerJoinTypeEnum
 func GetJoinerJoinTypeEnumValues() []JoinerJoinTypeEnum {
 	values := make([]JoinerJoinTypeEnum, 0)
-	for _, v := range mappingJoinerJoinType {
+	for _, v := range mappingJoinerJoinTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJoinerJoinTypeEnumStringValues Enumerates the set of values in String for JoinerJoinTypeEnum
+func GetJoinerJoinTypeEnumStringValues() []string {
+	return []string{
+		"INNER",
+		"FULL",
+		"LEFT",
+		"RIGHT",
+	}
 }

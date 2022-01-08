@@ -24,7 +24,7 @@ const (
 	TargetDatabaseLifecycleStateFailed         TargetDatabaseLifecycleStateEnum = "FAILED"
 )
 
-var mappingTargetDatabaseLifecycleState = map[string]TargetDatabaseLifecycleStateEnum{
+var mappingTargetDatabaseLifecycleStateEnum = map[string]TargetDatabaseLifecycleStateEnum{
 	"CREATING":        TargetDatabaseLifecycleStateCreating,
 	"UPDATING":        TargetDatabaseLifecycleStateUpdating,
 	"ACTIVE":          TargetDatabaseLifecycleStateActive,
@@ -38,8 +38,22 @@ var mappingTargetDatabaseLifecycleState = map[string]TargetDatabaseLifecycleStat
 // GetTargetDatabaseLifecycleStateEnumValues Enumerates the set of values for TargetDatabaseLifecycleStateEnum
 func GetTargetDatabaseLifecycleStateEnumValues() []TargetDatabaseLifecycleStateEnum {
 	values := make([]TargetDatabaseLifecycleStateEnum, 0)
-	for _, v := range mappingTargetDatabaseLifecycleState {
+	for _, v := range mappingTargetDatabaseLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTargetDatabaseLifecycleStateEnumStringValues Enumerates the set of values in String for TargetDatabaseLifecycleStateEnum
+func GetTargetDatabaseLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"NEEDS_ATTENTION",
+		"FAILED",
+	}
 }

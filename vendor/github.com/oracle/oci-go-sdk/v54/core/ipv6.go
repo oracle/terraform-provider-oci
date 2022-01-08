@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Ipv6 An *IPv6* is a conceptual term that refers to an IPv6 address and related properties.
@@ -70,6 +72,21 @@ func (m Ipv6) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Ipv6) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIpv6LifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetIpv6LifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // Ipv6LifecycleStateEnum Enum with underlying type: string
 type Ipv6LifecycleStateEnum string
 
@@ -81,7 +98,7 @@ const (
 	Ipv6LifecycleStateTerminated   Ipv6LifecycleStateEnum = "TERMINATED"
 )
 
-var mappingIpv6LifecycleState = map[string]Ipv6LifecycleStateEnum{
+var mappingIpv6LifecycleStateEnum = map[string]Ipv6LifecycleStateEnum{
 	"PROVISIONING": Ipv6LifecycleStateProvisioning,
 	"AVAILABLE":    Ipv6LifecycleStateAvailable,
 	"TERMINATING":  Ipv6LifecycleStateTerminating,
@@ -91,8 +108,18 @@ var mappingIpv6LifecycleState = map[string]Ipv6LifecycleStateEnum{
 // GetIpv6LifecycleStateEnumValues Enumerates the set of values for Ipv6LifecycleStateEnum
 func GetIpv6LifecycleStateEnumValues() []Ipv6LifecycleStateEnum {
 	values := make([]Ipv6LifecycleStateEnum, 0)
-	for _, v := range mappingIpv6LifecycleState {
+	for _, v := range mappingIpv6LifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpv6LifecycleStateEnumStringValues Enumerates the set of values in String for Ipv6LifecycleStateEnum
+func GetIpv6LifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

@@ -5,15 +5,13 @@
 package usage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListProductsRequest wrapper for the ListProducts operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListProducts.go.html to see an example of how to use ListProductsRequest.
 type ListProductsRequest struct {
 
 	// The OCID of the tenancy.
@@ -55,6 +53,10 @@ func (request ListProductsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListProductsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,26 @@ func (request ListProductsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListProductsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListProductsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListProductsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListProductsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProductsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListProductsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProductsProducttypeEnum[string(request.Producttype)]; !ok && request.Producttype != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Producttype: %s. Supported values are: %s.", request.Producttype, strings.Join(GetListProductsProducttypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListProductsResponse wrapper for the ListProducts operation
@@ -107,7 +129,7 @@ const (
 	ListProductsSortOrderDesc ListProductsSortOrderEnum = "DESC"
 )
 
-var mappingListProductsSortOrder = map[string]ListProductsSortOrderEnum{
+var mappingListProductsSortOrderEnum = map[string]ListProductsSortOrderEnum{
 	"ASC":  ListProductsSortOrderAsc,
 	"DESC": ListProductsSortOrderDesc,
 }
@@ -115,10 +137,18 @@ var mappingListProductsSortOrder = map[string]ListProductsSortOrderEnum{
 // GetListProductsSortOrderEnumValues Enumerates the set of values for ListProductsSortOrderEnum
 func GetListProductsSortOrderEnumValues() []ListProductsSortOrderEnum {
 	values := make([]ListProductsSortOrderEnum, 0)
-	for _, v := range mappingListProductsSortOrder {
+	for _, v := range mappingListProductsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProductsSortOrderEnumStringValues Enumerates the set of values in String for ListProductsSortOrderEnum
+func GetListProductsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListProductsSortByEnum Enum with underlying type: string
@@ -130,7 +160,7 @@ const (
 	ListProductsSortByTimestart   ListProductsSortByEnum = "TIMESTART"
 )
 
-var mappingListProductsSortBy = map[string]ListProductsSortByEnum{
+var mappingListProductsSortByEnum = map[string]ListProductsSortByEnum{
 	"TIMECREATED": ListProductsSortByTimecreated,
 	"TIMESTART":   ListProductsSortByTimestart,
 }
@@ -138,10 +168,18 @@ var mappingListProductsSortBy = map[string]ListProductsSortByEnum{
 // GetListProductsSortByEnumValues Enumerates the set of values for ListProductsSortByEnum
 func GetListProductsSortByEnumValues() []ListProductsSortByEnum {
 	values := make([]ListProductsSortByEnum, 0)
-	for _, v := range mappingListProductsSortBy {
+	for _, v := range mappingListProductsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProductsSortByEnumStringValues Enumerates the set of values in String for ListProductsSortByEnum
+func GetListProductsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"TIMESTART",
+	}
 }
 
 // ListProductsProducttypeEnum Enum with underlying type: string
@@ -154,7 +192,7 @@ const (
 	ListProductsProducttypeIneligible ListProductsProducttypeEnum = "INELIGIBLE"
 )
 
-var mappingListProductsProducttype = map[string]ListProductsProducttypeEnum{
+var mappingListProductsProducttypeEnum = map[string]ListProductsProducttypeEnum{
 	"ALL":        ListProductsProducttypeAll,
 	"ELIGIBLE":   ListProductsProducttypeEligible,
 	"INELIGIBLE": ListProductsProducttypeIneligible,
@@ -163,8 +201,17 @@ var mappingListProductsProducttype = map[string]ListProductsProducttypeEnum{
 // GetListProductsProducttypeEnumValues Enumerates the set of values for ListProductsProducttypeEnum
 func GetListProductsProducttypeEnumValues() []ListProductsProducttypeEnum {
 	values := make([]ListProductsProducttypeEnum, 0)
-	for _, v := range mappingListProductsProducttype {
+	for _, v := range mappingListProductsProducttypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProductsProducttypeEnumStringValues Enumerates the set of values in String for ListProductsProducttypeEnum
+func GetListProductsProducttypeEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"ELIGIBLE",
+		"INELIGIBLE",
+	}
 }

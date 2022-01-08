@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // QueryParameterValidationRequestPolicy Validate the URL query parameters on the incoming API requests on a specific route.
@@ -33,6 +35,21 @@ func (m QueryParameterValidationRequestPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m QueryParameterValidationRequestPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingQueryParameterValidationRequestPolicyValidationModeEnum[string(m.ValidationMode)]; !ok && m.ValidationMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValidationMode: %s. Supported values are: %s.", m.ValidationMode, strings.Join(GetQueryParameterValidationRequestPolicyValidationModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // QueryParameterValidationRequestPolicyValidationModeEnum Enum with underlying type: string
 type QueryParameterValidationRequestPolicyValidationModeEnum string
 
@@ -43,7 +60,7 @@ const (
 	QueryParameterValidationRequestPolicyValidationModeDisabled   QueryParameterValidationRequestPolicyValidationModeEnum = "DISABLED"
 )
 
-var mappingQueryParameterValidationRequestPolicyValidationMode = map[string]QueryParameterValidationRequestPolicyValidationModeEnum{
+var mappingQueryParameterValidationRequestPolicyValidationModeEnum = map[string]QueryParameterValidationRequestPolicyValidationModeEnum{
 	"ENFORCING":  QueryParameterValidationRequestPolicyValidationModeEnforcing,
 	"PERMISSIVE": QueryParameterValidationRequestPolicyValidationModePermissive,
 	"DISABLED":   QueryParameterValidationRequestPolicyValidationModeDisabled,
@@ -52,8 +69,17 @@ var mappingQueryParameterValidationRequestPolicyValidationMode = map[string]Quer
 // GetQueryParameterValidationRequestPolicyValidationModeEnumValues Enumerates the set of values for QueryParameterValidationRequestPolicyValidationModeEnum
 func GetQueryParameterValidationRequestPolicyValidationModeEnumValues() []QueryParameterValidationRequestPolicyValidationModeEnum {
 	values := make([]QueryParameterValidationRequestPolicyValidationModeEnum, 0)
-	for _, v := range mappingQueryParameterValidationRequestPolicyValidationMode {
+	for _, v := range mappingQueryParameterValidationRequestPolicyValidationModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetQueryParameterValidationRequestPolicyValidationModeEnumStringValues Enumerates the set of values in String for QueryParameterValidationRequestPolicyValidationModeEnum
+func GetQueryParameterValidationRequestPolicyValidationModeEnumStringValues() []string {
+	return []string{
+		"ENFORCING",
+		"PERMISSIVE",
+		"DISABLED",
+	}
 }

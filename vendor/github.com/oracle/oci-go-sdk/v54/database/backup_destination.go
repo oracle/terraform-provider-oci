@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BackupDestination Backup destination details.
@@ -73,6 +75,27 @@ func (m BackupDestination) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BackupDestination) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBackupDestinationTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetBackupDestinationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBackupDestinationNfsMountTypeEnum[string(m.NfsMountType)]; !ok && m.NfsMountType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NfsMountType: %s. Supported values are: %s.", m.NfsMountType, strings.Join(GetBackupDestinationNfsMountTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBackupDestinationLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBackupDestinationLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BackupDestinationTypeEnum Enum with underlying type: string
 type BackupDestinationTypeEnum string
 
@@ -82,7 +105,7 @@ const (
 	BackupDestinationTypeRecoveryAppliance BackupDestinationTypeEnum = "RECOVERY_APPLIANCE"
 )
 
-var mappingBackupDestinationType = map[string]BackupDestinationTypeEnum{
+var mappingBackupDestinationTypeEnum = map[string]BackupDestinationTypeEnum{
 	"NFS":                BackupDestinationTypeNfs,
 	"RECOVERY_APPLIANCE": BackupDestinationTypeRecoveryAppliance,
 }
@@ -90,10 +113,18 @@ var mappingBackupDestinationType = map[string]BackupDestinationTypeEnum{
 // GetBackupDestinationTypeEnumValues Enumerates the set of values for BackupDestinationTypeEnum
 func GetBackupDestinationTypeEnumValues() []BackupDestinationTypeEnum {
 	values := make([]BackupDestinationTypeEnum, 0)
-	for _, v := range mappingBackupDestinationType {
+	for _, v := range mappingBackupDestinationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupDestinationTypeEnumStringValues Enumerates the set of values in String for BackupDestinationTypeEnum
+func GetBackupDestinationTypeEnumStringValues() []string {
+	return []string{
+		"NFS",
+		"RECOVERY_APPLIANCE",
+	}
 }
 
 // BackupDestinationNfsMountTypeEnum Enum with underlying type: string
@@ -105,7 +136,7 @@ const (
 	BackupDestinationNfsMountTypeAutomatedMount BackupDestinationNfsMountTypeEnum = "AUTOMATED_MOUNT"
 )
 
-var mappingBackupDestinationNfsMountType = map[string]BackupDestinationNfsMountTypeEnum{
+var mappingBackupDestinationNfsMountTypeEnum = map[string]BackupDestinationNfsMountTypeEnum{
 	"SELF_MOUNT":      BackupDestinationNfsMountTypeSelfMount,
 	"AUTOMATED_MOUNT": BackupDestinationNfsMountTypeAutomatedMount,
 }
@@ -113,10 +144,18 @@ var mappingBackupDestinationNfsMountType = map[string]BackupDestinationNfsMountT
 // GetBackupDestinationNfsMountTypeEnumValues Enumerates the set of values for BackupDestinationNfsMountTypeEnum
 func GetBackupDestinationNfsMountTypeEnumValues() []BackupDestinationNfsMountTypeEnum {
 	values := make([]BackupDestinationNfsMountTypeEnum, 0)
-	for _, v := range mappingBackupDestinationNfsMountType {
+	for _, v := range mappingBackupDestinationNfsMountTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupDestinationNfsMountTypeEnumStringValues Enumerates the set of values in String for BackupDestinationNfsMountTypeEnum
+func GetBackupDestinationNfsMountTypeEnumStringValues() []string {
+	return []string{
+		"SELF_MOUNT",
+		"AUTOMATED_MOUNT",
+	}
 }
 
 // BackupDestinationLifecycleStateEnum Enum with underlying type: string
@@ -129,7 +168,7 @@ const (
 	BackupDestinationLifecycleStateDeleted BackupDestinationLifecycleStateEnum = "DELETED"
 )
 
-var mappingBackupDestinationLifecycleState = map[string]BackupDestinationLifecycleStateEnum{
+var mappingBackupDestinationLifecycleStateEnum = map[string]BackupDestinationLifecycleStateEnum{
 	"ACTIVE":  BackupDestinationLifecycleStateActive,
 	"FAILED":  BackupDestinationLifecycleStateFailed,
 	"DELETED": BackupDestinationLifecycleStateDeleted,
@@ -138,8 +177,17 @@ var mappingBackupDestinationLifecycleState = map[string]BackupDestinationLifecyc
 // GetBackupDestinationLifecycleStateEnumValues Enumerates the set of values for BackupDestinationLifecycleStateEnum
 func GetBackupDestinationLifecycleStateEnumValues() []BackupDestinationLifecycleStateEnum {
 	values := make([]BackupDestinationLifecycleStateEnum, 0)
-	for _, v := range mappingBackupDestinationLifecycleState {
+	for _, v := range mappingBackupDestinationLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupDestinationLifecycleStateEnumStringValues Enumerates the set of values in String for BackupDestinationLifecycleStateEnum
+func GetBackupDestinationLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"FAILED",
+		"DELETED",
+	}
 }

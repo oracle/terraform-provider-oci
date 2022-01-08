@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExternalPublication The external published object contains the audit summary information and the definition of the task.
@@ -71,6 +73,21 @@ func (m ExternalPublication) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExternalPublication) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingExternalPublicationStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetExternalPublicationStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExternalPublicationStatusEnum Enum with underlying type: string
 type ExternalPublicationStatusEnum string
 
@@ -81,7 +98,7 @@ const (
 	ExternalPublicationStatusPublishing ExternalPublicationStatusEnum = "PUBLISHING"
 )
 
-var mappingExternalPublicationStatus = map[string]ExternalPublicationStatusEnum{
+var mappingExternalPublicationStatusEnum = map[string]ExternalPublicationStatusEnum{
 	"SUCCESSFUL": ExternalPublicationStatusSuccessful,
 	"FAILED":     ExternalPublicationStatusFailed,
 	"PUBLISHING": ExternalPublicationStatusPublishing,
@@ -90,8 +107,17 @@ var mappingExternalPublicationStatus = map[string]ExternalPublicationStatusEnum{
 // GetExternalPublicationStatusEnumValues Enumerates the set of values for ExternalPublicationStatusEnum
 func GetExternalPublicationStatusEnumValues() []ExternalPublicationStatusEnum {
 	values := make([]ExternalPublicationStatusEnum, 0)
-	for _, v := range mappingExternalPublicationStatus {
+	for _, v := range mappingExternalPublicationStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalPublicationStatusEnumStringValues Enumerates the set of values in String for ExternalPublicationStatusEnum
+func GetExternalPublicationStatusEnumStringValues() []string {
+	return []string{
+		"SUCCESSFUL",
+		"FAILED",
+		"PUBLISHING",
+	}
 }

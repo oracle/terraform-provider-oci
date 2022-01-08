@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BulkEditOperationDetails The representation of BulkEditOperationDetails
@@ -34,6 +36,21 @@ func (m BulkEditOperationDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BulkEditOperationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBulkEditOperationDetailsOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetBulkEditOperationDetailsOperationTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BulkEditOperationDetailsOperationTypeEnum Enum with underlying type: string
 type BulkEditOperationDetailsOperationTypeEnum string
 
@@ -45,7 +62,7 @@ const (
 	BulkEditOperationDetailsOperationTypeRemove          BulkEditOperationDetailsOperationTypeEnum = "REMOVE"
 )
 
-var mappingBulkEditOperationDetailsOperationType = map[string]BulkEditOperationDetailsOperationTypeEnum{
+var mappingBulkEditOperationDetailsOperationTypeEnum = map[string]BulkEditOperationDetailsOperationTypeEnum{
 	"ADD_WHERE_ABSENT":  BulkEditOperationDetailsOperationTypeAddWhereAbsent,
 	"SET_WHERE_PRESENT": BulkEditOperationDetailsOperationTypeSetWherePresent,
 	"ADD_OR_SET":        BulkEditOperationDetailsOperationTypeAddOrSet,
@@ -55,8 +72,18 @@ var mappingBulkEditOperationDetailsOperationType = map[string]BulkEditOperationD
 // GetBulkEditOperationDetailsOperationTypeEnumValues Enumerates the set of values for BulkEditOperationDetailsOperationTypeEnum
 func GetBulkEditOperationDetailsOperationTypeEnumValues() []BulkEditOperationDetailsOperationTypeEnum {
 	values := make([]BulkEditOperationDetailsOperationTypeEnum, 0)
-	for _, v := range mappingBulkEditOperationDetailsOperationType {
+	for _, v := range mappingBulkEditOperationDetailsOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBulkEditOperationDetailsOperationTypeEnumStringValues Enumerates the set of values in String for BulkEditOperationDetailsOperationTypeEnum
+func GetBulkEditOperationDetailsOperationTypeEnumStringValues() []string {
+	return []string{
+		"ADD_WHERE_ABSENT",
+		"SET_WHERE_PRESENT",
+		"ADD_OR_SET",
+		"REMOVE",
+	}
 }

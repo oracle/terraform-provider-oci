@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateEntityShapeDetails The data entity shape object.
@@ -65,6 +67,18 @@ func (m createentityshapedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createentityshapedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateEntityShapeDetailsModelTypeEnum Enum with underlying type: string
 type CreateEntityShapeDetailsModelTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	CreateEntityShapeDetailsModelTypeSqlEntity  CreateEntityShapeDetailsModelTypeEnum = "SQL_ENTITY"
 )
 
-var mappingCreateEntityShapeDetailsModelType = map[string]CreateEntityShapeDetailsModelTypeEnum{
+var mappingCreateEntityShapeDetailsModelTypeEnum = map[string]CreateEntityShapeDetailsModelTypeEnum{
 	"FILE_ENTITY": CreateEntityShapeDetailsModelTypeFileEntity,
 	"SQL_ENTITY":  CreateEntityShapeDetailsModelTypeSqlEntity,
 }
@@ -82,8 +96,16 @@ var mappingCreateEntityShapeDetailsModelType = map[string]CreateEntityShapeDetai
 // GetCreateEntityShapeDetailsModelTypeEnumValues Enumerates the set of values for CreateEntityShapeDetailsModelTypeEnum
 func GetCreateEntityShapeDetailsModelTypeEnumValues() []CreateEntityShapeDetailsModelTypeEnum {
 	values := make([]CreateEntityShapeDetailsModelTypeEnum, 0)
-	for _, v := range mappingCreateEntityShapeDetailsModelType {
+	for _, v := range mappingCreateEntityShapeDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateEntityShapeDetailsModelTypeEnumStringValues Enumerates the set of values in String for CreateEntityShapeDetailsModelTypeEnum
+func GetCreateEntityShapeDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"FILE_ENTITY",
+		"SQL_ENTITY",
+	}
 }

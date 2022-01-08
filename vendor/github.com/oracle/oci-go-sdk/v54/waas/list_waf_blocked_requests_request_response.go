@@ -5,15 +5,13 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListWafBlockedRequestsRequest wrapper for the ListWafBlockedRequests operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWafBlockedRequests.go.html to see an example of how to use ListWafBlockedRequestsRequest.
 type ListWafBlockedRequestsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
@@ -49,6 +47,10 @@ func (request ListWafBlockedRequestsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWafBlockedRequestsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +64,23 @@ func (request ListWafBlockedRequestsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWafBlockedRequestsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWafBlockedRequestsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.WafFeature {
+		if _, ok := mappingListWafBlockedRequestsWafFeatureEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WafFeature: %s. Supported values are: %s.", val, strings.Join(GetListWafBlockedRequestsWafFeatureEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWafBlockedRequestsResponse wrapper for the ListWafBlockedRequests operation
@@ -104,7 +123,7 @@ const (
 	ListWafBlockedRequestsWafFeatureAddressRateLimiting        ListWafBlockedRequestsWafFeatureEnum = "ADDRESS_RATE_LIMITING"
 )
 
-var mappingListWafBlockedRequestsWafFeature = map[string]ListWafBlockedRequestsWafFeatureEnum{
+var mappingListWafBlockedRequestsWafFeatureEnum = map[string]ListWafBlockedRequestsWafFeatureEnum{
 	"PROTECTION_RULES":             ListWafBlockedRequestsWafFeatureProtectionRules,
 	"JS_CHALLENGE":                 ListWafBlockedRequestsWafFeatureJsChallenge,
 	"ACCESS_RULES":                 ListWafBlockedRequestsWafFeatureAccessRules,
@@ -118,8 +137,22 @@ var mappingListWafBlockedRequestsWafFeature = map[string]ListWafBlockedRequestsW
 // GetListWafBlockedRequestsWafFeatureEnumValues Enumerates the set of values for ListWafBlockedRequestsWafFeatureEnum
 func GetListWafBlockedRequestsWafFeatureEnumValues() []ListWafBlockedRequestsWafFeatureEnum {
 	values := make([]ListWafBlockedRequestsWafFeatureEnum, 0)
-	for _, v := range mappingListWafBlockedRequestsWafFeature {
+	for _, v := range mappingListWafBlockedRequestsWafFeatureEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWafBlockedRequestsWafFeatureEnumStringValues Enumerates the set of values in String for ListWafBlockedRequestsWafFeatureEnum
+func GetListWafBlockedRequestsWafFeatureEnumStringValues() []string {
+	return []string{
+		"PROTECTION_RULES",
+		"JS_CHALLENGE",
+		"ACCESS_RULES",
+		"THREAT_FEEDS",
+		"HUMAN_INTERACTION_CHALLENGE",
+		"DEVICE_FINGERPRINT_CHALLENGE",
+		"CAPTCHA",
+		"ADDRESS_RATE_LIMITING",
+	}
 }

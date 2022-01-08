@@ -5,15 +5,13 @@
 package limits
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListLimitValuesRequest wrapper for the ListLimitValues operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/ListLimitValues.go.html to see an example of how to use ListLimitValuesRequest.
 type ListLimitValuesRequest struct {
 
 	// The OCID of the parent compartment (remember that the tenancy is simply the root compartment).
@@ -59,6 +57,10 @@ func (request ListLimitValuesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLimitValuesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +74,26 @@ func (request ListLimitValuesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLimitValuesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLimitValuesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLimitValuesScopeTypeEnum[string(request.ScopeType)]; !ok && request.ScopeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScopeType: %s. Supported values are: %s.", request.ScopeType, strings.Join(GetListLimitValuesScopeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLimitValuesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLimitValuesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLimitValuesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLimitValuesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLimitValuesResponse wrapper for the ListLimitValues operation
@@ -112,7 +134,7 @@ const (
 	ListLimitValuesScopeTypeAd     ListLimitValuesScopeTypeEnum = "AD"
 )
 
-var mappingListLimitValuesScopeType = map[string]ListLimitValuesScopeTypeEnum{
+var mappingListLimitValuesScopeTypeEnum = map[string]ListLimitValuesScopeTypeEnum{
 	"GLOBAL": ListLimitValuesScopeTypeGlobal,
 	"REGION": ListLimitValuesScopeTypeRegion,
 	"AD":     ListLimitValuesScopeTypeAd,
@@ -121,10 +143,19 @@ var mappingListLimitValuesScopeType = map[string]ListLimitValuesScopeTypeEnum{
 // GetListLimitValuesScopeTypeEnumValues Enumerates the set of values for ListLimitValuesScopeTypeEnum
 func GetListLimitValuesScopeTypeEnumValues() []ListLimitValuesScopeTypeEnum {
 	values := make([]ListLimitValuesScopeTypeEnum, 0)
-	for _, v := range mappingListLimitValuesScopeType {
+	for _, v := range mappingListLimitValuesScopeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLimitValuesScopeTypeEnumStringValues Enumerates the set of values in String for ListLimitValuesScopeTypeEnum
+func GetListLimitValuesScopeTypeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"REGION",
+		"AD",
+	}
 }
 
 // ListLimitValuesSortByEnum Enum with underlying type: string
@@ -135,17 +166,24 @@ const (
 	ListLimitValuesSortByName ListLimitValuesSortByEnum = "name"
 )
 
-var mappingListLimitValuesSortBy = map[string]ListLimitValuesSortByEnum{
+var mappingListLimitValuesSortByEnum = map[string]ListLimitValuesSortByEnum{
 	"name": ListLimitValuesSortByName,
 }
 
 // GetListLimitValuesSortByEnumValues Enumerates the set of values for ListLimitValuesSortByEnum
 func GetListLimitValuesSortByEnumValues() []ListLimitValuesSortByEnum {
 	values := make([]ListLimitValuesSortByEnum, 0)
-	for _, v := range mappingListLimitValuesSortBy {
+	for _, v := range mappingListLimitValuesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLimitValuesSortByEnumStringValues Enumerates the set of values in String for ListLimitValuesSortByEnum
+func GetListLimitValuesSortByEnumStringValues() []string {
+	return []string{
+		"name",
+	}
 }
 
 // ListLimitValuesSortOrderEnum Enum with underlying type: string
@@ -157,7 +195,7 @@ const (
 	ListLimitValuesSortOrderDesc ListLimitValuesSortOrderEnum = "DESC"
 )
 
-var mappingListLimitValuesSortOrder = map[string]ListLimitValuesSortOrderEnum{
+var mappingListLimitValuesSortOrderEnum = map[string]ListLimitValuesSortOrderEnum{
 	"ASC":  ListLimitValuesSortOrderAsc,
 	"DESC": ListLimitValuesSortOrderDesc,
 }
@@ -165,8 +203,16 @@ var mappingListLimitValuesSortOrder = map[string]ListLimitValuesSortOrderEnum{
 // GetListLimitValuesSortOrderEnumValues Enumerates the set of values for ListLimitValuesSortOrderEnum
 func GetListLimitValuesSortOrderEnumValues() []ListLimitValuesSortOrderEnum {
 	values := make([]ListLimitValuesSortOrderEnum, 0)
-	for _, v := range mappingListLimitValuesSortOrder {
+	for _, v := range mappingListLimitValuesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLimitValuesSortOrderEnumStringValues Enumerates the set of values in String for ListLimitValuesSortOrderEnum
+func GetListLimitValuesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

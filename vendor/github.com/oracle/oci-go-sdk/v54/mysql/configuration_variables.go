@@ -10,7 +10,9 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ConfigurationVariables User controllable service variables.
@@ -215,6 +217,33 @@ func (m ConfigurationVariables) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ConfigurationVariables) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingConfigurationVariablesCompletionTypeEnum[string(m.CompletionType)]; !ok && m.CompletionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CompletionType: %s. Supported values are: %s.", m.CompletionType, strings.Join(GetConfigurationVariablesCompletionTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingConfigurationVariablesDefaultAuthenticationPluginEnum[string(m.DefaultAuthenticationPlugin)]; !ok && m.DefaultAuthenticationPlugin != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultAuthenticationPlugin: %s. Supported values are: %s.", m.DefaultAuthenticationPlugin, strings.Join(GetConfigurationVariablesDefaultAuthenticationPluginEnumStringValues(), ",")))
+	}
+	if _, ok := mappingConfigurationVariablesTransactionIsolationEnum[string(m.TransactionIsolation)]; !ok && m.TransactionIsolation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TransactionIsolation: %s. Supported values are: %s.", m.TransactionIsolation, strings.Join(GetConfigurationVariablesTransactionIsolationEnumStringValues(), ",")))
+	}
+	if _, ok := mappingConfigurationVariablesGroupReplicationConsistencyEnum[string(m.GroupReplicationConsistency)]; !ok && m.GroupReplicationConsistency != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GroupReplicationConsistency: %s. Supported values are: %s.", m.GroupReplicationConsistency, strings.Join(GetConfigurationVariablesGroupReplicationConsistencyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingConfigurationVariablesBinlogRowMetadataEnum[string(m.BinlogRowMetadata)]; !ok && m.BinlogRowMetadata != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BinlogRowMetadata: %s. Supported values are: %s.", m.BinlogRowMetadata, strings.Join(GetConfigurationVariablesBinlogRowMetadataEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConfigurationVariablesCompletionTypeEnum Enum with underlying type: string
 type ConfigurationVariablesCompletionTypeEnum string
 
@@ -225,7 +254,7 @@ const (
 	ConfigurationVariablesCompletionTypeRelease ConfigurationVariablesCompletionTypeEnum = "RELEASE"
 )
 
-var mappingConfigurationVariablesCompletionType = map[string]ConfigurationVariablesCompletionTypeEnum{
+var mappingConfigurationVariablesCompletionTypeEnum = map[string]ConfigurationVariablesCompletionTypeEnum{
 	"NO_CHAIN": ConfigurationVariablesCompletionTypeNoChain,
 	"CHAIN":    ConfigurationVariablesCompletionTypeChain,
 	"RELEASE":  ConfigurationVariablesCompletionTypeRelease,
@@ -234,10 +263,19 @@ var mappingConfigurationVariablesCompletionType = map[string]ConfigurationVariab
 // GetConfigurationVariablesCompletionTypeEnumValues Enumerates the set of values for ConfigurationVariablesCompletionTypeEnum
 func GetConfigurationVariablesCompletionTypeEnumValues() []ConfigurationVariablesCompletionTypeEnum {
 	values := make([]ConfigurationVariablesCompletionTypeEnum, 0)
-	for _, v := range mappingConfigurationVariablesCompletionType {
+	for _, v := range mappingConfigurationVariablesCompletionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationVariablesCompletionTypeEnumStringValues Enumerates the set of values in String for ConfigurationVariablesCompletionTypeEnum
+func GetConfigurationVariablesCompletionTypeEnumStringValues() []string {
+	return []string{
+		"NO_CHAIN",
+		"CHAIN",
+		"RELEASE",
+	}
 }
 
 // ConfigurationVariablesDefaultAuthenticationPluginEnum Enum with underlying type: string
@@ -250,7 +288,7 @@ const (
 	ConfigurationVariablesDefaultAuthenticationPluginCachingSha2Password ConfigurationVariablesDefaultAuthenticationPluginEnum = "caching_sha2_password"
 )
 
-var mappingConfigurationVariablesDefaultAuthenticationPlugin = map[string]ConfigurationVariablesDefaultAuthenticationPluginEnum{
+var mappingConfigurationVariablesDefaultAuthenticationPluginEnum = map[string]ConfigurationVariablesDefaultAuthenticationPluginEnum{
 	"mysql_native_password": ConfigurationVariablesDefaultAuthenticationPluginMysqlNativePassword,
 	"sha256_password":       ConfigurationVariablesDefaultAuthenticationPluginSha256Password,
 	"caching_sha2_password": ConfigurationVariablesDefaultAuthenticationPluginCachingSha2Password,
@@ -259,10 +297,19 @@ var mappingConfigurationVariablesDefaultAuthenticationPlugin = map[string]Config
 // GetConfigurationVariablesDefaultAuthenticationPluginEnumValues Enumerates the set of values for ConfigurationVariablesDefaultAuthenticationPluginEnum
 func GetConfigurationVariablesDefaultAuthenticationPluginEnumValues() []ConfigurationVariablesDefaultAuthenticationPluginEnum {
 	values := make([]ConfigurationVariablesDefaultAuthenticationPluginEnum, 0)
-	for _, v := range mappingConfigurationVariablesDefaultAuthenticationPlugin {
+	for _, v := range mappingConfigurationVariablesDefaultAuthenticationPluginEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationVariablesDefaultAuthenticationPluginEnumStringValues Enumerates the set of values in String for ConfigurationVariablesDefaultAuthenticationPluginEnum
+func GetConfigurationVariablesDefaultAuthenticationPluginEnumStringValues() []string {
+	return []string{
+		"mysql_native_password",
+		"sha256_password",
+		"caching_sha2_password",
+	}
 }
 
 // ConfigurationVariablesTransactionIsolationEnum Enum with underlying type: string
@@ -277,7 +324,7 @@ const (
 	ConfigurationVariablesTransactionIsolationSerializable    ConfigurationVariablesTransactionIsolationEnum = "SERIALIZABLE"
 )
 
-var mappingConfigurationVariablesTransactionIsolation = map[string]ConfigurationVariablesTransactionIsolationEnum{
+var mappingConfigurationVariablesTransactionIsolationEnum = map[string]ConfigurationVariablesTransactionIsolationEnum{
 	"READ-UNCOMMITTED": ConfigurationVariablesTransactionIsolationReadUncommitted,
 	"READ-COMMITED":    ConfigurationVariablesTransactionIsolationReadCommited,
 	"READ-COMMITTED":   ConfigurationVariablesTransactionIsolationReadCommitted,
@@ -288,10 +335,21 @@ var mappingConfigurationVariablesTransactionIsolation = map[string]Configuration
 // GetConfigurationVariablesTransactionIsolationEnumValues Enumerates the set of values for ConfigurationVariablesTransactionIsolationEnum
 func GetConfigurationVariablesTransactionIsolationEnumValues() []ConfigurationVariablesTransactionIsolationEnum {
 	values := make([]ConfigurationVariablesTransactionIsolationEnum, 0)
-	for _, v := range mappingConfigurationVariablesTransactionIsolation {
+	for _, v := range mappingConfigurationVariablesTransactionIsolationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationVariablesTransactionIsolationEnumStringValues Enumerates the set of values in String for ConfigurationVariablesTransactionIsolationEnum
+func GetConfigurationVariablesTransactionIsolationEnumStringValues() []string {
+	return []string{
+		"READ-UNCOMMITTED",
+		"READ-COMMITED",
+		"READ-COMMITTED",
+		"REPEATABLE-READ",
+		"SERIALIZABLE",
+	}
 }
 
 // ConfigurationVariablesGroupReplicationConsistencyEnum Enum with underlying type: string
@@ -306,7 +364,7 @@ const (
 	ConfigurationVariablesGroupReplicationConsistencyBeforeAndAfter          ConfigurationVariablesGroupReplicationConsistencyEnum = "BEFORE_AND_AFTER"
 )
 
-var mappingConfigurationVariablesGroupReplicationConsistency = map[string]ConfigurationVariablesGroupReplicationConsistencyEnum{
+var mappingConfigurationVariablesGroupReplicationConsistencyEnum = map[string]ConfigurationVariablesGroupReplicationConsistencyEnum{
 	"EVENTUAL":                   ConfigurationVariablesGroupReplicationConsistencyEventual,
 	"BEFORE_ON_PRIMARY_FAILOVER": ConfigurationVariablesGroupReplicationConsistencyBeforeOnPrimaryFailover,
 	"BEFORE":                     ConfigurationVariablesGroupReplicationConsistencyBefore,
@@ -317,10 +375,21 @@ var mappingConfigurationVariablesGroupReplicationConsistency = map[string]Config
 // GetConfigurationVariablesGroupReplicationConsistencyEnumValues Enumerates the set of values for ConfigurationVariablesGroupReplicationConsistencyEnum
 func GetConfigurationVariablesGroupReplicationConsistencyEnumValues() []ConfigurationVariablesGroupReplicationConsistencyEnum {
 	values := make([]ConfigurationVariablesGroupReplicationConsistencyEnum, 0)
-	for _, v := range mappingConfigurationVariablesGroupReplicationConsistency {
+	for _, v := range mappingConfigurationVariablesGroupReplicationConsistencyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationVariablesGroupReplicationConsistencyEnumStringValues Enumerates the set of values in String for ConfigurationVariablesGroupReplicationConsistencyEnum
+func GetConfigurationVariablesGroupReplicationConsistencyEnumStringValues() []string {
+	return []string{
+		"EVENTUAL",
+		"BEFORE_ON_PRIMARY_FAILOVER",
+		"BEFORE",
+		"AFTER",
+		"BEFORE_AND_AFTER",
+	}
 }
 
 // ConfigurationVariablesBinlogRowMetadataEnum Enum with underlying type: string
@@ -332,7 +401,7 @@ const (
 	ConfigurationVariablesBinlogRowMetadataMinimal ConfigurationVariablesBinlogRowMetadataEnum = "MINIMAL"
 )
 
-var mappingConfigurationVariablesBinlogRowMetadata = map[string]ConfigurationVariablesBinlogRowMetadataEnum{
+var mappingConfigurationVariablesBinlogRowMetadataEnum = map[string]ConfigurationVariablesBinlogRowMetadataEnum{
 	"FULL":    ConfigurationVariablesBinlogRowMetadataFull,
 	"MINIMAL": ConfigurationVariablesBinlogRowMetadataMinimal,
 }
@@ -340,8 +409,16 @@ var mappingConfigurationVariablesBinlogRowMetadata = map[string]ConfigurationVar
 // GetConfigurationVariablesBinlogRowMetadataEnumValues Enumerates the set of values for ConfigurationVariablesBinlogRowMetadataEnum
 func GetConfigurationVariablesBinlogRowMetadataEnumValues() []ConfigurationVariablesBinlogRowMetadataEnum {
 	values := make([]ConfigurationVariablesBinlogRowMetadataEnum, 0)
-	for _, v := range mappingConfigurationVariablesBinlogRowMetadata {
+	for _, v := range mappingConfigurationVariablesBinlogRowMetadataEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationVariablesBinlogRowMetadataEnumStringValues Enumerates the set of values in String for ConfigurationVariablesBinlogRowMetadataEnum
+func GetConfigurationVariablesBinlogRowMetadataEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"MINIMAL",
+	}
 }

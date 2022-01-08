@@ -5,15 +5,13 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDbManagementPrivateEndpointsRequest wrapper for the ListDbManagementPrivateEndpoints operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListDbManagementPrivateEndpoints.go.html to see an example of how to use ListDbManagementPrivateEndpointsRequest.
 type ListDbManagementPrivateEndpointsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -61,6 +59,10 @@ func (request ListDbManagementPrivateEndpointsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDbManagementPrivateEndpointsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +76,26 @@ func (request ListDbManagementPrivateEndpointsRequest) BinaryRequestBody() (*com
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDbManagementPrivateEndpointsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDbManagementPrivateEndpointsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDbManagementPrivateEndpointsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDbManagementPrivateEndpointsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDbManagementPrivateEndpointsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDbManagementPrivateEndpointsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDbManagementPrivateEndpointsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDbManagementPrivateEndpointsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDbManagementPrivateEndpointsResponse wrapper for the ListDbManagementPrivateEndpoints operation
@@ -117,7 +139,7 @@ const (
 	ListDbManagementPrivateEndpointsLifecycleStateFailed   ListDbManagementPrivateEndpointsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListDbManagementPrivateEndpointsLifecycleState = map[string]ListDbManagementPrivateEndpointsLifecycleStateEnum{
+var mappingListDbManagementPrivateEndpointsLifecycleStateEnum = map[string]ListDbManagementPrivateEndpointsLifecycleStateEnum{
 	"CREATING": ListDbManagementPrivateEndpointsLifecycleStateCreating,
 	"UPDATING": ListDbManagementPrivateEndpointsLifecycleStateUpdating,
 	"ACTIVE":   ListDbManagementPrivateEndpointsLifecycleStateActive,
@@ -129,10 +151,22 @@ var mappingListDbManagementPrivateEndpointsLifecycleState = map[string]ListDbMan
 // GetListDbManagementPrivateEndpointsLifecycleStateEnumValues Enumerates the set of values for ListDbManagementPrivateEndpointsLifecycleStateEnum
 func GetListDbManagementPrivateEndpointsLifecycleStateEnumValues() []ListDbManagementPrivateEndpointsLifecycleStateEnum {
 	values := make([]ListDbManagementPrivateEndpointsLifecycleStateEnum, 0)
-	for _, v := range mappingListDbManagementPrivateEndpointsLifecycleState {
+	for _, v := range mappingListDbManagementPrivateEndpointsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDbManagementPrivateEndpointsLifecycleStateEnumStringValues Enumerates the set of values in String for ListDbManagementPrivateEndpointsLifecycleStateEnum
+func GetListDbManagementPrivateEndpointsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListDbManagementPrivateEndpointsSortOrderEnum Enum with underlying type: string
@@ -144,7 +178,7 @@ const (
 	ListDbManagementPrivateEndpointsSortOrderDesc ListDbManagementPrivateEndpointsSortOrderEnum = "DESC"
 )
 
-var mappingListDbManagementPrivateEndpointsSortOrder = map[string]ListDbManagementPrivateEndpointsSortOrderEnum{
+var mappingListDbManagementPrivateEndpointsSortOrderEnum = map[string]ListDbManagementPrivateEndpointsSortOrderEnum{
 	"ASC":  ListDbManagementPrivateEndpointsSortOrderAsc,
 	"DESC": ListDbManagementPrivateEndpointsSortOrderDesc,
 }
@@ -152,10 +186,18 @@ var mappingListDbManagementPrivateEndpointsSortOrder = map[string]ListDbManageme
 // GetListDbManagementPrivateEndpointsSortOrderEnumValues Enumerates the set of values for ListDbManagementPrivateEndpointsSortOrderEnum
 func GetListDbManagementPrivateEndpointsSortOrderEnumValues() []ListDbManagementPrivateEndpointsSortOrderEnum {
 	values := make([]ListDbManagementPrivateEndpointsSortOrderEnum, 0)
-	for _, v := range mappingListDbManagementPrivateEndpointsSortOrder {
+	for _, v := range mappingListDbManagementPrivateEndpointsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDbManagementPrivateEndpointsSortOrderEnumStringValues Enumerates the set of values in String for ListDbManagementPrivateEndpointsSortOrderEnum
+func GetListDbManagementPrivateEndpointsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDbManagementPrivateEndpointsSortByEnum Enum with underlying type: string
@@ -167,7 +209,7 @@ const (
 	ListDbManagementPrivateEndpointsSortByName        ListDbManagementPrivateEndpointsSortByEnum = "NAME"
 )
 
-var mappingListDbManagementPrivateEndpointsSortBy = map[string]ListDbManagementPrivateEndpointsSortByEnum{
+var mappingListDbManagementPrivateEndpointsSortByEnum = map[string]ListDbManagementPrivateEndpointsSortByEnum{
 	"TIMECREATED": ListDbManagementPrivateEndpointsSortByTimecreated,
 	"NAME":        ListDbManagementPrivateEndpointsSortByName,
 }
@@ -175,8 +217,16 @@ var mappingListDbManagementPrivateEndpointsSortBy = map[string]ListDbManagementP
 // GetListDbManagementPrivateEndpointsSortByEnumValues Enumerates the set of values for ListDbManagementPrivateEndpointsSortByEnum
 func GetListDbManagementPrivateEndpointsSortByEnumValues() []ListDbManagementPrivateEndpointsSortByEnum {
 	values := make([]ListDbManagementPrivateEndpointsSortByEnum, 0)
-	for _, v := range mappingListDbManagementPrivateEndpointsSortBy {
+	for _, v := range mappingListDbManagementPrivateEndpointsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDbManagementPrivateEndpointsSortByEnumStringValues Enumerates the set of values in String for ListDbManagementPrivateEndpointsSortByEnum
+func GetListDbManagementPrivateEndpointsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }

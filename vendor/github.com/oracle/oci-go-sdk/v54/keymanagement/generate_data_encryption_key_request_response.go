@@ -5,15 +5,13 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GenerateDataEncryptionKeyRequest wrapper for the GenerateDataEncryptionKey operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GenerateDataEncryptionKey.go.html to see an example of how to use GenerateDataEncryptionKeyRequest.
 type GenerateDataEncryptionKeyRequest struct {
 
 	// GenerateKeyDetails
@@ -36,6 +34,10 @@ func (request GenerateDataEncryptionKeyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GenerateDataEncryptionKeyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -49,6 +51,17 @@ func (request GenerateDataEncryptionKeyRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GenerateDataEncryptionKeyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GenerateDataEncryptionKeyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GenerateDataEncryptionKeyResponse wrapper for the GenerateDataEncryptionKey operation

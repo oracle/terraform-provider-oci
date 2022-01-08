@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateMaintenanceRunDetails Describes the modification parameters for the maintenance run.
@@ -31,10 +33,38 @@ type UpdateMaintenanceRunDetails struct {
 	// Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 	// *IMPORTANT*: Non-rolling infrastructure patching involves system down time. See Oracle-Managed Infrastructure Maintenance Updates (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information.
 	PatchingMode UpdateMaintenanceRunDetailsPatchingModeEnum `mandatory:"false" json:"patchingMode,omitempty"`
+
+	// If true, enables the configuration of a custom action timeout (waiting period) between database servers patching operations.
+	IsCustomActionTimeoutEnabled *bool `mandatory:"false" json:"isCustomActionTimeoutEnabled"`
+
+	// Determines the amount of time the system will wait before the start of each database server patching operation.
+	// Specify a number of minutes from 15 to 120.
+	CustomActionTimeoutInMins *int `mandatory:"false" json:"customActionTimeoutInMins"`
+
+	// The current custom action timeout between the current database servers during waiting state in addition to custom action timeout, from 0 (zero) to 30 minutes.
+	CurrentCustomActionTimeoutInMins *int `mandatory:"false" json:"currentCustomActionTimeoutInMins"`
+
+	// If true, then the patching is resumed and the next component will be patched immediately.
+	IsResumePatching *bool `mandatory:"false" json:"isResumePatching"`
 }
 
 func (m UpdateMaintenanceRunDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateMaintenanceRunDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateMaintenanceRunDetailsPatchingModeEnum[string(m.PatchingMode)]; !ok && m.PatchingMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchingMode: %s. Supported values are: %s.", m.PatchingMode, strings.Join(GetUpdateMaintenanceRunDetailsPatchingModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateMaintenanceRunDetailsPatchingModeEnum Enum with underlying type: string
@@ -46,7 +76,7 @@ const (
 	UpdateMaintenanceRunDetailsPatchingModeNonrolling UpdateMaintenanceRunDetailsPatchingModeEnum = "NONROLLING"
 )
 
-var mappingUpdateMaintenanceRunDetailsPatchingMode = map[string]UpdateMaintenanceRunDetailsPatchingModeEnum{
+var mappingUpdateMaintenanceRunDetailsPatchingModeEnum = map[string]UpdateMaintenanceRunDetailsPatchingModeEnum{
 	"ROLLING":    UpdateMaintenanceRunDetailsPatchingModeRolling,
 	"NONROLLING": UpdateMaintenanceRunDetailsPatchingModeNonrolling,
 }
@@ -54,8 +84,16 @@ var mappingUpdateMaintenanceRunDetailsPatchingMode = map[string]UpdateMaintenanc
 // GetUpdateMaintenanceRunDetailsPatchingModeEnumValues Enumerates the set of values for UpdateMaintenanceRunDetailsPatchingModeEnum
 func GetUpdateMaintenanceRunDetailsPatchingModeEnumValues() []UpdateMaintenanceRunDetailsPatchingModeEnum {
 	values := make([]UpdateMaintenanceRunDetailsPatchingModeEnum, 0)
-	for _, v := range mappingUpdateMaintenanceRunDetailsPatchingMode {
+	for _, v := range mappingUpdateMaintenanceRunDetailsPatchingModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateMaintenanceRunDetailsPatchingModeEnumStringValues Enumerates the set of values in String for UpdateMaintenanceRunDetailsPatchingModeEnum
+func GetUpdateMaintenanceRunDetailsPatchingModeEnumStringValues() []string {
+	return []string{
+		"ROLLING",
+		"NONROLLING",
+	}
 }

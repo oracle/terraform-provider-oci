@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListClusterNetworksRequest wrapper for the ListClusterNetworks operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListClusterNetworks.go.html to see an example of how to use ListClusterNetworksRequest.
 type ListClusterNetworksRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -66,6 +64,10 @@ func (request ListClusterNetworksRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListClusterNetworksRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +81,26 @@ func (request ListClusterNetworksRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListClusterNetworksRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListClusterNetworksRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListClusterNetworksSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListClusterNetworksSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListClusterNetworksSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListClusterNetworksSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingClusterNetworkSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetClusterNetworkSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListClusterNetworksResponse wrapper for the ListClusterNetworks operation
@@ -118,7 +140,7 @@ const (
 	ListClusterNetworksSortByDisplayname ListClusterNetworksSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListClusterNetworksSortBy = map[string]ListClusterNetworksSortByEnum{
+var mappingListClusterNetworksSortByEnum = map[string]ListClusterNetworksSortByEnum{
 	"TIMECREATED": ListClusterNetworksSortByTimecreated,
 	"DISPLAYNAME": ListClusterNetworksSortByDisplayname,
 }
@@ -126,10 +148,18 @@ var mappingListClusterNetworksSortBy = map[string]ListClusterNetworksSortByEnum{
 // GetListClusterNetworksSortByEnumValues Enumerates the set of values for ListClusterNetworksSortByEnum
 func GetListClusterNetworksSortByEnumValues() []ListClusterNetworksSortByEnum {
 	values := make([]ListClusterNetworksSortByEnum, 0)
-	for _, v := range mappingListClusterNetworksSortBy {
+	for _, v := range mappingListClusterNetworksSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListClusterNetworksSortByEnumStringValues Enumerates the set of values in String for ListClusterNetworksSortByEnum
+func GetListClusterNetworksSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListClusterNetworksSortOrderEnum Enum with underlying type: string
@@ -141,7 +171,7 @@ const (
 	ListClusterNetworksSortOrderDesc ListClusterNetworksSortOrderEnum = "DESC"
 )
 
-var mappingListClusterNetworksSortOrder = map[string]ListClusterNetworksSortOrderEnum{
+var mappingListClusterNetworksSortOrderEnum = map[string]ListClusterNetworksSortOrderEnum{
 	"ASC":  ListClusterNetworksSortOrderAsc,
 	"DESC": ListClusterNetworksSortOrderDesc,
 }
@@ -149,8 +179,16 @@ var mappingListClusterNetworksSortOrder = map[string]ListClusterNetworksSortOrde
 // GetListClusterNetworksSortOrderEnumValues Enumerates the set of values for ListClusterNetworksSortOrderEnum
 func GetListClusterNetworksSortOrderEnumValues() []ListClusterNetworksSortOrderEnum {
 	values := make([]ListClusterNetworksSortOrderEnum, 0)
-	for _, v := range mappingListClusterNetworksSortOrder {
+	for _, v := range mappingListClusterNetworksSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListClusterNetworksSortOrderEnumStringValues Enumerates the set of values in String for ListClusterNetworksSortOrderEnum
+func GetListClusterNetworksSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

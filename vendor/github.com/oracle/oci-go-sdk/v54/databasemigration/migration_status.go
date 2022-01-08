@@ -23,7 +23,7 @@ const (
 	MigrationStatusDone       MigrationStatusEnum = "DONE"
 )
 
-var mappingMigrationStatus = map[string]MigrationStatusEnum{
+var mappingMigrationStatusEnum = map[string]MigrationStatusEnum{
 	"READY":      MigrationStatusReady,
 	"ABORTING":   MigrationStatusAborting,
 	"VALIDATING": MigrationStatusValidating,
@@ -36,8 +36,21 @@ var mappingMigrationStatus = map[string]MigrationStatusEnum{
 // GetMigrationStatusEnumValues Enumerates the set of values for MigrationStatusEnum
 func GetMigrationStatusEnumValues() []MigrationStatusEnum {
 	values := make([]MigrationStatusEnum, 0)
-	for _, v := range mappingMigrationStatus {
+	for _, v := range mappingMigrationStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMigrationStatusEnumStringValues Enumerates the set of values in String for MigrationStatusEnum
+func GetMigrationStatusEnumStringValues() []string {
+	return []string{
+		"READY",
+		"ABORTING",
+		"VALIDATING",
+		"VALIDATED",
+		"WAITING",
+		"MIGRATING",
+		"DONE",
+	}
 }

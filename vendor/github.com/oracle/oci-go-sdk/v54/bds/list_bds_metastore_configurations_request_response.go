@@ -5,15 +5,13 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListBdsMetastoreConfigurationsRequest wrapper for the ListBdsMetastoreConfigurations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsMetastoreConfigurations.go.html to see an example of how to use ListBdsMetastoreConfigurationsRequest.
 type ListBdsMetastoreConfigurationsRequest struct {
 
 	// The OCID of the cluster.
@@ -61,6 +59,10 @@ func (request ListBdsMetastoreConfigurationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBdsMetastoreConfigurationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +76,29 @@ func (request ListBdsMetastoreConfigurationsRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBdsMetastoreConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBdsMetastoreConfigurationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBdsMetastoreConfigurationMetastoreTypeEnum[string(request.MetastoreType)]; !ok && request.MetastoreType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MetastoreType: %s. Supported values are: %s.", request.MetastoreType, strings.Join(GetBdsMetastoreConfigurationMetastoreTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBdsMetastoreConfigurationLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBdsMetastoreConfigurationLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBdsMetastoreConfigurationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBdsMetastoreConfigurationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBdsMetastoreConfigurationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBdsMetastoreConfigurationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBdsMetastoreConfigurationsResponse wrapper for the ListBdsMetastoreConfigurations operation
@@ -113,7 +138,7 @@ const (
 	ListBdsMetastoreConfigurationsSortByDisplayname ListBdsMetastoreConfigurationsSortByEnum = "displayName"
 )
 
-var mappingListBdsMetastoreConfigurationsSortBy = map[string]ListBdsMetastoreConfigurationsSortByEnum{
+var mappingListBdsMetastoreConfigurationsSortByEnum = map[string]ListBdsMetastoreConfigurationsSortByEnum{
 	"timeCreated": ListBdsMetastoreConfigurationsSortByTimecreated,
 	"displayName": ListBdsMetastoreConfigurationsSortByDisplayname,
 }
@@ -121,10 +146,18 @@ var mappingListBdsMetastoreConfigurationsSortBy = map[string]ListBdsMetastoreCon
 // GetListBdsMetastoreConfigurationsSortByEnumValues Enumerates the set of values for ListBdsMetastoreConfigurationsSortByEnum
 func GetListBdsMetastoreConfigurationsSortByEnumValues() []ListBdsMetastoreConfigurationsSortByEnum {
 	values := make([]ListBdsMetastoreConfigurationsSortByEnum, 0)
-	for _, v := range mappingListBdsMetastoreConfigurationsSortBy {
+	for _, v := range mappingListBdsMetastoreConfigurationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBdsMetastoreConfigurationsSortByEnumStringValues Enumerates the set of values in String for ListBdsMetastoreConfigurationsSortByEnum
+func GetListBdsMetastoreConfigurationsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListBdsMetastoreConfigurationsSortOrderEnum Enum with underlying type: string
@@ -136,7 +169,7 @@ const (
 	ListBdsMetastoreConfigurationsSortOrderDesc ListBdsMetastoreConfigurationsSortOrderEnum = "DESC"
 )
 
-var mappingListBdsMetastoreConfigurationsSortOrder = map[string]ListBdsMetastoreConfigurationsSortOrderEnum{
+var mappingListBdsMetastoreConfigurationsSortOrderEnum = map[string]ListBdsMetastoreConfigurationsSortOrderEnum{
 	"ASC":  ListBdsMetastoreConfigurationsSortOrderAsc,
 	"DESC": ListBdsMetastoreConfigurationsSortOrderDesc,
 }
@@ -144,8 +177,16 @@ var mappingListBdsMetastoreConfigurationsSortOrder = map[string]ListBdsMetastore
 // GetListBdsMetastoreConfigurationsSortOrderEnumValues Enumerates the set of values for ListBdsMetastoreConfigurationsSortOrderEnum
 func GetListBdsMetastoreConfigurationsSortOrderEnumValues() []ListBdsMetastoreConfigurationsSortOrderEnum {
 	values := make([]ListBdsMetastoreConfigurationsSortOrderEnum, 0)
-	for _, v := range mappingListBdsMetastoreConfigurationsSortOrder {
+	for _, v := range mappingListBdsMetastoreConfigurationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBdsMetastoreConfigurationsSortOrderEnumStringValues Enumerates the set of values in String for ListBdsMetastoreConfigurationsSortOrderEnum
+func GetListBdsMetastoreConfigurationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

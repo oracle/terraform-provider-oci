@@ -13,7 +13,9 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SqlJob The details of the SQL job.
@@ -166,6 +168,36 @@ func (m SqlJob) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlJob) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSqlJobSqlTypeEnum[string(m.SqlType)]; !ok && m.SqlType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SqlType: %s. Supported values are: %s.", m.SqlType, strings.Join(GetSqlJobSqlTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSqlJobOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetSqlJobOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSqlJobRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetSqlJobRoleEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDatabaseSubTypeEnum[string(m.DatabaseSubType)]; !ok && m.DatabaseSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseSubType: %s. Supported values are: %s.", m.DatabaseSubType, strings.Join(GetDatabaseSubTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingJobScheduleTypeEnum[string(m.ScheduleType)]; !ok && m.ScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduleType: %s. Supported values are: %s.", m.ScheduleType, strings.Join(GetJobScheduleTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingJobLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetJobLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m SqlJob) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeSqlJob SqlJob
@@ -278,7 +310,7 @@ const (
 	SqlJobSqlTypePlsql SqlJobSqlTypeEnum = "PLSQL"
 )
 
-var mappingSqlJobSqlType = map[string]SqlJobSqlTypeEnum{
+var mappingSqlJobSqlTypeEnum = map[string]SqlJobSqlTypeEnum{
 	"QUERY": SqlJobSqlTypeQuery,
 	"DML":   SqlJobSqlTypeDml,
 	"DDL":   SqlJobSqlTypeDdl,
@@ -288,10 +320,20 @@ var mappingSqlJobSqlType = map[string]SqlJobSqlTypeEnum{
 // GetSqlJobSqlTypeEnumValues Enumerates the set of values for SqlJobSqlTypeEnum
 func GetSqlJobSqlTypeEnumValues() []SqlJobSqlTypeEnum {
 	values := make([]SqlJobSqlTypeEnum, 0)
-	for _, v := range mappingSqlJobSqlType {
+	for _, v := range mappingSqlJobSqlTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSqlJobSqlTypeEnumStringValues Enumerates the set of values in String for SqlJobSqlTypeEnum
+func GetSqlJobSqlTypeEnumStringValues() []string {
+	return []string{
+		"QUERY",
+		"DML",
+		"DDL",
+		"PLSQL",
+	}
 }
 
 // SqlJobOperationTypeEnum Enum with underlying type: string
@@ -302,17 +344,24 @@ const (
 	SqlJobOperationTypeExecuteSql SqlJobOperationTypeEnum = "EXECUTE_SQL"
 )
 
-var mappingSqlJobOperationType = map[string]SqlJobOperationTypeEnum{
+var mappingSqlJobOperationTypeEnum = map[string]SqlJobOperationTypeEnum{
 	"EXECUTE_SQL": SqlJobOperationTypeExecuteSql,
 }
 
 // GetSqlJobOperationTypeEnumValues Enumerates the set of values for SqlJobOperationTypeEnum
 func GetSqlJobOperationTypeEnumValues() []SqlJobOperationTypeEnum {
 	values := make([]SqlJobOperationTypeEnum, 0)
-	for _, v := range mappingSqlJobOperationType {
+	for _, v := range mappingSqlJobOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSqlJobOperationTypeEnumStringValues Enumerates the set of values in String for SqlJobOperationTypeEnum
+func GetSqlJobOperationTypeEnumStringValues() []string {
+	return []string{
+		"EXECUTE_SQL",
+	}
 }
 
 // SqlJobRoleEnum Enum with underlying type: string
@@ -324,7 +373,7 @@ const (
 	SqlJobRoleSysdba SqlJobRoleEnum = "SYSDBA"
 )
 
-var mappingSqlJobRole = map[string]SqlJobRoleEnum{
+var mappingSqlJobRoleEnum = map[string]SqlJobRoleEnum{
 	"NORMAL": SqlJobRoleNormal,
 	"SYSDBA": SqlJobRoleSysdba,
 }
@@ -332,8 +381,16 @@ var mappingSqlJobRole = map[string]SqlJobRoleEnum{
 // GetSqlJobRoleEnumValues Enumerates the set of values for SqlJobRoleEnum
 func GetSqlJobRoleEnumValues() []SqlJobRoleEnum {
 	values := make([]SqlJobRoleEnum, 0)
-	for _, v := range mappingSqlJobRole {
+	for _, v := range mappingSqlJobRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSqlJobRoleEnumStringValues Enumerates the set of values in String for SqlJobRoleEnum
+func GetSqlJobRoleEnumStringValues() []string {
+	return []string{
+		"NORMAL",
+		"SYSDBA",
+	}
 }

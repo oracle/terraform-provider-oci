@@ -2,16 +2,18 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// DataLabelingService API
+// Data Labeling Management API
 //
-// A description of the DataLabelingService API
+// Use Data Labeling Management API to create, list, edit & delete datasets.
 //
 
 package datalabelingservice
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Dataset A dataset is a logical collection of records. The dataset contains all the information necessary to describe a record's source, format, type of annotations allowed on these records, and labels allowed on annotations.
@@ -59,21 +61,39 @@ type Dataset struct {
 
 	InitialRecordGenerationConfiguration *InitialRecordGenerationConfiguration `mandatory:"false" json:"initialRecordGenerationConfiguration"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
+	// The labeling instructions for human labelers in rich text format
+	LabelingInstructions *string `mandatory:"false" json:"labelingInstructions"`
+
+	// A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only.
+	// For example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// The defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	// The usage of system tag keys. These predefined keys are scoped to namespaces.
+	// For example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m Dataset) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Dataset) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatasetLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatasetLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -83,6 +103,7 @@ func (m *Dataset) UnmarshalJSON(data []byte) (e error) {
 		Description                          *string                               `json:"description"`
 		LifecycleDetails                     *string                               `json:"lifecycleDetails"`
 		InitialRecordGenerationConfiguration *InitialRecordGenerationConfiguration `json:"initialRecordGenerationConfiguration"`
+		LabelingInstructions                 *string                               `json:"labelingInstructions"`
 		FreeformTags                         map[string]string                     `json:"freeformTags"`
 		DefinedTags                          map[string]map[string]interface{}     `json:"definedTags"`
 		SystemTags                           map[string]map[string]interface{}     `json:"systemTags"`
@@ -109,6 +130,8 @@ func (m *Dataset) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.InitialRecordGenerationConfiguration = model.InitialRecordGenerationConfiguration
+
+	m.LabelingInstructions = model.LabelingInstructions
 
 	m.FreeformTags = model.FreeformTags
 
@@ -167,7 +190,7 @@ const (
 	DatasetLifecycleStateFailed         DatasetLifecycleStateEnum = "FAILED"
 )
 
-var mappingDatasetLifecycleState = map[string]DatasetLifecycleStateEnum{
+var mappingDatasetLifecycleStateEnum = map[string]DatasetLifecycleStateEnum{
 	"CREATING":        DatasetLifecycleStateCreating,
 	"UPDATING":        DatasetLifecycleStateUpdating,
 	"ACTIVE":          DatasetLifecycleStateActive,
@@ -180,8 +203,21 @@ var mappingDatasetLifecycleState = map[string]DatasetLifecycleStateEnum{
 // GetDatasetLifecycleStateEnumValues Enumerates the set of values for DatasetLifecycleStateEnum
 func GetDatasetLifecycleStateEnumValues() []DatasetLifecycleStateEnum {
 	values := make([]DatasetLifecycleStateEnum, 0)
-	for _, v := range mappingDatasetLifecycleState {
+	for _, v := range mappingDatasetLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatasetLifecycleStateEnumStringValues Enumerates the set of values in String for DatasetLifecycleStateEnum
+func GetDatasetLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"NEEDS_ATTENTION",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

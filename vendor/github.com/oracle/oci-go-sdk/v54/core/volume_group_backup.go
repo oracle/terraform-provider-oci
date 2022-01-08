@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // VolumeGroupBackup A point-in-time copy of a volume group that can then be used to create a new volume group
@@ -100,6 +102,27 @@ func (m VolumeGroupBackup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VolumeGroupBackup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVolumeGroupBackupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeGroupBackupLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVolumeGroupBackupTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetVolumeGroupBackupTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingVolumeGroupBackupSourceTypeEnum[string(m.SourceType)]; !ok && m.SourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", m.SourceType, strings.Join(GetVolumeGroupBackupSourceTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VolumeGroupBackupLifecycleStateEnum Enum with underlying type: string
 type VolumeGroupBackupLifecycleStateEnum string
 
@@ -114,7 +137,7 @@ const (
 	VolumeGroupBackupLifecycleStateRequestReceived VolumeGroupBackupLifecycleStateEnum = "REQUEST_RECEIVED"
 )
 
-var mappingVolumeGroupBackupLifecycleState = map[string]VolumeGroupBackupLifecycleStateEnum{
+var mappingVolumeGroupBackupLifecycleStateEnum = map[string]VolumeGroupBackupLifecycleStateEnum{
 	"CREATING":         VolumeGroupBackupLifecycleStateCreating,
 	"COMMITTED":        VolumeGroupBackupLifecycleStateCommitted,
 	"AVAILABLE":        VolumeGroupBackupLifecycleStateAvailable,
@@ -127,10 +150,23 @@ var mappingVolumeGroupBackupLifecycleState = map[string]VolumeGroupBackupLifecyc
 // GetVolumeGroupBackupLifecycleStateEnumValues Enumerates the set of values for VolumeGroupBackupLifecycleStateEnum
 func GetVolumeGroupBackupLifecycleStateEnumValues() []VolumeGroupBackupLifecycleStateEnum {
 	values := make([]VolumeGroupBackupLifecycleStateEnum, 0)
-	for _, v := range mappingVolumeGroupBackupLifecycleState {
+	for _, v := range mappingVolumeGroupBackupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeGroupBackupLifecycleStateEnumStringValues Enumerates the set of values in String for VolumeGroupBackupLifecycleStateEnum
+func GetVolumeGroupBackupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"COMMITTED",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+		"FAULTY",
+		"REQUEST_RECEIVED",
+	}
 }
 
 // VolumeGroupBackupSourceTypeEnum Enum with underlying type: string
@@ -142,7 +178,7 @@ const (
 	VolumeGroupBackupSourceTypeScheduled VolumeGroupBackupSourceTypeEnum = "SCHEDULED"
 )
 
-var mappingVolumeGroupBackupSourceType = map[string]VolumeGroupBackupSourceTypeEnum{
+var mappingVolumeGroupBackupSourceTypeEnum = map[string]VolumeGroupBackupSourceTypeEnum{
 	"MANUAL":    VolumeGroupBackupSourceTypeManual,
 	"SCHEDULED": VolumeGroupBackupSourceTypeScheduled,
 }
@@ -150,10 +186,18 @@ var mappingVolumeGroupBackupSourceType = map[string]VolumeGroupBackupSourceTypeE
 // GetVolumeGroupBackupSourceTypeEnumValues Enumerates the set of values for VolumeGroupBackupSourceTypeEnum
 func GetVolumeGroupBackupSourceTypeEnumValues() []VolumeGroupBackupSourceTypeEnum {
 	values := make([]VolumeGroupBackupSourceTypeEnum, 0)
-	for _, v := range mappingVolumeGroupBackupSourceType {
+	for _, v := range mappingVolumeGroupBackupSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeGroupBackupSourceTypeEnumStringValues Enumerates the set of values in String for VolumeGroupBackupSourceTypeEnum
+func GetVolumeGroupBackupSourceTypeEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"SCHEDULED",
+	}
 }
 
 // VolumeGroupBackupTypeEnum Enum with underlying type: string
@@ -165,7 +209,7 @@ const (
 	VolumeGroupBackupTypeIncremental VolumeGroupBackupTypeEnum = "INCREMENTAL"
 )
 
-var mappingVolumeGroupBackupType = map[string]VolumeGroupBackupTypeEnum{
+var mappingVolumeGroupBackupTypeEnum = map[string]VolumeGroupBackupTypeEnum{
 	"FULL":        VolumeGroupBackupTypeFull,
 	"INCREMENTAL": VolumeGroupBackupTypeIncremental,
 }
@@ -173,8 +217,16 @@ var mappingVolumeGroupBackupType = map[string]VolumeGroupBackupTypeEnum{
 // GetVolumeGroupBackupTypeEnumValues Enumerates the set of values for VolumeGroupBackupTypeEnum
 func GetVolumeGroupBackupTypeEnumValues() []VolumeGroupBackupTypeEnum {
 	values := make([]VolumeGroupBackupTypeEnum, 0)
-	for _, v := range mappingVolumeGroupBackupType {
+	for _, v := range mappingVolumeGroupBackupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeGroupBackupTypeEnumStringValues Enumerates the set of values in String for VolumeGroupBackupTypeEnum
+func GetVolumeGroupBackupTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"INCREMENTAL",
+	}
 }

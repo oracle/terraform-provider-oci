@@ -5,15 +5,13 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetIdpGroupMappingRequest wrapper for the GetIdpGroupMapping operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetIdpGroupMapping.go.html to see an example of how to use GetIdpGroupMappingRequest.
 type GetIdpGroupMappingRequest struct {
 
 	// The OCID of the identity provider.
@@ -38,6 +36,10 @@ func (request GetIdpGroupMappingRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetIdpGroupMappingRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -51,6 +53,17 @@ func (request GetIdpGroupMappingRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetIdpGroupMappingRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetIdpGroupMappingRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetIdpGroupMappingResponse wrapper for the GetIdpGroupMapping operation

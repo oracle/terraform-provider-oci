@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PdbConversionHistoryEntry Details of operations performed to convert a non-container database to pluggable database.
@@ -59,6 +61,27 @@ func (m PdbConversionHistoryEntry) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PdbConversionHistoryEntry) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPdbConversionHistoryEntryActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetPdbConversionHistoryEntryActionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPdbConversionHistoryEntryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPdbConversionHistoryEntryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingPdbConversionHistoryEntryTargetEnum[string(m.Target)]; !ok && m.Target != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Target: %s. Supported values are: %s.", m.Target, strings.Join(GetPdbConversionHistoryEntryTargetEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PdbConversionHistoryEntryActionEnum Enum with underlying type: string
 type PdbConversionHistoryEntryActionEnum string
 
@@ -70,7 +93,7 @@ const (
 	PdbConversionHistoryEntryActionSyncRollback PdbConversionHistoryEntryActionEnum = "SYNC_ROLLBACK"
 )
 
-var mappingPdbConversionHistoryEntryAction = map[string]PdbConversionHistoryEntryActionEnum{
+var mappingPdbConversionHistoryEntryActionEnum = map[string]PdbConversionHistoryEntryActionEnum{
 	"PRECHECK":      PdbConversionHistoryEntryActionPrecheck,
 	"CONVERT":       PdbConversionHistoryEntryActionConvert,
 	"SYNC":          PdbConversionHistoryEntryActionSync,
@@ -80,10 +103,20 @@ var mappingPdbConversionHistoryEntryAction = map[string]PdbConversionHistoryEntr
 // GetPdbConversionHistoryEntryActionEnumValues Enumerates the set of values for PdbConversionHistoryEntryActionEnum
 func GetPdbConversionHistoryEntryActionEnumValues() []PdbConversionHistoryEntryActionEnum {
 	values := make([]PdbConversionHistoryEntryActionEnum, 0)
-	for _, v := range mappingPdbConversionHistoryEntryAction {
+	for _, v := range mappingPdbConversionHistoryEntryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPdbConversionHistoryEntryActionEnumStringValues Enumerates the set of values in String for PdbConversionHistoryEntryActionEnum
+func GetPdbConversionHistoryEntryActionEnumStringValues() []string {
+	return []string{
+		"PRECHECK",
+		"CONVERT",
+		"SYNC",
+		"SYNC_ROLLBACK",
+	}
 }
 
 // PdbConversionHistoryEntryTargetEnum Enum with underlying type: string
@@ -94,17 +127,24 @@ const (
 	PdbConversionHistoryEntryTargetNewDatabase PdbConversionHistoryEntryTargetEnum = "NEW_DATABASE"
 )
 
-var mappingPdbConversionHistoryEntryTarget = map[string]PdbConversionHistoryEntryTargetEnum{
+var mappingPdbConversionHistoryEntryTargetEnum = map[string]PdbConversionHistoryEntryTargetEnum{
 	"NEW_DATABASE": PdbConversionHistoryEntryTargetNewDatabase,
 }
 
 // GetPdbConversionHistoryEntryTargetEnumValues Enumerates the set of values for PdbConversionHistoryEntryTargetEnum
 func GetPdbConversionHistoryEntryTargetEnumValues() []PdbConversionHistoryEntryTargetEnum {
 	values := make([]PdbConversionHistoryEntryTargetEnum, 0)
-	for _, v := range mappingPdbConversionHistoryEntryTarget {
+	for _, v := range mappingPdbConversionHistoryEntryTargetEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPdbConversionHistoryEntryTargetEnumStringValues Enumerates the set of values in String for PdbConversionHistoryEntryTargetEnum
+func GetPdbConversionHistoryEntryTargetEnumStringValues() []string {
+	return []string{
+		"NEW_DATABASE",
+	}
 }
 
 // PdbConversionHistoryEntryLifecycleStateEnum Enum with underlying type: string
@@ -117,7 +157,7 @@ const (
 	PdbConversionHistoryEntryLifecycleStateInProgress PdbConversionHistoryEntryLifecycleStateEnum = "IN_PROGRESS"
 )
 
-var mappingPdbConversionHistoryEntryLifecycleState = map[string]PdbConversionHistoryEntryLifecycleStateEnum{
+var mappingPdbConversionHistoryEntryLifecycleStateEnum = map[string]PdbConversionHistoryEntryLifecycleStateEnum{
 	"SUCCEEDED":   PdbConversionHistoryEntryLifecycleStateSucceeded,
 	"FAILED":      PdbConversionHistoryEntryLifecycleStateFailed,
 	"IN_PROGRESS": PdbConversionHistoryEntryLifecycleStateInProgress,
@@ -126,8 +166,17 @@ var mappingPdbConversionHistoryEntryLifecycleState = map[string]PdbConversionHis
 // GetPdbConversionHistoryEntryLifecycleStateEnumValues Enumerates the set of values for PdbConversionHistoryEntryLifecycleStateEnum
 func GetPdbConversionHistoryEntryLifecycleStateEnumValues() []PdbConversionHistoryEntryLifecycleStateEnum {
 	values := make([]PdbConversionHistoryEntryLifecycleStateEnum, 0)
-	for _, v := range mappingPdbConversionHistoryEntryLifecycleState {
+	for _, v := range mappingPdbConversionHistoryEntryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPdbConversionHistoryEntryLifecycleStateEnumStringValues Enumerates the set of values in String for PdbConversionHistoryEntryLifecycleStateEnum
+func GetPdbConversionHistoryEntryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"SUCCEEDED",
+		"FAILED",
+		"IN_PROGRESS",
+	}
 }

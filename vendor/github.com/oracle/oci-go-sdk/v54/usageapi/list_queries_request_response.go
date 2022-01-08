@@ -5,15 +5,13 @@
 package usageapi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListQueriesRequest wrapper for the ListQueries operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListQueries.go.html to see an example of how to use ListQueriesRequest.
 type ListQueriesRequest struct {
 
 	// The compartment ID in which to list resources.
@@ -48,6 +46,10 @@ func (request ListQueriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListQueriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -61,6 +63,23 @@ func (request ListQueriesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListQueriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListQueriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListQueriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListQueriesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListQueriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListQueriesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListQueriesResponse wrapper for the ListQueries operation
@@ -99,17 +118,24 @@ const (
 	ListQueriesSortByDisplayname ListQueriesSortByEnum = "displayName"
 )
 
-var mappingListQueriesSortBy = map[string]ListQueriesSortByEnum{
+var mappingListQueriesSortByEnum = map[string]ListQueriesSortByEnum{
 	"displayName": ListQueriesSortByDisplayname,
 }
 
 // GetListQueriesSortByEnumValues Enumerates the set of values for ListQueriesSortByEnum
 func GetListQueriesSortByEnumValues() []ListQueriesSortByEnum {
 	values := make([]ListQueriesSortByEnum, 0)
-	for _, v := range mappingListQueriesSortBy {
+	for _, v := range mappingListQueriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListQueriesSortByEnumStringValues Enumerates the set of values in String for ListQueriesSortByEnum
+func GetListQueriesSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+	}
 }
 
 // ListQueriesSortOrderEnum Enum with underlying type: string
@@ -121,7 +147,7 @@ const (
 	ListQueriesSortOrderDesc ListQueriesSortOrderEnum = "DESC"
 )
 
-var mappingListQueriesSortOrder = map[string]ListQueriesSortOrderEnum{
+var mappingListQueriesSortOrderEnum = map[string]ListQueriesSortOrderEnum{
 	"ASC":  ListQueriesSortOrderAsc,
 	"DESC": ListQueriesSortOrderDesc,
 }
@@ -129,8 +155,16 @@ var mappingListQueriesSortOrder = map[string]ListQueriesSortOrderEnum{
 // GetListQueriesSortOrderEnumValues Enumerates the set of values for ListQueriesSortOrderEnum
 func GetListQueriesSortOrderEnumValues() []ListQueriesSortOrderEnum {
 	values := make([]ListQueriesSortOrderEnum, 0)
-	for _, v := range mappingListQueriesSortOrder {
+	for _, v := range mappingListQueriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListQueriesSortOrderEnumStringValues Enumerates the set of values in String for ListQueriesSortOrderEnum
+func GetListQueriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

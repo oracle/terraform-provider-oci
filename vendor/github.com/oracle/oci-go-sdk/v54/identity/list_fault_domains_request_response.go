@@ -5,21 +5,19 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListFaultDomainsRequest wrapper for the ListFaultDomains operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListFaultDomains.go.html to see an example of how to use ListFaultDomainsRequest.
 type ListFaultDomainsRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The name of the availibilityDomain.
+	// The name of the availabilityDomain.
 	AvailabilityDomain *string `mandatory:"true" contributesTo:"query" name:"availabilityDomain"`
 
 	// Unique Oracle-assigned identifier for the request.
@@ -38,6 +36,10 @@ func (request ListFaultDomainsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListFaultDomainsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -51,6 +53,17 @@ func (request ListFaultDomainsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListFaultDomainsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListFaultDomainsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListFaultDomainsResponse wrapper for the ListFaultDomains operation

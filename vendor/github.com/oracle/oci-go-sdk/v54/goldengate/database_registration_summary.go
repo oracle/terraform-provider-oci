@@ -10,7 +10,9 @@
 package goldengate
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseRegistrationSummary Summary of the DatabaseRegistration.
@@ -81,6 +83,24 @@ func (m DatabaseRegistrationSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseRegistrationSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseRegistrationSummarySessionModeEnum[string(m.SessionMode)]; !ok && m.SessionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SessionMode: %s. Supported values are: %s.", m.SessionMode, strings.Join(GetDatabaseRegistrationSummarySessionModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseRegistrationSummarySessionModeEnum Enum with underlying type: string
 type DatabaseRegistrationSummarySessionModeEnum string
 
@@ -90,7 +110,7 @@ const (
 	DatabaseRegistrationSummarySessionModeRedirect DatabaseRegistrationSummarySessionModeEnum = "REDIRECT"
 )
 
-var mappingDatabaseRegistrationSummarySessionMode = map[string]DatabaseRegistrationSummarySessionModeEnum{
+var mappingDatabaseRegistrationSummarySessionModeEnum = map[string]DatabaseRegistrationSummarySessionModeEnum{
 	"DIRECT":   DatabaseRegistrationSummarySessionModeDirect,
 	"REDIRECT": DatabaseRegistrationSummarySessionModeRedirect,
 }
@@ -98,8 +118,16 @@ var mappingDatabaseRegistrationSummarySessionMode = map[string]DatabaseRegistrat
 // GetDatabaseRegistrationSummarySessionModeEnumValues Enumerates the set of values for DatabaseRegistrationSummarySessionModeEnum
 func GetDatabaseRegistrationSummarySessionModeEnumValues() []DatabaseRegistrationSummarySessionModeEnum {
 	values := make([]DatabaseRegistrationSummarySessionModeEnum, 0)
-	for _, v := range mappingDatabaseRegistrationSummarySessionMode {
+	for _, v := range mappingDatabaseRegistrationSummarySessionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseRegistrationSummarySessionModeEnumStringValues Enumerates the set of values in String for DatabaseRegistrationSummarySessionModeEnum
+func GetDatabaseRegistrationSummarySessionModeEnumStringValues() []string {
+	return []string{
+		"DIRECT",
+		"REDIRECT",
+	}
 }

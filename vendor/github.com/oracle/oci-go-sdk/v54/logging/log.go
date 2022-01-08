@@ -10,7 +10,9 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Log Represents a log object.
@@ -67,6 +69,24 @@ func (m Log) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Log) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLogLogTypeEnum[string(m.LogType)]; !ok && m.LogType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogType: %s. Supported values are: %s.", m.LogType, strings.Join(GetLogLogTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLogLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLogLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogLogTypeEnum Enum with underlying type: string
 type LogLogTypeEnum string
 
@@ -76,7 +96,7 @@ const (
 	LogLogTypeService LogLogTypeEnum = "SERVICE"
 )
 
-var mappingLogLogType = map[string]LogLogTypeEnum{
+var mappingLogLogTypeEnum = map[string]LogLogTypeEnum{
 	"CUSTOM":  LogLogTypeCustom,
 	"SERVICE": LogLogTypeService,
 }
@@ -84,8 +104,16 @@ var mappingLogLogType = map[string]LogLogTypeEnum{
 // GetLogLogTypeEnumValues Enumerates the set of values for LogLogTypeEnum
 func GetLogLogTypeEnumValues() []LogLogTypeEnum {
 	values := make([]LogLogTypeEnum, 0)
-	for _, v := range mappingLogLogType {
+	for _, v := range mappingLogLogTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogLogTypeEnumStringValues Enumerates the set of values in String for LogLogTypeEnum
+func GetLogLogTypeEnumStringValues() []string {
+	return []string{
+		"CUSTOM",
+		"SERVICE",
+	}
 }

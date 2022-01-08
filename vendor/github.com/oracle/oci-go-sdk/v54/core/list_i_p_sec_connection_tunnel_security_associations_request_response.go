@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListIPSecConnectionTunnelSecurityAssociationsRequest wrapper for the ListIPSecConnectionTunnelSecurityAssociations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListIPSecConnectionTunnelSecurityAssociations.go.html to see an example of how to use ListIPSecConnectionTunnelSecurityAssociationsRequest.
 type ListIPSecConnectionTunnelSecurityAssociationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IPSec connection.
@@ -49,6 +47,10 @@ func (request ListIPSecConnectionTunnelSecurityAssociationsRequest) String() str
 // HTTPRequest implements the OCIRequest interface
 func (request ListIPSecConnectionTunnelSecurityAssociationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +64,17 @@ func (request ListIPSecConnectionTunnelSecurityAssociationsRequest) BinaryReques
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListIPSecConnectionTunnelSecurityAssociationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListIPSecConnectionTunnelSecurityAssociationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListIPSecConnectionTunnelSecurityAssociationsResponse wrapper for the ListIPSecConnectionTunnelSecurityAssociations operation

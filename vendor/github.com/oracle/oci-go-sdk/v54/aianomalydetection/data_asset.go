@@ -13,7 +13,9 @@ package aianomalydetection
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataAsset Description of DataAsset.
@@ -63,6 +65,21 @@ type DataAsset struct {
 
 func (m DataAsset) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataAsset) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataAssetLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDataAssetLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -134,7 +151,7 @@ const (
 	DataAssetLifecycleStateDeleted DataAssetLifecycleStateEnum = "DELETED"
 )
 
-var mappingDataAssetLifecycleState = map[string]DataAssetLifecycleStateEnum{
+var mappingDataAssetLifecycleStateEnum = map[string]DataAssetLifecycleStateEnum{
 	"ACTIVE":  DataAssetLifecycleStateActive,
 	"DELETED": DataAssetLifecycleStateDeleted,
 }
@@ -142,8 +159,16 @@ var mappingDataAssetLifecycleState = map[string]DataAssetLifecycleStateEnum{
 // GetDataAssetLifecycleStateEnumValues Enumerates the set of values for DataAssetLifecycleStateEnum
 func GetDataAssetLifecycleStateEnumValues() []DataAssetLifecycleStateEnum {
 	values := make([]DataAssetLifecycleStateEnum, 0)
-	for _, v := range mappingDataAssetLifecycleState {
+	for _, v := range mappingDataAssetLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataAssetLifecycleStateEnumStringValues Enumerates the set of values in String for DataAssetLifecycleStateEnum
+func GetDataAssetLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
 }

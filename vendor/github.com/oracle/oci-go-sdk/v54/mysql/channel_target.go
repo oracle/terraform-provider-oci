@@ -11,7 +11,9 @@ package mysql
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ChannelTarget Details about the Channel target.
@@ -61,6 +63,18 @@ func (m channeltarget) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m channeltarget) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ChannelTargetTargetTypeEnum Enum with underlying type: string
 type ChannelTargetTargetTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	ChannelTargetTargetTypeDbsystem ChannelTargetTargetTypeEnum = "DBSYSTEM"
 )
 
-var mappingChannelTargetTargetType = map[string]ChannelTargetTargetTypeEnum{
+var mappingChannelTargetTargetTypeEnum = map[string]ChannelTargetTargetTypeEnum{
 	"DBSYSTEM": ChannelTargetTargetTypeDbsystem,
 }
 
 // GetChannelTargetTargetTypeEnumValues Enumerates the set of values for ChannelTargetTargetTypeEnum
 func GetChannelTargetTargetTypeEnumValues() []ChannelTargetTargetTypeEnum {
 	values := make([]ChannelTargetTargetTypeEnum, 0)
-	for _, v := range mappingChannelTargetTargetType {
+	for _, v := range mappingChannelTargetTargetTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetChannelTargetTargetTypeEnumStringValues Enumerates the set of values in String for ChannelTargetTargetTypeEnum
+func GetChannelTargetTargetTypeEnumStringValues() []string {
+	return []string{
+		"DBSYSTEM",
+	}
 }

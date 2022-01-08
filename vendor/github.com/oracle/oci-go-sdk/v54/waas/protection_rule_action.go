@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ProtectionRuleAction A protection rule key and the associated action to apply to that rule.
@@ -30,6 +32,21 @@ func (m ProtectionRuleAction) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ProtectionRuleAction) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingProtectionRuleActionActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetProtectionRuleActionActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ProtectionRuleActionActionEnum Enum with underlying type: string
 type ProtectionRuleActionActionEnum string
 
@@ -40,7 +57,7 @@ const (
 	ProtectionRuleActionActionBlock  ProtectionRuleActionActionEnum = "BLOCK"
 )
 
-var mappingProtectionRuleActionAction = map[string]ProtectionRuleActionActionEnum{
+var mappingProtectionRuleActionActionEnum = map[string]ProtectionRuleActionActionEnum{
 	"OFF":    ProtectionRuleActionActionOff,
 	"DETECT": ProtectionRuleActionActionDetect,
 	"BLOCK":  ProtectionRuleActionActionBlock,
@@ -49,8 +66,17 @@ var mappingProtectionRuleActionAction = map[string]ProtectionRuleActionActionEnu
 // GetProtectionRuleActionActionEnumValues Enumerates the set of values for ProtectionRuleActionActionEnum
 func GetProtectionRuleActionActionEnumValues() []ProtectionRuleActionActionEnum {
 	values := make([]ProtectionRuleActionActionEnum, 0)
-	for _, v := range mappingProtectionRuleActionAction {
+	for _, v := range mappingProtectionRuleActionActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProtectionRuleActionActionEnumStringValues Enumerates the set of values in String for ProtectionRuleActionActionEnum
+func GetProtectionRuleActionActionEnumStringValues() []string {
+	return []string{
+		"OFF",
+		"DETECT",
+		"BLOCK",
+	}
 }

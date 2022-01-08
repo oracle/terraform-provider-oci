@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateSubnetDetails The representation of CreateSubnetDetails
@@ -82,6 +84,17 @@ type CreateSubnetDetails struct {
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
+	// Indicates whether learning mode is enabled for this subnet. The default is `false`.
+	// **Note:** When a subnet has learning mode enabled, only certain types
+	// of resources can be launched in the subnet.
+	// Example: `true`
+	IsLearningEnabled *bool `mandatory:"false" json:"isLearningEnabled"`
+
+	// The VLAN tag to associate with every VNIC Attachment within this Subnet, available only
+	// on BareMetal secondary VNICs within learning enabled Subnets.
+	// **Note:** If the Subnet is learning enabled, the vlanTag value has to be passed in and cannot be empty.
+	VlanTag *int `mandatory:"false" json:"vlanTag"`
+
 	// Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
 	// For IPv6, if `prohibitInternetIngress` is set to `true`, internet access is not allowed for any
 	// IPv6s assigned to VNICs in the subnet. Otherwise, ingress internet traffic is allowed by default.
@@ -116,4 +129,16 @@ type CreateSubnetDetails struct {
 
 func (m CreateSubnetDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateSubnetDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RemotePeeringConnectionDrgAttachmentNetworkDetails Specifies the DRG attachment to another DRG.
@@ -23,6 +25,26 @@ type RemotePeeringConnectionDrgAttachmentNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"true" json:"id"`
+
+	// The remote Oracle Cloud Infrastructure region name.
+	PeerRegionName *string `mandatory:"false" json:"peerRegionName"`
+
+	// The attachment route target.
+	PeerAttachmentRouteTarget *string `mandatory:"false" json:"peerAttachmentRouteTarget"`
+
+	// Routes which may be imported from the attachment (subject to import policy) appear in the route reflectors
+	// tagged with the attachment's import route target.
+	ImportRouteTarget *string `mandatory:"false" json:"importRouteTarget"`
+
+	// Routes which are exported to the attachment are exported to the route reflectors
+	// with the route target set to the value of the attachment's export route target.
+	ExportRouteTarget *string `mandatory:"false" json:"exportRouteTarget"`
+
+	// The MPLS label of the DRG attachment.
+	MplsLabel *int `mandatory:"false" json:"mplsLabel"`
+
+	// The BGP ASN to use for the IPSec connection's route target.
+	RegionalOciAsn *string `mandatory:"false" json:"regionalOciAsn"`
 }
 
 //GetId returns Id
@@ -32,6 +54,18 @@ func (m RemotePeeringConnectionDrgAttachmentNetworkDetails) GetId() *string {
 
 func (m RemotePeeringConnectionDrgAttachmentNetworkDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RemotePeeringConnectionDrgAttachmentNetworkDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

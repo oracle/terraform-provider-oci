@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Filter Query builder filter action to apply edit to queryString.
@@ -28,6 +30,21 @@ type Filter struct {
 
 func (m Filter) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Filter) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFilterOperatorEnum[string(m.Operator)]; !ok && m.Operator != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operator: %s. Supported values are: %s.", m.Operator, strings.Join(GetFilterOperatorEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // FilterOperatorEnum Enum with underlying type: string
@@ -55,7 +72,7 @@ const (
 	FilterOperatorClearSubquery          FilterOperatorEnum = "CLEAR_SUBQUERY"
 )
 
-var mappingFilterOperator = map[string]FilterOperatorEnum{
+var mappingFilterOperatorEnum = map[string]FilterOperatorEnum{
 	"CLEAR":                       FilterOperatorClear,
 	"REPLACE":                     FilterOperatorReplace,
 	"EQUALS":                      FilterOperatorEquals,
@@ -79,8 +96,32 @@ var mappingFilterOperator = map[string]FilterOperatorEnum{
 // GetFilterOperatorEnumValues Enumerates the set of values for FilterOperatorEnum
 func GetFilterOperatorEnumValues() []FilterOperatorEnum {
 	values := make([]FilterOperatorEnum, 0)
-	for _, v := range mappingFilterOperator {
+	for _, v := range mappingFilterOperatorEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFilterOperatorEnumStringValues Enumerates the set of values in String for FilterOperatorEnum
+func GetFilterOperatorEnumStringValues() []string {
+	return []string{
+		"CLEAR",
+		"REPLACE",
+		"EQUALS",
+		"NOT_EQUALS",
+		"STARTS_WITH",
+		"DOES_NOT_START_WITH",
+		"ENDS_WITH",
+		"DOES_NOT_END_WITH",
+		"CONTAINS",
+		"DOES_NOT_CONTAIN",
+		"IS_LESS_THAN",
+		"IS_LESS_THAN_OR_EQUAL_TO",
+		"IS_GREATER_THAN",
+		"IS_GREATER_THAN_OR_EQUAL_TO",
+		"IS_BETWEEN",
+		"IS_NOT_BETWEEN",
+		"ADD_SUBQUERY",
+		"CLEAR_SUBQUERY",
+	}
 }

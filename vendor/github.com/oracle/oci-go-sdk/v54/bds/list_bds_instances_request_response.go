@@ -5,15 +5,13 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListBdsInstancesRequest wrapper for the ListBdsInstances operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsInstances.go.html to see an example of how to use ListBdsInstancesRequest.
 type ListBdsInstancesRequest struct {
 
 	// The OCID of the compartment.
@@ -52,6 +50,10 @@ func (request ListBdsInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBdsInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +67,26 @@ func (request ListBdsInstancesRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBdsInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBdsInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBdsInstanceLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBdsInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBdsInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBdsInstancesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBdsInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBdsInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBdsInstancesResponse wrapper for the ListBdsInstances operation
@@ -104,7 +126,7 @@ const (
 	ListBdsInstancesSortByDisplayname ListBdsInstancesSortByEnum = "displayName"
 )
 
-var mappingListBdsInstancesSortBy = map[string]ListBdsInstancesSortByEnum{
+var mappingListBdsInstancesSortByEnum = map[string]ListBdsInstancesSortByEnum{
 	"timeCreated": ListBdsInstancesSortByTimecreated,
 	"displayName": ListBdsInstancesSortByDisplayname,
 }
@@ -112,10 +134,18 @@ var mappingListBdsInstancesSortBy = map[string]ListBdsInstancesSortByEnum{
 // GetListBdsInstancesSortByEnumValues Enumerates the set of values for ListBdsInstancesSortByEnum
 func GetListBdsInstancesSortByEnumValues() []ListBdsInstancesSortByEnum {
 	values := make([]ListBdsInstancesSortByEnum, 0)
-	for _, v := range mappingListBdsInstancesSortBy {
+	for _, v := range mappingListBdsInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBdsInstancesSortByEnumStringValues Enumerates the set of values in String for ListBdsInstancesSortByEnum
+func GetListBdsInstancesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListBdsInstancesSortOrderEnum Enum with underlying type: string
@@ -127,7 +157,7 @@ const (
 	ListBdsInstancesSortOrderDesc ListBdsInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListBdsInstancesSortOrder = map[string]ListBdsInstancesSortOrderEnum{
+var mappingListBdsInstancesSortOrderEnum = map[string]ListBdsInstancesSortOrderEnum{
 	"ASC":  ListBdsInstancesSortOrderAsc,
 	"DESC": ListBdsInstancesSortOrderDesc,
 }
@@ -135,8 +165,16 @@ var mappingListBdsInstancesSortOrder = map[string]ListBdsInstancesSortOrderEnum{
 // GetListBdsInstancesSortOrderEnumValues Enumerates the set of values for ListBdsInstancesSortOrderEnum
 func GetListBdsInstancesSortOrderEnumValues() []ListBdsInstancesSortOrderEnum {
 	values := make([]ListBdsInstancesSortOrderEnum, 0)
-	for _, v := range mappingListBdsInstancesSortOrder {
+	for _, v := range mappingListBdsInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBdsInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListBdsInstancesSortOrderEnum
+func GetListBdsInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

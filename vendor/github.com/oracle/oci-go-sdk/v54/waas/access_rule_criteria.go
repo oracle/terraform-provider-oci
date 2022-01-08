@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AccessRuleCriteria When defined, the parent challenge would be applied only for the requests that matched all the listed conditions.
@@ -60,6 +62,21 @@ func (m AccessRuleCriteria) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AccessRuleCriteria) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAccessRuleCriteriaConditionEnum[string(m.Condition)]; !ok && m.Condition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Condition: %s. Supported values are: %s.", m.Condition, strings.Join(GetAccessRuleCriteriaConditionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AccessRuleCriteriaConditionEnum Enum with underlying type: string
 type AccessRuleCriteriaConditionEnum string
 
@@ -88,7 +105,7 @@ const (
 	AccessRuleCriteriaConditionUserAgentIsNot        AccessRuleCriteriaConditionEnum = "USER_AGENT_IS_NOT"
 )
 
-var mappingAccessRuleCriteriaCondition = map[string]AccessRuleCriteriaConditionEnum{
+var mappingAccessRuleCriteriaConditionEnum = map[string]AccessRuleCriteriaConditionEnum{
 	"URL_IS":                     AccessRuleCriteriaConditionUrlIs,
 	"URL_IS_NOT":                 AccessRuleCriteriaConditionUrlIsNot,
 	"URL_STARTS_WITH":            AccessRuleCriteriaConditionUrlStartsWith,
@@ -115,8 +132,35 @@ var mappingAccessRuleCriteriaCondition = map[string]AccessRuleCriteriaConditionE
 // GetAccessRuleCriteriaConditionEnumValues Enumerates the set of values for AccessRuleCriteriaConditionEnum
 func GetAccessRuleCriteriaConditionEnumValues() []AccessRuleCriteriaConditionEnum {
 	values := make([]AccessRuleCriteriaConditionEnum, 0)
-	for _, v := range mappingAccessRuleCriteriaCondition {
+	for _, v := range mappingAccessRuleCriteriaConditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAccessRuleCriteriaConditionEnumStringValues Enumerates the set of values in String for AccessRuleCriteriaConditionEnum
+func GetAccessRuleCriteriaConditionEnumStringValues() []string {
+	return []string{
+		"URL_IS",
+		"URL_IS_NOT",
+		"URL_STARTS_WITH",
+		"URL_PART_ENDS_WITH",
+		"URL_PART_CONTAINS",
+		"URL_REGEX",
+		"URL_DOES_NOT_MATCH_REGEX",
+		"URL_DOES_NOT_START_WITH",
+		"URL_PART_DOES_NOT_CONTAIN",
+		"URL_PART_DOES_NOT_END_WITH",
+		"IP_IS",
+		"IP_IS_NOT",
+		"IP_IN_LIST",
+		"IP_NOT_IN_LIST",
+		"HTTP_HEADER_CONTAINS",
+		"HTTP_METHOD_IS",
+		"HTTP_METHOD_IS_NOT",
+		"COUNTRY_IS",
+		"COUNTRY_IS_NOT",
+		"USER_AGENT_IS",
+		"USER_AGENT_IS_NOT",
+	}
 }

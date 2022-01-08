@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListExternalNonContainerDatabasesRequest wrapper for the ListExternalNonContainerDatabases operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListExternalNonContainerDatabases.go.html to see an example of how to use ListExternalNonContainerDatabasesRequest.
 type ListExternalNonContainerDatabasesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -55,6 +53,10 @@ func (request ListExternalNonContainerDatabasesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListExternalNonContainerDatabasesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,26 @@ func (request ListExternalNonContainerDatabasesRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListExternalNonContainerDatabasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListExternalNonContainerDatabasesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListExternalNonContainerDatabasesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListExternalNonContainerDatabasesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListExternalNonContainerDatabasesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListExternalNonContainerDatabasesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExternalDatabaseBaseLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetExternalDatabaseBaseLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListExternalNonContainerDatabasesResponse wrapper for the ListExternalNonContainerDatabases operation
@@ -108,7 +130,7 @@ const (
 	ListExternalNonContainerDatabasesSortByTimecreated ListExternalNonContainerDatabasesSortByEnum = "TIMECREATED"
 )
 
-var mappingListExternalNonContainerDatabasesSortBy = map[string]ListExternalNonContainerDatabasesSortByEnum{
+var mappingListExternalNonContainerDatabasesSortByEnum = map[string]ListExternalNonContainerDatabasesSortByEnum{
 	"DISPLAYNAME": ListExternalNonContainerDatabasesSortByDisplayname,
 	"TIMECREATED": ListExternalNonContainerDatabasesSortByTimecreated,
 }
@@ -116,10 +138,18 @@ var mappingListExternalNonContainerDatabasesSortBy = map[string]ListExternalNonC
 // GetListExternalNonContainerDatabasesSortByEnumValues Enumerates the set of values for ListExternalNonContainerDatabasesSortByEnum
 func GetListExternalNonContainerDatabasesSortByEnumValues() []ListExternalNonContainerDatabasesSortByEnum {
 	values := make([]ListExternalNonContainerDatabasesSortByEnum, 0)
-	for _, v := range mappingListExternalNonContainerDatabasesSortBy {
+	for _, v := range mappingListExternalNonContainerDatabasesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExternalNonContainerDatabasesSortByEnumStringValues Enumerates the set of values in String for ListExternalNonContainerDatabasesSortByEnum
+func GetListExternalNonContainerDatabasesSortByEnumStringValues() []string {
+	return []string{
+		"DISPLAYNAME",
+		"TIMECREATED",
+	}
 }
 
 // ListExternalNonContainerDatabasesSortOrderEnum Enum with underlying type: string
@@ -131,7 +161,7 @@ const (
 	ListExternalNonContainerDatabasesSortOrderDesc ListExternalNonContainerDatabasesSortOrderEnum = "DESC"
 )
 
-var mappingListExternalNonContainerDatabasesSortOrder = map[string]ListExternalNonContainerDatabasesSortOrderEnum{
+var mappingListExternalNonContainerDatabasesSortOrderEnum = map[string]ListExternalNonContainerDatabasesSortOrderEnum{
 	"ASC":  ListExternalNonContainerDatabasesSortOrderAsc,
 	"DESC": ListExternalNonContainerDatabasesSortOrderDesc,
 }
@@ -139,8 +169,16 @@ var mappingListExternalNonContainerDatabasesSortOrder = map[string]ListExternalN
 // GetListExternalNonContainerDatabasesSortOrderEnumValues Enumerates the set of values for ListExternalNonContainerDatabasesSortOrderEnum
 func GetListExternalNonContainerDatabasesSortOrderEnumValues() []ListExternalNonContainerDatabasesSortOrderEnum {
 	values := make([]ListExternalNonContainerDatabasesSortOrderEnum, 0)
-	for _, v := range mappingListExternalNonContainerDatabasesSortOrder {
+	for _, v := range mappingListExternalNonContainerDatabasesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExternalNonContainerDatabasesSortOrderEnumStringValues Enumerates the set of values in String for ListExternalNonContainerDatabasesSortOrderEnum
+func GetListExternalNonContainerDatabasesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

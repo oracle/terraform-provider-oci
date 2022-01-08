@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Join The information about the join operator. The join operator links data from multiple inbound sources.
@@ -26,6 +28,21 @@ type Join struct {
 
 func (m Join) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Join) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJoinPolicyEnum[string(m.Policy)]; !ok && m.Policy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Policy: %s. Supported values are: %s.", m.Policy, strings.Join(GetJoinPolicyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -53,7 +70,7 @@ const (
 	JoinPolicyFullJoin  JoinPolicyEnum = "FULL_JOIN"
 )
 
-var mappingJoinPolicy = map[string]JoinPolicyEnum{
+var mappingJoinPolicyEnum = map[string]JoinPolicyEnum{
 	"INNER_JOIN": JoinPolicyInnerJoin,
 	"LEFT_JOIN":  JoinPolicyLeftJoin,
 	"RIGHT_JOIN": JoinPolicyRightJoin,
@@ -63,8 +80,18 @@ var mappingJoinPolicy = map[string]JoinPolicyEnum{
 // GetJoinPolicyEnumValues Enumerates the set of values for JoinPolicyEnum
 func GetJoinPolicyEnumValues() []JoinPolicyEnum {
 	values := make([]JoinPolicyEnum, 0)
-	for _, v := range mappingJoinPolicy {
+	for _, v := range mappingJoinPolicyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJoinPolicyEnumStringValues Enumerates the set of values in String for JoinPolicyEnum
+func GetJoinPolicyEnumStringValues() []string {
+	return []string{
+		"INNER_JOIN",
+		"LEFT_JOIN",
+		"RIGHT_JOIN",
+		"FULL_JOIN",
+	}
 }

@@ -11,7 +11,9 @@ package vault
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Secret The details of the secret. Secret details do not contain the contents of the secret itself.
@@ -77,6 +79,21 @@ type Secret struct {
 
 func (m Secret) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Secret) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSecretLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecretLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -167,7 +184,7 @@ const (
 	SecretLifecycleStateFailed             SecretLifecycleStateEnum = "FAILED"
 )
 
-var mappingSecretLifecycleState = map[string]SecretLifecycleStateEnum{
+var mappingSecretLifecycleStateEnum = map[string]SecretLifecycleStateEnum{
 	"CREATING":            SecretLifecycleStateCreating,
 	"ACTIVE":              SecretLifecycleStateActive,
 	"UPDATING":            SecretLifecycleStateUpdating,
@@ -182,8 +199,23 @@ var mappingSecretLifecycleState = map[string]SecretLifecycleStateEnum{
 // GetSecretLifecycleStateEnumValues Enumerates the set of values for SecretLifecycleStateEnum
 func GetSecretLifecycleStateEnumValues() []SecretLifecycleStateEnum {
 	values := make([]SecretLifecycleStateEnum, 0)
-	for _, v := range mappingSecretLifecycleState {
+	for _, v := range mappingSecretLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecretLifecycleStateEnumStringValues Enumerates the set of values in String for SecretLifecycleStateEnum
+func GetSecretLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"SCHEDULING_DELETION",
+		"PENDING_DELETION",
+		"CANCELLING_DELETION",
+		"FAILED",
+	}
 }

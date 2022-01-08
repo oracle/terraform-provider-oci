@@ -18,7 +18,7 @@ const (
 	TargetTypeTag         TargetTypeEnum = "TAG"
 )
 
-var mappingTargetType = map[string]TargetTypeEnum{
+var mappingTargetTypeEnum = map[string]TargetTypeEnum{
 	"COMPARTMENT": TargetTypeCompartment,
 	"TAG":         TargetTypeTag,
 }
@@ -26,8 +26,16 @@ var mappingTargetType = map[string]TargetTypeEnum{
 // GetTargetTypeEnumValues Enumerates the set of values for TargetTypeEnum
 func GetTargetTypeEnumValues() []TargetTypeEnum {
 	values := make([]TargetTypeEnum, 0)
-	for _, v := range mappingTargetType {
+	for _, v := range mappingTargetTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTargetTypeEnumStringValues Enumerates the set of values in String for TargetTypeEnum
+func GetTargetTypeEnumStringValues() []string {
+	return []string{
+		"COMPARTMENT",
+		"TAG",
+	}
 }

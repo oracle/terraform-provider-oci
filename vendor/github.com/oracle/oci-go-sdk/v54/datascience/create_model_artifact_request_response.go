@@ -5,16 +5,14 @@
 package datascience
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // CreateModelArtifactRequest wrapper for the CreateModelArtifact operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModelArtifact.go.html to see an example of how to use CreateModelArtifactRequest.
 type CreateModelArtifactRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
@@ -72,6 +70,17 @@ func (request CreateModelArtifactRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateModelArtifactRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateModelArtifactRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateModelArtifactResponse wrapper for the CreateModelArtifact operation

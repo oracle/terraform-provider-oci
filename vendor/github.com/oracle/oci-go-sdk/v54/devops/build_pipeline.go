@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BuildPipeline A set of stages forming a directed acyclic graph that defines the build process.
@@ -59,6 +61,21 @@ func (m BuildPipeline) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BuildPipeline) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBuildPipelineLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBuildPipelineLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BuildPipelineLifecycleStateEnum Enum with underlying type: string
 type BuildPipelineLifecycleStateEnum string
 
@@ -73,7 +90,7 @@ const (
 	BuildPipelineLifecycleStateFailed   BuildPipelineLifecycleStateEnum = "FAILED"
 )
 
-var mappingBuildPipelineLifecycleState = map[string]BuildPipelineLifecycleStateEnum{
+var mappingBuildPipelineLifecycleStateEnum = map[string]BuildPipelineLifecycleStateEnum{
 	"CREATING": BuildPipelineLifecycleStateCreating,
 	"UPDATING": BuildPipelineLifecycleStateUpdating,
 	"ACTIVE":   BuildPipelineLifecycleStateActive,
@@ -86,8 +103,21 @@ var mappingBuildPipelineLifecycleState = map[string]BuildPipelineLifecycleStateE
 // GetBuildPipelineLifecycleStateEnumValues Enumerates the set of values for BuildPipelineLifecycleStateEnum
 func GetBuildPipelineLifecycleStateEnumValues() []BuildPipelineLifecycleStateEnum {
 	values := make([]BuildPipelineLifecycleStateEnum, 0)
-	for _, v := range mappingBuildPipelineLifecycleState {
+	for _, v := range mappingBuildPipelineLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBuildPipelineLifecycleStateEnumStringValues Enumerates the set of values in String for BuildPipelineLifecycleStateEnum
+func GetBuildPipelineLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

@@ -5,15 +5,13 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetConditionMetadataTypeRequest wrapper for the GetConditionMetadataType operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetConditionMetadataType.go.html to see an example of how to use GetConditionMetadataTypeRequest.
 type GetConditionMetadataTypeRequest struct {
 
 	// The type of the condition meta data.
@@ -40,6 +38,10 @@ func (request GetConditionMetadataTypeRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetConditionMetadataTypeRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -53,6 +55,20 @@ func (request GetConditionMetadataTypeRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetConditionMetadataTypeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetConditionMetadataTypeRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetConditionMetadataTypeConditionMetadataTypeIdEnum[string(request.ConditionMetadataTypeId)]; !ok && request.ConditionMetadataTypeId != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConditionMetadataTypeId: %s. Supported values are: %s.", request.ConditionMetadataTypeId, strings.Join(GetGetConditionMetadataTypeConditionMetadataTypeIdEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetConditionMetadataTypeResponse wrapper for the GetConditionMetadataType operation
@@ -89,19 +105,31 @@ const (
 	GetConditionMetadataTypeConditionMetadataTypeIdActivitycondition   GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ActivityCondition"
 	GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition   GetConditionMetadataTypeConditionMetadataTypeIdEnum = "SecurityCondition"
 	GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition GetConditionMetadataTypeConditionMetadataTypeIdEnum = "CloudGuardCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition     GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ThreatCondition"
 )
 
-var mappingGetConditionMetadataTypeConditionMetadataTypeId = map[string]GetConditionMetadataTypeConditionMetadataTypeIdEnum{
+var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnum = map[string]GetConditionMetadataTypeConditionMetadataTypeIdEnum{
 	"ActivityCondition":   GetConditionMetadataTypeConditionMetadataTypeIdActivitycondition,
 	"SecurityCondition":   GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition,
 	"CloudGuardCondition": GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition,
+	"ThreatCondition":     GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition,
 }
 
 // GetGetConditionMetadataTypeConditionMetadataTypeIdEnumValues Enumerates the set of values for GetConditionMetadataTypeConditionMetadataTypeIdEnum
 func GetGetConditionMetadataTypeConditionMetadataTypeIdEnumValues() []GetConditionMetadataTypeConditionMetadataTypeIdEnum {
 	values := make([]GetConditionMetadataTypeConditionMetadataTypeIdEnum, 0)
-	for _, v := range mappingGetConditionMetadataTypeConditionMetadataTypeId {
+	for _, v := range mappingGetConditionMetadataTypeConditionMetadataTypeIdEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetConditionMetadataTypeConditionMetadataTypeIdEnumStringValues Enumerates the set of values in String for GetConditionMetadataTypeConditionMetadataTypeIdEnum
+func GetGetConditionMetadataTypeConditionMetadataTypeIdEnumStringValues() []string {
+	return []string{
+		"ActivityCondition",
+		"SecurityCondition",
+		"CloudGuardCondition",
+		"ThreatCondition",
+	}
 }

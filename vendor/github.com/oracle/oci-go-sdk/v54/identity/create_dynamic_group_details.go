@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateDynamicGroupDetails Properties for creating a dynamic group.
@@ -24,10 +26,11 @@ type CreateDynamicGroupDetails struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The matching rule to dynamically match an instance certificate to this dynamic group.
-	// For rule syntax, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingdynamicgroups.htm).
+	// For rule syntax, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/dynamicgroups/managingdynamicgroups.htm).
 	MatchingRule *string `mandatory:"true" json:"matchingRule"`
 
 	// The description you assign to the group during creation. Does not have to be unique, and it's changeable.
+	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"true" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -43,4 +46,16 @@ type CreateDynamicGroupDetails struct {
 
 func (m CreateDynamicGroupDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDynamicGroupDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Parameter Parameters are created and assigned values that can be configured for each integration task.
@@ -100,6 +102,21 @@ func (m Parameter) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Parameter) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingParameterOutputAggregationTypeEnum[string(m.OutputAggregationType)]; !ok && m.OutputAggregationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OutputAggregationType: %s. Supported values are: %s.", m.OutputAggregationType, strings.Join(GetParameterOutputAggregationTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m Parameter) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeParameter Parameter
@@ -125,7 +142,7 @@ const (
 	ParameterOutputAggregationTypeSum   ParameterOutputAggregationTypeEnum = "SUM"
 )
 
-var mappingParameterOutputAggregationType = map[string]ParameterOutputAggregationTypeEnum{
+var mappingParameterOutputAggregationTypeEnum = map[string]ParameterOutputAggregationTypeEnum{
 	"MIN":   ParameterOutputAggregationTypeMin,
 	"MAX":   ParameterOutputAggregationTypeMax,
 	"COUNT": ParameterOutputAggregationTypeCount,
@@ -135,8 +152,18 @@ var mappingParameterOutputAggregationType = map[string]ParameterOutputAggregatio
 // GetParameterOutputAggregationTypeEnumValues Enumerates the set of values for ParameterOutputAggregationTypeEnum
 func GetParameterOutputAggregationTypeEnumValues() []ParameterOutputAggregationTypeEnum {
 	values := make([]ParameterOutputAggregationTypeEnum, 0)
-	for _, v := range mappingParameterOutputAggregationType {
+	for _, v := range mappingParameterOutputAggregationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetParameterOutputAggregationTypeEnumStringValues Enumerates the set of values in String for ParameterOutputAggregationTypeEnum
+func GetParameterOutputAggregationTypeEnumStringValues() []string {
+	return []string{
+		"MIN",
+		"MAX",
+		"COUNT",
+		"SUM",
+	}
 }

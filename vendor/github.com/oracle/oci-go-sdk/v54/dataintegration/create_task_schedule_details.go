@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateTaskScheduleDetails The create task details.
@@ -83,6 +85,27 @@ func (m CreateTaskScheduleDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateTaskScheduleDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateTaskScheduleDetailsRetryDelayUnitEnum[string(m.RetryDelayUnit)]; !ok && m.RetryDelayUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RetryDelayUnit: %s. Supported values are: %s.", m.RetryDelayUnit, strings.Join(GetCreateTaskScheduleDetailsRetryDelayUnitEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateTaskScheduleDetailsAuthModeEnum[string(m.AuthMode)]; !ok && m.AuthMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthMode: %s. Supported values are: %s.", m.AuthMode, strings.Join(GetCreateTaskScheduleDetailsAuthModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateTaskScheduleDetailsExpectedDurationUnitEnum[string(m.ExpectedDurationUnit)]; !ok && m.ExpectedDurationUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExpectedDurationUnit: %s. Supported values are: %s.", m.ExpectedDurationUnit, strings.Join(GetCreateTaskScheduleDetailsExpectedDurationUnitEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateTaskScheduleDetailsRetryDelayUnitEnum Enum with underlying type: string
 type CreateTaskScheduleDetailsRetryDelayUnitEnum string
 
@@ -94,7 +117,7 @@ const (
 	CreateTaskScheduleDetailsRetryDelayUnitDays    CreateTaskScheduleDetailsRetryDelayUnitEnum = "DAYS"
 )
 
-var mappingCreateTaskScheduleDetailsRetryDelayUnit = map[string]CreateTaskScheduleDetailsRetryDelayUnitEnum{
+var mappingCreateTaskScheduleDetailsRetryDelayUnitEnum = map[string]CreateTaskScheduleDetailsRetryDelayUnitEnum{
 	"SECONDS": CreateTaskScheduleDetailsRetryDelayUnitSeconds,
 	"MINUTES": CreateTaskScheduleDetailsRetryDelayUnitMinutes,
 	"HOURS":   CreateTaskScheduleDetailsRetryDelayUnitHours,
@@ -104,10 +127,20 @@ var mappingCreateTaskScheduleDetailsRetryDelayUnit = map[string]CreateTaskSchedu
 // GetCreateTaskScheduleDetailsRetryDelayUnitEnumValues Enumerates the set of values for CreateTaskScheduleDetailsRetryDelayUnitEnum
 func GetCreateTaskScheduleDetailsRetryDelayUnitEnumValues() []CreateTaskScheduleDetailsRetryDelayUnitEnum {
 	values := make([]CreateTaskScheduleDetailsRetryDelayUnitEnum, 0)
-	for _, v := range mappingCreateTaskScheduleDetailsRetryDelayUnit {
+	for _, v := range mappingCreateTaskScheduleDetailsRetryDelayUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateTaskScheduleDetailsRetryDelayUnitEnumStringValues Enumerates the set of values in String for CreateTaskScheduleDetailsRetryDelayUnitEnum
+func GetCreateTaskScheduleDetailsRetryDelayUnitEnumStringValues() []string {
+	return []string{
+		"SECONDS",
+		"MINUTES",
+		"HOURS",
+		"DAYS",
+	}
 }
 
 // CreateTaskScheduleDetailsAuthModeEnum Enum with underlying type: string
@@ -120,7 +153,7 @@ const (
 	CreateTaskScheduleDetailsAuthModeUserCertificate   CreateTaskScheduleDetailsAuthModeEnum = "USER_CERTIFICATE"
 )
 
-var mappingCreateTaskScheduleDetailsAuthMode = map[string]CreateTaskScheduleDetailsAuthModeEnum{
+var mappingCreateTaskScheduleDetailsAuthModeEnum = map[string]CreateTaskScheduleDetailsAuthModeEnum{
 	"OBO":                CreateTaskScheduleDetailsAuthModeObo,
 	"RESOURCE_PRINCIPAL": CreateTaskScheduleDetailsAuthModeResourcePrincipal,
 	"USER_CERTIFICATE":   CreateTaskScheduleDetailsAuthModeUserCertificate,
@@ -129,10 +162,19 @@ var mappingCreateTaskScheduleDetailsAuthMode = map[string]CreateTaskScheduleDeta
 // GetCreateTaskScheduleDetailsAuthModeEnumValues Enumerates the set of values for CreateTaskScheduleDetailsAuthModeEnum
 func GetCreateTaskScheduleDetailsAuthModeEnumValues() []CreateTaskScheduleDetailsAuthModeEnum {
 	values := make([]CreateTaskScheduleDetailsAuthModeEnum, 0)
-	for _, v := range mappingCreateTaskScheduleDetailsAuthMode {
+	for _, v := range mappingCreateTaskScheduleDetailsAuthModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateTaskScheduleDetailsAuthModeEnumStringValues Enumerates the set of values in String for CreateTaskScheduleDetailsAuthModeEnum
+func GetCreateTaskScheduleDetailsAuthModeEnumStringValues() []string {
+	return []string{
+		"OBO",
+		"RESOURCE_PRINCIPAL",
+		"USER_CERTIFICATE",
+	}
 }
 
 // CreateTaskScheduleDetailsExpectedDurationUnitEnum Enum with underlying type: string
@@ -146,7 +188,7 @@ const (
 	CreateTaskScheduleDetailsExpectedDurationUnitDays    CreateTaskScheduleDetailsExpectedDurationUnitEnum = "DAYS"
 )
 
-var mappingCreateTaskScheduleDetailsExpectedDurationUnit = map[string]CreateTaskScheduleDetailsExpectedDurationUnitEnum{
+var mappingCreateTaskScheduleDetailsExpectedDurationUnitEnum = map[string]CreateTaskScheduleDetailsExpectedDurationUnitEnum{
 	"SECONDS": CreateTaskScheduleDetailsExpectedDurationUnitSeconds,
 	"MINUTES": CreateTaskScheduleDetailsExpectedDurationUnitMinutes,
 	"HOURS":   CreateTaskScheduleDetailsExpectedDurationUnitHours,
@@ -156,8 +198,18 @@ var mappingCreateTaskScheduleDetailsExpectedDurationUnit = map[string]CreateTask
 // GetCreateTaskScheduleDetailsExpectedDurationUnitEnumValues Enumerates the set of values for CreateTaskScheduleDetailsExpectedDurationUnitEnum
 func GetCreateTaskScheduleDetailsExpectedDurationUnitEnumValues() []CreateTaskScheduleDetailsExpectedDurationUnitEnum {
 	values := make([]CreateTaskScheduleDetailsExpectedDurationUnitEnum, 0)
-	for _, v := range mappingCreateTaskScheduleDetailsExpectedDurationUnit {
+	for _, v := range mappingCreateTaskScheduleDetailsExpectedDurationUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateTaskScheduleDetailsExpectedDurationUnitEnumStringValues Enumerates the set of values in String for CreateTaskScheduleDetailsExpectedDurationUnitEnum
+func GetCreateTaskScheduleDetailsExpectedDurationUnitEnumStringValues() []string {
+	return []string{
+		"SECONDS",
+		"MINUTES",
+		"HOURS",
+		"DAYS",
+	}
 }

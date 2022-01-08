@@ -5,15 +5,13 @@
 package operatoraccesscontrol
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAccessRequestsRequest wrapper for the ListAccessRequests operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListAccessRequests.go.html to see an example of how to use ListAccessRequestsRequest.
 type ListAccessRequestsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -65,6 +63,10 @@ func (request ListAccessRequestsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAccessRequestsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +80,26 @@ func (request ListAccessRequestsRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAccessRequestsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAccessRequestsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAccessRequestsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListAccessRequestsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAccessRequestsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAccessRequestsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAccessRequestsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAccessRequestsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAccessRequestsResponse wrapper for the ListAccessRequests operation
@@ -137,7 +159,7 @@ const (
 	ListAccessRequestsLifecycleStateInreview          ListAccessRequestsLifecycleStateEnum = "INREVIEW"
 )
 
-var mappingListAccessRequestsLifecycleState = map[string]ListAccessRequestsLifecycleStateEnum{
+var mappingListAccessRequestsLifecycleStateEnum = map[string]ListAccessRequestsLifecycleStateEnum{
 	"CREATED":           ListAccessRequestsLifecycleStateCreated,
 	"APPROVALWAITING":   ListAccessRequestsLifecycleStateApprovalwaiting,
 	"PREAPPROVED":       ListAccessRequestsLifecycleStatePreapproved,
@@ -165,10 +187,38 @@ var mappingListAccessRequestsLifecycleState = map[string]ListAccessRequestsLifec
 // GetListAccessRequestsLifecycleStateEnumValues Enumerates the set of values for ListAccessRequestsLifecycleStateEnum
 func GetListAccessRequestsLifecycleStateEnumValues() []ListAccessRequestsLifecycleStateEnum {
 	values := make([]ListAccessRequestsLifecycleStateEnum, 0)
-	for _, v := range mappingListAccessRequestsLifecycleState {
+	for _, v := range mappingListAccessRequestsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAccessRequestsLifecycleStateEnumStringValues Enumerates the set of values in String for ListAccessRequestsLifecycleStateEnum
+func GetListAccessRequestsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"APPROVALWAITING",
+		"PREAPPROVED",
+		"APPROVED",
+		"REJECTED",
+		"DEPLOYED",
+		"DEPLOYFAILED",
+		"UNDEPLOYED",
+		"UNDEPLOYFAILED",
+		"CLOSEFAILED",
+		"REVOKEFAILED",
+		"EXPIRYFAILED",
+		"REVOKING",
+		"REVOKED",
+		"EXTENDING",
+		"EXTENDED",
+		"EXTENSIONREJECTED",
+		"COMPLETING",
+		"COMPLETED",
+		"EXPIRED",
+		"APPROVEDFORFUTURE",
+		"INREVIEW",
+	}
 }
 
 // ListAccessRequestsSortOrderEnum Enum with underlying type: string
@@ -180,7 +230,7 @@ const (
 	ListAccessRequestsSortOrderDesc ListAccessRequestsSortOrderEnum = "DESC"
 )
 
-var mappingListAccessRequestsSortOrder = map[string]ListAccessRequestsSortOrderEnum{
+var mappingListAccessRequestsSortOrderEnum = map[string]ListAccessRequestsSortOrderEnum{
 	"ASC":  ListAccessRequestsSortOrderAsc,
 	"DESC": ListAccessRequestsSortOrderDesc,
 }
@@ -188,10 +238,18 @@ var mappingListAccessRequestsSortOrder = map[string]ListAccessRequestsSortOrderE
 // GetListAccessRequestsSortOrderEnumValues Enumerates the set of values for ListAccessRequestsSortOrderEnum
 func GetListAccessRequestsSortOrderEnumValues() []ListAccessRequestsSortOrderEnum {
 	values := make([]ListAccessRequestsSortOrderEnum, 0)
-	for _, v := range mappingListAccessRequestsSortOrder {
+	for _, v := range mappingListAccessRequestsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAccessRequestsSortOrderEnumStringValues Enumerates the set of values in String for ListAccessRequestsSortOrderEnum
+func GetListAccessRequestsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAccessRequestsSortByEnum Enum with underlying type: string
@@ -203,7 +261,7 @@ const (
 	ListAccessRequestsSortByDisplayname ListAccessRequestsSortByEnum = "displayName"
 )
 
-var mappingListAccessRequestsSortBy = map[string]ListAccessRequestsSortByEnum{
+var mappingListAccessRequestsSortByEnum = map[string]ListAccessRequestsSortByEnum{
 	"timeCreated": ListAccessRequestsSortByTimecreated,
 	"displayName": ListAccessRequestsSortByDisplayname,
 }
@@ -211,8 +269,16 @@ var mappingListAccessRequestsSortBy = map[string]ListAccessRequestsSortByEnum{
 // GetListAccessRequestsSortByEnumValues Enumerates the set of values for ListAccessRequestsSortByEnum
 func GetListAccessRequestsSortByEnumValues() []ListAccessRequestsSortByEnum {
 	values := make([]ListAccessRequestsSortByEnum, 0)
-	for _, v := range mappingListAccessRequestsSortBy {
+	for _, v := range mappingListAccessRequestsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAccessRequestsSortByEnumStringValues Enumerates the set of values in String for ListAccessRequestsSortByEnum
+func GetListAccessRequestsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetGlossaryRequest wrapper for the GetGlossary operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetGlossary.go.html to see an example of how to use GetGlossaryRequest.
 type GetGlossaryRequest struct {
 
 	// Unique catalog identifier.
@@ -40,6 +38,10 @@ func (request GetGlossaryRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetGlossaryRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -53,6 +55,23 @@ func (request GetGlossaryRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetGlossaryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetGlossaryRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetGlossaryFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetGlossaryFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetGlossaryResponse wrapper for the GetGlossary operation
@@ -100,7 +119,7 @@ const (
 	GetGlossaryFieldsUri            GetGlossaryFieldsEnum = "uri"
 )
 
-var mappingGetGlossaryFields = map[string]GetGlossaryFieldsEnum{
+var mappingGetGlossaryFieldsEnum = map[string]GetGlossaryFieldsEnum{
 	"key":            GetGlossaryFieldsKey,
 	"displayName":    GetGlossaryFieldsDisplayname,
 	"description":    GetGlossaryFieldsDescription,
@@ -118,8 +137,26 @@ var mappingGetGlossaryFields = map[string]GetGlossaryFieldsEnum{
 // GetGetGlossaryFieldsEnumValues Enumerates the set of values for GetGlossaryFieldsEnum
 func GetGetGlossaryFieldsEnumValues() []GetGlossaryFieldsEnum {
 	values := make([]GetGlossaryFieldsEnum, 0)
-	for _, v := range mappingGetGlossaryFields {
+	for _, v := range mappingGetGlossaryFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetGlossaryFieldsEnumStringValues Enumerates the set of values in String for GetGlossaryFieldsEnum
+func GetGetGlossaryFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"catalogId",
+		"lifecycleState",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"owner",
+		"workflowStatus",
+		"uri",
+	}
 }

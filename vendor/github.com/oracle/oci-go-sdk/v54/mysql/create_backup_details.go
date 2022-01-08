@@ -10,7 +10,9 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateBackupDetails Complete information for a Backup.
@@ -44,6 +46,21 @@ func (m CreateBackupDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateBackupDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateBackupDetailsBackupTypeEnum[string(m.BackupType)]; !ok && m.BackupType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupType: %s. Supported values are: %s.", m.BackupType, strings.Join(GetCreateBackupDetailsBackupTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateBackupDetailsBackupTypeEnum Enum with underlying type: string
 type CreateBackupDetailsBackupTypeEnum string
 
@@ -53,7 +70,7 @@ const (
 	CreateBackupDetailsBackupTypeIncremental CreateBackupDetailsBackupTypeEnum = "INCREMENTAL"
 )
 
-var mappingCreateBackupDetailsBackupType = map[string]CreateBackupDetailsBackupTypeEnum{
+var mappingCreateBackupDetailsBackupTypeEnum = map[string]CreateBackupDetailsBackupTypeEnum{
 	"FULL":        CreateBackupDetailsBackupTypeFull,
 	"INCREMENTAL": CreateBackupDetailsBackupTypeIncremental,
 }
@@ -61,8 +78,16 @@ var mappingCreateBackupDetailsBackupType = map[string]CreateBackupDetailsBackupT
 // GetCreateBackupDetailsBackupTypeEnumValues Enumerates the set of values for CreateBackupDetailsBackupTypeEnum
 func GetCreateBackupDetailsBackupTypeEnumValues() []CreateBackupDetailsBackupTypeEnum {
 	values := make([]CreateBackupDetailsBackupTypeEnum, 0)
-	for _, v := range mappingCreateBackupDetailsBackupType {
+	for _, v := range mappingCreateBackupDetailsBackupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateBackupDetailsBackupTypeEnumStringValues Enumerates the set of values in String for CreateBackupDetailsBackupTypeEnum
+func GetCreateBackupDetailsBackupTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"INCREMENTAL",
+	}
 }

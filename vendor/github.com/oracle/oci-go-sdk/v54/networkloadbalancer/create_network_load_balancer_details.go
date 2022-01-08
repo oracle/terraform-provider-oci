@@ -10,7 +10,9 @@
 package networkloadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateNetworkLoadBalancerDetails The properties that define a network load balancer. For more information, see
@@ -80,4 +82,19 @@ type CreateNetworkLoadBalancerDetails struct {
 
 func (m CreateNetworkLoadBalancerDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateNetworkLoadBalancerDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingNlbIpVersionEnum[string(m.NlbIpVersion)]; !ok && m.NlbIpVersion != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NlbIpVersion: %s. Supported values are: %s.", m.NlbIpVersion, strings.Join(GetNlbIpVersionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

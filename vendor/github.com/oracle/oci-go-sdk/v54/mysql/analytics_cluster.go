@@ -10,7 +10,9 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AnalyticsCluster DEPRECATED -- please use HeatWave API instead.
@@ -48,6 +50,21 @@ func (m AnalyticsCluster) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AnalyticsCluster) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAnalyticsClusterLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAnalyticsClusterLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AnalyticsClusterLifecycleStateEnum Enum with underlying type: string
 type AnalyticsClusterLifecycleStateEnum string
 
@@ -62,7 +79,7 @@ const (
 	AnalyticsClusterLifecycleStateFailed   AnalyticsClusterLifecycleStateEnum = "FAILED"
 )
 
-var mappingAnalyticsClusterLifecycleState = map[string]AnalyticsClusterLifecycleStateEnum{
+var mappingAnalyticsClusterLifecycleStateEnum = map[string]AnalyticsClusterLifecycleStateEnum{
 	"CREATING": AnalyticsClusterLifecycleStateCreating,
 	"ACTIVE":   AnalyticsClusterLifecycleStateActive,
 	"INACTIVE": AnalyticsClusterLifecycleStateInactive,
@@ -75,8 +92,21 @@ var mappingAnalyticsClusterLifecycleState = map[string]AnalyticsClusterLifecycle
 // GetAnalyticsClusterLifecycleStateEnumValues Enumerates the set of values for AnalyticsClusterLifecycleStateEnum
 func GetAnalyticsClusterLifecycleStateEnumValues() []AnalyticsClusterLifecycleStateEnum {
 	values := make([]AnalyticsClusterLifecycleStateEnum, 0)
-	for _, v := range mappingAnalyticsClusterLifecycleState {
+	for _, v := range mappingAnalyticsClusterLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAnalyticsClusterLifecycleStateEnumStringValues Enumerates the set of values in String for AnalyticsClusterLifecycleStateEnum
+func GetAnalyticsClusterLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetFolderTagRequest wrapper for the GetFolderTag operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetFolderTag.go.html to see an example of how to use GetFolderTagRequest.
 type GetFolderTagRequest struct {
 
 	// Unique catalog identifier.
@@ -46,6 +44,10 @@ func (request GetFolderTagRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetFolderTagRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +61,23 @@ func (request GetFolderTagRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetFolderTagRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetFolderTagRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetFolderTagFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetFolderTagFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetFolderTagResponse wrapper for the GetFolderTag operation
@@ -104,7 +123,7 @@ const (
 	GetFolderTagFieldsFolderkey       GetFolderTagFieldsEnum = "folderKey"
 )
 
-var mappingGetFolderTagFields = map[string]GetFolderTagFieldsEnum{
+var mappingGetFolderTagFieldsEnum = map[string]GetFolderTagFieldsEnum{
 	"key":             GetFolderTagFieldsKey,
 	"name":            GetFolderTagFieldsName,
 	"termKey":         GetFolderTagFieldsTermkey,
@@ -120,8 +139,24 @@ var mappingGetFolderTagFields = map[string]GetFolderTagFieldsEnum{
 // GetGetFolderTagFieldsEnumValues Enumerates the set of values for GetFolderTagFieldsEnum
 func GetGetFolderTagFieldsEnumValues() []GetFolderTagFieldsEnum {
 	values := make([]GetFolderTagFieldsEnum, 0)
-	for _, v := range mappingGetFolderTagFields {
+	for _, v := range mappingGetFolderTagFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetFolderTagFieldsEnumStringValues Enumerates the set of values in String for GetFolderTagFieldsEnum
+func GetGetFolderTagFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"name",
+		"termKey",
+		"termPath",
+		"termDescription",
+		"lifecycleState",
+		"timeCreated",
+		"createdById",
+		"uri",
+		"folderKey",
+	}
 }

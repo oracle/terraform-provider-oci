@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CloudDatabaseManagementConfig The configuration of the Database Management service.
@@ -25,6 +27,24 @@ type CloudDatabaseManagementConfig struct {
 
 func (m CloudDatabaseManagementConfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CloudDatabaseManagementConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCloudDatabaseManagementConfigManagementStatusEnum[string(m.ManagementStatus)]; !ok && m.ManagementStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementStatus: %s. Supported values are: %s.", m.ManagementStatus, strings.Join(GetCloudDatabaseManagementConfigManagementStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCloudDatabaseManagementConfigManagementTypeEnum[string(m.ManagementType)]; !ok && m.ManagementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementType: %s. Supported values are: %s.", m.ManagementType, strings.Join(GetCloudDatabaseManagementConfigManagementTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CloudDatabaseManagementConfigManagementStatusEnum Enum with underlying type: string
@@ -42,7 +62,7 @@ const (
 	CloudDatabaseManagementConfigManagementStatusFailedUpdating  CloudDatabaseManagementConfigManagementStatusEnum = "FAILED_UPDATING"
 )
 
-var mappingCloudDatabaseManagementConfigManagementStatus = map[string]CloudDatabaseManagementConfigManagementStatusEnum{
+var mappingCloudDatabaseManagementConfigManagementStatusEnum = map[string]CloudDatabaseManagementConfigManagementStatusEnum{
 	"ENABLING":         CloudDatabaseManagementConfigManagementStatusEnabling,
 	"ENABLED":          CloudDatabaseManagementConfigManagementStatusEnabled,
 	"DISABLING":        CloudDatabaseManagementConfigManagementStatusDisabling,
@@ -56,10 +76,24 @@ var mappingCloudDatabaseManagementConfigManagementStatus = map[string]CloudDatab
 // GetCloudDatabaseManagementConfigManagementStatusEnumValues Enumerates the set of values for CloudDatabaseManagementConfigManagementStatusEnum
 func GetCloudDatabaseManagementConfigManagementStatusEnumValues() []CloudDatabaseManagementConfigManagementStatusEnum {
 	values := make([]CloudDatabaseManagementConfigManagementStatusEnum, 0)
-	for _, v := range mappingCloudDatabaseManagementConfigManagementStatus {
+	for _, v := range mappingCloudDatabaseManagementConfigManagementStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudDatabaseManagementConfigManagementStatusEnumStringValues Enumerates the set of values in String for CloudDatabaseManagementConfigManagementStatusEnum
+func GetCloudDatabaseManagementConfigManagementStatusEnumStringValues() []string {
+	return []string{
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"DISABLED",
+		"UPDATING",
+		"FAILED_ENABLING",
+		"FAILED_DISABLING",
+		"FAILED_UPDATING",
+	}
 }
 
 // CloudDatabaseManagementConfigManagementTypeEnum Enum with underlying type: string
@@ -71,7 +105,7 @@ const (
 	CloudDatabaseManagementConfigManagementTypeAdvanced CloudDatabaseManagementConfigManagementTypeEnum = "ADVANCED"
 )
 
-var mappingCloudDatabaseManagementConfigManagementType = map[string]CloudDatabaseManagementConfigManagementTypeEnum{
+var mappingCloudDatabaseManagementConfigManagementTypeEnum = map[string]CloudDatabaseManagementConfigManagementTypeEnum{
 	"BASIC":    CloudDatabaseManagementConfigManagementTypeBasic,
 	"ADVANCED": CloudDatabaseManagementConfigManagementTypeAdvanced,
 }
@@ -79,8 +113,16 @@ var mappingCloudDatabaseManagementConfigManagementType = map[string]CloudDatabas
 // GetCloudDatabaseManagementConfigManagementTypeEnumValues Enumerates the set of values for CloudDatabaseManagementConfigManagementTypeEnum
 func GetCloudDatabaseManagementConfigManagementTypeEnumValues() []CloudDatabaseManagementConfigManagementTypeEnum {
 	values := make([]CloudDatabaseManagementConfigManagementTypeEnum, 0)
-	for _, v := range mappingCloudDatabaseManagementConfigManagementType {
+	for _, v := range mappingCloudDatabaseManagementConfigManagementTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudDatabaseManagementConfigManagementTypeEnumStringValues Enumerates the set of values in String for CloudDatabaseManagementConfigManagementTypeEnum
+func GetCloudDatabaseManagementConfigManagementTypeEnumStringValues() []string {
+	return []string{
+		"BASIC",
+		"ADVANCED",
+	}
 }

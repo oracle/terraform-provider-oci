@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TagDefaultSummary Summary information for the specified tag default.
@@ -54,6 +56,21 @@ func (m TagDefaultSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TagDefaultSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTagDefaultSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTagDefaultSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TagDefaultSummaryLifecycleStateEnum Enum with underlying type: string
 type TagDefaultSummaryLifecycleStateEnum string
 
@@ -62,15 +79,22 @@ const (
 	TagDefaultSummaryLifecycleStateActive TagDefaultSummaryLifecycleStateEnum = "ACTIVE"
 )
 
-var mappingTagDefaultSummaryLifecycleState = map[string]TagDefaultSummaryLifecycleStateEnum{
+var mappingTagDefaultSummaryLifecycleStateEnum = map[string]TagDefaultSummaryLifecycleStateEnum{
 	"ACTIVE": TagDefaultSummaryLifecycleStateActive,
 }
 
 // GetTagDefaultSummaryLifecycleStateEnumValues Enumerates the set of values for TagDefaultSummaryLifecycleStateEnum
 func GetTagDefaultSummaryLifecycleStateEnumValues() []TagDefaultSummaryLifecycleStateEnum {
 	values := make([]TagDefaultSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingTagDefaultSummaryLifecycleState {
+	for _, v := range mappingTagDefaultSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTagDefaultSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for TagDefaultSummaryLifecycleStateEnum
+func GetTagDefaultSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+	}
 }

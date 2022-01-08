@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -20,7 +20,7 @@ const (
 	RequestAuthenticationSchemesBearer RequestAuthenticationSchemesEnum = "BEARER"
 )
 
-var mappingRequestAuthenticationSchemes = map[string]RequestAuthenticationSchemesEnum{
+var mappingRequestAuthenticationSchemesEnum = map[string]RequestAuthenticationSchemesEnum{
 	"OAUTH":  RequestAuthenticationSchemesOauth,
 	"NONE":   RequestAuthenticationSchemesNone,
 	"BASIC":  RequestAuthenticationSchemesBasic,
@@ -30,8 +30,18 @@ var mappingRequestAuthenticationSchemes = map[string]RequestAuthenticationScheme
 // GetRequestAuthenticationSchemesEnumValues Enumerates the set of values for RequestAuthenticationSchemesEnum
 func GetRequestAuthenticationSchemesEnumValues() []RequestAuthenticationSchemesEnum {
 	values := make([]RequestAuthenticationSchemesEnum, 0)
-	for _, v := range mappingRequestAuthenticationSchemes {
+	for _, v := range mappingRequestAuthenticationSchemesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRequestAuthenticationSchemesEnumStringValues Enumerates the set of values in String for RequestAuthenticationSchemesEnum
+func GetRequestAuthenticationSchemesEnumStringValues() []string {
+	return []string{
+		"OAUTH",
+		"NONE",
+		"BASIC",
+		"BEARER",
+	}
 }

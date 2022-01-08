@@ -10,7 +10,9 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LogSummary Log object configuration summary.
@@ -64,6 +66,24 @@ func (m LogSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLogLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLogLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLogSummaryLogTypeEnum[string(m.LogType)]; !ok && m.LogType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogType: %s. Supported values are: %s.", m.LogType, strings.Join(GetLogSummaryLogTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogSummaryLogTypeEnum Enum with underlying type: string
 type LogSummaryLogTypeEnum string
 
@@ -73,7 +93,7 @@ const (
 	LogSummaryLogTypeService LogSummaryLogTypeEnum = "SERVICE"
 )
 
-var mappingLogSummaryLogType = map[string]LogSummaryLogTypeEnum{
+var mappingLogSummaryLogTypeEnum = map[string]LogSummaryLogTypeEnum{
 	"CUSTOM":  LogSummaryLogTypeCustom,
 	"SERVICE": LogSummaryLogTypeService,
 }
@@ -81,8 +101,16 @@ var mappingLogSummaryLogType = map[string]LogSummaryLogTypeEnum{
 // GetLogSummaryLogTypeEnumValues Enumerates the set of values for LogSummaryLogTypeEnum
 func GetLogSummaryLogTypeEnumValues() []LogSummaryLogTypeEnum {
 	values := make([]LogSummaryLogTypeEnum, 0)
-	for _, v := range mappingLogSummaryLogType {
+	for _, v := range mappingLogSummaryLogTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogSummaryLogTypeEnumStringValues Enumerates the set of values in String for LogSummaryLogTypeEnum
+func GetLogSummaryLogTypeEnumStringValues() []string {
+	return []string{
+		"CUSTOM",
+		"SERVICE",
+	}
 }

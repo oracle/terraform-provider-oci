@@ -85,10 +85,6 @@ func (client *DataplaneClient) ConfigurationProvider() *common.ConfigurationProv
 }
 
 // GenerateScopedAccessToken Based on the calling principal and the input payload, derive the claims and create a security token.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateScopedAccessToken.go.html to see an example of how to use GenerateScopedAccessToken API.
 func (client DataplaneClient) GenerateScopedAccessToken(ctx context.Context, request GenerateScopedAccessTokenRequest) (response GenerateScopedAccessTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

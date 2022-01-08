@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetTsigKeyRequest wrapper for the GetTsigKey operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetTsigKey.go.html to see an example of how to use GetTsigKeyRequest.
 type GetTsigKeyRequest struct {
 
 	// The OCID of the target TSIG key.
@@ -51,6 +49,10 @@ func (request GetTsigKeyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetTsigKeyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +66,20 @@ func (request GetTsigKeyRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetTsigKeyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetTsigKeyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetTsigKeyScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetGetTsigKeyScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetTsigKeyResponse wrapper for the GetTsigKey operation
@@ -109,7 +125,7 @@ const (
 	GetTsigKeyScopePrivate GetTsigKeyScopeEnum = "PRIVATE"
 )
 
-var mappingGetTsigKeyScope = map[string]GetTsigKeyScopeEnum{
+var mappingGetTsigKeyScopeEnum = map[string]GetTsigKeyScopeEnum{
 	"GLOBAL":  GetTsigKeyScopeGlobal,
 	"PRIVATE": GetTsigKeyScopePrivate,
 }
@@ -117,8 +133,16 @@ var mappingGetTsigKeyScope = map[string]GetTsigKeyScopeEnum{
 // GetGetTsigKeyScopeEnumValues Enumerates the set of values for GetTsigKeyScopeEnum
 func GetGetTsigKeyScopeEnumValues() []GetTsigKeyScopeEnum {
 	values := make([]GetTsigKeyScopeEnum, 0)
-	for _, v := range mappingGetTsigKeyScope {
+	for _, v := range mappingGetTsigKeyScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetTsigKeyScopeEnumStringValues Enumerates the set of values in String for GetTsigKeyScopeEnum
+func GetGetTsigKeyScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

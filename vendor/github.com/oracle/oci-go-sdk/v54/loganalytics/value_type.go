@@ -24,7 +24,7 @@ const (
 	ValueTypeFacet     ValueTypeEnum = "FACET"
 )
 
-var mappingValueType = map[string]ValueTypeEnum{
+var mappingValueTypeEnum = map[string]ValueTypeEnum{
 	"BOOLEAN":   ValueTypeBoolean,
 	"STRING":    ValueTypeString,
 	"DOUBLE":    ValueTypeDouble,
@@ -38,8 +38,22 @@ var mappingValueType = map[string]ValueTypeEnum{
 // GetValueTypeEnumValues Enumerates the set of values for ValueTypeEnum
 func GetValueTypeEnumValues() []ValueTypeEnum {
 	values := make([]ValueTypeEnum, 0)
-	for _, v := range mappingValueType {
+	for _, v := range mappingValueTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetValueTypeEnumStringValues Enumerates the set of values in String for ValueTypeEnum
+func GetValueTypeEnumStringValues() []string {
+	return []string{
+		"BOOLEAN",
+		"STRING",
+		"DOUBLE",
+		"FLOAT",
+		"LONG",
+		"INTEGER",
+		"TIMESTAMP",
+		"FACET",
+	}
 }

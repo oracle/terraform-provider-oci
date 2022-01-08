@@ -18,7 +18,7 @@ const (
 	LogAnalyticsOperationTypesDeleteLogAnalytics LogAnalyticsOperationTypesEnum = "DELETE_LOG_ANALYTICS"
 )
 
-var mappingLogAnalyticsOperationTypes = map[string]LogAnalyticsOperationTypesEnum{
+var mappingLogAnalyticsOperationTypesEnum = map[string]LogAnalyticsOperationTypesEnum{
 	"CREATE_LOG_ANALYTICS": LogAnalyticsOperationTypesCreateLogAnalytics,
 	"DELETE_LOG_ANALYTICS": LogAnalyticsOperationTypesDeleteLogAnalytics,
 }
@@ -26,8 +26,16 @@ var mappingLogAnalyticsOperationTypes = map[string]LogAnalyticsOperationTypesEnu
 // GetLogAnalyticsOperationTypesEnumValues Enumerates the set of values for LogAnalyticsOperationTypesEnum
 func GetLogAnalyticsOperationTypesEnumValues() []LogAnalyticsOperationTypesEnum {
 	values := make([]LogAnalyticsOperationTypesEnum, 0)
-	for _, v := range mappingLogAnalyticsOperationTypes {
+	for _, v := range mappingLogAnalyticsOperationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsOperationTypesEnumStringValues Enumerates the set of values in String for LogAnalyticsOperationTypesEnum
+func GetLogAnalyticsOperationTypesEnumStringValues() []string {
+	return []string{
+		"CREATE_LOG_ANALYTICS",
+		"DELETE_LOG_ANALYTICS",
+	}
 }

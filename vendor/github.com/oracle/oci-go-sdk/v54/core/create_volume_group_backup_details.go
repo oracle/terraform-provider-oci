@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateVolumeGroupBackupDetails The representation of CreateVolumeGroupBackupDetails
@@ -50,6 +52,21 @@ func (m CreateVolumeGroupBackupDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateVolumeGroupBackupDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateVolumeGroupBackupDetailsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCreateVolumeGroupBackupDetailsTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateVolumeGroupBackupDetailsTypeEnum Enum with underlying type: string
 type CreateVolumeGroupBackupDetailsTypeEnum string
 
@@ -59,7 +76,7 @@ const (
 	CreateVolumeGroupBackupDetailsTypeIncremental CreateVolumeGroupBackupDetailsTypeEnum = "INCREMENTAL"
 )
 
-var mappingCreateVolumeGroupBackupDetailsType = map[string]CreateVolumeGroupBackupDetailsTypeEnum{
+var mappingCreateVolumeGroupBackupDetailsTypeEnum = map[string]CreateVolumeGroupBackupDetailsTypeEnum{
 	"FULL":        CreateVolumeGroupBackupDetailsTypeFull,
 	"INCREMENTAL": CreateVolumeGroupBackupDetailsTypeIncremental,
 }
@@ -67,8 +84,16 @@ var mappingCreateVolumeGroupBackupDetailsType = map[string]CreateVolumeGroupBack
 // GetCreateVolumeGroupBackupDetailsTypeEnumValues Enumerates the set of values for CreateVolumeGroupBackupDetailsTypeEnum
 func GetCreateVolumeGroupBackupDetailsTypeEnumValues() []CreateVolumeGroupBackupDetailsTypeEnum {
 	values := make([]CreateVolumeGroupBackupDetailsTypeEnum, 0)
-	for _, v := range mappingCreateVolumeGroupBackupDetailsType {
+	for _, v := range mappingCreateVolumeGroupBackupDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateVolumeGroupBackupDetailsTypeEnumStringValues Enumerates the set of values in String for CreateVolumeGroupBackupDetailsTypeEnum
+func GetCreateVolumeGroupBackupDetailsTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"INCREMENTAL",
+	}
 }

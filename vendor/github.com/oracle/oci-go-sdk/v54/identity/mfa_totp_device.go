@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // MfaTotpDevice Users can enable multi-factor authentication (MFA) for their own user accounts. After MFA is enabled, the
@@ -18,7 +20,7 @@ import (
 // Console. To enable multi-factor authentication, the user must register a mobile device with a TOTP authenticator app
 // installed. The registration process creates the `MfaTotpDevice` object. The registration process requires
 // interaction with the Console and cannot be completed programmatically. For more information, see
-// Managing Multi-Factor Authentication (https://docs.cloud.oracle.com/Content/Identity/Tasks/usingmfa.htm).
+// Managing Multi-Factor Authentication (https://docs.cloud.oracle.com/Content/Identity/mfa/understand-multi-factor-authentication.htm).
 type MfaTotpDevice struct {
 
 	// The OCID of the MFA TOTP device.
@@ -59,6 +61,21 @@ func (m MfaTotpDevice) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MfaTotpDevice) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMfaTotpDeviceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMfaTotpDeviceLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MfaTotpDeviceLifecycleStateEnum Enum with underlying type: string
 type MfaTotpDeviceLifecycleStateEnum string
 
@@ -71,7 +88,7 @@ const (
 	MfaTotpDeviceLifecycleStateDeleted  MfaTotpDeviceLifecycleStateEnum = "DELETED"
 )
 
-var mappingMfaTotpDeviceLifecycleState = map[string]MfaTotpDeviceLifecycleStateEnum{
+var mappingMfaTotpDeviceLifecycleStateEnum = map[string]MfaTotpDeviceLifecycleStateEnum{
 	"CREATING": MfaTotpDeviceLifecycleStateCreating,
 	"ACTIVE":   MfaTotpDeviceLifecycleStateActive,
 	"INACTIVE": MfaTotpDeviceLifecycleStateInactive,
@@ -82,8 +99,19 @@ var mappingMfaTotpDeviceLifecycleState = map[string]MfaTotpDeviceLifecycleStateE
 // GetMfaTotpDeviceLifecycleStateEnumValues Enumerates the set of values for MfaTotpDeviceLifecycleStateEnum
 func GetMfaTotpDeviceLifecycleStateEnumValues() []MfaTotpDeviceLifecycleStateEnum {
 	values := make([]MfaTotpDeviceLifecycleStateEnum, 0)
-	for _, v := range mappingMfaTotpDeviceLifecycleState {
+	for _, v := range mappingMfaTotpDeviceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMfaTotpDeviceLifecycleStateEnumStringValues Enumerates the set of values in String for MfaTotpDeviceLifecycleStateEnum
+func GetMfaTotpDeviceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreatePolicyDetails The representation of CreatePolicyDetails
@@ -24,8 +26,8 @@ type CreatePolicyDetails struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// An array of policy statements written in the policy language. See
-	// How Policies Work (https://docs.cloud.oracle.com/Content/Identity/Concepts/policies.htm) and
-	// Common Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/commonpolicies.htm).
+	// How Policies Work (https://docs.cloud.oracle.com/Content/Identity/policieshow/how-policies-work.htm) and
+	// Common Policies (https://docs.cloud.oracle.com/Content/Identity/policiescommon/commonpolicies.htm).
 	Statements []string `mandatory:"true" json:"statements"`
 
 	// The description you assign to the policy during creation. Does not have to be unique, and it's changeable.
@@ -49,4 +51,16 @@ type CreatePolicyDetails struct {
 
 func (m CreatePolicyDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreatePolicyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

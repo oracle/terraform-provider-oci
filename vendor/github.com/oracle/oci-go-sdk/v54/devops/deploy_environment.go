@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DeployEnvironment The target OCI resources, such as Compute instances, Container Engine for Kubernetes(OKE) clusters, or Function, where artifacts will be deployed.
@@ -189,6 +191,21 @@ func (m deployenvironment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m deployenvironment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDeployEnvironmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeployEnvironmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DeployEnvironmentLifecycleStateEnum Enum with underlying type: string
 type DeployEnvironmentLifecycleStateEnum string
 
@@ -202,7 +219,7 @@ const (
 	DeployEnvironmentLifecycleStateFailed   DeployEnvironmentLifecycleStateEnum = "FAILED"
 )
 
-var mappingDeployEnvironmentLifecycleState = map[string]DeployEnvironmentLifecycleStateEnum{
+var mappingDeployEnvironmentLifecycleStateEnum = map[string]DeployEnvironmentLifecycleStateEnum{
 	"CREATING": DeployEnvironmentLifecycleStateCreating,
 	"UPDATING": DeployEnvironmentLifecycleStateUpdating,
 	"ACTIVE":   DeployEnvironmentLifecycleStateActive,
@@ -214,10 +231,22 @@ var mappingDeployEnvironmentLifecycleState = map[string]DeployEnvironmentLifecyc
 // GetDeployEnvironmentLifecycleStateEnumValues Enumerates the set of values for DeployEnvironmentLifecycleStateEnum
 func GetDeployEnvironmentLifecycleStateEnumValues() []DeployEnvironmentLifecycleStateEnum {
 	values := make([]DeployEnvironmentLifecycleStateEnum, 0)
-	for _, v := range mappingDeployEnvironmentLifecycleState {
+	for _, v := range mappingDeployEnvironmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployEnvironmentLifecycleStateEnumStringValues Enumerates the set of values in String for DeployEnvironmentLifecycleStateEnum
+func GetDeployEnvironmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // DeployEnvironmentDeployEnvironmentTypeEnum Enum with underlying type: string
@@ -230,7 +259,7 @@ const (
 	DeployEnvironmentDeployEnvironmentTypeFunction             DeployEnvironmentDeployEnvironmentTypeEnum = "FUNCTION"
 )
 
-var mappingDeployEnvironmentDeployEnvironmentType = map[string]DeployEnvironmentDeployEnvironmentTypeEnum{
+var mappingDeployEnvironmentDeployEnvironmentTypeEnum = map[string]DeployEnvironmentDeployEnvironmentTypeEnum{
 	"OKE_CLUSTER":            DeployEnvironmentDeployEnvironmentTypeOkeCluster,
 	"COMPUTE_INSTANCE_GROUP": DeployEnvironmentDeployEnvironmentTypeComputeInstanceGroup,
 	"FUNCTION":               DeployEnvironmentDeployEnvironmentTypeFunction,
@@ -239,8 +268,17 @@ var mappingDeployEnvironmentDeployEnvironmentType = map[string]DeployEnvironment
 // GetDeployEnvironmentDeployEnvironmentTypeEnumValues Enumerates the set of values for DeployEnvironmentDeployEnvironmentTypeEnum
 func GetDeployEnvironmentDeployEnvironmentTypeEnumValues() []DeployEnvironmentDeployEnvironmentTypeEnum {
 	values := make([]DeployEnvironmentDeployEnvironmentTypeEnum, 0)
-	for _, v := range mappingDeployEnvironmentDeployEnvironmentType {
+	for _, v := range mappingDeployEnvironmentDeployEnvironmentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployEnvironmentDeployEnvironmentTypeEnumStringValues Enumerates the set of values in String for DeployEnvironmentDeployEnvironmentTypeEnum
+func GetDeployEnvironmentDeployEnvironmentTypeEnumStringValues() []string {
+	return []string{
+		"OKE_CLUSTER",
+		"COMPUTE_INSTANCE_GROUP",
+		"FUNCTION",
+	}
 }

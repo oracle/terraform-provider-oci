@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RouteAuthorizationPolicy If authentication has been performed, validate whether the request scope (if any) applies to this route.
@@ -72,6 +74,18 @@ func (m routeauthorizationpolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m routeauthorizationpolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RouteAuthorizationPolicyTypeEnum Enum with underlying type: string
 type RouteAuthorizationPolicyTypeEnum string
 
@@ -82,7 +96,7 @@ const (
 	RouteAuthorizationPolicyTypeAuthenticationOnly RouteAuthorizationPolicyTypeEnum = "AUTHENTICATION_ONLY"
 )
 
-var mappingRouteAuthorizationPolicyType = map[string]RouteAuthorizationPolicyTypeEnum{
+var mappingRouteAuthorizationPolicyTypeEnum = map[string]RouteAuthorizationPolicyTypeEnum{
 	"ANONYMOUS":           RouteAuthorizationPolicyTypeAnonymous,
 	"ANY_OF":              RouteAuthorizationPolicyTypeAnyOf,
 	"AUTHENTICATION_ONLY": RouteAuthorizationPolicyTypeAuthenticationOnly,
@@ -91,8 +105,17 @@ var mappingRouteAuthorizationPolicyType = map[string]RouteAuthorizationPolicyTyp
 // GetRouteAuthorizationPolicyTypeEnumValues Enumerates the set of values for RouteAuthorizationPolicyTypeEnum
 func GetRouteAuthorizationPolicyTypeEnumValues() []RouteAuthorizationPolicyTypeEnum {
 	values := make([]RouteAuthorizationPolicyTypeEnum, 0)
-	for _, v := range mappingRouteAuthorizationPolicyType {
+	for _, v := range mappingRouteAuthorizationPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRouteAuthorizationPolicyTypeEnumStringValues Enumerates the set of values in String for RouteAuthorizationPolicyTypeEnum
+func GetRouteAuthorizationPolicyTypeEnumStringValues() []string {
+	return []string{
+		"ANONYMOUS",
+		"ANY_OF",
+		"AUTHENTICATION_ONLY",
+	}
 }

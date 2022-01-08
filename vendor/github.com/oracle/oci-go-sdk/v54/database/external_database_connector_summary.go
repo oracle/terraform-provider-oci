@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExternalDatabaseConnectorSummary An Oracle Cloud Infrastructure resource used to connect to an external Oracle Database.
@@ -179,6 +181,21 @@ func (m externaldatabaseconnectorsummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m externaldatabaseconnectorsummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExternalDatabaseConnectorLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExternalDatabaseConnectorLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExternalDatabaseConnectorSummaryConnectorTypeEnum Enum with underlying type: string
 type ExternalDatabaseConnectorSummaryConnectorTypeEnum string
 
@@ -187,15 +204,22 @@ const (
 	ExternalDatabaseConnectorSummaryConnectorTypeMacs ExternalDatabaseConnectorSummaryConnectorTypeEnum = "MACS"
 )
 
-var mappingExternalDatabaseConnectorSummaryConnectorType = map[string]ExternalDatabaseConnectorSummaryConnectorTypeEnum{
+var mappingExternalDatabaseConnectorSummaryConnectorTypeEnum = map[string]ExternalDatabaseConnectorSummaryConnectorTypeEnum{
 	"MACS": ExternalDatabaseConnectorSummaryConnectorTypeMacs,
 }
 
 // GetExternalDatabaseConnectorSummaryConnectorTypeEnumValues Enumerates the set of values for ExternalDatabaseConnectorSummaryConnectorTypeEnum
 func GetExternalDatabaseConnectorSummaryConnectorTypeEnumValues() []ExternalDatabaseConnectorSummaryConnectorTypeEnum {
 	values := make([]ExternalDatabaseConnectorSummaryConnectorTypeEnum, 0)
-	for _, v := range mappingExternalDatabaseConnectorSummaryConnectorType {
+	for _, v := range mappingExternalDatabaseConnectorSummaryConnectorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalDatabaseConnectorSummaryConnectorTypeEnumStringValues Enumerates the set of values in String for ExternalDatabaseConnectorSummaryConnectorTypeEnum
+func GetExternalDatabaseConnectorSummaryConnectorTypeEnumStringValues() []string {
+	return []string{
+		"MACS",
+	}
 }

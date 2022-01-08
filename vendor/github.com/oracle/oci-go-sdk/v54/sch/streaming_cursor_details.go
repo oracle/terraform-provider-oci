@@ -13,7 +13,9 @@ package sch
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // StreamingCursorDetails The type of cursor (https://docs.cloud.oracle.com/iaas/Content/Streaming/Tasks/using_a_single_consumer.htm#usingcursors), which determines the starting point from which the stream will be consumed.
@@ -67,6 +69,18 @@ func (m streamingcursordetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m streamingcursordetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // StreamingCursorDetailsKindEnum Enum with underlying type: string
 type StreamingCursorDetailsKindEnum string
 
@@ -76,7 +90,7 @@ const (
 	StreamingCursorDetailsKindTrimHorizon StreamingCursorDetailsKindEnum = "TRIM_HORIZON"
 )
 
-var mappingStreamingCursorDetailsKind = map[string]StreamingCursorDetailsKindEnum{
+var mappingStreamingCursorDetailsKindEnum = map[string]StreamingCursorDetailsKindEnum{
 	"LATEST":       StreamingCursorDetailsKindLatest,
 	"TRIM_HORIZON": StreamingCursorDetailsKindTrimHorizon,
 }
@@ -84,8 +98,16 @@ var mappingStreamingCursorDetailsKind = map[string]StreamingCursorDetailsKindEnu
 // GetStreamingCursorDetailsKindEnumValues Enumerates the set of values for StreamingCursorDetailsKindEnum
 func GetStreamingCursorDetailsKindEnumValues() []StreamingCursorDetailsKindEnum {
 	values := make([]StreamingCursorDetailsKindEnum, 0)
-	for _, v := range mappingStreamingCursorDetailsKind {
+	for _, v := range mappingStreamingCursorDetailsKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStreamingCursorDetailsKindEnumStringValues Enumerates the set of values in String for StreamingCursorDetailsKindEnum
+func GetStreamingCursorDetailsKindEnumStringValues() []string {
+	return []string{
+		"LATEST",
+		"TRIM_HORIZON",
+	}
 }

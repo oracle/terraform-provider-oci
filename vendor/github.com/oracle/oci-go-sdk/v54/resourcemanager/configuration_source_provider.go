@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ConfigurationSourceProvider The properties that define a configuration source provider.
@@ -158,6 +160,21 @@ func (m configurationsourceprovider) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m configurationsourceprovider) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingConfigurationSourceProviderLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConfigurationSourceProviderLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConfigurationSourceProviderLifecycleStateEnum Enum with underlying type: string
 type ConfigurationSourceProviderLifecycleStateEnum string
 
@@ -166,17 +183,24 @@ const (
 	ConfigurationSourceProviderLifecycleStateActive ConfigurationSourceProviderLifecycleStateEnum = "ACTIVE"
 )
 
-var mappingConfigurationSourceProviderLifecycleState = map[string]ConfigurationSourceProviderLifecycleStateEnum{
+var mappingConfigurationSourceProviderLifecycleStateEnum = map[string]ConfigurationSourceProviderLifecycleStateEnum{
 	"ACTIVE": ConfigurationSourceProviderLifecycleStateActive,
 }
 
 // GetConfigurationSourceProviderLifecycleStateEnumValues Enumerates the set of values for ConfigurationSourceProviderLifecycleStateEnum
 func GetConfigurationSourceProviderLifecycleStateEnumValues() []ConfigurationSourceProviderLifecycleStateEnum {
 	values := make([]ConfigurationSourceProviderLifecycleStateEnum, 0)
-	for _, v := range mappingConfigurationSourceProviderLifecycleState {
+	for _, v := range mappingConfigurationSourceProviderLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationSourceProviderLifecycleStateEnumStringValues Enumerates the set of values in String for ConfigurationSourceProviderLifecycleStateEnum
+func GetConfigurationSourceProviderLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+	}
 }
 
 // ConfigurationSourceProviderConfigSourceProviderTypeEnum Enum with underlying type: string
@@ -188,7 +212,7 @@ const (
 	ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken ConfigurationSourceProviderConfigSourceProviderTypeEnum = "GITHUB_ACCESS_TOKEN"
 )
 
-var mappingConfigurationSourceProviderConfigSourceProviderType = map[string]ConfigurationSourceProviderConfigSourceProviderTypeEnum{
+var mappingConfigurationSourceProviderConfigSourceProviderTypeEnum = map[string]ConfigurationSourceProviderConfigSourceProviderTypeEnum{
 	"GITLAB_ACCESS_TOKEN": ConfigurationSourceProviderConfigSourceProviderTypeGitlabAccessToken,
 	"GITHUB_ACCESS_TOKEN": ConfigurationSourceProviderConfigSourceProviderTypeGithubAccessToken,
 }
@@ -196,8 +220,16 @@ var mappingConfigurationSourceProviderConfigSourceProviderType = map[string]Conf
 // GetConfigurationSourceProviderConfigSourceProviderTypeEnumValues Enumerates the set of values for ConfigurationSourceProviderConfigSourceProviderTypeEnum
 func GetConfigurationSourceProviderConfigSourceProviderTypeEnumValues() []ConfigurationSourceProviderConfigSourceProviderTypeEnum {
 	values := make([]ConfigurationSourceProviderConfigSourceProviderTypeEnum, 0)
-	for _, v := range mappingConfigurationSourceProviderConfigSourceProviderType {
+	for _, v := range mappingConfigurationSourceProviderConfigSourceProviderTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationSourceProviderConfigSourceProviderTypeEnumStringValues Enumerates the set of values in String for ConfigurationSourceProviderConfigSourceProviderTypeEnum
+func GetConfigurationSourceProviderConfigSourceProviderTypeEnumStringValues() []string {
+	return []string{
+		"GITLAB_ACCESS_TOKEN",
+		"GITHUB_ACCESS_TOKEN",
+	}
 }

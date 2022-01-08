@@ -5,15 +5,13 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // CommitMultipartUploadRequest wrapper for the CommitMultipartUpload operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CommitMultipartUpload.go.html to see an example of how to use CommitMultipartUploadRequest.
 type CommitMultipartUploadRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -57,6 +55,10 @@ func (request CommitMultipartUploadRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CommitMultipartUploadRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,17 @@ func (request CommitMultipartUploadRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CommitMultipartUploadRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CommitMultipartUploadRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CommitMultipartUploadResponse wrapper for the CommitMultipartUpload operation

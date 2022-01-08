@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteResolverEndpointRequest wrapper for the DeleteResolverEndpoint operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteResolverEndpoint.go.html to see an example of how to use DeleteResolverEndpointRequest.
 type DeleteResolverEndpointRequest struct {
 
 	// The OCID of the target resolver.
@@ -56,6 +54,10 @@ func (request DeleteResolverEndpointRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteResolverEndpointRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,20 @@ func (request DeleteResolverEndpointRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteResolverEndpointRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteResolverEndpointRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDeleteResolverEndpointScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetDeleteResolverEndpointScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteResolverEndpointResponse wrapper for the DeleteResolverEndpoint operation
@@ -104,7 +120,7 @@ const (
 	DeleteResolverEndpointScopePrivate DeleteResolverEndpointScopeEnum = "PRIVATE"
 )
 
-var mappingDeleteResolverEndpointScope = map[string]DeleteResolverEndpointScopeEnum{
+var mappingDeleteResolverEndpointScopeEnum = map[string]DeleteResolverEndpointScopeEnum{
 	"GLOBAL":  DeleteResolverEndpointScopeGlobal,
 	"PRIVATE": DeleteResolverEndpointScopePrivate,
 }
@@ -112,8 +128,16 @@ var mappingDeleteResolverEndpointScope = map[string]DeleteResolverEndpointScopeE
 // GetDeleteResolverEndpointScopeEnumValues Enumerates the set of values for DeleteResolverEndpointScopeEnum
 func GetDeleteResolverEndpointScopeEnumValues() []DeleteResolverEndpointScopeEnum {
 	values := make([]DeleteResolverEndpointScopeEnum, 0)
-	for _, v := range mappingDeleteResolverEndpointScope {
+	for _, v := range mappingDeleteResolverEndpointScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeleteResolverEndpointScopeEnumStringValues Enumerates the set of values in String for DeleteResolverEndpointScopeEnum
+func GetDeleteResolverEndpointScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

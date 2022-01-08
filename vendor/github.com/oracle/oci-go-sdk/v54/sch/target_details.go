@@ -13,7 +13,9 @@ package sch
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TargetDetails An object that represents the target of the flow defined by the service connector.
@@ -88,6 +90,18 @@ func (m targetdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m targetdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TargetDetailsKindEnum Enum with underlying type: string
 type TargetDetailsKindEnum string
 
@@ -101,7 +115,7 @@ const (
 	TargetDetailsKindStreaming        TargetDetailsKindEnum = "streaming"
 )
 
-var mappingTargetDetailsKind = map[string]TargetDetailsKindEnum{
+var mappingTargetDetailsKindEnum = map[string]TargetDetailsKindEnum{
 	"functions":        TargetDetailsKindFunctions,
 	"loggingAnalytics": TargetDetailsKindLogginganalytics,
 	"monitoring":       TargetDetailsKindMonitoring,
@@ -113,8 +127,20 @@ var mappingTargetDetailsKind = map[string]TargetDetailsKindEnum{
 // GetTargetDetailsKindEnumValues Enumerates the set of values for TargetDetailsKindEnum
 func GetTargetDetailsKindEnumValues() []TargetDetailsKindEnum {
 	values := make([]TargetDetailsKindEnum, 0)
-	for _, v := range mappingTargetDetailsKind {
+	for _, v := range mappingTargetDetailsKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTargetDetailsKindEnumStringValues Enumerates the set of values in String for TargetDetailsKindEnum
+func GetTargetDetailsKindEnumStringValues() []string {
+	return []string{
+		"functions",
+		"loggingAnalytics",
+		"monitoring",
+		"notifications",
+		"objectStorage",
+		"streaming",
+	}
 }

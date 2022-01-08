@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PublicKeySet A set of Public Keys that will be used to verify the JWT signature.
@@ -67,6 +69,18 @@ func (m publickeyset) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m publickeyset) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PublicKeySetTypeEnum Enum with underlying type: string
 type PublicKeySetTypeEnum string
 
@@ -76,7 +90,7 @@ const (
 	PublicKeySetTypeRemoteJwks PublicKeySetTypeEnum = "REMOTE_JWKS"
 )
 
-var mappingPublicKeySetType = map[string]PublicKeySetTypeEnum{
+var mappingPublicKeySetTypeEnum = map[string]PublicKeySetTypeEnum{
 	"STATIC_KEYS": PublicKeySetTypeStaticKeys,
 	"REMOTE_JWKS": PublicKeySetTypeRemoteJwks,
 }
@@ -84,8 +98,16 @@ var mappingPublicKeySetType = map[string]PublicKeySetTypeEnum{
 // GetPublicKeySetTypeEnumValues Enumerates the set of values for PublicKeySetTypeEnum
 func GetPublicKeySetTypeEnumValues() []PublicKeySetTypeEnum {
 	values := make([]PublicKeySetTypeEnum, 0)
-	for _, v := range mappingPublicKeySetType {
+	for _, v := range mappingPublicKeySetTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPublicKeySetTypeEnumStringValues Enumerates the set of values in String for PublicKeySetTypeEnum
+func GetPublicKeySetTypeEnumStringValues() []string {
+	return []string{
+		"STATIC_KEYS",
+		"REMOTE_JWKS",
+	}
 }

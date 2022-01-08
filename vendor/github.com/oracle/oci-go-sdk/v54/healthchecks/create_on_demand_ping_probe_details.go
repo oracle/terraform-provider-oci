@@ -12,7 +12,9 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateOnDemandPingProbeDetails The request body used to create an on-demand ping probe.
@@ -40,6 +42,21 @@ type CreateOnDemandPingProbeDetails struct {
 
 func (m CreateOnDemandPingProbeDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateOnDemandPingProbeDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPingProbeProtocolEnum[string(m.Protocol)]; !ok && m.Protocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetPingProbeProtocolEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateOnDemandPingProbeDetailsProtocolEnum is an alias to type: PingProbeProtocolEnum

@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateViewRequest wrapper for the UpdateView operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateView.go.html to see an example of how to use UpdateViewRequest.
 type UpdateViewRequest struct {
 
 	// The OCID of the target view.
@@ -56,6 +54,10 @@ func (request UpdateViewRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateViewRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,20 @@ func (request UpdateViewRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateViewRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateViewRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateViewScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetUpdateViewScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateViewResponse wrapper for the UpdateView operation
@@ -112,7 +128,7 @@ const (
 	UpdateViewScopePrivate UpdateViewScopeEnum = "PRIVATE"
 )
 
-var mappingUpdateViewScope = map[string]UpdateViewScopeEnum{
+var mappingUpdateViewScopeEnum = map[string]UpdateViewScopeEnum{
 	"GLOBAL":  UpdateViewScopeGlobal,
 	"PRIVATE": UpdateViewScopePrivate,
 }
@@ -120,8 +136,16 @@ var mappingUpdateViewScope = map[string]UpdateViewScopeEnum{
 // GetUpdateViewScopeEnumValues Enumerates the set of values for UpdateViewScopeEnum
 func GetUpdateViewScopeEnumValues() []UpdateViewScopeEnum {
 	values := make([]UpdateViewScopeEnum, 0)
-	for _, v := range mappingUpdateViewScope {
+	for _, v := range mappingUpdateViewScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateViewScopeEnumStringValues Enumerates the set of values in String for UpdateViewScopeEnum
+func GetUpdateViewScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

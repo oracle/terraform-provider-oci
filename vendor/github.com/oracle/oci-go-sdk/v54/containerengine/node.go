@@ -12,7 +12,9 @@
 package containerengine
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Node The properties that define a node.
@@ -48,6 +50,20 @@ type Node struct {
 	// An error that may be associated with the node.
 	NodeError *NodeError `mandatory:"false" json:"nodeError"`
 
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The state of the node.
 	LifecycleState NodeLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
@@ -57,6 +73,21 @@ type Node struct {
 
 func (m Node) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Node) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingNodeLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNodeLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // NodeLifecycleStateEnum Enum with underlying type: string
@@ -73,7 +104,7 @@ const (
 	NodeLifecycleStateInactive NodeLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingNodeLifecycleState = map[string]NodeLifecycleStateEnum{
+var mappingNodeLifecycleStateEnum = map[string]NodeLifecycleStateEnum{
 	"CREATING": NodeLifecycleStateCreating,
 	"ACTIVE":   NodeLifecycleStateActive,
 	"UPDATING": NodeLifecycleStateUpdating,
@@ -86,8 +117,21 @@ var mappingNodeLifecycleState = map[string]NodeLifecycleStateEnum{
 // GetNodeLifecycleStateEnumValues Enumerates the set of values for NodeLifecycleStateEnum
 func GetNodeLifecycleStateEnumValues() []NodeLifecycleStateEnum {
 	values := make([]NodeLifecycleStateEnum, 0)
-	for _, v := range mappingNodeLifecycleState {
+	for _, v := range mappingNodeLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNodeLifecycleStateEnumStringValues Enumerates the set of values in String for NodeLifecycleStateEnum
+func GetNodeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILING",
+		"INACTIVE",
+	}
 }

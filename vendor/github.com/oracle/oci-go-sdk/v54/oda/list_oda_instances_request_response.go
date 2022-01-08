@@ -5,15 +5,13 @@
 package oda
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListOdaInstancesRequest wrapper for the ListOdaInstances operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaInstances.go.html to see an example of how to use ListOdaInstancesRequest.
 type ListOdaInstancesRequest struct {
 
 	// List the Digital Assistant instances that belong to this compartment.
@@ -57,6 +55,10 @@ func (request ListOdaInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListOdaInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,26 @@ func (request ListOdaInstancesRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListOdaInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListOdaInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListOdaInstancesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListOdaInstancesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOdaInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOdaInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOdaInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListOdaInstancesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListOdaInstancesResponse wrapper for the ListOdaInstances operation
@@ -114,7 +136,7 @@ const (
 	ListOdaInstancesLifecycleStateFailed   ListOdaInstancesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListOdaInstancesLifecycleState = map[string]ListOdaInstancesLifecycleStateEnum{
+var mappingListOdaInstancesLifecycleStateEnum = map[string]ListOdaInstancesLifecycleStateEnum{
 	"CREATING": ListOdaInstancesLifecycleStateCreating,
 	"UPDATING": ListOdaInstancesLifecycleStateUpdating,
 	"ACTIVE":   ListOdaInstancesLifecycleStateActive,
@@ -127,10 +149,23 @@ var mappingListOdaInstancesLifecycleState = map[string]ListOdaInstancesLifecycle
 // GetListOdaInstancesLifecycleStateEnumValues Enumerates the set of values for ListOdaInstancesLifecycleStateEnum
 func GetListOdaInstancesLifecycleStateEnumValues() []ListOdaInstancesLifecycleStateEnum {
 	values := make([]ListOdaInstancesLifecycleStateEnum, 0)
-	for _, v := range mappingListOdaInstancesLifecycleState {
+	for _, v := range mappingListOdaInstancesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOdaInstancesLifecycleStateEnumStringValues Enumerates the set of values in String for ListOdaInstancesLifecycleStateEnum
+func GetListOdaInstancesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListOdaInstancesSortOrderEnum Enum with underlying type: string
@@ -142,7 +177,7 @@ const (
 	ListOdaInstancesSortOrderDesc ListOdaInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListOdaInstancesSortOrder = map[string]ListOdaInstancesSortOrderEnum{
+var mappingListOdaInstancesSortOrderEnum = map[string]ListOdaInstancesSortOrderEnum{
 	"ASC":  ListOdaInstancesSortOrderAsc,
 	"DESC": ListOdaInstancesSortOrderDesc,
 }
@@ -150,10 +185,18 @@ var mappingListOdaInstancesSortOrder = map[string]ListOdaInstancesSortOrderEnum{
 // GetListOdaInstancesSortOrderEnumValues Enumerates the set of values for ListOdaInstancesSortOrderEnum
 func GetListOdaInstancesSortOrderEnumValues() []ListOdaInstancesSortOrderEnum {
 	values := make([]ListOdaInstancesSortOrderEnum, 0)
-	for _, v := range mappingListOdaInstancesSortOrder {
+	for _, v := range mappingListOdaInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOdaInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListOdaInstancesSortOrderEnum
+func GetListOdaInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListOdaInstancesSortByEnum Enum with underlying type: string
@@ -165,7 +208,7 @@ const (
 	ListOdaInstancesSortByDisplayname ListOdaInstancesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListOdaInstancesSortBy = map[string]ListOdaInstancesSortByEnum{
+var mappingListOdaInstancesSortByEnum = map[string]ListOdaInstancesSortByEnum{
 	"TIMECREATED": ListOdaInstancesSortByTimecreated,
 	"DISPLAYNAME": ListOdaInstancesSortByDisplayname,
 }
@@ -173,8 +216,16 @@ var mappingListOdaInstancesSortBy = map[string]ListOdaInstancesSortByEnum{
 // GetListOdaInstancesSortByEnumValues Enumerates the set of values for ListOdaInstancesSortByEnum
 func GetListOdaInstancesSortByEnumValues() []ListOdaInstancesSortByEnum {
 	values := make([]ListOdaInstancesSortByEnum, 0)
-	for _, v := range mappingListOdaInstancesSortBy {
+	for _, v := range mappingListOdaInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOdaInstancesSortByEnumStringValues Enumerates the set of values in String for ListOdaInstancesSortByEnum
+func GetListOdaInstancesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

@@ -5,15 +5,13 @@
 package limits
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListLimitDefinitionsRequest wrapper for the ListLimitDefinitions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/ListLimitDefinitions.go.html to see an example of how to use ListLimitDefinitionsRequest.
 type ListLimitDefinitionsRequest struct {
 
 	// The OCID of the parent compartment (remember that the tenancy is simply the root compartment).
@@ -53,6 +51,10 @@ func (request ListLimitDefinitionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLimitDefinitionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +68,23 @@ func (request ListLimitDefinitionsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLimitDefinitionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLimitDefinitionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLimitDefinitionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLimitDefinitionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLimitDefinitionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLimitDefinitionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLimitDefinitionsResponse wrapper for the ListLimitDefinitions operation
@@ -105,7 +124,7 @@ const (
 	ListLimitDefinitionsSortByDescription ListLimitDefinitionsSortByEnum = "description"
 )
 
-var mappingListLimitDefinitionsSortBy = map[string]ListLimitDefinitionsSortByEnum{
+var mappingListLimitDefinitionsSortByEnum = map[string]ListLimitDefinitionsSortByEnum{
 	"name":        ListLimitDefinitionsSortByName,
 	"description": ListLimitDefinitionsSortByDescription,
 }
@@ -113,10 +132,18 @@ var mappingListLimitDefinitionsSortBy = map[string]ListLimitDefinitionsSortByEnu
 // GetListLimitDefinitionsSortByEnumValues Enumerates the set of values for ListLimitDefinitionsSortByEnum
 func GetListLimitDefinitionsSortByEnumValues() []ListLimitDefinitionsSortByEnum {
 	values := make([]ListLimitDefinitionsSortByEnum, 0)
-	for _, v := range mappingListLimitDefinitionsSortBy {
+	for _, v := range mappingListLimitDefinitionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLimitDefinitionsSortByEnumStringValues Enumerates the set of values in String for ListLimitDefinitionsSortByEnum
+func GetListLimitDefinitionsSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"description",
+	}
 }
 
 // ListLimitDefinitionsSortOrderEnum Enum with underlying type: string
@@ -128,7 +155,7 @@ const (
 	ListLimitDefinitionsSortOrderDesc ListLimitDefinitionsSortOrderEnum = "DESC"
 )
 
-var mappingListLimitDefinitionsSortOrder = map[string]ListLimitDefinitionsSortOrderEnum{
+var mappingListLimitDefinitionsSortOrderEnum = map[string]ListLimitDefinitionsSortOrderEnum{
 	"ASC":  ListLimitDefinitionsSortOrderAsc,
 	"DESC": ListLimitDefinitionsSortOrderDesc,
 }
@@ -136,8 +163,16 @@ var mappingListLimitDefinitionsSortOrder = map[string]ListLimitDefinitionsSortOr
 // GetListLimitDefinitionsSortOrderEnumValues Enumerates the set of values for ListLimitDefinitionsSortOrderEnum
 func GetListLimitDefinitionsSortOrderEnumValues() []ListLimitDefinitionsSortOrderEnum {
 	values := make([]ListLimitDefinitionsSortOrderEnum, 0)
-	for _, v := range mappingListLimitDefinitionsSortOrder {
+	for _, v := range mappingListLimitDefinitionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLimitDefinitionsSortOrderEnumStringValues Enumerates the set of values in String for ListLimitDefinitionsSortOrderEnum
+func GetListLimitDefinitionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

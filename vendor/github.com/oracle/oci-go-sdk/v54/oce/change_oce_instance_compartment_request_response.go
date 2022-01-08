@@ -5,15 +5,13 @@
 package oce
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeOceInstanceCompartmentRequest wrapper for the ChangeOceInstanceCompartment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/ChangeOceInstanceCompartment.go.html to see an example of how to use ChangeOceInstanceCompartmentRequest.
 type ChangeOceInstanceCompartmentRequest struct {
 
 	// unique OceInstance identifier
@@ -51,6 +49,10 @@ func (request ChangeOceInstanceCompartmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeOceInstanceCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +66,17 @@ func (request ChangeOceInstanceCompartmentRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeOceInstanceCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeOceInstanceCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeOceInstanceCompartmentResponse wrapper for the ChangeOceInstanceCompartment operation

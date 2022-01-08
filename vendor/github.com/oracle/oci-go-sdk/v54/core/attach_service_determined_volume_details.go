@@ -15,17 +15,13 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AttachServiceDeterminedVolumeDetails The representation of AttachServiceDeterminedVolumeDetails
 type AttachServiceDeterminedVolumeDetails struct {
-
-	// The OCID of the instance.
-	InstanceId *string `mandatory:"true" json:"instanceId"`
-
-	// The OCID of the volume.
-	VolumeId *string `mandatory:"true" json:"volumeId"`
 
 	// The device name. To retrieve a list of devices for a given instance, see ListInstanceDevices.
 	Device *string `mandatory:"false" json:"device"`
@@ -33,6 +29,10 @@ type AttachServiceDeterminedVolumeDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The OCID of the instance. For AttachVolume operation, this is a required field for the request,
+	// see AttachVolume.
+	InstanceId *string `mandatory:"false" json:"instanceId"`
 
 	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
@@ -42,6 +42,11 @@ type AttachServiceDeterminedVolumeDetails struct {
 	// that they also create their attachments in shareable mode. Only certain volume types can
 	// be attached in shareable mode. Defaults to false if not specified.
 	IsShareable *bool `mandatory:"false" json:"isShareable"`
+
+	// The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request.
+	VolumeId *string `mandatory:"false" json:"volumeId"`
+
+	CreateVolumeDetails *CreateVolumeDetails `mandatory:"false" json:"createVolumeDetails"`
 }
 
 //GetDevice returns Device
@@ -74,8 +79,25 @@ func (m AttachServiceDeterminedVolumeDetails) GetVolumeId() *string {
 	return m.VolumeId
 }
 
+//GetCreateVolumeDetails returns CreateVolumeDetails
+func (m AttachServiceDeterminedVolumeDetails) GetCreateVolumeDetails() *CreateVolumeDetails {
+	return m.CreateVolumeDetails
+}
+
 func (m AttachServiceDeterminedVolumeDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AttachServiceDeterminedVolumeDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

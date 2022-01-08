@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAppCatalogSubscriptionsRequest wrapper for the ListAppCatalogSubscriptions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAppCatalogSubscriptions.go.html to see an example of how to use ListAppCatalogSubscriptionsRequest.
 type ListAppCatalogSubscriptionsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -62,6 +60,10 @@ func (request ListAppCatalogSubscriptionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAppCatalogSubscriptionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +77,23 @@ func (request ListAppCatalogSubscriptionsRequest) BinaryRequestBody() (*common.O
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAppCatalogSubscriptionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAppCatalogSubscriptionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAppCatalogSubscriptionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAppCatalogSubscriptionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAppCatalogSubscriptionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAppCatalogSubscriptionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAppCatalogSubscriptionsResponse wrapper for the ListAppCatalogSubscriptions operation
@@ -114,7 +133,7 @@ const (
 	ListAppCatalogSubscriptionsSortByDisplayname ListAppCatalogSubscriptionsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAppCatalogSubscriptionsSortBy = map[string]ListAppCatalogSubscriptionsSortByEnum{
+var mappingListAppCatalogSubscriptionsSortByEnum = map[string]ListAppCatalogSubscriptionsSortByEnum{
 	"TIMECREATED": ListAppCatalogSubscriptionsSortByTimecreated,
 	"DISPLAYNAME": ListAppCatalogSubscriptionsSortByDisplayname,
 }
@@ -122,10 +141,18 @@ var mappingListAppCatalogSubscriptionsSortBy = map[string]ListAppCatalogSubscrip
 // GetListAppCatalogSubscriptionsSortByEnumValues Enumerates the set of values for ListAppCatalogSubscriptionsSortByEnum
 func GetListAppCatalogSubscriptionsSortByEnumValues() []ListAppCatalogSubscriptionsSortByEnum {
 	values := make([]ListAppCatalogSubscriptionsSortByEnum, 0)
-	for _, v := range mappingListAppCatalogSubscriptionsSortBy {
+	for _, v := range mappingListAppCatalogSubscriptionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAppCatalogSubscriptionsSortByEnumStringValues Enumerates the set of values in String for ListAppCatalogSubscriptionsSortByEnum
+func GetListAppCatalogSubscriptionsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAppCatalogSubscriptionsSortOrderEnum Enum with underlying type: string
@@ -137,7 +164,7 @@ const (
 	ListAppCatalogSubscriptionsSortOrderDesc ListAppCatalogSubscriptionsSortOrderEnum = "DESC"
 )
 
-var mappingListAppCatalogSubscriptionsSortOrder = map[string]ListAppCatalogSubscriptionsSortOrderEnum{
+var mappingListAppCatalogSubscriptionsSortOrderEnum = map[string]ListAppCatalogSubscriptionsSortOrderEnum{
 	"ASC":  ListAppCatalogSubscriptionsSortOrderAsc,
 	"DESC": ListAppCatalogSubscriptionsSortOrderDesc,
 }
@@ -145,8 +172,16 @@ var mappingListAppCatalogSubscriptionsSortOrder = map[string]ListAppCatalogSubsc
 // GetListAppCatalogSubscriptionsSortOrderEnumValues Enumerates the set of values for ListAppCatalogSubscriptionsSortOrderEnum
 func GetListAppCatalogSubscriptionsSortOrderEnumValues() []ListAppCatalogSubscriptionsSortOrderEnum {
 	values := make([]ListAppCatalogSubscriptionsSortOrderEnum, 0)
-	for _, v := range mappingListAppCatalogSubscriptionsSortOrder {
+	for _, v := range mappingListAppCatalogSubscriptionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAppCatalogSubscriptionsSortOrderEnumStringValues Enumerates the set of values in String for ListAppCatalogSubscriptionsSortOrderEnum
+func GetListAppCatalogSubscriptionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

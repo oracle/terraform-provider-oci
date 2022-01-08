@@ -11,7 +11,9 @@ package databasetools
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseToolsKeyStorePassword The key store password.
@@ -61,6 +63,18 @@ func (m databasetoolskeystorepassword) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m databasetoolskeystorepassword) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseToolsKeyStorePasswordValueTypeEnum Enum with underlying type: string
 type DatabaseToolsKeyStorePasswordValueTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	DatabaseToolsKeyStorePasswordValueTypeSecretid DatabaseToolsKeyStorePasswordValueTypeEnum = "SECRETID"
 )
 
-var mappingDatabaseToolsKeyStorePasswordValueType = map[string]DatabaseToolsKeyStorePasswordValueTypeEnum{
+var mappingDatabaseToolsKeyStorePasswordValueTypeEnum = map[string]DatabaseToolsKeyStorePasswordValueTypeEnum{
 	"SECRETID": DatabaseToolsKeyStorePasswordValueTypeSecretid,
 }
 
 // GetDatabaseToolsKeyStorePasswordValueTypeEnumValues Enumerates the set of values for DatabaseToolsKeyStorePasswordValueTypeEnum
 func GetDatabaseToolsKeyStorePasswordValueTypeEnumValues() []DatabaseToolsKeyStorePasswordValueTypeEnum {
 	values := make([]DatabaseToolsKeyStorePasswordValueTypeEnum, 0)
-	for _, v := range mappingDatabaseToolsKeyStorePasswordValueType {
+	for _, v := range mappingDatabaseToolsKeyStorePasswordValueTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseToolsKeyStorePasswordValueTypeEnumStringValues Enumerates the set of values in String for DatabaseToolsKeyStorePasswordValueTypeEnum
+func GetDatabaseToolsKeyStorePasswordValueTypeEnumStringValues() []string {
+	return []string{
+		"SECRETID",
+	}
 }

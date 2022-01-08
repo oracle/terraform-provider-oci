@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TaskSummaryFromRestTask The information about the Generic REST task. The endpoint and cancelEndpoint  properties are deprecated, use the properties executeRestCallConfig, cancelRestCallConfig and pollRestCallConfig for execute, cancel and polling of the calls.
@@ -162,6 +164,27 @@ func (m TaskSummaryFromRestTask) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TaskSummaryFromRestTask) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTaskSummaryFromRestTaskMethodTypeEnum[string(m.MethodType)]; !ok && m.MethodType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MethodType: %s. Supported values are: %s.", m.MethodType, strings.Join(GetTaskSummaryFromRestTaskMethodTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskSummaryFromRestTaskApiCallModeEnum[string(m.ApiCallMode)]; !ok && m.ApiCallMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ApiCallMode: %s. Supported values are: %s.", m.ApiCallMode, strings.Join(GetTaskSummaryFromRestTaskApiCallModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskSummaryFromRestTaskCancelMethodTypeEnum[string(m.CancelMethodType)]; !ok && m.CancelMethodType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CancelMethodType: %s. Supported values are: %s.", m.CancelMethodType, strings.Join(GetTaskSummaryFromRestTaskCancelMethodTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m TaskSummaryFromRestTask) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeTaskSummaryFromRestTask TaskSummaryFromRestTask
@@ -188,7 +211,7 @@ const (
 	TaskSummaryFromRestTaskMethodTypePut    TaskSummaryFromRestTaskMethodTypeEnum = "PUT"
 )
 
-var mappingTaskSummaryFromRestTaskMethodType = map[string]TaskSummaryFromRestTaskMethodTypeEnum{
+var mappingTaskSummaryFromRestTaskMethodTypeEnum = map[string]TaskSummaryFromRestTaskMethodTypeEnum{
 	"GET":    TaskSummaryFromRestTaskMethodTypeGet,
 	"POST":   TaskSummaryFromRestTaskMethodTypePost,
 	"PATCH":  TaskSummaryFromRestTaskMethodTypePatch,
@@ -199,10 +222,21 @@ var mappingTaskSummaryFromRestTaskMethodType = map[string]TaskSummaryFromRestTas
 // GetTaskSummaryFromRestTaskMethodTypeEnumValues Enumerates the set of values for TaskSummaryFromRestTaskMethodTypeEnum
 func GetTaskSummaryFromRestTaskMethodTypeEnumValues() []TaskSummaryFromRestTaskMethodTypeEnum {
 	values := make([]TaskSummaryFromRestTaskMethodTypeEnum, 0)
-	for _, v := range mappingTaskSummaryFromRestTaskMethodType {
+	for _, v := range mappingTaskSummaryFromRestTaskMethodTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskSummaryFromRestTaskMethodTypeEnumStringValues Enumerates the set of values in String for TaskSummaryFromRestTaskMethodTypeEnum
+func GetTaskSummaryFromRestTaskMethodTypeEnumStringValues() []string {
+	return []string{
+		"GET",
+		"POST",
+		"PATCH",
+		"DELETE",
+		"PUT",
+	}
 }
 
 // TaskSummaryFromRestTaskApiCallModeEnum Enum with underlying type: string
@@ -215,7 +249,7 @@ const (
 	TaskSummaryFromRestTaskApiCallModeAsyncGeneric        TaskSummaryFromRestTaskApiCallModeEnum = "ASYNC_GENERIC"
 )
 
-var mappingTaskSummaryFromRestTaskApiCallMode = map[string]TaskSummaryFromRestTaskApiCallModeEnum{
+var mappingTaskSummaryFromRestTaskApiCallModeEnum = map[string]TaskSummaryFromRestTaskApiCallModeEnum{
 	"SYNCHRONOUS":           TaskSummaryFromRestTaskApiCallModeSynchronous,
 	"ASYNC_OCI_WORKREQUEST": TaskSummaryFromRestTaskApiCallModeAsyncOciWorkrequest,
 	"ASYNC_GENERIC":         TaskSummaryFromRestTaskApiCallModeAsyncGeneric,
@@ -224,10 +258,19 @@ var mappingTaskSummaryFromRestTaskApiCallMode = map[string]TaskSummaryFromRestTa
 // GetTaskSummaryFromRestTaskApiCallModeEnumValues Enumerates the set of values for TaskSummaryFromRestTaskApiCallModeEnum
 func GetTaskSummaryFromRestTaskApiCallModeEnumValues() []TaskSummaryFromRestTaskApiCallModeEnum {
 	values := make([]TaskSummaryFromRestTaskApiCallModeEnum, 0)
-	for _, v := range mappingTaskSummaryFromRestTaskApiCallMode {
+	for _, v := range mappingTaskSummaryFromRestTaskApiCallModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskSummaryFromRestTaskApiCallModeEnumStringValues Enumerates the set of values in String for TaskSummaryFromRestTaskApiCallModeEnum
+func GetTaskSummaryFromRestTaskApiCallModeEnumStringValues() []string {
+	return []string{
+		"SYNCHRONOUS",
+		"ASYNC_OCI_WORKREQUEST",
+		"ASYNC_GENERIC",
+	}
 }
 
 // TaskSummaryFromRestTaskCancelMethodTypeEnum Enum with underlying type: string
@@ -242,7 +285,7 @@ const (
 	TaskSummaryFromRestTaskCancelMethodTypePut    TaskSummaryFromRestTaskCancelMethodTypeEnum = "PUT"
 )
 
-var mappingTaskSummaryFromRestTaskCancelMethodType = map[string]TaskSummaryFromRestTaskCancelMethodTypeEnum{
+var mappingTaskSummaryFromRestTaskCancelMethodTypeEnum = map[string]TaskSummaryFromRestTaskCancelMethodTypeEnum{
 	"GET":    TaskSummaryFromRestTaskCancelMethodTypeGet,
 	"POST":   TaskSummaryFromRestTaskCancelMethodTypePost,
 	"PATCH":  TaskSummaryFromRestTaskCancelMethodTypePatch,
@@ -253,8 +296,19 @@ var mappingTaskSummaryFromRestTaskCancelMethodType = map[string]TaskSummaryFromR
 // GetTaskSummaryFromRestTaskCancelMethodTypeEnumValues Enumerates the set of values for TaskSummaryFromRestTaskCancelMethodTypeEnum
 func GetTaskSummaryFromRestTaskCancelMethodTypeEnumValues() []TaskSummaryFromRestTaskCancelMethodTypeEnum {
 	values := make([]TaskSummaryFromRestTaskCancelMethodTypeEnum, 0)
-	for _, v := range mappingTaskSummaryFromRestTaskCancelMethodType {
+	for _, v := range mappingTaskSummaryFromRestTaskCancelMethodTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskSummaryFromRestTaskCancelMethodTypeEnumStringValues Enumerates the set of values in String for TaskSummaryFromRestTaskCancelMethodTypeEnum
+func GetTaskSummaryFromRestTaskCancelMethodTypeEnumStringValues() []string {
+	return []string{
+		"GET",
+		"POST",
+		"PATCH",
+		"DELETE",
+		"PUT",
+	}
 }

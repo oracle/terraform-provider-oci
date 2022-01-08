@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDataFlowValidationsRequest wrapper for the ListDataFlowValidations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDataFlowValidations.go.html to see an example of how to use ListDataFlowValidationsRequest.
 type ListDataFlowValidationsRequest struct {
 
 	// The workspace ID.
@@ -60,6 +58,10 @@ func (request ListDataFlowValidationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDataFlowValidationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,23 @@ func (request ListDataFlowValidationsRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDataFlowValidationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDataFlowValidationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDataFlowValidationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDataFlowValidationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataFlowValidationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDataFlowValidationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDataFlowValidationsResponse wrapper for the ListDataFlowValidations operation
@@ -116,7 +135,7 @@ const (
 	ListDataFlowValidationsSortByDisplayName ListDataFlowValidationsSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListDataFlowValidationsSortBy = map[string]ListDataFlowValidationsSortByEnum{
+var mappingListDataFlowValidationsSortByEnum = map[string]ListDataFlowValidationsSortByEnum{
 	"TIME_CREATED": ListDataFlowValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListDataFlowValidationsSortByDisplayName,
 }
@@ -124,10 +143,18 @@ var mappingListDataFlowValidationsSortBy = map[string]ListDataFlowValidationsSor
 // GetListDataFlowValidationsSortByEnumValues Enumerates the set of values for ListDataFlowValidationsSortByEnum
 func GetListDataFlowValidationsSortByEnumValues() []ListDataFlowValidationsSortByEnum {
 	values := make([]ListDataFlowValidationsSortByEnum, 0)
-	for _, v := range mappingListDataFlowValidationsSortBy {
+	for _, v := range mappingListDataFlowValidationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataFlowValidationsSortByEnumStringValues Enumerates the set of values in String for ListDataFlowValidationsSortByEnum
+func GetListDataFlowValidationsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }
 
 // ListDataFlowValidationsSortOrderEnum Enum with underlying type: string
@@ -139,7 +166,7 @@ const (
 	ListDataFlowValidationsSortOrderDesc ListDataFlowValidationsSortOrderEnum = "DESC"
 )
 
-var mappingListDataFlowValidationsSortOrder = map[string]ListDataFlowValidationsSortOrderEnum{
+var mappingListDataFlowValidationsSortOrderEnum = map[string]ListDataFlowValidationsSortOrderEnum{
 	"ASC":  ListDataFlowValidationsSortOrderAsc,
 	"DESC": ListDataFlowValidationsSortOrderDesc,
 }
@@ -147,8 +174,16 @@ var mappingListDataFlowValidationsSortOrder = map[string]ListDataFlowValidations
 // GetListDataFlowValidationsSortOrderEnumValues Enumerates the set of values for ListDataFlowValidationsSortOrderEnum
 func GetListDataFlowValidationsSortOrderEnumValues() []ListDataFlowValidationsSortOrderEnum {
 	values := make([]ListDataFlowValidationsSortOrderEnum, 0)
-	for _, v := range mappingListDataFlowValidationsSortOrder {
+	for _, v := range mappingListDataFlowValidationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataFlowValidationsSortOrderEnumStringValues Enumerates the set of values in String for ListDataFlowValidationsSortOrderEnum
+func GetListDataFlowValidationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

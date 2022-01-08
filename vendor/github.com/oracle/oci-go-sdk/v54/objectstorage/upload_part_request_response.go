@@ -5,16 +5,14 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // UploadPartRequest wrapper for the UploadPart operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UploadPart.go.html to see an example of how to use UploadPartRequest.
 type UploadPartRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -52,7 +50,9 @@ type UploadPartRequest struct {
 	// fail if the resource already exists.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
-	// 100-continue
+	// A value of `100-continue` requests preliminary verification of the request method, path, and headers before the request body is sent.
+	// If no error results from such verification, the server will send a 100 (Continue) interim response to indicate readiness for the request body.
+	// The only allowed value for this parameter is "100-Continue" (case-insensitive).
 	Expect *string `mandatory:"false" contributesTo:"header" name:"Expect"`
 
 	// The optional base-64 header that defines the encoded MD5 hash of the body. If the optional Content-MD5 header is present, Object
@@ -111,6 +111,17 @@ func (request UploadPartRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UploadPartRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UploadPartRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UploadPartResponse wrapper for the UploadPart operation

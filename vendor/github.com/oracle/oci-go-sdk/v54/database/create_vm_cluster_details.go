@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateVmClusterDetails Details for the create Exadata VM cluster operation. Applies to Exadata Cloud@Customer instances only.
@@ -38,7 +40,7 @@ type CreateVmClusterDetails struct {
 	// The Oracle Grid Infrastructure software version for the VM cluster.
 	GiVersion *string `mandatory:"true" json:"giVersion"`
 
-	// The number of OCPU cores to enable for the VM cluster. Only 1 decimal place is allowed for the fractional part.
+	// The number of OCPU cores to enable for the VM cluster. Only one decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
 	// The memory to be allocated in GBs.
@@ -76,10 +78,28 @@ type CreateVmClusterDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Indicates whether diagnostic collection is enabled for the VM cluster. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API.
+	IsDataCollectionEnabled *bool `mandatory:"false" json:"isDataCollectionEnabled"`
 }
 
 func (m CreateVmClusterDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateVmClusterDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateVmClusterDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateVmClusterDetailsLicenseModelEnum Enum with underlying type: string
@@ -91,7 +111,7 @@ const (
 	CreateVmClusterDetailsLicenseModelBringYourOwnLicense CreateVmClusterDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingCreateVmClusterDetailsLicenseModel = map[string]CreateVmClusterDetailsLicenseModelEnum{
+var mappingCreateVmClusterDetailsLicenseModelEnum = map[string]CreateVmClusterDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       CreateVmClusterDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": CreateVmClusterDetailsLicenseModelBringYourOwnLicense,
 }
@@ -99,8 +119,16 @@ var mappingCreateVmClusterDetailsLicenseModel = map[string]CreateVmClusterDetail
 // GetCreateVmClusterDetailsLicenseModelEnumValues Enumerates the set of values for CreateVmClusterDetailsLicenseModelEnum
 func GetCreateVmClusterDetailsLicenseModelEnumValues() []CreateVmClusterDetailsLicenseModelEnum {
 	values := make([]CreateVmClusterDetailsLicenseModelEnum, 0)
-	for _, v := range mappingCreateVmClusterDetailsLicenseModel {
+	for _, v := range mappingCreateVmClusterDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateVmClusterDetailsLicenseModelEnumStringValues Enumerates the set of values in String for CreateVmClusterDetailsLicenseModelEnum
+func GetCreateVmClusterDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

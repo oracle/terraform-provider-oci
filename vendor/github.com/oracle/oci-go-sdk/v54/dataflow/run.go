@@ -10,7 +10,9 @@
 package dataflow
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Run A run object.
@@ -156,6 +158,9 @@ type Run struct {
 	// The total number of oCPU requested by the run.
 	TotalOCpu *int `mandatory:"false" json:"totalOCpu"`
 
+	// The Spark application processing type.
+	Type ApplicationTypeEnum `mandatory:"false" json:"type,omitempty"`
+
 	// An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory
 	// for BATCH SQL runs.
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
@@ -164,4 +169,25 @@ type Run struct {
 
 func (m Run) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Run) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingApplicationLanguageEnum[string(m.Language)]; !ok && m.Language != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Language: %s. Supported values are: %s.", m.Language, strings.Join(GetApplicationLanguageEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRunLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRunLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingApplicationTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetApplicationTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

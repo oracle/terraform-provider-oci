@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // KeySummary The representation of KeySummary
@@ -63,6 +65,27 @@ func (m KeySummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m KeySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingKeySummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetKeySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingKeySummaryProtectionModeEnum[string(m.ProtectionMode)]; !ok && m.ProtectionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetKeySummaryProtectionModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingKeySummaryAlgorithmEnum[string(m.Algorithm)]; !ok && m.Algorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Algorithm: %s. Supported values are: %s.", m.Algorithm, strings.Join(GetKeySummaryAlgorithmEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // KeySummaryLifecycleStateEnum Enum with underlying type: string
 type KeySummaryLifecycleStateEnum string
 
@@ -83,7 +106,7 @@ const (
 	KeySummaryLifecycleStateRestoring          KeySummaryLifecycleStateEnum = "RESTORING"
 )
 
-var mappingKeySummaryLifecycleState = map[string]KeySummaryLifecycleStateEnum{
+var mappingKeySummaryLifecycleStateEnum = map[string]KeySummaryLifecycleStateEnum{
 	"CREATING":            KeySummaryLifecycleStateCreating,
 	"ENABLING":            KeySummaryLifecycleStateEnabling,
 	"ENABLED":             KeySummaryLifecycleStateEnabled,
@@ -102,10 +125,29 @@ var mappingKeySummaryLifecycleState = map[string]KeySummaryLifecycleStateEnum{
 // GetKeySummaryLifecycleStateEnumValues Enumerates the set of values for KeySummaryLifecycleStateEnum
 func GetKeySummaryLifecycleStateEnumValues() []KeySummaryLifecycleStateEnum {
 	values := make([]KeySummaryLifecycleStateEnum, 0)
-	for _, v := range mappingKeySummaryLifecycleState {
+	for _, v := range mappingKeySummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeySummaryLifecycleStateEnumStringValues Enumerates the set of values in String for KeySummaryLifecycleStateEnum
+func GetKeySummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"DISABLED",
+		"DELETING",
+		"DELETED",
+		"PENDING_DELETION",
+		"SCHEDULING_DELETION",
+		"CANCELLING_DELETION",
+		"UPDATING",
+		"BACKUP_IN_PROGRESS",
+		"RESTORING",
+	}
 }
 
 // KeySummaryProtectionModeEnum Enum with underlying type: string
@@ -117,7 +159,7 @@ const (
 	KeySummaryProtectionModeSoftware KeySummaryProtectionModeEnum = "SOFTWARE"
 )
 
-var mappingKeySummaryProtectionMode = map[string]KeySummaryProtectionModeEnum{
+var mappingKeySummaryProtectionModeEnum = map[string]KeySummaryProtectionModeEnum{
 	"HSM":      KeySummaryProtectionModeHsm,
 	"SOFTWARE": KeySummaryProtectionModeSoftware,
 }
@@ -125,10 +167,18 @@ var mappingKeySummaryProtectionMode = map[string]KeySummaryProtectionModeEnum{
 // GetKeySummaryProtectionModeEnumValues Enumerates the set of values for KeySummaryProtectionModeEnum
 func GetKeySummaryProtectionModeEnumValues() []KeySummaryProtectionModeEnum {
 	values := make([]KeySummaryProtectionModeEnum, 0)
-	for _, v := range mappingKeySummaryProtectionMode {
+	for _, v := range mappingKeySummaryProtectionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeySummaryProtectionModeEnumStringValues Enumerates the set of values in String for KeySummaryProtectionModeEnum
+func GetKeySummaryProtectionModeEnumStringValues() []string {
+	return []string{
+		"HSM",
+		"SOFTWARE",
+	}
 }
 
 // KeySummaryAlgorithmEnum Enum with underlying type: string
@@ -141,7 +191,7 @@ const (
 	KeySummaryAlgorithmEcdsa KeySummaryAlgorithmEnum = "ECDSA"
 )
 
-var mappingKeySummaryAlgorithm = map[string]KeySummaryAlgorithmEnum{
+var mappingKeySummaryAlgorithmEnum = map[string]KeySummaryAlgorithmEnum{
 	"AES":   KeySummaryAlgorithmAes,
 	"RSA":   KeySummaryAlgorithmRsa,
 	"ECDSA": KeySummaryAlgorithmEcdsa,
@@ -150,8 +200,17 @@ var mappingKeySummaryAlgorithm = map[string]KeySummaryAlgorithmEnum{
 // GetKeySummaryAlgorithmEnumValues Enumerates the set of values for KeySummaryAlgorithmEnum
 func GetKeySummaryAlgorithmEnumValues() []KeySummaryAlgorithmEnum {
 	values := make([]KeySummaryAlgorithmEnum, 0)
-	for _, v := range mappingKeySummaryAlgorithm {
+	for _, v := range mappingKeySummaryAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeySummaryAlgorithmEnumStringValues Enumerates the set of values in String for KeySummaryAlgorithmEnum
+func GetKeySummaryAlgorithmEnumStringValues() []string {
+	return []string{
+		"AES",
+		"RSA",
+		"ECDSA",
+	}
 }

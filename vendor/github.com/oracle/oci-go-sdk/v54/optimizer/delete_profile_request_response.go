@@ -5,15 +5,13 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteProfileRequest wrapper for the DeleteProfile operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/DeleteProfile.go.html to see an example of how to use DeleteProfileRequest.
 type DeleteProfileRequest struct {
 
 	// The unique OCID of the profile.
@@ -42,6 +40,10 @@ func (request DeleteProfileRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteProfileRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -55,6 +57,17 @@ func (request DeleteProfileRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteProfileRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteProfileRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteProfileResponse wrapper for the DeleteProfile operation

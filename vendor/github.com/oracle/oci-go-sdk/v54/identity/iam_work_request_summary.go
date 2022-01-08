@@ -4,16 +4,18 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// IamWorkRequestSummary The IAM work request summary. Tracks the status of the asynchronous operations.
+// IamWorkRequestSummary (For tenancies that support identity domains) The IAM work request summary. Tracks the status of asynchronous operations.
 type IamWorkRequestSummary struct {
 
 	// The OCID of the work request.
@@ -22,7 +24,7 @@ type IamWorkRequestSummary struct {
 	// The asynchronous operation tracked by this IAM work request.
 	OperationType IamWorkRequestSummaryOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Status of the work request
+	// The status of the work request.
 	Status IamWorkRequestSummaryStatusEnum `mandatory:"true" json:"status"`
 
 	// The OCID of the compartment containing this IAM work request.
@@ -51,6 +53,24 @@ func (m IamWorkRequestSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IamWorkRequestSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIamWorkRequestSummaryOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetIamWorkRequestSummaryOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIamWorkRequestSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetIamWorkRequestSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // IamWorkRequestSummaryOperationTypeEnum Enum with underlying type: string
 type IamWorkRequestSummaryOperationTypeEnum string
 
@@ -66,7 +86,7 @@ const (
 	IamWorkRequestSummaryOperationTypeChangeLicenseTypeForDomain IamWorkRequestSummaryOperationTypeEnum = "CHANGE_LICENSE_TYPE_FOR_DOMAIN"
 )
 
-var mappingIamWorkRequestSummaryOperationType = map[string]IamWorkRequestSummaryOperationTypeEnum{
+var mappingIamWorkRequestSummaryOperationTypeEnum = map[string]IamWorkRequestSummaryOperationTypeEnum{
 	"CREATE_DOMAIN":                  IamWorkRequestSummaryOperationTypeCreateDomain,
 	"REPLICATE_DOMAIN_TO_REGION":     IamWorkRequestSummaryOperationTypeReplicateDomainToRegion,
 	"UPDATE_DOMAIN":                  IamWorkRequestSummaryOperationTypeUpdateDomain,
@@ -80,10 +100,24 @@ var mappingIamWorkRequestSummaryOperationType = map[string]IamWorkRequestSummary
 // GetIamWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for IamWorkRequestSummaryOperationTypeEnum
 func GetIamWorkRequestSummaryOperationTypeEnumValues() []IamWorkRequestSummaryOperationTypeEnum {
 	values := make([]IamWorkRequestSummaryOperationTypeEnum, 0)
-	for _, v := range mappingIamWorkRequestSummaryOperationType {
+	for _, v := range mappingIamWorkRequestSummaryOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIamWorkRequestSummaryOperationTypeEnumStringValues Enumerates the set of values in String for IamWorkRequestSummaryOperationTypeEnum
+func GetIamWorkRequestSummaryOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_DOMAIN",
+		"REPLICATE_DOMAIN_TO_REGION",
+		"UPDATE_DOMAIN",
+		"ACTIVATE_DOMAIN",
+		"DEACTIVATE_DOMAIN",
+		"DELETE_DOMAIN",
+		"CHANGE_COMPARTMENT_FOR_DOMAIN",
+		"CHANGE_LICENSE_TYPE_FOR_DOMAIN",
+	}
 }
 
 // IamWorkRequestSummaryStatusEnum Enum with underlying type: string
@@ -99,7 +133,7 @@ const (
 	IamWorkRequestSummaryStatusCanceled   IamWorkRequestSummaryStatusEnum = "CANCELED"
 )
 
-var mappingIamWorkRequestSummaryStatus = map[string]IamWorkRequestSummaryStatusEnum{
+var mappingIamWorkRequestSummaryStatusEnum = map[string]IamWorkRequestSummaryStatusEnum{
 	"ACCEPTED":    IamWorkRequestSummaryStatusAccepted,
 	"IN_PROGRESS": IamWorkRequestSummaryStatusInProgress,
 	"FAILED":      IamWorkRequestSummaryStatusFailed,
@@ -111,8 +145,20 @@ var mappingIamWorkRequestSummaryStatus = map[string]IamWorkRequestSummaryStatusE
 // GetIamWorkRequestSummaryStatusEnumValues Enumerates the set of values for IamWorkRequestSummaryStatusEnum
 func GetIamWorkRequestSummaryStatusEnumValues() []IamWorkRequestSummaryStatusEnum {
 	values := make([]IamWorkRequestSummaryStatusEnum, 0)
-	for _, v := range mappingIamWorkRequestSummaryStatus {
+	for _, v := range mappingIamWorkRequestSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIamWorkRequestSummaryStatusEnumStringValues Enumerates the set of values in String for IamWorkRequestSummaryStatusEnum
+func GetIamWorkRequestSummaryStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

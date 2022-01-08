@@ -4,28 +4,42 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// DomainReplication Domain replication states.
+// DomainReplication (For tenancies that support identity domains) Identity domain replication states.
 type DomainReplication struct {
 
-	// Version number indicating the value of kievTxnId, starting from which, the domain replication events need to be returned.
+	// The version number indicating the value of kievTxnId, starting from which the identity domain replication events need to be returned.
 	OpcWaterMark *float32 `mandatory:"true" json:"opcWaterMark"`
 
-	// Custom value defining the order of records with same kievTxnId
+	// A custom value defining the order of records with the same kievTxnId.
 	TxnSeqNumber *float32 `mandatory:"true" json:"txnSeqNumber"`
 
-	// The domain's replication state
+	// The identity domain's replication state.
 	DomainReplicationStates []DomainReplicationStates `mandatory:"true" json:"domainReplicationStates"`
 }
 
 func (m DomainReplication) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DomainReplication) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

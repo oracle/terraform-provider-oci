@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ConsoleHistory An instance's serial console data. It includes configuration messages that occur when the
@@ -63,6 +65,21 @@ func (m ConsoleHistory) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ConsoleHistory) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingConsoleHistoryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConsoleHistoryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConsoleHistoryLifecycleStateEnum Enum with underlying type: string
 type ConsoleHistoryLifecycleStateEnum string
 
@@ -74,7 +91,7 @@ const (
 	ConsoleHistoryLifecycleStateFailed         ConsoleHistoryLifecycleStateEnum = "FAILED"
 )
 
-var mappingConsoleHistoryLifecycleState = map[string]ConsoleHistoryLifecycleStateEnum{
+var mappingConsoleHistoryLifecycleStateEnum = map[string]ConsoleHistoryLifecycleStateEnum{
 	"REQUESTED":       ConsoleHistoryLifecycleStateRequested,
 	"GETTING-HISTORY": ConsoleHistoryLifecycleStateGettingHistory,
 	"SUCCEEDED":       ConsoleHistoryLifecycleStateSucceeded,
@@ -84,8 +101,18 @@ var mappingConsoleHistoryLifecycleState = map[string]ConsoleHistoryLifecycleStat
 // GetConsoleHistoryLifecycleStateEnumValues Enumerates the set of values for ConsoleHistoryLifecycleStateEnum
 func GetConsoleHistoryLifecycleStateEnumValues() []ConsoleHistoryLifecycleStateEnum {
 	values := make([]ConsoleHistoryLifecycleStateEnum, 0)
-	for _, v := range mappingConsoleHistoryLifecycleState {
+	for _, v := range mappingConsoleHistoryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConsoleHistoryLifecycleStateEnumStringValues Enumerates the set of values in String for ConsoleHistoryLifecycleStateEnum
+func GetConsoleHistoryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"REQUESTED",
+		"GETTING-HISTORY",
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

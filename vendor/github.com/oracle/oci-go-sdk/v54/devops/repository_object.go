@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RepositoryObject Object containing information about files and directories in a repository.
@@ -33,6 +35,21 @@ func (m RepositoryObject) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RepositoryObject) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRepositoryObjectTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetRepositoryObjectTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RepositoryObjectTypeEnum Enum with underlying type: string
 type RepositoryObjectTypeEnum string
 
@@ -43,7 +60,7 @@ const (
 	RepositoryObjectTypeCommit RepositoryObjectTypeEnum = "COMMIT"
 )
 
-var mappingRepositoryObjectType = map[string]RepositoryObjectTypeEnum{
+var mappingRepositoryObjectTypeEnum = map[string]RepositoryObjectTypeEnum{
 	"BLOB":   RepositoryObjectTypeBlob,
 	"TREE":   RepositoryObjectTypeTree,
 	"COMMIT": RepositoryObjectTypeCommit,
@@ -52,8 +69,17 @@ var mappingRepositoryObjectType = map[string]RepositoryObjectTypeEnum{
 // GetRepositoryObjectTypeEnumValues Enumerates the set of values for RepositoryObjectTypeEnum
 func GetRepositoryObjectTypeEnumValues() []RepositoryObjectTypeEnum {
 	values := make([]RepositoryObjectTypeEnum, 0)
-	for _, v := range mappingRepositoryObjectType {
+	for _, v := range mappingRepositoryObjectTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRepositoryObjectTypeEnumStringValues Enumerates the set of values in String for RepositoryObjectTypeEnum
+func GetRepositoryObjectTypeEnumStringValues() []string {
+	return []string{
+		"BLOB",
+		"TREE",
+		"COMMIT",
+	}
 }

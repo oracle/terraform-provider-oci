@@ -11,7 +11,9 @@ package databasetools
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseToolsKeyStorePasswordDetails The key store password.
@@ -61,6 +63,18 @@ func (m databasetoolskeystorepassworddetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m databasetoolskeystorepassworddetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseToolsKeyStorePasswordDetailsValueTypeEnum Enum with underlying type: string
 type DatabaseToolsKeyStorePasswordDetailsValueTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	DatabaseToolsKeyStorePasswordDetailsValueTypeSecretid DatabaseToolsKeyStorePasswordDetailsValueTypeEnum = "SECRETID"
 )
 
-var mappingDatabaseToolsKeyStorePasswordDetailsValueType = map[string]DatabaseToolsKeyStorePasswordDetailsValueTypeEnum{
+var mappingDatabaseToolsKeyStorePasswordDetailsValueTypeEnum = map[string]DatabaseToolsKeyStorePasswordDetailsValueTypeEnum{
 	"SECRETID": DatabaseToolsKeyStorePasswordDetailsValueTypeSecretid,
 }
 
 // GetDatabaseToolsKeyStorePasswordDetailsValueTypeEnumValues Enumerates the set of values for DatabaseToolsKeyStorePasswordDetailsValueTypeEnum
 func GetDatabaseToolsKeyStorePasswordDetailsValueTypeEnumValues() []DatabaseToolsKeyStorePasswordDetailsValueTypeEnum {
 	values := make([]DatabaseToolsKeyStorePasswordDetailsValueTypeEnum, 0)
-	for _, v := range mappingDatabaseToolsKeyStorePasswordDetailsValueType {
+	for _, v := range mappingDatabaseToolsKeyStorePasswordDetailsValueTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseToolsKeyStorePasswordDetailsValueTypeEnumStringValues Enumerates the set of values in String for DatabaseToolsKeyStorePasswordDetailsValueTypeEnum
+func GetDatabaseToolsKeyStorePasswordDetailsValueTypeEnumStringValues() []string {
+	return []string{
+		"SECRETID",
+	}
 }

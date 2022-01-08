@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TypedObject The `TypedObject` class is a base class for any model object that has a type.
@@ -181,6 +183,18 @@ func (m typedobject) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m typedobject) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TypedObjectModelTypeEnum Enum with underlying type: string
 type TypedObjectModelTypeEnum string
 
@@ -200,7 +214,7 @@ const (
 	TypedObjectModelTypeParameter         TypedObjectModelTypeEnum = "PARAMETER"
 )
 
-var mappingTypedObjectModelType = map[string]TypedObjectModelTypeEnum{
+var mappingTypedObjectModelTypeEnum = map[string]TypedObjectModelTypeEnum{
 	"SHAPE":               TypedObjectModelTypeShape,
 	"INPUT_PORT":          TypedObjectModelTypeInputPort,
 	"SHAPE_FIELD":         TypedObjectModelTypeShapeField,
@@ -218,8 +232,26 @@ var mappingTypedObjectModelType = map[string]TypedObjectModelTypeEnum{
 // GetTypedObjectModelTypeEnumValues Enumerates the set of values for TypedObjectModelTypeEnum
 func GetTypedObjectModelTypeEnumValues() []TypedObjectModelTypeEnum {
 	values := make([]TypedObjectModelTypeEnum, 0)
-	for _, v := range mappingTypedObjectModelType {
+	for _, v := range mappingTypedObjectModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTypedObjectModelTypeEnumStringValues Enumerates the set of values in String for TypedObjectModelTypeEnum
+func GetTypedObjectModelTypeEnumStringValues() []string {
+	return []string{
+		"SHAPE",
+		"INPUT_PORT",
+		"SHAPE_FIELD",
+		"INPUT_FIELD",
+		"DERIVED_FIELD",
+		"MACRO_FIELD",
+		"OUTPUT_FIELD",
+		"DYNAMIC_PROXY_FIELD",
+		"OUTPUT_PORT",
+		"DYNAMIC_INPUT_FIELD",
+		"PROXY_FIELD",
+		"PARAMETER",
+	}
 }

@@ -4,14 +4,16 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // OrchestrationListingPackage A listing package for orchestration.
@@ -85,6 +87,18 @@ func (m OrchestrationListingPackage) GetOperatingSystem() *OperatingSystem {
 
 func (m OrchestrationListingPackage) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OrchestrationListingPackage) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

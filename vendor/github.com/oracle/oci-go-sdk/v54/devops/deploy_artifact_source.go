@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DeployArtifactSource Specifies source of an artifact.
@@ -69,6 +71,18 @@ func (m deployartifactsource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m deployartifactsource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DeployArtifactSourceDeployArtifactSourceTypeEnum Enum with underlying type: string
 type DeployArtifactSourceDeployArtifactSourceTypeEnum string
 
@@ -79,7 +93,7 @@ const (
 	DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact DeployArtifactSourceDeployArtifactSourceTypeEnum = "GENERIC_ARTIFACT"
 )
 
-var mappingDeployArtifactSourceDeployArtifactSourceType = map[string]DeployArtifactSourceDeployArtifactSourceTypeEnum{
+var mappingDeployArtifactSourceDeployArtifactSourceTypeEnum = map[string]DeployArtifactSourceDeployArtifactSourceTypeEnum{
 	"INLINE":           DeployArtifactSourceDeployArtifactSourceTypeInline,
 	"OCIR":             DeployArtifactSourceDeployArtifactSourceTypeOcir,
 	"GENERIC_ARTIFACT": DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact,
@@ -88,8 +102,17 @@ var mappingDeployArtifactSourceDeployArtifactSourceType = map[string]DeployArtif
 // GetDeployArtifactSourceDeployArtifactSourceTypeEnumValues Enumerates the set of values for DeployArtifactSourceDeployArtifactSourceTypeEnum
 func GetDeployArtifactSourceDeployArtifactSourceTypeEnumValues() []DeployArtifactSourceDeployArtifactSourceTypeEnum {
 	values := make([]DeployArtifactSourceDeployArtifactSourceTypeEnum, 0)
-	for _, v := range mappingDeployArtifactSourceDeployArtifactSourceType {
+	for _, v := range mappingDeployArtifactSourceDeployArtifactSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployArtifactSourceDeployArtifactSourceTypeEnumStringValues Enumerates the set of values in String for DeployArtifactSourceDeployArtifactSourceTypeEnum
+func GetDeployArtifactSourceDeployArtifactSourceTypeEnumStringValues() []string {
+	return []string{
+		"INLINE",
+		"OCIR",
+		"GENERIC_ARTIFACT",
+	}
 }

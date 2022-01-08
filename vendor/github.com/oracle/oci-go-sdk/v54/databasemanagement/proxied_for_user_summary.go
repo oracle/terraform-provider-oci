@@ -12,24 +12,44 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// ProxiedForUserSummary A collection of Users for which the current user acts as proxy.
+// ProxiedForUserSummary A summary of users on whose behalf the current user acts as proxy.
 type ProxiedForUserSummary struct {
 
-	// The name of a proxy user or name of the user who the proxy user can act as
+	// The name of a proxy user or the name of the client user.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Indicates whether the proxy is required to supply the client credentials (YES) or not (NO)
+	// Indicates whether the proxy is required to supply the client credentials (YES) or not (NO).
 	Authentication ProxiedForUserSummaryAuthenticationEnum `mandatory:"false" json:"authentication,omitempty"`
 
-	// Flags associated with the proxy/client pair
+	// The flags associated with the proxy/client pair.
 	Flags ProxiedForUserSummaryFlagsEnum `mandatory:"false" json:"flags,omitempty"`
 }
 
 func (m ProxiedForUserSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ProxiedForUserSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingProxiedForUserSummaryAuthenticationEnum[string(m.Authentication)]; !ok && m.Authentication != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Authentication: %s. Supported values are: %s.", m.Authentication, strings.Join(GetProxiedForUserSummaryAuthenticationEnumStringValues(), ",")))
+	}
+	if _, ok := mappingProxiedForUserSummaryFlagsEnum[string(m.Flags)]; !ok && m.Flags != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Flags: %s. Supported values are: %s.", m.Flags, strings.Join(GetProxiedForUserSummaryFlagsEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ProxiedForUserSummaryAuthenticationEnum Enum with underlying type: string
@@ -41,7 +61,7 @@ const (
 	ProxiedForUserSummaryAuthenticationNo  ProxiedForUserSummaryAuthenticationEnum = "NO"
 )
 
-var mappingProxiedForUserSummaryAuthentication = map[string]ProxiedForUserSummaryAuthenticationEnum{
+var mappingProxiedForUserSummaryAuthenticationEnum = map[string]ProxiedForUserSummaryAuthenticationEnum{
 	"YES": ProxiedForUserSummaryAuthenticationYes,
 	"NO":  ProxiedForUserSummaryAuthenticationNo,
 }
@@ -49,10 +69,18 @@ var mappingProxiedForUserSummaryAuthentication = map[string]ProxiedForUserSummar
 // GetProxiedForUserSummaryAuthenticationEnumValues Enumerates the set of values for ProxiedForUserSummaryAuthenticationEnum
 func GetProxiedForUserSummaryAuthenticationEnumValues() []ProxiedForUserSummaryAuthenticationEnum {
 	values := make([]ProxiedForUserSummaryAuthenticationEnum, 0)
-	for _, v := range mappingProxiedForUserSummaryAuthentication {
+	for _, v := range mappingProxiedForUserSummaryAuthenticationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProxiedForUserSummaryAuthenticationEnumStringValues Enumerates the set of values in String for ProxiedForUserSummaryAuthenticationEnum
+func GetProxiedForUserSummaryAuthenticationEnumStringValues() []string {
+	return []string{
+		"YES",
+		"NO",
+	}
 }
 
 // ProxiedForUserSummaryFlagsEnum Enum with underlying type: string
@@ -66,7 +94,7 @@ const (
 	ProxiedForUserSummaryFlagsProxyMayNotActivateRole        ProxiedForUserSummaryFlagsEnum = "PROXY_MAY_NOT_ACTIVATE_ROLE"
 )
 
-var mappingProxiedForUserSummaryFlags = map[string]ProxiedForUserSummaryFlagsEnum{
+var mappingProxiedForUserSummaryFlagsEnum = map[string]ProxiedForUserSummaryFlagsEnum{
 	"PROXY_MAY_ACTIVATE_ALL_CLIENT_ROLES": ProxiedForUserSummaryFlagsProxyMayActivateAllClientRoles,
 	"NO_CLIENT_ROLES_MAY_BE_ACTIVATED":    ProxiedForUserSummaryFlagsNoClientRolesMayBeActivated,
 	"PROXY_MAY_ACTIVATE_ROLE":             ProxiedForUserSummaryFlagsProxyMayActivateRole,
@@ -76,8 +104,18 @@ var mappingProxiedForUserSummaryFlags = map[string]ProxiedForUserSummaryFlagsEnu
 // GetProxiedForUserSummaryFlagsEnumValues Enumerates the set of values for ProxiedForUserSummaryFlagsEnum
 func GetProxiedForUserSummaryFlagsEnumValues() []ProxiedForUserSummaryFlagsEnum {
 	values := make([]ProxiedForUserSummaryFlagsEnum, 0)
-	for _, v := range mappingProxiedForUserSummaryFlags {
+	for _, v := range mappingProxiedForUserSummaryFlagsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProxiedForUserSummaryFlagsEnumStringValues Enumerates the set of values in String for ProxiedForUserSummaryFlagsEnum
+func GetProxiedForUserSummaryFlagsEnumStringValues() []string {
+	return []string{
+		"PROXY_MAY_ACTIVATE_ALL_CLIENT_ROLES",
+		"NO_CLIENT_ROLES_MAY_BE_ACTIVATED",
+		"PROXY_MAY_ACTIVATE_ROLE",
+		"PROXY_MAY_NOT_ACTIVATE_ROLE",
+	}
 }

@@ -12,7 +12,9 @@
 package containerengine
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateClusterKubeconfigContentDetails The properties that define a request to create a cluster kubeconfig.
@@ -32,6 +34,21 @@ func (m CreateClusterKubeconfigContentDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateClusterKubeconfigContentDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateClusterKubeconfigContentDetailsEndpointEnum[string(m.Endpoint)]; !ok && m.Endpoint != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Endpoint: %s. Supported values are: %s.", m.Endpoint, strings.Join(GetCreateClusterKubeconfigContentDetailsEndpointEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateClusterKubeconfigContentDetailsEndpointEnum Enum with underlying type: string
 type CreateClusterKubeconfigContentDetailsEndpointEnum string
 
@@ -42,7 +59,7 @@ const (
 	CreateClusterKubeconfigContentDetailsEndpointPrivateEndpoint  CreateClusterKubeconfigContentDetailsEndpointEnum = "PRIVATE_ENDPOINT"
 )
 
-var mappingCreateClusterKubeconfigContentDetailsEndpoint = map[string]CreateClusterKubeconfigContentDetailsEndpointEnum{
+var mappingCreateClusterKubeconfigContentDetailsEndpointEnum = map[string]CreateClusterKubeconfigContentDetailsEndpointEnum{
 	"LEGACY_KUBERNETES": CreateClusterKubeconfigContentDetailsEndpointLegacyKubernetes,
 	"PUBLIC_ENDPOINT":   CreateClusterKubeconfigContentDetailsEndpointPublicEndpoint,
 	"PRIVATE_ENDPOINT":  CreateClusterKubeconfigContentDetailsEndpointPrivateEndpoint,
@@ -51,8 +68,17 @@ var mappingCreateClusterKubeconfigContentDetailsEndpoint = map[string]CreateClus
 // GetCreateClusterKubeconfigContentDetailsEndpointEnumValues Enumerates the set of values for CreateClusterKubeconfigContentDetailsEndpointEnum
 func GetCreateClusterKubeconfigContentDetailsEndpointEnumValues() []CreateClusterKubeconfigContentDetailsEndpointEnum {
 	values := make([]CreateClusterKubeconfigContentDetailsEndpointEnum, 0)
-	for _, v := range mappingCreateClusterKubeconfigContentDetailsEndpoint {
+	for _, v := range mappingCreateClusterKubeconfigContentDetailsEndpointEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateClusterKubeconfigContentDetailsEndpointEnumStringValues Enumerates the set of values in String for CreateClusterKubeconfigContentDetailsEndpointEnum
+func GetCreateClusterKubeconfigContentDetailsEndpointEnumStringValues() []string {
+	return []string{
+		"LEGACY_KUBERNETES",
+		"PUBLIC_ENDPOINT",
+		"PRIVATE_ENDPOINT",
+	}
 }

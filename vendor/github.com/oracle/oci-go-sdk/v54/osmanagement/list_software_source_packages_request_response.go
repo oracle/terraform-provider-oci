@@ -5,15 +5,13 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListSoftwareSourcePackagesRequest wrapper for the ListSoftwareSourcePackages operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListSoftwareSourcePackages.go.html to see an example of how to use ListSoftwareSourcePackagesRequest.
 type ListSoftwareSourcePackagesRequest struct {
 
 	// The OCID of the software source.
@@ -53,6 +51,10 @@ func (request ListSoftwareSourcePackagesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSoftwareSourcePackagesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +68,23 @@ func (request ListSoftwareSourcePackagesRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSoftwareSourcePackagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSoftwareSourcePackagesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSoftwareSourcePackagesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSoftwareSourcePackagesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSoftwareSourcePackagesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSoftwareSourcePackagesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSoftwareSourcePackagesResponse wrapper for the ListSoftwareSourcePackages operation
@@ -106,7 +125,7 @@ const (
 	ListSoftwareSourcePackagesSortOrderDesc ListSoftwareSourcePackagesSortOrderEnum = "DESC"
 )
 
-var mappingListSoftwareSourcePackagesSortOrder = map[string]ListSoftwareSourcePackagesSortOrderEnum{
+var mappingListSoftwareSourcePackagesSortOrderEnum = map[string]ListSoftwareSourcePackagesSortOrderEnum{
 	"ASC":  ListSoftwareSourcePackagesSortOrderAsc,
 	"DESC": ListSoftwareSourcePackagesSortOrderDesc,
 }
@@ -114,10 +133,18 @@ var mappingListSoftwareSourcePackagesSortOrder = map[string]ListSoftwareSourcePa
 // GetListSoftwareSourcePackagesSortOrderEnumValues Enumerates the set of values for ListSoftwareSourcePackagesSortOrderEnum
 func GetListSoftwareSourcePackagesSortOrderEnumValues() []ListSoftwareSourcePackagesSortOrderEnum {
 	values := make([]ListSoftwareSourcePackagesSortOrderEnum, 0)
-	for _, v := range mappingListSoftwareSourcePackagesSortOrder {
+	for _, v := range mappingListSoftwareSourcePackagesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSoftwareSourcePackagesSortOrderEnumStringValues Enumerates the set of values in String for ListSoftwareSourcePackagesSortOrderEnum
+func GetListSoftwareSourcePackagesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListSoftwareSourcePackagesSortByEnum Enum with underlying type: string
@@ -129,7 +156,7 @@ const (
 	ListSoftwareSourcePackagesSortByDisplayname ListSoftwareSourcePackagesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListSoftwareSourcePackagesSortBy = map[string]ListSoftwareSourcePackagesSortByEnum{
+var mappingListSoftwareSourcePackagesSortByEnum = map[string]ListSoftwareSourcePackagesSortByEnum{
 	"TIMECREATED": ListSoftwareSourcePackagesSortByTimecreated,
 	"DISPLAYNAME": ListSoftwareSourcePackagesSortByDisplayname,
 }
@@ -137,8 +164,16 @@ var mappingListSoftwareSourcePackagesSortBy = map[string]ListSoftwareSourcePacka
 // GetListSoftwareSourcePackagesSortByEnumValues Enumerates the set of values for ListSoftwareSourcePackagesSortByEnum
 func GetListSoftwareSourcePackagesSortByEnumValues() []ListSoftwareSourcePackagesSortByEnum {
 	values := make([]ListSoftwareSourcePackagesSortByEnum, 0)
-	for _, v := range mappingListSoftwareSourcePackagesSortBy {
+	for _, v := range mappingListSoftwareSourcePackagesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSoftwareSourcePackagesSortByEnumStringValues Enumerates the set of values in String for ListSoftwareSourcePackagesSortByEnum
+func GetListSoftwareSourcePackagesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

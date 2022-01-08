@@ -10,7 +10,9 @@
 package blockchain
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AvailabilityDomain Availability Domains
@@ -24,6 +26,21 @@ func (m AvailabilityDomain) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AvailabilityDomain) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAvailabilityDomainAdsEnum[string(m.Ads)]; !ok && m.Ads != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Ads: %s. Supported values are: %s.", m.Ads, strings.Join(GetAvailabilityDomainAdsEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AvailabilityDomainAdsEnum Enum with underlying type: string
 type AvailabilityDomainAdsEnum string
 
@@ -34,7 +51,7 @@ const (
 	AvailabilityDomainAdsAd3 AvailabilityDomainAdsEnum = "AD3"
 )
 
-var mappingAvailabilityDomainAds = map[string]AvailabilityDomainAdsEnum{
+var mappingAvailabilityDomainAdsEnum = map[string]AvailabilityDomainAdsEnum{
 	"AD1": AvailabilityDomainAdsAd1,
 	"AD2": AvailabilityDomainAdsAd2,
 	"AD3": AvailabilityDomainAdsAd3,
@@ -43,8 +60,17 @@ var mappingAvailabilityDomainAds = map[string]AvailabilityDomainAdsEnum{
 // GetAvailabilityDomainAdsEnumValues Enumerates the set of values for AvailabilityDomainAdsEnum
 func GetAvailabilityDomainAdsEnumValues() []AvailabilityDomainAdsEnum {
 	values := make([]AvailabilityDomainAdsEnum, 0)
-	for _, v := range mappingAvailabilityDomainAds {
+	for _, v := range mappingAvailabilityDomainAdsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAvailabilityDomainAdsEnumStringValues Enumerates the set of values in String for AvailabilityDomainAdsEnum
+func GetAvailabilityDomainAdsEnumStringValues() []string {
+	return []string{
+		"AD1",
+		"AD2",
+		"AD3",
+	}
 }

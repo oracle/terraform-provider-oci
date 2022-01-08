@@ -5,15 +5,13 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeAwrDbCpuUsagesRequest wrapper for the SummarizeAwrDbCpuUsages operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbCpuUsages.go.html to see an example of how to use SummarizeAwrDbCpuUsagesRequest.
 type SummarizeAwrDbCpuUsagesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
@@ -82,6 +80,10 @@ func (request SummarizeAwrDbCpuUsagesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeAwrDbCpuUsagesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -95,6 +97,26 @@ func (request SummarizeAwrDbCpuUsagesRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeAwrDbCpuUsagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeAwrDbCpuUsagesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeAwrDbCpuUsagesSessionTypeEnum[string(request.SessionType)]; !ok && request.SessionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SessionType: %s. Supported values are: %s.", request.SessionType, strings.Join(GetSummarizeAwrDbCpuUsagesSessionTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbCpuUsagesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeAwrDbCpuUsagesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbCpuUsagesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeAwrDbCpuUsagesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeAwrDbCpuUsagesResponse wrapper for the SummarizeAwrDbCpuUsages operation
@@ -135,7 +157,7 @@ const (
 	SummarizeAwrDbCpuUsagesSessionTypeAll        SummarizeAwrDbCpuUsagesSessionTypeEnum = "ALL"
 )
 
-var mappingSummarizeAwrDbCpuUsagesSessionType = map[string]SummarizeAwrDbCpuUsagesSessionTypeEnum{
+var mappingSummarizeAwrDbCpuUsagesSessionTypeEnum = map[string]SummarizeAwrDbCpuUsagesSessionTypeEnum{
 	"FOREGROUND": SummarizeAwrDbCpuUsagesSessionTypeForeground,
 	"BACKGROUND": SummarizeAwrDbCpuUsagesSessionTypeBackground,
 	"ALL":        SummarizeAwrDbCpuUsagesSessionTypeAll,
@@ -144,10 +166,19 @@ var mappingSummarizeAwrDbCpuUsagesSessionType = map[string]SummarizeAwrDbCpuUsag
 // GetSummarizeAwrDbCpuUsagesSessionTypeEnumValues Enumerates the set of values for SummarizeAwrDbCpuUsagesSessionTypeEnum
 func GetSummarizeAwrDbCpuUsagesSessionTypeEnumValues() []SummarizeAwrDbCpuUsagesSessionTypeEnum {
 	values := make([]SummarizeAwrDbCpuUsagesSessionTypeEnum, 0)
-	for _, v := range mappingSummarizeAwrDbCpuUsagesSessionType {
+	for _, v := range mappingSummarizeAwrDbCpuUsagesSessionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbCpuUsagesSessionTypeEnumStringValues Enumerates the set of values in String for SummarizeAwrDbCpuUsagesSessionTypeEnum
+func GetSummarizeAwrDbCpuUsagesSessionTypeEnumStringValues() []string {
+	return []string{
+		"FOREGROUND",
+		"BACKGROUND",
+		"ALL",
+	}
 }
 
 // SummarizeAwrDbCpuUsagesSortByEnum Enum with underlying type: string
@@ -159,7 +190,7 @@ const (
 	SummarizeAwrDbCpuUsagesSortByAvgValue    SummarizeAwrDbCpuUsagesSortByEnum = "AVG_VALUE"
 )
 
-var mappingSummarizeAwrDbCpuUsagesSortBy = map[string]SummarizeAwrDbCpuUsagesSortByEnum{
+var mappingSummarizeAwrDbCpuUsagesSortByEnum = map[string]SummarizeAwrDbCpuUsagesSortByEnum{
 	"TIME_SAMPLED": SummarizeAwrDbCpuUsagesSortByTimeSampled,
 	"AVG_VALUE":    SummarizeAwrDbCpuUsagesSortByAvgValue,
 }
@@ -167,10 +198,18 @@ var mappingSummarizeAwrDbCpuUsagesSortBy = map[string]SummarizeAwrDbCpuUsagesSor
 // GetSummarizeAwrDbCpuUsagesSortByEnumValues Enumerates the set of values for SummarizeAwrDbCpuUsagesSortByEnum
 func GetSummarizeAwrDbCpuUsagesSortByEnumValues() []SummarizeAwrDbCpuUsagesSortByEnum {
 	values := make([]SummarizeAwrDbCpuUsagesSortByEnum, 0)
-	for _, v := range mappingSummarizeAwrDbCpuUsagesSortBy {
+	for _, v := range mappingSummarizeAwrDbCpuUsagesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbCpuUsagesSortByEnumStringValues Enumerates the set of values in String for SummarizeAwrDbCpuUsagesSortByEnum
+func GetSummarizeAwrDbCpuUsagesSortByEnumStringValues() []string {
+	return []string{
+		"TIME_SAMPLED",
+		"AVG_VALUE",
+	}
 }
 
 // SummarizeAwrDbCpuUsagesSortOrderEnum Enum with underlying type: string
@@ -182,7 +221,7 @@ const (
 	SummarizeAwrDbCpuUsagesSortOrderDesc SummarizeAwrDbCpuUsagesSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeAwrDbCpuUsagesSortOrder = map[string]SummarizeAwrDbCpuUsagesSortOrderEnum{
+var mappingSummarizeAwrDbCpuUsagesSortOrderEnum = map[string]SummarizeAwrDbCpuUsagesSortOrderEnum{
 	"ASC":  SummarizeAwrDbCpuUsagesSortOrderAsc,
 	"DESC": SummarizeAwrDbCpuUsagesSortOrderDesc,
 }
@@ -190,8 +229,16 @@ var mappingSummarizeAwrDbCpuUsagesSortOrder = map[string]SummarizeAwrDbCpuUsages
 // GetSummarizeAwrDbCpuUsagesSortOrderEnumValues Enumerates the set of values for SummarizeAwrDbCpuUsagesSortOrderEnum
 func GetSummarizeAwrDbCpuUsagesSortOrderEnumValues() []SummarizeAwrDbCpuUsagesSortOrderEnum {
 	values := make([]SummarizeAwrDbCpuUsagesSortOrderEnum, 0)
-	for _, v := range mappingSummarizeAwrDbCpuUsagesSortOrder {
+	for _, v := range mappingSummarizeAwrDbCpuUsagesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbCpuUsagesSortOrderEnumStringValues Enumerates the set of values in String for SummarizeAwrDbCpuUsagesSortOrderEnum
+func GetSummarizeAwrDbCpuUsagesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

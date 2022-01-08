@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Diffs Results of the comparison of an item between two security assessments.
@@ -36,6 +38,21 @@ func (m Diffs) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Diffs) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDiffsSeverityEnum[string(m.Severity)]; !ok && m.Severity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetDiffsSeverityEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DiffsSeverityEnum Enum with underlying type: string
 type DiffsSeverityEnum string
 
@@ -49,7 +66,7 @@ const (
 	DiffsSeverityPass     DiffsSeverityEnum = "PASS"
 )
 
-var mappingDiffsSeverity = map[string]DiffsSeverityEnum{
+var mappingDiffsSeverityEnum = map[string]DiffsSeverityEnum{
 	"HIGH":     DiffsSeverityHigh,
 	"MEDIUM":   DiffsSeverityMedium,
 	"LOW":      DiffsSeverityLow,
@@ -61,8 +78,20 @@ var mappingDiffsSeverity = map[string]DiffsSeverityEnum{
 // GetDiffsSeverityEnumValues Enumerates the set of values for DiffsSeverityEnum
 func GetDiffsSeverityEnumValues() []DiffsSeverityEnum {
 	values := make([]DiffsSeverityEnum, 0)
-	for _, v := range mappingDiffsSeverity {
+	for _, v := range mappingDiffsSeverityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDiffsSeverityEnumStringValues Enumerates the set of values in String for DiffsSeverityEnum
+func GetDiffsSeverityEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"EVALUATE",
+		"ADVISORY",
+		"PASS",
+	}
 }

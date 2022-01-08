@@ -12,7 +12,9 @@ package dns
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SteeringPolicy A DNS steering policy.
@@ -114,6 +116,24 @@ func (m SteeringPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SteeringPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSteeringPolicyTemplateEnum[string(m.Template)]; !ok && m.Template != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Template: %s. Supported values are: %s.", m.Template, strings.Join(GetSteeringPolicyTemplateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSteeringPolicyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSteeringPolicyLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnmarshalJSON unmarshals from json
 func (m *SteeringPolicy) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
@@ -193,7 +213,7 @@ const (
 	SteeringPolicyTemplateCustom      SteeringPolicyTemplateEnum = "CUSTOM"
 )
 
-var mappingSteeringPolicyTemplate = map[string]SteeringPolicyTemplateEnum{
+var mappingSteeringPolicyTemplateEnum = map[string]SteeringPolicyTemplateEnum{
 	"FAILOVER":     SteeringPolicyTemplateFailover,
 	"LOAD_BALANCE": SteeringPolicyTemplateLoadBalance,
 	"ROUTE_BY_GEO": SteeringPolicyTemplateRouteByGeo,
@@ -205,10 +225,22 @@ var mappingSteeringPolicyTemplate = map[string]SteeringPolicyTemplateEnum{
 // GetSteeringPolicyTemplateEnumValues Enumerates the set of values for SteeringPolicyTemplateEnum
 func GetSteeringPolicyTemplateEnumValues() []SteeringPolicyTemplateEnum {
 	values := make([]SteeringPolicyTemplateEnum, 0)
-	for _, v := range mappingSteeringPolicyTemplate {
+	for _, v := range mappingSteeringPolicyTemplateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSteeringPolicyTemplateEnumStringValues Enumerates the set of values in String for SteeringPolicyTemplateEnum
+func GetSteeringPolicyTemplateEnumStringValues() []string {
+	return []string{
+		"FAILOVER",
+		"LOAD_BALANCE",
+		"ROUTE_BY_GEO",
+		"ROUTE_BY_ASN",
+		"ROUTE_BY_IP",
+		"CUSTOM",
+	}
 }
 
 // SteeringPolicyLifecycleStateEnum Enum with underlying type: string
@@ -222,7 +254,7 @@ const (
 	SteeringPolicyLifecycleStateDeleting SteeringPolicyLifecycleStateEnum = "DELETING"
 )
 
-var mappingSteeringPolicyLifecycleState = map[string]SteeringPolicyLifecycleStateEnum{
+var mappingSteeringPolicyLifecycleStateEnum = map[string]SteeringPolicyLifecycleStateEnum{
 	"ACTIVE":   SteeringPolicyLifecycleStateActive,
 	"CREATING": SteeringPolicyLifecycleStateCreating,
 	"DELETED":  SteeringPolicyLifecycleStateDeleted,
@@ -232,8 +264,18 @@ var mappingSteeringPolicyLifecycleState = map[string]SteeringPolicyLifecycleStat
 // GetSteeringPolicyLifecycleStateEnumValues Enumerates the set of values for SteeringPolicyLifecycleStateEnum
 func GetSteeringPolicyLifecycleStateEnumValues() []SteeringPolicyLifecycleStateEnum {
 	values := make([]SteeringPolicyLifecycleStateEnum, 0)
-	for _, v := range mappingSteeringPolicyLifecycleState {
+	for _, v := range mappingSteeringPolicyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSteeringPolicyLifecycleStateEnumStringValues Enumerates the set of values in String for SteeringPolicyLifecycleStateEnum
+func GetSteeringPolicyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+	}
 }

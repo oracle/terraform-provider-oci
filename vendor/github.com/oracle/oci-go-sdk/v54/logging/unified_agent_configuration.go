@@ -11,7 +11,9 @@ package logging
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UnifiedAgentConfiguration Top Unified Agent configuration object.
@@ -62,6 +64,24 @@ type UnifiedAgentConfiguration struct {
 
 func (m UnifiedAgentConfiguration) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UnifiedAgentConfiguration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLogLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLogLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUnifiedAgentServiceConfigurationStatesEnum[string(m.ConfigurationState)]; !ok && m.ConfigurationState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigurationState: %s. Supported values are: %s.", m.ConfigurationState, strings.Join(GetUnifiedAgentServiceConfigurationStatesEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LaunchInstanceAvailabilityConfigDetails Options for VM migration during infrastructure maintenance events and for defining
@@ -37,6 +39,21 @@ func (m LaunchInstanceAvailabilityConfigDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LaunchInstanceAvailabilityConfigDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum[string(m.RecoveryAction)]; !ok && m.RecoveryAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecoveryAction: %s. Supported values are: %s.", m.RecoveryAction, strings.Join(GetLaunchInstanceAvailabilityConfigDetailsRecoveryActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum Enum with underlying type: string
 type LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum string
 
@@ -46,7 +63,7 @@ const (
 	LaunchInstanceAvailabilityConfigDetailsRecoveryActionStopInstance    LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum = "STOP_INSTANCE"
 )
 
-var mappingLaunchInstanceAvailabilityConfigDetailsRecoveryAction = map[string]LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum{
+var mappingLaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum = map[string]LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum{
 	"RESTORE_INSTANCE": LaunchInstanceAvailabilityConfigDetailsRecoveryActionRestoreInstance,
 	"STOP_INSTANCE":    LaunchInstanceAvailabilityConfigDetailsRecoveryActionStopInstance,
 }
@@ -54,8 +71,16 @@ var mappingLaunchInstanceAvailabilityConfigDetailsRecoveryAction = map[string]La
 // GetLaunchInstanceAvailabilityConfigDetailsRecoveryActionEnumValues Enumerates the set of values for LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum
 func GetLaunchInstanceAvailabilityConfigDetailsRecoveryActionEnumValues() []LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum {
 	values := make([]LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum, 0)
-	for _, v := range mappingLaunchInstanceAvailabilityConfigDetailsRecoveryAction {
+	for _, v := range mappingLaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchInstanceAvailabilityConfigDetailsRecoveryActionEnumStringValues Enumerates the set of values in String for LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum
+func GetLaunchInstanceAvailabilityConfigDetailsRecoveryActionEnumStringValues() []string {
+	return []string{
+		"RESTORE_INSTANCE",
+		"STOP_INSTANCE",
+	}
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ConnectorAttribute Marker class for connector attributes.
@@ -61,6 +63,18 @@ func (m connectorattribute) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m connectorattribute) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConnectorAttributeModelTypeEnum Enum with underlying type: string
 type ConnectorAttributeModelTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	ConnectorAttributeModelTypeExternalStorage ConnectorAttributeModelTypeEnum = "EXTERNAL_STORAGE"
 )
 
-var mappingConnectorAttributeModelType = map[string]ConnectorAttributeModelTypeEnum{
+var mappingConnectorAttributeModelTypeEnum = map[string]ConnectorAttributeModelTypeEnum{
 	"EXTERNAL_STORAGE": ConnectorAttributeModelTypeExternalStorage,
 }
 
 // GetConnectorAttributeModelTypeEnumValues Enumerates the set of values for ConnectorAttributeModelTypeEnum
 func GetConnectorAttributeModelTypeEnumValues() []ConnectorAttributeModelTypeEnum {
 	values := make([]ConnectorAttributeModelTypeEnum, 0)
-	for _, v := range mappingConnectorAttributeModelType {
+	for _, v := range mappingConnectorAttributeModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConnectorAttributeModelTypeEnumStringValues Enumerates the set of values in String for ConnectorAttributeModelTypeEnum
+func GetConnectorAttributeModelTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL_STORAGE",
+	}
 }

@@ -23,7 +23,7 @@ const (
 	ApplicationSortByOsName                          ApplicationSortByEnum = "osName"
 )
 
-var mappingApplicationSortBy = map[string]ApplicationSortByEnum{
+var mappingApplicationSortByEnum = map[string]ApplicationSortByEnum{
 	"timeFirstSeen":                   ApplicationSortByTimeFirstSeen,
 	"timeLastSeen":                    ApplicationSortByTimeLastSeen,
 	"displayName":                     ApplicationSortByDisplayName,
@@ -36,8 +36,21 @@ var mappingApplicationSortBy = map[string]ApplicationSortByEnum{
 // GetApplicationSortByEnumValues Enumerates the set of values for ApplicationSortByEnum
 func GetApplicationSortByEnumValues() []ApplicationSortByEnum {
 	values := make([]ApplicationSortByEnum, 0)
-	for _, v := range mappingApplicationSortBy {
+	for _, v := range mappingApplicationSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApplicationSortByEnumStringValues Enumerates the set of values in String for ApplicationSortByEnum
+func GetApplicationSortByEnumStringValues() []string {
+	return []string{
+		"timeFirstSeen",
+		"timeLastSeen",
+		"displayName",
+		"approximateJreCount",
+		"approximateInstallationCount",
+		"approximateManagedInstanceCount",
+		"osName",
+	}
 }

@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeZoneCompartmentRequest wrapper for the ChangeZoneCompartment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeZoneCompartment.go.html to see an example of how to use ChangeZoneCompartmentRequest.
 type ChangeZoneCompartmentRequest struct {
 
 	// The OCID of the target zone.
@@ -57,6 +55,10 @@ func (request ChangeZoneCompartmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeZoneCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,20 @@ func (request ChangeZoneCompartmentRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeZoneCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeZoneCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingChangeZoneCompartmentScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetChangeZoneCompartmentScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeZoneCompartmentResponse wrapper for the ChangeZoneCompartment operation
@@ -105,7 +121,7 @@ const (
 	ChangeZoneCompartmentScopePrivate ChangeZoneCompartmentScopeEnum = "PRIVATE"
 )
 
-var mappingChangeZoneCompartmentScope = map[string]ChangeZoneCompartmentScopeEnum{
+var mappingChangeZoneCompartmentScopeEnum = map[string]ChangeZoneCompartmentScopeEnum{
 	"GLOBAL":  ChangeZoneCompartmentScopeGlobal,
 	"PRIVATE": ChangeZoneCompartmentScopePrivate,
 }
@@ -113,8 +129,16 @@ var mappingChangeZoneCompartmentScope = map[string]ChangeZoneCompartmentScopeEnu
 // GetChangeZoneCompartmentScopeEnumValues Enumerates the set of values for ChangeZoneCompartmentScopeEnum
 func GetChangeZoneCompartmentScopeEnumValues() []ChangeZoneCompartmentScopeEnum {
 	values := make([]ChangeZoneCompartmentScopeEnum, 0)
-	for _, v := range mappingChangeZoneCompartmentScope {
+	for _, v := range mappingChangeZoneCompartmentScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetChangeZoneCompartmentScopeEnumStringValues Enumerates the set of values in String for ChangeZoneCompartmentScopeEnum
+func GetChangeZoneCompartmentScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

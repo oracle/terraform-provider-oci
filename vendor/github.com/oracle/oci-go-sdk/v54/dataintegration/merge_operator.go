@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // MergeOperator Represents the start of a pipeline.
@@ -124,6 +126,21 @@ func (m MergeOperator) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MergeOperator) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMergeOperatorTriggerRuleEnum[string(m.TriggerRule)]; !ok && m.TriggerRule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggerRule: %s. Supported values are: %s.", m.TriggerRule, strings.Join(GetMergeOperatorTriggerRuleEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m MergeOperator) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeMergeOperator MergeOperator
@@ -150,7 +167,7 @@ const (
 	MergeOperatorTriggerRuleOneFailed   MergeOperatorTriggerRuleEnum = "ONE_FAILED"
 )
 
-var mappingMergeOperatorTriggerRule = map[string]MergeOperatorTriggerRuleEnum{
+var mappingMergeOperatorTriggerRuleEnum = map[string]MergeOperatorTriggerRuleEnum{
 	"ALL_SUCCESS":  MergeOperatorTriggerRuleAllSuccess,
 	"ALL_FAILED":   MergeOperatorTriggerRuleAllFailed,
 	"ALL_COMPLETE": MergeOperatorTriggerRuleAllComplete,
@@ -161,8 +178,19 @@ var mappingMergeOperatorTriggerRule = map[string]MergeOperatorTriggerRuleEnum{
 // GetMergeOperatorTriggerRuleEnumValues Enumerates the set of values for MergeOperatorTriggerRuleEnum
 func GetMergeOperatorTriggerRuleEnumValues() []MergeOperatorTriggerRuleEnum {
 	values := make([]MergeOperatorTriggerRuleEnum, 0)
-	for _, v := range mappingMergeOperatorTriggerRule {
+	for _, v := range mappingMergeOperatorTriggerRuleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMergeOperatorTriggerRuleEnumStringValues Enumerates the set of values in String for MergeOperatorTriggerRuleEnum
+func GetMergeOperatorTriggerRuleEnumStringValues() []string {
+	return []string{
+		"ALL_SUCCESS",
+		"ALL_FAILED",
+		"ALL_COMPLETE",
+		"ONE_SUCCESS",
+		"ONE_FAILED",
+	}
 }

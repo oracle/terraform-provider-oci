@@ -5,15 +5,13 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListNetworkSourcesRequest wrapper for the ListNetworkSources operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListNetworkSources.go.html to see an example of how to use ListNetworkSourcesRequest.
 type ListNetworkSourcesRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
@@ -60,6 +58,10 @@ func (request ListNetworkSourcesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListNetworkSourcesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,26 @@ func (request ListNetworkSourcesRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListNetworkSourcesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListNetworkSourcesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListNetworkSourcesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNetworkSourcesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNetworkSourcesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNetworkSourcesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingNetworkSourcesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetNetworkSourcesLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListNetworkSourcesResponse wrapper for the ListNetworkSources operation
@@ -112,7 +134,7 @@ const (
 	ListNetworkSourcesSortByName        ListNetworkSourcesSortByEnum = "NAME"
 )
 
-var mappingListNetworkSourcesSortBy = map[string]ListNetworkSourcesSortByEnum{
+var mappingListNetworkSourcesSortByEnum = map[string]ListNetworkSourcesSortByEnum{
 	"TIMECREATED": ListNetworkSourcesSortByTimecreated,
 	"NAME":        ListNetworkSourcesSortByName,
 }
@@ -120,10 +142,18 @@ var mappingListNetworkSourcesSortBy = map[string]ListNetworkSourcesSortByEnum{
 // GetListNetworkSourcesSortByEnumValues Enumerates the set of values for ListNetworkSourcesSortByEnum
 func GetListNetworkSourcesSortByEnumValues() []ListNetworkSourcesSortByEnum {
 	values := make([]ListNetworkSourcesSortByEnum, 0)
-	for _, v := range mappingListNetworkSourcesSortBy {
+	for _, v := range mappingListNetworkSourcesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkSourcesSortByEnumStringValues Enumerates the set of values in String for ListNetworkSourcesSortByEnum
+func GetListNetworkSourcesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListNetworkSourcesSortOrderEnum Enum with underlying type: string
@@ -135,7 +165,7 @@ const (
 	ListNetworkSourcesSortOrderDesc ListNetworkSourcesSortOrderEnum = "DESC"
 )
 
-var mappingListNetworkSourcesSortOrder = map[string]ListNetworkSourcesSortOrderEnum{
+var mappingListNetworkSourcesSortOrderEnum = map[string]ListNetworkSourcesSortOrderEnum{
 	"ASC":  ListNetworkSourcesSortOrderAsc,
 	"DESC": ListNetworkSourcesSortOrderDesc,
 }
@@ -143,8 +173,16 @@ var mappingListNetworkSourcesSortOrder = map[string]ListNetworkSourcesSortOrderE
 // GetListNetworkSourcesSortOrderEnumValues Enumerates the set of values for ListNetworkSourcesSortOrderEnum
 func GetListNetworkSourcesSortOrderEnumValues() []ListNetworkSourcesSortOrderEnum {
 	values := make([]ListNetworkSourcesSortOrderEnum, 0)
-	for _, v := range mappingListNetworkSourcesSortOrder {
+	for _, v := range mappingListNetworkSourcesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkSourcesSortOrderEnumStringValues Enumerates the set of values in String for ListNetworkSourcesSortOrderEnum
+func GetListNetworkSourcesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

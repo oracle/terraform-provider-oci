@@ -5,15 +5,13 @@
 package oda
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // StopOdaInstanceRequest wrapper for the StopOdaInstance operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StopOdaInstance.go.html to see an example of how to use StopOdaInstanceRequest.
 type StopOdaInstanceRequest struct {
 
 	// Unique Digital Assistant instance identifier.
@@ -49,6 +47,10 @@ func (request StopOdaInstanceRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request StopOdaInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +64,17 @@ func (request StopOdaInstanceRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request StopOdaInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request StopOdaInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // StopOdaInstanceResponse wrapper for the StopOdaInstance operation

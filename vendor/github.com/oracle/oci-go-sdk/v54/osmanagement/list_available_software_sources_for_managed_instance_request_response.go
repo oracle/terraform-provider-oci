@@ -5,15 +5,13 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAvailableSoftwareSourcesForManagedInstanceRequest wrapper for the ListAvailableSoftwareSourcesForManagedInstance operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailableSoftwareSourcesForManagedInstance.go.html to see an example of how to use ListAvailableSoftwareSourcesForManagedInstanceRequest.
 type ListAvailableSoftwareSourcesForManagedInstanceRequest struct {
 
 	// OCID for the managed instance
@@ -53,6 +51,10 @@ func (request ListAvailableSoftwareSourcesForManagedInstanceRequest) String() st
 // HTTPRequest implements the OCIRequest interface
 func (request ListAvailableSoftwareSourcesForManagedInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +68,23 @@ func (request ListAvailableSoftwareSourcesForManagedInstanceRequest) BinaryReque
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAvailableSoftwareSourcesForManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAvailableSoftwareSourcesForManagedInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAvailableSoftwareSourcesForManagedInstanceSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAvailableSoftwareSourcesForManagedInstanceSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAvailableSoftwareSourcesForManagedInstanceSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAvailableSoftwareSourcesForManagedInstanceResponse wrapper for the ListAvailableSoftwareSourcesForManagedInstance operation
@@ -106,7 +125,7 @@ const (
 	ListAvailableSoftwareSourcesForManagedInstanceSortOrderDesc ListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum = "DESC"
 )
 
-var mappingListAvailableSoftwareSourcesForManagedInstanceSortOrder = map[string]ListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum{
+var mappingListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum = map[string]ListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum{
 	"ASC":  ListAvailableSoftwareSourcesForManagedInstanceSortOrderAsc,
 	"DESC": ListAvailableSoftwareSourcesForManagedInstanceSortOrderDesc,
 }
@@ -114,10 +133,18 @@ var mappingListAvailableSoftwareSourcesForManagedInstanceSortOrder = map[string]
 // GetListAvailableSoftwareSourcesForManagedInstanceSortOrderEnumValues Enumerates the set of values for ListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum
 func GetListAvailableSoftwareSourcesForManagedInstanceSortOrderEnumValues() []ListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum {
 	values := make([]ListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum, 0)
-	for _, v := range mappingListAvailableSoftwareSourcesForManagedInstanceSortOrder {
+	for _, v := range mappingListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailableSoftwareSourcesForManagedInstanceSortOrderEnumStringValues Enumerates the set of values in String for ListAvailableSoftwareSourcesForManagedInstanceSortOrderEnum
+func GetListAvailableSoftwareSourcesForManagedInstanceSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAvailableSoftwareSourcesForManagedInstanceSortByEnum Enum with underlying type: string
@@ -129,7 +156,7 @@ const (
 	ListAvailableSoftwareSourcesForManagedInstanceSortByDisplayname ListAvailableSoftwareSourcesForManagedInstanceSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAvailableSoftwareSourcesForManagedInstanceSortBy = map[string]ListAvailableSoftwareSourcesForManagedInstanceSortByEnum{
+var mappingListAvailableSoftwareSourcesForManagedInstanceSortByEnum = map[string]ListAvailableSoftwareSourcesForManagedInstanceSortByEnum{
 	"TIMECREATED": ListAvailableSoftwareSourcesForManagedInstanceSortByTimecreated,
 	"DISPLAYNAME": ListAvailableSoftwareSourcesForManagedInstanceSortByDisplayname,
 }
@@ -137,8 +164,16 @@ var mappingListAvailableSoftwareSourcesForManagedInstanceSortBy = map[string]Lis
 // GetListAvailableSoftwareSourcesForManagedInstanceSortByEnumValues Enumerates the set of values for ListAvailableSoftwareSourcesForManagedInstanceSortByEnum
 func GetListAvailableSoftwareSourcesForManagedInstanceSortByEnumValues() []ListAvailableSoftwareSourcesForManagedInstanceSortByEnum {
 	values := make([]ListAvailableSoftwareSourcesForManagedInstanceSortByEnum, 0)
-	for _, v := range mappingListAvailableSoftwareSourcesForManagedInstanceSortBy {
+	for _, v := range mappingListAvailableSoftwareSourcesForManagedInstanceSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailableSoftwareSourcesForManagedInstanceSortByEnumStringValues Enumerates the set of values in String for ListAvailableSoftwareSourcesForManagedInstanceSortByEnum
+func GetListAvailableSoftwareSourcesForManagedInstanceSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

@@ -14,40 +14,43 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// TunnelPhaseOneDetails Tunnel detail information specific to IPSec phase 1.
+// TunnelPhaseOneDetails IPSec tunnel details specific to ISAKMP phase one.
 type TunnelPhaseOneDetails struct {
 
 	// Indicates whether custom phase one configuration is enabled.
+	// If this option is not enabled, default settings are proposed.
 	IsCustomPhaseOneConfig *bool `mandatory:"false" json:"isCustomPhaseOneConfig"`
 
-	// The total configured lifetime of an IKE security association.
+	// The total configured lifetime of the IKE security association.
 	Lifetime *int64 `mandatory:"false" json:"lifetime"`
 
-	// The lifetime remaining before the key is refreshed.
+	// The remaining lifetime before the key is refreshed.
 	RemainingLifetime *int64 `mandatory:"false" json:"remainingLifetime"`
 
-	// Custom authentication algorithm
+	// The proposed custom authentication algorithm.
 	CustomAuthenticationAlgorithm *string `mandatory:"false" json:"customAuthenticationAlgorithm"`
 
 	// The negotiated authentication algorithm.
 	NegotiatedAuthenticationAlgorithm *string `mandatory:"false" json:"negotiatedAuthenticationAlgorithm"`
 
-	// Custom encryption algorithm.
+	// The proposed custom encryption algorithm.
 	CustomEncryptionAlgorithm *string `mandatory:"false" json:"customEncryptionAlgorithm"`
 
 	// The negotiated encryption algorithm.
 	NegotiatedEncryptionAlgorithm *string `mandatory:"false" json:"negotiatedEncryptionAlgorithm"`
 
-	// Custom Diffie-Hellman group.
+	// The proposed custom Diffie-Hellman group.
 	CustomDhGroup *string `mandatory:"false" json:"customDhGroup"`
 
 	// The negotiated Diffie-Hellman group.
 	NegotiatedDhGroup *string `mandatory:"false" json:"negotiatedDhGroup"`
 
-	// Indicates whether IKE Phase 1 is established.
+	// Indicates whether IKE phase one is established.
 	IsIkeEstablished *bool `mandatory:"false" json:"isIkeEstablished"`
 
 	// The date and time we retrieved the remaining lifetime, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -57,4 +60,16 @@ type TunnelPhaseOneDetails struct {
 
 func (m TunnelPhaseOneDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TunnelPhaseOneDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

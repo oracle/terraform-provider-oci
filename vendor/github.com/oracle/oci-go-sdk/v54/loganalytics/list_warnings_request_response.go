@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListWarningsRequest wrapper for the ListWarnings operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListWarnings.go.html to see an example of how to use ListWarningsRequest.
 type ListWarningsRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -87,6 +85,10 @@ func (request ListWarningsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWarningsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -100,6 +102,26 @@ func (request ListWarningsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWarningsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWarningsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListWarningsWarningStateEnum[string(request.WarningState)]; !ok && request.WarningState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WarningState: %s. Supported values are: %s.", request.WarningState, strings.Join(GetListWarningsWarningStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWarningsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWarningsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWarningsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWarningsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWarningsResponse wrapper for the ListWarnings operation
@@ -144,7 +166,7 @@ const (
 	ListWarningsWarningStateUnsuppressed ListWarningsWarningStateEnum = "UNSUPPRESSED"
 )
 
-var mappingListWarningsWarningState = map[string]ListWarningsWarningStateEnum{
+var mappingListWarningsWarningStateEnum = map[string]ListWarningsWarningStateEnum{
 	"ALL":          ListWarningsWarningStateAll,
 	"SUPPRESSED":   ListWarningsWarningStateSuppressed,
 	"UNSUPPRESSED": ListWarningsWarningStateUnsuppressed,
@@ -153,10 +175,19 @@ var mappingListWarningsWarningState = map[string]ListWarningsWarningStateEnum{
 // GetListWarningsWarningStateEnumValues Enumerates the set of values for ListWarningsWarningStateEnum
 func GetListWarningsWarningStateEnumValues() []ListWarningsWarningStateEnum {
 	values := make([]ListWarningsWarningStateEnum, 0)
-	for _, v := range mappingListWarningsWarningState {
+	for _, v := range mappingListWarningsWarningStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWarningsWarningStateEnumStringValues Enumerates the set of values in String for ListWarningsWarningStateEnum
+func GetListWarningsWarningStateEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"SUPPRESSED",
+		"UNSUPPRESSED",
+	}
 }
 
 // ListWarningsSortOrderEnum Enum with underlying type: string
@@ -168,7 +199,7 @@ const (
 	ListWarningsSortOrderDesc ListWarningsSortOrderEnum = "DESC"
 )
 
-var mappingListWarningsSortOrder = map[string]ListWarningsSortOrderEnum{
+var mappingListWarningsSortOrderEnum = map[string]ListWarningsSortOrderEnum{
 	"ASC":  ListWarningsSortOrderAsc,
 	"DESC": ListWarningsSortOrderDesc,
 }
@@ -176,10 +207,18 @@ var mappingListWarningsSortOrder = map[string]ListWarningsSortOrderEnum{
 // GetListWarningsSortOrderEnumValues Enumerates the set of values for ListWarningsSortOrderEnum
 func GetListWarningsSortOrderEnumValues() []ListWarningsSortOrderEnum {
 	values := make([]ListWarningsSortOrderEnum, 0)
-	for _, v := range mappingListWarningsSortOrder {
+	for _, v := range mappingListWarningsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWarningsSortOrderEnumStringValues Enumerates the set of values in String for ListWarningsSortOrderEnum
+func GetListWarningsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListWarningsSortByEnum Enum with underlying type: string
@@ -197,7 +236,7 @@ const (
 	ListWarningsSortByInitialwarningdate ListWarningsSortByEnum = "InitialWarningDate"
 )
 
-var mappingListWarningsSortBy = map[string]ListWarningsSortByEnum{
+var mappingListWarningsSortByEnum = map[string]ListWarningsSortByEnum{
 	"EntityType":         ListWarningsSortByEntitytype,
 	"SourceName":         ListWarningsSortBySourcename,
 	"PatternText":        ListWarningsSortByPatterntext,
@@ -211,8 +250,22 @@ var mappingListWarningsSortBy = map[string]ListWarningsSortByEnum{
 // GetListWarningsSortByEnumValues Enumerates the set of values for ListWarningsSortByEnum
 func GetListWarningsSortByEnumValues() []ListWarningsSortByEnum {
 	values := make([]ListWarningsSortByEnum, 0)
-	for _, v := range mappingListWarningsSortBy {
+	for _, v := range mappingListWarningsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWarningsSortByEnumStringValues Enumerates the set of values in String for ListWarningsSortByEnum
+func GetListWarningsSortByEnumStringValues() []string {
+	return []string{
+		"EntityType",
+		"SourceName",
+		"PatternText",
+		"FirstReported",
+		"WarningMessage",
+		"Host",
+		"EntityName",
+		"InitialWarningDate",
+	}
 }

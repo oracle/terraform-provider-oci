@@ -2,33 +2,36 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Cloud Guard APIs
+// Cloud Guard API
 //
-// A description of the Cloud Guard APIs
+// Use the Cloud Guard API to automate processes that you would otherwise perform through the Cloud Guard Console.
+// **Note:** You can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TargetResponderRecipe Details of Target ResponderRecipe
 type TargetResponderRecipe struct {
 
-	// Unique identifier of TargetResponderRecipe that is immutable on creation
+	// Unique identifier of TargetResponderRecipe that can't be changed after creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Unique identifier for Responder Recipe of which this is an extension
+	// Unique identifier for Responder Recipe of which this is an extension.
 	ResponderRecipeId *string `mandatory:"true" json:"responderRecipeId"`
 
 	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// ResponderRecipe Identifier Name
+	// ResponderRecipe display name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// ResponderRecipe Description
+	// ResponderRecipe description.
 	Description *string `mandatory:"true" json:"description"`
 
 	// Owner of ResponderRecipe
@@ -49,4 +52,19 @@ type TargetResponderRecipe struct {
 
 func (m TargetResponderRecipe) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TargetResponderRecipe) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingOwnerTypeEnum[string(m.Owner)]; !ok && m.Owner != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Owner: %s. Supported values are: %s.", m.Owner, strings.Join(GetOwnerTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

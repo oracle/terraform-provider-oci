@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ValidateAssociationParametersRequest wrapper for the ValidateAssociationParameters operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateAssociationParameters.go.html to see an example of how to use ValidateAssociationParametersRequest.
 type ValidateAssociationParametersRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -56,6 +54,10 @@ func (request ValidateAssociationParametersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ValidateAssociationParametersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,23 @@ func (request ValidateAssociationParametersRequest) BinaryRequestBody() (*common
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ValidateAssociationParametersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ValidateAssociationParametersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingValidateAssociationParametersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetValidateAssociationParametersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingValidateAssociationParametersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetValidateAssociationParametersSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ValidateAssociationParametersResponse wrapper for the ValidateAssociationParameters operation
@@ -105,7 +124,7 @@ const (
 	ValidateAssociationParametersSortOrderDesc ValidateAssociationParametersSortOrderEnum = "DESC"
 )
 
-var mappingValidateAssociationParametersSortOrder = map[string]ValidateAssociationParametersSortOrderEnum{
+var mappingValidateAssociationParametersSortOrderEnum = map[string]ValidateAssociationParametersSortOrderEnum{
 	"ASC":  ValidateAssociationParametersSortOrderAsc,
 	"DESC": ValidateAssociationParametersSortOrderDesc,
 }
@@ -113,10 +132,18 @@ var mappingValidateAssociationParametersSortOrder = map[string]ValidateAssociati
 // GetValidateAssociationParametersSortOrderEnumValues Enumerates the set of values for ValidateAssociationParametersSortOrderEnum
 func GetValidateAssociationParametersSortOrderEnumValues() []ValidateAssociationParametersSortOrderEnum {
 	values := make([]ValidateAssociationParametersSortOrderEnum, 0)
-	for _, v := range mappingValidateAssociationParametersSortOrder {
+	for _, v := range mappingValidateAssociationParametersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetValidateAssociationParametersSortOrderEnumStringValues Enumerates the set of values in String for ValidateAssociationParametersSortOrderEnum
+func GetValidateAssociationParametersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ValidateAssociationParametersSortByEnum Enum with underlying type: string
@@ -128,7 +155,7 @@ const (
 	ValidateAssociationParametersSortByStatus            ValidateAssociationParametersSortByEnum = "status"
 )
 
-var mappingValidateAssociationParametersSortBy = map[string]ValidateAssociationParametersSortByEnum{
+var mappingValidateAssociationParametersSortByEnum = map[string]ValidateAssociationParametersSortByEnum{
 	"sourceDisplayName": ValidateAssociationParametersSortBySourcedisplayname,
 	"status":            ValidateAssociationParametersSortByStatus,
 }
@@ -136,8 +163,16 @@ var mappingValidateAssociationParametersSortBy = map[string]ValidateAssociationP
 // GetValidateAssociationParametersSortByEnumValues Enumerates the set of values for ValidateAssociationParametersSortByEnum
 func GetValidateAssociationParametersSortByEnumValues() []ValidateAssociationParametersSortByEnum {
 	values := make([]ValidateAssociationParametersSortByEnum, 0)
-	for _, v := range mappingValidateAssociationParametersSortBy {
+	for _, v := range mappingValidateAssociationParametersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetValidateAssociationParametersSortByEnumStringValues Enumerates the set of values in String for ValidateAssociationParametersSortByEnum
+func GetValidateAssociationParametersSortByEnumStringValues() []string {
+	return []string{
+		"sourceDisplayName",
+		"status",
+	}
 }

@@ -4,13 +4,15 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PricingModel The model for pricing.
@@ -31,4 +33,25 @@ type PricingModel struct {
 
 func (m PricingModel) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PricingModel) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPricingTypeEnumEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetPricingTypeEnumEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingPricingStrategyEnumEnum[string(m.PayGoStrategy)]; !ok && m.PayGoStrategy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PayGoStrategy: %s. Supported values are: %s.", m.PayGoStrategy, strings.Join(GetPricingStrategyEnumEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPricingCurrencyEnumEnum[string(m.Currency)]; !ok && m.Currency != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Currency: %s. Supported values are: %s.", m.Currency, strings.Join(GetPricingCurrencyEnumEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

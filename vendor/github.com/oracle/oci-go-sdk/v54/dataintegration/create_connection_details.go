@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateConnectionDetails Properties used in connection create operations.
@@ -177,6 +179,18 @@ func (m createconnectiondetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createconnectiondetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateConnectionDetailsModelTypeEnum Enum with underlying type: string
 type CreateConnectionDetailsModelTypeEnum string
 
@@ -192,7 +206,7 @@ const (
 	CreateConnectionDetailsModelTypeAmazonS3Connection            CreateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
 )
 
-var mappingCreateConnectionDetailsModelType = map[string]CreateConnectionDetailsModelTypeEnum{
+var mappingCreateConnectionDetailsModelTypeEnum = map[string]CreateConnectionDetailsModelTypeEnum{
 	"ORACLE_ADWC_CONNECTION":           CreateConnectionDetailsModelTypeOracleAdwcConnection,
 	"ORACLE_ATP_CONNECTION":            CreateConnectionDetailsModelTypeOracleAtpConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": CreateConnectionDetailsModelTypeOracleObjectStorageConnection,
@@ -206,8 +220,22 @@ var mappingCreateConnectionDetailsModelType = map[string]CreateConnectionDetails
 // GetCreateConnectionDetailsModelTypeEnumValues Enumerates the set of values for CreateConnectionDetailsModelTypeEnum
 func GetCreateConnectionDetailsModelTypeEnumValues() []CreateConnectionDetailsModelTypeEnum {
 	values := make([]CreateConnectionDetailsModelTypeEnum, 0)
-	for _, v := range mappingCreateConnectionDetailsModelType {
+	for _, v := range mappingCreateConnectionDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateConnectionDetailsModelTypeEnumStringValues Enumerates the set of values in String for CreateConnectionDetailsModelTypeEnum
+func GetCreateConnectionDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_ADWC_CONNECTION",
+		"ORACLE_ATP_CONNECTION",
+		"ORACLE_OBJECT_STORAGE_CONNECTION",
+		"ORACLEDB_CONNECTION",
+		"MYSQL_CONNECTION",
+		"GENERIC_JDBC_CONNECTION",
+		"BICC_CONNECTION",
+		"AMAZON_S3_CONNECTION",
+	}
 }

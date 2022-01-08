@@ -5,15 +5,13 @@
 package operatoraccesscontrol
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListOperatorActionsRequest wrapper for the ListOperatorActions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorActions.go.html to see an example of how to use ListOperatorActionsRequest.
 type ListOperatorActionsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -55,6 +53,10 @@ func (request ListOperatorActionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListOperatorActionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,26 @@ func (request ListOperatorActionsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListOperatorActionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListOperatorActionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListOperatorActionsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListOperatorActionsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOperatorActionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOperatorActionsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOperatorActionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListOperatorActionsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListOperatorActionsResponse wrapper for the ListOperatorActions operation
@@ -107,7 +129,7 @@ const (
 	ListOperatorActionsLifecycleStateInactive ListOperatorActionsLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingListOperatorActionsLifecycleState = map[string]ListOperatorActionsLifecycleStateEnum{
+var mappingListOperatorActionsLifecycleStateEnum = map[string]ListOperatorActionsLifecycleStateEnum{
 	"ACTIVE":   ListOperatorActionsLifecycleStateActive,
 	"INACTIVE": ListOperatorActionsLifecycleStateInactive,
 }
@@ -115,10 +137,18 @@ var mappingListOperatorActionsLifecycleState = map[string]ListOperatorActionsLif
 // GetListOperatorActionsLifecycleStateEnumValues Enumerates the set of values for ListOperatorActionsLifecycleStateEnum
 func GetListOperatorActionsLifecycleStateEnumValues() []ListOperatorActionsLifecycleStateEnum {
 	values := make([]ListOperatorActionsLifecycleStateEnum, 0)
-	for _, v := range mappingListOperatorActionsLifecycleState {
+	for _, v := range mappingListOperatorActionsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperatorActionsLifecycleStateEnumStringValues Enumerates the set of values in String for ListOperatorActionsLifecycleStateEnum
+func GetListOperatorActionsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }
 
 // ListOperatorActionsSortOrderEnum Enum with underlying type: string
@@ -130,7 +160,7 @@ const (
 	ListOperatorActionsSortOrderDesc ListOperatorActionsSortOrderEnum = "DESC"
 )
 
-var mappingListOperatorActionsSortOrder = map[string]ListOperatorActionsSortOrderEnum{
+var mappingListOperatorActionsSortOrderEnum = map[string]ListOperatorActionsSortOrderEnum{
 	"ASC":  ListOperatorActionsSortOrderAsc,
 	"DESC": ListOperatorActionsSortOrderDesc,
 }
@@ -138,10 +168,18 @@ var mappingListOperatorActionsSortOrder = map[string]ListOperatorActionsSortOrde
 // GetListOperatorActionsSortOrderEnumValues Enumerates the set of values for ListOperatorActionsSortOrderEnum
 func GetListOperatorActionsSortOrderEnumValues() []ListOperatorActionsSortOrderEnum {
 	values := make([]ListOperatorActionsSortOrderEnum, 0)
-	for _, v := range mappingListOperatorActionsSortOrder {
+	for _, v := range mappingListOperatorActionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperatorActionsSortOrderEnumStringValues Enumerates the set of values in String for ListOperatorActionsSortOrderEnum
+func GetListOperatorActionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListOperatorActionsSortByEnum Enum with underlying type: string
@@ -153,7 +191,7 @@ const (
 	ListOperatorActionsSortByDisplayname ListOperatorActionsSortByEnum = "displayName"
 )
 
-var mappingListOperatorActionsSortBy = map[string]ListOperatorActionsSortByEnum{
+var mappingListOperatorActionsSortByEnum = map[string]ListOperatorActionsSortByEnum{
 	"timeCreated": ListOperatorActionsSortByTimecreated,
 	"displayName": ListOperatorActionsSortByDisplayname,
 }
@@ -161,8 +199,16 @@ var mappingListOperatorActionsSortBy = map[string]ListOperatorActionsSortByEnum{
 // GetListOperatorActionsSortByEnumValues Enumerates the set of values for ListOperatorActionsSortByEnum
 func GetListOperatorActionsSortByEnumValues() []ListOperatorActionsSortByEnum {
 	values := make([]ListOperatorActionsSortByEnum, 0)
-	for _, v := range mappingListOperatorActionsSortBy {
+	for _, v := range mappingListOperatorActionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperatorActionsSortByEnumStringValues Enumerates the set of values in String for ListOperatorActionsSortByEnum
+func GetListOperatorActionsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

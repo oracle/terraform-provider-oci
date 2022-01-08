@@ -5,15 +5,13 @@
 package waf
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListProtectionCapabilitiesRequest wrapper for the ListProtectionCapabilities operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListProtectionCapabilities.go.html to see an example of how to use ListProtectionCapabilitiesRequest.
 type ListProtectionCapabilitiesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
@@ -66,6 +64,10 @@ func (request ListProtectionCapabilitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListProtectionCapabilitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +81,26 @@ func (request ListProtectionCapabilitiesRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListProtectionCapabilitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListProtectionCapabilitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingProtectionCapabilitySummaryTypeEnum[string(request.Type)]; !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetProtectionCapabilitySummaryTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProtectionCapabilitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListProtectionCapabilitiesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProtectionCapabilitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListProtectionCapabilitiesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListProtectionCapabilitiesResponse wrapper for the ListProtectionCapabilities operation
@@ -118,7 +140,7 @@ const (
 	ListProtectionCapabilitiesSortOrderDesc ListProtectionCapabilitiesSortOrderEnum = "DESC"
 )
 
-var mappingListProtectionCapabilitiesSortOrder = map[string]ListProtectionCapabilitiesSortOrderEnum{
+var mappingListProtectionCapabilitiesSortOrderEnum = map[string]ListProtectionCapabilitiesSortOrderEnum{
 	"ASC":  ListProtectionCapabilitiesSortOrderAsc,
 	"DESC": ListProtectionCapabilitiesSortOrderDesc,
 }
@@ -126,10 +148,18 @@ var mappingListProtectionCapabilitiesSortOrder = map[string]ListProtectionCapabi
 // GetListProtectionCapabilitiesSortOrderEnumValues Enumerates the set of values for ListProtectionCapabilitiesSortOrderEnum
 func GetListProtectionCapabilitiesSortOrderEnumValues() []ListProtectionCapabilitiesSortOrderEnum {
 	values := make([]ListProtectionCapabilitiesSortOrderEnum, 0)
-	for _, v := range mappingListProtectionCapabilitiesSortOrder {
+	for _, v := range mappingListProtectionCapabilitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProtectionCapabilitiesSortOrderEnumStringValues Enumerates the set of values in String for ListProtectionCapabilitiesSortOrderEnum
+func GetListProtectionCapabilitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListProtectionCapabilitiesSortByEnum Enum with underlying type: string
@@ -142,7 +172,7 @@ const (
 	ListProtectionCapabilitiesSortByDisplayname ListProtectionCapabilitiesSortByEnum = "displayName"
 )
 
-var mappingListProtectionCapabilitiesSortBy = map[string]ListProtectionCapabilitiesSortByEnum{
+var mappingListProtectionCapabilitiesSortByEnum = map[string]ListProtectionCapabilitiesSortByEnum{
 	"key":         ListProtectionCapabilitiesSortByKey,
 	"type":        ListProtectionCapabilitiesSortByType,
 	"displayName": ListProtectionCapabilitiesSortByDisplayname,
@@ -151,8 +181,17 @@ var mappingListProtectionCapabilitiesSortBy = map[string]ListProtectionCapabilit
 // GetListProtectionCapabilitiesSortByEnumValues Enumerates the set of values for ListProtectionCapabilitiesSortByEnum
 func GetListProtectionCapabilitiesSortByEnumValues() []ListProtectionCapabilitiesSortByEnum {
 	values := make([]ListProtectionCapabilitiesSortByEnum, 0)
-	for _, v := range mappingListProtectionCapabilitiesSortBy {
+	for _, v := range mappingListProtectionCapabilitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProtectionCapabilitiesSortByEnumStringValues Enumerates the set of values in String for ListProtectionCapabilitiesSortByEnum
+func GetListProtectionCapabilitiesSortByEnumStringValues() []string {
+	return []string{
+		"key",
+		"type",
+		"displayName",
+	}
 }

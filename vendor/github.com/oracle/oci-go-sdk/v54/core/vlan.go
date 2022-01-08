@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Vlan A resource to be used only with the Oracle Cloud VMware Solution.
@@ -85,6 +87,21 @@ func (m Vlan) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Vlan) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVlanLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVlanLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VlanLifecycleStateEnum Enum with underlying type: string
 type VlanLifecycleStateEnum string
 
@@ -97,7 +114,7 @@ const (
 	VlanLifecycleStateUpdating     VlanLifecycleStateEnum = "UPDATING"
 )
 
-var mappingVlanLifecycleState = map[string]VlanLifecycleStateEnum{
+var mappingVlanLifecycleStateEnum = map[string]VlanLifecycleStateEnum{
 	"PROVISIONING": VlanLifecycleStateProvisioning,
 	"AVAILABLE":    VlanLifecycleStateAvailable,
 	"TERMINATING":  VlanLifecycleStateTerminating,
@@ -108,8 +125,19 @@ var mappingVlanLifecycleState = map[string]VlanLifecycleStateEnum{
 // GetVlanLifecycleStateEnumValues Enumerates the set of values for VlanLifecycleStateEnum
 func GetVlanLifecycleStateEnumValues() []VlanLifecycleStateEnum {
 	values := make([]VlanLifecycleStateEnum, 0)
-	for _, v := range mappingVlanLifecycleState {
+	for _, v := range mappingVlanLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVlanLifecycleStateEnumStringValues Enumerates the set of values in String for VlanLifecycleStateEnum
+func GetVlanLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+		"UPDATING",
+	}
 }

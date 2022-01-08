@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListParserMetaPluginsRequest wrapper for the ListParserMetaPlugins operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListParserMetaPlugins.go.html to see an example of how to use ListParserMetaPluginsRequest.
 type ListParserMetaPluginsRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -46,6 +44,10 @@ func (request ListParserMetaPluginsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListParserMetaPluginsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +61,23 @@ func (request ListParserMetaPluginsRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListParserMetaPluginsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListParserMetaPluginsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListParserMetaPluginsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListParserMetaPluginsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListParserMetaPluginsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListParserMetaPluginsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListParserMetaPluginsResponse wrapper for the ListParserMetaPlugins operation
@@ -101,17 +120,24 @@ const (
 	ListParserMetaPluginsSortByName ListParserMetaPluginsSortByEnum = "name"
 )
 
-var mappingListParserMetaPluginsSortBy = map[string]ListParserMetaPluginsSortByEnum{
+var mappingListParserMetaPluginsSortByEnum = map[string]ListParserMetaPluginsSortByEnum{
 	"name": ListParserMetaPluginsSortByName,
 }
 
 // GetListParserMetaPluginsSortByEnumValues Enumerates the set of values for ListParserMetaPluginsSortByEnum
 func GetListParserMetaPluginsSortByEnumValues() []ListParserMetaPluginsSortByEnum {
 	values := make([]ListParserMetaPluginsSortByEnum, 0)
-	for _, v := range mappingListParserMetaPluginsSortBy {
+	for _, v := range mappingListParserMetaPluginsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListParserMetaPluginsSortByEnumStringValues Enumerates the set of values in String for ListParserMetaPluginsSortByEnum
+func GetListParserMetaPluginsSortByEnumStringValues() []string {
+	return []string{
+		"name",
+	}
 }
 
 // ListParserMetaPluginsSortOrderEnum Enum with underlying type: string
@@ -123,7 +149,7 @@ const (
 	ListParserMetaPluginsSortOrderDesc ListParserMetaPluginsSortOrderEnum = "DESC"
 )
 
-var mappingListParserMetaPluginsSortOrder = map[string]ListParserMetaPluginsSortOrderEnum{
+var mappingListParserMetaPluginsSortOrderEnum = map[string]ListParserMetaPluginsSortOrderEnum{
 	"ASC":  ListParserMetaPluginsSortOrderAsc,
 	"DESC": ListParserMetaPluginsSortOrderDesc,
 }
@@ -131,8 +157,16 @@ var mappingListParserMetaPluginsSortOrder = map[string]ListParserMetaPluginsSort
 // GetListParserMetaPluginsSortOrderEnumValues Enumerates the set of values for ListParserMetaPluginsSortOrderEnum
 func GetListParserMetaPluginsSortOrderEnumValues() []ListParserMetaPluginsSortOrderEnum {
 	values := make([]ListParserMetaPluginsSortOrderEnum, 0)
-	for _, v := range mappingListParserMetaPluginsSortOrder {
+	for _, v := range mappingListParserMetaPluginsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListParserMetaPluginsSortOrderEnumStringValues Enumerates the set of values in String for ListParserMetaPluginsSortOrderEnum
+func GetListParserMetaPluginsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

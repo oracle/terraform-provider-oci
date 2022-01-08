@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListExternalPublicationValidationsRequest wrapper for the ListExternalPublicationValidations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListExternalPublicationValidations.go.html to see an example of how to use ListExternalPublicationValidationsRequest.
 type ListExternalPublicationValidationsRequest struct {
 
 	// The workspace ID.
@@ -60,6 +58,10 @@ func (request ListExternalPublicationValidationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListExternalPublicationValidationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,23 @@ func (request ListExternalPublicationValidationsRequest) BinaryRequestBody() (*c
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListExternalPublicationValidationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListExternalPublicationValidationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListExternalPublicationValidationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListExternalPublicationValidationsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListExternalPublicationValidationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListExternalPublicationValidationsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListExternalPublicationValidationsResponse wrapper for the ListExternalPublicationValidations operation
@@ -116,7 +135,7 @@ const (
 	ListExternalPublicationValidationsSortOrderDesc ListExternalPublicationValidationsSortOrderEnum = "DESC"
 )
 
-var mappingListExternalPublicationValidationsSortOrder = map[string]ListExternalPublicationValidationsSortOrderEnum{
+var mappingListExternalPublicationValidationsSortOrderEnum = map[string]ListExternalPublicationValidationsSortOrderEnum{
 	"ASC":  ListExternalPublicationValidationsSortOrderAsc,
 	"DESC": ListExternalPublicationValidationsSortOrderDesc,
 }
@@ -124,10 +143,18 @@ var mappingListExternalPublicationValidationsSortOrder = map[string]ListExternal
 // GetListExternalPublicationValidationsSortOrderEnumValues Enumerates the set of values for ListExternalPublicationValidationsSortOrderEnum
 func GetListExternalPublicationValidationsSortOrderEnumValues() []ListExternalPublicationValidationsSortOrderEnum {
 	values := make([]ListExternalPublicationValidationsSortOrderEnum, 0)
-	for _, v := range mappingListExternalPublicationValidationsSortOrder {
+	for _, v := range mappingListExternalPublicationValidationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExternalPublicationValidationsSortOrderEnumStringValues Enumerates the set of values in String for ListExternalPublicationValidationsSortOrderEnum
+func GetListExternalPublicationValidationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListExternalPublicationValidationsSortByEnum Enum with underlying type: string
@@ -139,7 +166,7 @@ const (
 	ListExternalPublicationValidationsSortByDisplayName ListExternalPublicationValidationsSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListExternalPublicationValidationsSortBy = map[string]ListExternalPublicationValidationsSortByEnum{
+var mappingListExternalPublicationValidationsSortByEnum = map[string]ListExternalPublicationValidationsSortByEnum{
 	"TIME_CREATED": ListExternalPublicationValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListExternalPublicationValidationsSortByDisplayName,
 }
@@ -147,8 +174,16 @@ var mappingListExternalPublicationValidationsSortBy = map[string]ListExternalPub
 // GetListExternalPublicationValidationsSortByEnumValues Enumerates the set of values for ListExternalPublicationValidationsSortByEnum
 func GetListExternalPublicationValidationsSortByEnumValues() []ListExternalPublicationValidationsSortByEnum {
 	values := make([]ListExternalPublicationValidationsSortByEnum, 0)
-	for _, v := range mappingListExternalPublicationValidationsSortBy {
+	for _, v := range mappingListExternalPublicationValidationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExternalPublicationValidationsSortByEnumStringValues Enumerates the set of values in String for ListExternalPublicationValidationsSortByEnum
+func GetListExternalPublicationValidationsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

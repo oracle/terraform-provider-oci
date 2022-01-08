@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig The platform configuration used when launching a bare metal instance with the AMD Rome platform.
@@ -29,6 +31,12 @@ type InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig struct {
 
 	// Whether the Measured Boot feature is enabled on the instance.
 	IsMeasuredBootEnabled *bool `mandatory:"false" json:"isMeasuredBootEnabled"`
+
+	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
+	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
+
+	// The manufacturer specific technology used for memory encryption.
+	MemoryEncryptionTechnology InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum `mandatory:"false" json:"memoryEncryptionTechnology,omitempty"`
 }
 
 //GetIsSecureBootEnabled returns IsSecureBootEnabled
@@ -46,8 +54,28 @@ func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) GetIsMeasure
 	return m.IsMeasuredBootEnabled
 }
 
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
+	return m.IsMemoryEncryptionEnabled
+}
+
 func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum[string(m.MemoryEncryptionTechnology)]; !ok && m.MemoryEncryptionTechnology != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MemoryEncryptionTechnology: %s. Supported values are: %s.", m.MemoryEncryptionTechnology, strings.Join(GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -62,4 +90,35 @@ func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) MarshalJSON(
 	}
 
 	return json.Marshal(&s)
+}
+
+// InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum Enum with underlying type: string
+type InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum string
+
+// Set of constants representing the allowable values for InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum
+const (
+	InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyTsme InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum = "TSME"
+	InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologySmee InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum = "SMEE"
+)
+
+var mappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum = map[string]InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum{
+	"TSME": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyTsme,
+	"SMEE": InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologySmee,
+}
+
+// GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumValues Enumerates the set of values for InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum
+func GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumValues() []InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum {
+	values := make([]InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum, 0)
+	for _, v := range mappingInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumStringValues Enumerates the set of values in String for InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnum
+func GetInstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigMemoryEncryptionTechnologyEnumStringValues() []string {
+	return []string{
+		"TSME",
+		"SMEE",
+	}
 }

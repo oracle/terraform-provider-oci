@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListRecalledDataRequest wrapper for the ListRecalledData operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListRecalledData.go.html to see an example of how to use ListRecalledDataRequest.
 type ListRecalledDataRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -53,6 +51,10 @@ func (request ListRecalledDataRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRecalledDataRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +68,23 @@ func (request ListRecalledDataRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRecalledDataRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRecalledDataRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRecalledDataSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRecalledDataSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRecalledDataSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRecalledDataSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRecalledDataResponse wrapper for the ListRecalledData operation
@@ -109,7 +128,7 @@ const (
 	ListRecalledDataSortByTimedatastarted ListRecalledDataSortByEnum = "timeDataStarted"
 )
 
-var mappingListRecalledDataSortBy = map[string]ListRecalledDataSortByEnum{
+var mappingListRecalledDataSortByEnum = map[string]ListRecalledDataSortByEnum{
 	"timeStarted":     ListRecalledDataSortByTimestarted,
 	"timeDataStarted": ListRecalledDataSortByTimedatastarted,
 }
@@ -117,10 +136,18 @@ var mappingListRecalledDataSortBy = map[string]ListRecalledDataSortByEnum{
 // GetListRecalledDataSortByEnumValues Enumerates the set of values for ListRecalledDataSortByEnum
 func GetListRecalledDataSortByEnumValues() []ListRecalledDataSortByEnum {
 	values := make([]ListRecalledDataSortByEnum, 0)
-	for _, v := range mappingListRecalledDataSortBy {
+	for _, v := range mappingListRecalledDataSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRecalledDataSortByEnumStringValues Enumerates the set of values in String for ListRecalledDataSortByEnum
+func GetListRecalledDataSortByEnumStringValues() []string {
+	return []string{
+		"timeStarted",
+		"timeDataStarted",
+	}
 }
 
 // ListRecalledDataSortOrderEnum Enum with underlying type: string
@@ -132,7 +159,7 @@ const (
 	ListRecalledDataSortOrderDesc ListRecalledDataSortOrderEnum = "DESC"
 )
 
-var mappingListRecalledDataSortOrder = map[string]ListRecalledDataSortOrderEnum{
+var mappingListRecalledDataSortOrderEnum = map[string]ListRecalledDataSortOrderEnum{
 	"ASC":  ListRecalledDataSortOrderAsc,
 	"DESC": ListRecalledDataSortOrderDesc,
 }
@@ -140,8 +167,16 @@ var mappingListRecalledDataSortOrder = map[string]ListRecalledDataSortOrderEnum{
 // GetListRecalledDataSortOrderEnumValues Enumerates the set of values for ListRecalledDataSortOrderEnum
 func GetListRecalledDataSortOrderEnumValues() []ListRecalledDataSortOrderEnum {
 	values := make([]ListRecalledDataSortOrderEnum, 0)
-	for _, v := range mappingListRecalledDataSortOrder {
+	for _, v := range mappingListRecalledDataSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRecalledDataSortOrderEnumStringValues Enumerates the set of values in String for ListRecalledDataSortOrderEnum
+func GetListRecalledDataSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

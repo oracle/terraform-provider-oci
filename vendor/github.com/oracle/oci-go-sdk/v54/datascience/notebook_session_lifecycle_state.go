@@ -23,7 +23,7 @@ const (
 	NotebookSessionLifecycleStateUpdating NotebookSessionLifecycleStateEnum = "UPDATING"
 )
 
-var mappingNotebookSessionLifecycleState = map[string]NotebookSessionLifecycleStateEnum{
+var mappingNotebookSessionLifecycleStateEnum = map[string]NotebookSessionLifecycleStateEnum{
 	"CREATING": NotebookSessionLifecycleStateCreating,
 	"ACTIVE":   NotebookSessionLifecycleStateActive,
 	"DELETING": NotebookSessionLifecycleStateDeleting,
@@ -36,8 +36,21 @@ var mappingNotebookSessionLifecycleState = map[string]NotebookSessionLifecycleSt
 // GetNotebookSessionLifecycleStateEnumValues Enumerates the set of values for NotebookSessionLifecycleStateEnum
 func GetNotebookSessionLifecycleStateEnumValues() []NotebookSessionLifecycleStateEnum {
 	values := make([]NotebookSessionLifecycleStateEnum, 0)
-	for _, v := range mappingNotebookSessionLifecycleState {
+	for _, v := range mappingNotebookSessionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNotebookSessionLifecycleStateEnumStringValues Enumerates the set of values in String for NotebookSessionLifecycleStateEnum
+func GetNotebookSessionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"INACTIVE",
+		"UPDATING",
+	}
 }

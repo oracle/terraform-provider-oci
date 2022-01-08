@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAssociableEntitiesRequest wrapper for the ListAssociableEntities operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListAssociableEntities.go.html to see an example of how to use ListAssociableEntitiesRequest.
 type ListAssociableEntitiesRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -59,6 +57,10 @@ func (request ListAssociableEntitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAssociableEntitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +74,26 @@ func (request ListAssociableEntitiesRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAssociableEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAssociableEntitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAssociableEntitiesTypeEnum[string(request.Type)]; !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetListAssociableEntitiesTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAssociableEntitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAssociableEntitiesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAssociableEntitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAssociableEntitiesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAssociableEntitiesResponse wrapper for the ListAssociableEntities operation
@@ -115,7 +137,7 @@ const (
 	ListAssociableEntitiesTypeIneligible ListAssociableEntitiesTypeEnum = "INELIGIBLE"
 )
 
-var mappingListAssociableEntitiesType = map[string]ListAssociableEntitiesTypeEnum{
+var mappingListAssociableEntitiesTypeEnum = map[string]ListAssociableEntitiesTypeEnum{
 	"ELIGIBLE":   ListAssociableEntitiesTypeEligible,
 	"INELIGIBLE": ListAssociableEntitiesTypeIneligible,
 }
@@ -123,10 +145,18 @@ var mappingListAssociableEntitiesType = map[string]ListAssociableEntitiesTypeEnu
 // GetListAssociableEntitiesTypeEnumValues Enumerates the set of values for ListAssociableEntitiesTypeEnum
 func GetListAssociableEntitiesTypeEnumValues() []ListAssociableEntitiesTypeEnum {
 	values := make([]ListAssociableEntitiesTypeEnum, 0)
-	for _, v := range mappingListAssociableEntitiesType {
+	for _, v := range mappingListAssociableEntitiesTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociableEntitiesTypeEnumStringValues Enumerates the set of values in String for ListAssociableEntitiesTypeEnum
+func GetListAssociableEntitiesTypeEnumStringValues() []string {
+	return []string{
+		"ELIGIBLE",
+		"INELIGIBLE",
+	}
 }
 
 // ListAssociableEntitiesSortByEnum Enum with underlying type: string
@@ -140,7 +170,7 @@ const (
 	ListAssociableEntitiesSortByAgentid        ListAssociableEntitiesSortByEnum = "agentId"
 )
 
-var mappingListAssociableEntitiesSortBy = map[string]ListAssociableEntitiesSortByEnum{
+var mappingListAssociableEntitiesSortByEnum = map[string]ListAssociableEntitiesSortByEnum{
 	"entityName":     ListAssociableEntitiesSortByEntityname,
 	"entityTypeName": ListAssociableEntitiesSortByEntitytypename,
 	"host":           ListAssociableEntitiesSortByHost,
@@ -150,10 +180,20 @@ var mappingListAssociableEntitiesSortBy = map[string]ListAssociableEntitiesSortB
 // GetListAssociableEntitiesSortByEnumValues Enumerates the set of values for ListAssociableEntitiesSortByEnum
 func GetListAssociableEntitiesSortByEnumValues() []ListAssociableEntitiesSortByEnum {
 	values := make([]ListAssociableEntitiesSortByEnum, 0)
-	for _, v := range mappingListAssociableEntitiesSortBy {
+	for _, v := range mappingListAssociableEntitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociableEntitiesSortByEnumStringValues Enumerates the set of values in String for ListAssociableEntitiesSortByEnum
+func GetListAssociableEntitiesSortByEnumStringValues() []string {
+	return []string{
+		"entityName",
+		"entityTypeName",
+		"host",
+		"agentId",
+	}
 }
 
 // ListAssociableEntitiesSortOrderEnum Enum with underlying type: string
@@ -165,7 +205,7 @@ const (
 	ListAssociableEntitiesSortOrderDesc ListAssociableEntitiesSortOrderEnum = "DESC"
 )
 
-var mappingListAssociableEntitiesSortOrder = map[string]ListAssociableEntitiesSortOrderEnum{
+var mappingListAssociableEntitiesSortOrderEnum = map[string]ListAssociableEntitiesSortOrderEnum{
 	"ASC":  ListAssociableEntitiesSortOrderAsc,
 	"DESC": ListAssociableEntitiesSortOrderDesc,
 }
@@ -173,8 +213,16 @@ var mappingListAssociableEntitiesSortOrder = map[string]ListAssociableEntitiesSo
 // GetListAssociableEntitiesSortOrderEnumValues Enumerates the set of values for ListAssociableEntitiesSortOrderEnum
 func GetListAssociableEntitiesSortOrderEnumValues() []ListAssociableEntitiesSortOrderEnum {
 	values := make([]ListAssociableEntitiesSortOrderEnum, 0)
-	for _, v := range mappingListAssociableEntitiesSortOrder {
+	for _, v := range mappingListAssociableEntitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociableEntitiesSortOrderEnumStringValues Enumerates the set of values in String for ListAssociableEntitiesSortOrderEnum
+func GetListAssociableEntitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -11,7 +11,9 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // JobDefinition Representation of a job definition resource. Job definitions define the harvest scope and includes the list
@@ -96,4 +98,28 @@ type JobDefinition struct {
 
 func (m JobDefinition) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m JobDefinition) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingJobTypeEnum[string(m.JobType)]; !ok && m.JobType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JobType: %s. Supported values are: %s.", m.JobType, strings.Join(GetJobTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingJobExecutionStateEnum[string(m.JobExecutionState)]; !ok && m.JobExecutionState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JobExecutionState: %s. Supported values are: %s.", m.JobExecutionState, strings.Join(GetJobExecutionStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingJobScheduleTypeEnum[string(m.ScheduleType)]; !ok && m.ScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduleType: %s. Supported values are: %s.", m.ScheduleType, strings.Join(GetJobScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

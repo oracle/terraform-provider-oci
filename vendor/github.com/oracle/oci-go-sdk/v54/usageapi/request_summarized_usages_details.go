@@ -10,7 +10,9 @@
 package usageapi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RequestSummarizedUsagesDetails Details for the '/usage' query.
@@ -67,6 +69,24 @@ func (m RequestSummarizedUsagesDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RequestSummarizedUsagesDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRequestSummarizedUsagesDetailsGranularityEnum[string(m.Granularity)]; !ok && m.Granularity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Granularity: %s. Supported values are: %s.", m.Granularity, strings.Join(GetRequestSummarizedUsagesDetailsGranularityEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingRequestSummarizedUsagesDetailsQueryTypeEnum[string(m.QueryType)]; !ok && m.QueryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for QueryType: %s. Supported values are: %s.", m.QueryType, strings.Join(GetRequestSummarizedUsagesDetailsQueryTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RequestSummarizedUsagesDetailsGranularityEnum Enum with underlying type: string
 type RequestSummarizedUsagesDetailsGranularityEnum string
 
@@ -78,7 +98,7 @@ const (
 	RequestSummarizedUsagesDetailsGranularityTotal   RequestSummarizedUsagesDetailsGranularityEnum = "TOTAL"
 )
 
-var mappingRequestSummarizedUsagesDetailsGranularity = map[string]RequestSummarizedUsagesDetailsGranularityEnum{
+var mappingRequestSummarizedUsagesDetailsGranularityEnum = map[string]RequestSummarizedUsagesDetailsGranularityEnum{
 	"HOURLY":  RequestSummarizedUsagesDetailsGranularityHourly,
 	"DAILY":   RequestSummarizedUsagesDetailsGranularityDaily,
 	"MONTHLY": RequestSummarizedUsagesDetailsGranularityMonthly,
@@ -88,10 +108,20 @@ var mappingRequestSummarizedUsagesDetailsGranularity = map[string]RequestSummari
 // GetRequestSummarizedUsagesDetailsGranularityEnumValues Enumerates the set of values for RequestSummarizedUsagesDetailsGranularityEnum
 func GetRequestSummarizedUsagesDetailsGranularityEnumValues() []RequestSummarizedUsagesDetailsGranularityEnum {
 	values := make([]RequestSummarizedUsagesDetailsGranularityEnum, 0)
-	for _, v := range mappingRequestSummarizedUsagesDetailsGranularity {
+	for _, v := range mappingRequestSummarizedUsagesDetailsGranularityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRequestSummarizedUsagesDetailsGranularityEnumStringValues Enumerates the set of values in String for RequestSummarizedUsagesDetailsGranularityEnum
+func GetRequestSummarizedUsagesDetailsGranularityEnumStringValues() []string {
+	return []string{
+		"HOURLY",
+		"DAILY",
+		"MONTHLY",
+		"TOTAL",
+	}
 }
 
 // RequestSummarizedUsagesDetailsQueryTypeEnum Enum with underlying type: string
@@ -106,7 +136,7 @@ const (
 	RequestSummarizedUsagesDetailsQueryTypeAllcredit     RequestSummarizedUsagesDetailsQueryTypeEnum = "ALLCREDIT"
 )
 
-var mappingRequestSummarizedUsagesDetailsQueryType = map[string]RequestSummarizedUsagesDetailsQueryTypeEnum{
+var mappingRequestSummarizedUsagesDetailsQueryTypeEnum = map[string]RequestSummarizedUsagesDetailsQueryTypeEnum{
 	"USAGE":         RequestSummarizedUsagesDetailsQueryTypeUsage,
 	"COST":          RequestSummarizedUsagesDetailsQueryTypeCost,
 	"CREDIT":        RequestSummarizedUsagesDetailsQueryTypeCredit,
@@ -117,8 +147,19 @@ var mappingRequestSummarizedUsagesDetailsQueryType = map[string]RequestSummarize
 // GetRequestSummarizedUsagesDetailsQueryTypeEnumValues Enumerates the set of values for RequestSummarizedUsagesDetailsQueryTypeEnum
 func GetRequestSummarizedUsagesDetailsQueryTypeEnumValues() []RequestSummarizedUsagesDetailsQueryTypeEnum {
 	values := make([]RequestSummarizedUsagesDetailsQueryTypeEnum, 0)
-	for _, v := range mappingRequestSummarizedUsagesDetailsQueryType {
+	for _, v := range mappingRequestSummarizedUsagesDetailsQueryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRequestSummarizedUsagesDetailsQueryTypeEnumStringValues Enumerates the set of values in String for RequestSummarizedUsagesDetailsQueryTypeEnum
+func GetRequestSummarizedUsagesDetailsQueryTypeEnumStringValues() []string {
+	return []string{
+		"USAGE",
+		"COST",
+		"CREDIT",
+		"EXPIREDCREDIT",
+		"ALLCREDIT",
+	}
 }

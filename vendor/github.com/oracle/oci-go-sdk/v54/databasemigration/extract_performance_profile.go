@@ -19,7 +19,7 @@ const (
 	ExtractPerformanceProfileHigh   ExtractPerformanceProfileEnum = "HIGH"
 )
 
-var mappingExtractPerformanceProfile = map[string]ExtractPerformanceProfileEnum{
+var mappingExtractPerformanceProfileEnum = map[string]ExtractPerformanceProfileEnum{
 	"LOW":    ExtractPerformanceProfileLow,
 	"MEDIUM": ExtractPerformanceProfileMedium,
 	"HIGH":   ExtractPerformanceProfileHigh,
@@ -28,8 +28,17 @@ var mappingExtractPerformanceProfile = map[string]ExtractPerformanceProfileEnum{
 // GetExtractPerformanceProfileEnumValues Enumerates the set of values for ExtractPerformanceProfileEnum
 func GetExtractPerformanceProfileEnumValues() []ExtractPerformanceProfileEnum {
 	values := make([]ExtractPerformanceProfileEnum, 0)
-	for _, v := range mappingExtractPerformanceProfile {
+	for _, v := range mappingExtractPerformanceProfileEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExtractPerformanceProfileEnumStringValues Enumerates the set of values in String for ExtractPerformanceProfileEnum
+func GetExtractPerformanceProfileEnumStringValues() []string {
+	return []string{
+		"LOW",
+		"MEDIUM",
+		"HIGH",
+	}
 }

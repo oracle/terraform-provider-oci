@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LaunchInstancePlatformConfig The platform configuration requested for the instance.
@@ -34,6 +36,9 @@ type LaunchInstancePlatformConfig interface {
 
 	// Whether the Measured Boot feature is enabled on the instance.
 	GetIsMeasuredBootEnabled() *bool
+
+	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
+	GetIsMemoryEncryptionEnabled() *bool
 }
 
 type launchinstanceplatformconfig struct {
@@ -41,6 +46,7 @@ type launchinstanceplatformconfig struct {
 	IsSecureBootEnabled            *bool  `mandatory:"false" json:"isSecureBootEnabled"`
 	IsTrustedPlatformModuleEnabled *bool  `mandatory:"false" json:"isTrustedPlatformModuleEnabled"`
 	IsMeasuredBootEnabled          *bool  `mandatory:"false" json:"isMeasuredBootEnabled"`
+	IsMemoryEncryptionEnabled      *bool  `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 	Type                           string `json:"type"`
 }
 
@@ -58,6 +64,7 @@ func (m *launchinstanceplatformconfig) UnmarshalJSON(data []byte) error {
 	m.IsSecureBootEnabled = s.Model.IsSecureBootEnabled
 	m.IsTrustedPlatformModuleEnabled = s.Model.IsTrustedPlatformModuleEnabled
 	m.IsMeasuredBootEnabled = s.Model.IsMeasuredBootEnabled
+	m.IsMemoryEncryptionEnabled = s.Model.IsMemoryEncryptionEnabled
 	m.Type = s.Model.Type
 
 	return err
@@ -112,8 +119,25 @@ func (m launchinstanceplatformconfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
 }
 
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+func (m launchinstanceplatformconfig) GetIsMemoryEncryptionEnabled() *bool {
+	return m.IsMemoryEncryptionEnabled
+}
+
 func (m launchinstanceplatformconfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m launchinstanceplatformconfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // LaunchInstancePlatformConfigTypeEnum Enum with underlying type: string
@@ -128,7 +152,7 @@ const (
 	LaunchInstancePlatformConfigTypeIntelVm        LaunchInstancePlatformConfigTypeEnum = "INTEL_VM"
 )
 
-var mappingLaunchInstancePlatformConfigType = map[string]LaunchInstancePlatformConfigTypeEnum{
+var mappingLaunchInstancePlatformConfigTypeEnum = map[string]LaunchInstancePlatformConfigTypeEnum{
 	"AMD_MILAN_BM":     LaunchInstancePlatformConfigTypeAmdMilanBm,
 	"AMD_ROME_BM":      LaunchInstancePlatformConfigTypeAmdRomeBm,
 	"INTEL_SKYLAKE_BM": LaunchInstancePlatformConfigTypeIntelSkylakeBm,
@@ -139,8 +163,19 @@ var mappingLaunchInstancePlatformConfigType = map[string]LaunchInstancePlatformC
 // GetLaunchInstancePlatformConfigTypeEnumValues Enumerates the set of values for LaunchInstancePlatformConfigTypeEnum
 func GetLaunchInstancePlatformConfigTypeEnumValues() []LaunchInstancePlatformConfigTypeEnum {
 	values := make([]LaunchInstancePlatformConfigTypeEnum, 0)
-	for _, v := range mappingLaunchInstancePlatformConfigType {
+	for _, v := range mappingLaunchInstancePlatformConfigTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchInstancePlatformConfigTypeEnumStringValues Enumerates the set of values in String for LaunchInstancePlatformConfigTypeEnum
+func GetLaunchInstancePlatformConfigTypeEnumStringValues() []string {
+	return []string{
+		"AMD_MILAN_BM",
+		"AMD_ROME_BM",
+		"INTEL_SKYLAKE_BM",
+		"AMD_VM",
+		"INTEL_VM",
+	}
 }

@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // KeyVersionSummary The representation of KeyVersionSummary
@@ -49,6 +51,24 @@ func (m KeyVersionSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m KeyVersionSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingKeyVersionSummaryOriginEnum[string(m.Origin)]; !ok && m.Origin != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Origin: %s. Supported values are: %s.", m.Origin, strings.Join(GetKeyVersionSummaryOriginEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingKeyVersionSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetKeyVersionSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // KeyVersionSummaryLifecycleStateEnum Enum with underlying type: string
 type KeyVersionSummaryLifecycleStateEnum string
 
@@ -66,7 +86,7 @@ const (
 	KeyVersionSummaryLifecycleStateCancellingDeletion KeyVersionSummaryLifecycleStateEnum = "CANCELLING_DELETION"
 )
 
-var mappingKeyVersionSummaryLifecycleState = map[string]KeyVersionSummaryLifecycleStateEnum{
+var mappingKeyVersionSummaryLifecycleStateEnum = map[string]KeyVersionSummaryLifecycleStateEnum{
 	"CREATING":            KeyVersionSummaryLifecycleStateCreating,
 	"ENABLING":            KeyVersionSummaryLifecycleStateEnabling,
 	"ENABLED":             KeyVersionSummaryLifecycleStateEnabled,
@@ -82,10 +102,26 @@ var mappingKeyVersionSummaryLifecycleState = map[string]KeyVersionSummaryLifecyc
 // GetKeyVersionSummaryLifecycleStateEnumValues Enumerates the set of values for KeyVersionSummaryLifecycleStateEnum
 func GetKeyVersionSummaryLifecycleStateEnumValues() []KeyVersionSummaryLifecycleStateEnum {
 	values := make([]KeyVersionSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingKeyVersionSummaryLifecycleState {
+	for _, v := range mappingKeyVersionSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyVersionSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for KeyVersionSummaryLifecycleStateEnum
+func GetKeyVersionSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"DISABLED",
+		"DELETING",
+		"DELETED",
+		"PENDING_DELETION",
+		"SCHEDULING_DELETION",
+		"CANCELLING_DELETION",
+	}
 }
 
 // KeyVersionSummaryOriginEnum Enum with underlying type: string
@@ -97,7 +133,7 @@ const (
 	KeyVersionSummaryOriginExternal KeyVersionSummaryOriginEnum = "EXTERNAL"
 )
 
-var mappingKeyVersionSummaryOrigin = map[string]KeyVersionSummaryOriginEnum{
+var mappingKeyVersionSummaryOriginEnum = map[string]KeyVersionSummaryOriginEnum{
 	"INTERNAL": KeyVersionSummaryOriginInternal,
 	"EXTERNAL": KeyVersionSummaryOriginExternal,
 }
@@ -105,8 +141,16 @@ var mappingKeyVersionSummaryOrigin = map[string]KeyVersionSummaryOriginEnum{
 // GetKeyVersionSummaryOriginEnumValues Enumerates the set of values for KeyVersionSummaryOriginEnum
 func GetKeyVersionSummaryOriginEnumValues() []KeyVersionSummaryOriginEnum {
 	values := make([]KeyVersionSummaryOriginEnum, 0)
-	for _, v := range mappingKeyVersionSummaryOrigin {
+	for _, v := range mappingKeyVersionSummaryOriginEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyVersionSummaryOriginEnumStringValues Enumerates the set of values in String for KeyVersionSummaryOriginEnum
+func GetKeyVersionSummaryOriginEnumStringValues() []string {
+	return []string{
+		"INTERNAL",
+		"EXTERNAL",
+	}
 }

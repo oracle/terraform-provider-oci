@@ -86,10 +86,6 @@ func (client *DashxApisClient) ConfigurationProvider() *common.ConfigurationProv
 }
 
 // ChangeManagementDashboardsCompartment Moves the dashboard from the existing compartment to a new compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ChangeManagementDashboardsCompartment.go.html to see an example of how to use ChangeManagementDashboardsCompartment API.
 func (client DashxApisClient) ChangeManagementDashboardsCompartment(ctx context.Context, request ChangeManagementDashboardsCompartmentRequest) (response ChangeManagementDashboardsCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -146,10 +142,6 @@ func (client DashxApisClient) changeManagementDashboardsCompartment(ctx context.
 }
 
 // ChangeManagementSavedSearchesCompartment Moves the saved search from the existing compartment to a new compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ChangeManagementSavedSearchesCompartment.go.html to see an example of how to use ChangeManagementSavedSearchesCompartment API.
 func (client DashxApisClient) ChangeManagementSavedSearchesCompartment(ctx context.Context, request ChangeManagementSavedSearchesCompartmentRequest) (response ChangeManagementSavedSearchesCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -205,13 +197,10 @@ func (client DashxApisClient) changeManagementSavedSearchesCompartment(ctx conte
 	return response, err
 }
 
-// CreateManagementDashboard Creates a new dashboard.  Limit for number of saved searches in a dashboard is 20. Here's an example of how you can use CLI to create a dashboard. For information on the details that must be passed to CREATE, you can use the GET API to obtain the Create.json file:
-// oci management-dashboard dashboard get --management-dashboard-id  "ocid1.managementdashboard.oc1..dashboardId1" --query data > Create.json.
-// You can then modify the Create.json file by removing the"id" attribute and making other required changes, and use the oci management-dashboard dashboard create command.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/CreateManagementDashboard.go.html to see an example of how to use CreateManagementDashboard API.
+// CreateManagementDashboard Creates a new dashboard. Limit for number of saved searches in a dashboard is 20.
+// Here's an example of how you can use CLI to create a dashboard. For information on the details that must be passed to CREATE, you can use the GET API to obtain the Create.json file:
+// `oci management-dashboard dashboard get --management-dashboard-id  "ocid1.managementdashboard.oc1..dashboardId1" --query data > Create.json.`
+// You can then modify the Create.json file by removing the `id` attribute and making other required changes, and use the `oci management-dashboard dashboard create` command.
 func (client DashxApisClient) CreateManagementDashboard(ctx context.Context, request CreateManagementDashboardRequest) (response CreateManagementDashboardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -267,13 +256,10 @@ func (client DashxApisClient) createManagementDashboard(ctx context.Context, req
 	return response, err
 }
 
-// CreateManagementSavedSearch Creates a new saved search. Here's an example of how you can use CLI to create a saved search. For information on the details that must be passed to CREATE, you can use the GET API to obtain the Create.json file:
-// oci management-dashboard saved-search get --management-saved-search-id ocid1.managementsavedsearch.oc1..savedsearchId1 --query data > Create.json.
-// You can then modify the Create.json file by removing the "id" attribute and making other required changes, and use the oci management-dashboard saved-search create command.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/CreateManagementSavedSearch.go.html to see an example of how to use CreateManagementSavedSearch API.
+// CreateManagementSavedSearch Creates a new saved search.
+// Here's an example of how you can use CLI to create a saved search. For information on the details that must be passed to CREATE, you can use the GET API to obtain the Create.json file:
+// `oci management-dashboard saved-search get --management-saved-search-id ocid1.managementsavedsearch.oc1..savedsearchId1 --query data > Create.json`.
+// You can then modify the Create.json file by removing the `id` attribute and making other required changes, and use the `oci management-dashboard saved-search create` command.
 func (client DashxApisClient) CreateManagementSavedSearch(ctx context.Context, request CreateManagementSavedSearchRequest) (response CreateManagementSavedSearchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -330,10 +316,6 @@ func (client DashxApisClient) createManagementSavedSearch(ctx context.Context, r
 }
 
 // DeleteManagementDashboard Deletes a Dashboard by ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/DeleteManagementDashboard.go.html to see an example of how to use DeleteManagementDashboard API.
 func (client DashxApisClient) DeleteManagementDashboard(ctx context.Context, request DeleteManagementDashboardRequest) (response DeleteManagementDashboardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -385,10 +367,6 @@ func (client DashxApisClient) deleteManagementDashboard(ctx context.Context, req
 }
 
 // DeleteManagementSavedSearch Deletes a saved search by ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/DeleteManagementSavedSearch.go.html to see an example of how to use DeleteManagementSavedSearch API.
 func (client DashxApisClient) DeleteManagementSavedSearch(ctx context.Context, request DeleteManagementSavedSearchRequest) (response DeleteManagementSavedSearchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -439,11 +417,9 @@ func (client DashxApisClient) deleteManagementSavedSearch(ctx context.Context, r
 	return response, err
 }
 
-// ExportDashboard Exports an array of dashboards and their saved searches. Export is designed to work with importDashboard. Here's an example of how you can use CLI to export a dashboard. $oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ExportDashboard.go.html to see an example of how to use ExportDashboard API.
+// ExportDashboard Exports an array of dashboards and their saved searches. Export is designed to work with importDashboard.
+// Here's an example of how you can use CLI to export a dashboard:
+// `$oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json`
 func (client DashxApisClient) ExportDashboard(ctx context.Context, request ExportDashboardRequest) (response ExportDashboardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -500,10 +476,6 @@ func (client DashxApisClient) exportDashboard(ctx context.Context, request commo
 }
 
 // GetManagementDashboard Gets a dashboard and its saved searches by ID.  Deleted or unauthorized saved searches are marked by tile's state property.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/GetManagementDashboard.go.html to see an example of how to use GetManagementDashboard API.
 func (client DashxApisClient) GetManagementDashboard(ctx context.Context, request GetManagementDashboardRequest) (response GetManagementDashboardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -560,10 +532,6 @@ func (client DashxApisClient) getManagementDashboard(ctx context.Context, reques
 }
 
 // GetManagementSavedSearch Gets a saved search by ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/GetManagementSavedSearch.go.html to see an example of how to use GetManagementSavedSearch API.
 func (client DashxApisClient) GetManagementSavedSearch(ctx context.Context, request GetManagementSavedSearchRequest) (response GetManagementSavedSearchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -619,15 +587,12 @@ func (client DashxApisClient) getManagementSavedSearch(ctx context.Context, requ
 	return response, err
 }
 
-// ImportDashboard Imports an array of dashboards and their saved searches. Here's an example of how you can use CLI to import a dashboard. For information on the details that must be passed to IMPORT, you can use the EXPORT API to obtain the Import.json file:
-// oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > Import.json.
-// Note that import API updates the resource if it already exist, and creates a new resource if it does not exist. To import to a different compartment, edit and change the compartmentId to the desired compartment OCID.
-// Here is an example of how you can use CLI to do import:
-// oci management-dashboard dashboard import --from-json file://Import.json
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ImportDashboard.go.html to see an example of how to use ImportDashboard API.
+// ImportDashboard Imports an array of dashboards and their saved searches.
+// Here's an example of how you can use CLI to import a dashboard. For information on the details that must be passed to IMPORT, you can use the EXPORT API to obtain the Import.json file:
+// `oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > Import.json`.
+// Note that import API updates the resource if it already exists, and creates a new resource if it does not exist. To import to a different compartment, edit and change the compartmentId to the desired compartment OCID.
+// Here's an example of how you can use CLI to import:
+// `oci management-dashboard dashboard import --from-json file://Import.json`
 func (client DashxApisClient) ImportDashboard(ctx context.Context, request ImportDashboardRequest) (response ImportDashboardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -684,10 +649,6 @@ func (client DashxApisClient) importDashboard(ctx context.Context, request commo
 }
 
 // ListManagementDashboards Gets the list of dashboards in a compartment with pagination.  Returned properties are the summary.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ListManagementDashboards.go.html to see an example of how to use ListManagementDashboards API.
 func (client DashxApisClient) ListManagementDashboards(ctx context.Context, request ListManagementDashboardsRequest) (response ListManagementDashboardsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -739,10 +700,6 @@ func (client DashxApisClient) listManagementDashboards(ctx context.Context, requ
 }
 
 // ListManagementSavedSearches Gets the list of saved searches in a compartment with pagination.  Returned properties are the summary.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ListManagementSavedSearches.go.html to see an example of how to use ListManagementSavedSearches API.
 func (client DashxApisClient) ListManagementSavedSearches(ctx context.Context, request ListManagementSavedSearchesRequest) (response ListManagementSavedSearchesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -794,10 +751,6 @@ func (client DashxApisClient) listManagementSavedSearches(ctx context.Context, r
 }
 
 // UpdateManagementDashboard Updates an existing dashboard identified by ID path parameter.  CompartmentId can be modified only by the changeCompartment API. Limit for number of saved searches in a dashboard is 20.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/UpdateManagementDashboard.go.html to see an example of how to use UpdateManagementDashboard API.
 func (client DashxApisClient) UpdateManagementDashboard(ctx context.Context, request UpdateManagementDashboardRequest) (response UpdateManagementDashboardResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -854,10 +807,6 @@ func (client DashxApisClient) updateManagementDashboard(ctx context.Context, req
 }
 
 // UpdateManagementSavedSearch Updates an existing saved search identified by ID path parameter.  CompartmentId can be modified only by the changeCompartment API.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/UpdateManagementSavedSearch.go.html to see an example of how to use UpdateManagementSavedSearch API.
 func (client DashxApisClient) UpdateManagementSavedSearch(ctx context.Context, request UpdateManagementSavedSearchRequest) (response UpdateManagementSavedSearchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -5,15 +5,13 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateUnifiedAgentConfigurationRequest wrapper for the UpdateUnifiedAgentConfiguration operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/UpdateUnifiedAgentConfiguration.go.html to see an example of how to use UpdateUnifiedAgentConfigurationRequest.
 type UpdateUnifiedAgentConfigurationRequest struct {
 
 	// The OCID of the Unified Agent configuration.
@@ -45,6 +43,10 @@ func (request UpdateUnifiedAgentConfigurationRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateUnifiedAgentConfigurationRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -58,6 +60,17 @@ func (request UpdateUnifiedAgentConfigurationRequest) BinaryRequestBody() (*comm
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateUnifiedAgentConfigurationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateUnifiedAgentConfigurationRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateUnifiedAgentConfigurationResponse wrapper for the UpdateUnifiedAgentConfiguration operation

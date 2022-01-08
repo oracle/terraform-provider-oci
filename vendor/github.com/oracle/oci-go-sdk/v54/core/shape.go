@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Shape A compute instance shape that can be used in LaunchInstance.
@@ -25,6 +27,9 @@ type Shape struct {
 	// The name of the shape. You can enumerate all available shapes by calling
 	// ListShapes.
 	Shape *string `mandatory:"true" json:"shape"`
+
+	// The shape's availability domain.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// For a subcore burstable VM, the supported baseline OCPU utilization for instances that use this shape.
 	BaselineOcpuUtilizations []ShapeBaselineOcpuUtilizationsEnum `mandatory:"false" json:"baselineOcpuUtilizations,omitempty"`
@@ -41,6 +46,9 @@ type Shape struct {
 
 	// The default amount of memory available for this shape, in gigabytes.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
+
+	// The number of physical network interface card (NIC) ports available for this shape.
+	NetworkPorts *int `mandatory:"false" json:"networkPorts"`
 
 	// The networking bandwidth available for this shape, in gigabits per second.
 	NetworkingBandwidthInGbps *float32 `mandatory:"false" json:"networkingBandwidthInGbps"`
@@ -66,6 +74,15 @@ type Shape struct {
 	// If the shape does not have any local disks, this field is `null`.
 	LocalDiskDescription *string `mandatory:"false" json:"localDiskDescription"`
 
+	// The number of networking ports available for the remote direct memory access (RDMA) network between nodes in
+	// a high performance computing (HPC) cluster network. If the shape does not support cluster networks, this
+	// value is `0`.
+	RdmaPorts *int `mandatory:"false" json:"rdmaPorts"`
+
+	// The networking bandwidth available for the remote direct memory access (RDMA) network for this shape, in
+	// gigabits per second.
+	RdmaBandwidthInGbps *int `mandatory:"false" json:"rdmaBandwidthInGbps"`
+
 	// Whether live migration is supported for this shape.
 	IsLiveMigrationSupported *bool `mandatory:"false" json:"isLiveMigrationSupported"`
 
@@ -84,6 +101,24 @@ func (m Shape) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Shape) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.BaselineOcpuUtilizations {
+		if _, ok := mappingShapeBaselineOcpuUtilizationsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BaselineOcpuUtilizations: %s. Supported values are: %s.", val, strings.Join(GetShapeBaselineOcpuUtilizationsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ShapeBaselineOcpuUtilizationsEnum Enum with underlying type: string
 type ShapeBaselineOcpuUtilizationsEnum string
 
@@ -94,7 +129,7 @@ const (
 	ShapeBaselineOcpuUtilizations1 ShapeBaselineOcpuUtilizationsEnum = "BASELINE_1_1"
 )
 
-var mappingShapeBaselineOcpuUtilizations = map[string]ShapeBaselineOcpuUtilizationsEnum{
+var mappingShapeBaselineOcpuUtilizationsEnum = map[string]ShapeBaselineOcpuUtilizationsEnum{
 	"BASELINE_1_8": ShapeBaselineOcpuUtilizations8,
 	"BASELINE_1_2": ShapeBaselineOcpuUtilizations2,
 	"BASELINE_1_1": ShapeBaselineOcpuUtilizations1,
@@ -103,8 +138,17 @@ var mappingShapeBaselineOcpuUtilizations = map[string]ShapeBaselineOcpuUtilizati
 // GetShapeBaselineOcpuUtilizationsEnumValues Enumerates the set of values for ShapeBaselineOcpuUtilizationsEnum
 func GetShapeBaselineOcpuUtilizationsEnumValues() []ShapeBaselineOcpuUtilizationsEnum {
 	values := make([]ShapeBaselineOcpuUtilizationsEnum, 0)
-	for _, v := range mappingShapeBaselineOcpuUtilizations {
+	for _, v := range mappingShapeBaselineOcpuUtilizationsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetShapeBaselineOcpuUtilizationsEnumStringValues Enumerates the set of values in String for ShapeBaselineOcpuUtilizationsEnum
+func GetShapeBaselineOcpuUtilizationsEnumStringValues() []string {
+	return []string{
+		"BASELINE_1_8",
+		"BASELINE_1_2",
+		"BASELINE_1_1",
+	}
 }

@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // SearchCriteriaRequest wrapper for the SearchCriteria operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/SearchCriteria.go.html to see an example of how to use SearchCriteriaRequest.
 type SearchCriteriaRequest struct {
 
 	// Unique catalog identifier.
@@ -63,6 +61,10 @@ func (request SearchCriteriaRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SearchCriteriaRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +78,26 @@ func (request SearchCriteriaRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SearchCriteriaRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SearchCriteriaRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSearchCriteriaLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetSearchCriteriaLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSearchCriteriaSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSearchCriteriaSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSearchCriteriaSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSearchCriteriaSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SearchCriteriaResponse wrapper for the SearchCriteria operation
@@ -119,7 +141,7 @@ const (
 	SearchCriteriaLifecycleStateMoving   SearchCriteriaLifecycleStateEnum = "MOVING"
 )
 
-var mappingSearchCriteriaLifecycleState = map[string]SearchCriteriaLifecycleStateEnum{
+var mappingSearchCriteriaLifecycleStateEnum = map[string]SearchCriteriaLifecycleStateEnum{
 	"CREATING": SearchCriteriaLifecycleStateCreating,
 	"ACTIVE":   SearchCriteriaLifecycleStateActive,
 	"INACTIVE": SearchCriteriaLifecycleStateInactive,
@@ -133,10 +155,24 @@ var mappingSearchCriteriaLifecycleState = map[string]SearchCriteriaLifecycleStat
 // GetSearchCriteriaLifecycleStateEnumValues Enumerates the set of values for SearchCriteriaLifecycleStateEnum
 func GetSearchCriteriaLifecycleStateEnumValues() []SearchCriteriaLifecycleStateEnum {
 	values := make([]SearchCriteriaLifecycleStateEnum, 0)
-	for _, v := range mappingSearchCriteriaLifecycleState {
+	for _, v := range mappingSearchCriteriaLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSearchCriteriaLifecycleStateEnumStringValues Enumerates the set of values in String for SearchCriteriaLifecycleStateEnum
+func GetSearchCriteriaLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // SearchCriteriaSortByEnum Enum with underlying type: string
@@ -148,7 +184,7 @@ const (
 	SearchCriteriaSortByDisplayname SearchCriteriaSortByEnum = "DISPLAYNAME"
 )
 
-var mappingSearchCriteriaSortBy = map[string]SearchCriteriaSortByEnum{
+var mappingSearchCriteriaSortByEnum = map[string]SearchCriteriaSortByEnum{
 	"TIMECREATED": SearchCriteriaSortByTimecreated,
 	"DISPLAYNAME": SearchCriteriaSortByDisplayname,
 }
@@ -156,10 +192,18 @@ var mappingSearchCriteriaSortBy = map[string]SearchCriteriaSortByEnum{
 // GetSearchCriteriaSortByEnumValues Enumerates the set of values for SearchCriteriaSortByEnum
 func GetSearchCriteriaSortByEnumValues() []SearchCriteriaSortByEnum {
 	values := make([]SearchCriteriaSortByEnum, 0)
-	for _, v := range mappingSearchCriteriaSortBy {
+	for _, v := range mappingSearchCriteriaSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSearchCriteriaSortByEnumStringValues Enumerates the set of values in String for SearchCriteriaSortByEnum
+func GetSearchCriteriaSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // SearchCriteriaSortOrderEnum Enum with underlying type: string
@@ -171,7 +215,7 @@ const (
 	SearchCriteriaSortOrderDesc SearchCriteriaSortOrderEnum = "DESC"
 )
 
-var mappingSearchCriteriaSortOrder = map[string]SearchCriteriaSortOrderEnum{
+var mappingSearchCriteriaSortOrderEnum = map[string]SearchCriteriaSortOrderEnum{
 	"ASC":  SearchCriteriaSortOrderAsc,
 	"DESC": SearchCriteriaSortOrderDesc,
 }
@@ -179,8 +223,16 @@ var mappingSearchCriteriaSortOrder = map[string]SearchCriteriaSortOrderEnum{
 // GetSearchCriteriaSortOrderEnumValues Enumerates the set of values for SearchCriteriaSortOrderEnum
 func GetSearchCriteriaSortOrderEnumValues() []SearchCriteriaSortOrderEnum {
 	values := make([]SearchCriteriaSortOrderEnum, 0)
-	for _, v := range mappingSearchCriteriaSortOrder {
+	for _, v := range mappingSearchCriteriaSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSearchCriteriaSortOrderEnumStringValues Enumerates the set of values in String for SearchCriteriaSortOrderEnum
+func GetSearchCriteriaSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

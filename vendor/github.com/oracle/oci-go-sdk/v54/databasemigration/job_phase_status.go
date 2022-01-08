@@ -20,7 +20,7 @@ const (
 	JobPhaseStatusFailed    JobPhaseStatusEnum = "FAILED"
 )
 
-var mappingJobPhaseStatus = map[string]JobPhaseStatusEnum{
+var mappingJobPhaseStatusEnum = map[string]JobPhaseStatusEnum{
 	"PENDING":   JobPhaseStatusPending,
 	"STARTED":   JobPhaseStatusStarted,
 	"COMPLETED": JobPhaseStatusCompleted,
@@ -30,8 +30,18 @@ var mappingJobPhaseStatus = map[string]JobPhaseStatusEnum{
 // GetJobPhaseStatusEnumValues Enumerates the set of values for JobPhaseStatusEnum
 func GetJobPhaseStatusEnumValues() []JobPhaseStatusEnum {
 	values := make([]JobPhaseStatusEnum, 0)
-	for _, v := range mappingJobPhaseStatus {
+	for _, v := range mappingJobPhaseStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobPhaseStatusEnumStringValues Enumerates the set of values in String for JobPhaseStatusEnum
+func GetJobPhaseStatusEnumStringValues() []string {
+	return []string{
+		"PENDING",
+		"STARTED",
+		"COMPLETED",
+		"FAILED",
+	}
 }

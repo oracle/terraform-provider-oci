@@ -20,7 +20,7 @@ const (
 	CertificateProfileTypeTlsCodeSign       CertificateProfileTypeEnum = "TLS_CODE_SIGN"
 )
 
-var mappingCertificateProfileType = map[string]CertificateProfileTypeEnum{
+var mappingCertificateProfileTypeEnum = map[string]CertificateProfileTypeEnum{
 	"TLS_SERVER_OR_CLIENT": CertificateProfileTypeTlsServerOrClient,
 	"TLS_SERVER":           CertificateProfileTypeTlsServer,
 	"TLS_CLIENT":           CertificateProfileTypeTlsClient,
@@ -30,8 +30,18 @@ var mappingCertificateProfileType = map[string]CertificateProfileTypeEnum{
 // GetCertificateProfileTypeEnumValues Enumerates the set of values for CertificateProfileTypeEnum
 func GetCertificateProfileTypeEnumValues() []CertificateProfileTypeEnum {
 	values := make([]CertificateProfileTypeEnum, 0)
-	for _, v := range mappingCertificateProfileType {
+	for _, v := range mappingCertificateProfileTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCertificateProfileTypeEnumStringValues Enumerates the set of values in String for CertificateProfileTypeEnum
+func GetCertificateProfileTypeEnumStringValues() []string {
+	return []string{
+		"TLS_SERVER_OR_CLIENT",
+		"TLS_SERVER",
+		"TLS_CLIENT",
+		"TLS_CODE_SIGN",
+	}
 }

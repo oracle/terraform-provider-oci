@@ -10,7 +10,9 @@
 package certificatesmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CertificateSubjectAlternativeName A subject alternative name for the certificate that binds additional or alternate names to the subject of the certificate. In the certificate, the alternate subject name format is "type:name".
@@ -27,6 +29,21 @@ func (m CertificateSubjectAlternativeName) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CertificateSubjectAlternativeName) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCertificateSubjectAlternativeNameTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCertificateSubjectAlternativeNameTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CertificateSubjectAlternativeNameTypeEnum Enum with underlying type: string
 type CertificateSubjectAlternativeNameTypeEnum string
 
@@ -36,7 +53,7 @@ const (
 	CertificateSubjectAlternativeNameTypeIp  CertificateSubjectAlternativeNameTypeEnum = "IP"
 )
 
-var mappingCertificateSubjectAlternativeNameType = map[string]CertificateSubjectAlternativeNameTypeEnum{
+var mappingCertificateSubjectAlternativeNameTypeEnum = map[string]CertificateSubjectAlternativeNameTypeEnum{
 	"DNS": CertificateSubjectAlternativeNameTypeDns,
 	"IP":  CertificateSubjectAlternativeNameTypeIp,
 }
@@ -44,8 +61,16 @@ var mappingCertificateSubjectAlternativeNameType = map[string]CertificateSubject
 // GetCertificateSubjectAlternativeNameTypeEnumValues Enumerates the set of values for CertificateSubjectAlternativeNameTypeEnum
 func GetCertificateSubjectAlternativeNameTypeEnumValues() []CertificateSubjectAlternativeNameTypeEnum {
 	values := make([]CertificateSubjectAlternativeNameTypeEnum, 0)
-	for _, v := range mappingCertificateSubjectAlternativeNameType {
+	for _, v := range mappingCertificateSubjectAlternativeNameTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCertificateSubjectAlternativeNameTypeEnumStringValues Enumerates the set of values in String for CertificateSubjectAlternativeNameTypeEnum
+func GetCertificateSubjectAlternativeNameTypeEnumStringValues() []string {
+	return []string{
+		"DNS",
+		"IP",
+	}
 }

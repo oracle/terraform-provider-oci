@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UserSummary The summary of a specific User.
@@ -21,7 +23,7 @@ type UserSummary struct {
 	// The name of the User.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The account status of the User
+	// The status of the user account.
 	Status UserSummaryStatusEnum `mandatory:"true" json:"status"`
 
 	// The default tablespace for data.
@@ -30,18 +32,33 @@ type UserSummary struct {
 	// The name of the default tablespace for temporary tables or the name of a tablespace group.
 	TempTablespace *string `mandatory:"true" json:"tempTablespace"`
 
-	// The User creation date.
+	// The date and time the user was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The User resource profile name.
 	Profile *string `mandatory:"true" json:"profile"`
 
-	// The date of expiration of the account
+	// The date and time of the expiration of the user account.
 	TimeExpiring *common.SDKTime `mandatory:"false" json:"timeExpiring"`
 }
 
 func (m UserSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUserSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetUserSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UserSummaryStatusEnum Enum with underlying type: string
@@ -66,7 +83,7 @@ const (
 	UserSummaryStatusExpiredAndLockedTimedAndInRol UserSummaryStatusEnum = "EXPIRED_AND_LOCKED_TIMED_AND_IN_ROL"
 )
 
-var mappingUserSummaryStatus = map[string]UserSummaryStatusEnum{
+var mappingUserSummaryStatusEnum = map[string]UserSummaryStatusEnum{
 	"OPEN":                                UserSummaryStatusOpen,
 	"EXPIRED":                             UserSummaryStatusExpired,
 	"EXPIRED_GRACE":                       UserSummaryStatusExpiredGrace,
@@ -87,8 +104,29 @@ var mappingUserSummaryStatus = map[string]UserSummaryStatusEnum{
 // GetUserSummaryStatusEnumValues Enumerates the set of values for UserSummaryStatusEnum
 func GetUserSummaryStatusEnumValues() []UserSummaryStatusEnum {
 	values := make([]UserSummaryStatusEnum, 0)
-	for _, v := range mappingUserSummaryStatus {
+	for _, v := range mappingUserSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserSummaryStatusEnumStringValues Enumerates the set of values in String for UserSummaryStatusEnum
+func GetUserSummaryStatusEnumStringValues() []string {
+	return []string{
+		"OPEN",
+		"EXPIRED",
+		"EXPIRED_GRACE",
+		"LOCKED",
+		"LOCKED_TIMED",
+		"EXPIRED_AND_LOCKED",
+		"EXPIRED_GRACE_AND_LOCKED",
+		"EXPIRED_AND_LOCKED_TIMED",
+		"EXPIRED_GRACE_AND_LOCKED_TIMED",
+		"OPEN_AND_IN_ROLLOVER",
+		"EXPIRED_AND_IN_ROLLOVER",
+		"LOCKED_AND_IN_ROLLOVER",
+		"EXPIRED_AND_LOCKED_AND_IN_ROLLOVER",
+		"LOCKED_TIMED_AND_IN_ROLLOVER",
+		"EXPIRED_AND_LOCKED_TIMED_AND_IN_ROL",
+	}
 }

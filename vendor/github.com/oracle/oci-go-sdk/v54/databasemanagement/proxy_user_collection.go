@@ -12,16 +12,30 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// ProxyUserCollection A collection of proxy users for the current User.
+// ProxyUserCollection A collection of proxy users for the current user.
 type ProxyUserCollection struct {
 
-	// An array of User resources.
+	// An array of user resources.
 	Items []ProxyUserSummary `mandatory:"true" json:"items"`
 }
 
 func (m ProxyUserCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ProxyUserCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

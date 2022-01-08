@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetSteeringPolicyAttachmentRequest wrapper for the GetSteeringPolicyAttachment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetSteeringPolicyAttachment.go.html to see an example of how to use GetSteeringPolicyAttachmentRequest.
 type GetSteeringPolicyAttachmentRequest struct {
 
 	// The OCID of the target steering policy attachment.
@@ -51,6 +49,10 @@ func (request GetSteeringPolicyAttachmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetSteeringPolicyAttachmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +66,20 @@ func (request GetSteeringPolicyAttachmentRequest) BinaryRequestBody() (*common.O
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetSteeringPolicyAttachmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetSteeringPolicyAttachmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetSteeringPolicyAttachmentScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetGetSteeringPolicyAttachmentScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetSteeringPolicyAttachmentResponse wrapper for the GetSteeringPolicyAttachment operation
@@ -109,7 +125,7 @@ const (
 	GetSteeringPolicyAttachmentScopePrivate GetSteeringPolicyAttachmentScopeEnum = "PRIVATE"
 )
 
-var mappingGetSteeringPolicyAttachmentScope = map[string]GetSteeringPolicyAttachmentScopeEnum{
+var mappingGetSteeringPolicyAttachmentScopeEnum = map[string]GetSteeringPolicyAttachmentScopeEnum{
 	"GLOBAL":  GetSteeringPolicyAttachmentScopeGlobal,
 	"PRIVATE": GetSteeringPolicyAttachmentScopePrivate,
 }
@@ -117,8 +133,16 @@ var mappingGetSteeringPolicyAttachmentScope = map[string]GetSteeringPolicyAttach
 // GetGetSteeringPolicyAttachmentScopeEnumValues Enumerates the set of values for GetSteeringPolicyAttachmentScopeEnum
 func GetGetSteeringPolicyAttachmentScopeEnumValues() []GetSteeringPolicyAttachmentScopeEnum {
 	values := make([]GetSteeringPolicyAttachmentScopeEnum, 0)
-	for _, v := range mappingGetSteeringPolicyAttachmentScope {
+	for _, v := range mappingGetSteeringPolicyAttachmentScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetSteeringPolicyAttachmentScopeEnumStringValues Enumerates the set of values in String for GetSteeringPolicyAttachmentScopeEnum
+func GetGetSteeringPolicyAttachmentScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

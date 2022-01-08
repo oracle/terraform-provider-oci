@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WorkRequest Many of the API requests you use to create and configure load balancing do not take effect immediately.
@@ -61,6 +63,21 @@ func (m WorkRequest) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetWorkRequestLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestLifecycleStateEnum Enum with underlying type: string
 type WorkRequestLifecycleStateEnum string
 
@@ -72,7 +89,7 @@ const (
 	WorkRequestLifecycleStateSucceeded  WorkRequestLifecycleStateEnum = "SUCCEEDED"
 )
 
-var mappingWorkRequestLifecycleState = map[string]WorkRequestLifecycleStateEnum{
+var mappingWorkRequestLifecycleStateEnum = map[string]WorkRequestLifecycleStateEnum{
 	"ACCEPTED":    WorkRequestLifecycleStateAccepted,
 	"IN_PROGRESS": WorkRequestLifecycleStateInProgress,
 	"FAILED":      WorkRequestLifecycleStateFailed,
@@ -82,8 +99,18 @@ var mappingWorkRequestLifecycleState = map[string]WorkRequestLifecycleStateEnum{
 // GetWorkRequestLifecycleStateEnumValues Enumerates the set of values for WorkRequestLifecycleStateEnum
 func GetWorkRequestLifecycleStateEnumValues() []WorkRequestLifecycleStateEnum {
 	values := make([]WorkRequestLifecycleStateEnum, 0)
-	for _, v := range mappingWorkRequestLifecycleState {
+	for _, v := range mappingWorkRequestLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestLifecycleStateEnumStringValues Enumerates the set of values in String for WorkRequestLifecycleStateEnum
+func GetWorkRequestLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+	}
 }

@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ProtectionSettings The settings used for protection rules.
@@ -84,6 +86,27 @@ func (m ProtectionSettings) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ProtectionSettings) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingProtectionSettingsBlockActionEnum[string(m.BlockAction)]; !ok && m.BlockAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BlockAction: %s. Supported values are: %s.", m.BlockAction, strings.Join(GetProtectionSettingsBlockActionEnumStringValues(), ",")))
+	}
+	for _, val := range m.AllowedHttpMethods {
+		if _, ok := mappingProtectionSettingsAllowedHttpMethodsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AllowedHttpMethods: %s. Supported values are: %s.", val, strings.Join(GetProtectionSettingsAllowedHttpMethodsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ProtectionSettingsBlockActionEnum Enum with underlying type: string
 type ProtectionSettingsBlockActionEnum string
 
@@ -93,7 +116,7 @@ const (
 	ProtectionSettingsBlockActionSetResponseCode ProtectionSettingsBlockActionEnum = "SET_RESPONSE_CODE"
 )
 
-var mappingProtectionSettingsBlockAction = map[string]ProtectionSettingsBlockActionEnum{
+var mappingProtectionSettingsBlockActionEnum = map[string]ProtectionSettingsBlockActionEnum{
 	"SHOW_ERROR_PAGE":   ProtectionSettingsBlockActionShowErrorPage,
 	"SET_RESPONSE_CODE": ProtectionSettingsBlockActionSetResponseCode,
 }
@@ -101,10 +124,18 @@ var mappingProtectionSettingsBlockAction = map[string]ProtectionSettingsBlockAct
 // GetProtectionSettingsBlockActionEnumValues Enumerates the set of values for ProtectionSettingsBlockActionEnum
 func GetProtectionSettingsBlockActionEnumValues() []ProtectionSettingsBlockActionEnum {
 	values := make([]ProtectionSettingsBlockActionEnum, 0)
-	for _, v := range mappingProtectionSettingsBlockAction {
+	for _, v := range mappingProtectionSettingsBlockActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProtectionSettingsBlockActionEnumStringValues Enumerates the set of values in String for ProtectionSettingsBlockActionEnum
+func GetProtectionSettingsBlockActionEnumStringValues() []string {
+	return []string{
+		"SHOW_ERROR_PAGE",
+		"SET_RESPONSE_CODE",
+	}
 }
 
 // ProtectionSettingsAllowedHttpMethodsEnum Enum with underlying type: string
@@ -124,7 +155,7 @@ const (
 	ProtectionSettingsAllowedHttpMethodsPropfind ProtectionSettingsAllowedHttpMethodsEnum = "PROPFIND"
 )
 
-var mappingProtectionSettingsAllowedHttpMethods = map[string]ProtectionSettingsAllowedHttpMethodsEnum{
+var mappingProtectionSettingsAllowedHttpMethodsEnum = map[string]ProtectionSettingsAllowedHttpMethodsEnum{
 	"OPTIONS":  ProtectionSettingsAllowedHttpMethodsOptions,
 	"GET":      ProtectionSettingsAllowedHttpMethodsGet,
 	"HEAD":     ProtectionSettingsAllowedHttpMethodsHead,
@@ -140,8 +171,24 @@ var mappingProtectionSettingsAllowedHttpMethods = map[string]ProtectionSettingsA
 // GetProtectionSettingsAllowedHttpMethodsEnumValues Enumerates the set of values for ProtectionSettingsAllowedHttpMethodsEnum
 func GetProtectionSettingsAllowedHttpMethodsEnumValues() []ProtectionSettingsAllowedHttpMethodsEnum {
 	values := make([]ProtectionSettingsAllowedHttpMethodsEnum, 0)
-	for _, v := range mappingProtectionSettingsAllowedHttpMethods {
+	for _, v := range mappingProtectionSettingsAllowedHttpMethodsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProtectionSettingsAllowedHttpMethodsEnumStringValues Enumerates the set of values in String for ProtectionSettingsAllowedHttpMethodsEnum
+func GetProtectionSettingsAllowedHttpMethodsEnumStringValues() []string {
+	return []string{
+		"OPTIONS",
+		"GET",
+		"HEAD",
+		"POST",
+		"PUT",
+		"DELETE",
+		"TRACE",
+		"CONNECT",
+		"PATCH",
+		"PROPFIND",
+	}
 }

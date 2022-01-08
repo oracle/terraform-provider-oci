@@ -10,7 +10,9 @@
 package datascience
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateNotebookSessionDetails Parameters needed to create a new notebook session. Notebook sessions are interactive coding environments for data scientists.
@@ -22,11 +24,13 @@ type CreateNotebookSessionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the notebook session.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	NotebookSessionConfigurationDetails *NotebookSessionConfigurationDetails `mandatory:"true" json:"notebookSessionConfigurationDetails"`
-
 	// A user-friendly display name for the resource. It does not have to be unique and can be modified. Avoid entering confidential information.
 	// Example: `My NotebookSession`
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	NotebookSessionConfigurationDetails *NotebookSessionConfigurationDetails `mandatory:"false" json:"notebookSessionConfigurationDetails"`
+
+	NotebookSessionConfigDetails *NotebookSessionConfigDetails `mandatory:"false" json:"notebookSessionConfigDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -39,4 +43,16 @@ type CreateNotebookSessionDetails struct {
 
 func (m CreateNotebookSessionDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateNotebookSessionDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

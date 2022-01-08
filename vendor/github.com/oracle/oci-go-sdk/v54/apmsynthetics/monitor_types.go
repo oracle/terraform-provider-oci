@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -20,7 +20,7 @@ const (
 	MonitorTypesRest            MonitorTypesEnum = "REST"
 )
 
-var mappingMonitorTypes = map[string]MonitorTypesEnum{
+var mappingMonitorTypesEnum = map[string]MonitorTypesEnum{
 	"SCRIPTED_BROWSER": MonitorTypesScriptedBrowser,
 	"BROWSER":          MonitorTypesBrowser,
 	"SCRIPTED_REST":    MonitorTypesScriptedRest,
@@ -30,8 +30,18 @@ var mappingMonitorTypes = map[string]MonitorTypesEnum{
 // GetMonitorTypesEnumValues Enumerates the set of values for MonitorTypesEnum
 func GetMonitorTypesEnumValues() []MonitorTypesEnum {
 	values := make([]MonitorTypesEnum, 0)
-	for _, v := range mappingMonitorTypes {
+	for _, v := range mappingMonitorTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMonitorTypesEnumStringValues Enumerates the set of values in String for MonitorTypesEnum
+func GetMonitorTypesEnumStringValues() []string {
+	return []string{
+		"SCRIPTED_BROWSER",
+		"BROWSER",
+		"SCRIPTED_REST",
+		"REST",
+	}
 }

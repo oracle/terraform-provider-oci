@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PatchDetails The details about what actions to perform and using what patch to the specified target.
@@ -32,6 +34,21 @@ func (m PatchDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PatchDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPatchDetailsActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetPatchDetailsActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PatchDetailsActionEnum Enum with underlying type: string
 type PatchDetailsActionEnum string
 
@@ -41,7 +58,7 @@ const (
 	PatchDetailsActionPrecheck PatchDetailsActionEnum = "PRECHECK"
 )
 
-var mappingPatchDetailsAction = map[string]PatchDetailsActionEnum{
+var mappingPatchDetailsActionEnum = map[string]PatchDetailsActionEnum{
 	"APPLY":    PatchDetailsActionApply,
 	"PRECHECK": PatchDetailsActionPrecheck,
 }
@@ -49,8 +66,16 @@ var mappingPatchDetailsAction = map[string]PatchDetailsActionEnum{
 // GetPatchDetailsActionEnumValues Enumerates the set of values for PatchDetailsActionEnum
 func GetPatchDetailsActionEnumValues() []PatchDetailsActionEnum {
 	values := make([]PatchDetailsActionEnum, 0)
-	for _, v := range mappingPatchDetailsAction {
+	for _, v := range mappingPatchDetailsActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchDetailsActionEnumStringValues Enumerates the set of values in String for PatchDetailsActionEnum
+func GetPatchDetailsActionEnumStringValues() []string {
+	return []string{
+		"APPLY",
+		"PRECHECK",
+	}
 }

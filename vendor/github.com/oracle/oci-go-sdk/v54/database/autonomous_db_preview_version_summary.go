@@ -10,10 +10,12 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// AutonomousDbPreviewVersionSummary The Autonomous Database preview version. Note that preview version software is only available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI).
+// AutonomousDbPreviewVersionSummary The Autonomous Database preview version. Note that preview version software is only available for databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 type AutonomousDbPreviewVersionSummary struct {
 
 	// A valid Autonomous Database preview version.
@@ -40,6 +42,21 @@ func (m AutonomousDbPreviewVersionSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDbPreviewVersionSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAutonomousDbPreviewVersionSummaryDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetAutonomousDbPreviewVersionSummaryDbWorkloadEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousDbPreviewVersionSummaryDbWorkloadEnum Enum with underlying type: string
 type AutonomousDbPreviewVersionSummaryDbWorkloadEnum string
 
@@ -51,7 +68,7 @@ const (
 	AutonomousDbPreviewVersionSummaryDbWorkloadApex AutonomousDbPreviewVersionSummaryDbWorkloadEnum = "APEX"
 )
 
-var mappingAutonomousDbPreviewVersionSummaryDbWorkload = map[string]AutonomousDbPreviewVersionSummaryDbWorkloadEnum{
+var mappingAutonomousDbPreviewVersionSummaryDbWorkloadEnum = map[string]AutonomousDbPreviewVersionSummaryDbWorkloadEnum{
 	"OLTP": AutonomousDbPreviewVersionSummaryDbWorkloadOltp,
 	"DW":   AutonomousDbPreviewVersionSummaryDbWorkloadDw,
 	"AJD":  AutonomousDbPreviewVersionSummaryDbWorkloadAjd,
@@ -61,8 +78,18 @@ var mappingAutonomousDbPreviewVersionSummaryDbWorkload = map[string]AutonomousDb
 // GetAutonomousDbPreviewVersionSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDbPreviewVersionSummaryDbWorkloadEnum
 func GetAutonomousDbPreviewVersionSummaryDbWorkloadEnumValues() []AutonomousDbPreviewVersionSummaryDbWorkloadEnum {
 	values := make([]AutonomousDbPreviewVersionSummaryDbWorkloadEnum, 0)
-	for _, v := range mappingAutonomousDbPreviewVersionSummaryDbWorkload {
+	for _, v := range mappingAutonomousDbPreviewVersionSummaryDbWorkloadEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDbPreviewVersionSummaryDbWorkloadEnumStringValues Enumerates the set of values in String for AutonomousDbPreviewVersionSummaryDbWorkloadEnum
+func GetAutonomousDbPreviewVersionSummaryDbWorkloadEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DW",
+		"AJD",
+		"APEX",
+	}
 }

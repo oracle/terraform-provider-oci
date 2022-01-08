@@ -11,7 +11,9 @@
 package ocvp
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateEsxiHostDetails Details of the ESXi host to add to the SDDC.
@@ -29,6 +31,9 @@ type CreateEsxiHostDetails struct {
 	// name is `MySDDC-4`.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deleted ESXi Host with LeftOver billing cycle.
+	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
 
 	// The billing option currently used by the ESXi host.
 	// ListSupportedSkus.
@@ -50,6 +55,13 @@ type CreateEsxiHostDetails struct {
 	// will be udpated in the newly created EsxiHost.
 	FailedEsxiHostId *string `mandatory:"false" json:"failedEsxiHostId"`
 
+	// The compute shape name of the ESXi host.
+	// ListSupportedHostShapes.
+	HostShapeName *string `mandatory:"false" json:"hostShapeName"`
+
+	// The OCPU count of the ESXi host.
+	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -63,4 +75,22 @@ type CreateEsxiHostDetails struct {
 
 func (m CreateEsxiHostDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateEsxiHostDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSkuEnum[string(m.CurrentSku)]; !ok && m.CurrentSku != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurrentSku: %s. Supported values are: %s.", m.CurrentSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSkuEnum[string(m.NextSku)]; !ok && m.NextSku != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextSku: %s. Supported values are: %s.", m.NextSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

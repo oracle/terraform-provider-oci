@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // EventSummary Summary of the Event.
@@ -50,4 +52,19 @@ type EventSummary struct {
 
 func (m EventSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EventSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingEventTypeEnum[string(m.EventType)]; !ok && m.EventType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EventType: %s. Supported values are: %s.", m.EventType, strings.Join(GetEventTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

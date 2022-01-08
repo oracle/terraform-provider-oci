@@ -5,18 +5,16 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateLogSavedSearchRequest wrapper for the UpdateLogSavedSearch operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/UpdateLogSavedSearch.go.html to see an example of how to use UpdateLogSavedSearchRequest.
 type UpdateLogSavedSearchRequest struct {
 
-	// OCID of the logSavedSearch
+	// OCID of the logSavedSearch.
 	LogSavedSearchId *string `mandatory:"true" contributesTo:"path" name:"logSavedSearchId"`
 
 	// Updates to the saved search.
@@ -45,6 +43,10 @@ func (request UpdateLogSavedSearchRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateLogSavedSearchRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -58,6 +60,17 @@ func (request UpdateLogSavedSearchRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateLogSavedSearchRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateLogSavedSearchRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateLogSavedSearchResponse wrapper for the UpdateLogSavedSearch operation

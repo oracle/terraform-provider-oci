@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateExadataInfrastructureDetails Updates the Exadata infrastructure. Applies to Exadata Cloud@Customer instances only.
@@ -46,6 +48,12 @@ type UpdateExadataInfrastructureDetails struct {
 	// The requested number of additional storage servers for the Exadata infrastructure.
 	AdditionalStorageCount *int `mandatory:"false" json:"additionalStorageCount"`
 
+	// Indicates if deployment is Multi-Rack or not.
+	IsMultiRackDeployment *bool `mandatory:"false" json:"isMultiRackDeployment"`
+
+	// The base64 encoded Multi-Rack configuration json file.
+	MultiRackConfigurationFile []byte `mandatory:"false" json:"multiRackConfigurationFile"`
+
 	// The list of DNS server IP addresses. Maximum of 3 allowed.
 	DnsServer []string `mandatory:"false" json:"dnsServer"`
 
@@ -54,6 +62,11 @@ type UpdateExadataInfrastructureDetails struct {
 
 	// The time zone of the Exadata infrastructure. For details, see Exadata Infrastructure Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
+
+	// Indicates whether cps offline diagnostic report is enabled for this Exadata infrastructure. This will allow a customer to quickly check status themselves and fix problems on their end, saving time and frustration
+	// for both Oracle and the customer when they find the CPS in a disconnected state.You can enable offline diagnostic report during Exadata infrastructure provisioning. You can also disable or enable it at any time
+	// using the UpdateExadatainfrastructure API.
+	IsCpsOfflineReportEnabled *bool `mandatory:"false" json:"isCpsOfflineReportEnabled"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -67,4 +80,16 @@ type UpdateExadataInfrastructureDetails struct {
 
 func (m UpdateExadataInfrastructureDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateExadataInfrastructureDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

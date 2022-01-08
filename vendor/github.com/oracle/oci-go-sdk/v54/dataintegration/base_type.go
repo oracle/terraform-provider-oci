@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BaseType Base type for the type system.
@@ -140,6 +142,18 @@ func (m basetype) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m basetype) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BaseTypeModelTypeEnum Enum with underlying type: string
 type BaseTypeModelTypeEnum string
 
@@ -154,7 +168,7 @@ const (
 	BaseTypeModelTypeDerivedType    BaseTypeModelTypeEnum = "DERIVED_TYPE"
 )
 
-var mappingBaseTypeModelType = map[string]BaseTypeModelTypeEnum{
+var mappingBaseTypeModelTypeEnum = map[string]BaseTypeModelTypeEnum{
 	"DYNAMIC_TYPE":    BaseTypeModelTypeDynamicType,
 	"STRUCTURED_TYPE": BaseTypeModelTypeStructuredType,
 	"DATA_TYPE":       BaseTypeModelTypeDataType,
@@ -167,8 +181,21 @@ var mappingBaseTypeModelType = map[string]BaseTypeModelTypeEnum{
 // GetBaseTypeModelTypeEnumValues Enumerates the set of values for BaseTypeModelTypeEnum
 func GetBaseTypeModelTypeEnumValues() []BaseTypeModelTypeEnum {
 	values := make([]BaseTypeModelTypeEnum, 0)
-	for _, v := range mappingBaseTypeModelType {
+	for _, v := range mappingBaseTypeModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBaseTypeModelTypeEnumStringValues Enumerates the set of values in String for BaseTypeModelTypeEnum
+func GetBaseTypeModelTypeEnumStringValues() []string {
+	return []string{
+		"DYNAMIC_TYPE",
+		"STRUCTURED_TYPE",
+		"DATA_TYPE",
+		"JAVA_TYPE",
+		"CONFIGURED_TYPE",
+		"COMPOSITE_TYPE",
+		"DERIVED_TYPE",
+	}
 }

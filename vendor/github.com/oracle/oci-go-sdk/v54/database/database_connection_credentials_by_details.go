@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseConnectionCredentialsByDetails User information to connect to the database. Required when performing the CreateExternalDatabaseConnectorDetails operation.
@@ -42,6 +44,21 @@ func (m DatabaseConnectionCredentialsByDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseConnectionCredentialsByDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseConnectionCredentialsByDetailsRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetDatabaseConnectionCredentialsByDetailsRoleEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m DatabaseConnectionCredentialsByDetails) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeDatabaseConnectionCredentialsByDetails DatabaseConnectionCredentialsByDetails
@@ -65,7 +82,7 @@ const (
 	DatabaseConnectionCredentialsByDetailsRoleNormal DatabaseConnectionCredentialsByDetailsRoleEnum = "NORMAL"
 )
 
-var mappingDatabaseConnectionCredentialsByDetailsRole = map[string]DatabaseConnectionCredentialsByDetailsRoleEnum{
+var mappingDatabaseConnectionCredentialsByDetailsRoleEnum = map[string]DatabaseConnectionCredentialsByDetailsRoleEnum{
 	"SYSDBA": DatabaseConnectionCredentialsByDetailsRoleSysdba,
 	"NORMAL": DatabaseConnectionCredentialsByDetailsRoleNormal,
 }
@@ -73,8 +90,16 @@ var mappingDatabaseConnectionCredentialsByDetailsRole = map[string]DatabaseConne
 // GetDatabaseConnectionCredentialsByDetailsRoleEnumValues Enumerates the set of values for DatabaseConnectionCredentialsByDetailsRoleEnum
 func GetDatabaseConnectionCredentialsByDetailsRoleEnumValues() []DatabaseConnectionCredentialsByDetailsRoleEnum {
 	values := make([]DatabaseConnectionCredentialsByDetailsRoleEnum, 0)
-	for _, v := range mappingDatabaseConnectionCredentialsByDetailsRole {
+	for _, v := range mappingDatabaseConnectionCredentialsByDetailsRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionCredentialsByDetailsRoleEnumStringValues Enumerates the set of values in String for DatabaseConnectionCredentialsByDetailsRoleEnum
+func GetDatabaseConnectionCredentialsByDetailsRoleEnumStringValues() []string {
+	return []string{
+		"SYSDBA",
+		"NORMAL",
+	}
 }

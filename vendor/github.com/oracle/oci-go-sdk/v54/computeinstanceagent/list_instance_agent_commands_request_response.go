@@ -5,15 +5,13 @@
 package computeinstanceagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListInstanceAgentCommandsRequest wrapper for the ListInstanceAgentCommands operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentCommands.go.html to see an example of how to use ListInstanceAgentCommandsRequest.
 type ListInstanceAgentCommandsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -57,6 +55,10 @@ func (request ListInstanceAgentCommandsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListInstanceAgentCommandsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,23 @@ func (request ListInstanceAgentCommandsRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListInstanceAgentCommandsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListInstanceAgentCommandsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListInstanceAgentCommandsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListInstanceAgentCommandsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListInstanceAgentCommandsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListInstanceAgentCommandsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListInstanceAgentCommandsResponse wrapper for the ListInstanceAgentCommands operation
@@ -109,7 +128,7 @@ const (
 	ListInstanceAgentCommandsSortByDisplayname ListInstanceAgentCommandsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListInstanceAgentCommandsSortBy = map[string]ListInstanceAgentCommandsSortByEnum{
+var mappingListInstanceAgentCommandsSortByEnum = map[string]ListInstanceAgentCommandsSortByEnum{
 	"TIMECREATED": ListInstanceAgentCommandsSortByTimecreated,
 	"DISPLAYNAME": ListInstanceAgentCommandsSortByDisplayname,
 }
@@ -117,10 +136,18 @@ var mappingListInstanceAgentCommandsSortBy = map[string]ListInstanceAgentCommand
 // GetListInstanceAgentCommandsSortByEnumValues Enumerates the set of values for ListInstanceAgentCommandsSortByEnum
 func GetListInstanceAgentCommandsSortByEnumValues() []ListInstanceAgentCommandsSortByEnum {
 	values := make([]ListInstanceAgentCommandsSortByEnum, 0)
-	for _, v := range mappingListInstanceAgentCommandsSortBy {
+	for _, v := range mappingListInstanceAgentCommandsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstanceAgentCommandsSortByEnumStringValues Enumerates the set of values in String for ListInstanceAgentCommandsSortByEnum
+func GetListInstanceAgentCommandsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListInstanceAgentCommandsSortOrderEnum Enum with underlying type: string
@@ -132,7 +159,7 @@ const (
 	ListInstanceAgentCommandsSortOrderDesc ListInstanceAgentCommandsSortOrderEnum = "DESC"
 )
 
-var mappingListInstanceAgentCommandsSortOrder = map[string]ListInstanceAgentCommandsSortOrderEnum{
+var mappingListInstanceAgentCommandsSortOrderEnum = map[string]ListInstanceAgentCommandsSortOrderEnum{
 	"ASC":  ListInstanceAgentCommandsSortOrderAsc,
 	"DESC": ListInstanceAgentCommandsSortOrderDesc,
 }
@@ -140,8 +167,16 @@ var mappingListInstanceAgentCommandsSortOrder = map[string]ListInstanceAgentComm
 // GetListInstanceAgentCommandsSortOrderEnumValues Enumerates the set of values for ListInstanceAgentCommandsSortOrderEnum
 func GetListInstanceAgentCommandsSortOrderEnumValues() []ListInstanceAgentCommandsSortOrderEnum {
 	values := make([]ListInstanceAgentCommandsSortOrderEnum, 0)
-	for _, v := range mappingListInstanceAgentCommandsSortOrder {
+	for _, v := range mappingListInstanceAgentCommandsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstanceAgentCommandsSortOrderEnumStringValues Enumerates the set of values in String for ListInstanceAgentCommandsSortOrderEnum
+func GetListInstanceAgentCommandsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

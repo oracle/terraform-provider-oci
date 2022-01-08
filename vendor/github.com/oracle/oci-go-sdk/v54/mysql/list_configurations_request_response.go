@@ -5,15 +5,13 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListConfigurationsRequest wrapper for the ListConfigurations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListConfigurations.go.html to see an example of how to use ListConfigurationsRequest.
 type ListConfigurationsRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -66,6 +64,10 @@ func (request ListConfigurationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListConfigurationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +81,32 @@ func (request ListConfigurationsRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListConfigurationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingConfigurationLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetConfigurationLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Type {
+		if _, ok := mappingListConfigurationsTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", val, strings.Join(GetListConfigurationsTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListConfigurationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListConfigurationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListConfigurationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConfigurationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListConfigurationsResponse wrapper for the ListConfigurations operation
@@ -118,7 +146,7 @@ const (
 	ListConfigurationsTypeCustom  ListConfigurationsTypeEnum = "CUSTOM"
 )
 
-var mappingListConfigurationsType = map[string]ListConfigurationsTypeEnum{
+var mappingListConfigurationsTypeEnum = map[string]ListConfigurationsTypeEnum{
 	"DEFAULT": ListConfigurationsTypeDefault,
 	"CUSTOM":  ListConfigurationsTypeCustom,
 }
@@ -126,10 +154,18 @@ var mappingListConfigurationsType = map[string]ListConfigurationsTypeEnum{
 // GetListConfigurationsTypeEnumValues Enumerates the set of values for ListConfigurationsTypeEnum
 func GetListConfigurationsTypeEnumValues() []ListConfigurationsTypeEnum {
 	values := make([]ListConfigurationsTypeEnum, 0)
-	for _, v := range mappingListConfigurationsType {
+	for _, v := range mappingListConfigurationsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConfigurationsTypeEnumStringValues Enumerates the set of values in String for ListConfigurationsTypeEnum
+func GetListConfigurationsTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+		"CUSTOM",
+	}
 }
 
 // ListConfigurationsSortByEnum Enum with underlying type: string
@@ -143,7 +179,7 @@ const (
 	ListConfigurationsSortByTimeupdated ListConfigurationsSortByEnum = "timeUpdated"
 )
 
-var mappingListConfigurationsSortBy = map[string]ListConfigurationsSortByEnum{
+var mappingListConfigurationsSortByEnum = map[string]ListConfigurationsSortByEnum{
 	"displayName": ListConfigurationsSortByDisplayname,
 	"shapeName":   ListConfigurationsSortByShapename,
 	"timeCreated": ListConfigurationsSortByTimecreated,
@@ -153,10 +189,20 @@ var mappingListConfigurationsSortBy = map[string]ListConfigurationsSortByEnum{
 // GetListConfigurationsSortByEnumValues Enumerates the set of values for ListConfigurationsSortByEnum
 func GetListConfigurationsSortByEnumValues() []ListConfigurationsSortByEnum {
 	values := make([]ListConfigurationsSortByEnum, 0)
-	for _, v := range mappingListConfigurationsSortBy {
+	for _, v := range mappingListConfigurationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConfigurationsSortByEnumStringValues Enumerates the set of values in String for ListConfigurationsSortByEnum
+func GetListConfigurationsSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"shapeName",
+		"timeCreated",
+		"timeUpdated",
+	}
 }
 
 // ListConfigurationsSortOrderEnum Enum with underlying type: string
@@ -168,7 +214,7 @@ const (
 	ListConfigurationsSortOrderDesc ListConfigurationsSortOrderEnum = "DESC"
 )
 
-var mappingListConfigurationsSortOrder = map[string]ListConfigurationsSortOrderEnum{
+var mappingListConfigurationsSortOrderEnum = map[string]ListConfigurationsSortOrderEnum{
 	"ASC":  ListConfigurationsSortOrderAsc,
 	"DESC": ListConfigurationsSortOrderDesc,
 }
@@ -176,8 +222,16 @@ var mappingListConfigurationsSortOrder = map[string]ListConfigurationsSortOrderE
 // GetListConfigurationsSortOrderEnumValues Enumerates the set of values for ListConfigurationsSortOrderEnum
 func GetListConfigurationsSortOrderEnumValues() []ListConfigurationsSortOrderEnum {
 	values := make([]ListConfigurationsSortOrderEnum, 0)
-	for _, v := range mappingListConfigurationsSortOrder {
+	for _, v := range mappingListConfigurationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConfigurationsSortOrderEnumStringValues Enumerates the set of values in String for ListConfigurationsSortOrderEnum
+func GetListConfigurationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

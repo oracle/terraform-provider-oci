@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListParsersRequest wrapper for the ListParsers operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListParsers.go.html to see an example of how to use ListParsersRequest.
 type ListParsersRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -76,6 +74,10 @@ func (request ListParsersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListParsersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -89,6 +91,32 @@ func (request ListParsersRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListParsersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListParsersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListParsersSourceTypeEnum[string(request.SourceType)]; !ok && request.SourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", request.SourceType, strings.Join(GetListParsersSourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListParsersParserTypeEnum[string(request.ParserType)]; !ok && request.ParserType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ParserType: %s. Supported values are: %s.", request.ParserType, strings.Join(GetListParsersParserTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListParsersIsSystemEnum[string(request.IsSystem)]; !ok && request.IsSystem != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsSystem: %s. Supported values are: %s.", request.IsSystem, strings.Join(GetListParsersIsSystemEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListParsersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListParsersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListParsersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListParsersSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListParsersResponse wrapper for the ListParsers operation
@@ -134,7 +162,7 @@ const (
 	ListParsersSourceTypeOsWindowsSys ListParsersSourceTypeEnum = "OS_WINDOWS_SYS"
 )
 
-var mappingListParsersSourceType = map[string]ListParsersSourceTypeEnum{
+var mappingListParsersSourceTypeEnum = map[string]ListParsersSourceTypeEnum{
 	"OS_FILE":        ListParsersSourceTypeOsFile,
 	"SYSLOG":         ListParsersSourceTypeSyslog,
 	"ODL":            ListParsersSourceTypeOdl,
@@ -144,10 +172,20 @@ var mappingListParsersSourceType = map[string]ListParsersSourceTypeEnum{
 // GetListParsersSourceTypeEnumValues Enumerates the set of values for ListParsersSourceTypeEnum
 func GetListParsersSourceTypeEnumValues() []ListParsersSourceTypeEnum {
 	values := make([]ListParsersSourceTypeEnum, 0)
-	for _, v := range mappingListParsersSourceType {
+	for _, v := range mappingListParsersSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListParsersSourceTypeEnumStringValues Enumerates the set of values in String for ListParsersSourceTypeEnum
+func GetListParsersSourceTypeEnumStringValues() []string {
+	return []string{
+		"OS_FILE",
+		"SYSLOG",
+		"ODL",
+		"OS_WINDOWS_SYS",
+	}
 }
 
 // ListParsersParserTypeEnum Enum with underlying type: string
@@ -163,7 +201,7 @@ const (
 	ListParsersParserTypeDelimited ListParsersParserTypeEnum = "DELIMITED"
 )
 
-var mappingListParsersParserType = map[string]ListParsersParserTypeEnum{
+var mappingListParsersParserTypeEnum = map[string]ListParsersParserTypeEnum{
 	"ALL":       ListParsersParserTypeAll,
 	"REGEX":     ListParsersParserTypeRegex,
 	"XML":       ListParsersParserTypeXml,
@@ -175,10 +213,22 @@ var mappingListParsersParserType = map[string]ListParsersParserTypeEnum{
 // GetListParsersParserTypeEnumValues Enumerates the set of values for ListParsersParserTypeEnum
 func GetListParsersParserTypeEnumValues() []ListParsersParserTypeEnum {
 	values := make([]ListParsersParserTypeEnum, 0)
-	for _, v := range mappingListParsersParserType {
+	for _, v := range mappingListParsersParserTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListParsersParserTypeEnumStringValues Enumerates the set of values in String for ListParsersParserTypeEnum
+func GetListParsersParserTypeEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"REGEX",
+		"XML",
+		"JSON",
+		"ODL",
+		"DELIMITED",
+	}
 }
 
 // ListParsersIsSystemEnum Enum with underlying type: string
@@ -191,7 +241,7 @@ const (
 	ListParsersIsSystemBuiltIn ListParsersIsSystemEnum = "BUILT_IN"
 )
 
-var mappingListParsersIsSystem = map[string]ListParsersIsSystemEnum{
+var mappingListParsersIsSystemEnum = map[string]ListParsersIsSystemEnum{
 	"ALL":      ListParsersIsSystemAll,
 	"CUSTOM":   ListParsersIsSystemCustom,
 	"BUILT_IN": ListParsersIsSystemBuiltIn,
@@ -200,10 +250,19 @@ var mappingListParsersIsSystem = map[string]ListParsersIsSystemEnum{
 // GetListParsersIsSystemEnumValues Enumerates the set of values for ListParsersIsSystemEnum
 func GetListParsersIsSystemEnumValues() []ListParsersIsSystemEnum {
 	values := make([]ListParsersIsSystemEnum, 0)
-	for _, v := range mappingListParsersIsSystem {
+	for _, v := range mappingListParsersIsSystemEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListParsersIsSystemEnumStringValues Enumerates the set of values in String for ListParsersIsSystemEnum
+func GetListParsersIsSystemEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"CUSTOM",
+		"BUILT_IN",
+	}
 }
 
 // ListParsersSortOrderEnum Enum with underlying type: string
@@ -215,7 +274,7 @@ const (
 	ListParsersSortOrderDesc ListParsersSortOrderEnum = "DESC"
 )
 
-var mappingListParsersSortOrder = map[string]ListParsersSortOrderEnum{
+var mappingListParsersSortOrderEnum = map[string]ListParsersSortOrderEnum{
 	"ASC":  ListParsersSortOrderAsc,
 	"DESC": ListParsersSortOrderDesc,
 }
@@ -223,10 +282,18 @@ var mappingListParsersSortOrder = map[string]ListParsersSortOrderEnum{
 // GetListParsersSortOrderEnumValues Enumerates the set of values for ListParsersSortOrderEnum
 func GetListParsersSortOrderEnumValues() []ListParsersSortOrderEnum {
 	values := make([]ListParsersSortOrderEnum, 0)
-	for _, v := range mappingListParsersSortOrder {
+	for _, v := range mappingListParsersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListParsersSortOrderEnumStringValues Enumerates the set of values in String for ListParsersSortOrderEnum
+func GetListParsersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListParsersSortByEnum Enum with underlying type: string
@@ -240,7 +307,7 @@ const (
 	ListParsersSortByTimeupdated  ListParsersSortByEnum = "timeUpdated"
 )
 
-var mappingListParsersSortBy = map[string]ListParsersSortByEnum{
+var mappingListParsersSortByEnum = map[string]ListParsersSortByEnum{
 	"name":         ListParsersSortByName,
 	"type":         ListParsersSortByType,
 	"sourcesCount": ListParsersSortBySourcescount,
@@ -250,8 +317,18 @@ var mappingListParsersSortBy = map[string]ListParsersSortByEnum{
 // GetListParsersSortByEnumValues Enumerates the set of values for ListParsersSortByEnum
 func GetListParsersSortByEnumValues() []ListParsersSortByEnum {
 	values := make([]ListParsersSortByEnum, 0)
-	for _, v := range mappingListParsersSortBy {
+	for _, v := range mappingListParsersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListParsersSortByEnumStringValues Enumerates the set of values in String for ListParsersSortByEnum
+func GetListParsersSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"type",
+		"sourcesCount",
+		"timeUpdated",
+	}
 }

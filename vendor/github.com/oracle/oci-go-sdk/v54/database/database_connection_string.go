@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseConnectionString The Oracle Database connection string.
@@ -33,6 +35,21 @@ func (m DatabaseConnectionString) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseConnectionString) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseConnectionStringProtocolEnum[string(m.Protocol)]; !ok && m.Protocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetDatabaseConnectionStringProtocolEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseConnectionStringProtocolEnum Enum with underlying type: string
 type DatabaseConnectionStringProtocolEnum string
 
@@ -41,15 +58,22 @@ const (
 	DatabaseConnectionStringProtocolTcp DatabaseConnectionStringProtocolEnum = "TCP"
 )
 
-var mappingDatabaseConnectionStringProtocol = map[string]DatabaseConnectionStringProtocolEnum{
+var mappingDatabaseConnectionStringProtocolEnum = map[string]DatabaseConnectionStringProtocolEnum{
 	"TCP": DatabaseConnectionStringProtocolTcp,
 }
 
 // GetDatabaseConnectionStringProtocolEnumValues Enumerates the set of values for DatabaseConnectionStringProtocolEnum
 func GetDatabaseConnectionStringProtocolEnumValues() []DatabaseConnectionStringProtocolEnum {
 	values := make([]DatabaseConnectionStringProtocolEnum, 0)
-	for _, v := range mappingDatabaseConnectionStringProtocol {
+	for _, v := range mappingDatabaseConnectionStringProtocolEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionStringProtocolEnumStringValues Enumerates the set of values in String for DatabaseConnectionStringProtocolEnum
+func GetDatabaseConnectionStringProtocolEnumStringValues() []string {
+	return []string{
+		"TCP",
+	}
 }

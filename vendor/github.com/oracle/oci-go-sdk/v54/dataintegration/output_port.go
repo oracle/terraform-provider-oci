@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // OutputPort The output port details.
@@ -80,6 +82,21 @@ func (m OutputPort) GetDescription() *string {
 
 func (m OutputPort) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OutputPort) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingOutputPortPortTypeEnum[string(m.PortType)]; !ok && m.PortType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PortType: %s. Supported values are: %s.", m.PortType, strings.Join(GetOutputPortPortTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -157,7 +174,7 @@ const (
 	OutputPortPortTypeModel   OutputPortPortTypeEnum = "MODEL"
 )
 
-var mappingOutputPortPortType = map[string]OutputPortPortTypeEnum{
+var mappingOutputPortPortTypeEnum = map[string]OutputPortPortTypeEnum{
 	"DATA":    OutputPortPortTypeData,
 	"CONTROL": OutputPortPortTypeControl,
 	"MODEL":   OutputPortPortTypeModel,
@@ -166,8 +183,17 @@ var mappingOutputPortPortType = map[string]OutputPortPortTypeEnum{
 // GetOutputPortPortTypeEnumValues Enumerates the set of values for OutputPortPortTypeEnum
 func GetOutputPortPortTypeEnumValues() []OutputPortPortTypeEnum {
 	values := make([]OutputPortPortTypeEnum, 0)
-	for _, v := range mappingOutputPortPortType {
+	for _, v := range mappingOutputPortPortTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOutputPortPortTypeEnumStringValues Enumerates the set of values in String for OutputPortPortTypeEnum
+func GetOutputPortPortTypeEnumStringValues() []string {
+	return []string{
+		"DATA",
+		"CONTROL",
+		"MODEL",
+	}
 }

@@ -86,10 +86,6 @@ func (client *ServiceManagerProxyClient) ConfigurationProvider() *common.Configu
 }
 
 // GetServiceEnvironment Get the detailed information for a specific service environment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemanagerproxy/GetServiceEnvironment.go.html to see an example of how to use GetServiceEnvironment API.
 func (client ServiceManagerProxyClient) GetServiceEnvironment(ctx context.Context, request GetServiceEnvironmentRequest) (response GetServiceEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -142,10 +138,6 @@ func (client ServiceManagerProxyClient) getServiceEnvironment(ctx context.Contex
 
 // ListServiceEnvironments List the details of Software as a Service (SaaS) environments provisioned by Service Manager.
 // Information includes the service instance endpoints and service definition details.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemanagerproxy/ListServiceEnvironments.go.html to see an example of how to use ListServiceEnvironments API.
 func (client ServiceManagerProxyClient) ListServiceEnvironments(ctx context.Context, request ListServiceEnvironmentsRequest) (response ListServiceEnvironmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

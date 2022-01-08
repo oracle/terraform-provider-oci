@@ -4,16 +4,18 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// IamWorkRequestLogSummary The log entity for a IAM work request.
+// IamWorkRequestLogSummary (For tenancies that support identity domains) The log entity for a IAM work request.
 type IamWorkRequestLogSummary struct {
 
 	// A human-readable error string.
@@ -26,4 +28,16 @@ type IamWorkRequestLogSummary struct {
 
 func (m IamWorkRequestLogSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IamWorkRequestLogSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

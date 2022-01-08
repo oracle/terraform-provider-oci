@@ -86,10 +86,6 @@ func (client *SddcClient) ConfigurationProvider() *common.ConfigurationProvider 
 }
 
 // CancelDowngradeHcx Cancel the pending SDDC downgrade from HCX Enterprise to HCX Advanced.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CancelDowngradeHcx.go.html to see an example of how to use CancelDowngradeHcx API.
 // A default retry strategy applies to this operation CancelDowngradeHcx()
 func (client SddcClient) CancelDowngradeHcx(ctx context.Context, request CancelDowngradeHcxRequest) (response CancelDowngradeHcxResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -149,10 +145,6 @@ func (client SddcClient) cancelDowngradeHcx(ctx context.Context, request common.
 // ChangeSddcCompartment Moves an SDDC into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ChangeSddcCompartment.go.html to see an example of how to use ChangeSddcCompartment API.
 // A default retry strategy applies to this operation ChangeSddcCompartment()
 func (client SddcClient) ChangeSddcCompartment(ctx context.Context, request ChangeSddcCompartmentRequest) (response ChangeSddcCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,10 +205,6 @@ func (client SddcClient) changeSddcCompartment(ctx context.Context, request comm
 // Use the WorkRequest operations to track the
 // creation of the SDDC.
 // **Important:** You must configure the SDDC's networking resources with the security rules detailed in Security Rules for Oracle Cloud VMware Solution SDDCs (https://docs.cloud.oracle.com/iaas/Content/VMware/Reference/ocvssecurityrules.htm). Otherwise, provisioning the SDDC will fail. The rules are based on the requirements set by VMware.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CreateSddc.go.html to see an example of how to use CreateSddc API.
 // A default retry strategy applies to this operation CreateSddc()
 func (client SddcClient) CreateSddc(ctx context.Context, request CreateSddcRequest) (response CreateSddcResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -278,10 +266,6 @@ func (client SddcClient) createSddc(ctx context.Context, request common.OCIReque
 // and so on.
 // Use the WorkRequest operations to track the
 // deletion of the SDDC.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteSddc.go.html to see an example of how to use DeleteSddc API.
 // A default retry strategy applies to this operation DeleteSddc()
 func (client SddcClient) DeleteSddc(ctx context.Context, request DeleteSddcRequest) (response DeleteSddcResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -337,10 +321,6 @@ func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIReque
 // Downgrading from HCX Enterprise to HCX Advanced reduces the number of provided license keys from 10 to 3.
 // Downgrade remains in a `PENDING` state until the end of the current billing cycle. You can use CancelDowngradeHcx
 // to cancel the downgrade while it's still in a `PENDING` state.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DowngradeHcx.go.html to see an example of how to use DowngradeHcx API.
 // A default retry strategy applies to this operation DowngradeHcx()
 func (client SddcClient) DowngradeHcx(ctx context.Context, request DowngradeHcxRequest) (response DowngradeHcxResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -398,10 +378,6 @@ func (client SddcClient) downgradeHcx(ctx context.Context, request common.OCIReq
 }
 
 // GetSddc Gets the specified SDDC's information.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetSddc.go.html to see an example of how to use GetSddc API.
 // A default retry strategy applies to this operation GetSddc()
 func (client SddcClient) GetSddc(ctx context.Context, request GetSddcRequest) (response GetSddcResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -455,10 +431,6 @@ func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest,
 
 // ListSddcs Lists the SDDCs in the specified compartment. The list can be
 // filtered by display name or availability domain.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSddcs.go.html to see an example of how to use ListSddcs API.
 // A default retry strategy applies to this operation ListSddcs()
 func (client SddcClient) ListSddcs(ctx context.Context, request ListSddcsRequest) (response ListSddcsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -510,11 +482,59 @@ func (client SddcClient) listSddcs(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
+// ListSupportedHostShapes Lists supported compute shapes for ESXi hosts.
+// A default retry strategy applies to this operation ListSupportedHostShapes()
+func (client SddcClient) ListSupportedHostShapes(ctx context.Context, request ListSupportedHostShapesRequest) (response ListSupportedHostShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSupportedHostShapes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSupportedHostShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSupportedHostShapesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSupportedHostShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSupportedHostShapesResponse")
+	}
+	return
+}
+
+// listSupportedHostShapes implements the OCIOperation interface (enables retrying operations)
+func (client SddcClient) listSupportedHostShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedHostShapes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSupportedHostShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSupportedSkus Lists supported SKUs.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedSkus.go.html to see an example of how to use ListSupportedSkus API.
 // A default retry strategy applies to this operation ListSupportedSkus()
 func (client SddcClient) ListSupportedSkus(ctx context.Context, request ListSupportedSkusRequest) (response ListSupportedSkusResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -568,10 +588,6 @@ func (client SddcClient) listSupportedSkus(ctx context.Context, request common.O
 
 // ListSupportedVmwareSoftwareVersions Lists the versions of bundled VMware software supported by the Oracle Cloud
 // VMware Solution.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedVmwareSoftwareVersions.go.html to see an example of how to use ListSupportedVmwareSoftwareVersions API.
 // A default retry strategy applies to this operation ListSupportedVmwareSoftwareVersions()
 func (client SddcClient) ListSupportedVmwareSoftwareVersions(ctx context.Context, request ListSupportedVmwareSoftwareVersionsRequest) (response ListSupportedVmwareSoftwareVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -624,10 +640,6 @@ func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context
 }
 
 // RefreshHcxLicenseStatus Refresh HCX on-premise licenses status of the specified SDDC.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/RefreshHcxLicenseStatus.go.html to see an example of how to use RefreshHcxLicenseStatus API.
 // A default retry strategy applies to this operation RefreshHcxLicenseStatus()
 func (client SddcClient) RefreshHcxLicenseStatus(ctx context.Context, request RefreshHcxLicenseStatusRequest) (response RefreshHcxLicenseStatusResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -689,10 +701,6 @@ func (client SddcClient) refreshHcxLicenseStatus(ctx context.Context, request co
 // object and does not affect the VMware environment currently running in
 // the SDDC. For more information, see
 // UpdateSddcDetails.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpdateSddc.go.html to see an example of how to use UpdateSddc API.
 // A default retry strategy applies to this operation UpdateSddc()
 func (client SddcClient) UpdateSddc(ctx context.Context, request UpdateSddcRequest) (response UpdateSddcResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -745,10 +753,6 @@ func (client SddcClient) updateSddc(ctx context.Context, request common.OCIReque
 }
 
 // UpgradeHcx Upgrade the specified SDDC from HCX Advanced to HCX Enterprise.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpgradeHcx.go.html to see an example of how to use UpgradeHcx API.
 // A default retry strategy applies to this operation UpgradeHcx()
 func (client SddcClient) UpgradeHcx(ctx context.Context, request UpgradeHcxRequest) (response UpgradeHcxResponse, err error) {
 	var ociResponse common.OCIResponse

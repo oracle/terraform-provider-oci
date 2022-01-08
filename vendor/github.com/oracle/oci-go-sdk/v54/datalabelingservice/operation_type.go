@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// DataLabelingService API
+// Data Labeling Management API
 //
-// A description of the DataLabelingService API
+// Use Data Labeling Management API to create, list, edit & delete datasets.
 //
 
 package datalabelingservice
@@ -24,7 +24,7 @@ const (
 	OperationTypeRenameDatasetLabels    OperationTypeEnum = "RENAME_DATASET_LABELS"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_DATASET":           OperationTypeCreateDataset,
 	"DELETE_DATASET":           OperationTypeDeleteDataset,
 	"MOVE_DATASET":             OperationTypeMoveDataset,
@@ -38,8 +38,22 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_DATASET",
+		"DELETE_DATASET",
+		"MOVE_DATASET",
+		"GENERATE_DATASET_RECORDS",
+		"SNAPSHOT_DATASET",
+		"ADD_DATASET_LABELS",
+		"REMOVE_DATASET_LABELS",
+		"RENAME_DATASET_LABELS",
+	}
 }

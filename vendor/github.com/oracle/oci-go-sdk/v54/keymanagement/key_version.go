@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // KeyVersion The representation of KeyVersion
@@ -61,6 +63,24 @@ func (m KeyVersion) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m KeyVersion) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingKeyVersionLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetKeyVersionLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingKeyVersionOriginEnum[string(m.Origin)]; !ok && m.Origin != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Origin: %s. Supported values are: %s.", m.Origin, strings.Join(GetKeyVersionOriginEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // KeyVersionLifecycleStateEnum Enum with underlying type: string
 type KeyVersionLifecycleStateEnum string
 
@@ -78,7 +98,7 @@ const (
 	KeyVersionLifecycleStateCancellingDeletion KeyVersionLifecycleStateEnum = "CANCELLING_DELETION"
 )
 
-var mappingKeyVersionLifecycleState = map[string]KeyVersionLifecycleStateEnum{
+var mappingKeyVersionLifecycleStateEnum = map[string]KeyVersionLifecycleStateEnum{
 	"CREATING":            KeyVersionLifecycleStateCreating,
 	"ENABLING":            KeyVersionLifecycleStateEnabling,
 	"ENABLED":             KeyVersionLifecycleStateEnabled,
@@ -94,10 +114,26 @@ var mappingKeyVersionLifecycleState = map[string]KeyVersionLifecycleStateEnum{
 // GetKeyVersionLifecycleStateEnumValues Enumerates the set of values for KeyVersionLifecycleStateEnum
 func GetKeyVersionLifecycleStateEnumValues() []KeyVersionLifecycleStateEnum {
 	values := make([]KeyVersionLifecycleStateEnum, 0)
-	for _, v := range mappingKeyVersionLifecycleState {
+	for _, v := range mappingKeyVersionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyVersionLifecycleStateEnumStringValues Enumerates the set of values in String for KeyVersionLifecycleStateEnum
+func GetKeyVersionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"DISABLED",
+		"DELETING",
+		"DELETED",
+		"PENDING_DELETION",
+		"SCHEDULING_DELETION",
+		"CANCELLING_DELETION",
+	}
 }
 
 // KeyVersionOriginEnum Enum with underlying type: string
@@ -109,7 +145,7 @@ const (
 	KeyVersionOriginExternal KeyVersionOriginEnum = "EXTERNAL"
 )
 
-var mappingKeyVersionOrigin = map[string]KeyVersionOriginEnum{
+var mappingKeyVersionOriginEnum = map[string]KeyVersionOriginEnum{
 	"INTERNAL": KeyVersionOriginInternal,
 	"EXTERNAL": KeyVersionOriginExternal,
 }
@@ -117,8 +153,16 @@ var mappingKeyVersionOrigin = map[string]KeyVersionOriginEnum{
 // GetKeyVersionOriginEnumValues Enumerates the set of values for KeyVersionOriginEnum
 func GetKeyVersionOriginEnumValues() []KeyVersionOriginEnum {
 	values := make([]KeyVersionOriginEnum, 0)
-	for _, v := range mappingKeyVersionOrigin {
+	for _, v := range mappingKeyVersionOriginEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyVersionOriginEnumStringValues Enumerates the set of values in String for KeyVersionOriginEnum
+func GetKeyVersionOriginEnumStringValues() []string {
+	return []string{
+		"INTERNAL",
+		"EXTERNAL",
+	}
 }

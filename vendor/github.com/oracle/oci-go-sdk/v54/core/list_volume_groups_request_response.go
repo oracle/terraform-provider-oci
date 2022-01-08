@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListVolumeGroupsRequest wrapper for the ListVolumeGroups operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumeGroups.go.html to see an example of how to use ListVolumeGroupsRequest.
 type ListVolumeGroupsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -70,6 +68,10 @@ func (request ListVolumeGroupsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVolumeGroupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -83,6 +85,26 @@ func (request ListVolumeGroupsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVolumeGroupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVolumeGroupsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListVolumeGroupsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListVolumeGroupsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListVolumeGroupsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListVolumeGroupsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVolumeGroupLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetVolumeGroupLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVolumeGroupsResponse wrapper for the ListVolumeGroups operation
@@ -122,7 +144,7 @@ const (
 	ListVolumeGroupsSortByDisplayname ListVolumeGroupsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListVolumeGroupsSortBy = map[string]ListVolumeGroupsSortByEnum{
+var mappingListVolumeGroupsSortByEnum = map[string]ListVolumeGroupsSortByEnum{
 	"TIMECREATED": ListVolumeGroupsSortByTimecreated,
 	"DISPLAYNAME": ListVolumeGroupsSortByDisplayname,
 }
@@ -130,10 +152,18 @@ var mappingListVolumeGroupsSortBy = map[string]ListVolumeGroupsSortByEnum{
 // GetListVolumeGroupsSortByEnumValues Enumerates the set of values for ListVolumeGroupsSortByEnum
 func GetListVolumeGroupsSortByEnumValues() []ListVolumeGroupsSortByEnum {
 	values := make([]ListVolumeGroupsSortByEnum, 0)
-	for _, v := range mappingListVolumeGroupsSortBy {
+	for _, v := range mappingListVolumeGroupsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVolumeGroupsSortByEnumStringValues Enumerates the set of values in String for ListVolumeGroupsSortByEnum
+func GetListVolumeGroupsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListVolumeGroupsSortOrderEnum Enum with underlying type: string
@@ -145,7 +175,7 @@ const (
 	ListVolumeGroupsSortOrderDesc ListVolumeGroupsSortOrderEnum = "DESC"
 )
 
-var mappingListVolumeGroupsSortOrder = map[string]ListVolumeGroupsSortOrderEnum{
+var mappingListVolumeGroupsSortOrderEnum = map[string]ListVolumeGroupsSortOrderEnum{
 	"ASC":  ListVolumeGroupsSortOrderAsc,
 	"DESC": ListVolumeGroupsSortOrderDesc,
 }
@@ -153,8 +183,16 @@ var mappingListVolumeGroupsSortOrder = map[string]ListVolumeGroupsSortOrderEnum{
 // GetListVolumeGroupsSortOrderEnumValues Enumerates the set of values for ListVolumeGroupsSortOrderEnum
 func GetListVolumeGroupsSortOrderEnumValues() []ListVolumeGroupsSortOrderEnum {
 	values := make([]ListVolumeGroupsSortOrderEnum, 0)
-	for _, v := range mappingListVolumeGroupsSortOrder {
+	for _, v := range mappingListVolumeGroupsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVolumeGroupsSortOrderEnumStringValues Enumerates the set of values in String for ListVolumeGroupsSortOrderEnum
+func GetListVolumeGroupsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

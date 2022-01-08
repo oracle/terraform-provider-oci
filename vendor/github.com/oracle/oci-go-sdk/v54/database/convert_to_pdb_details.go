@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ConvertToPdbDetails Details for converting a non-container database to pluggable database.
@@ -29,6 +31,21 @@ type ConvertToPdbDetails struct {
 
 func (m ConvertToPdbDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ConvertToPdbDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingConvertToPdbDetailsActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetConvertToPdbDetailsActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -69,7 +86,7 @@ const (
 	ConvertToPdbDetailsActionSyncRollback ConvertToPdbDetailsActionEnum = "SYNC_ROLLBACK"
 )
 
-var mappingConvertToPdbDetailsAction = map[string]ConvertToPdbDetailsActionEnum{
+var mappingConvertToPdbDetailsActionEnum = map[string]ConvertToPdbDetailsActionEnum{
 	"PRECHECK":      ConvertToPdbDetailsActionPrecheck,
 	"CONVERT":       ConvertToPdbDetailsActionConvert,
 	"SYNC":          ConvertToPdbDetailsActionSync,
@@ -79,8 +96,18 @@ var mappingConvertToPdbDetailsAction = map[string]ConvertToPdbDetailsActionEnum{
 // GetConvertToPdbDetailsActionEnumValues Enumerates the set of values for ConvertToPdbDetailsActionEnum
 func GetConvertToPdbDetailsActionEnumValues() []ConvertToPdbDetailsActionEnum {
 	values := make([]ConvertToPdbDetailsActionEnum, 0)
-	for _, v := range mappingConvertToPdbDetailsAction {
+	for _, v := range mappingConvertToPdbDetailsActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConvertToPdbDetailsActionEnumStringValues Enumerates the set of values in String for ConvertToPdbDetailsActionEnum
+func GetConvertToPdbDetailsActionEnumStringValues() []string {
+	return []string{
+		"PRECHECK",
+		"CONVERT",
+		"SYNC",
+		"SYNC_ROLLBACK",
+	}
 }

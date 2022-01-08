@@ -12,7 +12,9 @@ package waf
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ProtectionRule Rule that represents Request/Response Protection.
@@ -28,7 +30,8 @@ type ProtectionRule struct {
 	ActionName *string `mandatory:"true" json:"actionName"`
 
 	// An ordered list that references OCI-managed protection capabilities.
-	// Referenced protection capabilities are executed in order of appearance.
+	// Referenced protection capabilities are not necessarily executed in order of appearance. Their execution order
+	// is decided at runtime for improved performance.
 	// The array cannot contain entries with the same pair of capability key and version more than once.
 	ProtectionCapabilities []ProtectionCapability `mandatory:"true" json:"protectionCapabilities"`
 
@@ -36,6 +39,11 @@ type ProtectionRule struct {
 	Condition *string `mandatory:"false" json:"condition"`
 
 	ProtectionCapabilitySettings *ProtectionCapabilitySettings `mandatory:"false" json:"protectionCapabilitySettings"`
+
+	// Enables/disables body inspection for this protection rule.
+	// Only Protection Rules in RequestProtection can have this option enabled. Response body inspection will
+	// be available at a later date.
+	IsBodyInspectionEnabled *bool `mandatory:"false" json:"isBodyInspectionEnabled"`
 
 	// The language used to parse condition from field `condition`. Available languages:
 	// * **JMESPATH** an extended JMESPath language syntax.
@@ -64,6 +72,21 @@ func (m ProtectionRule) GetActionName() *string {
 
 func (m ProtectionRule) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ProtectionRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingWebAppFirewallPolicyRuleConditionLanguageEnum[string(m.ConditionLanguage)]; !ok && m.ConditionLanguage != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConditionLanguage: %s. Supported values are: %s.", m.ConditionLanguage, strings.Join(GetWebAppFirewallPolicyRuleConditionLanguageEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

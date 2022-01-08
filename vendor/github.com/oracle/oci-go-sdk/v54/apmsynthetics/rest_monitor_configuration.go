@@ -4,14 +4,16 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RestMonitorConfiguration Request configuration details for the REST monitor type.
@@ -60,6 +62,24 @@ func (m RestMonitorConfiguration) GetIsFailureRetried() *bool {
 
 func (m RestMonitorConfiguration) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RestMonitorConfiguration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingRequestMethodsEnum[string(m.RequestMethod)]; !ok && m.RequestMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequestMethod: %s. Supported values are: %s.", m.RequestMethod, strings.Join(GetRequestMethodsEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRequestAuthenticationSchemesEnum[string(m.ReqAuthenticationScheme)]; !ok && m.ReqAuthenticationScheme != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReqAuthenticationScheme: %s. Supported values are: %s.", m.ReqAuthenticationScheme, strings.Join(GetRequestAuthenticationSchemesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

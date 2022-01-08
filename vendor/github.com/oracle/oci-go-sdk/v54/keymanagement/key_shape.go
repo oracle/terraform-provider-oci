@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // KeyShape The cryptographic properties of a key.
@@ -34,6 +36,24 @@ func (m KeyShape) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m KeyShape) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingKeyShapeAlgorithmEnum[string(m.Algorithm)]; !ok && m.Algorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Algorithm: %s. Supported values are: %s.", m.Algorithm, strings.Join(GetKeyShapeAlgorithmEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingKeyShapeCurveIdEnum[string(m.CurveId)]; !ok && m.CurveId != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurveId: %s. Supported values are: %s.", m.CurveId, strings.Join(GetKeyShapeCurveIdEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // KeyShapeAlgorithmEnum Enum with underlying type: string
 type KeyShapeAlgorithmEnum string
 
@@ -44,7 +64,7 @@ const (
 	KeyShapeAlgorithmEcdsa KeyShapeAlgorithmEnum = "ECDSA"
 )
 
-var mappingKeyShapeAlgorithm = map[string]KeyShapeAlgorithmEnum{
+var mappingKeyShapeAlgorithmEnum = map[string]KeyShapeAlgorithmEnum{
 	"AES":   KeyShapeAlgorithmAes,
 	"RSA":   KeyShapeAlgorithmRsa,
 	"ECDSA": KeyShapeAlgorithmEcdsa,
@@ -53,10 +73,19 @@ var mappingKeyShapeAlgorithm = map[string]KeyShapeAlgorithmEnum{
 // GetKeyShapeAlgorithmEnumValues Enumerates the set of values for KeyShapeAlgorithmEnum
 func GetKeyShapeAlgorithmEnumValues() []KeyShapeAlgorithmEnum {
 	values := make([]KeyShapeAlgorithmEnum, 0)
-	for _, v := range mappingKeyShapeAlgorithm {
+	for _, v := range mappingKeyShapeAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyShapeAlgorithmEnumStringValues Enumerates the set of values in String for KeyShapeAlgorithmEnum
+func GetKeyShapeAlgorithmEnumStringValues() []string {
+	return []string{
+		"AES",
+		"RSA",
+		"ECDSA",
+	}
 }
 
 // KeyShapeCurveIdEnum Enum with underlying type: string
@@ -69,7 +98,7 @@ const (
 	KeyShapeCurveIdP521 KeyShapeCurveIdEnum = "NIST_P521"
 )
 
-var mappingKeyShapeCurveId = map[string]KeyShapeCurveIdEnum{
+var mappingKeyShapeCurveIdEnum = map[string]KeyShapeCurveIdEnum{
 	"NIST_P256": KeyShapeCurveIdP256,
 	"NIST_P384": KeyShapeCurveIdP384,
 	"NIST_P521": KeyShapeCurveIdP521,
@@ -78,8 +107,17 @@ var mappingKeyShapeCurveId = map[string]KeyShapeCurveIdEnum{
 // GetKeyShapeCurveIdEnumValues Enumerates the set of values for KeyShapeCurveIdEnum
 func GetKeyShapeCurveIdEnumValues() []KeyShapeCurveIdEnum {
 	values := make([]KeyShapeCurveIdEnum, 0)
-	for _, v := range mappingKeyShapeCurveId {
+	for _, v := range mappingKeyShapeCurveIdEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyShapeCurveIdEnumStringValues Enumerates the set of values in String for KeyShapeCurveIdEnum
+func GetKeyShapeCurveIdEnumStringValues() []string {
+	return []string{
+		"NIST_P256",
+		"NIST_P384",
+		"NIST_P521",
+	}
 }

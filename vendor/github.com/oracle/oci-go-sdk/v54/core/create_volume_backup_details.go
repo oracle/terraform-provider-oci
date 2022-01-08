@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateVolumeBackupDetails The representation of CreateVolumeBackupDetails
@@ -22,6 +24,9 @@ type CreateVolumeBackupDetails struct {
 
 	// The OCID of the volume that needs to be backed up.
 	VolumeId *string `mandatory:"true" json:"volumeId"`
+
+	// The OCID of the compartment that contains the backup. If omitted, the backup will be created in the compartment of the source volume.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -45,6 +50,21 @@ func (m CreateVolumeBackupDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateVolumeBackupDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateVolumeBackupDetailsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCreateVolumeBackupDetailsTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateVolumeBackupDetailsTypeEnum Enum with underlying type: string
 type CreateVolumeBackupDetailsTypeEnum string
 
@@ -54,7 +74,7 @@ const (
 	CreateVolumeBackupDetailsTypeIncremental CreateVolumeBackupDetailsTypeEnum = "INCREMENTAL"
 )
 
-var mappingCreateVolumeBackupDetailsType = map[string]CreateVolumeBackupDetailsTypeEnum{
+var mappingCreateVolumeBackupDetailsTypeEnum = map[string]CreateVolumeBackupDetailsTypeEnum{
 	"FULL":        CreateVolumeBackupDetailsTypeFull,
 	"INCREMENTAL": CreateVolumeBackupDetailsTypeIncremental,
 }
@@ -62,8 +82,16 @@ var mappingCreateVolumeBackupDetailsType = map[string]CreateVolumeBackupDetailsT
 // GetCreateVolumeBackupDetailsTypeEnumValues Enumerates the set of values for CreateVolumeBackupDetailsTypeEnum
 func GetCreateVolumeBackupDetailsTypeEnumValues() []CreateVolumeBackupDetailsTypeEnum {
 	values := make([]CreateVolumeBackupDetailsTypeEnum, 0)
-	for _, v := range mappingCreateVolumeBackupDetailsType {
+	for _, v := range mappingCreateVolumeBackupDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateVolumeBackupDetailsTypeEnumStringValues Enumerates the set of values in String for CreateVolumeBackupDetailsTypeEnum
+func GetCreateVolumeBackupDetailsTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"INCREMENTAL",
+	}
 }

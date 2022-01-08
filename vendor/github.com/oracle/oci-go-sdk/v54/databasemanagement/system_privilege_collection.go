@@ -12,16 +12,30 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// SystemPrivilegeCollection A collection of SystemPrivileges granted to the current User.
+// SystemPrivilegeCollection A collection of system privileges granted to the current user.
 type SystemPrivilegeCollection struct {
 
-	// An array of User resources.
+	// An array of system privileges.
 	Items []SystemPrivilegeSummary `mandatory:"true" json:"items"`
 }
 
 func (m SystemPrivilegeCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SystemPrivilegeCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

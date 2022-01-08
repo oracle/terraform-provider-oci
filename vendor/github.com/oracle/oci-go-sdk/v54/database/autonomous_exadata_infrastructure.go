@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutonomousExadataInfrastructure The representation of AutonomousExadataInfrastructure
@@ -90,6 +92,24 @@ func (m AutonomousExadataInfrastructure) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousExadataInfrastructure) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousExadataInfrastructureLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousExadataInfrastructureLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAutonomousExadataInfrastructureLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetAutonomousExadataInfrastructureLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousExadataInfrastructureLifecycleStateEnum Enum with underlying type: string
 type AutonomousExadataInfrastructureLifecycleStateEnum string
 
@@ -104,7 +124,7 @@ const (
 	AutonomousExadataInfrastructureLifecycleStateMaintenanceInProgress AutonomousExadataInfrastructureLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingAutonomousExadataInfrastructureLifecycleState = map[string]AutonomousExadataInfrastructureLifecycleStateEnum{
+var mappingAutonomousExadataInfrastructureLifecycleStateEnum = map[string]AutonomousExadataInfrastructureLifecycleStateEnum{
 	"PROVISIONING":            AutonomousExadataInfrastructureLifecycleStateProvisioning,
 	"AVAILABLE":               AutonomousExadataInfrastructureLifecycleStateAvailable,
 	"UPDATING":                AutonomousExadataInfrastructureLifecycleStateUpdating,
@@ -117,10 +137,23 @@ var mappingAutonomousExadataInfrastructureLifecycleState = map[string]Autonomous
 // GetAutonomousExadataInfrastructureLifecycleStateEnumValues Enumerates the set of values for AutonomousExadataInfrastructureLifecycleStateEnum
 func GetAutonomousExadataInfrastructureLifecycleStateEnumValues() []AutonomousExadataInfrastructureLifecycleStateEnum {
 	values := make([]AutonomousExadataInfrastructureLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousExadataInfrastructureLifecycleState {
+	for _, v := range mappingAutonomousExadataInfrastructureLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousExadataInfrastructureLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousExadataInfrastructureLifecycleStateEnum
+func GetAutonomousExadataInfrastructureLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }
 
 // AutonomousExadataInfrastructureLicenseModelEnum Enum with underlying type: string
@@ -132,7 +165,7 @@ const (
 	AutonomousExadataInfrastructureLicenseModelBringYourOwnLicense AutonomousExadataInfrastructureLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingAutonomousExadataInfrastructureLicenseModel = map[string]AutonomousExadataInfrastructureLicenseModelEnum{
+var mappingAutonomousExadataInfrastructureLicenseModelEnum = map[string]AutonomousExadataInfrastructureLicenseModelEnum{
 	"LICENSE_INCLUDED":       AutonomousExadataInfrastructureLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": AutonomousExadataInfrastructureLicenseModelBringYourOwnLicense,
 }
@@ -140,8 +173,16 @@ var mappingAutonomousExadataInfrastructureLicenseModel = map[string]AutonomousEx
 // GetAutonomousExadataInfrastructureLicenseModelEnumValues Enumerates the set of values for AutonomousExadataInfrastructureLicenseModelEnum
 func GetAutonomousExadataInfrastructureLicenseModelEnumValues() []AutonomousExadataInfrastructureLicenseModelEnum {
 	values := make([]AutonomousExadataInfrastructureLicenseModelEnum, 0)
-	for _, v := range mappingAutonomousExadataInfrastructureLicenseModel {
+	for _, v := range mappingAutonomousExadataInfrastructureLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousExadataInfrastructureLicenseModelEnumStringValues Enumerates the set of values in String for AutonomousExadataInfrastructureLicenseModelEnum
+func GetAutonomousExadataInfrastructureLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

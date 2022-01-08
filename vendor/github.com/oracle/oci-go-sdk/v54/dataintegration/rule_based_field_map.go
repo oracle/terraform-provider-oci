@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RuleBasedFieldMap A map of rule patterns.
@@ -59,6 +61,21 @@ func (m RuleBasedFieldMap) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RuleBasedFieldMap) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRuleBasedFieldMapMapTypeEnum[string(m.MapType)]; !ok && m.MapType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MapType: %s. Supported values are: %s.", m.MapType, strings.Join(GetRuleBasedFieldMapMapTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m RuleBasedFieldMap) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeRuleBasedFieldMap RuleBasedFieldMap
@@ -83,7 +100,7 @@ const (
 	RuleBasedFieldMapMapTypeMapbypattern  RuleBasedFieldMapMapTypeEnum = "MAPBYPATTERN"
 )
 
-var mappingRuleBasedFieldMapMapType = map[string]RuleBasedFieldMapMapTypeEnum{
+var mappingRuleBasedFieldMapMapTypeEnum = map[string]RuleBasedFieldMapMapTypeEnum{
 	"MAPBYNAME":     RuleBasedFieldMapMapTypeMapbyname,
 	"MAPBYPOSITION": RuleBasedFieldMapMapTypeMapbyposition,
 	"MAPBYPATTERN":  RuleBasedFieldMapMapTypeMapbypattern,
@@ -92,8 +109,17 @@ var mappingRuleBasedFieldMapMapType = map[string]RuleBasedFieldMapMapTypeEnum{
 // GetRuleBasedFieldMapMapTypeEnumValues Enumerates the set of values for RuleBasedFieldMapMapTypeEnum
 func GetRuleBasedFieldMapMapTypeEnumValues() []RuleBasedFieldMapMapTypeEnum {
 	values := make([]RuleBasedFieldMapMapTypeEnum, 0)
-	for _, v := range mappingRuleBasedFieldMapMapType {
+	for _, v := range mappingRuleBasedFieldMapMapTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRuleBasedFieldMapMapTypeEnumStringValues Enumerates the set of values in String for RuleBasedFieldMapMapTypeEnum
+func GetRuleBasedFieldMapMapTypeEnumStringValues() []string {
+	return []string{
+		"MAPBYNAME",
+		"MAPBYPOSITION",
+		"MAPBYPATTERN",
+	}
 }

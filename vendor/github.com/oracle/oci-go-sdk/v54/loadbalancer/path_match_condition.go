@@ -12,7 +12,9 @@ package loadbalancer
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PathMatchCondition The path string and match condition to apply when evaluating an incoming URI for redirection.
@@ -36,6 +38,21 @@ type PathMatchCondition struct {
 
 func (m PathMatchCondition) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PathMatchCondition) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPathMatchConditionOperatorEnum[string(m.Operator)]; !ok && m.Operator != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operator: %s. Supported values are: %s.", m.Operator, strings.Join(GetPathMatchConditionOperatorEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -63,7 +80,7 @@ const (
 	PathMatchConditionOperatorSuffixMatch             PathMatchConditionOperatorEnum = "SUFFIX_MATCH"
 )
 
-var mappingPathMatchConditionOperator = map[string]PathMatchConditionOperatorEnum{
+var mappingPathMatchConditionOperatorEnum = map[string]PathMatchConditionOperatorEnum{
 	"EXACT_MATCH":                PathMatchConditionOperatorExactMatch,
 	"FORCE_LONGEST_PREFIX_MATCH": PathMatchConditionOperatorForceLongestPrefixMatch,
 	"PREFIX_MATCH":               PathMatchConditionOperatorPrefixMatch,
@@ -73,8 +90,18 @@ var mappingPathMatchConditionOperator = map[string]PathMatchConditionOperatorEnu
 // GetPathMatchConditionOperatorEnumValues Enumerates the set of values for PathMatchConditionOperatorEnum
 func GetPathMatchConditionOperatorEnumValues() []PathMatchConditionOperatorEnum {
 	values := make([]PathMatchConditionOperatorEnum, 0)
-	for _, v := range mappingPathMatchConditionOperator {
+	for _, v := range mappingPathMatchConditionOperatorEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPathMatchConditionOperatorEnumStringValues Enumerates the set of values in String for PathMatchConditionOperatorEnum
+func GetPathMatchConditionOperatorEnumStringValues() []string {
+	return []string{
+		"EXACT_MATCH",
+		"FORCE_LONGEST_PREFIX_MATCH",
+		"PREFIX_MATCH",
+		"SUFFIX_MATCH",
+	}
 }

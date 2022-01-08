@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LogAnalyticsLabelView LogAnalyticsLabelView
@@ -67,6 +69,21 @@ func (m LogAnalyticsLabelView) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsLabelView) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsLabelViewPriorityEnum[string(m.Priority)]; !ok && m.Priority != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Priority: %s. Supported values are: %s.", m.Priority, strings.Join(GetLogAnalyticsLabelViewPriorityEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsLabelViewPriorityEnum Enum with underlying type: string
 type LogAnalyticsLabelViewPriorityEnum string
 
@@ -78,7 +95,7 @@ const (
 	LogAnalyticsLabelViewPriorityHigh   LogAnalyticsLabelViewPriorityEnum = "HIGH"
 )
 
-var mappingLogAnalyticsLabelViewPriority = map[string]LogAnalyticsLabelViewPriorityEnum{
+var mappingLogAnalyticsLabelViewPriorityEnum = map[string]LogAnalyticsLabelViewPriorityEnum{
 	"NONE":   LogAnalyticsLabelViewPriorityNone,
 	"LOW":    LogAnalyticsLabelViewPriorityLow,
 	"MEDIUM": LogAnalyticsLabelViewPriorityMedium,
@@ -88,8 +105,18 @@ var mappingLogAnalyticsLabelViewPriority = map[string]LogAnalyticsLabelViewPrior
 // GetLogAnalyticsLabelViewPriorityEnumValues Enumerates the set of values for LogAnalyticsLabelViewPriorityEnum
 func GetLogAnalyticsLabelViewPriorityEnumValues() []LogAnalyticsLabelViewPriorityEnum {
 	values := make([]LogAnalyticsLabelViewPriorityEnum, 0)
-	for _, v := range mappingLogAnalyticsLabelViewPriority {
+	for _, v := range mappingLogAnalyticsLabelViewPriorityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsLabelViewPriorityEnumStringValues Enumerates the set of values in String for LogAnalyticsLabelViewPriorityEnum
+func GetLogAnalyticsLabelViewPriorityEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"LOW",
+		"MEDIUM",
+		"HIGH",
+	}
 }

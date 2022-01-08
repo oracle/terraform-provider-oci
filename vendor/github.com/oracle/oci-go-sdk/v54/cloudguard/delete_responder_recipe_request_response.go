@@ -5,15 +5,13 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteResponderRecipeRequest wrapper for the DeleteResponderRecipe operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteResponderRecipe.go.html to see an example of how to use DeleteResponderRecipeRequest.
 type DeleteResponderRecipeRequest struct {
 
 	// OCID of ResponderRecipe
@@ -41,6 +39,10 @@ func (request DeleteResponderRecipeRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteResponderRecipeRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -54,6 +56,17 @@ func (request DeleteResponderRecipeRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteResponderRecipeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteResponderRecipeRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteResponderRecipeResponse wrapper for the DeleteResponderRecipe operation

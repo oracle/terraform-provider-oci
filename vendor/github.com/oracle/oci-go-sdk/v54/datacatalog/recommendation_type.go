@@ -18,15 +18,22 @@ const (
 	RecommendationTypeLinkGlossaryTerm RecommendationTypeEnum = "LINK_GLOSSARY_TERM"
 )
 
-var mappingRecommendationType = map[string]RecommendationTypeEnum{
+var mappingRecommendationTypeEnum = map[string]RecommendationTypeEnum{
 	"LINK_GLOSSARY_TERM": RecommendationTypeLinkGlossaryTerm,
 }
 
 // GetRecommendationTypeEnumValues Enumerates the set of values for RecommendationTypeEnum
 func GetRecommendationTypeEnumValues() []RecommendationTypeEnum {
 	values := make([]RecommendationTypeEnum, 0)
-	for _, v := range mappingRecommendationType {
+	for _, v := range mappingRecommendationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecommendationTypeEnumStringValues Enumerates the set of values in String for RecommendationTypeEnum
+func GetRecommendationTypeEnumStringValues() []string {
+	return []string{
+		"LINK_GLOSSARY_TERM",
+	}
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // FunctionSignature The function signature can specify function paramaters and/or function return type.
@@ -45,6 +47,21 @@ type FunctionSignature struct {
 
 func (m FunctionSignature) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FunctionSignature) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingFunctionSignatureModelTypeEnum[string(m.ModelType)]; !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetFunctionSignatureModelTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -106,15 +123,22 @@ const (
 	FunctionSignatureModelTypeDisFunctionSignature FunctionSignatureModelTypeEnum = "DIS_FUNCTION_SIGNATURE"
 )
 
-var mappingFunctionSignatureModelType = map[string]FunctionSignatureModelTypeEnum{
+var mappingFunctionSignatureModelTypeEnum = map[string]FunctionSignatureModelTypeEnum{
 	"DIS_FUNCTION_SIGNATURE": FunctionSignatureModelTypeDisFunctionSignature,
 }
 
 // GetFunctionSignatureModelTypeEnumValues Enumerates the set of values for FunctionSignatureModelTypeEnum
 func GetFunctionSignatureModelTypeEnumValues() []FunctionSignatureModelTypeEnum {
 	values := make([]FunctionSignatureModelTypeEnum, 0)
-	for _, v := range mappingFunctionSignatureModelType {
+	for _, v := range mappingFunctionSignatureModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFunctionSignatureModelTypeEnumStringValues Enumerates the set of values in String for FunctionSignatureModelTypeEnum
+func GetFunctionSignatureModelTypeEnumStringValues() []string {
+	return []string{
+		"DIS_FUNCTION_SIGNATURE",
+	}
 }

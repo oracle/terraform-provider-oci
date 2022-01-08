@@ -10,7 +10,9 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // MetricThresholdRule An autoscale action is triggered when a performance metric meets or exceeds a threshold.
@@ -30,6 +32,21 @@ func (m MetricThresholdRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MetricThresholdRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMetricThresholdRuleOperatorEnum[string(m.Operator)]; !ok && m.Operator != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operator: %s. Supported values are: %s.", m.Operator, strings.Join(GetMetricThresholdRuleOperatorEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MetricThresholdRuleOperatorEnum Enum with underlying type: string
 type MetricThresholdRuleOperatorEnum string
 
@@ -39,7 +56,7 @@ const (
 	MetricThresholdRuleOperatorLt MetricThresholdRuleOperatorEnum = "LT"
 )
 
-var mappingMetricThresholdRuleOperator = map[string]MetricThresholdRuleOperatorEnum{
+var mappingMetricThresholdRuleOperatorEnum = map[string]MetricThresholdRuleOperatorEnum{
 	"GT": MetricThresholdRuleOperatorGt,
 	"LT": MetricThresholdRuleOperatorLt,
 }
@@ -47,8 +64,16 @@ var mappingMetricThresholdRuleOperator = map[string]MetricThresholdRuleOperatorE
 // GetMetricThresholdRuleOperatorEnumValues Enumerates the set of values for MetricThresholdRuleOperatorEnum
 func GetMetricThresholdRuleOperatorEnumValues() []MetricThresholdRuleOperatorEnum {
 	values := make([]MetricThresholdRuleOperatorEnum, 0)
-	for _, v := range mappingMetricThresholdRuleOperator {
+	for _, v := range mappingMetricThresholdRuleOperatorEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMetricThresholdRuleOperatorEnumStringValues Enumerates the set of values in String for MetricThresholdRuleOperatorEnum
+func GetMetricThresholdRuleOperatorEnumStringValues() []string {
+	return []string{
+		"GT",
+		"LT",
+	}
 }

@@ -5,15 +5,13 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListUserAssessmentsRequest wrapper for the ListUserAssessments operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAssessments.go.html to see an example of how to use ListUserAssessmentsRequest.
 type ListUserAssessmentsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.
@@ -41,7 +39,7 @@ type ListUserAssessmentsRequest struct {
 	// A filter to return only user assessments that are set as baseline.
 	IsBaseline *bool `mandatory:"false" contributesTo:"query" name:"isBaseline"`
 
-	// A filter to return only items that match the specified target.
+	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
 	// A filter to return only items that match the specified assessment type.
@@ -55,9 +53,9 @@ type ListUserAssessmentsRequest struct {
 	// **Example:** 2016-12-19T16:39:57.600Z
 	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
 
-	// Search for items that were created before a specific date.
+	// Search for resources that were created before a specific date.
 	// Specifying this parameter corresponding `timeCreatedLessThan`
-	// parameter will retrieve all items created before the
+	// parameter will retrieve all resources created before the
 	// specified created date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as
 	// defined by RFC 3339.
 	// **Example:** 2016-12-19T16:39:57.600Z
@@ -93,6 +91,10 @@ func (request ListUserAssessmentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListUserAssessmentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -106,6 +108,35 @@ func (request ListUserAssessmentsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListUserAssessmentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListUserAssessmentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListUserAssessmentsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListUserAssessmentsAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUserAssessmentsTypeEnum[string(request.Type)]; !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetListUserAssessmentsTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUserAssessmentsTriggeredByEnum[string(request.TriggeredBy)]; !ok && request.TriggeredBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggeredBy: %s. Supported values are: %s.", request.TriggeredBy, strings.Join(GetListUserAssessmentsTriggeredByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUserAssessmentsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListUserAssessmentsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUserAssessmentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListUserAssessmentsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUserAssessmentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListUserAssessmentsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListUserAssessmentsResponse wrapper for the ListUserAssessments operation
@@ -147,7 +178,7 @@ const (
 	ListUserAssessmentsAccessLevelAccessible ListUserAssessmentsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListUserAssessmentsAccessLevel = map[string]ListUserAssessmentsAccessLevelEnum{
+var mappingListUserAssessmentsAccessLevelEnum = map[string]ListUserAssessmentsAccessLevelEnum{
 	"RESTRICTED": ListUserAssessmentsAccessLevelRestricted,
 	"ACCESSIBLE": ListUserAssessmentsAccessLevelAccessible,
 }
@@ -155,10 +186,18 @@ var mappingListUserAssessmentsAccessLevel = map[string]ListUserAssessmentsAccess
 // GetListUserAssessmentsAccessLevelEnumValues Enumerates the set of values for ListUserAssessmentsAccessLevelEnum
 func GetListUserAssessmentsAccessLevelEnumValues() []ListUserAssessmentsAccessLevelEnum {
 	values := make([]ListUserAssessmentsAccessLevelEnum, 0)
-	for _, v := range mappingListUserAssessmentsAccessLevel {
+	for _, v := range mappingListUserAssessmentsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserAssessmentsAccessLevelEnumStringValues Enumerates the set of values in String for ListUserAssessmentsAccessLevelEnum
+func GetListUserAssessmentsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }
 
 // ListUserAssessmentsTypeEnum Enum with underlying type: string
@@ -172,7 +211,7 @@ const (
 	ListUserAssessmentsTypeSaveSchedule ListUserAssessmentsTypeEnum = "SAVE_SCHEDULE"
 )
 
-var mappingListUserAssessmentsType = map[string]ListUserAssessmentsTypeEnum{
+var mappingListUserAssessmentsTypeEnum = map[string]ListUserAssessmentsTypeEnum{
 	"LATEST":        ListUserAssessmentsTypeLatest,
 	"SAVED":         ListUserAssessmentsTypeSaved,
 	"COMPARTMENT":   ListUserAssessmentsTypeCompartment,
@@ -182,10 +221,20 @@ var mappingListUserAssessmentsType = map[string]ListUserAssessmentsTypeEnum{
 // GetListUserAssessmentsTypeEnumValues Enumerates the set of values for ListUserAssessmentsTypeEnum
 func GetListUserAssessmentsTypeEnumValues() []ListUserAssessmentsTypeEnum {
 	values := make([]ListUserAssessmentsTypeEnum, 0)
-	for _, v := range mappingListUserAssessmentsType {
+	for _, v := range mappingListUserAssessmentsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserAssessmentsTypeEnumStringValues Enumerates the set of values in String for ListUserAssessmentsTypeEnum
+func GetListUserAssessmentsTypeEnumStringValues() []string {
+	return []string{
+		"LATEST",
+		"SAVED",
+		"COMPARTMENT",
+		"SAVE_SCHEDULE",
+	}
 }
 
 // ListUserAssessmentsTriggeredByEnum Enum with underlying type: string
@@ -197,7 +246,7 @@ const (
 	ListUserAssessmentsTriggeredBySystem ListUserAssessmentsTriggeredByEnum = "SYSTEM"
 )
 
-var mappingListUserAssessmentsTriggeredBy = map[string]ListUserAssessmentsTriggeredByEnum{
+var mappingListUserAssessmentsTriggeredByEnum = map[string]ListUserAssessmentsTriggeredByEnum{
 	"USER":   ListUserAssessmentsTriggeredByUser,
 	"SYSTEM": ListUserAssessmentsTriggeredBySystem,
 }
@@ -205,10 +254,18 @@ var mappingListUserAssessmentsTriggeredBy = map[string]ListUserAssessmentsTrigge
 // GetListUserAssessmentsTriggeredByEnumValues Enumerates the set of values for ListUserAssessmentsTriggeredByEnum
 func GetListUserAssessmentsTriggeredByEnumValues() []ListUserAssessmentsTriggeredByEnum {
 	values := make([]ListUserAssessmentsTriggeredByEnum, 0)
-	for _, v := range mappingListUserAssessmentsTriggeredBy {
+	for _, v := range mappingListUserAssessmentsTriggeredByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserAssessmentsTriggeredByEnumStringValues Enumerates the set of values in String for ListUserAssessmentsTriggeredByEnum
+func GetListUserAssessmentsTriggeredByEnumStringValues() []string {
+	return []string{
+		"USER",
+		"SYSTEM",
+	}
 }
 
 // ListUserAssessmentsLifecycleStateEnum Enum with underlying type: string
@@ -223,7 +280,7 @@ const (
 	ListUserAssessmentsLifecycleStateFailed    ListUserAssessmentsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListUserAssessmentsLifecycleState = map[string]ListUserAssessmentsLifecycleStateEnum{
+var mappingListUserAssessmentsLifecycleStateEnum = map[string]ListUserAssessmentsLifecycleStateEnum{
 	"CREATING":  ListUserAssessmentsLifecycleStateCreating,
 	"SUCCEEDED": ListUserAssessmentsLifecycleStateSucceeded,
 	"UPDATING":  ListUserAssessmentsLifecycleStateUpdating,
@@ -234,10 +291,21 @@ var mappingListUserAssessmentsLifecycleState = map[string]ListUserAssessmentsLif
 // GetListUserAssessmentsLifecycleStateEnumValues Enumerates the set of values for ListUserAssessmentsLifecycleStateEnum
 func GetListUserAssessmentsLifecycleStateEnumValues() []ListUserAssessmentsLifecycleStateEnum {
 	values := make([]ListUserAssessmentsLifecycleStateEnum, 0)
-	for _, v := range mappingListUserAssessmentsLifecycleState {
+	for _, v := range mappingListUserAssessmentsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserAssessmentsLifecycleStateEnumStringValues Enumerates the set of values in String for ListUserAssessmentsLifecycleStateEnum
+func GetListUserAssessmentsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"SUCCEEDED",
+		"UPDATING",
+		"DELETING",
+		"FAILED",
+	}
 }
 
 // ListUserAssessmentsSortOrderEnum Enum with underlying type: string
@@ -249,7 +317,7 @@ const (
 	ListUserAssessmentsSortOrderDesc ListUserAssessmentsSortOrderEnum = "DESC"
 )
 
-var mappingListUserAssessmentsSortOrder = map[string]ListUserAssessmentsSortOrderEnum{
+var mappingListUserAssessmentsSortOrderEnum = map[string]ListUserAssessmentsSortOrderEnum{
 	"ASC":  ListUserAssessmentsSortOrderAsc,
 	"DESC": ListUserAssessmentsSortOrderDesc,
 }
@@ -257,10 +325,18 @@ var mappingListUserAssessmentsSortOrder = map[string]ListUserAssessmentsSortOrde
 // GetListUserAssessmentsSortOrderEnumValues Enumerates the set of values for ListUserAssessmentsSortOrderEnum
 func GetListUserAssessmentsSortOrderEnumValues() []ListUserAssessmentsSortOrderEnum {
 	values := make([]ListUserAssessmentsSortOrderEnum, 0)
-	for _, v := range mappingListUserAssessmentsSortOrder {
+	for _, v := range mappingListUserAssessmentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserAssessmentsSortOrderEnumStringValues Enumerates the set of values in String for ListUserAssessmentsSortOrderEnum
+func GetListUserAssessmentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListUserAssessmentsSortByEnum Enum with underlying type: string
@@ -272,7 +348,7 @@ const (
 	ListUserAssessmentsSortByDisplayname ListUserAssessmentsSortByEnum = "displayName"
 )
 
-var mappingListUserAssessmentsSortBy = map[string]ListUserAssessmentsSortByEnum{
+var mappingListUserAssessmentsSortByEnum = map[string]ListUserAssessmentsSortByEnum{
 	"timeCreated": ListUserAssessmentsSortByTimecreated,
 	"displayName": ListUserAssessmentsSortByDisplayname,
 }
@@ -280,8 +356,16 @@ var mappingListUserAssessmentsSortBy = map[string]ListUserAssessmentsSortByEnum{
 // GetListUserAssessmentsSortByEnumValues Enumerates the set of values for ListUserAssessmentsSortByEnum
 func GetListUserAssessmentsSortByEnumValues() []ListUserAssessmentsSortByEnum {
 	values := make([]ListUserAssessmentsSortByEnum, 0)
-	for _, v := range mappingListUserAssessmentsSortBy {
+	for _, v := range mappingListUserAssessmentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserAssessmentsSortByEnumStringValues Enumerates the set of values in String for ListUserAssessmentsSortByEnum
+func GetListUserAssessmentsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

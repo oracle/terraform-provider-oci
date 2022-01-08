@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateDatabaseSoftwareImageDetails Parameters for creating a database software image in the specified compartment.
@@ -58,6 +60,24 @@ func (m CreateDatabaseSoftwareImageDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDatabaseSoftwareImageDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum[string(m.ImageShapeFamily)]; !ok && m.ImageShapeFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ImageShapeFamily: %s. Supported values are: %s.", m.ImageShapeFamily, strings.Join(GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateDatabaseSoftwareImageDetailsImageTypeEnum[string(m.ImageType)]; !ok && m.ImageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ImageType: %s. Supported values are: %s.", m.ImageType, strings.Join(GetCreateDatabaseSoftwareImageDetailsImageTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum Enum with underlying type: string
 type CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum string
 
@@ -68,7 +88,7 @@ const (
 	CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape   CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "EXACC_SHAPE"
 )
 
-var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamily = map[string]CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum{
+var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = map[string]CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum{
 	"VM_BM_SHAPE":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyVmBmShape,
 	"EXADATA_SHAPE": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadataShape,
 	"EXACC_SHAPE":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape,
@@ -77,10 +97,19 @@ var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamily = map[string]Creat
 // GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumValues Enumerates the set of values for CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum
 func GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumValues() []CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum {
 	values := make([]CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum, 0)
-	for _, v := range mappingCreateDatabaseSoftwareImageDetailsImageShapeFamily {
+	for _, v := range mappingCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumStringValues Enumerates the set of values in String for CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum
+func GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumStringValues() []string {
+	return []string{
+		"VM_BM_SHAPE",
+		"EXADATA_SHAPE",
+		"EXACC_SHAPE",
+	}
 }
 
 // CreateDatabaseSoftwareImageDetailsImageTypeEnum Enum with underlying type: string
@@ -92,7 +121,7 @@ const (
 	CreateDatabaseSoftwareImageDetailsImageTypeDatabaseImage CreateDatabaseSoftwareImageDetailsImageTypeEnum = "DATABASE_IMAGE"
 )
 
-var mappingCreateDatabaseSoftwareImageDetailsImageType = map[string]CreateDatabaseSoftwareImageDetailsImageTypeEnum{
+var mappingCreateDatabaseSoftwareImageDetailsImageTypeEnum = map[string]CreateDatabaseSoftwareImageDetailsImageTypeEnum{
 	"GRID_IMAGE":     CreateDatabaseSoftwareImageDetailsImageTypeGridImage,
 	"DATABASE_IMAGE": CreateDatabaseSoftwareImageDetailsImageTypeDatabaseImage,
 }
@@ -100,8 +129,16 @@ var mappingCreateDatabaseSoftwareImageDetailsImageType = map[string]CreateDataba
 // GetCreateDatabaseSoftwareImageDetailsImageTypeEnumValues Enumerates the set of values for CreateDatabaseSoftwareImageDetailsImageTypeEnum
 func GetCreateDatabaseSoftwareImageDetailsImageTypeEnumValues() []CreateDatabaseSoftwareImageDetailsImageTypeEnum {
 	values := make([]CreateDatabaseSoftwareImageDetailsImageTypeEnum, 0)
-	for _, v := range mappingCreateDatabaseSoftwareImageDetailsImageType {
+	for _, v := range mappingCreateDatabaseSoftwareImageDetailsImageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDatabaseSoftwareImageDetailsImageTypeEnumStringValues Enumerates the set of values in String for CreateDatabaseSoftwareImageDetailsImageTypeEnum
+func GetCreateDatabaseSoftwareImageDetailsImageTypeEnumStringValues() []string {
+	return []string{
+		"GRID_IMAGE",
+		"DATABASE_IMAGE",
+	}
 }

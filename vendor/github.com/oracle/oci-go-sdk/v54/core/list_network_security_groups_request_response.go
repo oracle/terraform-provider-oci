@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListNetworkSecurityGroupsRequest wrapper for the ListNetworkSecurityGroups operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListNetworkSecurityGroups.go.html to see an example of how to use ListNetworkSecurityGroupsRequest.
 type ListNetworkSecurityGroupsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -72,6 +70,10 @@ func (request ListNetworkSecurityGroupsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListNetworkSecurityGroupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +87,26 @@ func (request ListNetworkSecurityGroupsRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListNetworkSecurityGroupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListNetworkSecurityGroupsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListNetworkSecurityGroupsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNetworkSecurityGroupsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNetworkSecurityGroupsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNetworkSecurityGroupsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingNetworkSecurityGroupLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetNetworkSecurityGroupLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListNetworkSecurityGroupsResponse wrapper for the ListNetworkSecurityGroups operation
@@ -124,7 +146,7 @@ const (
 	ListNetworkSecurityGroupsSortByDisplayname ListNetworkSecurityGroupsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListNetworkSecurityGroupsSortBy = map[string]ListNetworkSecurityGroupsSortByEnum{
+var mappingListNetworkSecurityGroupsSortByEnum = map[string]ListNetworkSecurityGroupsSortByEnum{
 	"TIMECREATED": ListNetworkSecurityGroupsSortByTimecreated,
 	"DISPLAYNAME": ListNetworkSecurityGroupsSortByDisplayname,
 }
@@ -132,10 +154,18 @@ var mappingListNetworkSecurityGroupsSortBy = map[string]ListNetworkSecurityGroup
 // GetListNetworkSecurityGroupsSortByEnumValues Enumerates the set of values for ListNetworkSecurityGroupsSortByEnum
 func GetListNetworkSecurityGroupsSortByEnumValues() []ListNetworkSecurityGroupsSortByEnum {
 	values := make([]ListNetworkSecurityGroupsSortByEnum, 0)
-	for _, v := range mappingListNetworkSecurityGroupsSortBy {
+	for _, v := range mappingListNetworkSecurityGroupsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkSecurityGroupsSortByEnumStringValues Enumerates the set of values in String for ListNetworkSecurityGroupsSortByEnum
+func GetListNetworkSecurityGroupsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListNetworkSecurityGroupsSortOrderEnum Enum with underlying type: string
@@ -147,7 +177,7 @@ const (
 	ListNetworkSecurityGroupsSortOrderDesc ListNetworkSecurityGroupsSortOrderEnum = "DESC"
 )
 
-var mappingListNetworkSecurityGroupsSortOrder = map[string]ListNetworkSecurityGroupsSortOrderEnum{
+var mappingListNetworkSecurityGroupsSortOrderEnum = map[string]ListNetworkSecurityGroupsSortOrderEnum{
 	"ASC":  ListNetworkSecurityGroupsSortOrderAsc,
 	"DESC": ListNetworkSecurityGroupsSortOrderDesc,
 }
@@ -155,8 +185,16 @@ var mappingListNetworkSecurityGroupsSortOrder = map[string]ListNetworkSecurityGr
 // GetListNetworkSecurityGroupsSortOrderEnumValues Enumerates the set of values for ListNetworkSecurityGroupsSortOrderEnum
 func GetListNetworkSecurityGroupsSortOrderEnumValues() []ListNetworkSecurityGroupsSortOrderEnum {
 	values := make([]ListNetworkSecurityGroupsSortOrderEnum, 0)
-	for _, v := range mappingListNetworkSecurityGroupsSortOrder {
+	for _, v := range mappingListNetworkSecurityGroupsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkSecurityGroupsSortOrderEnumStringValues Enumerates the set of values in String for ListNetworkSecurityGroupsSortOrderEnum
+func GetListNetworkSecurityGroupsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

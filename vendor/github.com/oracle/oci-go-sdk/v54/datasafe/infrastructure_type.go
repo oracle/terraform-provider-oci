@@ -20,7 +20,7 @@ const (
 	InfrastructureTypeNonOracleCloud  InfrastructureTypeEnum = "NON_ORACLE_CLOUD"
 )
 
-var mappingInfrastructureType = map[string]InfrastructureTypeEnum{
+var mappingInfrastructureTypeEnum = map[string]InfrastructureTypeEnum{
 	"ORACLE_CLOUD":      InfrastructureTypeOracleCloud,
 	"CLOUD_AT_CUSTOMER": InfrastructureTypeCloudAtCustomer,
 	"ON_PREMISES":       InfrastructureTypeOnPremises,
@@ -30,8 +30,18 @@ var mappingInfrastructureType = map[string]InfrastructureTypeEnum{
 // GetInfrastructureTypeEnumValues Enumerates the set of values for InfrastructureTypeEnum
 func GetInfrastructureTypeEnumValues() []InfrastructureTypeEnum {
 	values := make([]InfrastructureTypeEnum, 0)
-	for _, v := range mappingInfrastructureType {
+	for _, v := range mappingInfrastructureTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInfrastructureTypeEnumStringValues Enumerates the set of values in String for InfrastructureTypeEnum
+func GetInfrastructureTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_CLOUD",
+		"CLOUD_AT_CUSTOMER",
+		"ON_PREMISES",
+		"NON_ORACLE_CLOUD",
+	}
 }

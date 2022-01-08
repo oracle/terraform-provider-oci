@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAssociatedEntitiesRequest wrapper for the ListAssociatedEntities operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListAssociatedEntities.go.html to see an example of how to use ListAssociatedEntitiesRequest.
 type ListAssociatedEntitiesRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -60,6 +58,10 @@ func (request ListAssociatedEntitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAssociatedEntitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,23 @@ func (request ListAssociatedEntitiesRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAssociatedEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAssociatedEntitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAssociatedEntitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAssociatedEntitiesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAssociatedEntitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAssociatedEntitiesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAssociatedEntitiesResponse wrapper for the ListAssociatedEntities operation
@@ -116,7 +135,7 @@ const (
 	ListAssociatedEntitiesSortOrderDesc ListAssociatedEntitiesSortOrderEnum = "DESC"
 )
 
-var mappingListAssociatedEntitiesSortOrder = map[string]ListAssociatedEntitiesSortOrderEnum{
+var mappingListAssociatedEntitiesSortOrderEnum = map[string]ListAssociatedEntitiesSortOrderEnum{
 	"ASC":  ListAssociatedEntitiesSortOrderAsc,
 	"DESC": ListAssociatedEntitiesSortOrderDesc,
 }
@@ -124,10 +143,18 @@ var mappingListAssociatedEntitiesSortOrder = map[string]ListAssociatedEntitiesSo
 // GetListAssociatedEntitiesSortOrderEnumValues Enumerates the set of values for ListAssociatedEntitiesSortOrderEnum
 func GetListAssociatedEntitiesSortOrderEnumValues() []ListAssociatedEntitiesSortOrderEnum {
 	values := make([]ListAssociatedEntitiesSortOrderEnum, 0)
-	for _, v := range mappingListAssociatedEntitiesSortOrder {
+	for _, v := range mappingListAssociatedEntitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociatedEntitiesSortOrderEnumStringValues Enumerates the set of values in String for ListAssociatedEntitiesSortOrderEnum
+func GetListAssociatedEntitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAssociatedEntitiesSortByEnum Enum with underlying type: string
@@ -140,7 +167,7 @@ const (
 	ListAssociatedEntitiesSortByAssociationcount      ListAssociatedEntitiesSortByEnum = "associationCount"
 )
 
-var mappingListAssociatedEntitiesSortBy = map[string]ListAssociatedEntitiesSortByEnum{
+var mappingListAssociatedEntitiesSortByEnum = map[string]ListAssociatedEntitiesSortByEnum{
 	"entityName":            ListAssociatedEntitiesSortByEntityname,
 	"entityTypeDisplayName": ListAssociatedEntitiesSortByEntitytypedisplayname,
 	"associationCount":      ListAssociatedEntitiesSortByAssociationcount,
@@ -149,8 +176,17 @@ var mappingListAssociatedEntitiesSortBy = map[string]ListAssociatedEntitiesSortB
 // GetListAssociatedEntitiesSortByEnumValues Enumerates the set of values for ListAssociatedEntitiesSortByEnum
 func GetListAssociatedEntitiesSortByEnumValues() []ListAssociatedEntitiesSortByEnum {
 	values := make([]ListAssociatedEntitiesSortByEnum, 0)
-	for _, v := range mappingListAssociatedEntitiesSortBy {
+	for _, v := range mappingListAssociatedEntitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociatedEntitiesSortByEnumStringValues Enumerates the set of values in String for ListAssociatedEntitiesSortByEnum
+func GetListAssociatedEntitiesSortByEnumStringValues() []string {
+	return []string{
+		"entityName",
+		"entityTypeDisplayName",
+		"associationCount",
+	}
 }

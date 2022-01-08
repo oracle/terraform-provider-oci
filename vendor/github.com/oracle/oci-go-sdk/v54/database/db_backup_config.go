@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DbBackupConfig Backup Options
@@ -29,12 +31,37 @@ type DbBackupConfig struct {
 	// Example: `SLOT_TWO`
 	AutoBackupWindow DbBackupConfigAutoBackupWindowEnum `mandatory:"false" json:"autoBackupWindow,omitempty"`
 
+	// If set to true, configures automatic incremental backups in the local region (the region of the DB system) and the remote region with a default frequency of 1 hour.
+	// If you previously used RMAN or dbcli to configure backups, using the Console or the API for manged backups creates a new backup configuration for your database. The new configuration replaces the configuration created with RMAN or dbcli.
+	// This means that you can no longer rely on your previously configured unmanaged backups to work.
+	RemoteBackupEnabled *bool `mandatory:"false" json:"remoteBackupEnabled"`
+
+	// The name of the remote region where the remote automatic incremental backups will be stored.
+	// For information about valid region names, see
+	// Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+	RemoteRegion *string `mandatory:"false" json:"remoteRegion"`
+
 	// Backup destination details.
 	BackupDestinationDetails []BackupDestinationDetails `mandatory:"false" json:"backupDestinationDetails"`
 }
 
 func (m DbBackupConfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbBackupConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDbBackupConfigAutoBackupWindowEnum[string(m.AutoBackupWindow)]; !ok && m.AutoBackupWindow != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoBackupWindow: %s. Supported values are: %s.", m.AutoBackupWindow, strings.Join(GetDbBackupConfigAutoBackupWindowEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DbBackupConfigAutoBackupWindowEnum Enum with underlying type: string
@@ -56,7 +83,7 @@ const (
 	DbBackupConfigAutoBackupWindowTwelve DbBackupConfigAutoBackupWindowEnum = "SLOT_TWELVE"
 )
 
-var mappingDbBackupConfigAutoBackupWindow = map[string]DbBackupConfigAutoBackupWindowEnum{
+var mappingDbBackupConfigAutoBackupWindowEnum = map[string]DbBackupConfigAutoBackupWindowEnum{
 	"SLOT_ONE":    DbBackupConfigAutoBackupWindowOne,
 	"SLOT_TWO":    DbBackupConfigAutoBackupWindowTwo,
 	"SLOT_THREE":  DbBackupConfigAutoBackupWindowThree,
@@ -74,8 +101,26 @@ var mappingDbBackupConfigAutoBackupWindow = map[string]DbBackupConfigAutoBackupW
 // GetDbBackupConfigAutoBackupWindowEnumValues Enumerates the set of values for DbBackupConfigAutoBackupWindowEnum
 func GetDbBackupConfigAutoBackupWindowEnumValues() []DbBackupConfigAutoBackupWindowEnum {
 	values := make([]DbBackupConfigAutoBackupWindowEnum, 0)
-	for _, v := range mappingDbBackupConfigAutoBackupWindow {
+	for _, v := range mappingDbBackupConfigAutoBackupWindowEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbBackupConfigAutoBackupWindowEnumStringValues Enumerates the set of values in String for DbBackupConfigAutoBackupWindowEnum
+func GetDbBackupConfigAutoBackupWindowEnumStringValues() []string {
+	return []string{
+		"SLOT_ONE",
+		"SLOT_TWO",
+		"SLOT_THREE",
+		"SLOT_FOUR",
+		"SLOT_FIVE",
+		"SLOT_SIX",
+		"SLOT_SEVEN",
+		"SLOT_EIGHT",
+		"SLOT_NINE",
+		"SLOT_TEN",
+		"SLOT_ELEVEN",
+		"SLOT_TWELVE",
+	}
 }

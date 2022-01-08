@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateTaskRunDetails The properties used in task run create operations.
@@ -55,6 +57,21 @@ func (m CreateTaskRunDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateTaskRunDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateTaskRunDetailsReRunTypeEnum[string(m.ReRunType)]; !ok && m.ReRunType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReRunType: %s. Supported values are: %s.", m.ReRunType, strings.Join(GetCreateTaskRunDetailsReRunTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateTaskRunDetailsReRunTypeEnum Enum with underlying type: string
 type CreateTaskRunDetailsReRunTypeEnum string
 
@@ -65,7 +82,7 @@ const (
 	CreateTaskRunDetailsReRunTypeStep      CreateTaskRunDetailsReRunTypeEnum = "STEP"
 )
 
-var mappingCreateTaskRunDetailsReRunType = map[string]CreateTaskRunDetailsReRunTypeEnum{
+var mappingCreateTaskRunDetailsReRunTypeEnum = map[string]CreateTaskRunDetailsReRunTypeEnum{
 	"BEGINNING": CreateTaskRunDetailsReRunTypeBeginning,
 	"FAILED":    CreateTaskRunDetailsReRunTypeFailed,
 	"STEP":      CreateTaskRunDetailsReRunTypeStep,
@@ -74,8 +91,17 @@ var mappingCreateTaskRunDetailsReRunType = map[string]CreateTaskRunDetailsReRunT
 // GetCreateTaskRunDetailsReRunTypeEnumValues Enumerates the set of values for CreateTaskRunDetailsReRunTypeEnum
 func GetCreateTaskRunDetailsReRunTypeEnumValues() []CreateTaskRunDetailsReRunTypeEnum {
 	values := make([]CreateTaskRunDetailsReRunTypeEnum, 0)
-	for _, v := range mappingCreateTaskRunDetailsReRunType {
+	for _, v := range mappingCreateTaskRunDetailsReRunTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateTaskRunDetailsReRunTypeEnumStringValues Enumerates the set of values in String for CreateTaskRunDetailsReRunTypeEnum
+func GetCreateTaskRunDetailsReRunTypeEnumStringValues() []string {
+	return []string{
+		"BEGINNING",
+		"FAILED",
+		"STEP",
+	}
 }

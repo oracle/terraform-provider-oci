@@ -5,15 +5,13 @@
 package jms
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeManagedInstanceUsageRequest wrapper for the SummarizeManagedInstanceUsage operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeManagedInstanceUsage.go.html to see an example of how to use SummarizeManagedInstanceUsageRequest.
 type SummarizeManagedInstanceUsageRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
@@ -85,6 +83,10 @@ func (request SummarizeManagedInstanceUsageRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeManagedInstanceUsageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -98,6 +100,38 @@ func (request SummarizeManagedInstanceUsageRequest) BinaryRequestBody() (*common
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeManagedInstanceUsageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeManagedInstanceUsageRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeManagedInstanceUsageManagedInstanceTypeEnum[string(request.ManagedInstanceType)]; !ok && request.ManagedInstanceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedInstanceType: %s. Supported values are: %s.", request.ManagedInstanceType, strings.Join(GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingSummarizeManagedInstanceUsageFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetSummarizeManagedInstanceUsageFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeManagedInstanceUsageSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeManagedInstanceUsageSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeManagedInstanceUsageSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeManagedInstanceUsageSortByEnumStringValues(), ",")))
+	}
+	for _, val := range request.OsFamily {
+		if _, ok := mappingOsFamilyEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeManagedInstanceUsageResponse wrapper for the SummarizeManagedInstanceUsage operation
@@ -136,17 +170,24 @@ const (
 	SummarizeManagedInstanceUsageManagedInstanceTypeOracleManagementAgent SummarizeManagedInstanceUsageManagedInstanceTypeEnum = "ORACLE_MANAGEMENT_AGENT"
 )
 
-var mappingSummarizeManagedInstanceUsageManagedInstanceType = map[string]SummarizeManagedInstanceUsageManagedInstanceTypeEnum{
+var mappingSummarizeManagedInstanceUsageManagedInstanceTypeEnum = map[string]SummarizeManagedInstanceUsageManagedInstanceTypeEnum{
 	"ORACLE_MANAGEMENT_AGENT": SummarizeManagedInstanceUsageManagedInstanceTypeOracleManagementAgent,
 }
 
 // GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumValues Enumerates the set of values for SummarizeManagedInstanceUsageManagedInstanceTypeEnum
 func GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumValues() []SummarizeManagedInstanceUsageManagedInstanceTypeEnum {
 	values := make([]SummarizeManagedInstanceUsageManagedInstanceTypeEnum, 0)
-	for _, v := range mappingSummarizeManagedInstanceUsageManagedInstanceType {
+	for _, v := range mappingSummarizeManagedInstanceUsageManagedInstanceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumStringValues Enumerates the set of values in String for SummarizeManagedInstanceUsageManagedInstanceTypeEnum
+func GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_MANAGEMENT_AGENT",
+	}
 }
 
 // SummarizeManagedInstanceUsageSortOrderEnum Enum with underlying type: string
@@ -158,7 +199,7 @@ const (
 	SummarizeManagedInstanceUsageSortOrderDesc SummarizeManagedInstanceUsageSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeManagedInstanceUsageSortOrder = map[string]SummarizeManagedInstanceUsageSortOrderEnum{
+var mappingSummarizeManagedInstanceUsageSortOrderEnum = map[string]SummarizeManagedInstanceUsageSortOrderEnum{
 	"ASC":  SummarizeManagedInstanceUsageSortOrderAsc,
 	"DESC": SummarizeManagedInstanceUsageSortOrderDesc,
 }
@@ -166,10 +207,18 @@ var mappingSummarizeManagedInstanceUsageSortOrder = map[string]SummarizeManagedI
 // GetSummarizeManagedInstanceUsageSortOrderEnumValues Enumerates the set of values for SummarizeManagedInstanceUsageSortOrderEnum
 func GetSummarizeManagedInstanceUsageSortOrderEnumValues() []SummarizeManagedInstanceUsageSortOrderEnum {
 	values := make([]SummarizeManagedInstanceUsageSortOrderEnum, 0)
-	for _, v := range mappingSummarizeManagedInstanceUsageSortOrder {
+	for _, v := range mappingSummarizeManagedInstanceUsageSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeManagedInstanceUsageSortOrderEnumStringValues Enumerates the set of values in String for SummarizeManagedInstanceUsageSortOrderEnum
+func GetSummarizeManagedInstanceUsageSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeManagedInstanceUsageSortByEnum Enum with underlying type: string
@@ -185,7 +234,7 @@ const (
 	SummarizeManagedInstanceUsageSortByOsname                       SummarizeManagedInstanceUsageSortByEnum = "osName"
 )
 
-var mappingSummarizeManagedInstanceUsageSortBy = map[string]SummarizeManagedInstanceUsageSortByEnum{
+var mappingSummarizeManagedInstanceUsageSortByEnum = map[string]SummarizeManagedInstanceUsageSortByEnum{
 	"timeFirstSeen":                SummarizeManagedInstanceUsageSortByTimefirstseen,
 	"timeLastSeen":                 SummarizeManagedInstanceUsageSortByTimelastseen,
 	"approximateJreCount":          SummarizeManagedInstanceUsageSortByApproximatejrecount,
@@ -197,8 +246,20 @@ var mappingSummarizeManagedInstanceUsageSortBy = map[string]SummarizeManagedInst
 // GetSummarizeManagedInstanceUsageSortByEnumValues Enumerates the set of values for SummarizeManagedInstanceUsageSortByEnum
 func GetSummarizeManagedInstanceUsageSortByEnumValues() []SummarizeManagedInstanceUsageSortByEnum {
 	values := make([]SummarizeManagedInstanceUsageSortByEnum, 0)
-	for _, v := range mappingSummarizeManagedInstanceUsageSortBy {
+	for _, v := range mappingSummarizeManagedInstanceUsageSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeManagedInstanceUsageSortByEnumStringValues Enumerates the set of values in String for SummarizeManagedInstanceUsageSortByEnum
+func GetSummarizeManagedInstanceUsageSortByEnumStringValues() []string {
+	return []string{
+		"timeFirstSeen",
+		"timeLastSeen",
+		"approximateJreCount",
+		"approximateInstallationCount",
+		"approximateApplicationCount",
+		"osName",
+	}
 }

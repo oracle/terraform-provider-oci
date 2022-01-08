@@ -21,7 +21,7 @@ const (
 	UpdateTypesOther       UpdateTypesEnum = "OTHER"
 )
 
-var mappingUpdateTypes = map[string]UpdateTypesEnum{
+var mappingUpdateTypesEnum = map[string]UpdateTypesEnum{
 	"SECURITY":    UpdateTypesSecurity,
 	"BUG":         UpdateTypesBug,
 	"ENHANCEMENT": UpdateTypesEnhancement,
@@ -31,8 +31,18 @@ var mappingUpdateTypes = map[string]UpdateTypesEnum{
 // GetUpdateTypesEnumValues Enumerates the set of values for UpdateTypesEnum
 func GetUpdateTypesEnumValues() []UpdateTypesEnum {
 	values := make([]UpdateTypesEnum, 0)
-	for _, v := range mappingUpdateTypes {
+	for _, v := range mappingUpdateTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTypesEnumStringValues Enumerates the set of values in String for UpdateTypesEnum
+func GetUpdateTypesEnumStringValues() []string {
+	return []string{
+		"SECURITY",
+		"BUG",
+		"ENHANCEMENT",
+		"OTHER",
+	}
 }

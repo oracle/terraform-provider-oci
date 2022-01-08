@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Volume A detachable block volume device that allows you to dynamically expand
@@ -79,6 +81,7 @@ type Volume struct {
 	//   * `0`: Represents Lower Cost option.
 	//   * `10`: Represents Balanced option.
 	//   * `20`: Represents Higher Performance option.
+	// For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
 	// The size of the volume in GBs.
@@ -89,18 +92,37 @@ type Volume struct {
 	// The OCID of the source volume group.
 	VolumeGroupId *string `mandatory:"false" json:"volumeGroupId"`
 
-	// Specifies whether the auto-tune performance is enabled for this volume.
+	// Specifies whether the auto-tune performance is enabled for this volume. This field is deprecated.
+	// Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
 
-	// The number of Volume Performance Units per GB that this volume is effectively tuned to when it's idle.
+	// The number of Volume Performance Units per GB that this volume is effectively tuned to.
 	AutoTunedVpusPerGB *int64 `mandatory:"false" json:"autoTunedVpusPerGB"`
 
 	// The list of block volume replicas of this volume.
 	BlockVolumeReplicas []BlockVolumeReplicaInfo `mandatory:"false" json:"blockVolumeReplicas"`
+
+	// The list of autotune policies enabled for this volume.
+	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
 }
 
 func (m Volume) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Volume) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVolumeLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -118,6 +140,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
 		AutoTunedVpusPerGB  *int64                            `json:"autoTunedVpusPerGB"`
 		BlockVolumeReplicas []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
+		AutotunePolicies    []autotunepolicy                  `json:"autotunePolicies"`
 		AvailabilityDomain  *string                           `json:"availabilityDomain"`
 		CompartmentId       *string                           `json:"compartmentId"`
 		DisplayName         *string                           `json:"displayName"`
@@ -167,6 +190,19 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		m.BlockVolumeReplicas[i] = n
 	}
 
+	m.AutotunePolicies = make([]AutotunePolicy, len(model.AutotunePolicies))
+	for i, n := range model.AutotunePolicies {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.AutotunePolicies[i] = nn.(AutotunePolicy)
+		} else {
+			m.AutotunePolicies[i] = nil
+		}
+	}
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId
@@ -197,7 +233,7 @@ const (
 	VolumeLifecycleStateFaulty       VolumeLifecycleStateEnum = "FAULTY"
 )
 
-var mappingVolumeLifecycleState = map[string]VolumeLifecycleStateEnum{
+var mappingVolumeLifecycleStateEnum = map[string]VolumeLifecycleStateEnum{
 	"PROVISIONING": VolumeLifecycleStateProvisioning,
 	"RESTORING":    VolumeLifecycleStateRestoring,
 	"AVAILABLE":    VolumeLifecycleStateAvailable,
@@ -209,8 +245,20 @@ var mappingVolumeLifecycleState = map[string]VolumeLifecycleStateEnum{
 // GetVolumeLifecycleStateEnumValues Enumerates the set of values for VolumeLifecycleStateEnum
 func GetVolumeLifecycleStateEnumValues() []VolumeLifecycleStateEnum {
 	values := make([]VolumeLifecycleStateEnum, 0)
-	for _, v := range mappingVolumeLifecycleState {
+	for _, v := range mappingVolumeLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeLifecycleStateEnumStringValues Enumerates the set of values in String for VolumeLifecycleStateEnum
+func GetVolumeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"RESTORING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+		"FAULTY",
+	}
 }

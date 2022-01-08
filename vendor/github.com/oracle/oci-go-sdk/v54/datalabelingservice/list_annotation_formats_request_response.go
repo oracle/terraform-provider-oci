@@ -5,15 +5,13 @@
 package datalabelingservice
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAnnotationFormatsRequest wrapper for the ListAnnotationFormats operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ListAnnotationFormats.go.html to see an example of how to use ListAnnotationFormatsRequest.
 type ListAnnotationFormatsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -43,6 +41,10 @@ func (request ListAnnotationFormatsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAnnotationFormatsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -58,6 +60,20 @@ func (request ListAnnotationFormatsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAnnotationFormatsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAnnotationFormatsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAnnotationFormatsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ListAnnotationFormatsResponse wrapper for the ListAnnotationFormats operation
 type ListAnnotationFormatsResponse struct {
 
@@ -67,11 +83,11 @@ type ListAnnotationFormatsResponse struct {
 	// A list of AnnotationFormatCollection instances
 	AnnotationFormatCollection `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// A unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response,
+	// For the pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then a partial list might have been returned. Include this value as the `page` parameter for the
 	// subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
@@ -95,7 +111,7 @@ const (
 	ListAnnotationFormatsSortOrderDesc ListAnnotationFormatsSortOrderEnum = "DESC"
 )
 
-var mappingListAnnotationFormatsSortOrder = map[string]ListAnnotationFormatsSortOrderEnum{
+var mappingListAnnotationFormatsSortOrderEnum = map[string]ListAnnotationFormatsSortOrderEnum{
 	"ASC":  ListAnnotationFormatsSortOrderAsc,
 	"DESC": ListAnnotationFormatsSortOrderDesc,
 }
@@ -103,8 +119,16 @@ var mappingListAnnotationFormatsSortOrder = map[string]ListAnnotationFormatsSort
 // GetListAnnotationFormatsSortOrderEnumValues Enumerates the set of values for ListAnnotationFormatsSortOrderEnum
 func GetListAnnotationFormatsSortOrderEnumValues() []ListAnnotationFormatsSortOrderEnum {
 	values := make([]ListAnnotationFormatsSortOrderEnum, 0)
-	for _, v := range mappingListAnnotationFormatsSortOrder {
+	for _, v := range mappingListAnnotationFormatsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAnnotationFormatsSortOrderEnumStringValues Enumerates the set of values in String for ListAnnotationFormatsSortOrderEnum
+func GetListAnnotationFormatsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

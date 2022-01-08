@@ -11,7 +11,9 @@ package databasetools
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseToolsUserPassword The user password.
@@ -61,6 +63,18 @@ func (m databasetoolsuserpassword) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m databasetoolsuserpassword) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseToolsUserPasswordValueTypeEnum Enum with underlying type: string
 type DatabaseToolsUserPasswordValueTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	DatabaseToolsUserPasswordValueTypeSecretid DatabaseToolsUserPasswordValueTypeEnum = "SECRETID"
 )
 
-var mappingDatabaseToolsUserPasswordValueType = map[string]DatabaseToolsUserPasswordValueTypeEnum{
+var mappingDatabaseToolsUserPasswordValueTypeEnum = map[string]DatabaseToolsUserPasswordValueTypeEnum{
 	"SECRETID": DatabaseToolsUserPasswordValueTypeSecretid,
 }
 
 // GetDatabaseToolsUserPasswordValueTypeEnumValues Enumerates the set of values for DatabaseToolsUserPasswordValueTypeEnum
 func GetDatabaseToolsUserPasswordValueTypeEnumValues() []DatabaseToolsUserPasswordValueTypeEnum {
 	values := make([]DatabaseToolsUserPasswordValueTypeEnum, 0)
-	for _, v := range mappingDatabaseToolsUserPasswordValueType {
+	for _, v := range mappingDatabaseToolsUserPasswordValueTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseToolsUserPasswordValueTypeEnumStringValues Enumerates the set of values in String for DatabaseToolsUserPasswordValueTypeEnum
+func GetDatabaseToolsUserPasswordValueTypeEnumStringValues() []string {
+	return []string{
+		"SECRETID",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ClusterNetwork A cluster network is a group of high performance computing (HPC) bare metal instances that are connected
@@ -64,6 +66,21 @@ func (m ClusterNetwork) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ClusterNetwork) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingClusterNetworkLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetClusterNetworkLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ClusterNetworkLifecycleStateEnum Enum with underlying type: string
 type ClusterNetworkLifecycleStateEnum string
 
@@ -79,7 +96,7 @@ const (
 	ClusterNetworkLifecycleStateRunning      ClusterNetworkLifecycleStateEnum = "RUNNING"
 )
 
-var mappingClusterNetworkLifecycleState = map[string]ClusterNetworkLifecycleStateEnum{
+var mappingClusterNetworkLifecycleStateEnum = map[string]ClusterNetworkLifecycleStateEnum{
 	"PROVISIONING": ClusterNetworkLifecycleStateProvisioning,
 	"SCALING":      ClusterNetworkLifecycleStateScaling,
 	"STARTING":     ClusterNetworkLifecycleStateStarting,
@@ -93,8 +110,22 @@ var mappingClusterNetworkLifecycleState = map[string]ClusterNetworkLifecycleStat
 // GetClusterNetworkLifecycleStateEnumValues Enumerates the set of values for ClusterNetworkLifecycleStateEnum
 func GetClusterNetworkLifecycleStateEnumValues() []ClusterNetworkLifecycleStateEnum {
 	values := make([]ClusterNetworkLifecycleStateEnum, 0)
-	for _, v := range mappingClusterNetworkLifecycleState {
+	for _, v := range mappingClusterNetworkLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetClusterNetworkLifecycleStateEnumStringValues Enumerates the set of values in String for ClusterNetworkLifecycleStateEnum
+func GetClusterNetworkLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"SCALING",
+		"STARTING",
+		"STOPPING",
+		"TERMINATING",
+		"STOPPED",
+		"TERMINATED",
+		"RUNNING",
+	}
 }

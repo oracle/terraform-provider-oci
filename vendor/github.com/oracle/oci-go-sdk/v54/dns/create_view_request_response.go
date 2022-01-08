@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // CreateViewRequest wrapper for the CreateView operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateView.go.html to see an example of how to use CreateViewRequest.
 type CreateViewRequest struct {
 
 	// Details for creating a new view.
@@ -47,6 +45,10 @@ func (request CreateViewRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CreateViewRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -60,6 +62,20 @@ func (request CreateViewRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateViewRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateViewRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateViewScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetCreateViewScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateViewResponse wrapper for the CreateView operation
@@ -106,7 +122,7 @@ const (
 	CreateViewScopePrivate CreateViewScopeEnum = "PRIVATE"
 )
 
-var mappingCreateViewScope = map[string]CreateViewScopeEnum{
+var mappingCreateViewScopeEnum = map[string]CreateViewScopeEnum{
 	"GLOBAL":  CreateViewScopeGlobal,
 	"PRIVATE": CreateViewScopePrivate,
 }
@@ -114,8 +130,16 @@ var mappingCreateViewScope = map[string]CreateViewScopeEnum{
 // GetCreateViewScopeEnumValues Enumerates the set of values for CreateViewScopeEnum
 func GetCreateViewScopeEnumValues() []CreateViewScopeEnum {
 	values := make([]CreateViewScopeEnum, 0)
-	for _, v := range mappingCreateViewScope {
+	for _, v := range mappingCreateViewScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateViewScopeEnumStringValues Enumerates the set of values in String for CreateViewScopeEnum
+func GetCreateViewScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

@@ -21,7 +21,7 @@ const (
 	SkuThreeYears SkuEnum = "THREE_YEARS"
 )
 
-var mappingSku = map[string]SkuEnum{
+var mappingSkuEnum = map[string]SkuEnum{
 	"HOUR":        SkuHour,
 	"MONTH":       SkuMonth,
 	"ONE_YEAR":    SkuOneYear,
@@ -31,8 +31,18 @@ var mappingSku = map[string]SkuEnum{
 // GetSkuEnumValues Enumerates the set of values for SkuEnum
 func GetSkuEnumValues() []SkuEnum {
 	values := make([]SkuEnum, 0)
-	for _, v := range mappingSku {
+	for _, v := range mappingSkuEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSkuEnumStringValues Enumerates the set of values in String for SkuEnum
+func GetSkuEnumStringValues() []string {
+	return []string{
+		"HOUR",
+		"MONTH",
+		"ONE_YEAR",
+		"THREE_YEARS",
+	}
 }

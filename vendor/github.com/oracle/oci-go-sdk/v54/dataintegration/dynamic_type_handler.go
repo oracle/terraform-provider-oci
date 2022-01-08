@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DynamicTypeHandler This type defines how to derived fields for the dynamic type itself.
@@ -61,6 +63,18 @@ func (m dynamictypehandler) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m dynamictypehandler) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DynamicTypeHandlerModelTypeEnum Enum with underlying type: string
 type DynamicTypeHandlerModelTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	DynamicTypeHandlerModelTypeRuleTypeConfigs DynamicTypeHandlerModelTypeEnum = "RULE_TYPE_CONFIGS"
 )
 
-var mappingDynamicTypeHandlerModelType = map[string]DynamicTypeHandlerModelTypeEnum{
+var mappingDynamicTypeHandlerModelTypeEnum = map[string]DynamicTypeHandlerModelTypeEnum{
 	"RULE_TYPE_CONFIGS": DynamicTypeHandlerModelTypeRuleTypeConfigs,
 }
 
 // GetDynamicTypeHandlerModelTypeEnumValues Enumerates the set of values for DynamicTypeHandlerModelTypeEnum
 func GetDynamicTypeHandlerModelTypeEnumValues() []DynamicTypeHandlerModelTypeEnum {
 	values := make([]DynamicTypeHandlerModelTypeEnum, 0)
-	for _, v := range mappingDynamicTypeHandlerModelType {
+	for _, v := range mappingDynamicTypeHandlerModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDynamicTypeHandlerModelTypeEnumStringValues Enumerates the set of values in String for DynamicTypeHandlerModelTypeEnum
+func GetDynamicTypeHandlerModelTypeEnumStringValues() []string {
+	return []string{
+		"RULE_TYPE_CONFIGS",
+	}
 }

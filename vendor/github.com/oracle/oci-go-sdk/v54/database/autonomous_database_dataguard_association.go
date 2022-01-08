@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutonomousDatabaseDataguardAssociation The properties that define dataguard association between two different Autonomous Databases.
@@ -56,6 +58,9 @@ type AutonomousDatabaseDataguardAssociation struct {
 	// Example: `180 Mb per second`
 	ApplyRate *string `mandatory:"false" json:"applyRate"`
 
+	// Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association
+	IsAutomaticFailoverEnabled *bool `mandatory:"false" json:"isAutomaticFailoverEnabled"`
+
 	// The approximate number of seconds of redo data not yet available on the standby Autonomous Container Database,
 	// as computed by the reporting database.
 	// Example: `7 seconds`
@@ -75,6 +80,33 @@ func (m AutonomousDatabaseDataguardAssociation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDatabaseDataguardAssociation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousDatabaseDataguardAssociationRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetAutonomousDatabaseDataguardAssociationRoleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseDataguardAssociationLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseDataguardAssociationLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseDataguardAssociationPeerRoleEnum[string(m.PeerRole)]; !ok && m.PeerRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PeerRole: %s. Supported values are: %s.", m.PeerRole, strings.Join(GetAutonomousDatabaseDataguardAssociationPeerRoleEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum[string(m.PeerAutonomousDatabaseLifeCycleState)]; !ok && m.PeerAutonomousDatabaseLifeCycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PeerAutonomousDatabaseLifeCycleState: %s. Supported values are: %s.", m.PeerAutonomousDatabaseLifeCycleState, strings.Join(GetAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseDataguardAssociationProtectionModeEnum[string(m.ProtectionMode)]; !ok && m.ProtectionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetAutonomousDatabaseDataguardAssociationProtectionModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousDatabaseDataguardAssociationRoleEnum Enum with underlying type: string
 type AutonomousDatabaseDataguardAssociationRoleEnum string
 
@@ -85,7 +117,7 @@ const (
 	AutonomousDatabaseDataguardAssociationRoleDisabledStandby AutonomousDatabaseDataguardAssociationRoleEnum = "DISABLED_STANDBY"
 )
 
-var mappingAutonomousDatabaseDataguardAssociationRole = map[string]AutonomousDatabaseDataguardAssociationRoleEnum{
+var mappingAutonomousDatabaseDataguardAssociationRoleEnum = map[string]AutonomousDatabaseDataguardAssociationRoleEnum{
 	"PRIMARY":          AutonomousDatabaseDataguardAssociationRolePrimary,
 	"STANDBY":          AutonomousDatabaseDataguardAssociationRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseDataguardAssociationRoleDisabledStandby,
@@ -94,10 +126,19 @@ var mappingAutonomousDatabaseDataguardAssociationRole = map[string]AutonomousDat
 // GetAutonomousDatabaseDataguardAssociationRoleEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationRoleEnum
 func GetAutonomousDatabaseDataguardAssociationRoleEnumValues() []AutonomousDatabaseDataguardAssociationRoleEnum {
 	values := make([]AutonomousDatabaseDataguardAssociationRoleEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDataguardAssociationRole {
+	for _, v := range mappingAutonomousDatabaseDataguardAssociationRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseDataguardAssociationRoleEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDataguardAssociationRoleEnum
+func GetAutonomousDatabaseDataguardAssociationRoleEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"STANDBY",
+		"DISABLED_STANDBY",
+	}
 }
 
 // AutonomousDatabaseDataguardAssociationLifecycleStateEnum Enum with underlying type: string
@@ -114,7 +155,7 @@ const (
 	AutonomousDatabaseDataguardAssociationLifecycleStateUnavailable          AutonomousDatabaseDataguardAssociationLifecycleStateEnum = "UNAVAILABLE"
 )
 
-var mappingAutonomousDatabaseDataguardAssociationLifecycleState = map[string]AutonomousDatabaseDataguardAssociationLifecycleStateEnum{
+var mappingAutonomousDatabaseDataguardAssociationLifecycleStateEnum = map[string]AutonomousDatabaseDataguardAssociationLifecycleStateEnum{
 	"PROVISIONING":            AutonomousDatabaseDataguardAssociationLifecycleStateProvisioning,
 	"AVAILABLE":               AutonomousDatabaseDataguardAssociationLifecycleStateAvailable,
 	"ROLE_CHANGE_IN_PROGRESS": AutonomousDatabaseDataguardAssociationLifecycleStateRoleChangeInProgress,
@@ -127,10 +168,23 @@ var mappingAutonomousDatabaseDataguardAssociationLifecycleState = map[string]Aut
 // GetAutonomousDatabaseDataguardAssociationLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationLifecycleStateEnum
 func GetAutonomousDatabaseDataguardAssociationLifecycleStateEnumValues() []AutonomousDatabaseDataguardAssociationLifecycleStateEnum {
 	values := make([]AutonomousDatabaseDataguardAssociationLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDataguardAssociationLifecycleState {
+	for _, v := range mappingAutonomousDatabaseDataguardAssociationLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseDataguardAssociationLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDataguardAssociationLifecycleStateEnum
+func GetAutonomousDatabaseDataguardAssociationLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"ROLE_CHANGE_IN_PROGRESS",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"UNAVAILABLE",
+	}
 }
 
 // AutonomousDatabaseDataguardAssociationPeerRoleEnum Enum with underlying type: string
@@ -143,7 +197,7 @@ const (
 	AutonomousDatabaseDataguardAssociationPeerRoleDisabledStandby AutonomousDatabaseDataguardAssociationPeerRoleEnum = "DISABLED_STANDBY"
 )
 
-var mappingAutonomousDatabaseDataguardAssociationPeerRole = map[string]AutonomousDatabaseDataguardAssociationPeerRoleEnum{
+var mappingAutonomousDatabaseDataguardAssociationPeerRoleEnum = map[string]AutonomousDatabaseDataguardAssociationPeerRoleEnum{
 	"PRIMARY":          AutonomousDatabaseDataguardAssociationPeerRolePrimary,
 	"STANDBY":          AutonomousDatabaseDataguardAssociationPeerRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseDataguardAssociationPeerRoleDisabledStandby,
@@ -152,10 +206,19 @@ var mappingAutonomousDatabaseDataguardAssociationPeerRole = map[string]Autonomou
 // GetAutonomousDatabaseDataguardAssociationPeerRoleEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationPeerRoleEnum
 func GetAutonomousDatabaseDataguardAssociationPeerRoleEnumValues() []AutonomousDatabaseDataguardAssociationPeerRoleEnum {
 	values := make([]AutonomousDatabaseDataguardAssociationPeerRoleEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDataguardAssociationPeerRole {
+	for _, v := range mappingAutonomousDatabaseDataguardAssociationPeerRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseDataguardAssociationPeerRoleEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDataguardAssociationPeerRoleEnum
+func GetAutonomousDatabaseDataguardAssociationPeerRoleEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"STANDBY",
+		"DISABLED_STANDBY",
+	}
 }
 
 // AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum Enum with underlying type: string
@@ -172,7 +235,7 @@ const (
 	AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateUnavailable          AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = "UNAVAILABLE"
 )
 
-var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleState = map[string]AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum{
+var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = map[string]AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum{
 	"PROVISIONING":            AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateProvisioning,
 	"AVAILABLE":               AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateAvailable,
 	"ROLE_CHANGE_IN_PROGRESS": AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateRoleChangeInProgress,
@@ -185,10 +248,23 @@ var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycle
 // GetAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum
 func GetAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnumValues() []AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum {
 	values := make([]AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleState {
+	for _, v := range mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum
+func GetAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"ROLE_CHANGE_IN_PROGRESS",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"UNAVAILABLE",
+	}
 }
 
 // AutonomousDatabaseDataguardAssociationProtectionModeEnum Enum with underlying type: string
@@ -200,7 +276,7 @@ const (
 	AutonomousDatabaseDataguardAssociationProtectionModePerformance  AutonomousDatabaseDataguardAssociationProtectionModeEnum = "MAXIMUM_PERFORMANCE"
 )
 
-var mappingAutonomousDatabaseDataguardAssociationProtectionMode = map[string]AutonomousDatabaseDataguardAssociationProtectionModeEnum{
+var mappingAutonomousDatabaseDataguardAssociationProtectionModeEnum = map[string]AutonomousDatabaseDataguardAssociationProtectionModeEnum{
 	"MAXIMUM_AVAILABILITY": AutonomousDatabaseDataguardAssociationProtectionModeAvailability,
 	"MAXIMUM_PERFORMANCE":  AutonomousDatabaseDataguardAssociationProtectionModePerformance,
 }
@@ -208,8 +284,16 @@ var mappingAutonomousDatabaseDataguardAssociationProtectionMode = map[string]Aut
 // GetAutonomousDatabaseDataguardAssociationProtectionModeEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationProtectionModeEnum
 func GetAutonomousDatabaseDataguardAssociationProtectionModeEnumValues() []AutonomousDatabaseDataguardAssociationProtectionModeEnum {
 	values := make([]AutonomousDatabaseDataguardAssociationProtectionModeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDataguardAssociationProtectionMode {
+	for _, v := range mappingAutonomousDatabaseDataguardAssociationProtectionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseDataguardAssociationProtectionModeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDataguardAssociationProtectionModeEnum
+func GetAutonomousDatabaseDataguardAssociationProtectionModeEnumStringValues() []string {
+	return []string{
+		"MAXIMUM_AVAILABILITY",
+		"MAXIMUM_PERFORMANCE",
+	}
 }

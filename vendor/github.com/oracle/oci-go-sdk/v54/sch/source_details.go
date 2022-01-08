@@ -13,7 +13,9 @@ package sch
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SourceDetails An object that represents the source of the flow defined by the service connector.
@@ -72,6 +74,18 @@ func (m sourcedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m sourcedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SourceDetailsKindEnum Enum with underlying type: string
 type SourceDetailsKindEnum string
 
@@ -81,7 +95,7 @@ const (
 	SourceDetailsKindStreaming SourceDetailsKindEnum = "streaming"
 )
 
-var mappingSourceDetailsKind = map[string]SourceDetailsKindEnum{
+var mappingSourceDetailsKindEnum = map[string]SourceDetailsKindEnum{
 	"logging":   SourceDetailsKindLogging,
 	"streaming": SourceDetailsKindStreaming,
 }
@@ -89,8 +103,16 @@ var mappingSourceDetailsKind = map[string]SourceDetailsKindEnum{
 // GetSourceDetailsKindEnumValues Enumerates the set of values for SourceDetailsKindEnum
 func GetSourceDetailsKindEnumValues() []SourceDetailsKindEnum {
 	values := make([]SourceDetailsKindEnum, 0)
-	for _, v := range mappingSourceDetailsKind {
+	for _, v := range mappingSourceDetailsKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSourceDetailsKindEnumStringValues Enumerates the set of values in String for SourceDetailsKindEnum
+func GetSourceDetailsKindEnumStringValues() []string {
+	return []string{
+		"logging",
+		"streaming",
+	}
 }

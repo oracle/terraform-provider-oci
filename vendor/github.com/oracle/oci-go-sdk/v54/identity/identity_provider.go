@@ -4,14 +4,16 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // IdentityProvider The resulting base object when you add an identity provider to your tenancy. A
@@ -21,7 +23,7 @@ import (
 // Identity Providers and Federation (https://docs.cloud.oracle.com/Content/Identity/Concepts/federation.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// see Get Started with Policies (https://docs.cloud.oracle.com/Content/Identity/policiesgs/get-started-with-policies.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string
 // values using the API.
 type IdentityProvider interface {
@@ -187,6 +189,21 @@ func (m identityprovider) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m identityprovider) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIdentityProviderLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetIdentityProviderLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // IdentityProviderLifecycleStateEnum Enum with underlying type: string
 type IdentityProviderLifecycleStateEnum string
 
@@ -199,7 +216,7 @@ const (
 	IdentityProviderLifecycleStateDeleted  IdentityProviderLifecycleStateEnum = "DELETED"
 )
 
-var mappingIdentityProviderLifecycleState = map[string]IdentityProviderLifecycleStateEnum{
+var mappingIdentityProviderLifecycleStateEnum = map[string]IdentityProviderLifecycleStateEnum{
 	"CREATING": IdentityProviderLifecycleStateCreating,
 	"ACTIVE":   IdentityProviderLifecycleStateActive,
 	"INACTIVE": IdentityProviderLifecycleStateInactive,
@@ -210,8 +227,19 @@ var mappingIdentityProviderLifecycleState = map[string]IdentityProviderLifecycle
 // GetIdentityProviderLifecycleStateEnumValues Enumerates the set of values for IdentityProviderLifecycleStateEnum
 func GetIdentityProviderLifecycleStateEnumValues() []IdentityProviderLifecycleStateEnum {
 	values := make([]IdentityProviderLifecycleStateEnum, 0)
-	for _, v := range mappingIdentityProviderLifecycleState {
+	for _, v := range mappingIdentityProviderLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIdentityProviderLifecycleStateEnumStringValues Enumerates the set of values in String for IdentityProviderLifecycleStateEnum
+func GetIdentityProviderLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

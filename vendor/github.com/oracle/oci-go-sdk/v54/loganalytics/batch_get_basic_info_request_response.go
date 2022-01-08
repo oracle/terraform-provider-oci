@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // BatchGetBasicInfoRequest wrapper for the BatchGetBasicInfo operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/BatchGetBasicInfo.go.html to see an example of how to use BatchGetBasicInfoRequest.
 type BatchGetBasicInfoRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -52,6 +50,10 @@ func (request BatchGetBasicInfoRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request BatchGetBasicInfoRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +67,23 @@ func (request BatchGetBasicInfoRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request BatchGetBasicInfoRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request BatchGetBasicInfoRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBatchGetBasicInfoSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetBatchGetBasicInfoSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBatchGetBasicInfoBasicLabelSortByEnum[string(request.BasicLabelSortBy)]; !ok && request.BasicLabelSortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BasicLabelSortBy: %s. Supported values are: %s.", request.BasicLabelSortBy, strings.Join(GetBatchGetBasicInfoBasicLabelSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // BatchGetBasicInfoResponse wrapper for the BatchGetBasicInfo operation
@@ -108,7 +127,7 @@ const (
 	BatchGetBasicInfoSortOrderDesc BatchGetBasicInfoSortOrderEnum = "DESC"
 )
 
-var mappingBatchGetBasicInfoSortOrder = map[string]BatchGetBasicInfoSortOrderEnum{
+var mappingBatchGetBasicInfoSortOrderEnum = map[string]BatchGetBasicInfoSortOrderEnum{
 	"ASC":  BatchGetBasicInfoSortOrderAsc,
 	"DESC": BatchGetBasicInfoSortOrderDesc,
 }
@@ -116,10 +135,18 @@ var mappingBatchGetBasicInfoSortOrder = map[string]BatchGetBasicInfoSortOrderEnu
 // GetBatchGetBasicInfoSortOrderEnumValues Enumerates the set of values for BatchGetBasicInfoSortOrderEnum
 func GetBatchGetBasicInfoSortOrderEnumValues() []BatchGetBasicInfoSortOrderEnum {
 	values := make([]BatchGetBasicInfoSortOrderEnum, 0)
-	for _, v := range mappingBatchGetBasicInfoSortOrder {
+	for _, v := range mappingBatchGetBasicInfoSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBatchGetBasicInfoSortOrderEnumStringValues Enumerates the set of values in String for BatchGetBasicInfoSortOrderEnum
+func GetBatchGetBasicInfoSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // BatchGetBasicInfoBasicLabelSortByEnum Enum with underlying type: string
@@ -131,7 +158,7 @@ const (
 	BatchGetBasicInfoBasicLabelSortByPriority BatchGetBasicInfoBasicLabelSortByEnum = "priority"
 )
 
-var mappingBatchGetBasicInfoBasicLabelSortBy = map[string]BatchGetBasicInfoBasicLabelSortByEnum{
+var mappingBatchGetBasicInfoBasicLabelSortByEnum = map[string]BatchGetBasicInfoBasicLabelSortByEnum{
 	"name":     BatchGetBasicInfoBasicLabelSortByName,
 	"priority": BatchGetBasicInfoBasicLabelSortByPriority,
 }
@@ -139,8 +166,16 @@ var mappingBatchGetBasicInfoBasicLabelSortBy = map[string]BatchGetBasicInfoBasic
 // GetBatchGetBasicInfoBasicLabelSortByEnumValues Enumerates the set of values for BatchGetBasicInfoBasicLabelSortByEnum
 func GetBatchGetBasicInfoBasicLabelSortByEnumValues() []BatchGetBasicInfoBasicLabelSortByEnum {
 	values := make([]BatchGetBasicInfoBasicLabelSortByEnum, 0)
-	for _, v := range mappingBatchGetBasicInfoBasicLabelSortBy {
+	for _, v := range mappingBatchGetBasicInfoBasicLabelSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBatchGetBasicInfoBasicLabelSortByEnumStringValues Enumerates the set of values in String for BatchGetBasicInfoBasicLabelSortByEnum
+func GetBatchGetBasicInfoBasicLabelSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"priority",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstancePoolSummary Summary information for an instance pool.
@@ -55,10 +57,29 @@ type InstancePoolSummary struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The last date and time the instance pool state was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeStateUpdated *common.SDKTime `mandatory:"false" json:"timeStateUpdated"`
 }
 
 func (m InstancePoolSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstancePoolSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstancePoolSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstancePoolSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // InstancePoolSummaryLifecycleStateEnum Enum with underlying type: string
@@ -76,7 +97,7 @@ const (
 	InstancePoolSummaryLifecycleStateRunning      InstancePoolSummaryLifecycleStateEnum = "RUNNING"
 )
 
-var mappingInstancePoolSummaryLifecycleState = map[string]InstancePoolSummaryLifecycleStateEnum{
+var mappingInstancePoolSummaryLifecycleStateEnum = map[string]InstancePoolSummaryLifecycleStateEnum{
 	"PROVISIONING": InstancePoolSummaryLifecycleStateProvisioning,
 	"SCALING":      InstancePoolSummaryLifecycleStateScaling,
 	"STARTING":     InstancePoolSummaryLifecycleStateStarting,
@@ -90,8 +111,22 @@ var mappingInstancePoolSummaryLifecycleState = map[string]InstancePoolSummaryLif
 // GetInstancePoolSummaryLifecycleStateEnumValues Enumerates the set of values for InstancePoolSummaryLifecycleStateEnum
 func GetInstancePoolSummaryLifecycleStateEnumValues() []InstancePoolSummaryLifecycleStateEnum {
 	values := make([]InstancePoolSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingInstancePoolSummaryLifecycleState {
+	for _, v := range mappingInstancePoolSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstancePoolSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for InstancePoolSummaryLifecycleStateEnum
+func GetInstancePoolSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"SCALING",
+		"STARTING",
+		"STOPPING",
+		"TERMINATING",
+		"STOPPED",
+		"TERMINATED",
+		"RUNNING",
+	}
 }

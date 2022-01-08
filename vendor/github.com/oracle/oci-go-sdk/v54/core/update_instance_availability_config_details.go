@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateInstanceAvailabilityConfigDetails Options for defining the availability of a VM instance after a maintenance event that impacts the underlying
@@ -37,6 +39,21 @@ func (m UpdateInstanceAvailabilityConfigDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateInstanceAvailabilityConfigDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum[string(m.RecoveryAction)]; !ok && m.RecoveryAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecoveryAction: %s. Supported values are: %s.", m.RecoveryAction, strings.Join(GetUpdateInstanceAvailabilityConfigDetailsRecoveryActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum Enum with underlying type: string
 type UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum string
 
@@ -46,7 +63,7 @@ const (
 	UpdateInstanceAvailabilityConfigDetailsRecoveryActionStopInstance    UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum = "STOP_INSTANCE"
 )
 
-var mappingUpdateInstanceAvailabilityConfigDetailsRecoveryAction = map[string]UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum{
+var mappingUpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum = map[string]UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum{
 	"RESTORE_INSTANCE": UpdateInstanceAvailabilityConfigDetailsRecoveryActionRestoreInstance,
 	"STOP_INSTANCE":    UpdateInstanceAvailabilityConfigDetailsRecoveryActionStopInstance,
 }
@@ -54,8 +71,16 @@ var mappingUpdateInstanceAvailabilityConfigDetailsRecoveryAction = map[string]Up
 // GetUpdateInstanceAvailabilityConfigDetailsRecoveryActionEnumValues Enumerates the set of values for UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum
 func GetUpdateInstanceAvailabilityConfigDetailsRecoveryActionEnumValues() []UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum {
 	values := make([]UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum, 0)
-	for _, v := range mappingUpdateInstanceAvailabilityConfigDetailsRecoveryAction {
+	for _, v := range mappingUpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateInstanceAvailabilityConfigDetailsRecoveryActionEnumStringValues Enumerates the set of values in String for UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum
+func GetUpdateInstanceAvailabilityConfigDetailsRecoveryActionEnumStringValues() []string {
+	return []string{
+		"RESTORE_INSTANCE",
+		"STOP_INSTANCE",
+	}
 }

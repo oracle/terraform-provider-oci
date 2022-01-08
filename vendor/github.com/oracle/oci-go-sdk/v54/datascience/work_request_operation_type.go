@@ -28,7 +28,7 @@ const (
 	WorkRequestOperationTypeJobDelete                 WorkRequestOperationTypeEnum = "JOB_DELETE"
 )
 
-var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
+var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
 	"NOTEBOOK_SESSION_CREATE":     WorkRequestOperationTypeNotebookSessionCreate,
 	"NOTEBOOK_SESSION_DELETE":     WorkRequestOperationTypeNotebookSessionDelete,
 	"NOTEBOOK_SESSION_ACTIVATE":   WorkRequestOperationTypeNotebookSessionActivate,
@@ -46,8 +46,26 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
 func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
 	values := make([]WorkRequestOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestOperationType {
+	for _, v := range mappingWorkRequestOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestOperationTypeEnumStringValues Enumerates the set of values in String for WorkRequestOperationTypeEnum
+func GetWorkRequestOperationTypeEnumStringValues() []string {
+	return []string{
+		"NOTEBOOK_SESSION_CREATE",
+		"NOTEBOOK_SESSION_DELETE",
+		"NOTEBOOK_SESSION_ACTIVATE",
+		"NOTEBOOK_SESSION_DEACTIVATE",
+		"MODEL_DEPLOYMENT_CREATE",
+		"MODEL_DEPLOYMENT_DELETE",
+		"MODEL_DEPLOYMENT_ACTIVATE",
+		"MODEL_DEPLOYMENT_DEACTIVATE",
+		"MODEL_DEPLOYMENT_UPDATE",
+		"PROJECT_DELETE",
+		"WORKREQUEST_CANCEL",
+		"JOB_DELETE",
+	}
 }

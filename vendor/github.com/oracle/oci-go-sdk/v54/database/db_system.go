@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DbSystem The representation of DbSystem
@@ -176,6 +178,30 @@ func (m DbSystem) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbSystem) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDbSystemDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetDbSystemDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDbSystemLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbSystemLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDbSystemDiskRedundancyEnum[string(m.DiskRedundancy)]; !ok && m.DiskRedundancy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiskRedundancy: %s. Supported values are: %s.", m.DiskRedundancy, strings.Join(GetDbSystemDiskRedundancyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDbSystemLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetDbSystemLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DbSystemDatabaseEditionEnum Enum with underlying type: string
 type DbSystemDatabaseEditionEnum string
 
@@ -187,7 +213,7 @@ const (
 	DbSystemDatabaseEditionEnterpriseEditionExtremePerformance DbSystemDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 )
 
-var mappingDbSystemDatabaseEdition = map[string]DbSystemDatabaseEditionEnum{
+var mappingDbSystemDatabaseEditionEnum = map[string]DbSystemDatabaseEditionEnum{
 	"STANDARD_EDITION":                       DbSystemDatabaseEditionStandardEdition,
 	"ENTERPRISE_EDITION":                     DbSystemDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    DbSystemDatabaseEditionEnterpriseEditionHighPerformance,
@@ -197,10 +223,20 @@ var mappingDbSystemDatabaseEdition = map[string]DbSystemDatabaseEditionEnum{
 // GetDbSystemDatabaseEditionEnumValues Enumerates the set of values for DbSystemDatabaseEditionEnum
 func GetDbSystemDatabaseEditionEnumValues() []DbSystemDatabaseEditionEnum {
 	values := make([]DbSystemDatabaseEditionEnum, 0)
-	for _, v := range mappingDbSystemDatabaseEdition {
+	for _, v := range mappingDbSystemDatabaseEditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemDatabaseEditionEnumStringValues Enumerates the set of values in String for DbSystemDatabaseEditionEnum
+func GetDbSystemDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+	}
 }
 
 // DbSystemLifecycleStateEnum Enum with underlying type: string
@@ -217,9 +253,10 @@ const (
 	DbSystemLifecycleStateMigrated              DbSystemLifecycleStateEnum = "MIGRATED"
 	DbSystemLifecycleStateMaintenanceInProgress DbSystemLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 	DbSystemLifecycleStateNeedsAttention        DbSystemLifecycleStateEnum = "NEEDS_ATTENTION"
+	DbSystemLifecycleStateUpgrading             DbSystemLifecycleStateEnum = "UPGRADING"
 )
 
-var mappingDbSystemLifecycleState = map[string]DbSystemLifecycleStateEnum{
+var mappingDbSystemLifecycleStateEnum = map[string]DbSystemLifecycleStateEnum{
 	"PROVISIONING":            DbSystemLifecycleStateProvisioning,
 	"AVAILABLE":               DbSystemLifecycleStateAvailable,
 	"UPDATING":                DbSystemLifecycleStateUpdating,
@@ -229,15 +266,32 @@ var mappingDbSystemLifecycleState = map[string]DbSystemLifecycleStateEnum{
 	"MIGRATED":                DbSystemLifecycleStateMigrated,
 	"MAINTENANCE_IN_PROGRESS": DbSystemLifecycleStateMaintenanceInProgress,
 	"NEEDS_ATTENTION":         DbSystemLifecycleStateNeedsAttention,
+	"UPGRADING":               DbSystemLifecycleStateUpgrading,
 }
 
 // GetDbSystemLifecycleStateEnumValues Enumerates the set of values for DbSystemLifecycleStateEnum
 func GetDbSystemLifecycleStateEnumValues() []DbSystemLifecycleStateEnum {
 	values := make([]DbSystemLifecycleStateEnum, 0)
-	for _, v := range mappingDbSystemLifecycleState {
+	for _, v := range mappingDbSystemLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemLifecycleStateEnumStringValues Enumerates the set of values in String for DbSystemLifecycleStateEnum
+func GetDbSystemLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MIGRATED",
+		"MAINTENANCE_IN_PROGRESS",
+		"NEEDS_ATTENTION",
+		"UPGRADING",
+	}
 }
 
 // DbSystemDiskRedundancyEnum Enum with underlying type: string
@@ -249,7 +303,7 @@ const (
 	DbSystemDiskRedundancyNormal DbSystemDiskRedundancyEnum = "NORMAL"
 )
 
-var mappingDbSystemDiskRedundancy = map[string]DbSystemDiskRedundancyEnum{
+var mappingDbSystemDiskRedundancyEnum = map[string]DbSystemDiskRedundancyEnum{
 	"HIGH":   DbSystemDiskRedundancyHigh,
 	"NORMAL": DbSystemDiskRedundancyNormal,
 }
@@ -257,10 +311,18 @@ var mappingDbSystemDiskRedundancy = map[string]DbSystemDiskRedundancyEnum{
 // GetDbSystemDiskRedundancyEnumValues Enumerates the set of values for DbSystemDiskRedundancyEnum
 func GetDbSystemDiskRedundancyEnumValues() []DbSystemDiskRedundancyEnum {
 	values := make([]DbSystemDiskRedundancyEnum, 0)
-	for _, v := range mappingDbSystemDiskRedundancy {
+	for _, v := range mappingDbSystemDiskRedundancyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemDiskRedundancyEnumStringValues Enumerates the set of values in String for DbSystemDiskRedundancyEnum
+func GetDbSystemDiskRedundancyEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"NORMAL",
+	}
 }
 
 // DbSystemLicenseModelEnum Enum with underlying type: string
@@ -272,7 +334,7 @@ const (
 	DbSystemLicenseModelBringYourOwnLicense DbSystemLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingDbSystemLicenseModel = map[string]DbSystemLicenseModelEnum{
+var mappingDbSystemLicenseModelEnum = map[string]DbSystemLicenseModelEnum{
 	"LICENSE_INCLUDED":       DbSystemLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": DbSystemLicenseModelBringYourOwnLicense,
 }
@@ -280,8 +342,16 @@ var mappingDbSystemLicenseModel = map[string]DbSystemLicenseModelEnum{
 // GetDbSystemLicenseModelEnumValues Enumerates the set of values for DbSystemLicenseModelEnum
 func GetDbSystemLicenseModelEnumValues() []DbSystemLicenseModelEnum {
 	values := make([]DbSystemLicenseModelEnum, 0)
-	for _, v := range mappingDbSystemLicenseModel {
+	for _, v := range mappingDbSystemLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemLicenseModelEnumStringValues Enumerates the set of values in String for DbSystemLicenseModelEnum
+func GetDbSystemLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

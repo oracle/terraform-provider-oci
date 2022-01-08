@@ -5,15 +5,13 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListExportSetsRequest wrapper for the ListExportSets operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExportSets.go.html to see an example of how to use ListExportSetsRequest.
 type ListExportSetsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -76,6 +74,10 @@ func (request ListExportSetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListExportSetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -89,6 +91,26 @@ func (request ListExportSetsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListExportSetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListExportSetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListExportSetsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListExportSetsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListExportSetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListExportSetsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListExportSetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListExportSetsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListExportSetsResponse wrapper for the ListExportSets operation
@@ -133,7 +155,7 @@ const (
 	ListExportSetsLifecycleStateFailed   ListExportSetsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListExportSetsLifecycleState = map[string]ListExportSetsLifecycleStateEnum{
+var mappingListExportSetsLifecycleStateEnum = map[string]ListExportSetsLifecycleStateEnum{
 	"CREATING": ListExportSetsLifecycleStateCreating,
 	"ACTIVE":   ListExportSetsLifecycleStateActive,
 	"DELETING": ListExportSetsLifecycleStateDeleting,
@@ -144,10 +166,21 @@ var mappingListExportSetsLifecycleState = map[string]ListExportSetsLifecycleStat
 // GetListExportSetsLifecycleStateEnumValues Enumerates the set of values for ListExportSetsLifecycleStateEnum
 func GetListExportSetsLifecycleStateEnumValues() []ListExportSetsLifecycleStateEnum {
 	values := make([]ListExportSetsLifecycleStateEnum, 0)
-	for _, v := range mappingListExportSetsLifecycleState {
+	for _, v := range mappingListExportSetsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExportSetsLifecycleStateEnumStringValues Enumerates the set of values in String for ListExportSetsLifecycleStateEnum
+func GetListExportSetsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListExportSetsSortByEnum Enum with underlying type: string
@@ -159,7 +192,7 @@ const (
 	ListExportSetsSortByDisplayname ListExportSetsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListExportSetsSortBy = map[string]ListExportSetsSortByEnum{
+var mappingListExportSetsSortByEnum = map[string]ListExportSetsSortByEnum{
 	"TIMECREATED": ListExportSetsSortByTimecreated,
 	"DISPLAYNAME": ListExportSetsSortByDisplayname,
 }
@@ -167,10 +200,18 @@ var mappingListExportSetsSortBy = map[string]ListExportSetsSortByEnum{
 // GetListExportSetsSortByEnumValues Enumerates the set of values for ListExportSetsSortByEnum
 func GetListExportSetsSortByEnumValues() []ListExportSetsSortByEnum {
 	values := make([]ListExportSetsSortByEnum, 0)
-	for _, v := range mappingListExportSetsSortBy {
+	for _, v := range mappingListExportSetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExportSetsSortByEnumStringValues Enumerates the set of values in String for ListExportSetsSortByEnum
+func GetListExportSetsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListExportSetsSortOrderEnum Enum with underlying type: string
@@ -182,7 +223,7 @@ const (
 	ListExportSetsSortOrderDesc ListExportSetsSortOrderEnum = "DESC"
 )
 
-var mappingListExportSetsSortOrder = map[string]ListExportSetsSortOrderEnum{
+var mappingListExportSetsSortOrderEnum = map[string]ListExportSetsSortOrderEnum{
 	"ASC":  ListExportSetsSortOrderAsc,
 	"DESC": ListExportSetsSortOrderDesc,
 }
@@ -190,8 +231,16 @@ var mappingListExportSetsSortOrder = map[string]ListExportSetsSortOrderEnum{
 // GetListExportSetsSortOrderEnumValues Enumerates the set of values for ListExportSetsSortOrderEnum
 func GetListExportSetsSortOrderEnumValues() []ListExportSetsSortOrderEnum {
 	values := make([]ListExportSetsSortOrderEnum, 0)
-	for _, v := range mappingListExportSetsSortOrder {
+	for _, v := range mappingListExportSetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExportSetsSortOrderEnumStringValues Enumerates the set of values in String for ListExportSetsSortOrderEnum
+func GetListExportSetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

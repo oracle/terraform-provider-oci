@@ -11,7 +11,9 @@
 package ocvp
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateEsxiHostDetails The ESXi host information to be updated.
@@ -27,6 +29,9 @@ type UpdateEsxiHostDetails struct {
 	// ListSupportedSkus.
 	NextSku SkuEnum `mandatory:"false" json:"nextSku,omitempty"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deleted ESXi Host with LeftOver billing cycle.
+	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -40,4 +45,19 @@ type UpdateEsxiHostDetails struct {
 
 func (m UpdateEsxiHostDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateEsxiHostDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSkuEnum[string(m.NextSku)]; !ok && m.NextSku != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextSku: %s. Supported values are: %s.", m.NextSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -5,15 +5,13 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListProblemHistoriesRequest wrapper for the ListProblemHistories operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListProblemHistories.go.html to see an example of how to use ListProblemHistoriesRequest.
 type ListProblemHistoriesRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -49,6 +47,10 @@ func (request ListProblemHistoriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListProblemHistoriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +64,23 @@ func (request ListProblemHistoriesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListProblemHistoriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListProblemHistoriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListProblemHistoriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListProblemHistoriesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProblemHistoriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListProblemHistoriesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListProblemHistoriesResponse wrapper for the ListProblemHistories operation
@@ -101,7 +120,7 @@ const (
 	ListProblemHistoriesSortOrderDesc ListProblemHistoriesSortOrderEnum = "DESC"
 )
 
-var mappingListProblemHistoriesSortOrder = map[string]ListProblemHistoriesSortOrderEnum{
+var mappingListProblemHistoriesSortOrderEnum = map[string]ListProblemHistoriesSortOrderEnum{
 	"ASC":  ListProblemHistoriesSortOrderAsc,
 	"DESC": ListProblemHistoriesSortOrderDesc,
 }
@@ -109,10 +128,18 @@ var mappingListProblemHistoriesSortOrder = map[string]ListProblemHistoriesSortOr
 // GetListProblemHistoriesSortOrderEnumValues Enumerates the set of values for ListProblemHistoriesSortOrderEnum
 func GetListProblemHistoriesSortOrderEnumValues() []ListProblemHistoriesSortOrderEnum {
 	values := make([]ListProblemHistoriesSortOrderEnum, 0)
-	for _, v := range mappingListProblemHistoriesSortOrder {
+	for _, v := range mappingListProblemHistoriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProblemHistoriesSortOrderEnumStringValues Enumerates the set of values in String for ListProblemHistoriesSortOrderEnum
+func GetListProblemHistoriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListProblemHistoriesSortByEnum Enum with underlying type: string
@@ -123,15 +150,22 @@ const (
 	ListProblemHistoriesSortByTimecreated ListProblemHistoriesSortByEnum = "timeCreated"
 )
 
-var mappingListProblemHistoriesSortBy = map[string]ListProblemHistoriesSortByEnum{
+var mappingListProblemHistoriesSortByEnum = map[string]ListProblemHistoriesSortByEnum{
 	"timeCreated": ListProblemHistoriesSortByTimecreated,
 }
 
 // GetListProblemHistoriesSortByEnumValues Enumerates the set of values for ListProblemHistoriesSortByEnum
 func GetListProblemHistoriesSortByEnumValues() []ListProblemHistoriesSortByEnum {
 	values := make([]ListProblemHistoriesSortByEnum, 0)
-	for _, v := range mappingListProblemHistoriesSortBy {
+	for _, v := range mappingListProblemHistoriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProblemHistoriesSortByEnumStringValues Enumerates the set of values in String for ListProblemHistoriesSortByEnum
+func GetListProblemHistoriesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+	}
 }

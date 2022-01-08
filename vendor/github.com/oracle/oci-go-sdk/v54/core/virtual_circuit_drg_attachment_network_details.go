@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // VirtualCircuitDrgAttachmentNetworkDetails Specifies the virtual circuit attached to the DRG.
@@ -23,6 +25,31 @@ type VirtualCircuitDrgAttachmentNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"true" json:"id"`
+
+	// Whether the Fast Connect is an FFAB VirtualCircuit.
+	// Example: `true`
+	IsFFAB *bool `mandatory:"false" json:"isFFAB"`
+
+	// This indicates whether FastConnect extends through an edge POP region.
+	// Example: `true`
+	IsEdgePop *bool `mandatory:"false" json:"isEdgePop"`
+
+	// Routes which may be imported from the attachment (subject to import policy) appear in the route reflectors
+	// tagged with the attachment's import route target.
+	ImportRouteTarget *string `mandatory:"false" json:"importRouteTarget"`
+
+	// Routes which are exported to the attachment are exported to the route reflectors
+	// with the route target set to the value of the attachment's export route target.
+	ExportRouteTarget *string `mandatory:"false" json:"exportRouteTarget"`
+
+	// The MPLS label of the DRG attachment
+	MplsLabel *int `mandatory:"false" json:"mplsLabel"`
+
+	// The BGP ASN to use for the IPSec connection's route target.
+	RegionalOciAsn *string `mandatory:"false" json:"regionalOciAsn"`
+
+	// The Oracle Cloud Infrastructure region name.
+	RegionName *string `mandatory:"false" json:"regionName"`
 }
 
 //GetId returns Id
@@ -32,6 +59,18 @@ func (m VirtualCircuitDrgAttachmentNetworkDetails) GetId() *string {
 
 func (m VirtualCircuitDrgAttachmentNetworkDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VirtualCircuitDrgAttachmentNetworkDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

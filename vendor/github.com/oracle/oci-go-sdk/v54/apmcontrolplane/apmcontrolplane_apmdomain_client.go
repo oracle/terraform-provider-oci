@@ -86,10 +86,6 @@ func (client *ApmDomainClient) ConfigurationProvider() *common.ConfigurationProv
 }
 
 // ChangeApmDomainCompartment Moves an APM domain into a different compartment. When provided, If-Match is checked against ETag values of the APM domain.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/ChangeApmDomainCompartment.go.html to see an example of how to use ChangeApmDomainCompartment API.
 func (client ApmDomainClient) ChangeApmDomainCompartment(ctx context.Context, request ChangeApmDomainCompartmentRequest) (response ChangeApmDomainCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -146,10 +142,6 @@ func (client ApmDomainClient) changeApmDomainCompartment(ctx context.Context, re
 }
 
 // CreateApmDomain Creates a new APM domain.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/CreateApmDomain.go.html to see an example of how to use CreateApmDomain API.
 func (client ApmDomainClient) CreateApmDomain(ctx context.Context, request CreateApmDomainRequest) (response CreateApmDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -208,10 +200,6 @@ func (client ApmDomainClient) createApmDomain(ctx context.Context, request commo
 // DeleteApmDomain Deletes the specified APM domain asynchronously. The APM domain is placed in the 'Deleting' state and will stop
 // accepting any operation requests. All resources associated with the APM domain are eventually recovered. Use the
 // returned work request ID to track the progress of the background activity to complete deleting the APM domain.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/DeleteApmDomain.go.html to see an example of how to use DeleteApmDomain API.
 func (client ApmDomainClient) DeleteApmDomain(ctx context.Context, request DeleteApmDomainRequest) (response DeleteApmDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -264,10 +252,6 @@ func (client ApmDomainClient) deleteApmDomain(ctx context.Context, request commo
 
 // GenerateDataKeys Generates a set of new Data Keys for the specified APM domain with the specified names and
 // types. These will be added to the existing set of Data Keys for the specified APM domain.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/GenerateDataKeys.go.html to see an example of how to use GenerateDataKeys API.
 func (client ApmDomainClient) GenerateDataKeys(ctx context.Context, request GenerateDataKeysRequest) (response GenerateDataKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -319,10 +303,6 @@ func (client ApmDomainClient) generateDataKeys(ctx context.Context, request comm
 }
 
 // GetApmDomain Gets the details of the APM domain specified by OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/GetApmDomain.go.html to see an example of how to use GetApmDomain API.
 func (client ApmDomainClient) GetApmDomain(ctx context.Context, request GetApmDomainRequest) (response GetApmDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -374,10 +354,6 @@ func (client ApmDomainClient) getApmDomain(ctx context.Context, request common.O
 }
 
 // GetWorkRequest Gets the details of the work request with the given ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client ApmDomainClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -429,10 +405,6 @@ func (client ApmDomainClient) getWorkRequest(ctx context.Context, request common
 }
 
 // ListApmDomainWorkRequests Returns a (paginated) list of work requests related to a specific APM domain.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/ListApmDomainWorkRequests.go.html to see an example of how to use ListApmDomainWorkRequests API.
 func (client ApmDomainClient) ListApmDomainWorkRequests(ctx context.Context, request ListApmDomainWorkRequestsRequest) (response ListApmDomainWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -484,10 +456,6 @@ func (client ApmDomainClient) listApmDomainWorkRequests(ctx context.Context, req
 }
 
 // ListApmDomains Lists all APM domains for the specified tenant compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/ListApmDomains.go.html to see an example of how to use ListApmDomains API.
 func (client ApmDomainClient) ListApmDomains(ctx context.Context, request ListApmDomainsRequest) (response ListApmDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -540,10 +508,6 @@ func (client ApmDomainClient) listApmDomains(ctx context.Context, request common
 
 // ListDataKeys Lists all Data Keys for the specified APM domain. The caller may filter the list by specifying the 'dataKeyType'
 // query parameter.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/ListDataKeys.go.html to see an example of how to use ListDataKeys API.
 func (client ApmDomainClient) ListDataKeys(ctx context.Context, request ListDataKeysRequest) (response ListDataKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -595,10 +559,6 @@ func (client ApmDomainClient) listDataKeys(ctx context.Context, request common.O
 }
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client ApmDomainClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -650,10 +610,6 @@ func (client ApmDomainClient) listWorkRequestErrors(ctx context.Context, request
 }
 
 // ListWorkRequestLogs Returns a (paginated) list of logs for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client ApmDomainClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -705,10 +661,6 @@ func (client ApmDomainClient) listWorkRequestLogs(ctx context.Context, request c
 }
 
 // ListWorkRequests Returns a (paginated) list of work requests in a given compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client ApmDomainClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -761,10 +713,6 @@ func (client ApmDomainClient) listWorkRequests(ctx context.Context, request comm
 
 // RemoveDataKeys Removes the set of specified Data Keys from the specified APM domain. Agents would no longer
 // be able to use these data keys to upload to the APM domain once this operation is completed.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/RemoveDataKeys.go.html to see an example of how to use RemoveDataKeys API.
 func (client ApmDomainClient) RemoveDataKeys(ctx context.Context, request RemoveDataKeysRequest) (response RemoveDataKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -816,10 +764,6 @@ func (client ApmDomainClient) removeDataKeys(ctx context.Context, request common
 }
 
 // UpdateApmDomain Updates the APM domain.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/UpdateApmDomain.go.html to see an example of how to use UpdateApmDomain API.
 func (client ApmDomainClient) UpdateApmDomain(ctx context.Context, request UpdateApmDomainRequest) (response UpdateApmDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

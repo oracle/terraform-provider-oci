@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PreauthenticatedRequestSummary Get summary information about pre-authenticated requests.
@@ -47,6 +49,24 @@ func (m PreauthenticatedRequestSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PreauthenticatedRequestSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPreauthenticatedRequestSummaryAccessTypeEnum[string(m.AccessType)]; !ok && m.AccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessType: %s. Supported values are: %s.", m.AccessType, strings.Join(GetPreauthenticatedRequestSummaryAccessTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingPreauthenticatedRequestBucketListingActionEnum[string(m.BucketListingAction)]; !ok && m.BucketListingAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BucketListingAction: %s. Supported values are: %s.", m.BucketListingAction, strings.Join(GetPreauthenticatedRequestBucketListingActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PreauthenticatedRequestSummaryAccessTypeEnum Enum with underlying type: string
 type PreauthenticatedRequestSummaryAccessTypeEnum string
 
@@ -60,7 +80,7 @@ const (
 	PreauthenticatedRequestSummaryAccessTypeAnyobjectreadwrite PreauthenticatedRequestSummaryAccessTypeEnum = "AnyObjectReadWrite"
 )
 
-var mappingPreauthenticatedRequestSummaryAccessType = map[string]PreauthenticatedRequestSummaryAccessTypeEnum{
+var mappingPreauthenticatedRequestSummaryAccessTypeEnum = map[string]PreauthenticatedRequestSummaryAccessTypeEnum{
 	"ObjectRead":         PreauthenticatedRequestSummaryAccessTypeObjectread,
 	"ObjectWrite":        PreauthenticatedRequestSummaryAccessTypeObjectwrite,
 	"ObjectReadWrite":    PreauthenticatedRequestSummaryAccessTypeObjectreadwrite,
@@ -72,8 +92,20 @@ var mappingPreauthenticatedRequestSummaryAccessType = map[string]Preauthenticate
 // GetPreauthenticatedRequestSummaryAccessTypeEnumValues Enumerates the set of values for PreauthenticatedRequestSummaryAccessTypeEnum
 func GetPreauthenticatedRequestSummaryAccessTypeEnumValues() []PreauthenticatedRequestSummaryAccessTypeEnum {
 	values := make([]PreauthenticatedRequestSummaryAccessTypeEnum, 0)
-	for _, v := range mappingPreauthenticatedRequestSummaryAccessType {
+	for _, v := range mappingPreauthenticatedRequestSummaryAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPreauthenticatedRequestSummaryAccessTypeEnumStringValues Enumerates the set of values in String for PreauthenticatedRequestSummaryAccessTypeEnum
+func GetPreauthenticatedRequestSummaryAccessTypeEnumStringValues() []string {
+	return []string{
+		"ObjectRead",
+		"ObjectWrite",
+		"ObjectReadWrite",
+		"AnyObjectWrite",
+		"AnyObjectRead",
+		"AnyObjectReadWrite",
+	}
 }

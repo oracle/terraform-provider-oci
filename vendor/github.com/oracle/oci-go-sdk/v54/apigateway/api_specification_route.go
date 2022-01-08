@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ApiSpecificationRoute A single route that forwards requests to a particular backend and may contain some additional policies.
@@ -37,6 +39,24 @@ type ApiSpecificationRoute struct {
 
 func (m ApiSpecificationRoute) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ApiSpecificationRoute) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.Methods {
+		if _, ok := mappingApiSpecificationRouteMethodsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Methods: %s. Supported values are: %s.", val, strings.Join(GetApiSpecificationRouteMethodsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -96,7 +116,7 @@ const (
 	ApiSpecificationRouteMethodsOptions ApiSpecificationRouteMethodsEnum = "OPTIONS"
 )
 
-var mappingApiSpecificationRouteMethods = map[string]ApiSpecificationRouteMethodsEnum{
+var mappingApiSpecificationRouteMethodsEnum = map[string]ApiSpecificationRouteMethodsEnum{
 	"ANY":     ApiSpecificationRouteMethodsAny,
 	"HEAD":    ApiSpecificationRouteMethodsHead,
 	"GET":     ApiSpecificationRouteMethodsGet,
@@ -110,8 +130,22 @@ var mappingApiSpecificationRouteMethods = map[string]ApiSpecificationRouteMethod
 // GetApiSpecificationRouteMethodsEnumValues Enumerates the set of values for ApiSpecificationRouteMethodsEnum
 func GetApiSpecificationRouteMethodsEnumValues() []ApiSpecificationRouteMethodsEnum {
 	values := make([]ApiSpecificationRouteMethodsEnum, 0)
-	for _, v := range mappingApiSpecificationRouteMethods {
+	for _, v := range mappingApiSpecificationRouteMethodsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApiSpecificationRouteMethodsEnumStringValues Enumerates the set of values in String for ApiSpecificationRouteMethodsEnum
+func GetApiSpecificationRouteMethodsEnumStringValues() []string {
+	return []string{
+		"ANY",
+		"HEAD",
+		"GET",
+		"POST",
+		"PUT",
+		"PATCH",
+		"DELETE",
+		"OPTIONS",
+	}
 }

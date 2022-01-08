@@ -5,15 +5,13 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeDbManagementPrivateEndpointCompartmentRequest wrapper for the ChangeDbManagementPrivateEndpointCompartment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeDbManagementPrivateEndpointCompartment.go.html to see an example of how to use ChangeDbManagementPrivateEndpointCompartmentRequest.
 type ChangeDbManagementPrivateEndpointCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
@@ -51,6 +49,10 @@ func (request ChangeDbManagementPrivateEndpointCompartmentRequest) String() stri
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeDbManagementPrivateEndpointCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +66,17 @@ func (request ChangeDbManagementPrivateEndpointCompartmentRequest) BinaryRequest
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeDbManagementPrivateEndpointCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeDbManagementPrivateEndpointCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeDbManagementPrivateEndpointCompartmentResponse wrapper for the ChangeDbManagementPrivateEndpointCompartment operation

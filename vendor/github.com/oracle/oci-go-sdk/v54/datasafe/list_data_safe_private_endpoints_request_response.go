@@ -5,15 +5,13 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDataSafePrivateEndpointsRequest wrapper for the ListDataSafePrivateEndpoints operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDataSafePrivateEndpoints.go.html to see an example of how to use ListDataSafePrivateEndpointsRequest.
 type ListDataSafePrivateEndpointsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.
@@ -67,6 +65,10 @@ func (request ListDataSafePrivateEndpointsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDataSafePrivateEndpointsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -80,6 +82,29 @@ func (request ListDataSafePrivateEndpointsRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDataSafePrivateEndpointsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDataSafePrivateEndpointsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDataSafePrivateEndpointsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDataSafePrivateEndpointsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataSafePrivateEndpointsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDataSafePrivateEndpointsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataSafePrivateEndpointsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDataSafePrivateEndpointsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataSafePrivateEndpointsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListDataSafePrivateEndpointsAccessLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDataSafePrivateEndpointsResponse wrapper for the ListDataSafePrivateEndpoints operation
@@ -121,7 +146,7 @@ const (
 	ListDataSafePrivateEndpointsLifecycleStateNa       ListDataSafePrivateEndpointsLifecycleStateEnum = "NA"
 )
 
-var mappingListDataSafePrivateEndpointsLifecycleState = map[string]ListDataSafePrivateEndpointsLifecycleStateEnum{
+var mappingListDataSafePrivateEndpointsLifecycleStateEnum = map[string]ListDataSafePrivateEndpointsLifecycleStateEnum{
 	"CREATING": ListDataSafePrivateEndpointsLifecycleStateCreating,
 	"UPDATING": ListDataSafePrivateEndpointsLifecycleStateUpdating,
 	"ACTIVE":   ListDataSafePrivateEndpointsLifecycleStateActive,
@@ -134,10 +159,23 @@ var mappingListDataSafePrivateEndpointsLifecycleState = map[string]ListDataSafeP
 // GetListDataSafePrivateEndpointsLifecycleStateEnumValues Enumerates the set of values for ListDataSafePrivateEndpointsLifecycleStateEnum
 func GetListDataSafePrivateEndpointsLifecycleStateEnumValues() []ListDataSafePrivateEndpointsLifecycleStateEnum {
 	values := make([]ListDataSafePrivateEndpointsLifecycleStateEnum, 0)
-	for _, v := range mappingListDataSafePrivateEndpointsLifecycleState {
+	for _, v := range mappingListDataSafePrivateEndpointsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataSafePrivateEndpointsLifecycleStateEnumStringValues Enumerates the set of values in String for ListDataSafePrivateEndpointsLifecycleStateEnum
+func GetListDataSafePrivateEndpointsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"NA",
+	}
 }
 
 // ListDataSafePrivateEndpointsSortOrderEnum Enum with underlying type: string
@@ -149,7 +187,7 @@ const (
 	ListDataSafePrivateEndpointsSortOrderDesc ListDataSafePrivateEndpointsSortOrderEnum = "DESC"
 )
 
-var mappingListDataSafePrivateEndpointsSortOrder = map[string]ListDataSafePrivateEndpointsSortOrderEnum{
+var mappingListDataSafePrivateEndpointsSortOrderEnum = map[string]ListDataSafePrivateEndpointsSortOrderEnum{
 	"ASC":  ListDataSafePrivateEndpointsSortOrderAsc,
 	"DESC": ListDataSafePrivateEndpointsSortOrderDesc,
 }
@@ -157,10 +195,18 @@ var mappingListDataSafePrivateEndpointsSortOrder = map[string]ListDataSafePrivat
 // GetListDataSafePrivateEndpointsSortOrderEnumValues Enumerates the set of values for ListDataSafePrivateEndpointsSortOrderEnum
 func GetListDataSafePrivateEndpointsSortOrderEnumValues() []ListDataSafePrivateEndpointsSortOrderEnum {
 	values := make([]ListDataSafePrivateEndpointsSortOrderEnum, 0)
-	for _, v := range mappingListDataSafePrivateEndpointsSortOrder {
+	for _, v := range mappingListDataSafePrivateEndpointsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataSafePrivateEndpointsSortOrderEnumStringValues Enumerates the set of values in String for ListDataSafePrivateEndpointsSortOrderEnum
+func GetListDataSafePrivateEndpointsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDataSafePrivateEndpointsSortByEnum Enum with underlying type: string
@@ -172,7 +218,7 @@ const (
 	ListDataSafePrivateEndpointsSortByDisplayname ListDataSafePrivateEndpointsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListDataSafePrivateEndpointsSortBy = map[string]ListDataSafePrivateEndpointsSortByEnum{
+var mappingListDataSafePrivateEndpointsSortByEnum = map[string]ListDataSafePrivateEndpointsSortByEnum{
 	"TIMECREATED": ListDataSafePrivateEndpointsSortByTimecreated,
 	"DISPLAYNAME": ListDataSafePrivateEndpointsSortByDisplayname,
 }
@@ -180,10 +226,18 @@ var mappingListDataSafePrivateEndpointsSortBy = map[string]ListDataSafePrivateEn
 // GetListDataSafePrivateEndpointsSortByEnumValues Enumerates the set of values for ListDataSafePrivateEndpointsSortByEnum
 func GetListDataSafePrivateEndpointsSortByEnumValues() []ListDataSafePrivateEndpointsSortByEnum {
 	values := make([]ListDataSafePrivateEndpointsSortByEnum, 0)
-	for _, v := range mappingListDataSafePrivateEndpointsSortBy {
+	for _, v := range mappingListDataSafePrivateEndpointsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataSafePrivateEndpointsSortByEnumStringValues Enumerates the set of values in String for ListDataSafePrivateEndpointsSortByEnum
+func GetListDataSafePrivateEndpointsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListDataSafePrivateEndpointsAccessLevelEnum Enum with underlying type: string
@@ -195,7 +249,7 @@ const (
 	ListDataSafePrivateEndpointsAccessLevelAccessible ListDataSafePrivateEndpointsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListDataSafePrivateEndpointsAccessLevel = map[string]ListDataSafePrivateEndpointsAccessLevelEnum{
+var mappingListDataSafePrivateEndpointsAccessLevelEnum = map[string]ListDataSafePrivateEndpointsAccessLevelEnum{
 	"RESTRICTED": ListDataSafePrivateEndpointsAccessLevelRestricted,
 	"ACCESSIBLE": ListDataSafePrivateEndpointsAccessLevelAccessible,
 }
@@ -203,8 +257,16 @@ var mappingListDataSafePrivateEndpointsAccessLevel = map[string]ListDataSafePriv
 // GetListDataSafePrivateEndpointsAccessLevelEnumValues Enumerates the set of values for ListDataSafePrivateEndpointsAccessLevelEnum
 func GetListDataSafePrivateEndpointsAccessLevelEnumValues() []ListDataSafePrivateEndpointsAccessLevelEnum {
 	values := make([]ListDataSafePrivateEndpointsAccessLevelEnum, 0)
-	for _, v := range mappingListDataSafePrivateEndpointsAccessLevel {
+	for _, v := range mappingListDataSafePrivateEndpointsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataSafePrivateEndpointsAccessLevelEnumStringValues Enumerates the set of values in String for ListDataSafePrivateEndpointsAccessLevelEnum
+func GetListDataSafePrivateEndpointsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }

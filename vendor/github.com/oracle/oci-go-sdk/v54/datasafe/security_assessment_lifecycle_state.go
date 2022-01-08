@@ -21,7 +21,7 @@ const (
 	SecurityAssessmentLifecycleStateFailed    SecurityAssessmentLifecycleStateEnum = "FAILED"
 )
 
-var mappingSecurityAssessmentLifecycleState = map[string]SecurityAssessmentLifecycleStateEnum{
+var mappingSecurityAssessmentLifecycleStateEnum = map[string]SecurityAssessmentLifecycleStateEnum{
 	"CREATING":  SecurityAssessmentLifecycleStateCreating,
 	"SUCCEEDED": SecurityAssessmentLifecycleStateSucceeded,
 	"UPDATING":  SecurityAssessmentLifecycleStateUpdating,
@@ -32,8 +32,19 @@ var mappingSecurityAssessmentLifecycleState = map[string]SecurityAssessmentLifec
 // GetSecurityAssessmentLifecycleStateEnumValues Enumerates the set of values for SecurityAssessmentLifecycleStateEnum
 func GetSecurityAssessmentLifecycleStateEnumValues() []SecurityAssessmentLifecycleStateEnum {
 	values := make([]SecurityAssessmentLifecycleStateEnum, 0)
-	for _, v := range mappingSecurityAssessmentLifecycleState {
+	for _, v := range mappingSecurityAssessmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityAssessmentLifecycleStateEnumStringValues Enumerates the set of values in String for SecurityAssessmentLifecycleStateEnum
+func GetSecurityAssessmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"SUCCEEDED",
+		"UPDATING",
+		"DELETING",
+		"FAILED",
+	}
 }

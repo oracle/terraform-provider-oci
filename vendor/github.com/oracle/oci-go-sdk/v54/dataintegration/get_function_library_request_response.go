@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetFunctionLibraryRequest wrapper for the GetFunctionLibrary operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetFunctionLibrary.go.html to see an example of how to use GetFunctionLibraryRequest.
 type GetFunctionLibraryRequest struct {
 
 	// The workspace ID.
@@ -42,6 +40,10 @@ func (request GetFunctionLibraryRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetFunctionLibraryRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -55,6 +57,23 @@ func (request GetFunctionLibraryRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetFunctionLibraryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetFunctionLibraryRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Projection {
+		if _, ok := mappingGetFunctionLibraryProjectionEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Projection: %s. Supported values are: %s.", val, strings.Join(GetGetFunctionLibraryProjectionEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetFunctionLibraryResponse wrapper for the GetFunctionLibrary operation
@@ -91,15 +110,22 @@ const (
 	GetFunctionLibraryProjectionChildCountStatistics GetFunctionLibraryProjectionEnum = "CHILD_COUNT_STATISTICS"
 )
 
-var mappingGetFunctionLibraryProjection = map[string]GetFunctionLibraryProjectionEnum{
+var mappingGetFunctionLibraryProjectionEnum = map[string]GetFunctionLibraryProjectionEnum{
 	"CHILD_COUNT_STATISTICS": GetFunctionLibraryProjectionChildCountStatistics,
 }
 
 // GetGetFunctionLibraryProjectionEnumValues Enumerates the set of values for GetFunctionLibraryProjectionEnum
 func GetGetFunctionLibraryProjectionEnumValues() []GetFunctionLibraryProjectionEnum {
 	values := make([]GetFunctionLibraryProjectionEnum, 0)
-	for _, v := range mappingGetFunctionLibraryProjection {
+	for _, v := range mappingGetFunctionLibraryProjectionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetFunctionLibraryProjectionEnumStringValues Enumerates the set of values in String for GetFunctionLibraryProjectionEnum
+func GetGetFunctionLibraryProjectionEnumStringValues() []string {
+	return []string{
+		"CHILD_COUNT_STATISTICS",
+	}
 }

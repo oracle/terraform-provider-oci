@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateSteeringPolicyRequest wrapper for the UpdateSteeringPolicy operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateSteeringPolicy.go.html to see an example of how to use UpdateSteeringPolicyRequest.
 type UpdateSteeringPolicyRequest struct {
 
 	// The OCID of the target steering policy.
@@ -56,6 +54,10 @@ func (request UpdateSteeringPolicyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateSteeringPolicyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,20 @@ func (request UpdateSteeringPolicyRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateSteeringPolicyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateSteeringPolicyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateSteeringPolicyScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetUpdateSteeringPolicyScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateSteeringPolicyResponse wrapper for the UpdateSteeringPolicy operation
@@ -108,7 +124,7 @@ const (
 	UpdateSteeringPolicyScopePrivate UpdateSteeringPolicyScopeEnum = "PRIVATE"
 )
 
-var mappingUpdateSteeringPolicyScope = map[string]UpdateSteeringPolicyScopeEnum{
+var mappingUpdateSteeringPolicyScopeEnum = map[string]UpdateSteeringPolicyScopeEnum{
 	"GLOBAL":  UpdateSteeringPolicyScopeGlobal,
 	"PRIVATE": UpdateSteeringPolicyScopePrivate,
 }
@@ -116,8 +132,16 @@ var mappingUpdateSteeringPolicyScope = map[string]UpdateSteeringPolicyScopeEnum{
 // GetUpdateSteeringPolicyScopeEnumValues Enumerates the set of values for UpdateSteeringPolicyScopeEnum
 func GetUpdateSteeringPolicyScopeEnumValues() []UpdateSteeringPolicyScopeEnum {
 	values := make([]UpdateSteeringPolicyScopeEnum, 0)
-	for _, v := range mappingUpdateSteeringPolicyScope {
+	for _, v := range mappingUpdateSteeringPolicyScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateSteeringPolicyScopeEnumStringValues Enumerates the set of values in String for UpdateSteeringPolicyScopeEnum
+func GetUpdateSteeringPolicyScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

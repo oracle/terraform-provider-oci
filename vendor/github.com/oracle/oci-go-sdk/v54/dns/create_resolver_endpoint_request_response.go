@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // CreateResolverEndpointRequest wrapper for the CreateResolverEndpoint operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateResolverEndpoint.go.html to see an example of how to use CreateResolverEndpointRequest.
 type CreateResolverEndpointRequest struct {
 
 	// The OCID of the target resolver.
@@ -50,6 +48,10 @@ func (request CreateResolverEndpointRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CreateResolverEndpointRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +65,20 @@ func (request CreateResolverEndpointRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateResolverEndpointRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateResolverEndpointRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateResolverEndpointScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetCreateResolverEndpointScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateResolverEndpointResponse wrapper for the CreateResolverEndpoint operation
@@ -109,7 +125,7 @@ const (
 	CreateResolverEndpointScopePrivate CreateResolverEndpointScopeEnum = "PRIVATE"
 )
 
-var mappingCreateResolverEndpointScope = map[string]CreateResolverEndpointScopeEnum{
+var mappingCreateResolverEndpointScopeEnum = map[string]CreateResolverEndpointScopeEnum{
 	"GLOBAL":  CreateResolverEndpointScopeGlobal,
 	"PRIVATE": CreateResolverEndpointScopePrivate,
 }
@@ -117,8 +133,16 @@ var mappingCreateResolverEndpointScope = map[string]CreateResolverEndpointScopeE
 // GetCreateResolverEndpointScopeEnumValues Enumerates the set of values for CreateResolverEndpointScopeEnum
 func GetCreateResolverEndpointScopeEnumValues() []CreateResolverEndpointScopeEnum {
 	values := make([]CreateResolverEndpointScopeEnum, 0)
-	for _, v := range mappingCreateResolverEndpointScope {
+	for _, v := range mappingCreateResolverEndpointScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateResolverEndpointScopeEnumStringValues Enumerates the set of values in String for CreateResolverEndpointScopeEnum
+func GetCreateResolverEndpointScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

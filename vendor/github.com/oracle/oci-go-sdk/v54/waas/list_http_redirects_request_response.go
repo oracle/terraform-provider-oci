@@ -5,15 +5,13 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListHttpRedirectsRequest wrapper for the ListHttpRedirects operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListHttpRedirects.go.html to see an example of how to use ListHttpRedirectsRequest.
 type ListHttpRedirectsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This number is generated when the compartment is created.
@@ -61,6 +59,10 @@ func (request ListHttpRedirectsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListHttpRedirectsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +76,29 @@ func (request ListHttpRedirectsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListHttpRedirectsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListHttpRedirectsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListHttpRedirectsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListHttpRedirectsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListHttpRedirectsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListHttpRedirectsSortByEnumStringValues(), ",")))
+	}
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingLifecycleStatesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListHttpRedirectsResponse wrapper for the ListHttpRedirects operation
@@ -110,7 +135,7 @@ const (
 	ListHttpRedirectsSortOrderDesc ListHttpRedirectsSortOrderEnum = "DESC"
 )
 
-var mappingListHttpRedirectsSortOrder = map[string]ListHttpRedirectsSortOrderEnum{
+var mappingListHttpRedirectsSortOrderEnum = map[string]ListHttpRedirectsSortOrderEnum{
 	"ASC":  ListHttpRedirectsSortOrderAsc,
 	"DESC": ListHttpRedirectsSortOrderDesc,
 }
@@ -118,10 +143,18 @@ var mappingListHttpRedirectsSortOrder = map[string]ListHttpRedirectsSortOrderEnu
 // GetListHttpRedirectsSortOrderEnumValues Enumerates the set of values for ListHttpRedirectsSortOrderEnum
 func GetListHttpRedirectsSortOrderEnumValues() []ListHttpRedirectsSortOrderEnum {
 	values := make([]ListHttpRedirectsSortOrderEnum, 0)
-	for _, v := range mappingListHttpRedirectsSortOrder {
+	for _, v := range mappingListHttpRedirectsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHttpRedirectsSortOrderEnumStringValues Enumerates the set of values in String for ListHttpRedirectsSortOrderEnum
+func GetListHttpRedirectsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListHttpRedirectsSortByEnum Enum with underlying type: string
@@ -135,7 +168,7 @@ const (
 	ListHttpRedirectsSortByDisplayname ListHttpRedirectsSortByEnum = "displayName"
 )
 
-var mappingListHttpRedirectsSortBy = map[string]ListHttpRedirectsSortByEnum{
+var mappingListHttpRedirectsSortByEnum = map[string]ListHttpRedirectsSortByEnum{
 	"id":          ListHttpRedirectsSortById,
 	"domain":      ListHttpRedirectsSortByDomain,
 	"target":      ListHttpRedirectsSortByTarget,
@@ -145,8 +178,18 @@ var mappingListHttpRedirectsSortBy = map[string]ListHttpRedirectsSortByEnum{
 // GetListHttpRedirectsSortByEnumValues Enumerates the set of values for ListHttpRedirectsSortByEnum
 func GetListHttpRedirectsSortByEnumValues() []ListHttpRedirectsSortByEnum {
 	values := make([]ListHttpRedirectsSortByEnum, 0)
-	for _, v := range mappingListHttpRedirectsSortBy {
+	for _, v := range mappingListHttpRedirectsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHttpRedirectsSortByEnumStringValues Enumerates the set of values in String for ListHttpRedirectsSortByEnum
+func GetListHttpRedirectsSortByEnumStringValues() []string {
+	return []string{
+		"id",
+		"domain",
+		"target",
+		"displayName",
+	}
 }

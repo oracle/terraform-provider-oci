@@ -86,10 +86,6 @@ func (client *GenericArtifactsContentClient) ConfigurationProvider() *common.Con
 }
 
 // GetGenericArtifactContent Gets the specified artifact's content.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/GetGenericArtifactContent.go.html to see an example of how to use GetGenericArtifactContent API.
 func (client GenericArtifactsContentClient) GetGenericArtifactContent(ctx context.Context, request GetGenericArtifactContentRequest) (response GetGenericArtifactContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -140,10 +136,6 @@ func (client GenericArtifactsContentClient) getGenericArtifactContent(ctx contex
 }
 
 // GetGenericArtifactContentByPath Gets the content of an artifact with a specified `artifactPath` and `version`.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/GetGenericArtifactContentByPath.go.html to see an example of how to use GetGenericArtifactContentByPath API.
 func (client GenericArtifactsContentClient) GetGenericArtifactContentByPath(ctx context.Context, request GetGenericArtifactContentByPathRequest) (response GetGenericArtifactContentByPathResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -194,10 +186,6 @@ func (client GenericArtifactsContentClient) getGenericArtifactContentByPath(ctx 
 }
 
 // PutGenericArtifactContentByPath Uploads an artifact. Provide `artifactPath`, `version` and content. Avoid entering confidential information when you define the path and version.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/PutGenericArtifactContentByPath.go.html to see an example of how to use PutGenericArtifactContentByPath API.
 func (client GenericArtifactsContentClient) PutGenericArtifactContentByPath(ctx context.Context, request PutGenericArtifactContentByPathRequest) (response PutGenericArtifactContentByPathResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

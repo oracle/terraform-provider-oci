@@ -7,14 +7,14 @@
 // APIs for dynamically scaling Compute resources to meet application requirements. For more information about
 // autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
 // Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
-// **Note:** Autoscaling is not available in US Government Cloud tenancies. For more information, see
-// Oracle Cloud Infrastructure US Government Cloud (https://docs.cloud.oracle.com/Content/General/Concepts/govoverview.htm).
 //
 
 package autoscaling
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Metric Metric and threshold details for triggering an autoscaling action.
@@ -28,6 +28,21 @@ func (m Metric) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Metric) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMetricMetricTypeEnum[string(m.MetricType)]; !ok && m.MetricType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MetricType: %s. Supported values are: %s.", m.MetricType, strings.Join(GetMetricMetricTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MetricMetricTypeEnum Enum with underlying type: string
 type MetricMetricTypeEnum string
 
@@ -37,7 +52,7 @@ const (
 	MetricMetricTypeMemoryUtilization MetricMetricTypeEnum = "MEMORY_UTILIZATION"
 )
 
-var mappingMetricMetricType = map[string]MetricMetricTypeEnum{
+var mappingMetricMetricTypeEnum = map[string]MetricMetricTypeEnum{
 	"CPU_UTILIZATION":    MetricMetricTypeCpuUtilization,
 	"MEMORY_UTILIZATION": MetricMetricTypeMemoryUtilization,
 }
@@ -45,8 +60,16 @@ var mappingMetricMetricType = map[string]MetricMetricTypeEnum{
 // GetMetricMetricTypeEnumValues Enumerates the set of values for MetricMetricTypeEnum
 func GetMetricMetricTypeEnumValues() []MetricMetricTypeEnum {
 	values := make([]MetricMetricTypeEnum, 0)
-	for _, v := range mappingMetricMetricType {
+	for _, v := range mappingMetricMetricTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMetricMetricTypeEnumStringValues Enumerates the set of values in String for MetricMetricTypeEnum
+func GetMetricMetricTypeEnumStringValues() []string {
+	return []string{
+		"CPU_UTILIZATION",
+		"MEMORY_UTILIZATION",
+	}
 }

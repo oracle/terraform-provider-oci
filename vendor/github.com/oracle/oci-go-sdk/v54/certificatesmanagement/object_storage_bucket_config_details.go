@@ -10,7 +10,9 @@
 package certificatesmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ObjectStorageBucketConfigDetails The details of the Object Storage bucket configured to store the certificate revocation list (CRL).
@@ -28,4 +30,16 @@ type ObjectStorageBucketConfigDetails struct {
 
 func (m ObjectStorageBucketConfigDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ObjectStorageBucketConfigDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

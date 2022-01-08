@@ -5,15 +5,13 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeHttpMonitorCompartmentRequest wrapper for the ChangeHttpMonitorCompartment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ChangeHttpMonitorCompartment.go.html to see an example of how to use ChangeHttpMonitorCompartmentRequest.
 type ChangeHttpMonitorCompartmentRequest struct {
 
 	// The OCID of a monitor.
@@ -51,6 +49,10 @@ func (request ChangeHttpMonitorCompartmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeHttpMonitorCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +66,17 @@ func (request ChangeHttpMonitorCompartmentRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeHttpMonitorCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeHttpMonitorCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeHttpMonitorCompartmentResponse wrapper for the ChangeHttpMonitorCompartment operation

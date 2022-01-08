@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ShapeNumaNodesPerSocketPlatformOptions Configuration options for NUMA nodes per socket.
@@ -31,6 +33,24 @@ func (m ShapeNumaNodesPerSocketPlatformOptions) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ShapeNumaNodesPerSocketPlatformOptions) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.AllowedValues {
+		if _, ok := mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AllowedValues: %s. Supported values are: %s.", val, strings.Join(GetShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum Enum with underlying type: string
 type ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum string
 
@@ -42,7 +62,7 @@ const (
 	ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps4 ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum = "NPS4"
 )
 
-var mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValues = map[string]ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum{
+var mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum = map[string]ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum{
 	"NPS0": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps0,
 	"NPS1": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps1,
 	"NPS2": ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesNps2,
@@ -52,8 +72,18 @@ var mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValues = map[string]Shap
 // GetShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnumValues Enumerates the set of values for ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum
 func GetShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnumValues() []ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum {
 	values := make([]ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum, 0)
-	for _, v := range mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValues {
+	for _, v := range mappingShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnumStringValues Enumerates the set of values in String for ShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnum
+func GetShapeNumaNodesPerSocketPlatformOptionsAllowedValuesEnumStringValues() []string {
+	return []string{
+		"NPS0",
+		"NPS1",
+		"NPS2",
+		"NPS4",
+	}
 }

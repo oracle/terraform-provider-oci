@@ -11,7 +11,9 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RecommendationDetails Details of a recommendation.
@@ -62,4 +64,28 @@ type RecommendationDetails struct {
 
 func (m RecommendationDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RecommendationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRecommendationTypeEnum[string(m.RecommendationType)]; !ok && m.RecommendationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecommendationType: %s. Supported values are: %s.", m.RecommendationType, strings.Join(GetRecommendationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRecommendationStatusEnum[string(m.RecommendationStatus)]; !ok && m.RecommendationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecommendationStatus: %s. Supported values are: %s.", m.RecommendationStatus, strings.Join(GetRecommendationStatusEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingRecommendationResourceTypeEnum[string(m.SourceObjectType)]; !ok && m.SourceObjectType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceObjectType: %s. Supported values are: %s.", m.SourceObjectType, strings.Join(GetRecommendationResourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRecommendationResourceTypeEnum[string(m.TargetObjectType)]; !ok && m.TargetObjectType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetObjectType: %s. Supported values are: %s.", m.TargetObjectType, strings.Join(GetRecommendationResourceTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

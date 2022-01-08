@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAutonomousDatabaseBackupsRequest wrapper for the ListAutonomousDatabaseBackups operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousDatabaseBackups.go.html to see an example of how to use ListAutonomousDatabaseBackupsRequest.
 type ListAutonomousDatabaseBackupsRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -56,6 +54,10 @@ func (request ListAutonomousDatabaseBackupsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAutonomousDatabaseBackupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,26 @@ func (request ListAutonomousDatabaseBackupsRequest) BinaryRequestBody() (*common
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAutonomousDatabaseBackupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAutonomousDatabaseBackupsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAutonomousDatabaseBackupsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAutonomousDatabaseBackupsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutonomousDatabaseBackupsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAutonomousDatabaseBackupsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseBackupSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAutonomousDatabaseBackupSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAutonomousDatabaseBackupsResponse wrapper for the ListAutonomousDatabaseBackups operation
@@ -109,7 +131,7 @@ const (
 	ListAutonomousDatabaseBackupsSortByDisplayname ListAutonomousDatabaseBackupsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAutonomousDatabaseBackupsSortBy = map[string]ListAutonomousDatabaseBackupsSortByEnum{
+var mappingListAutonomousDatabaseBackupsSortByEnum = map[string]ListAutonomousDatabaseBackupsSortByEnum{
 	"TIMECREATED": ListAutonomousDatabaseBackupsSortByTimecreated,
 	"DISPLAYNAME": ListAutonomousDatabaseBackupsSortByDisplayname,
 }
@@ -117,10 +139,18 @@ var mappingListAutonomousDatabaseBackupsSortBy = map[string]ListAutonomousDataba
 // GetListAutonomousDatabaseBackupsSortByEnumValues Enumerates the set of values for ListAutonomousDatabaseBackupsSortByEnum
 func GetListAutonomousDatabaseBackupsSortByEnumValues() []ListAutonomousDatabaseBackupsSortByEnum {
 	values := make([]ListAutonomousDatabaseBackupsSortByEnum, 0)
-	for _, v := range mappingListAutonomousDatabaseBackupsSortBy {
+	for _, v := range mappingListAutonomousDatabaseBackupsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousDatabaseBackupsSortByEnumStringValues Enumerates the set of values in String for ListAutonomousDatabaseBackupsSortByEnum
+func GetListAutonomousDatabaseBackupsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAutonomousDatabaseBackupsSortOrderEnum Enum with underlying type: string
@@ -132,7 +162,7 @@ const (
 	ListAutonomousDatabaseBackupsSortOrderDesc ListAutonomousDatabaseBackupsSortOrderEnum = "DESC"
 )
 
-var mappingListAutonomousDatabaseBackupsSortOrder = map[string]ListAutonomousDatabaseBackupsSortOrderEnum{
+var mappingListAutonomousDatabaseBackupsSortOrderEnum = map[string]ListAutonomousDatabaseBackupsSortOrderEnum{
 	"ASC":  ListAutonomousDatabaseBackupsSortOrderAsc,
 	"DESC": ListAutonomousDatabaseBackupsSortOrderDesc,
 }
@@ -140,8 +170,16 @@ var mappingListAutonomousDatabaseBackupsSortOrder = map[string]ListAutonomousDat
 // GetListAutonomousDatabaseBackupsSortOrderEnumValues Enumerates the set of values for ListAutonomousDatabaseBackupsSortOrderEnum
 func GetListAutonomousDatabaseBackupsSortOrderEnumValues() []ListAutonomousDatabaseBackupsSortOrderEnum {
 	values := make([]ListAutonomousDatabaseBackupsSortOrderEnum, 0)
-	for _, v := range mappingListAutonomousDatabaseBackupsSortOrder {
+	for _, v := range mappingListAutonomousDatabaseBackupsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousDatabaseBackupsSortOrderEnumStringValues Enumerates the set of values in String for ListAutonomousDatabaseBackupsSortOrderEnum
+func GetListAutonomousDatabaseBackupsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

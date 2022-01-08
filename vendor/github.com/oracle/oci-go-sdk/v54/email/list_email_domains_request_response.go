@@ -5,15 +5,13 @@
 package email
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListEmailDomainsRequest wrapper for the ListEmailDomains operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListEmailDomains.go.html to see an example of how to use ListEmailDomainsRequest.
 type ListEmailDomainsRequest struct {
 
 	// The OCID for the compartment.
@@ -63,6 +61,10 @@ func (request ListEmailDomainsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListEmailDomainsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +78,26 @@ func (request ListEmailDomainsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListEmailDomainsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListEmailDomainsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListEmailDomainsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListEmailDomainsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingEmailDomainLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetEmailDomainLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEmailDomainsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListEmailDomainsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListEmailDomainsResponse wrapper for the ListEmailDomains operation
@@ -114,7 +136,7 @@ const (
 	ListEmailDomainsSortOrderDesc ListEmailDomainsSortOrderEnum = "DESC"
 )
 
-var mappingListEmailDomainsSortOrder = map[string]ListEmailDomainsSortOrderEnum{
+var mappingListEmailDomainsSortOrderEnum = map[string]ListEmailDomainsSortOrderEnum{
 	"ASC":  ListEmailDomainsSortOrderAsc,
 	"DESC": ListEmailDomainsSortOrderDesc,
 }
@@ -122,10 +144,18 @@ var mappingListEmailDomainsSortOrder = map[string]ListEmailDomainsSortOrderEnum{
 // GetListEmailDomainsSortOrderEnumValues Enumerates the set of values for ListEmailDomainsSortOrderEnum
 func GetListEmailDomainsSortOrderEnumValues() []ListEmailDomainsSortOrderEnum {
 	values := make([]ListEmailDomainsSortOrderEnum, 0)
-	for _, v := range mappingListEmailDomainsSortOrder {
+	for _, v := range mappingListEmailDomainsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEmailDomainsSortOrderEnumStringValues Enumerates the set of values in String for ListEmailDomainsSortOrderEnum
+func GetListEmailDomainsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListEmailDomainsSortByEnum Enum with underlying type: string
@@ -138,7 +168,7 @@ const (
 	ListEmailDomainsSortByName        ListEmailDomainsSortByEnum = "NAME"
 )
 
-var mappingListEmailDomainsSortBy = map[string]ListEmailDomainsSortByEnum{
+var mappingListEmailDomainsSortByEnum = map[string]ListEmailDomainsSortByEnum{
 	"TIMECREATED": ListEmailDomainsSortByTimecreated,
 	"ID":          ListEmailDomainsSortById,
 	"NAME":        ListEmailDomainsSortByName,
@@ -147,8 +177,17 @@ var mappingListEmailDomainsSortBy = map[string]ListEmailDomainsSortByEnum{
 // GetListEmailDomainsSortByEnumValues Enumerates the set of values for ListEmailDomainsSortByEnum
 func GetListEmailDomainsSortByEnumValues() []ListEmailDomainsSortByEnum {
 	values := make([]ListEmailDomainsSortByEnum, 0)
-	for _, v := range mappingListEmailDomainsSortBy {
+	for _, v := range mappingListEmailDomainsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEmailDomainsSortByEnumStringValues Enumerates the set of values in String for ListEmailDomainsSortByEnum
+func GetListEmailDomainsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"ID",
+		"NAME",
+	}
 }

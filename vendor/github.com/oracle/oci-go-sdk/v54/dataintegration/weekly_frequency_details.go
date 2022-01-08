@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WeeklyFrequencyDetails Frequency Details model for weekly frequency based on day of week.
@@ -32,6 +34,26 @@ func (m WeeklyFrequencyDetails) GetFrequency() AbstractFrequencyDetailsFrequency
 
 func (m WeeklyFrequencyDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WeeklyFrequencyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range m.Days {
+		if _, ok := mappingWeeklyFrequencyDetailsDaysEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Days: %s. Supported values are: %s.", val, strings.Join(GetWeeklyFrequencyDetailsDaysEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingAbstractFrequencyDetailsFrequencyEnum[string(m.Frequency)]; !ok && m.Frequency != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Frequency: %s. Supported values are: %s.", m.Frequency, strings.Join(GetAbstractFrequencyDetailsFrequencyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -62,7 +84,7 @@ const (
 	WeeklyFrequencyDetailsDaysSaturday  WeeklyFrequencyDetailsDaysEnum = "SATURDAY"
 )
 
-var mappingWeeklyFrequencyDetailsDays = map[string]WeeklyFrequencyDetailsDaysEnum{
+var mappingWeeklyFrequencyDetailsDaysEnum = map[string]WeeklyFrequencyDetailsDaysEnum{
 	"SUNDAY":    WeeklyFrequencyDetailsDaysSunday,
 	"MONDAY":    WeeklyFrequencyDetailsDaysMonday,
 	"TUESDAY":   WeeklyFrequencyDetailsDaysTuesday,
@@ -75,8 +97,21 @@ var mappingWeeklyFrequencyDetailsDays = map[string]WeeklyFrequencyDetailsDaysEnu
 // GetWeeklyFrequencyDetailsDaysEnumValues Enumerates the set of values for WeeklyFrequencyDetailsDaysEnum
 func GetWeeklyFrequencyDetailsDaysEnumValues() []WeeklyFrequencyDetailsDaysEnum {
 	values := make([]WeeklyFrequencyDetailsDaysEnum, 0)
-	for _, v := range mappingWeeklyFrequencyDetailsDays {
+	for _, v := range mappingWeeklyFrequencyDetailsDaysEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWeeklyFrequencyDetailsDaysEnumStringValues Enumerates the set of values in String for WeeklyFrequencyDetailsDaysEnum
+func GetWeeklyFrequencyDetailsDaysEnumStringValues() []string {
+	return []string{
+		"SUNDAY",
+		"MONDAY",
+		"TUESDAY",
+		"WEDNESDAY",
+		"THURSDAY",
+		"FRIDAY",
+		"SATURDAY",
+	}
 }

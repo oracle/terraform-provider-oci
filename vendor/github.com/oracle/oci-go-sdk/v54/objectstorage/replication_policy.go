@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ReplicationPolicy The details of a replication policy.
@@ -49,6 +51,21 @@ func (m ReplicationPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ReplicationPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingReplicationPolicyStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetReplicationPolicyStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ReplicationPolicyStatusEnum Enum with underlying type: string
 type ReplicationPolicyStatusEnum string
 
@@ -58,7 +75,7 @@ const (
 	ReplicationPolicyStatusClientError ReplicationPolicyStatusEnum = "CLIENT_ERROR"
 )
 
-var mappingReplicationPolicyStatus = map[string]ReplicationPolicyStatusEnum{
+var mappingReplicationPolicyStatusEnum = map[string]ReplicationPolicyStatusEnum{
 	"ACTIVE":       ReplicationPolicyStatusActive,
 	"CLIENT_ERROR": ReplicationPolicyStatusClientError,
 }
@@ -66,8 +83,16 @@ var mappingReplicationPolicyStatus = map[string]ReplicationPolicyStatusEnum{
 // GetReplicationPolicyStatusEnumValues Enumerates the set of values for ReplicationPolicyStatusEnum
 func GetReplicationPolicyStatusEnumValues() []ReplicationPolicyStatusEnum {
 	values := make([]ReplicationPolicyStatusEnum, 0)
-	for _, v := range mappingReplicationPolicyStatus {
+	for _, v := range mappingReplicationPolicyStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetReplicationPolicyStatusEnumStringValues Enumerates the set of values in String for ReplicationPolicyStatusEnum
+func GetReplicationPolicyStatusEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CLIENT_ERROR",
+	}
 }

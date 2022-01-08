@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SortField Field outlining queryString sort command fields and their corresponding sort order.
@@ -106,6 +108,24 @@ func (m SortField) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SortField) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSortFieldDirectionEnum[string(m.Direction)]; !ok && m.Direction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Direction: %s. Supported values are: %s.", m.Direction, strings.Join(GetSortFieldDirectionEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingValueTypeEnum[string(m.ValueType)]; !ok && m.ValueType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValueType: %s. Supported values are: %s.", m.ValueType, strings.Join(GetValueTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m SortField) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeSortField SortField
@@ -129,7 +149,7 @@ const (
 	SortFieldDirectionDescending SortFieldDirectionEnum = "DESCENDING"
 )
 
-var mappingSortFieldDirection = map[string]SortFieldDirectionEnum{
+var mappingSortFieldDirectionEnum = map[string]SortFieldDirectionEnum{
 	"ASCENDING":  SortFieldDirectionAscending,
 	"DESCENDING": SortFieldDirectionDescending,
 }
@@ -137,8 +157,16 @@ var mappingSortFieldDirection = map[string]SortFieldDirectionEnum{
 // GetSortFieldDirectionEnumValues Enumerates the set of values for SortFieldDirectionEnum
 func GetSortFieldDirectionEnumValues() []SortFieldDirectionEnum {
 	values := make([]SortFieldDirectionEnum, 0)
-	for _, v := range mappingSortFieldDirection {
+	for _, v := range mappingSortFieldDirectionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSortFieldDirectionEnumStringValues Enumerates the set of values in String for SortFieldDirectionEnum
+func GetSortFieldDirectionEnumStringValues() []string {
+	return []string{
+		"ASCENDING",
+		"DESCENDING",
+	}
 }

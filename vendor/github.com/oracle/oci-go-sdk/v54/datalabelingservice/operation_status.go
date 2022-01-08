@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// DataLabelingService API
+// Data Labeling Management API
 //
-// A description of the DataLabelingService API
+// Use Data Labeling Management API to create, list, edit & delete datasets.
 //
 
 package datalabelingservice
@@ -23,7 +23,7 @@ const (
 	OperationStatusFailed     OperationStatusEnum = "FAILED"
 )
 
-var mappingOperationStatus = map[string]OperationStatusEnum{
+var mappingOperationStatusEnum = map[string]OperationStatusEnum{
 	"ACCEPTED":    OperationStatusAccepted,
 	"IN_PROGRESS": OperationStatusInProgress,
 	"WAITING":     OperationStatusWaiting,
@@ -36,8 +36,21 @@ var mappingOperationStatus = map[string]OperationStatusEnum{
 // GetOperationStatusEnumValues Enumerates the set of values for OperationStatusEnum
 func GetOperationStatusEnumValues() []OperationStatusEnum {
 	values := make([]OperationStatusEnum, 0)
-	for _, v := range mappingOperationStatus {
+	for _, v := range mappingOperationStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationStatusEnumStringValues Enumerates the set of values in String for OperationStatusEnum
+func GetOperationStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"WAITING",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+		"FAILED",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateLaunchOptions Options for tuning the compatibility and performance of VM shapes.
@@ -61,6 +63,24 @@ func (m UpdateLaunchOptions) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateLaunchOptions) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateLaunchOptionsBootVolumeTypeEnum[string(m.BootVolumeType)]; !ok && m.BootVolumeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BootVolumeType: %s. Supported values are: %s.", m.BootVolumeType, strings.Join(GetUpdateLaunchOptionsBootVolumeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateLaunchOptionsNetworkTypeEnum[string(m.NetworkType)]; !ok && m.NetworkType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkType: %s. Supported values are: %s.", m.NetworkType, strings.Join(GetUpdateLaunchOptionsNetworkTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateLaunchOptionsBootVolumeTypeEnum Enum with underlying type: string
 type UpdateLaunchOptionsBootVolumeTypeEnum string
 
@@ -70,7 +90,7 @@ const (
 	UpdateLaunchOptionsBootVolumeTypeParavirtualized UpdateLaunchOptionsBootVolumeTypeEnum = "PARAVIRTUALIZED"
 )
 
-var mappingUpdateLaunchOptionsBootVolumeType = map[string]UpdateLaunchOptionsBootVolumeTypeEnum{
+var mappingUpdateLaunchOptionsBootVolumeTypeEnum = map[string]UpdateLaunchOptionsBootVolumeTypeEnum{
 	"ISCSI":           UpdateLaunchOptionsBootVolumeTypeIscsi,
 	"PARAVIRTUALIZED": UpdateLaunchOptionsBootVolumeTypeParavirtualized,
 }
@@ -78,10 +98,18 @@ var mappingUpdateLaunchOptionsBootVolumeType = map[string]UpdateLaunchOptionsBoo
 // GetUpdateLaunchOptionsBootVolumeTypeEnumValues Enumerates the set of values for UpdateLaunchOptionsBootVolumeTypeEnum
 func GetUpdateLaunchOptionsBootVolumeTypeEnumValues() []UpdateLaunchOptionsBootVolumeTypeEnum {
 	values := make([]UpdateLaunchOptionsBootVolumeTypeEnum, 0)
-	for _, v := range mappingUpdateLaunchOptionsBootVolumeType {
+	for _, v := range mappingUpdateLaunchOptionsBootVolumeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateLaunchOptionsBootVolumeTypeEnumStringValues Enumerates the set of values in String for UpdateLaunchOptionsBootVolumeTypeEnum
+func GetUpdateLaunchOptionsBootVolumeTypeEnumStringValues() []string {
+	return []string{
+		"ISCSI",
+		"PARAVIRTUALIZED",
+	}
 }
 
 // UpdateLaunchOptionsNetworkTypeEnum Enum with underlying type: string
@@ -93,7 +121,7 @@ const (
 	UpdateLaunchOptionsNetworkTypeParavirtualized UpdateLaunchOptionsNetworkTypeEnum = "PARAVIRTUALIZED"
 )
 
-var mappingUpdateLaunchOptionsNetworkType = map[string]UpdateLaunchOptionsNetworkTypeEnum{
+var mappingUpdateLaunchOptionsNetworkTypeEnum = map[string]UpdateLaunchOptionsNetworkTypeEnum{
 	"VFIO":            UpdateLaunchOptionsNetworkTypeVfio,
 	"PARAVIRTUALIZED": UpdateLaunchOptionsNetworkTypeParavirtualized,
 }
@@ -101,8 +129,16 @@ var mappingUpdateLaunchOptionsNetworkType = map[string]UpdateLaunchOptionsNetwor
 // GetUpdateLaunchOptionsNetworkTypeEnumValues Enumerates the set of values for UpdateLaunchOptionsNetworkTypeEnum
 func GetUpdateLaunchOptionsNetworkTypeEnumValues() []UpdateLaunchOptionsNetworkTypeEnum {
 	values := make([]UpdateLaunchOptionsNetworkTypeEnum, 0)
-	for _, v := range mappingUpdateLaunchOptionsNetworkType {
+	for _, v := range mappingUpdateLaunchOptionsNetworkTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateLaunchOptionsNetworkTypeEnumStringValues Enumerates the set of values in String for UpdateLaunchOptionsNetworkTypeEnum
+func GetUpdateLaunchOptionsNetworkTypeEnumStringValues() []string {
+	return []string{
+		"VFIO",
+		"PARAVIRTUALIZED",
+	}
 }

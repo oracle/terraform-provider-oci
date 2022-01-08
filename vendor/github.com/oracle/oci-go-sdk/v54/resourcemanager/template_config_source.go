@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TemplateConfigSource Information about the Template.
@@ -64,6 +66,18 @@ func (m templateconfigsource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m templateconfigsource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TemplateConfigSourceTemplateConfigSourceTypeEnum Enum with underlying type: string
 type TemplateConfigSourceTemplateConfigSourceTypeEnum string
 
@@ -72,15 +86,22 @@ const (
 	TemplateConfigSourceTemplateConfigSourceTypeZipUpload TemplateConfigSourceTemplateConfigSourceTypeEnum = "ZIP_UPLOAD"
 )
 
-var mappingTemplateConfigSourceTemplateConfigSourceType = map[string]TemplateConfigSourceTemplateConfigSourceTypeEnum{
+var mappingTemplateConfigSourceTemplateConfigSourceTypeEnum = map[string]TemplateConfigSourceTemplateConfigSourceTypeEnum{
 	"ZIP_UPLOAD": TemplateConfigSourceTemplateConfigSourceTypeZipUpload,
 }
 
 // GetTemplateConfigSourceTemplateConfigSourceTypeEnumValues Enumerates the set of values for TemplateConfigSourceTemplateConfigSourceTypeEnum
 func GetTemplateConfigSourceTemplateConfigSourceTypeEnumValues() []TemplateConfigSourceTemplateConfigSourceTypeEnum {
 	values := make([]TemplateConfigSourceTemplateConfigSourceTypeEnum, 0)
-	for _, v := range mappingTemplateConfigSourceTemplateConfigSourceType {
+	for _, v := range mappingTemplateConfigSourceTemplateConfigSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTemplateConfigSourceTemplateConfigSourceTypeEnumStringValues Enumerates the set of values in String for TemplateConfigSourceTemplateConfigSourceTypeEnum
+func GetTemplateConfigSourceTemplateConfigSourceTypeEnumStringValues() []string {
+	return []string{
+		"ZIP_UPLOAD",
+	}
 }

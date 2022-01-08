@@ -12,7 +12,9 @@
 package aianomalydetection
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AiPrivateEndpointCollection A collection of AI Service PrivateEndpoints Each item is a AI Service PrivateEndpoint Summary object.
@@ -24,4 +26,16 @@ type AiPrivateEndpointCollection struct {
 
 func (m AiPrivateEndpointCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AiPrivateEndpointCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

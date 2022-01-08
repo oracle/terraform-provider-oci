@@ -14,21 +14,38 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// DpdConfig DPD Configuration Details
+// DpdConfig These configuration details are used for dead peer detection (DPD). DPD periodically checks the stability of the connection to the customer premises (CPE), and may be used to detect that the link to the CPE has gone down.
 type DpdConfig struct {
 
-	// dpd mode
+	// This option defines whether DPD can be initiated from the Oracle side of the connection.
 	DpdMode DpdConfigDpdModeEnum `mandatory:"false" json:"dpdMode,omitempty"`
 
-	// DPD Timeout in seconds.
+	// DPD timeout in seconds. This sets the longest interval between CPE device health messages before the IPSec connection indicates it has lost contact with the CPE. The default is 20 seconds.
 	DpdTimeoutInSec *int `mandatory:"false" json:"dpdTimeoutInSec"`
 }
 
 func (m DpdConfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DpdConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDpdConfigDpdModeEnum[string(m.DpdMode)]; !ok && m.DpdMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DpdMode: %s. Supported values are: %s.", m.DpdMode, strings.Join(GetDpdConfigDpdModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DpdConfigDpdModeEnum Enum with underlying type: string
@@ -40,7 +57,7 @@ const (
 	DpdConfigDpdModeRespondOnly        DpdConfigDpdModeEnum = "RESPOND_ONLY"
 )
 
-var mappingDpdConfigDpdMode = map[string]DpdConfigDpdModeEnum{
+var mappingDpdConfigDpdModeEnum = map[string]DpdConfigDpdModeEnum{
 	"INITIATE_AND_RESPOND": DpdConfigDpdModeInitiateAndRespond,
 	"RESPOND_ONLY":         DpdConfigDpdModeRespondOnly,
 }
@@ -48,8 +65,16 @@ var mappingDpdConfigDpdMode = map[string]DpdConfigDpdModeEnum{
 // GetDpdConfigDpdModeEnumValues Enumerates the set of values for DpdConfigDpdModeEnum
 func GetDpdConfigDpdModeEnumValues() []DpdConfigDpdModeEnum {
 	values := make([]DpdConfigDpdModeEnum, 0)
-	for _, v := range mappingDpdConfigDpdMode {
+	for _, v := range mappingDpdConfigDpdModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDpdConfigDpdModeEnumStringValues Enumerates the set of values in String for DpdConfigDpdModeEnum
+func GetDpdConfigDpdModeEnumStringValues() []string {
+	return []string{
+		"INITIATE_AND_RESPOND",
+		"RESPOND_ONLY",
+	}
 }

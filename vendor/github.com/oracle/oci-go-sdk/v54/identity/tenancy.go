@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Tenancy The root compartment that contains all of your organization's compartments and other
@@ -19,7 +21,7 @@ import (
 // where you can create, organize, and administer your cloud resources.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
-// see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// see Get Started with Policies (https://docs.cloud.oracle.com/Content/Identity/policiesgs/get-started-with-policies.htm).
 type Tenancy struct {
 
 	// The OCID of the tenancy.
@@ -35,6 +37,9 @@ type Tenancy struct {
 	// Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
 	// Example: `PHX`
 	HomeRegionKey *string `mandatory:"false" json:"homeRegionKey"`
+
+	// OracleMyServicesIdentifier is Oracle MyServices Cloud Account Identifier.
+	OracleMyServicesIdentifier *string `mandatory:"false" json:"oracleMyServicesIdentifier"`
 
 	// Url which refers to the UPI IDCS compatibility layer endpoint configured for this Tenant's home region.
 	UpiIdcsCompatibilityLayerEndpoint *string `mandatory:"false" json:"upiIdcsCompatibilityLayerEndpoint"`
@@ -52,4 +57,16 @@ type Tenancy struct {
 
 func (m Tenancy) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Tenancy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

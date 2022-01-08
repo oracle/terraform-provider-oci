@@ -12,7 +12,9 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateHttpMonitorDetails The request body used to create an HTTP monitor.
@@ -69,6 +71,24 @@ type CreateHttpMonitorDetails struct {
 
 func (m CreateHttpMonitorDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateHttpMonitorDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingHttpProbeProtocolEnum[string(m.Protocol)]; !ok && m.Protocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetHttpProbeProtocolEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingHttpProbeMethodEnum[string(m.Method)]; !ok && m.Method != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Method: %s. Supported values are: %s.", m.Method, strings.Join(GetHttpProbeMethodEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateHttpMonitorDetailsProtocolEnum is an alias to type: HttpProbeProtocolEnum

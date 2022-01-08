@@ -10,7 +10,9 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateGroupCursorDetails Object used to create a group cursor.
@@ -40,6 +42,21 @@ func (m CreateGroupCursorDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateGroupCursorDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateGroupCursorDetailsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCreateGroupCursorDetailsTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateGroupCursorDetailsTypeEnum Enum with underlying type: string
 type CreateGroupCursorDetailsTypeEnum string
 
@@ -50,7 +67,7 @@ const (
 	CreateGroupCursorDetailsTypeTrimHorizon CreateGroupCursorDetailsTypeEnum = "TRIM_HORIZON"
 )
 
-var mappingCreateGroupCursorDetailsType = map[string]CreateGroupCursorDetailsTypeEnum{
+var mappingCreateGroupCursorDetailsTypeEnum = map[string]CreateGroupCursorDetailsTypeEnum{
 	"AT_TIME":      CreateGroupCursorDetailsTypeAtTime,
 	"LATEST":       CreateGroupCursorDetailsTypeLatest,
 	"TRIM_HORIZON": CreateGroupCursorDetailsTypeTrimHorizon,
@@ -59,8 +76,17 @@ var mappingCreateGroupCursorDetailsType = map[string]CreateGroupCursorDetailsTyp
 // GetCreateGroupCursorDetailsTypeEnumValues Enumerates the set of values for CreateGroupCursorDetailsTypeEnum
 func GetCreateGroupCursorDetailsTypeEnumValues() []CreateGroupCursorDetailsTypeEnum {
 	values := make([]CreateGroupCursorDetailsTypeEnum, 0)
-	for _, v := range mappingCreateGroupCursorDetailsType {
+	for _, v := range mappingCreateGroupCursorDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateGroupCursorDetailsTypeEnumStringValues Enumerates the set of values in String for CreateGroupCursorDetailsTypeEnum
+func GetCreateGroupCursorDetailsTypeEnumStringValues() []string {
+	return []string{
+		"AT_TIME",
+		"LATEST",
+		"TRIM_HORIZON",
+	}
 }

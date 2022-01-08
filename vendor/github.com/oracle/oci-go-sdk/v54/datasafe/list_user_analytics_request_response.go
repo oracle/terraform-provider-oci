@@ -5,15 +5,13 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListUserAnalyticsRequest wrapper for the ListUserAnalytics operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAnalytics.go.html to see an example of how to use ListUserAnalyticsRequest.
 type ListUserAnalyticsRequest struct {
 
 	// The OCID of the user assessment.
@@ -47,7 +45,7 @@ type ListUserAnalyticsRequest struct {
 	// A filter to return only items that match the specified user name.
 	UserName *string `mandatory:"false" contributesTo:"query" name:"userName"`
 
-	// A filter to return only items that match the specified target.
+	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
 	// A filter to return users whose last login time in the database is greater than or equal to the date and time specified, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -98,6 +96,10 @@ func (request ListUserAnalyticsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListUserAnalyticsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -111,6 +113,26 @@ func (request ListUserAnalyticsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListUserAnalyticsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListUserAnalyticsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListUserAnalyticsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListUserAnalyticsAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUserAnalyticsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListUserAnalyticsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUserAnalyticsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListUserAnalyticsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListUserAnalyticsResponse wrapper for the ListUserAnalytics operation
@@ -147,7 +169,7 @@ const (
 	ListUserAnalyticsAccessLevelAccessible ListUserAnalyticsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListUserAnalyticsAccessLevel = map[string]ListUserAnalyticsAccessLevelEnum{
+var mappingListUserAnalyticsAccessLevelEnum = map[string]ListUserAnalyticsAccessLevelEnum{
 	"RESTRICTED": ListUserAnalyticsAccessLevelRestricted,
 	"ACCESSIBLE": ListUserAnalyticsAccessLevelAccessible,
 }
@@ -155,10 +177,18 @@ var mappingListUserAnalyticsAccessLevel = map[string]ListUserAnalyticsAccessLeve
 // GetListUserAnalyticsAccessLevelEnumValues Enumerates the set of values for ListUserAnalyticsAccessLevelEnum
 func GetListUserAnalyticsAccessLevelEnumValues() []ListUserAnalyticsAccessLevelEnum {
 	values := make([]ListUserAnalyticsAccessLevelEnum, 0)
-	for _, v := range mappingListUserAnalyticsAccessLevel {
+	for _, v := range mappingListUserAnalyticsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserAnalyticsAccessLevelEnumStringValues Enumerates the set of values in String for ListUserAnalyticsAccessLevelEnum
+func GetListUserAnalyticsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }
 
 // ListUserAnalyticsSortOrderEnum Enum with underlying type: string
@@ -170,7 +200,7 @@ const (
 	ListUserAnalyticsSortOrderDesc ListUserAnalyticsSortOrderEnum = "DESC"
 )
 
-var mappingListUserAnalyticsSortOrder = map[string]ListUserAnalyticsSortOrderEnum{
+var mappingListUserAnalyticsSortOrderEnum = map[string]ListUserAnalyticsSortOrderEnum{
 	"ASC":  ListUserAnalyticsSortOrderAsc,
 	"DESC": ListUserAnalyticsSortOrderDesc,
 }
@@ -178,10 +208,18 @@ var mappingListUserAnalyticsSortOrder = map[string]ListUserAnalyticsSortOrderEnu
 // GetListUserAnalyticsSortOrderEnumValues Enumerates the set of values for ListUserAnalyticsSortOrderEnum
 func GetListUserAnalyticsSortOrderEnumValues() []ListUserAnalyticsSortOrderEnum {
 	values := make([]ListUserAnalyticsSortOrderEnum, 0)
-	for _, v := range mappingListUserAnalyticsSortOrder {
+	for _, v := range mappingListUserAnalyticsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserAnalyticsSortOrderEnumStringValues Enumerates the set of values in String for ListUserAnalyticsSortOrderEnum
+func GetListUserAnalyticsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListUserAnalyticsSortByEnum Enum with underlying type: string
@@ -199,7 +237,7 @@ const (
 	ListUserAnalyticsSortByTimepasswordchanged ListUserAnalyticsSortByEnum = "timePasswordChanged"
 )
 
-var mappingListUserAnalyticsSortBy = map[string]ListUserAnalyticsSortByEnum{
+var mappingListUserAnalyticsSortByEnum = map[string]ListUserAnalyticsSortByEnum{
 	"userName":            ListUserAnalyticsSortByUsername,
 	"userCategory":        ListUserAnalyticsSortByUsercategory,
 	"accountStatus":       ListUserAnalyticsSortByAccountstatus,
@@ -213,8 +251,22 @@ var mappingListUserAnalyticsSortBy = map[string]ListUserAnalyticsSortByEnum{
 // GetListUserAnalyticsSortByEnumValues Enumerates the set of values for ListUserAnalyticsSortByEnum
 func GetListUserAnalyticsSortByEnumValues() []ListUserAnalyticsSortByEnum {
 	values := make([]ListUserAnalyticsSortByEnum, 0)
-	for _, v := range mappingListUserAnalyticsSortBy {
+	for _, v := range mappingListUserAnalyticsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserAnalyticsSortByEnumStringValues Enumerates the set of values in String for ListUserAnalyticsSortByEnum
+func GetListUserAnalyticsSortByEnumStringValues() []string {
+	return []string{
+		"userName",
+		"userCategory",
+		"accountStatus",
+		"timeLastLogin",
+		"targetId",
+		"timeUserCreated",
+		"authenticationType",
+		"timePasswordChanged",
+	}
 }

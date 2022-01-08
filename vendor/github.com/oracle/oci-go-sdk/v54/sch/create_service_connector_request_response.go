@@ -5,15 +5,13 @@
 package sch
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // CreateServiceConnectorRequest wrapper for the CreateServiceConnector operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/CreateServiceConnector.go.html to see an example of how to use CreateServiceConnectorRequest.
 type CreateServiceConnectorRequest struct {
 
 	// Configuration details for the new service connector.
@@ -42,6 +40,10 @@ func (request CreateServiceConnectorRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CreateServiceConnectorRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -55,6 +57,17 @@ func (request CreateServiceConnectorRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateServiceConnectorRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateServiceConnectorRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateServiceConnectorResponse wrapper for the CreateServiceConnector operation

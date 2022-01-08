@@ -19,7 +19,7 @@ const (
 	EventConfigStatusDisabled EventConfigStatusEnum = "DISABLED"
 )
 
-var mappingEventConfigStatus = map[string]EventConfigStatusEnum{
+var mappingEventConfigStatusEnum = map[string]EventConfigStatusEnum{
 	"ENABLED":  EventConfigStatusEnabled,
 	"DISABLED": EventConfigStatusDisabled,
 }
@@ -27,8 +27,16 @@ var mappingEventConfigStatus = map[string]EventConfigStatusEnum{
 // GetEventConfigStatusEnumValues Enumerates the set of values for EventConfigStatusEnum
 func GetEventConfigStatusEnumValues() []EventConfigStatusEnum {
 	values := make([]EventConfigStatusEnum, 0)
-	for _, v := range mappingEventConfigStatus {
+	for _, v := range mappingEventConfigStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEventConfigStatusEnumStringValues Enumerates the set of values in String for EventConfigStatusEnum
+func GetEventConfigStatusEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }

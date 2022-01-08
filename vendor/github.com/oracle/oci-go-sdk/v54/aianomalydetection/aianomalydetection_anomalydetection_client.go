@@ -87,10 +87,6 @@ func (client *AnomalyDetectionClient) ConfigurationProvider() *common.Configurat
 }
 
 // CancelWorkRequest Cancel work request with the given ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 func (client AnomalyDetectionClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -142,10 +138,6 @@ func (client AnomalyDetectionClient) cancelWorkRequest(ctx context.Context, requ
 }
 
 // ChangeAiPrivateEndpointCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeAiPrivateEndpointCompartment.go.html to see an example of how to use ChangeAiPrivateEndpointCompartment API.
 func (client AnomalyDetectionClient) ChangeAiPrivateEndpointCompartment(ctx context.Context, request ChangeAiPrivateEndpointCompartmentRequest) (response ChangeAiPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -202,10 +194,6 @@ func (client AnomalyDetectionClient) changeAiPrivateEndpointCompartment(ctx cont
 }
 
 // ChangeDataAssetCompartment Changing the compartment of a data asset.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeDataAssetCompartment.go.html to see an example of how to use ChangeDataAssetCompartment API.
 func (client AnomalyDetectionClient) ChangeDataAssetCompartment(ctx context.Context, request ChangeDataAssetCompartmentRequest) (response ChangeDataAssetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -262,10 +250,6 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 }
 
 // ChangeModelCompartment Moves a Model resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
 func (client AnomalyDetectionClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -322,10 +306,6 @@ func (client AnomalyDetectionClient) changeModelCompartment(ctx context.Context,
 }
 
 // ChangeProjectCompartment Moves a Project resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 func (client AnomalyDetectionClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -382,10 +362,6 @@ func (client AnomalyDetectionClient) changeProjectCompartment(ctx context.Contex
 }
 
 // CreateAiPrivateEndpoint Create a new private reverse connection endpoint.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateAiPrivateEndpoint.go.html to see an example of how to use CreateAiPrivateEndpoint API.
 func (client AnomalyDetectionClient) CreateAiPrivateEndpoint(ctx context.Context, request CreateAiPrivateEndpointRequest) (response CreateAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -442,10 +418,6 @@ func (client AnomalyDetectionClient) createAiPrivateEndpoint(ctx context.Context
 }
 
 // CreateDataAsset Creates a new DataAsset.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateDataAsset.go.html to see an example of how to use CreateDataAsset API.
 func (client AnomalyDetectionClient) CreateDataAsset(ctx context.Context, request CreateDataAssetRequest) (response CreateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -502,10 +474,6 @@ func (client AnomalyDetectionClient) createDataAsset(ctx context.Context, reques
 }
 
 // CreateModel Creates a new Model.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateModel.go.html to see an example of how to use CreateModel API.
 func (client AnomalyDetectionClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -562,10 +530,6 @@ func (client AnomalyDetectionClient) createModel(ctx context.Context, request co
 }
 
 // CreateProject Creates a new Project.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateProject.go.html to see an example of how to use CreateProject API.
 func (client AnomalyDetectionClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -622,10 +586,6 @@ func (client AnomalyDetectionClient) createProject(ctx context.Context, request 
 }
 
 // DeleteAiPrivateEndpoint Deletes a private reverse connection endpoint by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteAiPrivateEndpoint.go.html to see an example of how to use DeleteAiPrivateEndpoint API.
 func (client AnomalyDetectionClient) DeleteAiPrivateEndpoint(ctx context.Context, request DeleteAiPrivateEndpointRequest) (response DeleteAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -677,10 +637,6 @@ func (client AnomalyDetectionClient) deleteAiPrivateEndpoint(ctx context.Context
 }
 
 // DeleteDataAsset Deletes a DataAsset resource by identifier
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteDataAsset.go.html to see an example of how to use DeleteDataAsset API.
 func (client AnomalyDetectionClient) DeleteDataAsset(ctx context.Context, request DeleteDataAssetRequest) (response DeleteDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -732,10 +688,6 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 }
 
 // DeleteModel Deletes an ai model resource by identifier. This operation fails with a 409 error unless all associated resources are in a DELETED state. You must delete all associated resources before deleting a project.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteModel.go.html to see an example of how to use DeleteModel API.
 func (client AnomalyDetectionClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -787,10 +739,6 @@ func (client AnomalyDetectionClient) deleteModel(ctx context.Context, request co
 }
 
 // DeleteProject Deletes a Project resource by identifier. This operation fails with a 409 error unless all associated resources (models deployments or data assets) are in a DELETED state. You must delete all associated resources before deleting a project.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteProject.go.html to see an example of how to use DeleteProject API.
 func (client AnomalyDetectionClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -842,10 +790,6 @@ func (client AnomalyDetectionClient) deleteProject(ctx context.Context, request 
 }
 
 // DetectAnomalies Make a detect call with an anomaly model and detection data
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DetectAnomalies.go.html to see an example of how to use DetectAnomalies API.
 func (client AnomalyDetectionClient) DetectAnomalies(ctx context.Context, request DetectAnomaliesRequest) (response DetectAnomaliesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -902,10 +846,6 @@ func (client AnomalyDetectionClient) detectAnomalies(ctx context.Context, reques
 }
 
 // GetAiPrivateEndpoint Gets a specific private reverse connection by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetAiPrivateEndpoint.go.html to see an example of how to use GetAiPrivateEndpoint API.
 func (client AnomalyDetectionClient) GetAiPrivateEndpoint(ctx context.Context, request GetAiPrivateEndpointRequest) (response GetAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -957,10 +897,6 @@ func (client AnomalyDetectionClient) getAiPrivateEndpoint(ctx context.Context, r
 }
 
 // GetDataAsset Gets a DataAsset by identifier
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetDataAsset.go.html to see an example of how to use GetDataAsset API.
 func (client AnomalyDetectionClient) GetDataAsset(ctx context.Context, request GetDataAssetRequest) (response GetDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1012,10 +948,6 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 }
 
 // GetModel Gets a Model by identifier
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetModel.go.html to see an example of how to use GetModel API.
 func (client AnomalyDetectionClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1067,10 +999,6 @@ func (client AnomalyDetectionClient) getModel(ctx context.Context, request commo
 }
 
 // GetProject Gets a Project by identifier
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetProject.go.html to see an example of how to use GetProject API.
 func (client AnomalyDetectionClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1122,10 +1050,6 @@ func (client AnomalyDetectionClient) getProject(ctx context.Context, request com
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client AnomalyDetectionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1177,10 +1101,6 @@ func (client AnomalyDetectionClient) getWorkRequest(ctx context.Context, request
 }
 
 // ListAiPrivateEndpoints Returns a list of all the AI private endpoints in the specified compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListAiPrivateEndpoints.go.html to see an example of how to use ListAiPrivateEndpoints API.
 func (client AnomalyDetectionClient) ListAiPrivateEndpoints(ctx context.Context, request ListAiPrivateEndpointsRequest) (response ListAiPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1232,10 +1152,6 @@ func (client AnomalyDetectionClient) listAiPrivateEndpoints(ctx context.Context,
 }
 
 // ListDataAssets Returns a list of DataAssets.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListDataAssets.go.html to see an example of how to use ListDataAssets API.
 func (client AnomalyDetectionClient) ListDataAssets(ctx context.Context, request ListDataAssetsRequest) (response ListDataAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1287,10 +1203,6 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 }
 
 // ListModels Returns a list of Models.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListModels.go.html to see an example of how to use ListModels API.
 func (client AnomalyDetectionClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1342,10 +1254,6 @@ func (client AnomalyDetectionClient) listModels(ctx context.Context, request com
 }
 
 // ListProjects Returns a list of  Projects.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListProjects.go.html to see an example of how to use ListProjects API.
 func (client AnomalyDetectionClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1397,10 +1305,6 @@ func (client AnomalyDetectionClient) listProjects(ctx context.Context, request c
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client AnomalyDetectionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1452,10 +1356,6 @@ func (client AnomalyDetectionClient) listWorkRequestErrors(ctx context.Context, 
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client AnomalyDetectionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1507,10 +1407,6 @@ func (client AnomalyDetectionClient) listWorkRequestLogs(ctx context.Context, re
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client AnomalyDetectionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1562,10 +1458,6 @@ func (client AnomalyDetectionClient) listWorkRequests(ctx context.Context, reque
 }
 
 // UpdateAiPrivateEndpoint Updates the private reverse connection endpoint.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateAiPrivateEndpoint.go.html to see an example of how to use UpdateAiPrivateEndpoint API.
 func (client AnomalyDetectionClient) UpdateAiPrivateEndpoint(ctx context.Context, request UpdateAiPrivateEndpointRequest) (response UpdateAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1617,10 +1509,6 @@ func (client AnomalyDetectionClient) updateAiPrivateEndpoint(ctx context.Context
 }
 
 // UpdateDataAsset Updates the DataAsset
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateDataAsset.go.html to see an example of how to use UpdateDataAsset API.
 func (client AnomalyDetectionClient) UpdateDataAsset(ctx context.Context, request UpdateDataAssetRequest) (response UpdateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1672,10 +1560,6 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 }
 
 // UpdateModel Updates the Model
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateModel.go.html to see an example of how to use UpdateModel API.
 func (client AnomalyDetectionClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1727,10 +1611,6 @@ func (client AnomalyDetectionClient) updateModel(ctx context.Context, request co
 }
 
 // UpdateProject Updates the Project
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateProject.go.html to see an example of how to use UpdateProject API.
 func (client AnomalyDetectionClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

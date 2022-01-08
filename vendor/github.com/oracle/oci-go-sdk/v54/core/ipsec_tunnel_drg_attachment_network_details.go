@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // IpsecTunnelDrgAttachmentNetworkDetails Specifies the IPSec tunnel attached to the DRG.
@@ -26,6 +28,26 @@ type IpsecTunnelDrgAttachmentNetworkDetails struct {
 
 	// The IPSec connection that contains the attached IPSec tunnel.
 	IpsecConnectionId *string `mandatory:"false" json:"ipsecConnectionId"`
+
+	// Routes which may be imported from the attachment (subject to import policy) appear in the route reflectors
+	// tagged with the attachment's import route target.
+	ImportRouteTarget *string `mandatory:"false" json:"importRouteTarget"`
+
+	// Routes which are exported to the attachment are exported to the route reflectors
+	// with the route target set to the value of the attachment's export route target.
+	ExportRouteTarget *string `mandatory:"false" json:"exportRouteTarget"`
+
+	// The MPLS label of the DRG attachment.
+	MplsLabel *int `mandatory:"false" json:"mplsLabel"`
+
+	// The BGP ASN to use for the IPSec connection's route target.
+	RegionalOciAsn *string `mandatory:"false" json:"regionalOciAsn"`
+
+	// IPv4 address used to encapsulate ingress traffic to the DRG through this attachment
+	IngressVip *string `mandatory:"false" json:"ingressVip"`
+
+	// Whether traffic from this network is forwarded to the El Paso Gamma VIPs (or not)
+	IsGammaDrg *bool `mandatory:"false" json:"isGammaDrg"`
 }
 
 //GetId returns Id
@@ -35,6 +57,18 @@ func (m IpsecTunnelDrgAttachmentNetworkDetails) GetId() *string {
 
 func (m IpsecTunnelDrgAttachmentNetworkDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IpsecTunnelDrgAttachmentNetworkDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

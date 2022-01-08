@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataEntityFromFileEntityDetails The file data entity details.
@@ -70,6 +72,21 @@ type DataEntityFromFileEntityDetails struct {
 
 func (m DataEntityFromFileEntityDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataEntityFromFileEntityDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataEntityFromFileEntityDetailsEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetDataEntityFromFileEntityDetailsEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -180,7 +197,7 @@ const (
 	DataEntityFromFileEntityDetailsEntityTypeOther  DataEntityFromFileEntityDetailsEntityTypeEnum = "OTHER"
 )
 
-var mappingDataEntityFromFileEntityDetailsEntityType = map[string]DataEntityFromFileEntityDetailsEntityTypeEnum{
+var mappingDataEntityFromFileEntityDetailsEntityTypeEnum = map[string]DataEntityFromFileEntityDetailsEntityTypeEnum{
 	"TABLE":  DataEntityFromFileEntityDetailsEntityTypeTable,
 	"VIEW":   DataEntityFromFileEntityDetailsEntityTypeView,
 	"FILE":   DataEntityFromFileEntityDetailsEntityTypeFile,
@@ -192,8 +209,20 @@ var mappingDataEntityFromFileEntityDetailsEntityType = map[string]DataEntityFrom
 // GetDataEntityFromFileEntityDetailsEntityTypeEnumValues Enumerates the set of values for DataEntityFromFileEntityDetailsEntityTypeEnum
 func GetDataEntityFromFileEntityDetailsEntityTypeEnumValues() []DataEntityFromFileEntityDetailsEntityTypeEnum {
 	values := make([]DataEntityFromFileEntityDetailsEntityTypeEnum, 0)
-	for _, v := range mappingDataEntityFromFileEntityDetailsEntityType {
+	for _, v := range mappingDataEntityFromFileEntityDetailsEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataEntityFromFileEntityDetailsEntityTypeEnumStringValues Enumerates the set of values in String for DataEntityFromFileEntityDetailsEntityTypeEnum
+func GetDataEntityFromFileEntityDetailsEntityTypeEnumStringValues() []string {
+	return []string{
+		"TABLE",
+		"VIEW",
+		"FILE",
+		"QUEUE",
+		"STREAM",
+		"OTHER",
+	}
 }

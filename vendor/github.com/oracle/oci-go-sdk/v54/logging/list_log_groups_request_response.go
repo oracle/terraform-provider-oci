@@ -5,15 +5,13 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListLogGroupsRequest wrapper for the ListLogGroups operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListLogGroups.go.html to see an example of how to use ListLogGroupsRequest.
 type ListLogGroupsRequest struct {
 
 	// Compartment OCID to list resources in. See compartmentIdInSubtree
@@ -23,7 +21,7 @@ type ListLogGroupsRequest struct {
 	// Specifies whether or not nested compartments should be traversed. Defaults to false.
 	IsCompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"isCompartmentIdInSubtree"`
 
-	// Resource name
+	// Resource name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// For list pagination. The value of the `opc-next-page` or `opc-previous-page` response header from the previous "List" call.
@@ -56,6 +54,10 @@ func (request ListLogGroupsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLogGroupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,23 @@ func (request ListLogGroupsRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLogGroupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLogGroupsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLogGroupsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLogGroupsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogGroupsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLogGroupsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLogGroupsResponse wrapper for the ListLogGroups operation
@@ -113,7 +132,7 @@ const (
 	ListLogGroupsSortByDisplayname ListLogGroupsSortByEnum = "displayName"
 )
 
-var mappingListLogGroupsSortBy = map[string]ListLogGroupsSortByEnum{
+var mappingListLogGroupsSortByEnum = map[string]ListLogGroupsSortByEnum{
 	"timeCreated": ListLogGroupsSortByTimecreated,
 	"displayName": ListLogGroupsSortByDisplayname,
 }
@@ -121,10 +140,18 @@ var mappingListLogGroupsSortBy = map[string]ListLogGroupsSortByEnum{
 // GetListLogGroupsSortByEnumValues Enumerates the set of values for ListLogGroupsSortByEnum
 func GetListLogGroupsSortByEnumValues() []ListLogGroupsSortByEnum {
 	values := make([]ListLogGroupsSortByEnum, 0)
-	for _, v := range mappingListLogGroupsSortBy {
+	for _, v := range mappingListLogGroupsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogGroupsSortByEnumStringValues Enumerates the set of values in String for ListLogGroupsSortByEnum
+func GetListLogGroupsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListLogGroupsSortOrderEnum Enum with underlying type: string
@@ -136,7 +163,7 @@ const (
 	ListLogGroupsSortOrderDesc ListLogGroupsSortOrderEnum = "DESC"
 )
 
-var mappingListLogGroupsSortOrder = map[string]ListLogGroupsSortOrderEnum{
+var mappingListLogGroupsSortOrderEnum = map[string]ListLogGroupsSortOrderEnum{
 	"ASC":  ListLogGroupsSortOrderAsc,
 	"DESC": ListLogGroupsSortOrderDesc,
 }
@@ -144,8 +171,16 @@ var mappingListLogGroupsSortOrder = map[string]ListLogGroupsSortOrderEnum{
 // GetListLogGroupsSortOrderEnumValues Enumerates the set of values for ListLogGroupsSortOrderEnum
 func GetListLogGroupsSortOrderEnumValues() []ListLogGroupsSortOrderEnum {
 	values := make([]ListLogGroupsSortOrderEnum, 0)
-	for _, v := range mappingListLogGroupsSortOrder {
+	for _, v := range mappingListLogGroupsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogGroupsSortOrderEnumStringValues Enumerates the set of values in String for ListLogGroupsSortOrderEnum
+func GetListLogGroupsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

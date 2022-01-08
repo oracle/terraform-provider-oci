@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetCustomPropertyRequest wrapper for the GetCustomProperty operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetCustomProperty.go.html to see an example of how to use GetCustomPropertyRequest.
 type GetCustomPropertyRequest struct {
 
 	// Unique catalog identifier.
@@ -43,6 +41,10 @@ func (request GetCustomPropertyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetCustomPropertyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +58,23 @@ func (request GetCustomPropertyRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetCustomPropertyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetCustomPropertyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetCustomPropertyFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetCustomPropertyFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetCustomPropertyResponse wrapper for the GetCustomProperty operation
@@ -102,7 +121,7 @@ const (
 	GetCustomPropertyFieldsProperties     GetCustomPropertyFieldsEnum = "properties"
 )
 
-var mappingGetCustomPropertyFields = map[string]GetCustomPropertyFieldsEnum{
+var mappingGetCustomPropertyFieldsEnum = map[string]GetCustomPropertyFieldsEnum{
 	"key":            GetCustomPropertyFieldsKey,
 	"displayName":    GetCustomPropertyFieldsDisplayname,
 	"description":    GetCustomPropertyFieldsDescription,
@@ -119,8 +138,25 @@ var mappingGetCustomPropertyFields = map[string]GetCustomPropertyFieldsEnum{
 // GetGetCustomPropertyFieldsEnumValues Enumerates the set of values for GetCustomPropertyFieldsEnum
 func GetGetCustomPropertyFieldsEnumValues() []GetCustomPropertyFieldsEnum {
 	values := make([]GetCustomPropertyFieldsEnum, 0)
-	for _, v := range mappingGetCustomPropertyFields {
+	for _, v := range mappingGetCustomPropertyFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetCustomPropertyFieldsEnumStringValues Enumerates the set of values in String for GetCustomPropertyFieldsEnum
+func GetGetCustomPropertyFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"dataType",
+		"namespaceName",
+		"lifecycleState",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"properties",
+	}
 }

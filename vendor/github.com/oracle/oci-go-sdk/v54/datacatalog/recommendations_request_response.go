@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // RecommendationsRequest wrapper for the Recommendations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/Recommendations.go.html to see an example of how to use RecommendationsRequest.
 type RecommendationsRequest struct {
 
 	// Unique catalog identifier.
@@ -46,6 +44,10 @@ func (request RecommendationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request RecommendationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +61,29 @@ func (request RecommendationsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request RecommendationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request RecommendationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.RecommendationType {
+		if _, ok := mappingRecommendationTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecommendationType: %s. Supported values are: %s.", val, strings.Join(GetRecommendationTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingRecommendationsSourceObjectTypeEnum[string(request.SourceObjectType)]; !ok && request.SourceObjectType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceObjectType: %s. Supported values are: %s.", request.SourceObjectType, strings.Join(GetRecommendationsSourceObjectTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRecommendationsRecommendationStatusEnum[string(request.RecommendationStatus)]; !ok && request.RecommendationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecommendationStatus: %s. Supported values are: %s.", request.RecommendationStatus, strings.Join(GetRecommendationsRecommendationStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // RecommendationsResponse wrapper for the Recommendations operation
@@ -95,7 +120,7 @@ const (
 	RecommendationsSourceObjectTypeCategory   RecommendationsSourceObjectTypeEnum = "CATEGORY"
 )
 
-var mappingRecommendationsSourceObjectType = map[string]RecommendationsSourceObjectTypeEnum{
+var mappingRecommendationsSourceObjectTypeEnum = map[string]RecommendationsSourceObjectTypeEnum{
 	"DATA_ENTITY": RecommendationsSourceObjectTypeDataEntity,
 	"ATTRIBUTE":   RecommendationsSourceObjectTypeAttribute,
 	"TERM":        RecommendationsSourceObjectTypeTerm,
@@ -105,10 +130,20 @@ var mappingRecommendationsSourceObjectType = map[string]RecommendationsSourceObj
 // GetRecommendationsSourceObjectTypeEnumValues Enumerates the set of values for RecommendationsSourceObjectTypeEnum
 func GetRecommendationsSourceObjectTypeEnumValues() []RecommendationsSourceObjectTypeEnum {
 	values := make([]RecommendationsSourceObjectTypeEnum, 0)
-	for _, v := range mappingRecommendationsSourceObjectType {
+	for _, v := range mappingRecommendationsSourceObjectTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecommendationsSourceObjectTypeEnumStringValues Enumerates the set of values in String for RecommendationsSourceObjectTypeEnum
+func GetRecommendationsSourceObjectTypeEnumStringValues() []string {
+	return []string{
+		"DATA_ENTITY",
+		"ATTRIBUTE",
+		"TERM",
+		"CATEGORY",
+	}
 }
 
 // RecommendationsRecommendationStatusEnum Enum with underlying type: string
@@ -121,7 +156,7 @@ const (
 	RecommendationsRecommendationStatusInferred RecommendationsRecommendationStatusEnum = "INFERRED"
 )
 
-var mappingRecommendationsRecommendationStatus = map[string]RecommendationsRecommendationStatusEnum{
+var mappingRecommendationsRecommendationStatusEnum = map[string]RecommendationsRecommendationStatusEnum{
 	"ACCEPTED": RecommendationsRecommendationStatusAccepted,
 	"REJECTED": RecommendationsRecommendationStatusRejected,
 	"INFERRED": RecommendationsRecommendationStatusInferred,
@@ -130,8 +165,17 @@ var mappingRecommendationsRecommendationStatus = map[string]RecommendationsRecom
 // GetRecommendationsRecommendationStatusEnumValues Enumerates the set of values for RecommendationsRecommendationStatusEnum
 func GetRecommendationsRecommendationStatusEnumValues() []RecommendationsRecommendationStatusEnum {
 	values := make([]RecommendationsRecommendationStatusEnum, 0)
-	for _, v := range mappingRecommendationsRecommendationStatus {
+	for _, v := range mappingRecommendationsRecommendationStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecommendationsRecommendationStatusEnumStringValues Enumerates the set of values in String for RecommendationsRecommendationStatusEnum
+func GetRecommendationsRecommendationStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"REJECTED",
+		"INFERRED",
+	}
 }

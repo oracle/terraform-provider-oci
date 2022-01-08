@@ -11,7 +11,9 @@ package apmconfig
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ApdexRulesSummary The set of Apdex rules to be used in Apdex computation.
@@ -72,6 +74,18 @@ func (m ApdexRulesSummary) GetDefinedTags() map[string]map[string]interface{} {
 
 func (m ApdexRulesSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ApdexRulesSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

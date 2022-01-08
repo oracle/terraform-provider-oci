@@ -29,7 +29,7 @@ const (
 	MigrationLifecycleStatesFailed         MigrationLifecycleStatesEnum = "FAILED"
 )
 
-var mappingMigrationLifecycleStates = map[string]MigrationLifecycleStatesEnum{
+var mappingMigrationLifecycleStatesEnum = map[string]MigrationLifecycleStatesEnum{
 	"CREATING":        MigrationLifecycleStatesCreating,
 	"UPDATING":        MigrationLifecycleStatesUpdating,
 	"ACTIVE":          MigrationLifecycleStatesActive,
@@ -48,8 +48,27 @@ var mappingMigrationLifecycleStates = map[string]MigrationLifecycleStatesEnum{
 // GetMigrationLifecycleStatesEnumValues Enumerates the set of values for MigrationLifecycleStatesEnum
 func GetMigrationLifecycleStatesEnumValues() []MigrationLifecycleStatesEnum {
 	values := make([]MigrationLifecycleStatesEnum, 0)
-	for _, v := range mappingMigrationLifecycleStates {
+	for _, v := range mappingMigrationLifecycleStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMigrationLifecycleStatesEnumStringValues Enumerates the set of values in String for MigrationLifecycleStatesEnum
+func GetMigrationLifecycleStatesEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"IN_PROGRESS",
+		"ACCEPTED",
+		"SUCCEEDED",
+		"CANCELED",
+		"WAITING",
+		"NEEDS_ATTENTION",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

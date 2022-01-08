@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WafBlockedRequest The representation of WafBlockedRequest
@@ -33,6 +35,21 @@ func (m WafBlockedRequest) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WafBlockedRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingWafBlockedRequestWafFeatureEnum[string(m.WafFeature)]; !ok && m.WafFeature != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WafFeature: %s. Supported values are: %s.", m.WafFeature, strings.Join(GetWafBlockedRequestWafFeatureEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WafBlockedRequestWafFeatureEnum Enum with underlying type: string
 type WafBlockedRequestWafFeatureEnum string
 
@@ -48,7 +65,7 @@ const (
 	WafBlockedRequestWafFeatureAddressRateLimiting        WafBlockedRequestWafFeatureEnum = "ADDRESS_RATE_LIMITING"
 )
 
-var mappingWafBlockedRequestWafFeature = map[string]WafBlockedRequestWafFeatureEnum{
+var mappingWafBlockedRequestWafFeatureEnum = map[string]WafBlockedRequestWafFeatureEnum{
 	"PROTECTION_RULES":             WafBlockedRequestWafFeatureProtectionRules,
 	"JS_CHALLENGE":                 WafBlockedRequestWafFeatureJsChallenge,
 	"ACCESS_RULES":                 WafBlockedRequestWafFeatureAccessRules,
@@ -62,8 +79,22 @@ var mappingWafBlockedRequestWafFeature = map[string]WafBlockedRequestWafFeatureE
 // GetWafBlockedRequestWafFeatureEnumValues Enumerates the set of values for WafBlockedRequestWafFeatureEnum
 func GetWafBlockedRequestWafFeatureEnumValues() []WafBlockedRequestWafFeatureEnum {
 	values := make([]WafBlockedRequestWafFeatureEnum, 0)
-	for _, v := range mappingWafBlockedRequestWafFeature {
+	for _, v := range mappingWafBlockedRequestWafFeatureEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWafBlockedRequestWafFeatureEnumStringValues Enumerates the set of values in String for WafBlockedRequestWafFeatureEnum
+func GetWafBlockedRequestWafFeatureEnumStringValues() []string {
+	return []string{
+		"PROTECTION_RULES",
+		"JS_CHALLENGE",
+		"ACCESS_RULES",
+		"THREAT_FEEDS",
+		"HUMAN_INTERACTION_CHALLENGE",
+		"DEVICE_FINGERPRINT_CHALLENGE",
+		"CAPTCHA",
+		"ADDRESS_RATE_LIMITING",
+	}
 }

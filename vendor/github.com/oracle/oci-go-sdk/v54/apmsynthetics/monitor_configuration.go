@@ -4,14 +4,16 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // MonitorConfiguration Details of monitor configuration.
@@ -83,6 +85,18 @@ func (m monitorconfiguration) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m monitorconfiguration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MonitorConfigurationConfigTypeEnum Enum with underlying type: string
 type MonitorConfigurationConfigTypeEnum string
 
@@ -94,7 +108,7 @@ const (
 	MonitorConfigurationConfigTypeScriptedRestConfig    MonitorConfigurationConfigTypeEnum = "SCRIPTED_REST_CONFIG"
 )
 
-var mappingMonitorConfigurationConfigType = map[string]MonitorConfigurationConfigTypeEnum{
+var mappingMonitorConfigurationConfigTypeEnum = map[string]MonitorConfigurationConfigTypeEnum{
 	"BROWSER_CONFIG":          MonitorConfigurationConfigTypeBrowserConfig,
 	"SCRIPTED_BROWSER_CONFIG": MonitorConfigurationConfigTypeScriptedBrowserConfig,
 	"REST_CONFIG":             MonitorConfigurationConfigTypeRestConfig,
@@ -104,8 +118,18 @@ var mappingMonitorConfigurationConfigType = map[string]MonitorConfigurationConfi
 // GetMonitorConfigurationConfigTypeEnumValues Enumerates the set of values for MonitorConfigurationConfigTypeEnum
 func GetMonitorConfigurationConfigTypeEnumValues() []MonitorConfigurationConfigTypeEnum {
 	values := make([]MonitorConfigurationConfigTypeEnum, 0)
-	for _, v := range mappingMonitorConfigurationConfigType {
+	for _, v := range mappingMonitorConfigurationConfigTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMonitorConfigurationConfigTypeEnumStringValues Enumerates the set of values in String for MonitorConfigurationConfigTypeEnum
+func GetMonitorConfigurationConfigTypeEnumStringValues() []string {
+	return []string{
+		"BROWSER_CONFIG",
+		"SCRIPTED_BROWSER_CONFIG",
+		"REST_CONFIG",
+		"SCRIPTED_REST_CONFIG",
+	}
 }

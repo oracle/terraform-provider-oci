@@ -11,7 +11,9 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // NamespaceCollection Results of a namespaces listing. A namespace is an unique name tied to the first class object of data catalog which will be used to create a custom property
@@ -26,4 +28,16 @@ type NamespaceCollection struct {
 
 func (m NamespaceCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m NamespaceCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

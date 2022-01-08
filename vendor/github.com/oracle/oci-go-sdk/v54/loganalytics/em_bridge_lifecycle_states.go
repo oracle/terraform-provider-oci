@@ -20,7 +20,7 @@ const (
 	EmBridgeLifecycleStatesNeedsAttention EmBridgeLifecycleStatesEnum = "NEEDS_ATTENTION"
 )
 
-var mappingEmBridgeLifecycleStates = map[string]EmBridgeLifecycleStatesEnum{
+var mappingEmBridgeLifecycleStatesEnum = map[string]EmBridgeLifecycleStatesEnum{
 	"CREATING":        EmBridgeLifecycleStatesCreating,
 	"ACTIVE":          EmBridgeLifecycleStatesActive,
 	"DELETED":         EmBridgeLifecycleStatesDeleted,
@@ -30,8 +30,18 @@ var mappingEmBridgeLifecycleStates = map[string]EmBridgeLifecycleStatesEnum{
 // GetEmBridgeLifecycleStatesEnumValues Enumerates the set of values for EmBridgeLifecycleStatesEnum
 func GetEmBridgeLifecycleStatesEnumValues() []EmBridgeLifecycleStatesEnum {
 	values := make([]EmBridgeLifecycleStatesEnum, 0)
-	for _, v := range mappingEmBridgeLifecycleStates {
+	for _, v := range mappingEmBridgeLifecycleStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEmBridgeLifecycleStatesEnumStringValues Enumerates the set of values in String for EmBridgeLifecycleStatesEnum
+func GetEmBridgeLifecycleStatesEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETED",
+		"NEEDS_ATTENTION",
+	}
 }

@@ -11,7 +11,9 @@ package mysql
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CaCertificate The CA certificate of the server used for VERIFY_IDENTITY and VERIFY_CA ssl modes.
@@ -61,6 +63,18 @@ func (m cacertificate) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m cacertificate) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CaCertificateCertificateTypeEnum Enum with underlying type: string
 type CaCertificateCertificateTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	CaCertificateCertificateTypePem CaCertificateCertificateTypeEnum = "PEM"
 )
 
-var mappingCaCertificateCertificateType = map[string]CaCertificateCertificateTypeEnum{
+var mappingCaCertificateCertificateTypeEnum = map[string]CaCertificateCertificateTypeEnum{
 	"PEM": CaCertificateCertificateTypePem,
 }
 
 // GetCaCertificateCertificateTypeEnumValues Enumerates the set of values for CaCertificateCertificateTypeEnum
 func GetCaCertificateCertificateTypeEnumValues() []CaCertificateCertificateTypeEnum {
 	values := make([]CaCertificateCertificateTypeEnum, 0)
-	for _, v := range mappingCaCertificateCertificateType {
+	for _, v := range mappingCaCertificateCertificateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCaCertificateCertificateTypeEnumStringValues Enumerates the set of values in String for CaCertificateCertificateTypeEnum
+func GetCaCertificateCertificateTypeEnumStringValues() []string {
+	return []string{
+		"PEM",
+	}
 }

@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ZoneSummary A DNS zone.
@@ -77,6 +79,27 @@ func (m ZoneSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ZoneSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingZoneSummaryZoneTypeEnum[string(m.ZoneType)]; !ok && m.ZoneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ZoneType: %s. Supported values are: %s.", m.ZoneType, strings.Join(GetZoneSummaryZoneTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScopeEnum[string(m.Scope)]; !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetScopeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingZoneSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetZoneSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ZoneSummaryZoneTypeEnum Enum with underlying type: string
 type ZoneSummaryZoneTypeEnum string
 
@@ -86,7 +109,7 @@ const (
 	ZoneSummaryZoneTypeSecondary ZoneSummaryZoneTypeEnum = "SECONDARY"
 )
 
-var mappingZoneSummaryZoneType = map[string]ZoneSummaryZoneTypeEnum{
+var mappingZoneSummaryZoneTypeEnum = map[string]ZoneSummaryZoneTypeEnum{
 	"PRIMARY":   ZoneSummaryZoneTypePrimary,
 	"SECONDARY": ZoneSummaryZoneTypeSecondary,
 }
@@ -94,10 +117,18 @@ var mappingZoneSummaryZoneType = map[string]ZoneSummaryZoneTypeEnum{
 // GetZoneSummaryZoneTypeEnumValues Enumerates the set of values for ZoneSummaryZoneTypeEnum
 func GetZoneSummaryZoneTypeEnumValues() []ZoneSummaryZoneTypeEnum {
 	values := make([]ZoneSummaryZoneTypeEnum, 0)
-	for _, v := range mappingZoneSummaryZoneType {
+	for _, v := range mappingZoneSummaryZoneTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetZoneSummaryZoneTypeEnumStringValues Enumerates the set of values in String for ZoneSummaryZoneTypeEnum
+func GetZoneSummaryZoneTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"SECONDARY",
+	}
 }
 
 // ZoneSummaryLifecycleStateEnum Enum with underlying type: string
@@ -113,7 +144,7 @@ const (
 	ZoneSummaryLifecycleStateUpdating ZoneSummaryLifecycleStateEnum = "UPDATING"
 )
 
-var mappingZoneSummaryLifecycleState = map[string]ZoneSummaryLifecycleStateEnum{
+var mappingZoneSummaryLifecycleStateEnum = map[string]ZoneSummaryLifecycleStateEnum{
 	"ACTIVE":   ZoneSummaryLifecycleStateActive,
 	"CREATING": ZoneSummaryLifecycleStateCreating,
 	"DELETED":  ZoneSummaryLifecycleStateDeleted,
@@ -125,8 +156,20 @@ var mappingZoneSummaryLifecycleState = map[string]ZoneSummaryLifecycleStateEnum{
 // GetZoneSummaryLifecycleStateEnumValues Enumerates the set of values for ZoneSummaryLifecycleStateEnum
 func GetZoneSummaryLifecycleStateEnumValues() []ZoneSummaryLifecycleStateEnum {
 	values := make([]ZoneSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingZoneSummaryLifecycleState {
+	for _, v := range mappingZoneSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetZoneSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ZoneSummaryLifecycleStateEnum
+func GetZoneSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"UPDATING",
+	}
 }

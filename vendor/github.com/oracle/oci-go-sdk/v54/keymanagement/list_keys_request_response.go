@@ -5,15 +5,13 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListKeysRequest wrapper for the ListKeys operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListKeys.go.html to see an example of how to use ListKeysRequest.
 type ListKeysRequest struct {
 
 	// The OCID of the compartment.
@@ -67,6 +65,10 @@ func (request ListKeysRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListKeysRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -80,6 +82,32 @@ func (request ListKeysRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListKeysRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListKeysRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListKeysSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListKeysSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListKeysSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListKeysSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListKeysProtectionModeEnum[string(request.ProtectionMode)]; !ok && request.ProtectionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", request.ProtectionMode, strings.Join(GetListKeysProtectionModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListKeysAlgorithmEnum[string(request.Algorithm)]; !ok && request.Algorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Algorithm: %s. Supported values are: %s.", request.Algorithm, strings.Join(GetListKeysAlgorithmEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListKeysCurveIdEnum[string(request.CurveId)]; !ok && request.CurveId != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurveId: %s. Supported values are: %s.", request.CurveId, strings.Join(GetListKeysCurveIdEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListKeysResponse wrapper for the ListKeys operation
@@ -120,7 +148,7 @@ const (
 	ListKeysSortByDisplayname ListKeysSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListKeysSortBy = map[string]ListKeysSortByEnum{
+var mappingListKeysSortByEnum = map[string]ListKeysSortByEnum{
 	"TIMECREATED": ListKeysSortByTimecreated,
 	"DISPLAYNAME": ListKeysSortByDisplayname,
 }
@@ -128,10 +156,18 @@ var mappingListKeysSortBy = map[string]ListKeysSortByEnum{
 // GetListKeysSortByEnumValues Enumerates the set of values for ListKeysSortByEnum
 func GetListKeysSortByEnumValues() []ListKeysSortByEnum {
 	values := make([]ListKeysSortByEnum, 0)
-	for _, v := range mappingListKeysSortBy {
+	for _, v := range mappingListKeysSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListKeysSortByEnumStringValues Enumerates the set of values in String for ListKeysSortByEnum
+func GetListKeysSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListKeysSortOrderEnum Enum with underlying type: string
@@ -143,7 +179,7 @@ const (
 	ListKeysSortOrderDesc ListKeysSortOrderEnum = "DESC"
 )
 
-var mappingListKeysSortOrder = map[string]ListKeysSortOrderEnum{
+var mappingListKeysSortOrderEnum = map[string]ListKeysSortOrderEnum{
 	"ASC":  ListKeysSortOrderAsc,
 	"DESC": ListKeysSortOrderDesc,
 }
@@ -151,10 +187,18 @@ var mappingListKeysSortOrder = map[string]ListKeysSortOrderEnum{
 // GetListKeysSortOrderEnumValues Enumerates the set of values for ListKeysSortOrderEnum
 func GetListKeysSortOrderEnumValues() []ListKeysSortOrderEnum {
 	values := make([]ListKeysSortOrderEnum, 0)
-	for _, v := range mappingListKeysSortOrder {
+	for _, v := range mappingListKeysSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListKeysSortOrderEnumStringValues Enumerates the set of values in String for ListKeysSortOrderEnum
+func GetListKeysSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListKeysProtectionModeEnum Enum with underlying type: string
@@ -166,7 +210,7 @@ const (
 	ListKeysProtectionModeSoftware ListKeysProtectionModeEnum = "SOFTWARE"
 )
 
-var mappingListKeysProtectionMode = map[string]ListKeysProtectionModeEnum{
+var mappingListKeysProtectionModeEnum = map[string]ListKeysProtectionModeEnum{
 	"HSM":      ListKeysProtectionModeHsm,
 	"SOFTWARE": ListKeysProtectionModeSoftware,
 }
@@ -174,10 +218,18 @@ var mappingListKeysProtectionMode = map[string]ListKeysProtectionModeEnum{
 // GetListKeysProtectionModeEnumValues Enumerates the set of values for ListKeysProtectionModeEnum
 func GetListKeysProtectionModeEnumValues() []ListKeysProtectionModeEnum {
 	values := make([]ListKeysProtectionModeEnum, 0)
-	for _, v := range mappingListKeysProtectionMode {
+	for _, v := range mappingListKeysProtectionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListKeysProtectionModeEnumStringValues Enumerates the set of values in String for ListKeysProtectionModeEnum
+func GetListKeysProtectionModeEnumStringValues() []string {
+	return []string{
+		"HSM",
+		"SOFTWARE",
+	}
 }
 
 // ListKeysAlgorithmEnum Enum with underlying type: string
@@ -190,7 +242,7 @@ const (
 	ListKeysAlgorithmEcdsa ListKeysAlgorithmEnum = "ECDSA"
 )
 
-var mappingListKeysAlgorithm = map[string]ListKeysAlgorithmEnum{
+var mappingListKeysAlgorithmEnum = map[string]ListKeysAlgorithmEnum{
 	"AES":   ListKeysAlgorithmAes,
 	"RSA":   ListKeysAlgorithmRsa,
 	"ECDSA": ListKeysAlgorithmEcdsa,
@@ -199,10 +251,19 @@ var mappingListKeysAlgorithm = map[string]ListKeysAlgorithmEnum{
 // GetListKeysAlgorithmEnumValues Enumerates the set of values for ListKeysAlgorithmEnum
 func GetListKeysAlgorithmEnumValues() []ListKeysAlgorithmEnum {
 	values := make([]ListKeysAlgorithmEnum, 0)
-	for _, v := range mappingListKeysAlgorithm {
+	for _, v := range mappingListKeysAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListKeysAlgorithmEnumStringValues Enumerates the set of values in String for ListKeysAlgorithmEnum
+func GetListKeysAlgorithmEnumStringValues() []string {
+	return []string{
+		"AES",
+		"RSA",
+		"ECDSA",
+	}
 }
 
 // ListKeysCurveIdEnum Enum with underlying type: string
@@ -215,7 +276,7 @@ const (
 	ListKeysCurveIdP521 ListKeysCurveIdEnum = "NIST_P521"
 )
 
-var mappingListKeysCurveId = map[string]ListKeysCurveIdEnum{
+var mappingListKeysCurveIdEnum = map[string]ListKeysCurveIdEnum{
 	"NIST_P256": ListKeysCurveIdP256,
 	"NIST_P384": ListKeysCurveIdP384,
 	"NIST_P521": ListKeysCurveIdP521,
@@ -224,8 +285,17 @@ var mappingListKeysCurveId = map[string]ListKeysCurveIdEnum{
 // GetListKeysCurveIdEnumValues Enumerates the set of values for ListKeysCurveIdEnum
 func GetListKeysCurveIdEnumValues() []ListKeysCurveIdEnum {
 	values := make([]ListKeysCurveIdEnum, 0)
-	for _, v := range mappingListKeysCurveId {
+	for _, v := range mappingListKeysCurveIdEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListKeysCurveIdEnumStringValues Enumerates the set of values in String for ListKeysCurveIdEnum
+func GetListKeysCurveIdEnumStringValues() []string {
+	return []string{
+		"NIST_P256",
+		"NIST_P384",
+		"NIST_P521",
+	}
 }

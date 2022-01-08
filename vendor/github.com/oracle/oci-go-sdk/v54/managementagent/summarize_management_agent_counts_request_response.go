@@ -5,15 +5,13 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeManagementAgentCountsRequest wrapper for the SummarizeManagementAgentCounts operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/SummarizeManagementAgentCounts.go.html to see an example of how to use SummarizeManagementAgentCountsRequest.
 type SummarizeManagementAgentCountsRequest struct {
 
 	// The OCID of the compartment to which a request will be scoped.
@@ -46,6 +44,10 @@ func (request SummarizeManagementAgentCountsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeManagementAgentCountsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +61,26 @@ func (request SummarizeManagementAgentCountsRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeManagementAgentCountsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeManagementAgentCountsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.GroupBy {
+		if _, ok := mappingManagementAgentGroupByEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GroupBy: %s. Supported values are: %s.", val, strings.Join(GetManagementAgentGroupByEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeManagementAgentCountsInstallTypeEnum[string(request.InstallType)]; !ok && request.InstallType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstallType: %s. Supported values are: %s.", request.InstallType, strings.Join(GetSummarizeManagementAgentCountsInstallTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeManagementAgentCountsResponse wrapper for the SummarizeManagementAgentCounts operation
@@ -98,7 +120,7 @@ const (
 	SummarizeManagementAgentCountsInstallTypeGateway SummarizeManagementAgentCountsInstallTypeEnum = "GATEWAY"
 )
 
-var mappingSummarizeManagementAgentCountsInstallType = map[string]SummarizeManagementAgentCountsInstallTypeEnum{
+var mappingSummarizeManagementAgentCountsInstallTypeEnum = map[string]SummarizeManagementAgentCountsInstallTypeEnum{
 	"AGENT":   SummarizeManagementAgentCountsInstallTypeAgent,
 	"GATEWAY": SummarizeManagementAgentCountsInstallTypeGateway,
 }
@@ -106,8 +128,16 @@ var mappingSummarizeManagementAgentCountsInstallType = map[string]SummarizeManag
 // GetSummarizeManagementAgentCountsInstallTypeEnumValues Enumerates the set of values for SummarizeManagementAgentCountsInstallTypeEnum
 func GetSummarizeManagementAgentCountsInstallTypeEnumValues() []SummarizeManagementAgentCountsInstallTypeEnum {
 	values := make([]SummarizeManagementAgentCountsInstallTypeEnum, 0)
-	for _, v := range mappingSummarizeManagementAgentCountsInstallType {
+	for _, v := range mappingSummarizeManagementAgentCountsInstallTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeManagementAgentCountsInstallTypeEnumStringValues Enumerates the set of values in String for SummarizeManagementAgentCountsInstallTypeEnum
+func GetSummarizeManagementAgentCountsInstallTypeEnumStringValues() []string {
+	return []string{
+		"AGENT",
+		"GATEWAY",
+	}
 }

@@ -11,7 +11,9 @@ package logging
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UnifiedAgentParser source parser object.
@@ -179,6 +181,18 @@ func (m unifiedagentparser) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m unifiedagentparser) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnifiedAgentParserParserTypeEnum Enum with underlying type: string
 type UnifiedAgentParserParserTypeEnum string
 
@@ -199,7 +213,7 @@ const (
 	UnifiedAgentParserParserTypeMultilineGrok UnifiedAgentParserParserTypeEnum = "MULTILINE_GROK"
 )
 
-var mappingUnifiedAgentParserParserType = map[string]UnifiedAgentParserParserTypeEnum{
+var mappingUnifiedAgentParserParserTypeEnum = map[string]UnifiedAgentParserParserTypeEnum{
 	"AUDITD":         UnifiedAgentParserParserTypeAuditd,
 	"JSON":           UnifiedAgentParserParserTypeJson,
 	"TSV":            UnifiedAgentParserParserTypeTsv,
@@ -218,8 +232,27 @@ var mappingUnifiedAgentParserParserType = map[string]UnifiedAgentParserParserTyp
 // GetUnifiedAgentParserParserTypeEnumValues Enumerates the set of values for UnifiedAgentParserParserTypeEnum
 func GetUnifiedAgentParserParserTypeEnumValues() []UnifiedAgentParserParserTypeEnum {
 	values := make([]UnifiedAgentParserParserTypeEnum, 0)
-	for _, v := range mappingUnifiedAgentParserParserType {
+	for _, v := range mappingUnifiedAgentParserParserTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUnifiedAgentParserParserTypeEnumStringValues Enumerates the set of values in String for UnifiedAgentParserParserTypeEnum
+func GetUnifiedAgentParserParserTypeEnumStringValues() []string {
+	return []string{
+		"AUDITD",
+		"JSON",
+		"TSV",
+		"CSV",
+		"NONE",
+		"SYSLOG",
+		"APACHE2",
+		"APACHE_ERROR",
+		"MSGPACK",
+		"REGEXP",
+		"MULTILINE",
+		"GROK",
+		"MULTILINE_GROK",
+	}
 }

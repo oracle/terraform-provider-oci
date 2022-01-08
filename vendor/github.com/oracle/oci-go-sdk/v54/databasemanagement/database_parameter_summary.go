@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseParameterSummary A summary of the database parameter.
@@ -104,6 +106,30 @@ func (m DatabaseParameterSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseParameterSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseParameterSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetDatabaseParameterSummaryTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDatabaseParameterSummaryIsSystemModifiableEnum[string(m.IsSystemModifiable)]; !ok && m.IsSystemModifiable != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsSystemModifiable: %s. Supported values are: %s.", m.IsSystemModifiable, strings.Join(GetDatabaseParameterSummaryIsSystemModifiableEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseParameterSummaryIsModifiedEnum[string(m.IsModified)]; !ok && m.IsModified != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsModified: %s. Supported values are: %s.", m.IsModified, strings.Join(GetDatabaseParameterSummaryIsModifiedEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseParameterSummaryConstraintEnum[string(m.Constraint)]; !ok && m.Constraint != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Constraint: %s. Supported values are: %s.", m.Constraint, strings.Join(GetDatabaseParameterSummaryConstraintEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseParameterSummaryTypeEnum Enum with underlying type: string
 type DatabaseParameterSummaryTypeEnum string
 
@@ -117,7 +143,7 @@ const (
 	DatabaseParameterSummaryTypeReserved   DatabaseParameterSummaryTypeEnum = "RESERVED"
 )
 
-var mappingDatabaseParameterSummaryType = map[string]DatabaseParameterSummaryTypeEnum{
+var mappingDatabaseParameterSummaryTypeEnum = map[string]DatabaseParameterSummaryTypeEnum{
 	"BOOLEAN":     DatabaseParameterSummaryTypeBoolean,
 	"STRING":      DatabaseParameterSummaryTypeString,
 	"INTEGER":     DatabaseParameterSummaryTypeInteger,
@@ -129,10 +155,22 @@ var mappingDatabaseParameterSummaryType = map[string]DatabaseParameterSummaryTyp
 // GetDatabaseParameterSummaryTypeEnumValues Enumerates the set of values for DatabaseParameterSummaryTypeEnum
 func GetDatabaseParameterSummaryTypeEnumValues() []DatabaseParameterSummaryTypeEnum {
 	values := make([]DatabaseParameterSummaryTypeEnum, 0)
-	for _, v := range mappingDatabaseParameterSummaryType {
+	for _, v := range mappingDatabaseParameterSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseParameterSummaryTypeEnumStringValues Enumerates the set of values in String for DatabaseParameterSummaryTypeEnum
+func GetDatabaseParameterSummaryTypeEnumStringValues() []string {
+	return []string{
+		"BOOLEAN",
+		"STRING",
+		"INTEGER",
+		"FILENAME",
+		"BIG_INTEGER",
+		"RESERVED",
+	}
 }
 
 // DatabaseParameterSummaryIsSystemModifiableEnum Enum with underlying type: string
@@ -145,7 +183,7 @@ const (
 	DatabaseParameterSummaryIsSystemModifiableFalse     DatabaseParameterSummaryIsSystemModifiableEnum = "FALSE"
 )
 
-var mappingDatabaseParameterSummaryIsSystemModifiable = map[string]DatabaseParameterSummaryIsSystemModifiableEnum{
+var mappingDatabaseParameterSummaryIsSystemModifiableEnum = map[string]DatabaseParameterSummaryIsSystemModifiableEnum{
 	"IMMEDIATE": DatabaseParameterSummaryIsSystemModifiableImmediate,
 	"DEFERRED":  DatabaseParameterSummaryIsSystemModifiableDeferred,
 	"FALSE":     DatabaseParameterSummaryIsSystemModifiableFalse,
@@ -154,10 +192,19 @@ var mappingDatabaseParameterSummaryIsSystemModifiable = map[string]DatabaseParam
 // GetDatabaseParameterSummaryIsSystemModifiableEnumValues Enumerates the set of values for DatabaseParameterSummaryIsSystemModifiableEnum
 func GetDatabaseParameterSummaryIsSystemModifiableEnumValues() []DatabaseParameterSummaryIsSystemModifiableEnum {
 	values := make([]DatabaseParameterSummaryIsSystemModifiableEnum, 0)
-	for _, v := range mappingDatabaseParameterSummaryIsSystemModifiable {
+	for _, v := range mappingDatabaseParameterSummaryIsSystemModifiableEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseParameterSummaryIsSystemModifiableEnumStringValues Enumerates the set of values in String for DatabaseParameterSummaryIsSystemModifiableEnum
+func GetDatabaseParameterSummaryIsSystemModifiableEnumStringValues() []string {
+	return []string{
+		"IMMEDIATE",
+		"DEFERRED",
+		"FALSE",
+	}
 }
 
 // DatabaseParameterSummaryIsModifiedEnum Enum with underlying type: string
@@ -169,7 +216,7 @@ const (
 	DatabaseParameterSummaryIsModifiedFalse    DatabaseParameterSummaryIsModifiedEnum = "FALSE"
 )
 
-var mappingDatabaseParameterSummaryIsModified = map[string]DatabaseParameterSummaryIsModifiedEnum{
+var mappingDatabaseParameterSummaryIsModifiedEnum = map[string]DatabaseParameterSummaryIsModifiedEnum{
 	"MODIFIED": DatabaseParameterSummaryIsModifiedModified,
 	"FALSE":    DatabaseParameterSummaryIsModifiedFalse,
 }
@@ -177,10 +224,18 @@ var mappingDatabaseParameterSummaryIsModified = map[string]DatabaseParameterSumm
 // GetDatabaseParameterSummaryIsModifiedEnumValues Enumerates the set of values for DatabaseParameterSummaryIsModifiedEnum
 func GetDatabaseParameterSummaryIsModifiedEnumValues() []DatabaseParameterSummaryIsModifiedEnum {
 	values := make([]DatabaseParameterSummaryIsModifiedEnum, 0)
-	for _, v := range mappingDatabaseParameterSummaryIsModified {
+	for _, v := range mappingDatabaseParameterSummaryIsModifiedEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseParameterSummaryIsModifiedEnumStringValues Enumerates the set of values in String for DatabaseParameterSummaryIsModifiedEnum
+func GetDatabaseParameterSummaryIsModifiedEnumStringValues() []string {
+	return []string{
+		"MODIFIED",
+		"FALSE",
+	}
 }
 
 // DatabaseParameterSummaryConstraintEnum Enum with underlying type: string
@@ -193,7 +248,7 @@ const (
 	DatabaseParameterSummaryConstraintNone      DatabaseParameterSummaryConstraintEnum = "NONE"
 )
 
-var mappingDatabaseParameterSummaryConstraint = map[string]DatabaseParameterSummaryConstraintEnum{
+var mappingDatabaseParameterSummaryConstraintEnum = map[string]DatabaseParameterSummaryConstraintEnum{
 	"UNIQUE":    DatabaseParameterSummaryConstraintUnique,
 	"IDENTICAL": DatabaseParameterSummaryConstraintIdentical,
 	"NONE":      DatabaseParameterSummaryConstraintNone,
@@ -202,8 +257,17 @@ var mappingDatabaseParameterSummaryConstraint = map[string]DatabaseParameterSumm
 // GetDatabaseParameterSummaryConstraintEnumValues Enumerates the set of values for DatabaseParameterSummaryConstraintEnum
 func GetDatabaseParameterSummaryConstraintEnumValues() []DatabaseParameterSummaryConstraintEnum {
 	values := make([]DatabaseParameterSummaryConstraintEnum, 0)
-	for _, v := range mappingDatabaseParameterSummaryConstraint {
+	for _, v := range mappingDatabaseParameterSummaryConstraintEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseParameterSummaryConstraintEnumStringValues Enumerates the set of values in String for DatabaseParameterSummaryConstraintEnum
+func GetDatabaseParameterSummaryConstraintEnumStringValues() []string {
+	return []string{
+		"UNIQUE",
+		"IDENTICAL",
+		"NONE",
+	}
 }

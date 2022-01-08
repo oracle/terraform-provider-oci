@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseManagementConfig The configuration of the Database Management service.
@@ -31,6 +33,24 @@ func (m DatabaseManagementConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseManagementConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseManagementConfigDatabaseManagementStatusEnum[string(m.DatabaseManagementStatus)]; !ok && m.DatabaseManagementStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseManagementStatus: %s. Supported values are: %s.", m.DatabaseManagementStatus, strings.Join(GetDatabaseManagementConfigDatabaseManagementStatusEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDatabaseManagementConfigLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetDatabaseManagementConfigLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseManagementConfigDatabaseManagementStatusEnum Enum with underlying type: string
 type DatabaseManagementConfigDatabaseManagementStatusEnum string
 
@@ -44,7 +64,7 @@ const (
 	DatabaseManagementConfigDatabaseManagementStatusFailedDisabling DatabaseManagementConfigDatabaseManagementStatusEnum = "FAILED_DISABLING"
 )
 
-var mappingDatabaseManagementConfigDatabaseManagementStatus = map[string]DatabaseManagementConfigDatabaseManagementStatusEnum{
+var mappingDatabaseManagementConfigDatabaseManagementStatusEnum = map[string]DatabaseManagementConfigDatabaseManagementStatusEnum{
 	"ENABLING":         DatabaseManagementConfigDatabaseManagementStatusEnabling,
 	"ENABLED":          DatabaseManagementConfigDatabaseManagementStatusEnabled,
 	"DISABLING":        DatabaseManagementConfigDatabaseManagementStatusDisabling,
@@ -56,10 +76,22 @@ var mappingDatabaseManagementConfigDatabaseManagementStatus = map[string]Databas
 // GetDatabaseManagementConfigDatabaseManagementStatusEnumValues Enumerates the set of values for DatabaseManagementConfigDatabaseManagementStatusEnum
 func GetDatabaseManagementConfigDatabaseManagementStatusEnumValues() []DatabaseManagementConfigDatabaseManagementStatusEnum {
 	values := make([]DatabaseManagementConfigDatabaseManagementStatusEnum, 0)
-	for _, v := range mappingDatabaseManagementConfigDatabaseManagementStatus {
+	for _, v := range mappingDatabaseManagementConfigDatabaseManagementStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseManagementConfigDatabaseManagementStatusEnumStringValues Enumerates the set of values in String for DatabaseManagementConfigDatabaseManagementStatusEnum
+func GetDatabaseManagementConfigDatabaseManagementStatusEnumStringValues() []string {
+	return []string{
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"NOT_ENABLED",
+		"FAILED_ENABLING",
+		"FAILED_DISABLING",
+	}
 }
 
 // DatabaseManagementConfigLicenseModelEnum Enum with underlying type: string
@@ -71,7 +103,7 @@ const (
 	DatabaseManagementConfigLicenseModelBringYourOwnLicense DatabaseManagementConfigLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingDatabaseManagementConfigLicenseModel = map[string]DatabaseManagementConfigLicenseModelEnum{
+var mappingDatabaseManagementConfigLicenseModelEnum = map[string]DatabaseManagementConfigLicenseModelEnum{
 	"LICENSE_INCLUDED":       DatabaseManagementConfigLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": DatabaseManagementConfigLicenseModelBringYourOwnLicense,
 }
@@ -79,8 +111,16 @@ var mappingDatabaseManagementConfigLicenseModel = map[string]DatabaseManagementC
 // GetDatabaseManagementConfigLicenseModelEnumValues Enumerates the set of values for DatabaseManagementConfigLicenseModelEnum
 func GetDatabaseManagementConfigLicenseModelEnumValues() []DatabaseManagementConfigLicenseModelEnum {
 	values := make([]DatabaseManagementConfigLicenseModelEnum, 0)
-	for _, v := range mappingDatabaseManagementConfigLicenseModel {
+	for _, v := range mappingDatabaseManagementConfigLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseManagementConfigLicenseModelEnumStringValues Enumerates the set of values in String for DatabaseManagementConfigLicenseModelEnum
+func GetDatabaseManagementConfigLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

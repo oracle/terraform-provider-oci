@@ -19,7 +19,7 @@ const (
 	ConnectionResultFailed    ConnectionResultEnum = "FAILED"
 )
 
-var mappingConnectionResult = map[string]ConnectionResultEnum{
+var mappingConnectionResultEnum = map[string]ConnectionResultEnum{
 	"SUCCEEDED": ConnectionResultSucceeded,
 	"FAILED":    ConnectionResultFailed,
 }
@@ -27,8 +27,16 @@ var mappingConnectionResult = map[string]ConnectionResultEnum{
 // GetConnectionResultEnumValues Enumerates the set of values for ConnectionResultEnum
 func GetConnectionResultEnumValues() []ConnectionResultEnum {
 	values := make([]ConnectionResultEnum, 0)
-	for _, v := range mappingConnectionResult {
+	for _, v := range mappingConnectionResultEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConnectionResultEnumStringValues Enumerates the set of values in String for ConnectionResultEnum
+func GetConnectionResultEnumStringValues() []string {
+	return []string{
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

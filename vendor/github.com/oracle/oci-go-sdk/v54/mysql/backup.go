@@ -10,7 +10,9 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Backup A full or incremental copy of a DB System which can be used to create a
@@ -85,6 +87,27 @@ func (m Backup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Backup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBackupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBackupLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBackupBackupTypeEnum[string(m.BackupType)]; !ok && m.BackupType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupType: %s. Supported values are: %s.", m.BackupType, strings.Join(GetBackupBackupTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBackupCreationTypeEnum[string(m.CreationType)]; !ok && m.CreationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CreationType: %s. Supported values are: %s.", m.CreationType, strings.Join(GetBackupCreationTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BackupLifecycleStateEnum Enum with underlying type: string
 type BackupLifecycleStateEnum string
 
@@ -99,7 +122,7 @@ const (
 	BackupLifecycleStateFailed   BackupLifecycleStateEnum = "FAILED"
 )
 
-var mappingBackupLifecycleState = map[string]BackupLifecycleStateEnum{
+var mappingBackupLifecycleStateEnum = map[string]BackupLifecycleStateEnum{
 	"CREATING": BackupLifecycleStateCreating,
 	"ACTIVE":   BackupLifecycleStateActive,
 	"INACTIVE": BackupLifecycleStateInactive,
@@ -112,10 +135,23 @@ var mappingBackupLifecycleState = map[string]BackupLifecycleStateEnum{
 // GetBackupLifecycleStateEnumValues Enumerates the set of values for BackupLifecycleStateEnum
 func GetBackupLifecycleStateEnumValues() []BackupLifecycleStateEnum {
 	values := make([]BackupLifecycleStateEnum, 0)
-	for _, v := range mappingBackupLifecycleState {
+	for _, v := range mappingBackupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupLifecycleStateEnumStringValues Enumerates the set of values in String for BackupLifecycleStateEnum
+func GetBackupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // BackupBackupTypeEnum Enum with underlying type: string
@@ -127,7 +163,7 @@ const (
 	BackupBackupTypeIncremental BackupBackupTypeEnum = "INCREMENTAL"
 )
 
-var mappingBackupBackupType = map[string]BackupBackupTypeEnum{
+var mappingBackupBackupTypeEnum = map[string]BackupBackupTypeEnum{
 	"FULL":        BackupBackupTypeFull,
 	"INCREMENTAL": BackupBackupTypeIncremental,
 }
@@ -135,10 +171,18 @@ var mappingBackupBackupType = map[string]BackupBackupTypeEnum{
 // GetBackupBackupTypeEnumValues Enumerates the set of values for BackupBackupTypeEnum
 func GetBackupBackupTypeEnumValues() []BackupBackupTypeEnum {
 	values := make([]BackupBackupTypeEnum, 0)
-	for _, v := range mappingBackupBackupType {
+	for _, v := range mappingBackupBackupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupBackupTypeEnumStringValues Enumerates the set of values in String for BackupBackupTypeEnum
+func GetBackupBackupTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"INCREMENTAL",
+	}
 }
 
 // BackupCreationTypeEnum Enum with underlying type: string
@@ -151,7 +195,7 @@ const (
 	BackupCreationTypeOperator  BackupCreationTypeEnum = "OPERATOR"
 )
 
-var mappingBackupCreationType = map[string]BackupCreationTypeEnum{
+var mappingBackupCreationTypeEnum = map[string]BackupCreationTypeEnum{
 	"MANUAL":    BackupCreationTypeManual,
 	"AUTOMATIC": BackupCreationTypeAutomatic,
 	"OPERATOR":  BackupCreationTypeOperator,
@@ -160,8 +204,17 @@ var mappingBackupCreationType = map[string]BackupCreationTypeEnum{
 // GetBackupCreationTypeEnumValues Enumerates the set of values for BackupCreationTypeEnum
 func GetBackupCreationTypeEnumValues() []BackupCreationTypeEnum {
 	values := make([]BackupCreationTypeEnum, 0)
-	for _, v := range mappingBackupCreationType {
+	for _, v := range mappingBackupCreationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupCreationTypeEnumStringValues Enumerates the set of values in String for BackupCreationTypeEnum
+func GetBackupCreationTypeEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTOMATIC",
+		"OPERATOR",
+	}
 }

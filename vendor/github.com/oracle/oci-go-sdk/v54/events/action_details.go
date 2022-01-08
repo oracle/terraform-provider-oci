@@ -12,7 +12,9 @@ package events
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ActionDetails Object used to create an action.
@@ -92,6 +94,18 @@ func (m actiondetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m actiondetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ActionDetailsActionTypeEnum Enum with underlying type: string
 type ActionDetailsActionTypeEnum string
 
@@ -102,7 +116,7 @@ const (
 	ActionDetailsActionTypeFaas ActionDetailsActionTypeEnum = "FAAS"
 )
 
-var mappingActionDetailsActionType = map[string]ActionDetailsActionTypeEnum{
+var mappingActionDetailsActionTypeEnum = map[string]ActionDetailsActionTypeEnum{
 	"ONS":  ActionDetailsActionTypeOns,
 	"OSS":  ActionDetailsActionTypeOss,
 	"FAAS": ActionDetailsActionTypeFaas,
@@ -111,8 +125,17 @@ var mappingActionDetailsActionType = map[string]ActionDetailsActionTypeEnum{
 // GetActionDetailsActionTypeEnumValues Enumerates the set of values for ActionDetailsActionTypeEnum
 func GetActionDetailsActionTypeEnumValues() []ActionDetailsActionTypeEnum {
 	values := make([]ActionDetailsActionTypeEnum, 0)
-	for _, v := range mappingActionDetailsActionType {
+	for _, v := range mappingActionDetailsActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetActionDetailsActionTypeEnumStringValues Enumerates the set of values in String for ActionDetailsActionTypeEnum
+func GetActionDetailsActionTypeEnumStringValues() []string {
+	return []string{
+		"ONS",
+		"OSS",
+		"FAAS",
+	}
 }

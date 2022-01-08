@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ComputeInstanceGroupSelector Defines how the instances in a instance group environment is selected.
@@ -65,6 +67,18 @@ func (m computeinstancegroupselector) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m computeinstancegroupselector) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ComputeInstanceGroupSelectorSelectorTypeEnum Enum with underlying type: string
 type ComputeInstanceGroupSelectorSelectorTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	ComputeInstanceGroupSelectorSelectorTypeQuery ComputeInstanceGroupSelectorSelectorTypeEnum = "INSTANCE_QUERY"
 )
 
-var mappingComputeInstanceGroupSelectorSelectorType = map[string]ComputeInstanceGroupSelectorSelectorTypeEnum{
+var mappingComputeInstanceGroupSelectorSelectorTypeEnum = map[string]ComputeInstanceGroupSelectorSelectorTypeEnum{
 	"INSTANCE_IDS":   ComputeInstanceGroupSelectorSelectorTypeIds,
 	"INSTANCE_QUERY": ComputeInstanceGroupSelectorSelectorTypeQuery,
 }
@@ -82,8 +96,16 @@ var mappingComputeInstanceGroupSelectorSelectorType = map[string]ComputeInstance
 // GetComputeInstanceGroupSelectorSelectorTypeEnumValues Enumerates the set of values for ComputeInstanceGroupSelectorSelectorTypeEnum
 func GetComputeInstanceGroupSelectorSelectorTypeEnumValues() []ComputeInstanceGroupSelectorSelectorTypeEnum {
 	values := make([]ComputeInstanceGroupSelectorSelectorTypeEnum, 0)
-	for _, v := range mappingComputeInstanceGroupSelectorSelectorType {
+	for _, v := range mappingComputeInstanceGroupSelectorSelectorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetComputeInstanceGroupSelectorSelectorTypeEnumStringValues Enumerates the set of values in String for ComputeInstanceGroupSelectorSelectorTypeEnum
+func GetComputeInstanceGroupSelectorSelectorTypeEnumStringValues() []string {
+	return []string{
+		"INSTANCE_IDS",
+		"INSTANCE_QUERY",
+	}
 }

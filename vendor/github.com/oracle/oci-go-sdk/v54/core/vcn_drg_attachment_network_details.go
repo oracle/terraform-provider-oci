@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // VcnDrgAttachmentNetworkDetails Specifies details within the VCN.
@@ -29,6 +31,10 @@ type VcnDrgAttachmentNetworkDetails struct {
 	//   * Transit Routing: Access to Multiple VCNs in Same Region (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
 	//   * Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
+	// Indicates whether the VCN CIDR(s) or the individual Subnet CIDR(s) are imported from the attachment.
+	// Routes from the VCN Ingress Route Table are always imported.
+	VcnRouteType VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum `mandatory:"false" json:"vcnRouteType,omitempty"`
 }
 
 //GetId returns Id
@@ -38,6 +44,21 @@ func (m VcnDrgAttachmentNetworkDetails) GetId() *string {
 
 func (m VcnDrgAttachmentNetworkDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VcnDrgAttachmentNetworkDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum[string(m.VcnRouteType)]; !ok && m.VcnRouteType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VcnRouteType: %s. Supported values are: %s.", m.VcnRouteType, strings.Join(GetVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -52,4 +73,35 @@ func (m VcnDrgAttachmentNetworkDetails) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum Enum with underlying type: string
+type VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum string
+
+// Set of constants representing the allowable values for VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum
+const (
+	VcnDrgAttachmentNetworkDetailsVcnRouteTypeVcnCidrs    VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum = "VCN_CIDRS"
+	VcnDrgAttachmentNetworkDetailsVcnRouteTypeSubnetCidrs VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum = "SUBNET_CIDRS"
+)
+
+var mappingVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum = map[string]VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum{
+	"VCN_CIDRS":    VcnDrgAttachmentNetworkDetailsVcnRouteTypeVcnCidrs,
+	"SUBNET_CIDRS": VcnDrgAttachmentNetworkDetailsVcnRouteTypeSubnetCidrs,
+}
+
+// GetVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnumValues Enumerates the set of values for VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum
+func GetVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnumValues() []VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum {
+	values := make([]VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum, 0)
+	for _, v := range mappingVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnumStringValues Enumerates the set of values in String for VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum
+func GetVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnumStringValues() []string {
+	return []string{
+		"VCN_CIDRS",
+		"SUBNET_CIDRS",
+	}
 }

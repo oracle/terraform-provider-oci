@@ -5,15 +5,13 @@
 package events
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListRulesRequest wrapper for the ListRules operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/ListRules.go.html to see an example of how to use ListRulesRequest.
 type ListRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this rule belongs.
@@ -65,6 +63,10 @@ func (request ListRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +80,26 @@ func (request ListRulesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRuleLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetRuleLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRulesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRulesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRulesResponse wrapper for the ListRules operation
@@ -118,7 +140,7 @@ const (
 	ListRulesSortByDisplayName ListRulesSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListRulesSortBy = map[string]ListRulesSortByEnum{
+var mappingListRulesSortByEnum = map[string]ListRulesSortByEnum{
 	"TIME_CREATED": ListRulesSortByTimeCreated,
 	"ID":           ListRulesSortById,
 	"DISPLAY_NAME": ListRulesSortByDisplayName,
@@ -127,10 +149,19 @@ var mappingListRulesSortBy = map[string]ListRulesSortByEnum{
 // GetListRulesSortByEnumValues Enumerates the set of values for ListRulesSortByEnum
 func GetListRulesSortByEnumValues() []ListRulesSortByEnum {
 	values := make([]ListRulesSortByEnum, 0)
-	for _, v := range mappingListRulesSortBy {
+	for _, v := range mappingListRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRulesSortByEnumStringValues Enumerates the set of values in String for ListRulesSortByEnum
+func GetListRulesSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"ID",
+		"DISPLAY_NAME",
+	}
 }
 
 // ListRulesSortOrderEnum Enum with underlying type: string
@@ -142,7 +173,7 @@ const (
 	ListRulesSortOrderDesc ListRulesSortOrderEnum = "DESC"
 )
 
-var mappingListRulesSortOrder = map[string]ListRulesSortOrderEnum{
+var mappingListRulesSortOrderEnum = map[string]ListRulesSortOrderEnum{
 	"ASC":  ListRulesSortOrderAsc,
 	"DESC": ListRulesSortOrderDesc,
 }
@@ -150,8 +181,16 @@ var mappingListRulesSortOrder = map[string]ListRulesSortOrderEnum{
 // GetListRulesSortOrderEnumValues Enumerates the set of values for ListRulesSortOrderEnum
 func GetListRulesSortOrderEnumValues() []ListRulesSortOrderEnum {
 	values := make([]ListRulesSortOrderEnum, 0)
-	for _, v := range mappingListRulesSortOrder {
+	for _, v := range mappingListRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRulesSortOrderEnumStringValues Enumerates the set of values in String for ListRulesSortOrderEnum
+func GetListRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

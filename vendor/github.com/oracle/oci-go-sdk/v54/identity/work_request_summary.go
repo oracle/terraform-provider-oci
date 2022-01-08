@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WorkRequestSummary The work request summary. Tracks the status of the asynchronous operation.
@@ -54,6 +56,24 @@ func (m WorkRequestSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestSummaryOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetWorkRequestSummaryOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingWorkRequestSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestSummaryOperationTypeEnum Enum with underlying type: string
 type WorkRequestSummaryOperationTypeEnum string
 
@@ -63,7 +83,7 @@ const (
 	WorkRequestSummaryOperationTypeTagDefinition WorkRequestSummaryOperationTypeEnum = "DELETE_TAG_DEFINITION"
 )
 
-var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperationTypeEnum{
+var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
 	"DELETE_COMPARTMENT":    WorkRequestSummaryOperationTypeCompartment,
 	"DELETE_TAG_DEFINITION": WorkRequestSummaryOperationTypeTagDefinition,
 }
@@ -71,10 +91,18 @@ var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperat
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
 func GetWorkRequestSummaryOperationTypeEnumValues() []WorkRequestSummaryOperationTypeEnum {
 	values := make([]WorkRequestSummaryOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestSummaryOperationType {
+	for _, v := range mappingWorkRequestSummaryOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestSummaryOperationTypeEnumStringValues Enumerates the set of values in String for WorkRequestSummaryOperationTypeEnum
+func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
+	return []string{
+		"DELETE_COMPARTMENT",
+		"DELETE_TAG_DEFINITION",
+	}
 }
 
 // WorkRequestSummaryStatusEnum Enum with underlying type: string
@@ -90,7 +118,7 @@ const (
 	WorkRequestSummaryStatusCanceled   WorkRequestSummaryStatusEnum = "CANCELED"
 )
 
-var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
+var mappingWorkRequestSummaryStatusEnum = map[string]WorkRequestSummaryStatusEnum{
 	"ACCEPTED":    WorkRequestSummaryStatusAccepted,
 	"IN_PROGRESS": WorkRequestSummaryStatusInProgress,
 	"FAILED":      WorkRequestSummaryStatusFailed,
@@ -102,8 +130,20 @@ var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
 // GetWorkRequestSummaryStatusEnumValues Enumerates the set of values for WorkRequestSummaryStatusEnum
 func GetWorkRequestSummaryStatusEnumValues() []WorkRequestSummaryStatusEnum {
 	values := make([]WorkRequestSummaryStatusEnum, 0)
-	for _, v := range mappingWorkRequestSummaryStatus {
+	for _, v := range mappingWorkRequestSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestSummaryStatusEnumStringValues Enumerates the set of values in String for WorkRequestSummaryStatusEnum
+func GetWorkRequestSummaryStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

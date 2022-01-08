@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SseCustomerKeyDetails Specifies the details of the customer-provided encryption key (SSE-C) associated with an object.
@@ -33,6 +35,21 @@ func (m SseCustomerKeyDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SseCustomerKeyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSseCustomerKeyDetailsAlgorithmEnum[string(m.Algorithm)]; !ok && m.Algorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Algorithm: %s. Supported values are: %s.", m.Algorithm, strings.Join(GetSseCustomerKeyDetailsAlgorithmEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SseCustomerKeyDetailsAlgorithmEnum Enum with underlying type: string
 type SseCustomerKeyDetailsAlgorithmEnum string
 
@@ -41,15 +58,22 @@ const (
 	SseCustomerKeyDetailsAlgorithmAes256 SseCustomerKeyDetailsAlgorithmEnum = "AES256"
 )
 
-var mappingSseCustomerKeyDetailsAlgorithm = map[string]SseCustomerKeyDetailsAlgorithmEnum{
+var mappingSseCustomerKeyDetailsAlgorithmEnum = map[string]SseCustomerKeyDetailsAlgorithmEnum{
 	"AES256": SseCustomerKeyDetailsAlgorithmAes256,
 }
 
 // GetSseCustomerKeyDetailsAlgorithmEnumValues Enumerates the set of values for SseCustomerKeyDetailsAlgorithmEnum
 func GetSseCustomerKeyDetailsAlgorithmEnumValues() []SseCustomerKeyDetailsAlgorithmEnum {
 	values := make([]SseCustomerKeyDetailsAlgorithmEnum, 0)
-	for _, v := range mappingSseCustomerKeyDetailsAlgorithm {
+	for _, v := range mappingSseCustomerKeyDetailsAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSseCustomerKeyDetailsAlgorithmEnumStringValues Enumerates the set of values in String for SseCustomerKeyDetailsAlgorithmEnum
+func GetSseCustomerKeyDetailsAlgorithmEnumStringValues() []string {
+	return []string{
+		"AES256",
+	}
 }

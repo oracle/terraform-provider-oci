@@ -5,15 +5,13 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListKeyVersionsRequest wrapper for the ListKeyVersions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListKeyVersions.go.html to see an example of how to use ListKeyVersionsRequest.
 type ListKeyVersionsRequest struct {
 
 	// The OCID of the key.
@@ -51,6 +49,10 @@ func (request ListKeyVersionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListKeyVersionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +66,23 @@ func (request ListKeyVersionsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListKeyVersionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListKeyVersionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListKeyVersionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListKeyVersionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListKeyVersionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListKeyVersionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListKeyVersionsResponse wrapper for the ListKeyVersions operation
@@ -104,7 +123,7 @@ const (
 	ListKeyVersionsSortByDisplayname ListKeyVersionsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListKeyVersionsSortBy = map[string]ListKeyVersionsSortByEnum{
+var mappingListKeyVersionsSortByEnum = map[string]ListKeyVersionsSortByEnum{
 	"TIMECREATED": ListKeyVersionsSortByTimecreated,
 	"DISPLAYNAME": ListKeyVersionsSortByDisplayname,
 }
@@ -112,10 +131,18 @@ var mappingListKeyVersionsSortBy = map[string]ListKeyVersionsSortByEnum{
 // GetListKeyVersionsSortByEnumValues Enumerates the set of values for ListKeyVersionsSortByEnum
 func GetListKeyVersionsSortByEnumValues() []ListKeyVersionsSortByEnum {
 	values := make([]ListKeyVersionsSortByEnum, 0)
-	for _, v := range mappingListKeyVersionsSortBy {
+	for _, v := range mappingListKeyVersionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListKeyVersionsSortByEnumStringValues Enumerates the set of values in String for ListKeyVersionsSortByEnum
+func GetListKeyVersionsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListKeyVersionsSortOrderEnum Enum with underlying type: string
@@ -127,7 +154,7 @@ const (
 	ListKeyVersionsSortOrderDesc ListKeyVersionsSortOrderEnum = "DESC"
 )
 
-var mappingListKeyVersionsSortOrder = map[string]ListKeyVersionsSortOrderEnum{
+var mappingListKeyVersionsSortOrderEnum = map[string]ListKeyVersionsSortOrderEnum{
 	"ASC":  ListKeyVersionsSortOrderAsc,
 	"DESC": ListKeyVersionsSortOrderDesc,
 }
@@ -135,8 +162,16 @@ var mappingListKeyVersionsSortOrder = map[string]ListKeyVersionsSortOrderEnum{
 // GetListKeyVersionsSortOrderEnumValues Enumerates the set of values for ListKeyVersionsSortOrderEnum
 func GetListKeyVersionsSortOrderEnumValues() []ListKeyVersionsSortOrderEnum {
 	values := make([]ListKeyVersionsSortOrderEnum, 0)
-	for _, v := range mappingListKeyVersionsSortOrder {
+	for _, v := range mappingListKeyVersionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListKeyVersionsSortOrderEnumStringValues Enumerates the set of values in String for ListKeyVersionsSortOrderEnum
+func GetListKeyVersionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

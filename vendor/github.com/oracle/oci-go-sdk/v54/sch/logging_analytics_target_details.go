@@ -13,7 +13,9 @@ package sch
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LoggingAnalyticsTargetDetails The log group used for the Logging Analytics target.
@@ -23,10 +25,27 @@ type LoggingAnalyticsTargetDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group.
 	LogGroupId *string `mandatory:"true" json:"logGroupId"`
+
+	// Identifier of the log source that you want to use for processing data received from the service connector source.
+	// Applies to `StreamingSource` only.
+	// Equivalent to `name` at LogAnalyticsSource.
+	LogSourceIdentifier *string `mandatory:"false" json:"logSourceIdentifier"`
 }
 
 func (m LoggingAnalyticsTargetDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LoggingAnalyticsTargetDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

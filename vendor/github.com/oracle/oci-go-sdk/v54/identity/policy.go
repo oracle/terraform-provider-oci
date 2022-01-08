@@ -4,19 +4,21 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Policy A document that specifies the type of access a group has to the resources in a compartment. For information about
 // policies and other IAM Service components, see
-// Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm). If you're new to policies, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// Overview of IAM (https://docs.cloud.oracle.com/Content/Identity/getstarted/identity-domains.htm). If you're new to policies, see
+// Get Started with Policies (https://docs.cloud.oracle.com/Content/Identity/policiesgs/get-started-with-policies.htm).
 // The word "policy" is used by people in different ways:
 //   * An individual statement written in the policy language
 //   * A collection of statements in a single, named "policy" document (which has an Oracle Cloud ID (OCID) assigned to it)
@@ -74,6 +76,21 @@ func (m Policy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Policy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPolicyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPolicyLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PolicyLifecycleStateEnum Enum with underlying type: string
 type PolicyLifecycleStateEnum string
 
@@ -86,7 +103,7 @@ const (
 	PolicyLifecycleStateDeleted  PolicyLifecycleStateEnum = "DELETED"
 )
 
-var mappingPolicyLifecycleState = map[string]PolicyLifecycleStateEnum{
+var mappingPolicyLifecycleStateEnum = map[string]PolicyLifecycleStateEnum{
 	"CREATING": PolicyLifecycleStateCreating,
 	"ACTIVE":   PolicyLifecycleStateActive,
 	"INACTIVE": PolicyLifecycleStateInactive,
@@ -97,8 +114,19 @@ var mappingPolicyLifecycleState = map[string]PolicyLifecycleStateEnum{
 // GetPolicyLifecycleStateEnumValues Enumerates the set of values for PolicyLifecycleStateEnum
 func GetPolicyLifecycleStateEnumValues() []PolicyLifecycleStateEnum {
 	values := make([]PolicyLifecycleStateEnum, 0)
-	for _, v := range mappingPolicyLifecycleState {
+	for _, v := range mappingPolicyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPolicyLifecycleStateEnumStringValues Enumerates the set of values in String for PolicyLifecycleStateEnum
+func GetPolicyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

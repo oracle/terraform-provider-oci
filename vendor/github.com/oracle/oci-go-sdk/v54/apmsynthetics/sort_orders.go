@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -18,7 +18,7 @@ const (
 	SortOrdersDesc SortOrdersEnum = "DESC"
 )
 
-var mappingSortOrders = map[string]SortOrdersEnum{
+var mappingSortOrdersEnum = map[string]SortOrdersEnum{
 	"ASC":  SortOrdersAsc,
 	"DESC": SortOrdersDesc,
 }
@@ -26,8 +26,16 @@ var mappingSortOrders = map[string]SortOrdersEnum{
 // GetSortOrdersEnumValues Enumerates the set of values for SortOrdersEnum
 func GetSortOrdersEnumValues() []SortOrdersEnum {
 	values := make([]SortOrdersEnum, 0)
-	for _, v := range mappingSortOrders {
+	for _, v := range mappingSortOrdersEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSortOrdersEnumStringValues Enumerates the set of values in String for SortOrdersEnum
+func GetSortOrdersEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

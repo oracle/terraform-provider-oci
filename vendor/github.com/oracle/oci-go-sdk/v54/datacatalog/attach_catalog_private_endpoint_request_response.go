@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // AttachCatalogPrivateEndpointRequest wrapper for the AttachCatalogPrivateEndpoint operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AttachCatalogPrivateEndpoint.go.html to see an example of how to use AttachCatalogPrivateEndpointRequest.
 type AttachCatalogPrivateEndpointRequest struct {
 
 	// Details for private reverse connection endpoint to be used for attachment.
@@ -51,6 +49,10 @@ func (request AttachCatalogPrivateEndpointRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request AttachCatalogPrivateEndpointRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +66,17 @@ func (request AttachCatalogPrivateEndpointRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request AttachCatalogPrivateEndpointRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request AttachCatalogPrivateEndpointRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // AttachCatalogPrivateEndpointResponse wrapper for the AttachCatalogPrivateEndpoint operation

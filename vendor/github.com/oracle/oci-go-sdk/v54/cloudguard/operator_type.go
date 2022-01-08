@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Cloud Guard APIs
+// Cloud Guard API
 //
-// A description of the Cloud Guard APIs
+// Use the Cloud Guard API to automate processes that you would otherwise perform through the Cloud Guard Console.
+// **Note:** You can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
 package cloudguard
@@ -20,7 +21,7 @@ const (
 	OperatorTypeNotEquals OperatorTypeEnum = "NOT_EQUALS"
 )
 
-var mappingOperatorType = map[string]OperatorTypeEnum{
+var mappingOperatorTypeEnum = map[string]OperatorTypeEnum{
 	"IN":         OperatorTypeIn,
 	"NOT_IN":     OperatorTypeNotIn,
 	"EQUALS":     OperatorTypeEquals,
@@ -30,8 +31,18 @@ var mappingOperatorType = map[string]OperatorTypeEnum{
 // GetOperatorTypeEnumValues Enumerates the set of values for OperatorTypeEnum
 func GetOperatorTypeEnumValues() []OperatorTypeEnum {
 	values := make([]OperatorTypeEnum, 0)
-	for _, v := range mappingOperatorType {
+	for _, v := range mappingOperatorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperatorTypeEnumStringValues Enumerates the set of values in String for OperatorTypeEnum
+func GetOperatorTypeEnumStringValues() []string {
+	return []string{
+		"IN",
+		"NOT_IN",
+		"EQUALS",
+		"NOT_EQUALS",
+	}
 }

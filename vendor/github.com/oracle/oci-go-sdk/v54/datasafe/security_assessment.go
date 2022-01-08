@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SecurityAssessment A security assessment that provides an overall insight into your database security posture.
@@ -117,6 +119,27 @@ func (m SecurityAssessment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SecurityAssessment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSecurityAssessmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecurityAssessmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSecurityAssessmentTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetSecurityAssessmentTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingSecurityAssessmentTriggeredByEnum[string(m.TriggeredBy)]; !ok && m.TriggeredBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggeredBy: %s. Supported values are: %s.", m.TriggeredBy, strings.Join(GetSecurityAssessmentTriggeredByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecurityAssessmentTriggeredByEnum Enum with underlying type: string
 type SecurityAssessmentTriggeredByEnum string
 
@@ -126,7 +149,7 @@ const (
 	SecurityAssessmentTriggeredBySystem SecurityAssessmentTriggeredByEnum = "SYSTEM"
 )
 
-var mappingSecurityAssessmentTriggeredBy = map[string]SecurityAssessmentTriggeredByEnum{
+var mappingSecurityAssessmentTriggeredByEnum = map[string]SecurityAssessmentTriggeredByEnum{
 	"USER":   SecurityAssessmentTriggeredByUser,
 	"SYSTEM": SecurityAssessmentTriggeredBySystem,
 }
@@ -134,10 +157,18 @@ var mappingSecurityAssessmentTriggeredBy = map[string]SecurityAssessmentTriggere
 // GetSecurityAssessmentTriggeredByEnumValues Enumerates the set of values for SecurityAssessmentTriggeredByEnum
 func GetSecurityAssessmentTriggeredByEnumValues() []SecurityAssessmentTriggeredByEnum {
 	values := make([]SecurityAssessmentTriggeredByEnum, 0)
-	for _, v := range mappingSecurityAssessmentTriggeredBy {
+	for _, v := range mappingSecurityAssessmentTriggeredByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityAssessmentTriggeredByEnumStringValues Enumerates the set of values in String for SecurityAssessmentTriggeredByEnum
+func GetSecurityAssessmentTriggeredByEnumStringValues() []string {
+	return []string{
+		"USER",
+		"SYSTEM",
+	}
 }
 
 // SecurityAssessmentTypeEnum Enum with underlying type: string
@@ -151,7 +182,7 @@ const (
 	SecurityAssessmentTypeCompartment  SecurityAssessmentTypeEnum = "COMPARTMENT"
 )
 
-var mappingSecurityAssessmentType = map[string]SecurityAssessmentTypeEnum{
+var mappingSecurityAssessmentTypeEnum = map[string]SecurityAssessmentTypeEnum{
 	"LATEST":        SecurityAssessmentTypeLatest,
 	"SAVED":         SecurityAssessmentTypeSaved,
 	"SAVE_SCHEDULE": SecurityAssessmentTypeSaveSchedule,
@@ -161,8 +192,18 @@ var mappingSecurityAssessmentType = map[string]SecurityAssessmentTypeEnum{
 // GetSecurityAssessmentTypeEnumValues Enumerates the set of values for SecurityAssessmentTypeEnum
 func GetSecurityAssessmentTypeEnumValues() []SecurityAssessmentTypeEnum {
 	values := make([]SecurityAssessmentTypeEnum, 0)
-	for _, v := range mappingSecurityAssessmentType {
+	for _, v := range mappingSecurityAssessmentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityAssessmentTypeEnumStringValues Enumerates the set of values in String for SecurityAssessmentTypeEnum
+func GetSecurityAssessmentTypeEnumStringValues() []string {
+	return []string{
+		"LATEST",
+		"SAVED",
+		"SAVE_SCHEDULE",
+		"COMPARTMENT",
+	}
 }

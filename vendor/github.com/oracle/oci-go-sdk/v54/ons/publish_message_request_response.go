@@ -5,15 +5,13 @@
 package ons
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // PublishMessageRequest wrapper for the PublishMessage operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/PublishMessage.go.html to see an example of how to use PublishMessageRequest.
 type PublishMessageRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
@@ -46,6 +44,10 @@ func (request PublishMessageRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request PublishMessageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +61,20 @@ func (request PublishMessageRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request PublishMessageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request PublishMessageRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPublishMessageMessageTypeEnum[string(request.MessageType)]; !ok && request.MessageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MessageType: %s. Supported values are: %s.", request.MessageType, strings.Join(GetPublishMessageMessageTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // PublishMessageResponse wrapper for the PublishMessage operation
@@ -93,7 +109,7 @@ const (
 	PublishMessageMessageTypeRawText PublishMessageMessageTypeEnum = "RAW_TEXT"
 )
 
-var mappingPublishMessageMessageType = map[string]PublishMessageMessageTypeEnum{
+var mappingPublishMessageMessageTypeEnum = map[string]PublishMessageMessageTypeEnum{
 	"JSON":     PublishMessageMessageTypeJson,
 	"RAW_TEXT": PublishMessageMessageTypeRawText,
 }
@@ -101,8 +117,16 @@ var mappingPublishMessageMessageType = map[string]PublishMessageMessageTypeEnum{
 // GetPublishMessageMessageTypeEnumValues Enumerates the set of values for PublishMessageMessageTypeEnum
 func GetPublishMessageMessageTypeEnumValues() []PublishMessageMessageTypeEnum {
 	values := make([]PublishMessageMessageTypeEnum, 0)
-	for _, v := range mappingPublishMessageMessageType {
+	for _, v := range mappingPublishMessageMessageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPublishMessageMessageTypeEnumStringValues Enumerates the set of values in String for PublishMessageMessageTypeEnum
+func GetPublishMessageMessageTypeEnumStringValues() []string {
+	return []string{
+		"JSON",
+		"RAW_TEXT",
+	}
 }

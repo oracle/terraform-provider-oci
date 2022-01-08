@@ -20,7 +20,7 @@ const (
 	HealthCheckProtocolsUdp   HealthCheckProtocolsEnum = "UDP"
 )
 
-var mappingHealthCheckProtocols = map[string]HealthCheckProtocolsEnum{
+var mappingHealthCheckProtocolsEnum = map[string]HealthCheckProtocolsEnum{
 	"HTTP":  HealthCheckProtocolsHttp,
 	"HTTPS": HealthCheckProtocolsHttps,
 	"TCP":   HealthCheckProtocolsTcp,
@@ -30,8 +30,18 @@ var mappingHealthCheckProtocols = map[string]HealthCheckProtocolsEnum{
 // GetHealthCheckProtocolsEnumValues Enumerates the set of values for HealthCheckProtocolsEnum
 func GetHealthCheckProtocolsEnumValues() []HealthCheckProtocolsEnum {
 	values := make([]HealthCheckProtocolsEnum, 0)
-	for _, v := range mappingHealthCheckProtocols {
+	for _, v := range mappingHealthCheckProtocolsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHealthCheckProtocolsEnumStringValues Enumerates the set of values in String for HealthCheckProtocolsEnum
+func GetHealthCheckProtocolsEnumStringValues() []string {
+	return []string{
+		"HTTP",
+		"HTTPS",
+		"TCP",
+		"UDP",
+	}
 }

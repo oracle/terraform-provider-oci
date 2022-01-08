@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateResolverRequest wrapper for the UpdateResolver operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateResolver.go.html to see an example of how to use UpdateResolverRequest.
 type UpdateResolverRequest struct {
 
 	// The OCID of the target resolver.
@@ -56,6 +54,10 @@ func (request UpdateResolverRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateResolverRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,20 @@ func (request UpdateResolverRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateResolverRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateResolverRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateResolverScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetUpdateResolverScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateResolverResponse wrapper for the UpdateResolver operation
@@ -112,7 +128,7 @@ const (
 	UpdateResolverScopePrivate UpdateResolverScopeEnum = "PRIVATE"
 )
 
-var mappingUpdateResolverScope = map[string]UpdateResolverScopeEnum{
+var mappingUpdateResolverScopeEnum = map[string]UpdateResolverScopeEnum{
 	"GLOBAL":  UpdateResolverScopeGlobal,
 	"PRIVATE": UpdateResolverScopePrivate,
 }
@@ -120,8 +136,16 @@ var mappingUpdateResolverScope = map[string]UpdateResolverScopeEnum{
 // GetUpdateResolverScopeEnumValues Enumerates the set of values for UpdateResolverScopeEnum
 func GetUpdateResolverScopeEnumValues() []UpdateResolverScopeEnum {
 	values := make([]UpdateResolverScopeEnum, 0)
-	for _, v := range mappingUpdateResolverScope {
+	for _, v := range mappingUpdateResolverScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateResolverScopeEnumStringValues Enumerates the set of values in String for UpdateResolverScopeEnum
+func GetUpdateResolverScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

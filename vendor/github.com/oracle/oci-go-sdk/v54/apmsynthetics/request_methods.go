@@ -4,7 +4,7 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -18,7 +18,7 @@ const (
 	RequestMethodsPost RequestMethodsEnum = "POST"
 )
 
-var mappingRequestMethods = map[string]RequestMethodsEnum{
+var mappingRequestMethodsEnum = map[string]RequestMethodsEnum{
 	"GET":  RequestMethodsGet,
 	"POST": RequestMethodsPost,
 }
@@ -26,8 +26,16 @@ var mappingRequestMethods = map[string]RequestMethodsEnum{
 // GetRequestMethodsEnumValues Enumerates the set of values for RequestMethodsEnum
 func GetRequestMethodsEnumValues() []RequestMethodsEnum {
 	values := make([]RequestMethodsEnum, 0)
-	for _, v := range mappingRequestMethods {
+	for _, v := range mappingRequestMethodsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRequestMethodsEnumStringValues Enumerates the set of values in String for RequestMethodsEnum
+func GetRequestMethodsEnumStringValues() []string {
+	return []string{
+		"GET",
+		"POST",
+	}
 }

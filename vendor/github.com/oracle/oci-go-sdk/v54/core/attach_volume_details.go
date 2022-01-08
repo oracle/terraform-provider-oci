@@ -15,17 +15,13 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AttachVolumeDetails The representation of AttachVolumeDetails
 type AttachVolumeDetails interface {
-
-	// The OCID of the instance.
-	GetInstanceId() *string
-
-	// The OCID of the volume.
-	GetVolumeId() *string
 
 	// The device name. To retrieve a list of devices for a given instance, see ListInstanceDevices.
 	GetDevice() *string
@@ -33,6 +29,10 @@ type AttachVolumeDetails interface {
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	GetDisplayName() *string
+
+	// The OCID of the instance. For AttachVolume operation, this is a required field for the request,
+	// see AttachVolume.
+	GetInstanceId() *string
 
 	// Whether the attachment was created in read-only mode.
 	GetIsReadOnly() *bool
@@ -42,17 +42,23 @@ type AttachVolumeDetails interface {
 	// that they also create their attachments in shareable mode. Only certain volume types can
 	// be attached in shareable mode. Defaults to false if not specified.
 	GetIsShareable() *bool
+
+	// The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request.
+	GetVolumeId() *string
+
+	GetCreateVolumeDetails() *CreateVolumeDetails
 }
 
 type attachvolumedetails struct {
-	JsonData    []byte
-	InstanceId  *string `mandatory:"true" json:"instanceId"`
-	VolumeId    *string `mandatory:"true" json:"volumeId"`
-	Device      *string `mandatory:"false" json:"device"`
-	DisplayName *string `mandatory:"false" json:"displayName"`
-	IsReadOnly  *bool   `mandatory:"false" json:"isReadOnly"`
-	IsShareable *bool   `mandatory:"false" json:"isShareable"`
-	Type        string  `json:"type"`
+	JsonData            []byte
+	Device              *string              `mandatory:"false" json:"device"`
+	DisplayName         *string              `mandatory:"false" json:"displayName"`
+	InstanceId          *string              `mandatory:"false" json:"instanceId"`
+	IsReadOnly          *bool                `mandatory:"false" json:"isReadOnly"`
+	IsShareable         *bool                `mandatory:"false" json:"isShareable"`
+	VolumeId            *string              `mandatory:"false" json:"volumeId"`
+	CreateVolumeDetails *CreateVolumeDetails `mandatory:"false" json:"createVolumeDetails"`
+	Type                string               `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -66,12 +72,13 @@ func (m *attachvolumedetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.InstanceId = s.Model.InstanceId
-	m.VolumeId = s.Model.VolumeId
 	m.Device = s.Model.Device
 	m.DisplayName = s.Model.DisplayName
+	m.InstanceId = s.Model.InstanceId
 	m.IsReadOnly = s.Model.IsReadOnly
 	m.IsShareable = s.Model.IsShareable
+	m.VolumeId = s.Model.VolumeId
+	m.CreateVolumeDetails = s.Model.CreateVolumeDetails
 	m.Type = s.Model.Type
 
 	return err
@@ -107,16 +114,6 @@ func (m *attachvolumedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetInstanceId returns InstanceId
-func (m attachvolumedetails) GetInstanceId() *string {
-	return m.InstanceId
-}
-
-//GetVolumeId returns VolumeId
-func (m attachvolumedetails) GetVolumeId() *string {
-	return m.VolumeId
-}
-
 //GetDevice returns Device
 func (m attachvolumedetails) GetDevice() *string {
 	return m.Device
@@ -125,6 +122,11 @@ func (m attachvolumedetails) GetDevice() *string {
 //GetDisplayName returns DisplayName
 func (m attachvolumedetails) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+//GetInstanceId returns InstanceId
+func (m attachvolumedetails) GetInstanceId() *string {
+	return m.InstanceId
 }
 
 //GetIsReadOnly returns IsReadOnly
@@ -137,6 +139,28 @@ func (m attachvolumedetails) GetIsShareable() *bool {
 	return m.IsShareable
 }
 
+//GetVolumeId returns VolumeId
+func (m attachvolumedetails) GetVolumeId() *string {
+	return m.VolumeId
+}
+
+//GetCreateVolumeDetails returns CreateVolumeDetails
+func (m attachvolumedetails) GetCreateVolumeDetails() *CreateVolumeDetails {
+	return m.CreateVolumeDetails
+}
+
 func (m attachvolumedetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m attachvolumedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

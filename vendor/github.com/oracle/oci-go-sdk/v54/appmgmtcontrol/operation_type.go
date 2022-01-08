@@ -18,7 +18,7 @@ const (
 	OperationTypePublishTopProcessesMetrics       OperationTypeEnum = "PUBLISH_TOP_PROCESSES_METRICS"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"ACTIVATE_RESOURCE_MONITORING_PLUGIN": OperationTypeActivateResourceMonitoringPlugin,
 	"PUBLISH_TOP_PROCESSES_METRICS":       OperationTypePublishTopProcessesMetrics,
 }
@@ -26,8 +26,16 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"ACTIVATE_RESOURCE_MONITORING_PLUGIN",
+		"PUBLISH_TOP_PROCESSES_METRICS",
+	}
 }

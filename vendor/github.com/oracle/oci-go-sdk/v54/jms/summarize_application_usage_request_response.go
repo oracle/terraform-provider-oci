@@ -5,15 +5,13 @@
 package jms
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeApplicationUsageRequest wrapper for the SummarizeApplicationUsage operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeApplicationUsage.go.html to see an example of how to use SummarizeApplicationUsageRequest.
 type SummarizeApplicationUsageRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
@@ -88,6 +86,10 @@ func (request SummarizeApplicationUsageRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeApplicationUsageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -101,6 +103,35 @@ func (request SummarizeApplicationUsageRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeApplicationUsageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeApplicationUsageRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingSummarizeApplicationUsageFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetSummarizeApplicationUsageFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeApplicationUsageSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeApplicationUsageSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeApplicationUsageSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeApplicationUsageSortByEnumStringValues(), ",")))
+	}
+	for _, val := range request.OsFamily {
+		if _, ok := mappingOsFamilyEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeApplicationUsageResponse wrapper for the SummarizeApplicationUsage operation
@@ -140,7 +171,7 @@ const (
 	SummarizeApplicationUsageSortOrderDesc SummarizeApplicationUsageSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeApplicationUsageSortOrder = map[string]SummarizeApplicationUsageSortOrderEnum{
+var mappingSummarizeApplicationUsageSortOrderEnum = map[string]SummarizeApplicationUsageSortOrderEnum{
 	"ASC":  SummarizeApplicationUsageSortOrderAsc,
 	"DESC": SummarizeApplicationUsageSortOrderDesc,
 }
@@ -148,10 +179,18 @@ var mappingSummarizeApplicationUsageSortOrder = map[string]SummarizeApplicationU
 // GetSummarizeApplicationUsageSortOrderEnumValues Enumerates the set of values for SummarizeApplicationUsageSortOrderEnum
 func GetSummarizeApplicationUsageSortOrderEnumValues() []SummarizeApplicationUsageSortOrderEnum {
 	values := make([]SummarizeApplicationUsageSortOrderEnum, 0)
-	for _, v := range mappingSummarizeApplicationUsageSortOrder {
+	for _, v := range mappingSummarizeApplicationUsageSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeApplicationUsageSortOrderEnumStringValues Enumerates the set of values in String for SummarizeApplicationUsageSortOrderEnum
+func GetSummarizeApplicationUsageSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeApplicationUsageSortByEnum Enum with underlying type: string
@@ -168,7 +207,7 @@ const (
 	SummarizeApplicationUsageSortByOsname                          SummarizeApplicationUsageSortByEnum = "osName"
 )
 
-var mappingSummarizeApplicationUsageSortBy = map[string]SummarizeApplicationUsageSortByEnum{
+var mappingSummarizeApplicationUsageSortByEnum = map[string]SummarizeApplicationUsageSortByEnum{
 	"timeFirstSeen":                   SummarizeApplicationUsageSortByTimefirstseen,
 	"timeLastSeen":                    SummarizeApplicationUsageSortByTimelastseen,
 	"displayName":                     SummarizeApplicationUsageSortByDisplayname,
@@ -181,8 +220,21 @@ var mappingSummarizeApplicationUsageSortBy = map[string]SummarizeApplicationUsag
 // GetSummarizeApplicationUsageSortByEnumValues Enumerates the set of values for SummarizeApplicationUsageSortByEnum
 func GetSummarizeApplicationUsageSortByEnumValues() []SummarizeApplicationUsageSortByEnum {
 	values := make([]SummarizeApplicationUsageSortByEnum, 0)
-	for _, v := range mappingSummarizeApplicationUsageSortBy {
+	for _, v := range mappingSummarizeApplicationUsageSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeApplicationUsageSortByEnumStringValues Enumerates the set of values in String for SummarizeApplicationUsageSortByEnum
+func GetSummarizeApplicationUsageSortByEnumStringValues() []string {
+	return []string{
+		"timeFirstSeen",
+		"timeLastSeen",
+		"displayName",
+		"approximateJreCount",
+		"approximateInstallationCount",
+		"approximateManagedInstanceCount",
+		"osName",
+	}
 }

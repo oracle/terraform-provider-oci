@@ -55,11 +55,8 @@ func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate
 		return region.Endpoint(service)
 	}
 
-	// replace service prefix
-	endpoint := strings.Replace(serviceEndpointTemplate, "{serviceEndpointPrefix}", service, 1)
-
 	// replace region
-	endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
+	endpoint := strings.Replace(serviceEndpointTemplate, "{region}", string(region), 1)
 
 	// replace second level domain
 	endpoint = strings.Replace(endpoint, "{secondLevelDomain}", region.secondLevelDomain(), 1)
@@ -210,7 +207,7 @@ func readAndParseConfigFile(configFileName *string) (fileContent []map[string]st
 	if content, err := ioutil.ReadFile(*configFileName); err == nil {
 		Debugf("Raw content of region metadata config file content:", string(content[:]))
 		if err := json.Unmarshal(content, &fileContent); err != nil {
-			Debugf("Can't unmarshal config file, the error info is", err)
+			Debugf("Can't unmarshal env var, the error info is", err)
 			return
 		}
 		ok = true

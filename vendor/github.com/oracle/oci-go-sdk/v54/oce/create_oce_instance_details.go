@@ -10,7 +10,9 @@
 package oce
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateOceInstanceDetails The information about new OceInstance.
@@ -49,7 +51,11 @@ type CreateOceInstanceDetails struct {
 	// or delay upgrade of the service to previous released version
 	UpgradeSchedule OceInstanceUpgradeScheduleEnum `mandatory:"false" json:"upgradeSchedule,omitempty"`
 
-	// Web Application Firewall(WAF) primary domain
+	// A list of vanity domains for the instance. The value can be any valid domain/nested domain.
+	// Example: `{ "vanityDomains": ["mysite1.mycompany.com", "mysite2.mycompany.com"] }`
+	VanityDomains []string `mandatory:"false" json:"vanityDomains"`
+
+	// Deprecated. Web Application Firewall(WAF) primary domain. To set domain, use vanityDomains property instead.
 	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
 
 	// Flag indicating whether the instance access is private or public
@@ -71,6 +77,30 @@ func (m CreateOceInstanceDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateOceInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateOceInstanceDetailsInstanceUsageTypeEnum[string(m.InstanceUsageType)]; !ok && m.InstanceUsageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceUsageType: %s. Supported values are: %s.", m.InstanceUsageType, strings.Join(GetCreateOceInstanceDetailsInstanceUsageTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOceInstanceUpgradeScheduleEnum[string(m.UpgradeSchedule)]; !ok && m.UpgradeSchedule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpgradeSchedule: %s. Supported values are: %s.", m.UpgradeSchedule, strings.Join(GetOceInstanceUpgradeScheduleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateOceInstanceDetailsInstanceAccessTypeEnum[string(m.InstanceAccessType)]; !ok && m.InstanceAccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceAccessType: %s. Supported values are: %s.", m.InstanceAccessType, strings.Join(GetCreateOceInstanceDetailsInstanceAccessTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLicenseTypeEnum[string(m.InstanceLicenseType)]; !ok && m.InstanceLicenseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceLicenseType: %s. Supported values are: %s.", m.InstanceLicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateOceInstanceDetailsInstanceUsageTypeEnum Enum with underlying type: string
 type CreateOceInstanceDetailsInstanceUsageTypeEnum string
 
@@ -80,7 +110,7 @@ const (
 	CreateOceInstanceDetailsInstanceUsageTypeNonprimary CreateOceInstanceDetailsInstanceUsageTypeEnum = "NONPRIMARY"
 )
 
-var mappingCreateOceInstanceDetailsInstanceUsageType = map[string]CreateOceInstanceDetailsInstanceUsageTypeEnum{
+var mappingCreateOceInstanceDetailsInstanceUsageTypeEnum = map[string]CreateOceInstanceDetailsInstanceUsageTypeEnum{
 	"PRIMARY":    CreateOceInstanceDetailsInstanceUsageTypePrimary,
 	"NONPRIMARY": CreateOceInstanceDetailsInstanceUsageTypeNonprimary,
 }
@@ -88,10 +118,18 @@ var mappingCreateOceInstanceDetailsInstanceUsageType = map[string]CreateOceInsta
 // GetCreateOceInstanceDetailsInstanceUsageTypeEnumValues Enumerates the set of values for CreateOceInstanceDetailsInstanceUsageTypeEnum
 func GetCreateOceInstanceDetailsInstanceUsageTypeEnumValues() []CreateOceInstanceDetailsInstanceUsageTypeEnum {
 	values := make([]CreateOceInstanceDetailsInstanceUsageTypeEnum, 0)
-	for _, v := range mappingCreateOceInstanceDetailsInstanceUsageType {
+	for _, v := range mappingCreateOceInstanceDetailsInstanceUsageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateOceInstanceDetailsInstanceUsageTypeEnumStringValues Enumerates the set of values in String for CreateOceInstanceDetailsInstanceUsageTypeEnum
+func GetCreateOceInstanceDetailsInstanceUsageTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"NONPRIMARY",
+	}
 }
 
 // CreateOceInstanceDetailsInstanceAccessTypeEnum Enum with underlying type: string
@@ -103,7 +141,7 @@ const (
 	CreateOceInstanceDetailsInstanceAccessTypePrivate CreateOceInstanceDetailsInstanceAccessTypeEnum = "PRIVATE"
 )
 
-var mappingCreateOceInstanceDetailsInstanceAccessType = map[string]CreateOceInstanceDetailsInstanceAccessTypeEnum{
+var mappingCreateOceInstanceDetailsInstanceAccessTypeEnum = map[string]CreateOceInstanceDetailsInstanceAccessTypeEnum{
 	"PUBLIC":  CreateOceInstanceDetailsInstanceAccessTypePublic,
 	"PRIVATE": CreateOceInstanceDetailsInstanceAccessTypePrivate,
 }
@@ -111,8 +149,16 @@ var mappingCreateOceInstanceDetailsInstanceAccessType = map[string]CreateOceInst
 // GetCreateOceInstanceDetailsInstanceAccessTypeEnumValues Enumerates the set of values for CreateOceInstanceDetailsInstanceAccessTypeEnum
 func GetCreateOceInstanceDetailsInstanceAccessTypeEnumValues() []CreateOceInstanceDetailsInstanceAccessTypeEnum {
 	values := make([]CreateOceInstanceDetailsInstanceAccessTypeEnum, 0)
-	for _, v := range mappingCreateOceInstanceDetailsInstanceAccessType {
+	for _, v := range mappingCreateOceInstanceDetailsInstanceAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateOceInstanceDetailsInstanceAccessTypeEnumStringValues Enumerates the set of values in String for CreateOceInstanceDetailsInstanceAccessTypeEnum
+func GetCreateOceInstanceDetailsInstanceAccessTypeEnumStringValues() []string {
+	return []string{
+		"PUBLIC",
+		"PRIVATE",
+	}
 }

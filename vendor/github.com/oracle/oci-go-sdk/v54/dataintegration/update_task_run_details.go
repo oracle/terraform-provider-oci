@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateTaskRunDetails Properties used in task run update operations.
@@ -47,6 +49,21 @@ func (m UpdateTaskRunDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateTaskRunDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateTaskRunDetailsStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetUpdateTaskRunDetailsStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateTaskRunDetailsStatusEnum Enum with underlying type: string
 type UpdateTaskRunDetailsStatusEnum string
 
@@ -55,15 +72,22 @@ const (
 	UpdateTaskRunDetailsStatusTerminating UpdateTaskRunDetailsStatusEnum = "TERMINATING"
 )
 
-var mappingUpdateTaskRunDetailsStatus = map[string]UpdateTaskRunDetailsStatusEnum{
+var mappingUpdateTaskRunDetailsStatusEnum = map[string]UpdateTaskRunDetailsStatusEnum{
 	"TERMINATING": UpdateTaskRunDetailsStatusTerminating,
 }
 
 // GetUpdateTaskRunDetailsStatusEnumValues Enumerates the set of values for UpdateTaskRunDetailsStatusEnum
 func GetUpdateTaskRunDetailsStatusEnumValues() []UpdateTaskRunDetailsStatusEnum {
 	values := make([]UpdateTaskRunDetailsStatusEnum, 0)
-	for _, v := range mappingUpdateTaskRunDetailsStatus {
+	for _, v := range mappingUpdateTaskRunDetailsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTaskRunDetailsStatusEnumStringValues Enumerates the set of values in String for UpdateTaskRunDetailsStatusEnum
+func GetUpdateTaskRunDetailsStatusEnumStringValues() []string {
+	return []string{
+		"TERMINATING",
+	}
 }

@@ -13,7 +13,9 @@ package containerengine
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateNodePoolDetails The properties that define a request to update a node pool.
@@ -60,26 +62,50 @@ type UpdateNodePoolDetails struct {
 
 	// Specify the configuration of the shape to launch nodes in the node pool.
 	NodeShapeConfig *UpdateNodeShapeConfigDetails `mandatory:"false" json:"nodeShapeConfig"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdateNodePoolDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateNodePoolDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnmarshalJSON unmarshals from json
 func (m *UpdateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Name              *string                          `json:"name"`
-		KubernetesVersion *string                          `json:"kubernetesVersion"`
-		InitialNodeLabels []KeyValue                       `json:"initialNodeLabels"`
-		QuantityPerSubnet *int                             `json:"quantityPerSubnet"`
-		SubnetIds         []string                         `json:"subnetIds"`
-		NodeConfigDetails *UpdateNodePoolNodeConfigDetails `json:"nodeConfigDetails"`
-		NodeMetadata      map[string]string                `json:"nodeMetadata"`
-		NodeSourceDetails nodesourcedetails                `json:"nodeSourceDetails"`
-		SshPublicKey      *string                          `json:"sshPublicKey"`
-		NodeShape         *string                          `json:"nodeShape"`
-		NodeShapeConfig   *UpdateNodeShapeConfigDetails    `json:"nodeShapeConfig"`
+		Name              *string                           `json:"name"`
+		KubernetesVersion *string                           `json:"kubernetesVersion"`
+		InitialNodeLabels []KeyValue                        `json:"initialNodeLabels"`
+		QuantityPerSubnet *int                              `json:"quantityPerSubnet"`
+		SubnetIds         []string                          `json:"subnetIds"`
+		NodeConfigDetails *UpdateNodePoolNodeConfigDetails  `json:"nodeConfigDetails"`
+		NodeMetadata      map[string]string                 `json:"nodeMetadata"`
+		NodeSourceDetails nodesourcedetails                 `json:"nodeSourceDetails"`
+		SshPublicKey      *string                           `json:"sshPublicKey"`
+		NodeShape         *string                           `json:"nodeShape"`
+		NodeShapeConfig   *UpdateNodeShapeConfigDetails     `json:"nodeShapeConfig"`
+		FreeformTags      map[string]string                 `json:"freeformTags"`
+		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -122,6 +148,10 @@ func (m *UpdateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	m.NodeShape = model.NodeShape
 
 	m.NodeShapeConfig = model.NodeShapeConfig
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	return
 }

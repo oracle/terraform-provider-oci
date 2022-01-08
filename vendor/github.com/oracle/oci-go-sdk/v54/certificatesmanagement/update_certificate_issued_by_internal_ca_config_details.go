@@ -11,7 +11,9 @@ package certificatesmanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateCertificateIssuedByInternalCaConfigDetails The details for updating an internally managed certificate which is issued by a private certificate authority (CA).
@@ -40,6 +42,21 @@ func (m UpdateCertificateIssuedByInternalCaConfigDetails) GetStage() UpdateCerti
 
 func (m UpdateCertificateIssuedByInternalCaConfigDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateCertificateIssuedByInternalCaConfigDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateCertificateConfigDetailsStageEnum[string(m.Stage)]; !ok && m.Stage != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Stage: %s. Supported values are: %s.", m.Stage, strings.Join(GetUpdateCertificateConfigDetailsStageEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

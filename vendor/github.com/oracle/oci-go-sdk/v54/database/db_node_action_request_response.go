@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // DbNodeActionRequest wrapper for the DbNodeAction operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DbNodeAction.go.html to see an example of how to use DbNodeActionRequest.
 type DbNodeActionRequest struct {
 
 	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -50,6 +48,10 @@ func (request DbNodeActionRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DbNodeActionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +65,20 @@ func (request DbNodeActionRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DbNodeActionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DbNodeActionRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDbNodeActionActionEnum[string(request.Action)]; !ok && request.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", request.Action, strings.Join(GetDbNodeActionActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DbNodeActionResponse wrapper for the DbNodeAction operation
@@ -105,7 +121,7 @@ const (
 	DbNodeActionActionReset     DbNodeActionActionEnum = "RESET"
 )
 
-var mappingDbNodeActionAction = map[string]DbNodeActionActionEnum{
+var mappingDbNodeActionActionEnum = map[string]DbNodeActionActionEnum{
 	"STOP":      DbNodeActionActionStop,
 	"START":     DbNodeActionActionStart,
 	"SOFTRESET": DbNodeActionActionSoftreset,
@@ -115,8 +131,18 @@ var mappingDbNodeActionAction = map[string]DbNodeActionActionEnum{
 // GetDbNodeActionActionEnumValues Enumerates the set of values for DbNodeActionActionEnum
 func GetDbNodeActionActionEnumValues() []DbNodeActionActionEnum {
 	values := make([]DbNodeActionActionEnum, 0)
-	for _, v := range mappingDbNodeActionAction {
+	for _, v := range mappingDbNodeActionActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbNodeActionActionEnumStringValues Enumerates the set of values in String for DbNodeActionActionEnum
+func GetDbNodeActionActionEnumStringValues() []string {
+	return []string{
+		"STOP",
+		"START",
+		"SOFTRESET",
+		"RESET",
+	}
 }

@@ -12,7 +12,9 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PingProbeResultSummary The results returned by running a ping probe.  All times and durations are
@@ -87,6 +89,24 @@ func (m PingProbeResultSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PingProbeResultSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPingProbeResultSummaryErrorCategoryEnum[string(m.ErrorCategory)]; !ok && m.ErrorCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ErrorCategory: %s. Supported values are: %s.", m.ErrorCategory, strings.Join(GetPingProbeResultSummaryErrorCategoryEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPingProbeProtocolEnum[string(m.Protocol)]; !ok && m.Protocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetPingProbeProtocolEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PingProbeResultSummaryErrorCategoryEnum Enum with underlying type: string
 type PingProbeResultSummaryErrorCategoryEnum string
 
@@ -99,7 +119,7 @@ const (
 	PingProbeResultSummaryErrorCategorySystem    PingProbeResultSummaryErrorCategoryEnum = "SYSTEM"
 )
 
-var mappingPingProbeResultSummaryErrorCategory = map[string]PingProbeResultSummaryErrorCategoryEnum{
+var mappingPingProbeResultSummaryErrorCategoryEnum = map[string]PingProbeResultSummaryErrorCategoryEnum{
 	"NONE":      PingProbeResultSummaryErrorCategoryNone,
 	"DNS":       PingProbeResultSummaryErrorCategoryDns,
 	"TRANSPORT": PingProbeResultSummaryErrorCategoryTransport,
@@ -110,10 +130,21 @@ var mappingPingProbeResultSummaryErrorCategory = map[string]PingProbeResultSumma
 // GetPingProbeResultSummaryErrorCategoryEnumValues Enumerates the set of values for PingProbeResultSummaryErrorCategoryEnum
 func GetPingProbeResultSummaryErrorCategoryEnumValues() []PingProbeResultSummaryErrorCategoryEnum {
 	values := make([]PingProbeResultSummaryErrorCategoryEnum, 0)
-	for _, v := range mappingPingProbeResultSummaryErrorCategory {
+	for _, v := range mappingPingProbeResultSummaryErrorCategoryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPingProbeResultSummaryErrorCategoryEnumStringValues Enumerates the set of values in String for PingProbeResultSummaryErrorCategoryEnum
+func GetPingProbeResultSummaryErrorCategoryEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"DNS",
+		"TRANSPORT",
+		"NETWORK",
+		"SYSTEM",
+	}
 }
 
 // PingProbeResultSummaryProtocolEnum is an alias to type: PingProbeProtocolEnum

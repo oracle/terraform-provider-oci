@@ -10,7 +10,9 @@
 package goldengate
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateDatabaseRegistrationDetails The information to update for a DatabaseRegistration.
@@ -56,6 +58,21 @@ func (m UpdateDatabaseRegistrationDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateDatabaseRegistrationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateDatabaseRegistrationDetailsSessionModeEnum[string(m.SessionMode)]; !ok && m.SessionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SessionMode: %s. Supported values are: %s.", m.SessionMode, strings.Join(GetUpdateDatabaseRegistrationDetailsSessionModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateDatabaseRegistrationDetailsSessionModeEnum Enum with underlying type: string
 type UpdateDatabaseRegistrationDetailsSessionModeEnum string
 
@@ -65,7 +82,7 @@ const (
 	UpdateDatabaseRegistrationDetailsSessionModeRedirect UpdateDatabaseRegistrationDetailsSessionModeEnum = "REDIRECT"
 )
 
-var mappingUpdateDatabaseRegistrationDetailsSessionMode = map[string]UpdateDatabaseRegistrationDetailsSessionModeEnum{
+var mappingUpdateDatabaseRegistrationDetailsSessionModeEnum = map[string]UpdateDatabaseRegistrationDetailsSessionModeEnum{
 	"DIRECT":   UpdateDatabaseRegistrationDetailsSessionModeDirect,
 	"REDIRECT": UpdateDatabaseRegistrationDetailsSessionModeRedirect,
 }
@@ -73,8 +90,16 @@ var mappingUpdateDatabaseRegistrationDetailsSessionMode = map[string]UpdateDatab
 // GetUpdateDatabaseRegistrationDetailsSessionModeEnumValues Enumerates the set of values for UpdateDatabaseRegistrationDetailsSessionModeEnum
 func GetUpdateDatabaseRegistrationDetailsSessionModeEnumValues() []UpdateDatabaseRegistrationDetailsSessionModeEnum {
 	values := make([]UpdateDatabaseRegistrationDetailsSessionModeEnum, 0)
-	for _, v := range mappingUpdateDatabaseRegistrationDetailsSessionMode {
+	for _, v := range mappingUpdateDatabaseRegistrationDetailsSessionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateDatabaseRegistrationDetailsSessionModeEnumStringValues Enumerates the set of values in String for UpdateDatabaseRegistrationDetailsSessionModeEnum
+func GetUpdateDatabaseRegistrationDetailsSessionModeEnumStringValues() []string {
+	return []string{
+		"DIRECT",
+		"REDIRECT",
+	}
 }

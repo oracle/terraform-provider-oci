@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Stack The stack object. Stacks represent definitions of groups of Oracle Cloud Infrastructure
@@ -76,6 +78,24 @@ type Stack struct {
 
 func (m Stack) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Stack) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingStackLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetStackLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingStackStackDriftStatusEnum[string(m.StackDriftStatus)]; !ok && m.StackDriftStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StackDriftStatus: %s. Supported values are: %s.", m.StackDriftStatus, strings.Join(GetStackStackDriftStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -150,7 +170,7 @@ const (
 	StackLifecycleStateFailed   StackLifecycleStateEnum = "FAILED"
 )
 
-var mappingStackLifecycleState = map[string]StackLifecycleStateEnum{
+var mappingStackLifecycleStateEnum = map[string]StackLifecycleStateEnum{
 	"CREATING": StackLifecycleStateCreating,
 	"ACTIVE":   StackLifecycleStateActive,
 	"DELETING": StackLifecycleStateDeleting,
@@ -161,10 +181,21 @@ var mappingStackLifecycleState = map[string]StackLifecycleStateEnum{
 // GetStackLifecycleStateEnumValues Enumerates the set of values for StackLifecycleStateEnum
 func GetStackLifecycleStateEnumValues() []StackLifecycleStateEnum {
 	values := make([]StackLifecycleStateEnum, 0)
-	for _, v := range mappingStackLifecycleState {
+	for _, v := range mappingStackLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStackLifecycleStateEnumStringValues Enumerates the set of values in String for StackLifecycleStateEnum
+func GetStackLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // StackStackDriftStatusEnum Enum with underlying type: string
@@ -177,7 +208,7 @@ const (
 	StackStackDriftStatusDrifted    StackStackDriftStatusEnum = "DRIFTED"
 )
 
-var mappingStackStackDriftStatus = map[string]StackStackDriftStatusEnum{
+var mappingStackStackDriftStatusEnum = map[string]StackStackDriftStatusEnum{
 	"NOT_CHECKED": StackStackDriftStatusNotChecked,
 	"IN_SYNC":     StackStackDriftStatusInSync,
 	"DRIFTED":     StackStackDriftStatusDrifted,
@@ -186,8 +217,17 @@ var mappingStackStackDriftStatus = map[string]StackStackDriftStatusEnum{
 // GetStackStackDriftStatusEnumValues Enumerates the set of values for StackStackDriftStatusEnum
 func GetStackStackDriftStatusEnumValues() []StackStackDriftStatusEnum {
 	values := make([]StackStackDriftStatusEnum, 0)
-	for _, v := range mappingStackStackDriftStatus {
+	for _, v := range mappingStackStackDriftStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStackStackDriftStatusEnumStringValues Enumerates the set of values in String for StackStackDriftStatusEnum
+func GetStackStackDriftStatusEnumStringValues() []string {
+	return []string{
+		"NOT_CHECKED",
+		"IN_SYNC",
+		"DRIFTED",
+	}
 }

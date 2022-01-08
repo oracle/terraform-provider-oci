@@ -5,15 +5,13 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // InstallAllWindowsUpdatesOnManagedInstanceRequest wrapper for the InstallAllWindowsUpdatesOnManagedInstance operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallAllWindowsUpdatesOnManagedInstance.go.html to see an example of how to use InstallAllWindowsUpdatesOnManagedInstanceRequest.
 type InstallAllWindowsUpdatesOnManagedInstanceRequest struct {
 
 	// OCID for the managed instance
@@ -44,6 +42,10 @@ func (request InstallAllWindowsUpdatesOnManagedInstanceRequest) String() string 
 // HTTPRequest implements the OCIRequest interface
 func (request InstallAllWindowsUpdatesOnManagedInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -57,6 +59,20 @@ func (request InstallAllWindowsUpdatesOnManagedInstanceRequest) BinaryRequestBod
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request InstallAllWindowsUpdatesOnManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request InstallAllWindowsUpdatesOnManagedInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum[string(request.UpdateType)]; !ok && request.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", request.UpdateType, strings.Join(GetInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // InstallAllWindowsUpdatesOnManagedInstanceResponse wrapper for the InstallAllWindowsUpdatesOnManagedInstance operation
@@ -96,7 +112,7 @@ const (
 	InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeAll         InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum = "ALL"
 )
 
-var mappingInstallAllWindowsUpdatesOnManagedInstanceUpdateType = map[string]InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum{
+var mappingInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum = map[string]InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum{
 	"SECURITY":    InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeSecurity,
 	"BUGFIX":      InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeBugfix,
 	"ENHANCEMENT": InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnhancement,
@@ -108,8 +124,20 @@ var mappingInstallAllWindowsUpdatesOnManagedInstanceUpdateType = map[string]Inst
 // GetInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnumValues Enumerates the set of values for InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum
 func GetInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnumValues() []InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum {
 	values := make([]InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum, 0)
-	for _, v := range mappingInstallAllWindowsUpdatesOnManagedInstanceUpdateType {
+	for _, v := range mappingInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnumStringValues Enumerates the set of values in String for InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum
+func GetInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnumStringValues() []string {
+	return []string{
+		"SECURITY",
+		"BUGFIX",
+		"ENHANCEMENT",
+		"OTHER",
+		"KSPLICE",
+		"ALL",
+	}
 }

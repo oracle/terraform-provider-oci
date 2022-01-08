@@ -86,10 +86,6 @@ func (client *PluginconfigClient) ConfigurationProvider() *common.ConfigurationP
 }
 
 // ListInstanceagentAvailablePlugins The API to get the list of plugins that are available.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceagentAvailablePlugins.go.html to see an example of how to use ListInstanceagentAvailablePlugins API.
 func (client PluginconfigClient) ListInstanceagentAvailablePlugins(ctx context.Context, request ListInstanceagentAvailablePluginsRequest) (response ListInstanceagentAvailablePluginsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

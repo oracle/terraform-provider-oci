@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Reference Reference contains application configuration information.
@@ -51,6 +53,21 @@ func (m Reference) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Reference) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingReferenceTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetReferenceTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ReferenceTypeEnum Enum with underlying type: string
 type ReferenceTypeEnum string
 
@@ -64,7 +81,7 @@ const (
 	ReferenceTypeGenericJdbcDataAsset         ReferenceTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 )
 
-var mappingReferenceType = map[string]ReferenceTypeEnum{
+var mappingReferenceTypeEnum = map[string]ReferenceTypeEnum{
 	"ORACLE_DATA_ASSET":                ReferenceTypeOracleDataAsset,
 	"ORACLE_OBJECT_STORAGE_DATA_ASSET": ReferenceTypeOracleObjectStorageDataAsset,
 	"ORACLE_ATP_DATA_ASSET":            ReferenceTypeOracleAtpDataAsset,
@@ -76,8 +93,20 @@ var mappingReferenceType = map[string]ReferenceTypeEnum{
 // GetReferenceTypeEnumValues Enumerates the set of values for ReferenceTypeEnum
 func GetReferenceTypeEnumValues() []ReferenceTypeEnum {
 	values := make([]ReferenceTypeEnum, 0)
-	for _, v := range mappingReferenceType {
+	for _, v := range mappingReferenceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetReferenceTypeEnumStringValues Enumerates the set of values in String for ReferenceTypeEnum
+func GetReferenceTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_DATA_ASSET",
+		"ORACLE_OBJECT_STORAGE_DATA_ASSET",
+		"ORACLE_ATP_DATA_ASSET",
+		"ORACLE_ADWC_DATA_ASSET",
+		"MYSQL_DATA_ASSET",
+		"GENERIC_JDBC_DATA_ASSET",
+	}
 }

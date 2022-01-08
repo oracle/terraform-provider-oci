@@ -87,10 +87,6 @@ func (client *WafClient) ConfigurationProvider() *common.ConfigurationProvider {
 
 // ChangeNetworkAddressListCompartment Moves a NetworkAddressList resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ChangeNetworkAddressListCompartment.go.html to see an example of how to use ChangeNetworkAddressListCompartment API.
 func (client WafClient) ChangeNetworkAddressListCompartment(ctx context.Context, request ChangeNetworkAddressListCompartmentRequest) (response ChangeNetworkAddressListCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -143,10 +139,6 @@ func (client WafClient) changeNetworkAddressListCompartment(ctx context.Context,
 
 // ChangeWebAppFirewallCompartment Moves a Web App Firewall resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ChangeWebAppFirewallCompartment.go.html to see an example of how to use ChangeWebAppFirewallCompartment API.
 func (client WafClient) ChangeWebAppFirewallCompartment(ctx context.Context, request ChangeWebAppFirewallCompartmentRequest) (response ChangeWebAppFirewallCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -199,10 +191,6 @@ func (client WafClient) changeWebAppFirewallCompartment(ctx context.Context, req
 
 // ChangeWebAppFirewallPolicyCompartment Moves a WebAppFirewallfPolicy resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ChangeWebAppFirewallPolicyCompartment.go.html to see an example of how to use ChangeWebAppFirewallPolicyCompartment API.
 func (client WafClient) ChangeWebAppFirewallPolicyCompartment(ctx context.Context, request ChangeWebAppFirewallPolicyCompartmentRequest) (response ChangeWebAppFirewallPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -254,10 +242,6 @@ func (client WafClient) changeWebAppFirewallPolicyCompartment(ctx context.Contex
 }
 
 // CreateNetworkAddressList Creates a new NetworkAddressList.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/CreateNetworkAddressList.go.html to see an example of how to use CreateNetworkAddressList API.
 func (client WafClient) CreateNetworkAddressList(ctx context.Context, request CreateNetworkAddressListRequest) (response CreateNetworkAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -314,10 +298,6 @@ func (client WafClient) createNetworkAddressList(ctx context.Context, request co
 }
 
 // CreateWebAppFirewall Creates a new WebAppFirewall.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/CreateWebAppFirewall.go.html to see an example of how to use CreateWebAppFirewall API.
 func (client WafClient) CreateWebAppFirewall(ctx context.Context, request CreateWebAppFirewallRequest) (response CreateWebAppFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -374,10 +354,6 @@ func (client WafClient) createWebAppFirewall(ctx context.Context, request common
 }
 
 // CreateWebAppFirewallPolicy Creates a new WebAppFirewallPolicy.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/CreateWebAppFirewallPolicy.go.html to see an example of how to use CreateWebAppFirewallPolicy API.
 func (client WafClient) CreateWebAppFirewallPolicy(ctx context.Context, request CreateWebAppFirewallPolicyRequest) (response CreateWebAppFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -434,10 +410,6 @@ func (client WafClient) createWebAppFirewallPolicy(ctx context.Context, request 
 }
 
 // DeleteNetworkAddressList Deletes a NetworkAddressList resource identified by the OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteNetworkAddressList.go.html to see an example of how to use DeleteNetworkAddressList API.
 func (client WafClient) DeleteNetworkAddressList(ctx context.Context, request DeleteNetworkAddressListRequest) (response DeleteNetworkAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -489,10 +461,6 @@ func (client WafClient) deleteNetworkAddressList(ctx context.Context, request co
 }
 
 // DeleteWebAppFirewall Deletes a WebAppFirewall resource identified by the OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteWebAppFirewall.go.html to see an example of how to use DeleteWebAppFirewall API.
 func (client WafClient) DeleteWebAppFirewall(ctx context.Context, request DeleteWebAppFirewallRequest) (response DeleteWebAppFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -544,10 +512,6 @@ func (client WafClient) deleteWebAppFirewall(ctx context.Context, request common
 }
 
 // DeleteWebAppFirewallPolicy Deletes a WebAppFirewallPolicy resource identified by the OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteWebAppFirewallPolicy.go.html to see an example of how to use DeleteWebAppFirewallPolicy API.
 func (client WafClient) DeleteWebAppFirewallPolicy(ctx context.Context, request DeleteWebAppFirewallPolicyRequest) (response DeleteWebAppFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -599,10 +563,6 @@ func (client WafClient) deleteWebAppFirewallPolicy(ctx context.Context, request 
 }
 
 // GetNetworkAddressList Gets a NetworkAddressList by OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetNetworkAddressList.go.html to see an example of how to use GetNetworkAddressList API.
 func (client WafClient) GetNetworkAddressList(ctx context.Context, request GetNetworkAddressListRequest) (response GetNetworkAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -654,10 +614,6 @@ func (client WafClient) getNetworkAddressList(ctx context.Context, request commo
 }
 
 // GetWebAppFirewall Gets a WebAppFirewall by OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetWebAppFirewall.go.html to see an example of how to use GetWebAppFirewall API.
 func (client WafClient) GetWebAppFirewall(ctx context.Context, request GetWebAppFirewallRequest) (response GetWebAppFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -709,10 +665,6 @@ func (client WafClient) getWebAppFirewall(ctx context.Context, request common.OC
 }
 
 // GetWebAppFirewallPolicy Gets a WebAppFirewallPolicy with the given OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetWebAppFirewallPolicy.go.html to see an example of how to use GetWebAppFirewallPolicy API.
 func (client WafClient) GetWebAppFirewallPolicy(ctx context.Context, request GetWebAppFirewallPolicyRequest) (response GetWebAppFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -764,10 +716,6 @@ func (client WafClient) getWebAppFirewallPolicy(ctx context.Context, request com
 }
 
 // GetWorkRequest Gets the status of the WorkRequest with the given OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client WafClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -819,10 +767,6 @@ func (client WafClient) getWorkRequest(ctx context.Context, request common.OCIRe
 }
 
 // ListNetworkAddressLists Gets a list of all NetworkAddressLists in a compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListNetworkAddressLists.go.html to see an example of how to use ListNetworkAddressLists API.
 func (client WafClient) ListNetworkAddressLists(ctx context.Context, request ListNetworkAddressListsRequest) (response ListNetworkAddressListsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -874,10 +818,6 @@ func (client WafClient) listNetworkAddressLists(ctx context.Context, request com
 }
 
 // ListProtectionCapabilities Lists of protection capabilities filtered by query parameters.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListProtectionCapabilities.go.html to see an example of how to use ListProtectionCapabilities API.
 func (client WafClient) ListProtectionCapabilities(ctx context.Context, request ListProtectionCapabilitiesRequest) (response ListProtectionCapabilitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -929,10 +869,6 @@ func (client WafClient) listProtectionCapabilities(ctx context.Context, request 
 }
 
 // ListProtectionCapabilityGroupTags Lists of available group tags filtered by query parameters.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListProtectionCapabilityGroupTags.go.html to see an example of how to use ListProtectionCapabilityGroupTags API.
 func (client WafClient) ListProtectionCapabilityGroupTags(ctx context.Context, request ListProtectionCapabilityGroupTagsRequest) (response ListProtectionCapabilityGroupTagsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -984,10 +920,6 @@ func (client WafClient) listProtectionCapabilityGroupTags(ctx context.Context, r
 }
 
 // ListWebAppFirewallPolicies Gets a list of all WebAppFirewallPolicies in a compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWebAppFirewallPolicies.go.html to see an example of how to use ListWebAppFirewallPolicies API.
 func (client WafClient) ListWebAppFirewallPolicies(ctx context.Context, request ListWebAppFirewallPoliciesRequest) (response ListWebAppFirewallPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1039,10 +971,6 @@ func (client WafClient) listWebAppFirewallPolicies(ctx context.Context, request 
 }
 
 // ListWebAppFirewalls Gets a list of all WebAppFirewalls in a compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWebAppFirewalls.go.html to see an example of how to use ListWebAppFirewalls API.
 func (client WafClient) ListWebAppFirewalls(ctx context.Context, request ListWebAppFirewallsRequest) (response ListWebAppFirewallsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1094,10 +1022,6 @@ func (client WafClient) listWebAppFirewalls(ctx context.Context, request common.
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given WorkRequest.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client WafClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1149,10 +1073,6 @@ func (client WafClient) listWorkRequestErrors(ctx context.Context, request commo
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given WorkRequest.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client WafClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1204,10 +1124,6 @@ func (client WafClient) listWorkRequestLogs(ctx context.Context, request common.
 }
 
 // ListWorkRequests Lists the WorkRequests in a compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client WafClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1259,10 +1175,6 @@ func (client WafClient) listWorkRequests(ctx context.Context, request common.OCI
 }
 
 // UpdateNetworkAddressList Update the NetworkAddressList identified by the OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/UpdateNetworkAddressList.go.html to see an example of how to use UpdateNetworkAddressList API.
 func (client WafClient) UpdateNetworkAddressList(ctx context.Context, request UpdateNetworkAddressListRequest) (response UpdateNetworkAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1314,10 +1226,6 @@ func (client WafClient) updateNetworkAddressList(ctx context.Context, request co
 }
 
 // UpdateWebAppFirewall Updates the WebAppFirewall identified by the OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/UpdateWebAppFirewall.go.html to see an example of how to use UpdateWebAppFirewall API.
 func (client WafClient) UpdateWebAppFirewall(ctx context.Context, request UpdateWebAppFirewallRequest) (response UpdateWebAppFirewallResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1369,10 +1277,6 @@ func (client WafClient) updateWebAppFirewall(ctx context.Context, request common
 }
 
 // UpdateWebAppFirewallPolicy Update the WebAppFirewallPolicy identified by the OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/UpdateWebAppFirewallPolicy.go.html to see an example of how to use UpdateWebAppFirewallPolicy API.
 func (client WafClient) UpdateWebAppFirewallPolicy(ctx context.Context, request UpdateWebAppFirewallPolicyRequest) (response UpdateWebAppFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

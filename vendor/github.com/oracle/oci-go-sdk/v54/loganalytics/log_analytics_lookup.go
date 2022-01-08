@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LogAnalyticsLookup LogAnalyticsLookup
@@ -70,6 +72,21 @@ func (m LogAnalyticsLookup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsLookup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsLookupTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetLogAnalyticsLookupTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsLookupTypeEnum Enum with underlying type: string
 type LogAnalyticsLookupTypeEnum string
 
@@ -79,7 +96,7 @@ const (
 	LogAnalyticsLookupTypeDictionary LogAnalyticsLookupTypeEnum = "Dictionary"
 )
 
-var mappingLogAnalyticsLookupType = map[string]LogAnalyticsLookupTypeEnum{
+var mappingLogAnalyticsLookupTypeEnum = map[string]LogAnalyticsLookupTypeEnum{
 	"Lookup":     LogAnalyticsLookupTypeLookup,
 	"Dictionary": LogAnalyticsLookupTypeDictionary,
 }
@@ -87,8 +104,16 @@ var mappingLogAnalyticsLookupType = map[string]LogAnalyticsLookupTypeEnum{
 // GetLogAnalyticsLookupTypeEnumValues Enumerates the set of values for LogAnalyticsLookupTypeEnum
 func GetLogAnalyticsLookupTypeEnumValues() []LogAnalyticsLookupTypeEnum {
 	values := make([]LogAnalyticsLookupTypeEnum, 0)
-	for _, v := range mappingLogAnalyticsLookupType {
+	for _, v := range mappingLogAnalyticsLookupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsLookupTypeEnumStringValues Enumerates the set of values in String for LogAnalyticsLookupTypeEnum
+func GetLogAnalyticsLookupTypeEnumStringValues() []string {
+	return []string{
+		"Lookup",
+		"Dictionary",
+	}
 }

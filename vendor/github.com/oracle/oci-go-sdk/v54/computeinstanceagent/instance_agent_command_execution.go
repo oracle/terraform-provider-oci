@@ -12,7 +12,9 @@ package computeinstanceagent
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceAgentCommandExecution A command's execution summary.
@@ -58,6 +60,24 @@ type InstanceAgentCommandExecution struct {
 
 func (m InstanceAgentCommandExecution) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceAgentCommandExecution) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstanceAgentCommandExecutionDeliveryStateEnum[string(m.DeliveryState)]; !ok && m.DeliveryState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeliveryState: %s. Supported values are: %s.", m.DeliveryState, strings.Join(GetInstanceAgentCommandExecutionDeliveryStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInstanceAgentCommandExecutionLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstanceAgentCommandExecutionLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -120,7 +140,7 @@ const (
 	InstanceAgentCommandExecutionDeliveryStateExpired       InstanceAgentCommandExecutionDeliveryStateEnum = "EXPIRED"
 )
 
-var mappingInstanceAgentCommandExecutionDeliveryState = map[string]InstanceAgentCommandExecutionDeliveryStateEnum{
+var mappingInstanceAgentCommandExecutionDeliveryStateEnum = map[string]InstanceAgentCommandExecutionDeliveryStateEnum{
 	"VISIBLE":        InstanceAgentCommandExecutionDeliveryStateVisible,
 	"PENDING":        InstanceAgentCommandExecutionDeliveryStatePending,
 	"ACKED":          InstanceAgentCommandExecutionDeliveryStateAcked,
@@ -131,10 +151,21 @@ var mappingInstanceAgentCommandExecutionDeliveryState = map[string]InstanceAgent
 // GetInstanceAgentCommandExecutionDeliveryStateEnumValues Enumerates the set of values for InstanceAgentCommandExecutionDeliveryStateEnum
 func GetInstanceAgentCommandExecutionDeliveryStateEnumValues() []InstanceAgentCommandExecutionDeliveryStateEnum {
 	values := make([]InstanceAgentCommandExecutionDeliveryStateEnum, 0)
-	for _, v := range mappingInstanceAgentCommandExecutionDeliveryState {
+	for _, v := range mappingInstanceAgentCommandExecutionDeliveryStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceAgentCommandExecutionDeliveryStateEnumStringValues Enumerates the set of values in String for InstanceAgentCommandExecutionDeliveryStateEnum
+func GetInstanceAgentCommandExecutionDeliveryStateEnumStringValues() []string {
+	return []string{
+		"VISIBLE",
+		"PENDING",
+		"ACKED",
+		"ACKED_CANCELED",
+		"EXPIRED",
+	}
 }
 
 // InstanceAgentCommandExecutionLifecycleStateEnum Enum with underlying type: string
@@ -150,7 +181,7 @@ const (
 	InstanceAgentCommandExecutionLifecycleStateCanceled   InstanceAgentCommandExecutionLifecycleStateEnum = "CANCELED"
 )
 
-var mappingInstanceAgentCommandExecutionLifecycleState = map[string]InstanceAgentCommandExecutionLifecycleStateEnum{
+var mappingInstanceAgentCommandExecutionLifecycleStateEnum = map[string]InstanceAgentCommandExecutionLifecycleStateEnum{
 	"ACCEPTED":    InstanceAgentCommandExecutionLifecycleStateAccepted,
 	"IN_PROGRESS": InstanceAgentCommandExecutionLifecycleStateInProgress,
 	"SUCCEEDED":   InstanceAgentCommandExecutionLifecycleStateSucceeded,
@@ -162,8 +193,20 @@ var mappingInstanceAgentCommandExecutionLifecycleState = map[string]InstanceAgen
 // GetInstanceAgentCommandExecutionLifecycleStateEnumValues Enumerates the set of values for InstanceAgentCommandExecutionLifecycleStateEnum
 func GetInstanceAgentCommandExecutionLifecycleStateEnumValues() []InstanceAgentCommandExecutionLifecycleStateEnum {
 	values := make([]InstanceAgentCommandExecutionLifecycleStateEnum, 0)
-	for _, v := range mappingInstanceAgentCommandExecutionLifecycleState {
+	for _, v := range mappingInstanceAgentCommandExecutionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceAgentCommandExecutionLifecycleStateEnumStringValues Enumerates the set of values in String for InstanceAgentCommandExecutionLifecycleStateEnum
+func GetInstanceAgentCommandExecutionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+		"TIMED_OUT",
+		"CANCELED",
+	}
 }

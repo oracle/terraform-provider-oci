@@ -13,13 +13,15 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// SqlTuningTaskPasswordCredentialDetails User provides a password to be used to connect to the database.
+// SqlTuningTaskPasswordCredentialDetails The password provided by the user to connect to the database.
 type SqlTuningTaskPasswordCredentialDetails struct {
 
-	// The user to connect to the database.
+	// The user name used to connect to the database.
 	Username *string `mandatory:"true" json:"username"`
 
 	// The database user's password encoded using BASE64 scheme.
@@ -41,6 +43,21 @@ func (m SqlTuningTaskPasswordCredentialDetails) GetRole() SqlTuningTaskCredentia
 
 func (m SqlTuningTaskPasswordCredentialDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningTaskPasswordCredentialDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSqlTuningTaskCredentialDetailsRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetSqlTuningTaskCredentialDetailsRoleEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

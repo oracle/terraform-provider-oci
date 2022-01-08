@@ -12,7 +12,9 @@ package loadbalancer
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Action An entity that represents an action to apply for a routing rule.
@@ -62,6 +64,18 @@ func (m action) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m action) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ActionNameEnum Enum with underlying type: string
 type ActionNameEnum string
 
@@ -70,15 +84,22 @@ const (
 	ActionNameForwardToBackendset ActionNameEnum = "FORWARD_TO_BACKENDSET"
 )
 
-var mappingActionName = map[string]ActionNameEnum{
+var mappingActionNameEnum = map[string]ActionNameEnum{
 	"FORWARD_TO_BACKENDSET": ActionNameForwardToBackendset,
 }
 
 // GetActionNameEnumValues Enumerates the set of values for ActionNameEnum
 func GetActionNameEnumValues() []ActionNameEnum {
 	values := make([]ActionNameEnum, 0)
-	for _, v := range mappingActionName {
+	for _, v := range mappingActionNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetActionNameEnumStringValues Enumerates the set of values in String for ActionNameEnum
+func GetActionNameEnumStringValues() []string {
+	return []string{
+		"FORWARD_TO_BACKENDSET",
+	}
 }

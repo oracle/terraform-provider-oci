@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataEntitySummaryFromView The view entity data entity details.
@@ -74,6 +76,21 @@ func (m DataEntitySummaryFromView) GetMetadata() *ObjectMetadata {
 
 func (m DataEntitySummaryFromView) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataEntitySummaryFromView) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataEntitySummaryFromViewEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetDataEntitySummaryFromViewEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -184,7 +201,7 @@ const (
 	DataEntitySummaryFromViewEntityTypeOther  DataEntitySummaryFromViewEntityTypeEnum = "OTHER"
 )
 
-var mappingDataEntitySummaryFromViewEntityType = map[string]DataEntitySummaryFromViewEntityTypeEnum{
+var mappingDataEntitySummaryFromViewEntityTypeEnum = map[string]DataEntitySummaryFromViewEntityTypeEnum{
 	"TABLE":  DataEntitySummaryFromViewEntityTypeTable,
 	"VIEW":   DataEntitySummaryFromViewEntityTypeView,
 	"FILE":   DataEntitySummaryFromViewEntityTypeFile,
@@ -196,8 +213,20 @@ var mappingDataEntitySummaryFromViewEntityType = map[string]DataEntitySummaryFro
 // GetDataEntitySummaryFromViewEntityTypeEnumValues Enumerates the set of values for DataEntitySummaryFromViewEntityTypeEnum
 func GetDataEntitySummaryFromViewEntityTypeEnumValues() []DataEntitySummaryFromViewEntityTypeEnum {
 	values := make([]DataEntitySummaryFromViewEntityTypeEnum, 0)
-	for _, v := range mappingDataEntitySummaryFromViewEntityType {
+	for _, v := range mappingDataEntitySummaryFromViewEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataEntitySummaryFromViewEntityTypeEnumStringValues Enumerates the set of values in String for DataEntitySummaryFromViewEntityTypeEnum
+func GetDataEntitySummaryFromViewEntityTypeEnumStringValues() []string {
+	return []string{
+		"TABLE",
+		"VIEW",
+		"FILE",
+		"QUEUE",
+		"STREAM",
+		"OTHER",
+	}
 }

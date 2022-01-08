@@ -5,15 +5,13 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetDeviceFingerprintChallengeRequest wrapper for the GetDeviceFingerprintChallenge operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetDeviceFingerprintChallenge.go.html to see an example of how to use GetDeviceFingerprintChallengeRequest.
 type GetDeviceFingerprintChallengeRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
@@ -34,6 +32,10 @@ func (request GetDeviceFingerprintChallengeRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetDeviceFingerprintChallengeRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -47,6 +49,17 @@ func (request GetDeviceFingerprintChallengeRequest) BinaryRequestBody() (*common
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetDeviceFingerprintChallengeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetDeviceFingerprintChallengeRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetDeviceFingerprintChallengeResponse wrapper for the GetDeviceFingerprintChallenge operation

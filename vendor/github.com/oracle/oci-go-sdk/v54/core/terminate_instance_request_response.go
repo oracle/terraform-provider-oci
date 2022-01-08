@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // TerminateInstanceRequest wrapper for the TerminateInstance operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/TerminateInstance.go.html to see an example of how to use TerminateInstanceRequest.
 type TerminateInstanceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
@@ -27,6 +25,10 @@ type TerminateInstanceRequest struct {
 	// Specifies whether to delete or preserve the boot volume when terminating an instance.
 	// When set to `true`, the boot volume is preserved. The default value is `false`.
 	PreserveBootVolume *bool `mandatory:"false" contributesTo:"query" name:"preserveBootVolume"`
+
+	// Specifies whether to delete or preserve the data volumes when terminating an instance.
+	// When set to `true`, the boot volume is preserved. The default value is `false`.
+	PreserveDataVolumes *bool `mandatory:"false" contributesTo:"query" name:"preserveDataVolumes"`
 
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -44,6 +46,10 @@ func (request TerminateInstanceRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request TerminateInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -57,6 +63,17 @@ func (request TerminateInstanceRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request TerminateInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request TerminateInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // TerminateInstanceResponse wrapper for the TerminateInstance operation

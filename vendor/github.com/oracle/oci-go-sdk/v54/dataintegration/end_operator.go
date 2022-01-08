@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // EndOperator Represents end of a pipeline
@@ -122,6 +124,21 @@ func (m EndOperator) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EndOperator) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingEndOperatorTriggerRuleEnum[string(m.TriggerRule)]; !ok && m.TriggerRule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggerRule: %s. Supported values are: %s.", m.TriggerRule, strings.Join(GetEndOperatorTriggerRuleEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m EndOperator) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeEndOperator EndOperator
@@ -146,7 +163,7 @@ const (
 	EndOperatorTriggerRuleComplete EndOperatorTriggerRuleEnum = "ALL_COMPLETE"
 )
 
-var mappingEndOperatorTriggerRule = map[string]EndOperatorTriggerRuleEnum{
+var mappingEndOperatorTriggerRuleEnum = map[string]EndOperatorTriggerRuleEnum{
 	"ALL_SUCCESS":  EndOperatorTriggerRuleSuccess,
 	"ALL_FAILED":   EndOperatorTriggerRuleFailed,
 	"ALL_COMPLETE": EndOperatorTriggerRuleComplete,
@@ -155,8 +172,17 @@ var mappingEndOperatorTriggerRule = map[string]EndOperatorTriggerRuleEnum{
 // GetEndOperatorTriggerRuleEnumValues Enumerates the set of values for EndOperatorTriggerRuleEnum
 func GetEndOperatorTriggerRuleEnumValues() []EndOperatorTriggerRuleEnum {
 	values := make([]EndOperatorTriggerRuleEnum, 0)
-	for _, v := range mappingEndOperatorTriggerRule {
+	for _, v := range mappingEndOperatorTriggerRuleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEndOperatorTriggerRuleEnumStringValues Enumerates the set of values in String for EndOperatorTriggerRuleEnum
+func GetEndOperatorTriggerRuleEnumStringValues() []string {
+	return []string{
+		"ALL_SUCCESS",
+		"ALL_FAILED",
+		"ALL_COMPLETE",
+	}
 }

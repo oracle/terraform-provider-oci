@@ -11,7 +11,9 @@ package waas
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LoadBalancingMethod The representation of LoadBalancingMethod
@@ -69,6 +71,18 @@ func (m loadbalancingmethod) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m loadbalancingmethod) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LoadBalancingMethodMethodEnum Enum with underlying type: string
 type LoadBalancingMethodMethodEnum string
 
@@ -79,7 +93,7 @@ const (
 	LoadBalancingMethodMethodStickyCookie LoadBalancingMethodMethodEnum = "STICKY_COOKIE"
 )
 
-var mappingLoadBalancingMethodMethod = map[string]LoadBalancingMethodMethodEnum{
+var mappingLoadBalancingMethodMethodEnum = map[string]LoadBalancingMethodMethodEnum{
 	"IP_HASH":       LoadBalancingMethodMethodIpHash,
 	"ROUND_ROBIN":   LoadBalancingMethodMethodRoundRobin,
 	"STICKY_COOKIE": LoadBalancingMethodMethodStickyCookie,
@@ -88,8 +102,17 @@ var mappingLoadBalancingMethodMethod = map[string]LoadBalancingMethodMethodEnum{
 // GetLoadBalancingMethodMethodEnumValues Enumerates the set of values for LoadBalancingMethodMethodEnum
 func GetLoadBalancingMethodMethodEnumValues() []LoadBalancingMethodMethodEnum {
 	values := make([]LoadBalancingMethodMethodEnum, 0)
-	for _, v := range mappingLoadBalancingMethodMethod {
+	for _, v := range mappingLoadBalancingMethodMethodEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLoadBalancingMethodMethodEnumStringValues Enumerates the set of values in String for LoadBalancingMethodMethodEnum
+func GetLoadBalancingMethodMethodEnumStringValues() []string {
+	return []string{
+		"IP_HASH",
+		"ROUND_ROBIN",
+		"STICKY_COOKIE",
+	}
 }

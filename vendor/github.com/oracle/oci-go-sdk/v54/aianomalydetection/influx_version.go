@@ -20,7 +20,7 @@ const (
 	InfluxVersionV20 InfluxVersionEnum = "V_2_0"
 )
 
-var mappingInfluxVersion = map[string]InfluxVersionEnum{
+var mappingInfluxVersionEnum = map[string]InfluxVersionEnum{
 	"V_1_8": InfluxVersionV18,
 	"V_2_0": InfluxVersionV20,
 }
@@ -28,8 +28,16 @@ var mappingInfluxVersion = map[string]InfluxVersionEnum{
 // GetInfluxVersionEnumValues Enumerates the set of values for InfluxVersionEnum
 func GetInfluxVersionEnumValues() []InfluxVersionEnum {
 	values := make([]InfluxVersionEnum, 0)
-	for _, v := range mappingInfluxVersion {
+	for _, v := range mappingInfluxVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInfluxVersionEnumStringValues Enumerates the set of values in String for InfluxVersionEnum
+func GetInfluxVersionEnumStringValues() []string {
+	return []string{
+		"V_1_8",
+		"V_2_0",
+	}
 }

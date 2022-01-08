@@ -10,7 +10,9 @@
 package databasetools
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateDatabaseToolsRelatedResourceDetails The related resource
@@ -25,4 +27,19 @@ type CreateDatabaseToolsRelatedResourceDetails struct {
 
 func (m CreateDatabaseToolsRelatedResourceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDatabaseToolsRelatedResourceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRelatedResourceEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetRelatedResourceEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -85,10 +85,6 @@ func (client *DevopsClient) ConfigurationProvider() *common.ConfigurationProvide
 }
 
 // ApproveDeployment Submit stage approval.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ApproveDeployment.go.html to see an example of how to use ApproveDeployment API.
 // A default retry strategy applies to this operation ApproveDeployment()
 func (client DevopsClient) ApproveDeployment(ctx context.Context, request ApproveDeploymentRequest) (response ApproveDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -146,10 +142,6 @@ func (client DevopsClient) approveDeployment(ctx context.Context, request common
 }
 
 // CancelBuildRun Cancels the build run based on the build run ID provided in the request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CancelBuildRun.go.html to see an example of how to use CancelBuildRun API.
 // A default retry strategy applies to this operation CancelBuildRun()
 func (client DevopsClient) CancelBuildRun(ctx context.Context, request CancelBuildRunRequest) (response CancelBuildRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -207,10 +199,6 @@ func (client DevopsClient) cancelBuildRun(ctx context.Context, request common.OC
 }
 
 // CancelDeployment Cancels a deployment resource by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CancelDeployment.go.html to see an example of how to use CancelDeployment API.
 // A default retry strategy applies to this operation CancelDeployment()
 func (client DevopsClient) CancelDeployment(ctx context.Context, request CancelDeploymentRequest) (response CancelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -268,10 +256,6 @@ func (client DevopsClient) cancelDeployment(ctx context.Context, request common.
 }
 
 // ChangeProjectCompartment Moves a project resource from one compartment OCID to another.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 // A default retry strategy applies to this operation ChangeProjectCompartment()
 func (client DevopsClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -329,10 +313,6 @@ func (client DevopsClient) changeProjectCompartment(ctx context.Context, request
 }
 
 // CreateBuildPipeline Creates a new build pipeline.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateBuildPipeline.go.html to see an example of how to use CreateBuildPipeline API.
 // A default retry strategy applies to this operation CreateBuildPipeline()
 func (client DevopsClient) CreateBuildPipeline(ctx context.Context, request CreateBuildPipelineRequest) (response CreateBuildPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -390,10 +370,6 @@ func (client DevopsClient) createBuildPipeline(ctx context.Context, request comm
 }
 
 // CreateBuildPipelineStage Creates a new stage.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateBuildPipelineStage.go.html to see an example of how to use CreateBuildPipelineStage API.
 // A default retry strategy applies to this operation CreateBuildPipelineStage()
 func (client DevopsClient) CreateBuildPipelineStage(ctx context.Context, request CreateBuildPipelineStageRequest) (response CreateBuildPipelineStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -451,10 +427,6 @@ func (client DevopsClient) createBuildPipelineStage(ctx context.Context, request
 }
 
 // CreateBuildRun Starts a build pipeline run for a predefined build pipeline.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateBuildRun.go.html to see an example of how to use CreateBuildRun API.
 // A default retry strategy applies to this operation CreateBuildRun()
 func (client DevopsClient) CreateBuildRun(ctx context.Context, request CreateBuildRunRequest) (response CreateBuildRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -512,10 +484,6 @@ func (client DevopsClient) createBuildRun(ctx context.Context, request common.OC
 }
 
 // CreateConnection Creates a new connection.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateConnection.go.html to see an example of how to use CreateConnection API.
 // A default retry strategy applies to this operation CreateConnection()
 func (client DevopsClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -573,10 +541,6 @@ func (client DevopsClient) createConnection(ctx context.Context, request common.
 }
 
 // CreateDeployArtifact Creates a new deployment artifact.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployArtifact.go.html to see an example of how to use CreateDeployArtifact API.
 // A default retry strategy applies to this operation CreateDeployArtifact()
 func (client DevopsClient) CreateDeployArtifact(ctx context.Context, request CreateDeployArtifactRequest) (response CreateDeployArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -634,10 +598,6 @@ func (client DevopsClient) createDeployArtifact(ctx context.Context, request com
 }
 
 // CreateDeployEnvironment Creates a new deployment environment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployEnvironment.go.html to see an example of how to use CreateDeployEnvironment API.
 // A default retry strategy applies to this operation CreateDeployEnvironment()
 func (client DevopsClient) CreateDeployEnvironment(ctx context.Context, request CreateDeployEnvironmentRequest) (response CreateDeployEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -695,10 +655,6 @@ func (client DevopsClient) createDeployEnvironment(ctx context.Context, request 
 }
 
 // CreateDeployPipeline Creates a new deployment pipeline.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployPipeline.go.html to see an example of how to use CreateDeployPipeline API.
 // A default retry strategy applies to this operation CreateDeployPipeline()
 func (client DevopsClient) CreateDeployPipeline(ctx context.Context, request CreateDeployPipelineRequest) (response CreateDeployPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -756,10 +712,6 @@ func (client DevopsClient) createDeployPipeline(ctx context.Context, request com
 }
 
 // CreateDeployStage Creates a new deployment stage.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployStage.go.html to see an example of how to use CreateDeployStage API.
 // A default retry strategy applies to this operation CreateDeployStage()
 func (client DevopsClient) CreateDeployStage(ctx context.Context, request CreateDeployStageRequest) (response CreateDeployStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -817,10 +769,6 @@ func (client DevopsClient) createDeployStage(ctx context.Context, request common
 }
 
 // CreateDeployment Creates a new deployment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployment.go.html to see an example of how to use CreateDeployment API.
 // A default retry strategy applies to this operation CreateDeployment()
 func (client DevopsClient) CreateDeployment(ctx context.Context, request CreateDeploymentRequest) (response CreateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -878,10 +826,6 @@ func (client DevopsClient) createDeployment(ctx context.Context, request common.
 }
 
 // CreateProject Creates a new project.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateProject.go.html to see an example of how to use CreateProject API.
 // A default retry strategy applies to this operation CreateProject()
 func (client DevopsClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -939,10 +883,6 @@ func (client DevopsClient) createProject(ctx context.Context, request common.OCI
 }
 
 // CreateRepository Creates a new repository.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateRepository.go.html to see an example of how to use CreateRepository API.
 // A default retry strategy applies to this operation CreateRepository()
 func (client DevopsClient) CreateRepository(ctx context.Context, request CreateRepositoryRequest) (response CreateRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1000,10 +940,6 @@ func (client DevopsClient) createRepository(ctx context.Context, request common.
 }
 
 // CreateTrigger Creates a new trigger.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateTrigger.go.html to see an example of how to use CreateTrigger API.
 // A default retry strategy applies to this operation CreateTrigger()
 func (client DevopsClient) CreateTrigger(ctx context.Context, request CreateTriggerRequest) (response CreateTriggerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1061,10 +997,6 @@ func (client DevopsClient) createTrigger(ctx context.Context, request common.OCI
 }
 
 // DeleteBuildPipeline Deletes a build pipeline resource by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteBuildPipeline.go.html to see an example of how to use DeleteBuildPipeline API.
 // A default retry strategy applies to this operation DeleteBuildPipeline()
 func (client DevopsClient) DeleteBuildPipeline(ctx context.Context, request DeleteBuildPipelineRequest) (response DeleteBuildPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1117,10 +1049,6 @@ func (client DevopsClient) deleteBuildPipeline(ctx context.Context, request comm
 }
 
 // DeleteBuildPipelineStage Deletes a stage based on the stage ID provided in the request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteBuildPipelineStage.go.html to see an example of how to use DeleteBuildPipelineStage API.
 // A default retry strategy applies to this operation DeleteBuildPipelineStage()
 func (client DevopsClient) DeleteBuildPipelineStage(ctx context.Context, request DeleteBuildPipelineStageRequest) (response DeleteBuildPipelineStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1173,10 +1101,6 @@ func (client DevopsClient) deleteBuildPipelineStage(ctx context.Context, request
 }
 
 // DeleteConnection Deletes a connection resource by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteConnection.go.html to see an example of how to use DeleteConnection API.
 // A default retry strategy applies to this operation DeleteConnection()
 func (client DevopsClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1229,10 +1153,6 @@ func (client DevopsClient) deleteConnection(ctx context.Context, request common.
 }
 
 // DeleteDeployArtifact Deletes a deployment artifact resource by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployArtifact.go.html to see an example of how to use DeleteDeployArtifact API.
 // A default retry strategy applies to this operation DeleteDeployArtifact()
 func (client DevopsClient) DeleteDeployArtifact(ctx context.Context, request DeleteDeployArtifactRequest) (response DeleteDeployArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1285,10 +1205,6 @@ func (client DevopsClient) deleteDeployArtifact(ctx context.Context, request com
 }
 
 // DeleteDeployEnvironment Deletes a deployment environment resource by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployEnvironment.go.html to see an example of how to use DeleteDeployEnvironment API.
 // A default retry strategy applies to this operation DeleteDeployEnvironment()
 func (client DevopsClient) DeleteDeployEnvironment(ctx context.Context, request DeleteDeployEnvironmentRequest) (response DeleteDeployEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1341,10 +1257,6 @@ func (client DevopsClient) deleteDeployEnvironment(ctx context.Context, request 
 }
 
 // DeleteDeployPipeline Deletes a deployment pipeline resource by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployPipeline.go.html to see an example of how to use DeleteDeployPipeline API.
 // A default retry strategy applies to this operation DeleteDeployPipeline()
 func (client DevopsClient) DeleteDeployPipeline(ctx context.Context, request DeleteDeployPipelineRequest) (response DeleteDeployPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1397,10 +1309,6 @@ func (client DevopsClient) deleteDeployPipeline(ctx context.Context, request com
 }
 
 // DeleteDeployStage Deletes a deployment stage resource by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployStage.go.html to see an example of how to use DeleteDeployStage API.
 // A default retry strategy applies to this operation DeleteDeployStage()
 func (client DevopsClient) DeleteDeployStage(ctx context.Context, request DeleteDeployStageRequest) (response DeleteDeployStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1453,10 +1361,6 @@ func (client DevopsClient) deleteDeployStage(ctx context.Context, request common
 }
 
 // DeleteProject Deletes a project resource by identifier
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteProject.go.html to see an example of how to use DeleteProject API.
 // A default retry strategy applies to this operation DeleteProject()
 func (client DevopsClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1509,10 +1413,6 @@ func (client DevopsClient) deleteProject(ctx context.Context, request common.OCI
 }
 
 // DeleteRef Deletes a Repository's Ref by its name. Returns an error if the name is ambiguous. Can be disambiguated by using full names like "heads/<name>" or "tags/<name>".
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteRef.go.html to see an example of how to use DeleteRef API.
 // A default retry strategy applies to this operation DeleteRef()
 func (client DevopsClient) DeleteRef(ctx context.Context, request DeleteRefRequest) (response DeleteRefResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1570,10 +1470,6 @@ func (client DevopsClient) deleteRef(ctx context.Context, request common.OCIRequ
 }
 
 // DeleteRepository Deletes a repository resource by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteRepository.go.html to see an example of how to use DeleteRepository API.
 // A default retry strategy applies to this operation DeleteRepository()
 func (client DevopsClient) DeleteRepository(ctx context.Context, request DeleteRepositoryRequest) (response DeleteRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1626,10 +1522,6 @@ func (client DevopsClient) deleteRepository(ctx context.Context, request common.
 }
 
 // DeleteTrigger Deletes a trigger resource by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteTrigger.go.html to see an example of how to use DeleteTrigger API.
 // A default retry strategy applies to this operation DeleteTrigger()
 func (client DevopsClient) DeleteTrigger(ctx context.Context, request DeleteTriggerRequest) (response DeleteTriggerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1682,10 +1574,6 @@ func (client DevopsClient) deleteTrigger(ctx context.Context, request common.OCI
 }
 
 // GetBuildPipeline Retrieves a build pipeline by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetBuildPipeline.go.html to see an example of how to use GetBuildPipeline API.
 // A default retry strategy applies to this operation GetBuildPipeline()
 func (client DevopsClient) GetBuildPipeline(ctx context.Context, request GetBuildPipelineRequest) (response GetBuildPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1738,10 +1626,6 @@ func (client DevopsClient) getBuildPipeline(ctx context.Context, request common.
 }
 
 // GetBuildPipelineStage Retrieves a stage based on the stage ID provided in the request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetBuildPipelineStage.go.html to see an example of how to use GetBuildPipelineStage API.
 // A default retry strategy applies to this operation GetBuildPipelineStage()
 func (client DevopsClient) GetBuildPipelineStage(ctx context.Context, request GetBuildPipelineStageRequest) (response GetBuildPipelineStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1794,10 +1678,6 @@ func (client DevopsClient) getBuildPipelineStage(ctx context.Context, request co
 }
 
 // GetBuildRun Returns the details of a build run for a given build run ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetBuildRun.go.html to see an example of how to use GetBuildRun API.
 // A default retry strategy applies to this operation GetBuildRun()
 func (client DevopsClient) GetBuildRun(ctx context.Context, request GetBuildRunRequest) (response GetBuildRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1850,10 +1730,6 @@ func (client DevopsClient) getBuildRun(ctx context.Context, request common.OCIRe
 }
 
 // GetCommit Retrieves a repository's commit by commit ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetCommit.go.html to see an example of how to use GetCommit API.
 // A default retry strategy applies to this operation GetCommit()
 func (client DevopsClient) GetCommit(ctx context.Context, request GetCommitRequest) (response GetCommitResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1906,10 +1782,6 @@ func (client DevopsClient) getCommit(ctx context.Context, request common.OCIRequ
 }
 
 // GetCommitDiff Compares two revisions for their differences. Supports comparison between two references or commits.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetCommitDiff.go.html to see an example of how to use GetCommitDiff API.
 // A default retry strategy applies to this operation GetCommitDiff()
 func (client DevopsClient) GetCommitDiff(ctx context.Context, request GetCommitDiffRequest) (response GetCommitDiffResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1962,10 +1834,6 @@ func (client DevopsClient) getCommitDiff(ctx context.Context, request common.OCI
 }
 
 // GetConnection Retrieves a connection by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetConnection.go.html to see an example of how to use GetConnection API.
 // A default retry strategy applies to this operation GetConnection()
 func (client DevopsClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2018,10 +1886,6 @@ func (client DevopsClient) getConnection(ctx context.Context, request common.OCI
 }
 
 // GetDeployArtifact Retrieves a deployment artifact by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployArtifact.go.html to see an example of how to use GetDeployArtifact API.
 // A default retry strategy applies to this operation GetDeployArtifact()
 func (client DevopsClient) GetDeployArtifact(ctx context.Context, request GetDeployArtifactRequest) (response GetDeployArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2074,10 +1938,6 @@ func (client DevopsClient) getDeployArtifact(ctx context.Context, request common
 }
 
 // GetDeployEnvironment Retrieves a deployment environment by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployEnvironment.go.html to see an example of how to use GetDeployEnvironment API.
 // A default retry strategy applies to this operation GetDeployEnvironment()
 func (client DevopsClient) GetDeployEnvironment(ctx context.Context, request GetDeployEnvironmentRequest) (response GetDeployEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2130,10 +1990,6 @@ func (client DevopsClient) getDeployEnvironment(ctx context.Context, request com
 }
 
 // GetDeployPipeline Retrieves a deployment pipeline by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployPipeline.go.html to see an example of how to use GetDeployPipeline API.
 // A default retry strategy applies to this operation GetDeployPipeline()
 func (client DevopsClient) GetDeployPipeline(ctx context.Context, request GetDeployPipelineRequest) (response GetDeployPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2186,10 +2042,6 @@ func (client DevopsClient) getDeployPipeline(ctx context.Context, request common
 }
 
 // GetDeployStage Retrieves a deployment stage by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployStage.go.html to see an example of how to use GetDeployStage API.
 // A default retry strategy applies to this operation GetDeployStage()
 func (client DevopsClient) GetDeployStage(ctx context.Context, request GetDeployStageRequest) (response GetDeployStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2242,10 +2094,6 @@ func (client DevopsClient) getDeployStage(ctx context.Context, request common.OC
 }
 
 // GetDeployment Retrieves a deployment by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployment.go.html to see an example of how to use GetDeployment API.
 // A default retry strategy applies to this operation GetDeployment()
 func (client DevopsClient) GetDeployment(ctx context.Context, request GetDeploymentRequest) (response GetDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2298,10 +2146,6 @@ func (client DevopsClient) getDeployment(ctx context.Context, request common.OCI
 }
 
 // GetFileDiff Gets the line-by-line difference between files on different commits.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetFileDiff.go.html to see an example of how to use GetFileDiff API.
 // A default retry strategy applies to this operation GetFileDiff()
 func (client DevopsClient) GetFileDiff(ctx context.Context, request GetFileDiffRequest) (response GetFileDiffResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2354,10 +2198,6 @@ func (client DevopsClient) getFileDiff(ctx context.Context, request common.OCIRe
 }
 
 // GetMirrorRecord Returns either current mirror record or last successful mirror record for a specific mirror repository.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetMirrorRecord.go.html to see an example of how to use GetMirrorRecord API.
 // A default retry strategy applies to this operation GetMirrorRecord()
 func (client DevopsClient) GetMirrorRecord(ctx context.Context, request GetMirrorRecordRequest) (response GetMirrorRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2410,10 +2250,6 @@ func (client DevopsClient) getMirrorRecord(ctx context.Context, request common.O
 }
 
 // GetObject Retrieves blob of specific branch name/commit ID and file path.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetObject.go.html to see an example of how to use GetObject API.
 // A default retry strategy applies to this operation GetObject()
 func (client DevopsClient) GetObject(ctx context.Context, request GetObjectRequest) (response GetObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2466,10 +2302,6 @@ func (client DevopsClient) getObject(ctx context.Context, request common.OCIRequ
 }
 
 // GetObjectContent Retrieve contents of a specified object.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetObjectContent.go.html to see an example of how to use GetObjectContent API.
 // A default retry strategy applies to this operation GetObjectContent()
 func (client DevopsClient) GetObjectContent(ctx context.Context, request GetObjectContentRequest) (response GetObjectContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2521,10 +2353,6 @@ func (client DevopsClient) getObjectContent(ctx context.Context, request common.
 }
 
 // GetProject Retrieves a project by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetProject.go.html to see an example of how to use GetProject API.
 // A default retry strategy applies to this operation GetProject()
 func (client DevopsClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2577,10 +2405,6 @@ func (client DevopsClient) getProject(ctx context.Context, request common.OCIReq
 }
 
 // GetRef Retrieves a repository's reference by its name with preference for branches over tags if the name is ambiguous. This can be disambiguated by using full names like "heads/<name>" or "tags/<name>".
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRef.go.html to see an example of how to use GetRef API.
 // A default retry strategy applies to this operation GetRef()
 func (client DevopsClient) GetRef(ctx context.Context, request GetRefRequest) (response GetRefResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2633,10 +2457,6 @@ func (client DevopsClient) getRef(ctx context.Context, request common.OCIRequest
 }
 
 // GetRepository Retrieves a repository by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepository.go.html to see an example of how to use GetRepository API.
 // A default retry strategy applies to this operation GetRepository()
 func (client DevopsClient) GetRepository(ctx context.Context, request GetRepositoryRequest) (response GetRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2689,10 +2509,6 @@ func (client DevopsClient) getRepository(ctx context.Context, request common.OCI
 }
 
 // GetRepositoryArchiveContent Returns the archived repository information.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepositoryArchiveContent.go.html to see an example of how to use GetRepositoryArchiveContent API.
 // A default retry strategy applies to this operation GetRepositoryArchiveContent()
 func (client DevopsClient) GetRepositoryArchiveContent(ctx context.Context, request GetRepositoryArchiveContentRequest) (response GetRepositoryArchiveContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2744,10 +2560,6 @@ func (client DevopsClient) getRepositoryArchiveContent(ctx context.Context, requ
 }
 
 // GetRepositoryFileLines Retrieve lines of a specified file. Supports starting line number and limit.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepositoryFileLines.go.html to see an example of how to use GetRepositoryFileLines API.
 // A default retry strategy applies to this operation GetRepositoryFileLines()
 func (client DevopsClient) GetRepositoryFileLines(ctx context.Context, request GetRepositoryFileLinesRequest) (response GetRepositoryFileLinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2800,10 +2612,6 @@ func (client DevopsClient) getRepositoryFileLines(ctx context.Context, request c
 }
 
 // GetTrigger Retrieves a trigger by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetTrigger.go.html to see an example of how to use GetTrigger API.
 // A default retry strategy applies to this operation GetTrigger()
 func (client DevopsClient) GetTrigger(ctx context.Context, request GetTriggerRequest) (response GetTriggerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2856,10 +2664,6 @@ func (client DevopsClient) getTrigger(ctx context.Context, request common.OCIReq
 }
 
 // GetWorkRequest Retrieves the status of the work request with the given ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DevopsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2912,10 +2716,6 @@ func (client DevopsClient) getWorkRequest(ctx context.Context, request common.OC
 }
 
 // ListAuthors Retrieve a list of all the authors.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListAuthors.go.html to see an example of how to use ListAuthors API.
 // A default retry strategy applies to this operation ListAuthors()
 func (client DevopsClient) ListAuthors(ctx context.Context, request ListAuthorsRequest) (response ListAuthorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2968,10 +2768,6 @@ func (client DevopsClient) listAuthors(ctx context.Context, request common.OCIRe
 }
 
 // ListBuildPipelineStages Returns a list of all stages in a compartment or build pipeline.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListBuildPipelineStages.go.html to see an example of how to use ListBuildPipelineStages API.
 // A default retry strategy applies to this operation ListBuildPipelineStages()
 func (client DevopsClient) ListBuildPipelineStages(ctx context.Context, request ListBuildPipelineStagesRequest) (response ListBuildPipelineStagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3024,10 +2820,6 @@ func (client DevopsClient) listBuildPipelineStages(ctx context.Context, request 
 }
 
 // ListBuildPipelines Returns a list of build pipelines.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListBuildPipelines.go.html to see an example of how to use ListBuildPipelines API.
 // A default retry strategy applies to this operation ListBuildPipelines()
 func (client DevopsClient) ListBuildPipelines(ctx context.Context, request ListBuildPipelinesRequest) (response ListBuildPipelinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3080,10 +2872,6 @@ func (client DevopsClient) listBuildPipelines(ctx context.Context, request commo
 }
 
 // ListBuildRuns Returns a list of build run summary.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListBuildRuns.go.html to see an example of how to use ListBuildRuns API.
 // A default retry strategy applies to this operation ListBuildRuns()
 func (client DevopsClient) ListBuildRuns(ctx context.Context, request ListBuildRunsRequest) (response ListBuildRunsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3136,10 +2924,6 @@ func (client DevopsClient) listBuildRuns(ctx context.Context, request common.OCI
 }
 
 // ListCommitDiffs Compares two revisions and lists the differences. Supports comparison between two references or commits.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListCommitDiffs.go.html to see an example of how to use ListCommitDiffs API.
 // A default retry strategy applies to this operation ListCommitDiffs()
 func (client DevopsClient) ListCommitDiffs(ctx context.Context, request ListCommitDiffsRequest) (response ListCommitDiffsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3192,10 +2976,6 @@ func (client DevopsClient) listCommitDiffs(ctx context.Context, request common.O
 }
 
 // ListCommits Returns a list of commits.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListCommits.go.html to see an example of how to use ListCommits API.
 // A default retry strategy applies to this operation ListCommits()
 func (client DevopsClient) ListCommits(ctx context.Context, request ListCommitsRequest) (response ListCommitsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3248,10 +3028,6 @@ func (client DevopsClient) listCommits(ctx context.Context, request common.OCIRe
 }
 
 // ListConnections Returns a list of connections.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListConnections.go.html to see an example of how to use ListConnections API.
 // A default retry strategy applies to this operation ListConnections()
 func (client DevopsClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3304,10 +3080,6 @@ func (client DevopsClient) listConnections(ctx context.Context, request common.O
 }
 
 // ListDeployArtifacts Returns a list of deployment artifacts.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployArtifacts.go.html to see an example of how to use ListDeployArtifacts API.
 // A default retry strategy applies to this operation ListDeployArtifacts()
 func (client DevopsClient) ListDeployArtifacts(ctx context.Context, request ListDeployArtifactsRequest) (response ListDeployArtifactsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3360,10 +3132,6 @@ func (client DevopsClient) listDeployArtifacts(ctx context.Context, request comm
 }
 
 // ListDeployEnvironments Returns a list of deployment environments.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployEnvironments.go.html to see an example of how to use ListDeployEnvironments API.
 // A default retry strategy applies to this operation ListDeployEnvironments()
 func (client DevopsClient) ListDeployEnvironments(ctx context.Context, request ListDeployEnvironmentsRequest) (response ListDeployEnvironmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3416,10 +3184,6 @@ func (client DevopsClient) listDeployEnvironments(ctx context.Context, request c
 }
 
 // ListDeployPipelines Returns a list of deployment pipelines.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployPipelines.go.html to see an example of how to use ListDeployPipelines API.
 // A default retry strategy applies to this operation ListDeployPipelines()
 func (client DevopsClient) ListDeployPipelines(ctx context.Context, request ListDeployPipelinesRequest) (response ListDeployPipelinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3472,10 +3236,6 @@ func (client DevopsClient) listDeployPipelines(ctx context.Context, request comm
 }
 
 // ListDeployStages Retrieves a list of deployment stages.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployStages.go.html to see an example of how to use ListDeployStages API.
 // A default retry strategy applies to this operation ListDeployStages()
 func (client DevopsClient) ListDeployStages(ctx context.Context, request ListDeployStagesRequest) (response ListDeployStagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3528,10 +3288,6 @@ func (client DevopsClient) listDeployStages(ctx context.Context, request common.
 }
 
 // ListDeployments Returns a list of deployments.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployments.go.html to see an example of how to use ListDeployments API.
 // A default retry strategy applies to this operation ListDeployments()
 func (client DevopsClient) ListDeployments(ctx context.Context, request ListDeploymentsRequest) (response ListDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3584,10 +3340,6 @@ func (client DevopsClient) listDeployments(ctx context.Context, request common.O
 }
 
 // ListMirrorRecords Returns a list of mirror entry in history within 30 days.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListMirrorRecords.go.html to see an example of how to use ListMirrorRecords API.
 // A default retry strategy applies to this operation ListMirrorRecords()
 func (client DevopsClient) ListMirrorRecords(ctx context.Context, request ListMirrorRecordsRequest) (response ListMirrorRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3640,10 +3392,6 @@ func (client DevopsClient) listMirrorRecords(ctx context.Context, request common
 }
 
 // ListPaths Retrieves a list of files and directories in a repository.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListPaths.go.html to see an example of how to use ListPaths API.
 // A default retry strategy applies to this operation ListPaths()
 func (client DevopsClient) ListPaths(ctx context.Context, request ListPathsRequest) (response ListPathsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3696,10 +3444,6 @@ func (client DevopsClient) listPaths(ctx context.Context, request common.OCIRequ
 }
 
 // ListProjects Returns a list of projects.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListProjects.go.html to see an example of how to use ListProjects API.
 // A default retry strategy applies to this operation ListProjects()
 func (client DevopsClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3752,10 +3496,6 @@ func (client DevopsClient) listProjects(ctx context.Context, request common.OCIR
 }
 
 // ListRefs Returns a list of references.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListRefs.go.html to see an example of how to use ListRefs API.
 // A default retry strategy applies to this operation ListRefs()
 func (client DevopsClient) ListRefs(ctx context.Context, request ListRefsRequest) (response ListRefsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3808,10 +3548,6 @@ func (client DevopsClient) listRefs(ctx context.Context, request common.OCIReque
 }
 
 // ListRepositories Returns a list of repositories given a compartment ID or a project ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListRepositories.go.html to see an example of how to use ListRepositories API.
 // A default retry strategy applies to this operation ListRepositories()
 func (client DevopsClient) ListRepositories(ctx context.Context, request ListRepositoriesRequest) (response ListRepositoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3864,10 +3600,6 @@ func (client DevopsClient) listRepositories(ctx context.Context, request common.
 }
 
 // ListTriggers Returns a list of triggers.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListTriggers.go.html to see an example of how to use ListTriggers API.
 // A default retry strategy applies to this operation ListTriggers()
 func (client DevopsClient) ListTriggers(ctx context.Context, request ListTriggersRequest) (response ListTriggersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3920,10 +3652,6 @@ func (client DevopsClient) listTriggers(ctx context.Context, request common.OCIR
 }
 
 // ListWorkRequestErrors Returns a list of errors for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DevopsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3976,10 +3704,6 @@ func (client DevopsClient) listWorkRequestErrors(ctx context.Context, request co
 }
 
 // ListWorkRequestLogs Returns a list of logs for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DevopsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4032,10 +3756,6 @@ func (client DevopsClient) listWorkRequestLogs(ctx context.Context, request comm
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DevopsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4088,10 +3808,6 @@ func (client DevopsClient) listWorkRequests(ctx context.Context, request common.
 }
 
 // MirrorRepository Synchronize a mirrored repository to the latest version from external providers.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/MirrorRepository.go.html to see an example of how to use MirrorRepository API.
 // A default retry strategy applies to this operation MirrorRepository()
 func (client DevopsClient) MirrorRepository(ctx context.Context, request MirrorRepositoryRequest) (response MirrorRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4144,10 +3860,6 @@ func (client DevopsClient) mirrorRepository(ctx context.Context, request common.
 }
 
 // PutRepositoryRef Creates a new reference or updates an existing one.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/PutRepositoryRef.go.html to see an example of how to use PutRepositoryRef API.
 // A default retry strategy applies to this operation PutRepositoryRef()
 func (client DevopsClient) PutRepositoryRef(ctx context.Context, request PutRepositoryRefRequest) (response PutRepositoryRefResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4205,10 +3917,6 @@ func (client DevopsClient) putRepositoryRef(ctx context.Context, request common.
 }
 
 // UpdateBuildPipeline Updates the build pipeline.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateBuildPipeline.go.html to see an example of how to use UpdateBuildPipeline API.
 // A default retry strategy applies to this operation UpdateBuildPipeline()
 func (client DevopsClient) UpdateBuildPipeline(ctx context.Context, request UpdateBuildPipelineRequest) (response UpdateBuildPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4261,10 +3969,6 @@ func (client DevopsClient) updateBuildPipeline(ctx context.Context, request comm
 }
 
 // UpdateBuildPipelineStage Updates the stage based on the stage ID provided in the request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateBuildPipelineStage.go.html to see an example of how to use UpdateBuildPipelineStage API.
 // A default retry strategy applies to this operation UpdateBuildPipelineStage()
 func (client DevopsClient) UpdateBuildPipelineStage(ctx context.Context, request UpdateBuildPipelineStageRequest) (response UpdateBuildPipelineStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4317,10 +4021,6 @@ func (client DevopsClient) updateBuildPipelineStage(ctx context.Context, request
 }
 
 // UpdateBuildRun Updates the build run.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateBuildRun.go.html to see an example of how to use UpdateBuildRun API.
 // A default retry strategy applies to this operation UpdateBuildRun()
 func (client DevopsClient) UpdateBuildRun(ctx context.Context, request UpdateBuildRunRequest) (response UpdateBuildRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4373,10 +4073,6 @@ func (client DevopsClient) updateBuildRun(ctx context.Context, request common.OC
 }
 
 // UpdateConnection Updates the connection.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateConnection.go.html to see an example of how to use UpdateConnection API.
 // A default retry strategy applies to this operation UpdateConnection()
 func (client DevopsClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4429,10 +4125,6 @@ func (client DevopsClient) updateConnection(ctx context.Context, request common.
 }
 
 // UpdateDeployArtifact Updates the deployment artifact.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployArtifact.go.html to see an example of how to use UpdateDeployArtifact API.
 // A default retry strategy applies to this operation UpdateDeployArtifact()
 func (client DevopsClient) UpdateDeployArtifact(ctx context.Context, request UpdateDeployArtifactRequest) (response UpdateDeployArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4485,10 +4177,6 @@ func (client DevopsClient) updateDeployArtifact(ctx context.Context, request com
 }
 
 // UpdateDeployEnvironment Updates the deployment environment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployEnvironment.go.html to see an example of how to use UpdateDeployEnvironment API.
 // A default retry strategy applies to this operation UpdateDeployEnvironment()
 func (client DevopsClient) UpdateDeployEnvironment(ctx context.Context, request UpdateDeployEnvironmentRequest) (response UpdateDeployEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4541,10 +4229,6 @@ func (client DevopsClient) updateDeployEnvironment(ctx context.Context, request 
 }
 
 // UpdateDeployPipeline Updates the deployment pipeline.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployPipeline.go.html to see an example of how to use UpdateDeployPipeline API.
 // A default retry strategy applies to this operation UpdateDeployPipeline()
 func (client DevopsClient) UpdateDeployPipeline(ctx context.Context, request UpdateDeployPipelineRequest) (response UpdateDeployPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4597,10 +4281,6 @@ func (client DevopsClient) updateDeployPipeline(ctx context.Context, request com
 }
 
 // UpdateDeployStage Updates the deployment stage.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployStage.go.html to see an example of how to use UpdateDeployStage API.
 // A default retry strategy applies to this operation UpdateDeployStage()
 func (client DevopsClient) UpdateDeployStage(ctx context.Context, request UpdateDeployStageRequest) (response UpdateDeployStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4653,10 +4333,6 @@ func (client DevopsClient) updateDeployStage(ctx context.Context, request common
 }
 
 // UpdateDeployment Updates the deployment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployment.go.html to see an example of how to use UpdateDeployment API.
 // A default retry strategy applies to this operation UpdateDeployment()
 func (client DevopsClient) UpdateDeployment(ctx context.Context, request UpdateDeploymentRequest) (response UpdateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4709,10 +4385,6 @@ func (client DevopsClient) updateDeployment(ctx context.Context, request common.
 }
 
 // UpdateProject Updates the project.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateProject.go.html to see an example of how to use UpdateProject API.
 // A default retry strategy applies to this operation UpdateProject()
 func (client DevopsClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4765,10 +4437,6 @@ func (client DevopsClient) updateProject(ctx context.Context, request common.OCI
 }
 
 // UpdateRepository Updates the repository.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateRepository.go.html to see an example of how to use UpdateRepository API.
 // A default retry strategy applies to this operation UpdateRepository()
 func (client DevopsClient) UpdateRepository(ctx context.Context, request UpdateRepositoryRequest) (response UpdateRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4821,10 +4489,6 @@ func (client DevopsClient) updateRepository(ctx context.Context, request common.
 }
 
 // UpdateTrigger Updates the trigger.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateTrigger.go.html to see an example of how to use UpdateTrigger API.
 // A default retry strategy applies to this operation UpdateTrigger()
 func (client DevopsClient) UpdateTrigger(ctx context.Context, request UpdateTriggerRequest) (response UpdateTriggerResponse, err error) {
 	var ociResponse common.OCIResponse

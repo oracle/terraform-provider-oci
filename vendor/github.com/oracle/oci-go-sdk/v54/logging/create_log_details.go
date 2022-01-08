@@ -10,7 +10,9 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateLogDetails The details to create a log object.
@@ -46,6 +48,21 @@ func (m CreateLogDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateLogDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateLogDetailsLogTypeEnum[string(m.LogType)]; !ok && m.LogType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogType: %s. Supported values are: %s.", m.LogType, strings.Join(GetCreateLogDetailsLogTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateLogDetailsLogTypeEnum Enum with underlying type: string
 type CreateLogDetailsLogTypeEnum string
 
@@ -55,7 +72,7 @@ const (
 	CreateLogDetailsLogTypeService CreateLogDetailsLogTypeEnum = "SERVICE"
 )
 
-var mappingCreateLogDetailsLogType = map[string]CreateLogDetailsLogTypeEnum{
+var mappingCreateLogDetailsLogTypeEnum = map[string]CreateLogDetailsLogTypeEnum{
 	"CUSTOM":  CreateLogDetailsLogTypeCustom,
 	"SERVICE": CreateLogDetailsLogTypeService,
 }
@@ -63,8 +80,16 @@ var mappingCreateLogDetailsLogType = map[string]CreateLogDetailsLogTypeEnum{
 // GetCreateLogDetailsLogTypeEnumValues Enumerates the set of values for CreateLogDetailsLogTypeEnum
 func GetCreateLogDetailsLogTypeEnumValues() []CreateLogDetailsLogTypeEnum {
 	values := make([]CreateLogDetailsLogTypeEnum, 0)
-	for _, v := range mappingCreateLogDetailsLogType {
+	for _, v := range mappingCreateLogDetailsLogTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateLogDetailsLogTypeEnumStringValues Enumerates the set of values in String for CreateLogDetailsLogTypeEnum
+func GetCreateLogDetailsLogTypeEnumStringValues() []string {
+	return []string{
+		"CUSTOM",
+		"SERVICE",
+	}
 }

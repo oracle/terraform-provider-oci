@@ -10,7 +10,9 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ManagementAgentPluginSummary Summary of the ManagementAgentPlugin.
@@ -43,4 +45,25 @@ type ManagementAgentPluginSummary struct {
 
 func (m ManagementAgentPluginSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ManagementAgentPluginSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLifecycleStatesEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
+
+	for _, val := range m.SupportedPlatformTypes {
+		if _, ok := mappingPlatformTypesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SupportedPlatformTypes: %s. Supported values are: %s.", val, strings.Join(GetPlatformTypesEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

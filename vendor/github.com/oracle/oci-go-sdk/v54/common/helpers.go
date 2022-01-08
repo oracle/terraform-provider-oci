@@ -286,7 +286,6 @@ func makeACopy(original []string) []string {
 
 // IsEnvVarFalse is used for checking if an environment variable is explicitly set to false, otherwise would set it true by default
 func IsEnvVarFalse(envVarKey string) bool {
-	return false
 	val, existed := os.LookupEnv(envVarKey)
 	return existed && strings.ToLower(val) == "false"
 }

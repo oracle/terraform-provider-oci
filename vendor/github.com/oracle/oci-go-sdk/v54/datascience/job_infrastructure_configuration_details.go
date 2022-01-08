@@ -11,7 +11,9 @@ package datascience
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // JobInfrastructureConfigurationDetails The job infrastructure configuration details (shape, block storage, etc.)
@@ -48,6 +50,10 @@ func (m *jobinfrastructureconfigurationdetails) UnmarshalPolymorphicJSON(data []
 
 	var err error
 	switch m.JobInfrastructureType {
+	case "ME_STANDALONE":
+		mm := ManagedEgressStandaloneJobInfrastructureConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STANDALONE":
 		mm := StandaloneJobInfrastructureConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -61,23 +67,45 @@ func (m jobinfrastructureconfigurationdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m jobinfrastructureconfigurationdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum Enum with underlying type: string
 type JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum string
 
 // Set of constants representing the allowable values for JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum
 const (
-	JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "STANDALONE"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone   JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "STANDALONE"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "ME_STANDALONE"
 )
 
-var mappingJobInfrastructureConfigurationDetailsJobInfrastructureType = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
-	"STANDALONE": JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
+var mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
+	"STANDALONE":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
+	"ME_STANDALONE": JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
 }
 
 // GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumValues Enumerates the set of values for JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum
 func GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumValues() []JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum {
 	values := make([]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum, 0)
-	for _, v := range mappingJobInfrastructureConfigurationDetailsJobInfrastructureType {
+	for _, v := range mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumStringValues Enumerates the set of values in String for JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum
+func GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumStringValues() []string {
+	return []string{
+		"STANDALONE",
+		"ME_STANDALONE",
+	}
 }

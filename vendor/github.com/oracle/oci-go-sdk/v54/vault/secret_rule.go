@@ -11,7 +11,9 @@ package vault
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SecretRule A rule that you can apply to a secret to enforce certain conditions on the secret's usage and management.
@@ -65,6 +67,18 @@ func (m secretrule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m secretrule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecretRuleRuleTypeEnum Enum with underlying type: string
 type SecretRuleRuleTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	SecretRuleRuleTypeReuseRule  SecretRuleRuleTypeEnum = "SECRET_REUSE_RULE"
 )
 
-var mappingSecretRuleRuleType = map[string]SecretRuleRuleTypeEnum{
+var mappingSecretRuleRuleTypeEnum = map[string]SecretRuleRuleTypeEnum{
 	"SECRET_EXPIRY_RULE": SecretRuleRuleTypeExpiryRule,
 	"SECRET_REUSE_RULE":  SecretRuleRuleTypeReuseRule,
 }
@@ -82,8 +96,16 @@ var mappingSecretRuleRuleType = map[string]SecretRuleRuleTypeEnum{
 // GetSecretRuleRuleTypeEnumValues Enumerates the set of values for SecretRuleRuleTypeEnum
 func GetSecretRuleRuleTypeEnumValues() []SecretRuleRuleTypeEnum {
 	values := make([]SecretRuleRuleTypeEnum, 0)
-	for _, v := range mappingSecretRuleRuleType {
+	for _, v := range mappingSecretRuleRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecretRuleRuleTypeEnumStringValues Enumerates the set of values in String for SecretRuleRuleTypeEnum
+func GetSecretRuleRuleTypeEnumStringValues() []string {
+	return []string{
+		"SECRET_EXPIRY_RULE",
+		"SECRET_REUSE_RULE",
+	}
 }

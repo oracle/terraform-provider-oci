@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Union The information about a union object.
@@ -122,6 +124,21 @@ func (m Union) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Union) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUnionUnionTypeEnum[string(m.UnionType)]; !ok && m.UnionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UnionType: %s. Supported values are: %s.", m.UnionType, strings.Join(GetUnionUnionTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m Union) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeUnion Union
@@ -145,7 +162,7 @@ const (
 	UnionUnionTypePosition UnionUnionTypeEnum = "POSITION"
 )
 
-var mappingUnionUnionType = map[string]UnionUnionTypeEnum{
+var mappingUnionUnionTypeEnum = map[string]UnionUnionTypeEnum{
 	"NAME":     UnionUnionTypeName,
 	"POSITION": UnionUnionTypePosition,
 }
@@ -153,8 +170,16 @@ var mappingUnionUnionType = map[string]UnionUnionTypeEnum{
 // GetUnionUnionTypeEnumValues Enumerates the set of values for UnionUnionTypeEnum
 func GetUnionUnionTypeEnumValues() []UnionUnionTypeEnum {
 	values := make([]UnionUnionTypeEnum, 0)
-	for _, v := range mappingUnionUnionType {
+	for _, v := range mappingUnionUnionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUnionUnionTypeEnumStringValues Enumerates the set of values in String for UnionUnionTypeEnum
+func GetUnionUnionTypeEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"POSITION",
+	}
 }

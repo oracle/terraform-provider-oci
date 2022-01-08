@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Finding The particular finding reported by the security assessment.
@@ -42,6 +44,21 @@ func (m Finding) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Finding) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingFindingSeverityEnum[string(m.Severity)]; !ok && m.Severity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetFindingSeverityEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FindingSeverityEnum Enum with underlying type: string
 type FindingSeverityEnum string
 
@@ -55,7 +72,7 @@ const (
 	FindingSeverityPass     FindingSeverityEnum = "PASS"
 )
 
-var mappingFindingSeverity = map[string]FindingSeverityEnum{
+var mappingFindingSeverityEnum = map[string]FindingSeverityEnum{
 	"HIGH":     FindingSeverityHigh,
 	"MEDIUM":   FindingSeverityMedium,
 	"LOW":      FindingSeverityLow,
@@ -67,8 +84,20 @@ var mappingFindingSeverity = map[string]FindingSeverityEnum{
 // GetFindingSeverityEnumValues Enumerates the set of values for FindingSeverityEnum
 func GetFindingSeverityEnumValues() []FindingSeverityEnum {
 	values := make([]FindingSeverityEnum, 0)
-	for _, v := range mappingFindingSeverity {
+	for _, v := range mappingFindingSeverityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFindingSeverityEnumStringValues Enumerates the set of values in String for FindingSeverityEnum
+func GetFindingSeverityEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"EVALUATE",
+		"ADVISORY",
+		"PASS",
+	}
 }

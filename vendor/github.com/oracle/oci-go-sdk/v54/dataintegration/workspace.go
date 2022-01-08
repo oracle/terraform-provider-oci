@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Workspace A workspace is an organizational construct to keep multiple data integration solutions and their resources (data assets, data flows, tasks, and so on) separate from each other, helping you to stay organized. For example, you could have separate workspaces for development, testing, and production.
@@ -79,6 +81,21 @@ func (m Workspace) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Workspace) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingWorkspaceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetWorkspaceLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkspaceLifecycleStateEnum Enum with underlying type: string
 type WorkspaceLifecycleStateEnum string
 
@@ -96,7 +113,7 @@ const (
 	WorkspaceLifecycleStateStopped  WorkspaceLifecycleStateEnum = "STOPPED"
 )
 
-var mappingWorkspaceLifecycleState = map[string]WorkspaceLifecycleStateEnum{
+var mappingWorkspaceLifecycleStateEnum = map[string]WorkspaceLifecycleStateEnum{
 	"CREATING": WorkspaceLifecycleStateCreating,
 	"ACTIVE":   WorkspaceLifecycleStateActive,
 	"INACTIVE": WorkspaceLifecycleStateInactive,
@@ -112,8 +129,24 @@ var mappingWorkspaceLifecycleState = map[string]WorkspaceLifecycleStateEnum{
 // GetWorkspaceLifecycleStateEnumValues Enumerates the set of values for WorkspaceLifecycleStateEnum
 func GetWorkspaceLifecycleStateEnumValues() []WorkspaceLifecycleStateEnum {
 	values := make([]WorkspaceLifecycleStateEnum, 0)
-	for _, v := range mappingWorkspaceLifecycleState {
+	for _, v := range mappingWorkspaceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkspaceLifecycleStateEnumStringValues Enumerates the set of values in String for WorkspaceLifecycleStateEnum
+func GetWorkspaceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"STARTING",
+		"STOPPING",
+		"STOPPED",
+	}
 }

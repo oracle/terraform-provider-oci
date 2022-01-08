@@ -10,7 +10,9 @@
 package integration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CustomEndpointDetails Details for a custom endpoint for the integration instance.
@@ -24,8 +26,23 @@ type CustomEndpointDetails struct {
 
 	// The secret version used for the certificate-secret-id (if certificate-secret-id is specified).
 	CertificateSecretVersion *int `mandatory:"false" json:"certificateSecretVersion"`
+
+	// When creating the DNS CNAME record for the custom hostname, this value must be specified in the rdata.
+	Alias *string `mandatory:"false" json:"alias"`
 }
 
 func (m CustomEndpointDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CustomEndpointDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

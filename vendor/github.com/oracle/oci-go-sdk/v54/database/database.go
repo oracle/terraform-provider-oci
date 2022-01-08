@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Database The representation of Database
@@ -75,8 +77,17 @@ type Database struct {
 	// The Connection strings used to connect to the Oracle Database.
 	ConnectionStrings *DatabaseConnectionStrings `mandatory:"false" json:"connectionStrings"`
 
+	// The date and time when the latest remote automatic incremental database backup was created.
+	LastRemoteBackupTimestamp *common.SDKTime `mandatory:"false" json:"lastRemoteBackupTimestamp"`
+
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339)
 	SourceDatabasePointInTimeRecoveryTimestamp *common.SDKTime `mandatory:"false" json:"sourceDatabasePointInTimeRecoveryTimestamp"`
@@ -97,6 +108,21 @@ func (m Database) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Database) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatabaseLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseLifecycleStateEnum Enum with underlying type: string
 type DatabaseLifecycleStateEnum string
 
@@ -114,7 +140,7 @@ const (
 	DatabaseLifecycleStateFailed           DatabaseLifecycleStateEnum = "FAILED"
 )
 
-var mappingDatabaseLifecycleState = map[string]DatabaseLifecycleStateEnum{
+var mappingDatabaseLifecycleStateEnum = map[string]DatabaseLifecycleStateEnum{
 	"PROVISIONING":       DatabaseLifecycleStateProvisioning,
 	"AVAILABLE":          DatabaseLifecycleStateAvailable,
 	"UPDATING":           DatabaseLifecycleStateUpdating,
@@ -130,8 +156,24 @@ var mappingDatabaseLifecycleState = map[string]DatabaseLifecycleStateEnum{
 // GetDatabaseLifecycleStateEnumValues Enumerates the set of values for DatabaseLifecycleStateEnum
 func GetDatabaseLifecycleStateEnumValues() []DatabaseLifecycleStateEnum {
 	values := make([]DatabaseLifecycleStateEnum, 0)
-	for _, v := range mappingDatabaseLifecycleState {
+	for _, v := range mappingDatabaseLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseLifecycleStateEnumStringValues Enumerates the set of values in String for DatabaseLifecycleStateEnum
+func GetDatabaseLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"BACKUP_IN_PROGRESS",
+		"UPGRADING",
+		"CONVERTING",
+		"TERMINATING",
+		"TERMINATED",
+		"RESTORE_FAILED",
+		"FAILED",
+	}
 }

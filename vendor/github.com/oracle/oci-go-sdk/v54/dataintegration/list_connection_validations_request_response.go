@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListConnectionValidationsRequest wrapper for the ListConnectionValidations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListConnectionValidations.go.html to see an example of how to use ListConnectionValidationsRequest.
 type ListConnectionValidationsRequest struct {
 
 	// The workspace ID.
@@ -60,6 +58,10 @@ func (request ListConnectionValidationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListConnectionValidationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,23 @@ func (request ListConnectionValidationsRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListConnectionValidationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListConnectionValidationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListConnectionValidationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListConnectionValidationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListConnectionValidationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConnectionValidationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListConnectionValidationsResponse wrapper for the ListConnectionValidations operation
@@ -116,7 +135,7 @@ const (
 	ListConnectionValidationsSortByDisplayName ListConnectionValidationsSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListConnectionValidationsSortBy = map[string]ListConnectionValidationsSortByEnum{
+var mappingListConnectionValidationsSortByEnum = map[string]ListConnectionValidationsSortByEnum{
 	"TIME_CREATED": ListConnectionValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListConnectionValidationsSortByDisplayName,
 }
@@ -124,10 +143,18 @@ var mappingListConnectionValidationsSortBy = map[string]ListConnectionValidation
 // GetListConnectionValidationsSortByEnumValues Enumerates the set of values for ListConnectionValidationsSortByEnum
 func GetListConnectionValidationsSortByEnumValues() []ListConnectionValidationsSortByEnum {
 	values := make([]ListConnectionValidationsSortByEnum, 0)
-	for _, v := range mappingListConnectionValidationsSortBy {
+	for _, v := range mappingListConnectionValidationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConnectionValidationsSortByEnumStringValues Enumerates the set of values in String for ListConnectionValidationsSortByEnum
+func GetListConnectionValidationsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }
 
 // ListConnectionValidationsSortOrderEnum Enum with underlying type: string
@@ -139,7 +166,7 @@ const (
 	ListConnectionValidationsSortOrderDesc ListConnectionValidationsSortOrderEnum = "DESC"
 )
 
-var mappingListConnectionValidationsSortOrder = map[string]ListConnectionValidationsSortOrderEnum{
+var mappingListConnectionValidationsSortOrderEnum = map[string]ListConnectionValidationsSortOrderEnum{
 	"ASC":  ListConnectionValidationsSortOrderAsc,
 	"DESC": ListConnectionValidationsSortOrderDesc,
 }
@@ -147,8 +174,16 @@ var mappingListConnectionValidationsSortOrder = map[string]ListConnectionValidat
 // GetListConnectionValidationsSortOrderEnumValues Enumerates the set of values for ListConnectionValidationsSortOrderEnum
 func GetListConnectionValidationsSortOrderEnumValues() []ListConnectionValidationsSortOrderEnum {
 	values := make([]ListConnectionValidationsSortOrderEnum, 0)
-	for _, v := range mappingListConnectionValidationsSortOrder {
+	for _, v := range mappingListConnectionValidationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConnectionValidationsSortOrderEnumStringValues Enumerates the set of values in String for ListConnectionValidationsSortOrderEnum
+func GetListConnectionValidationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

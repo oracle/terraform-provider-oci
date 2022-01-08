@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateAutonomousContainerDatabaseDetails Describes the modification parameters for the Autonomous Container Database.
@@ -38,10 +40,28 @@ type UpdateAutonomousContainerDatabaseDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	BackupConfig *AutonomousContainerDatabaseBackupConfig `mandatory:"false" json:"backupConfig"`
+
+	// Indicates if FIPS-140 compliant cryptography is enabled for the Autonomous Container Database.
+	IsFipsEnabled *bool `mandatory:"false" json:"isFipsEnabled"`
 }
 
 func (m UpdateAutonomousContainerDatabaseDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateAutonomousContainerDatabaseDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateAutonomousContainerDatabaseDetailsPatchModelEnum[string(m.PatchModel)]; !ok && m.PatchModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchModel: %s. Supported values are: %s.", m.PatchModel, strings.Join(GetUpdateAutonomousContainerDatabaseDetailsPatchModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateAutonomousContainerDatabaseDetailsPatchModelEnum Enum with underlying type: string
@@ -53,7 +73,7 @@ const (
 	UpdateAutonomousContainerDatabaseDetailsPatchModelUpdateRevisions UpdateAutonomousContainerDatabaseDetailsPatchModelEnum = "RELEASE_UPDATE_REVISIONS"
 )
 
-var mappingUpdateAutonomousContainerDatabaseDetailsPatchModel = map[string]UpdateAutonomousContainerDatabaseDetailsPatchModelEnum{
+var mappingUpdateAutonomousContainerDatabaseDetailsPatchModelEnum = map[string]UpdateAutonomousContainerDatabaseDetailsPatchModelEnum{
 	"RELEASE_UPDATES":          UpdateAutonomousContainerDatabaseDetailsPatchModelUpdates,
 	"RELEASE_UPDATE_REVISIONS": UpdateAutonomousContainerDatabaseDetailsPatchModelUpdateRevisions,
 }
@@ -61,8 +81,16 @@ var mappingUpdateAutonomousContainerDatabaseDetailsPatchModel = map[string]Updat
 // GetUpdateAutonomousContainerDatabaseDetailsPatchModelEnumValues Enumerates the set of values for UpdateAutonomousContainerDatabaseDetailsPatchModelEnum
 func GetUpdateAutonomousContainerDatabaseDetailsPatchModelEnumValues() []UpdateAutonomousContainerDatabaseDetailsPatchModelEnum {
 	values := make([]UpdateAutonomousContainerDatabaseDetailsPatchModelEnum, 0)
-	for _, v := range mappingUpdateAutonomousContainerDatabaseDetailsPatchModel {
+	for _, v := range mappingUpdateAutonomousContainerDatabaseDetailsPatchModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateAutonomousContainerDatabaseDetailsPatchModelEnumStringValues Enumerates the set of values in String for UpdateAutonomousContainerDatabaseDetailsPatchModelEnum
+func GetUpdateAutonomousContainerDatabaseDetailsPatchModelEnumStringValues() []string {
+	return []string{
+		"RELEASE_UPDATES",
+		"RELEASE_UPDATE_REVISIONS",
+	}
 }

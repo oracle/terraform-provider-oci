@@ -5,15 +5,13 @@
 package usage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListRedeemableUsersRequest wrapper for the ListRedeemableUsers operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedeemableUsers.go.html to see an example of how to use ListRedeemableUsersRequest.
 type ListRedeemableUsersRequest struct {
 
 	// The OCID of the tenancy.
@@ -49,6 +47,10 @@ func (request ListRedeemableUsersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRedeemableUsersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +64,23 @@ func (request ListRedeemableUsersRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRedeemableUsersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRedeemableUsersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRedeemableUsersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRedeemableUsersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRedeemableUsersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRedeemableUsersSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRedeemableUsersResponse wrapper for the ListRedeemableUsers operation
@@ -104,7 +123,7 @@ const (
 	ListRedeemableUsersSortOrderDesc ListRedeemableUsersSortOrderEnum = "DESC"
 )
 
-var mappingListRedeemableUsersSortOrder = map[string]ListRedeemableUsersSortOrderEnum{
+var mappingListRedeemableUsersSortOrderEnum = map[string]ListRedeemableUsersSortOrderEnum{
 	"ASC":  ListRedeemableUsersSortOrderAsc,
 	"DESC": ListRedeemableUsersSortOrderDesc,
 }
@@ -112,10 +131,18 @@ var mappingListRedeemableUsersSortOrder = map[string]ListRedeemableUsersSortOrde
 // GetListRedeemableUsersSortOrderEnumValues Enumerates the set of values for ListRedeemableUsersSortOrderEnum
 func GetListRedeemableUsersSortOrderEnumValues() []ListRedeemableUsersSortOrderEnum {
 	values := make([]ListRedeemableUsersSortOrderEnum, 0)
-	for _, v := range mappingListRedeemableUsersSortOrder {
+	for _, v := range mappingListRedeemableUsersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRedeemableUsersSortOrderEnumStringValues Enumerates the set of values in String for ListRedeemableUsersSortOrderEnum
+func GetListRedeemableUsersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListRedeemableUsersSortByEnum Enum with underlying type: string
@@ -127,7 +154,7 @@ const (
 	ListRedeemableUsersSortByTimestart   ListRedeemableUsersSortByEnum = "TIMESTART"
 )
 
-var mappingListRedeemableUsersSortBy = map[string]ListRedeemableUsersSortByEnum{
+var mappingListRedeemableUsersSortByEnum = map[string]ListRedeemableUsersSortByEnum{
 	"TIMECREATED": ListRedeemableUsersSortByTimecreated,
 	"TIMESTART":   ListRedeemableUsersSortByTimestart,
 }
@@ -135,8 +162,16 @@ var mappingListRedeemableUsersSortBy = map[string]ListRedeemableUsersSortByEnum{
 // GetListRedeemableUsersSortByEnumValues Enumerates the set of values for ListRedeemableUsersSortByEnum
 func GetListRedeemableUsersSortByEnumValues() []ListRedeemableUsersSortByEnum {
 	values := make([]ListRedeemableUsersSortByEnum, 0)
-	for _, v := range mappingListRedeemableUsersSortBy {
+	for _, v := range mappingListRedeemableUsersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRedeemableUsersSortByEnumStringValues Enumerates the set of values in String for ListRedeemableUsersSortByEnum
+func GetListRedeemableUsersSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"TIMESTART",
+	}
 }

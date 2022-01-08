@@ -5,16 +5,14 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // RestoreVaultFromFileRequest wrapper for the RestoreVaultFromFile operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreVaultFromFile.go.html to see an example of how to use RestoreVaultFromFileRequest.
 type RestoreVaultFromFileRequest struct {
 
 	// The OCID of the compartment.
@@ -84,6 +82,17 @@ func (request RestoreVaultFromFileRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request RestoreVaultFromFileRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request RestoreVaultFromFileRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // RestoreVaultFromFileResponse wrapper for the RestoreVaultFromFile operation

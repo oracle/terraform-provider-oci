@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // MfaTotpDeviceSummary As the name suggests, a `MfaTotpDeviceSummary` object contains information about a `MfaTotpDevice`.
@@ -50,6 +52,21 @@ func (m MfaTotpDeviceSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MfaTotpDeviceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMfaTotpDeviceSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMfaTotpDeviceSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MfaTotpDeviceSummaryLifecycleStateEnum Enum with underlying type: string
 type MfaTotpDeviceSummaryLifecycleStateEnum string
 
@@ -62,7 +79,7 @@ const (
 	MfaTotpDeviceSummaryLifecycleStateDeleted  MfaTotpDeviceSummaryLifecycleStateEnum = "DELETED"
 )
 
-var mappingMfaTotpDeviceSummaryLifecycleState = map[string]MfaTotpDeviceSummaryLifecycleStateEnum{
+var mappingMfaTotpDeviceSummaryLifecycleStateEnum = map[string]MfaTotpDeviceSummaryLifecycleStateEnum{
 	"CREATING": MfaTotpDeviceSummaryLifecycleStateCreating,
 	"ACTIVE":   MfaTotpDeviceSummaryLifecycleStateActive,
 	"INACTIVE": MfaTotpDeviceSummaryLifecycleStateInactive,
@@ -73,8 +90,19 @@ var mappingMfaTotpDeviceSummaryLifecycleState = map[string]MfaTotpDeviceSummaryL
 // GetMfaTotpDeviceSummaryLifecycleStateEnumValues Enumerates the set of values for MfaTotpDeviceSummaryLifecycleStateEnum
 func GetMfaTotpDeviceSummaryLifecycleStateEnumValues() []MfaTotpDeviceSummaryLifecycleStateEnum {
 	values := make([]MfaTotpDeviceSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingMfaTotpDeviceSummaryLifecycleState {
+	for _, v := range mappingMfaTotpDeviceSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMfaTotpDeviceSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for MfaTotpDeviceSummaryLifecycleStateEnum
+func GetMfaTotpDeviceSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

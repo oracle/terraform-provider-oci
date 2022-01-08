@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListConnectionsRequest wrapper for the ListConnections operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListConnections.go.html to see an example of how to use ListConnectionsRequest.
 type ListConnectionsRequest struct {
 
 	// Unique catalog identifier.
@@ -84,6 +82,10 @@ func (request ListConnectionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListConnectionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -97,6 +99,32 @@ func (request ListConnectionsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListConnectionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListConnectionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListConnectionsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListConnectionsLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListConnectionsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListConnectionsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListConnectionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListConnectionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListConnectionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConnectionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListConnectionsResponse wrapper for the ListConnections operation
@@ -140,7 +168,7 @@ const (
 	ListConnectionsLifecycleStateMoving   ListConnectionsLifecycleStateEnum = "MOVING"
 )
 
-var mappingListConnectionsLifecycleState = map[string]ListConnectionsLifecycleStateEnum{
+var mappingListConnectionsLifecycleStateEnum = map[string]ListConnectionsLifecycleStateEnum{
 	"CREATING": ListConnectionsLifecycleStateCreating,
 	"ACTIVE":   ListConnectionsLifecycleStateActive,
 	"INACTIVE": ListConnectionsLifecycleStateInactive,
@@ -154,10 +182,24 @@ var mappingListConnectionsLifecycleState = map[string]ListConnectionsLifecycleSt
 // GetListConnectionsLifecycleStateEnumValues Enumerates the set of values for ListConnectionsLifecycleStateEnum
 func GetListConnectionsLifecycleStateEnumValues() []ListConnectionsLifecycleStateEnum {
 	values := make([]ListConnectionsLifecycleStateEnum, 0)
-	for _, v := range mappingListConnectionsLifecycleState {
+	for _, v := range mappingListConnectionsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConnectionsLifecycleStateEnumStringValues Enumerates the set of values in String for ListConnectionsLifecycleStateEnum
+func GetListConnectionsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListConnectionsFieldsEnum Enum with underlying type: string
@@ -177,7 +219,7 @@ const (
 	ListConnectionsFieldsUri            ListConnectionsFieldsEnum = "uri"
 )
 
-var mappingListConnectionsFields = map[string]ListConnectionsFieldsEnum{
+var mappingListConnectionsFieldsEnum = map[string]ListConnectionsFieldsEnum{
 	"key":            ListConnectionsFieldsKey,
 	"displayName":    ListConnectionsFieldsDisplayname,
 	"description":    ListConnectionsFieldsDescription,
@@ -193,10 +235,26 @@ var mappingListConnectionsFields = map[string]ListConnectionsFieldsEnum{
 // GetListConnectionsFieldsEnumValues Enumerates the set of values for ListConnectionsFieldsEnum
 func GetListConnectionsFieldsEnumValues() []ListConnectionsFieldsEnum {
 	values := make([]ListConnectionsFieldsEnum, 0)
-	for _, v := range mappingListConnectionsFields {
+	for _, v := range mappingListConnectionsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConnectionsFieldsEnumStringValues Enumerates the set of values in String for ListConnectionsFieldsEnum
+func GetListConnectionsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"dataAssetKey",
+		"typeKey",
+		"timeCreated",
+		"externalKey",
+		"lifecycleState",
+		"isDefault",
+		"uri",
+	}
 }
 
 // ListConnectionsSortByEnum Enum with underlying type: string
@@ -208,7 +266,7 @@ const (
 	ListConnectionsSortByDisplayname ListConnectionsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListConnectionsSortBy = map[string]ListConnectionsSortByEnum{
+var mappingListConnectionsSortByEnum = map[string]ListConnectionsSortByEnum{
 	"TIMECREATED": ListConnectionsSortByTimecreated,
 	"DISPLAYNAME": ListConnectionsSortByDisplayname,
 }
@@ -216,10 +274,18 @@ var mappingListConnectionsSortBy = map[string]ListConnectionsSortByEnum{
 // GetListConnectionsSortByEnumValues Enumerates the set of values for ListConnectionsSortByEnum
 func GetListConnectionsSortByEnumValues() []ListConnectionsSortByEnum {
 	values := make([]ListConnectionsSortByEnum, 0)
-	for _, v := range mappingListConnectionsSortBy {
+	for _, v := range mappingListConnectionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConnectionsSortByEnumStringValues Enumerates the set of values in String for ListConnectionsSortByEnum
+func GetListConnectionsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListConnectionsSortOrderEnum Enum with underlying type: string
@@ -231,7 +297,7 @@ const (
 	ListConnectionsSortOrderDesc ListConnectionsSortOrderEnum = "DESC"
 )
 
-var mappingListConnectionsSortOrder = map[string]ListConnectionsSortOrderEnum{
+var mappingListConnectionsSortOrderEnum = map[string]ListConnectionsSortOrderEnum{
 	"ASC":  ListConnectionsSortOrderAsc,
 	"DESC": ListConnectionsSortOrderDesc,
 }
@@ -239,8 +305,16 @@ var mappingListConnectionsSortOrder = map[string]ListConnectionsSortOrderEnum{
 // GetListConnectionsSortOrderEnumValues Enumerates the set of values for ListConnectionsSortOrderEnum
 func GetListConnectionsSortOrderEnumValues() []ListConnectionsSortOrderEnum {
 	values := make([]ListConnectionsSortOrderEnum, 0)
-	for _, v := range mappingListConnectionsSortOrder {
+	for _, v := range mappingListConnectionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConnectionsSortOrderEnumStringValues Enumerates the set of values in String for ListConnectionsSortOrderEnum
+func GetListConnectionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

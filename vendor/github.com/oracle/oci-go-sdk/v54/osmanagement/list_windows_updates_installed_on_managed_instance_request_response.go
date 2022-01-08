@@ -5,15 +5,13 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListWindowsUpdatesInstalledOnManagedInstanceRequest wrapper for the ListWindowsUpdatesInstalledOnManagedInstance operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListWindowsUpdatesInstalledOnManagedInstance.go.html to see an example of how to use ListWindowsUpdatesInstalledOnManagedInstanceRequest.
 type ListWindowsUpdatesInstalledOnManagedInstanceRequest struct {
 
 	// OCID for the managed instance
@@ -53,6 +51,10 @@ func (request ListWindowsUpdatesInstalledOnManagedInstanceRequest) String() stri
 // HTTPRequest implements the OCIRequest interface
 func (request ListWindowsUpdatesInstalledOnManagedInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +68,23 @@ func (request ListWindowsUpdatesInstalledOnManagedInstanceRequest) BinaryRequest
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWindowsUpdatesInstalledOnManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWindowsUpdatesInstalledOnManagedInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWindowsUpdatesInstalledOnManagedInstanceSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWindowsUpdatesInstalledOnManagedInstanceSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWindowsUpdatesInstalledOnManagedInstanceResponse wrapper for the ListWindowsUpdatesInstalledOnManagedInstance operation
@@ -106,7 +125,7 @@ const (
 	ListWindowsUpdatesInstalledOnManagedInstanceSortOrderDesc ListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum = "DESC"
 )
 
-var mappingListWindowsUpdatesInstalledOnManagedInstanceSortOrder = map[string]ListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum{
+var mappingListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum = map[string]ListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum{
 	"ASC":  ListWindowsUpdatesInstalledOnManagedInstanceSortOrderAsc,
 	"DESC": ListWindowsUpdatesInstalledOnManagedInstanceSortOrderDesc,
 }
@@ -114,10 +133,18 @@ var mappingListWindowsUpdatesInstalledOnManagedInstanceSortOrder = map[string]Li
 // GetListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnumValues Enumerates the set of values for ListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum
 func GetListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnumValues() []ListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum {
 	values := make([]ListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum, 0)
-	for _, v := range mappingListWindowsUpdatesInstalledOnManagedInstanceSortOrder {
+	for _, v := range mappingListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnumStringValues Enumerates the set of values in String for ListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnum
+func GetListWindowsUpdatesInstalledOnManagedInstanceSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListWindowsUpdatesInstalledOnManagedInstanceSortByEnum Enum with underlying type: string
@@ -129,7 +156,7 @@ const (
 	ListWindowsUpdatesInstalledOnManagedInstanceSortByDisplayname ListWindowsUpdatesInstalledOnManagedInstanceSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListWindowsUpdatesInstalledOnManagedInstanceSortBy = map[string]ListWindowsUpdatesInstalledOnManagedInstanceSortByEnum{
+var mappingListWindowsUpdatesInstalledOnManagedInstanceSortByEnum = map[string]ListWindowsUpdatesInstalledOnManagedInstanceSortByEnum{
 	"TIMECREATED": ListWindowsUpdatesInstalledOnManagedInstanceSortByTimecreated,
 	"DISPLAYNAME": ListWindowsUpdatesInstalledOnManagedInstanceSortByDisplayname,
 }
@@ -137,8 +164,16 @@ var mappingListWindowsUpdatesInstalledOnManagedInstanceSortBy = map[string]ListW
 // GetListWindowsUpdatesInstalledOnManagedInstanceSortByEnumValues Enumerates the set of values for ListWindowsUpdatesInstalledOnManagedInstanceSortByEnum
 func GetListWindowsUpdatesInstalledOnManagedInstanceSortByEnumValues() []ListWindowsUpdatesInstalledOnManagedInstanceSortByEnum {
 	values := make([]ListWindowsUpdatesInstalledOnManagedInstanceSortByEnum, 0)
-	for _, v := range mappingListWindowsUpdatesInstalledOnManagedInstanceSortBy {
+	for _, v := range mappingListWindowsUpdatesInstalledOnManagedInstanceSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWindowsUpdatesInstalledOnManagedInstanceSortByEnumStringValues Enumerates the set of values in String for ListWindowsUpdatesInstalledOnManagedInstanceSortByEnum
+func GetListWindowsUpdatesInstalledOnManagedInstanceSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

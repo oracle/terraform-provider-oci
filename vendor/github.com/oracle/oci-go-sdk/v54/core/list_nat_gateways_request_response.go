@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListNatGatewaysRequest wrapper for the ListNatGateways operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListNatGateways.go.html to see an example of how to use ListNatGatewaysRequest.
 type ListNatGatewaysRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -69,6 +67,10 @@ func (request ListNatGatewaysRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListNatGatewaysRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +84,26 @@ func (request ListNatGatewaysRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListNatGatewaysRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListNatGatewaysRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListNatGatewaysSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNatGatewaysSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNatGatewaysSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNatGatewaysSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingNatGatewayLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetNatGatewayLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListNatGatewaysResponse wrapper for the ListNatGateways operation
@@ -121,7 +143,7 @@ const (
 	ListNatGatewaysSortByDisplayname ListNatGatewaysSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListNatGatewaysSortBy = map[string]ListNatGatewaysSortByEnum{
+var mappingListNatGatewaysSortByEnum = map[string]ListNatGatewaysSortByEnum{
 	"TIMECREATED": ListNatGatewaysSortByTimecreated,
 	"DISPLAYNAME": ListNatGatewaysSortByDisplayname,
 }
@@ -129,10 +151,18 @@ var mappingListNatGatewaysSortBy = map[string]ListNatGatewaysSortByEnum{
 // GetListNatGatewaysSortByEnumValues Enumerates the set of values for ListNatGatewaysSortByEnum
 func GetListNatGatewaysSortByEnumValues() []ListNatGatewaysSortByEnum {
 	values := make([]ListNatGatewaysSortByEnum, 0)
-	for _, v := range mappingListNatGatewaysSortBy {
+	for _, v := range mappingListNatGatewaysSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNatGatewaysSortByEnumStringValues Enumerates the set of values in String for ListNatGatewaysSortByEnum
+func GetListNatGatewaysSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListNatGatewaysSortOrderEnum Enum with underlying type: string
@@ -144,7 +174,7 @@ const (
 	ListNatGatewaysSortOrderDesc ListNatGatewaysSortOrderEnum = "DESC"
 )
 
-var mappingListNatGatewaysSortOrder = map[string]ListNatGatewaysSortOrderEnum{
+var mappingListNatGatewaysSortOrderEnum = map[string]ListNatGatewaysSortOrderEnum{
 	"ASC":  ListNatGatewaysSortOrderAsc,
 	"DESC": ListNatGatewaysSortOrderDesc,
 }
@@ -152,8 +182,16 @@ var mappingListNatGatewaysSortOrder = map[string]ListNatGatewaysSortOrderEnum{
 // GetListNatGatewaysSortOrderEnumValues Enumerates the set of values for ListNatGatewaysSortOrderEnum
 func GetListNatGatewaysSortOrderEnumValues() []ListNatGatewaysSortOrderEnum {
 	values := make([]ListNatGatewaysSortOrderEnum, 0)
-	for _, v := range mappingListNatGatewaysSortOrder {
+	for _, v := range mappingListNatGatewaysSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNatGatewaysSortOrderEnumStringValues Enumerates the set of values in String for ListNatGatewaysSortOrderEnum
+func GetListNatGatewaysSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

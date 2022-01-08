@@ -12,7 +12,9 @@
 package containerengine
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ClusterCreateOptions The properties that define extra options for a cluster.
@@ -29,8 +31,24 @@ type ClusterCreateOptions struct {
 
 	// Configurable cluster admission controllers
 	AdmissionControllerOptions *AdmissionControllerOptions `mandatory:"false" json:"admissionControllerOptions"`
+
+	PersistentVolumeConfig *PersistentVolumeConfigDetails `mandatory:"false" json:"persistentVolumeConfig"`
+
+	ServiceLbConfig *ServiceLbConfigDetails `mandatory:"false" json:"serviceLbConfig"`
 }
 
 func (m ClusterCreateOptions) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ClusterCreateOptions) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

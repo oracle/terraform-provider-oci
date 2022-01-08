@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceConfigurationLaunchOptions Options for tuning the compatibility and performance of VM shapes. The values that you specify override any
@@ -67,6 +69,30 @@ func (m InstanceConfigurationLaunchOptions) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceConfigurationLaunchOptions) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingInstanceConfigurationLaunchOptionsBootVolumeTypeEnum[string(m.BootVolumeType)]; !ok && m.BootVolumeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BootVolumeType: %s. Supported values are: %s.", m.BootVolumeType, strings.Join(GetInstanceConfigurationLaunchOptionsBootVolumeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInstanceConfigurationLaunchOptionsFirmwareEnum[string(m.Firmware)]; !ok && m.Firmware != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Firmware: %s. Supported values are: %s.", m.Firmware, strings.Join(GetInstanceConfigurationLaunchOptionsFirmwareEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInstanceConfigurationLaunchOptionsNetworkTypeEnum[string(m.NetworkType)]; !ok && m.NetworkType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkType: %s. Supported values are: %s.", m.NetworkType, strings.Join(GetInstanceConfigurationLaunchOptionsNetworkTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum[string(m.RemoteDataVolumeType)]; !ok && m.RemoteDataVolumeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RemoteDataVolumeType: %s. Supported values are: %s.", m.RemoteDataVolumeType, strings.Join(GetInstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceConfigurationLaunchOptionsBootVolumeTypeEnum Enum with underlying type: string
 type InstanceConfigurationLaunchOptionsBootVolumeTypeEnum string
 
@@ -79,7 +105,7 @@ const (
 	InstanceConfigurationLaunchOptionsBootVolumeTypeParavirtualized InstanceConfigurationLaunchOptionsBootVolumeTypeEnum = "PARAVIRTUALIZED"
 )
 
-var mappingInstanceConfigurationLaunchOptionsBootVolumeType = map[string]InstanceConfigurationLaunchOptionsBootVolumeTypeEnum{
+var mappingInstanceConfigurationLaunchOptionsBootVolumeTypeEnum = map[string]InstanceConfigurationLaunchOptionsBootVolumeTypeEnum{
 	"ISCSI":           InstanceConfigurationLaunchOptionsBootVolumeTypeIscsi,
 	"SCSI":            InstanceConfigurationLaunchOptionsBootVolumeTypeScsi,
 	"IDE":             InstanceConfigurationLaunchOptionsBootVolumeTypeIde,
@@ -90,10 +116,21 @@ var mappingInstanceConfigurationLaunchOptionsBootVolumeType = map[string]Instanc
 // GetInstanceConfigurationLaunchOptionsBootVolumeTypeEnumValues Enumerates the set of values for InstanceConfigurationLaunchOptionsBootVolumeTypeEnum
 func GetInstanceConfigurationLaunchOptionsBootVolumeTypeEnumValues() []InstanceConfigurationLaunchOptionsBootVolumeTypeEnum {
 	values := make([]InstanceConfigurationLaunchOptionsBootVolumeTypeEnum, 0)
-	for _, v := range mappingInstanceConfigurationLaunchOptionsBootVolumeType {
+	for _, v := range mappingInstanceConfigurationLaunchOptionsBootVolumeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceConfigurationLaunchOptionsBootVolumeTypeEnumStringValues Enumerates the set of values in String for InstanceConfigurationLaunchOptionsBootVolumeTypeEnum
+func GetInstanceConfigurationLaunchOptionsBootVolumeTypeEnumStringValues() []string {
+	return []string{
+		"ISCSI",
+		"SCSI",
+		"IDE",
+		"VFIO",
+		"PARAVIRTUALIZED",
+	}
 }
 
 // InstanceConfigurationLaunchOptionsFirmwareEnum Enum with underlying type: string
@@ -105,7 +142,7 @@ const (
 	InstanceConfigurationLaunchOptionsFirmwareUefi64 InstanceConfigurationLaunchOptionsFirmwareEnum = "UEFI_64"
 )
 
-var mappingInstanceConfigurationLaunchOptionsFirmware = map[string]InstanceConfigurationLaunchOptionsFirmwareEnum{
+var mappingInstanceConfigurationLaunchOptionsFirmwareEnum = map[string]InstanceConfigurationLaunchOptionsFirmwareEnum{
 	"BIOS":    InstanceConfigurationLaunchOptionsFirmwareBios,
 	"UEFI_64": InstanceConfigurationLaunchOptionsFirmwareUefi64,
 }
@@ -113,10 +150,18 @@ var mappingInstanceConfigurationLaunchOptionsFirmware = map[string]InstanceConfi
 // GetInstanceConfigurationLaunchOptionsFirmwareEnumValues Enumerates the set of values for InstanceConfigurationLaunchOptionsFirmwareEnum
 func GetInstanceConfigurationLaunchOptionsFirmwareEnumValues() []InstanceConfigurationLaunchOptionsFirmwareEnum {
 	values := make([]InstanceConfigurationLaunchOptionsFirmwareEnum, 0)
-	for _, v := range mappingInstanceConfigurationLaunchOptionsFirmware {
+	for _, v := range mappingInstanceConfigurationLaunchOptionsFirmwareEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceConfigurationLaunchOptionsFirmwareEnumStringValues Enumerates the set of values in String for InstanceConfigurationLaunchOptionsFirmwareEnum
+func GetInstanceConfigurationLaunchOptionsFirmwareEnumStringValues() []string {
+	return []string{
+		"BIOS",
+		"UEFI_64",
+	}
 }
 
 // InstanceConfigurationLaunchOptionsNetworkTypeEnum Enum with underlying type: string
@@ -129,7 +174,7 @@ const (
 	InstanceConfigurationLaunchOptionsNetworkTypeParavirtualized InstanceConfigurationLaunchOptionsNetworkTypeEnum = "PARAVIRTUALIZED"
 )
 
-var mappingInstanceConfigurationLaunchOptionsNetworkType = map[string]InstanceConfigurationLaunchOptionsNetworkTypeEnum{
+var mappingInstanceConfigurationLaunchOptionsNetworkTypeEnum = map[string]InstanceConfigurationLaunchOptionsNetworkTypeEnum{
 	"E1000":           InstanceConfigurationLaunchOptionsNetworkTypeE1000,
 	"VFIO":            InstanceConfigurationLaunchOptionsNetworkTypeVfio,
 	"PARAVIRTUALIZED": InstanceConfigurationLaunchOptionsNetworkTypeParavirtualized,
@@ -138,10 +183,19 @@ var mappingInstanceConfigurationLaunchOptionsNetworkType = map[string]InstanceCo
 // GetInstanceConfigurationLaunchOptionsNetworkTypeEnumValues Enumerates the set of values for InstanceConfigurationLaunchOptionsNetworkTypeEnum
 func GetInstanceConfigurationLaunchOptionsNetworkTypeEnumValues() []InstanceConfigurationLaunchOptionsNetworkTypeEnum {
 	values := make([]InstanceConfigurationLaunchOptionsNetworkTypeEnum, 0)
-	for _, v := range mappingInstanceConfigurationLaunchOptionsNetworkType {
+	for _, v := range mappingInstanceConfigurationLaunchOptionsNetworkTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceConfigurationLaunchOptionsNetworkTypeEnumStringValues Enumerates the set of values in String for InstanceConfigurationLaunchOptionsNetworkTypeEnum
+func GetInstanceConfigurationLaunchOptionsNetworkTypeEnumStringValues() []string {
+	return []string{
+		"E1000",
+		"VFIO",
+		"PARAVIRTUALIZED",
+	}
 }
 
 // InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum Enum with underlying type: string
@@ -156,7 +210,7 @@ const (
 	InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeParavirtualized InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum = "PARAVIRTUALIZED"
 )
 
-var mappingInstanceConfigurationLaunchOptionsRemoteDataVolumeType = map[string]InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum{
+var mappingInstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum = map[string]InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum{
 	"ISCSI":           InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeIscsi,
 	"SCSI":            InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeScsi,
 	"IDE":             InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeIde,
@@ -167,8 +221,19 @@ var mappingInstanceConfigurationLaunchOptionsRemoteDataVolumeType = map[string]I
 // GetInstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnumValues Enumerates the set of values for InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum
 func GetInstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnumValues() []InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum {
 	values := make([]InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum, 0)
-	for _, v := range mappingInstanceConfigurationLaunchOptionsRemoteDataVolumeType {
+	for _, v := range mappingInstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnumStringValues Enumerates the set of values in String for InstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnum
+func GetInstanceConfigurationLaunchOptionsRemoteDataVolumeTypeEnumStringValues() []string {
+	return []string{
+		"ISCSI",
+		"SCSI",
+		"IDE",
+		"VFIO",
+		"PARAVIRTUALIZED",
+	}
 }

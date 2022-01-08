@@ -21,7 +21,7 @@ const (
 	ResourceTypesAutonomousvmcluster   ResourceTypesEnum = "AUTONOMOUSVMCLUSTER"
 )
 
-var mappingResourceTypes = map[string]ResourceTypesEnum{
+var mappingResourceTypesEnum = map[string]ResourceTypesEnum{
 	"EXACC":                 ResourceTypesExacc,
 	"EXADATAINFRASTRUCTURE": ResourceTypesExadatainfrastructure,
 	"AUTONOMOUSVMCLUSTER":   ResourceTypesAutonomousvmcluster,
@@ -30,8 +30,17 @@ var mappingResourceTypes = map[string]ResourceTypesEnum{
 // GetResourceTypesEnumValues Enumerates the set of values for ResourceTypesEnum
 func GetResourceTypesEnumValues() []ResourceTypesEnum {
 	values := make([]ResourceTypesEnum, 0)
-	for _, v := range mappingResourceTypes {
+	for _, v := range mappingResourceTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResourceTypesEnumStringValues Enumerates the set of values in String for ResourceTypesEnum
+func GetResourceTypesEnumStringValues() []string {
+	return []string{
+		"EXACC",
+		"EXADATAINFRASTRUCTURE",
+		"AUTONOMOUSVMCLUSTER",
+	}
 }

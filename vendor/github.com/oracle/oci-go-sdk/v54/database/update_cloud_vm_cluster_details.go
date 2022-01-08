@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateCloudVmClusterDetails Details for updating the cloud VM cluster. Applies to Exadata Cloud Service instances only.
@@ -24,6 +26,15 @@ type UpdateCloudVmClusterDetails struct {
 
 	// The number of OCPU cores to enable for a cloud VM cluster. Only 1 decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
+
+	// The memory to be allocated in GBs.
+	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
+
+	// The local node storage to be allocated in GBs.
+	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
+
+	// The data disk group size to be allocated in TBs.
+	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
 
 	// The Oracle license model that applies to the cloud VM cluster. The default is BRING_YOUR_OWN_LICENSE. Applies to Exadata Cloud Service instances only.
 	LicenseModel UpdateCloudVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
@@ -61,6 +72,21 @@ func (m UpdateCloudVmClusterDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateCloudVmClusterDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateCloudVmClusterDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateCloudVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateCloudVmClusterDetailsLicenseModelEnum Enum with underlying type: string
 type UpdateCloudVmClusterDetailsLicenseModelEnum string
 
@@ -70,7 +96,7 @@ const (
 	UpdateCloudVmClusterDetailsLicenseModelBringYourOwnLicense UpdateCloudVmClusterDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingUpdateCloudVmClusterDetailsLicenseModel = map[string]UpdateCloudVmClusterDetailsLicenseModelEnum{
+var mappingUpdateCloudVmClusterDetailsLicenseModelEnum = map[string]UpdateCloudVmClusterDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       UpdateCloudVmClusterDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": UpdateCloudVmClusterDetailsLicenseModelBringYourOwnLicense,
 }
@@ -78,8 +104,16 @@ var mappingUpdateCloudVmClusterDetailsLicenseModel = map[string]UpdateCloudVmClu
 // GetUpdateCloudVmClusterDetailsLicenseModelEnumValues Enumerates the set of values for UpdateCloudVmClusterDetailsLicenseModelEnum
 func GetUpdateCloudVmClusterDetailsLicenseModelEnumValues() []UpdateCloudVmClusterDetailsLicenseModelEnum {
 	values := make([]UpdateCloudVmClusterDetailsLicenseModelEnum, 0)
-	for _, v := range mappingUpdateCloudVmClusterDetailsLicenseModel {
+	for _, v := range mappingUpdateCloudVmClusterDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateCloudVmClusterDetailsLicenseModelEnumStringValues Enumerates the set of values in String for UpdateCloudVmClusterDetailsLicenseModelEnum
+func GetUpdateCloudVmClusterDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

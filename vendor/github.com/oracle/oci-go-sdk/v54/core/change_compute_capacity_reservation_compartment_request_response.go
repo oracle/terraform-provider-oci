@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeComputeCapacityReservationCompartmentRequest wrapper for the ChangeComputeCapacityReservationCompartment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeCapacityReservationCompartment.go.html to see an example of how to use ChangeComputeCapacityReservationCompartmentRequest.
 type ChangeComputeCapacityReservationCompartmentRequest struct {
 
 	// The OCID of the compute capacity reservation.
@@ -50,6 +48,10 @@ func (request ChangeComputeCapacityReservationCompartmentRequest) String() strin
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeComputeCapacityReservationCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +65,17 @@ func (request ChangeComputeCapacityReservationCompartmentRequest) BinaryRequestB
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeComputeCapacityReservationCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeComputeCapacityReservationCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeComputeCapacityReservationCompartmentResponse wrapper for the ChangeComputeCapacityReservationCompartment operation

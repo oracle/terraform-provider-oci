@@ -4,13 +4,16 @@
 
 // File Storage API
 //
-// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// Use the File Storage service API to manage file systems, mount targets, and snapshots.
+// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // FileSystemSummary Summary information for a file system.
@@ -63,13 +66,13 @@ type FileSystemSummary struct {
 	SourceDetails *SourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// Specifies whether the file system has been cloned.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	IsCloneParent *bool `mandatory:"false" json:"isCloneParent"`
 
 	// Specifies whether the data has finished copying from the source to the clone.
 	// Hydration can take up to several hours to complete depending on the size of the source.
 	// The source and clone remain available during hydration, but there may be some performance impact.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm#hydration).
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm#hydration).
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
 	// Additional information about the current 'lifecycleState'.
@@ -78,6 +81,21 @@ type FileSystemSummary struct {
 
 func (m FileSystemSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FileSystemSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFileSystemSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFileSystemSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // FileSystemSummaryLifecycleStateEnum Enum with underlying type: string
@@ -89,20 +107,33 @@ const (
 	FileSystemSummaryLifecycleStateActive   FileSystemSummaryLifecycleStateEnum = "ACTIVE"
 	FileSystemSummaryLifecycleStateDeleting FileSystemSummaryLifecycleStateEnum = "DELETING"
 	FileSystemSummaryLifecycleStateDeleted  FileSystemSummaryLifecycleStateEnum = "DELETED"
+	FileSystemSummaryLifecycleStateFailed   FileSystemSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingFileSystemSummaryLifecycleState = map[string]FileSystemSummaryLifecycleStateEnum{
+var mappingFileSystemSummaryLifecycleStateEnum = map[string]FileSystemSummaryLifecycleStateEnum{
 	"CREATING": FileSystemSummaryLifecycleStateCreating,
 	"ACTIVE":   FileSystemSummaryLifecycleStateActive,
 	"DELETING": FileSystemSummaryLifecycleStateDeleting,
 	"DELETED":  FileSystemSummaryLifecycleStateDeleted,
+	"FAILED":   FileSystemSummaryLifecycleStateFailed,
 }
 
 // GetFileSystemSummaryLifecycleStateEnumValues Enumerates the set of values for FileSystemSummaryLifecycleStateEnum
 func GetFileSystemSummaryLifecycleStateEnumValues() []FileSystemSummaryLifecycleStateEnum {
 	values := make([]FileSystemSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingFileSystemSummaryLifecycleState {
+	for _, v := range mappingFileSystemSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFileSystemSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for FileSystemSummaryLifecycleStateEnum
+func GetFileSystemSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

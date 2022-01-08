@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // IdpGroupMapping A mapping between a single group defined by the identity provider (IdP) you're federating with
@@ -55,6 +57,21 @@ func (m IdpGroupMapping) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IdpGroupMapping) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIdpGroupMappingLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetIdpGroupMappingLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // IdpGroupMappingLifecycleStateEnum Enum with underlying type: string
 type IdpGroupMappingLifecycleStateEnum string
 
@@ -67,7 +84,7 @@ const (
 	IdpGroupMappingLifecycleStateDeleted  IdpGroupMappingLifecycleStateEnum = "DELETED"
 )
 
-var mappingIdpGroupMappingLifecycleState = map[string]IdpGroupMappingLifecycleStateEnum{
+var mappingIdpGroupMappingLifecycleStateEnum = map[string]IdpGroupMappingLifecycleStateEnum{
 	"CREATING": IdpGroupMappingLifecycleStateCreating,
 	"ACTIVE":   IdpGroupMappingLifecycleStateActive,
 	"INACTIVE": IdpGroupMappingLifecycleStateInactive,
@@ -78,8 +95,19 @@ var mappingIdpGroupMappingLifecycleState = map[string]IdpGroupMappingLifecycleSt
 // GetIdpGroupMappingLifecycleStateEnumValues Enumerates the set of values for IdpGroupMappingLifecycleStateEnum
 func GetIdpGroupMappingLifecycleStateEnumValues() []IdpGroupMappingLifecycleStateEnum {
 	values := make([]IdpGroupMappingLifecycleStateEnum, 0)
-	for _, v := range mappingIdpGroupMappingLifecycleState {
+	for _, v := range mappingIdpGroupMappingLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIdpGroupMappingLifecycleStateEnumStringValues Enumerates the set of values in String for IdpGroupMappingLifecycleStateEnum
+func GetIdpGroupMappingLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

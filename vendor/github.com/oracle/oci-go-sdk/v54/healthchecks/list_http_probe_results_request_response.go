@@ -5,15 +5,13 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListHttpProbeResultsRequest wrapper for the ListHttpProbeResults operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListHttpProbeResults.go.html to see an example of how to use ListHttpProbeResultsRequest.
 type ListHttpProbeResultsRequest struct {
 
 	// The OCID of a monitor or on-demand probe.
@@ -54,6 +52,10 @@ func (request ListHttpProbeResultsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListHttpProbeResultsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +69,20 @@ func (request ListHttpProbeResultsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListHttpProbeResultsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListHttpProbeResultsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListHttpProbeResultsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListHttpProbeResultsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListHttpProbeResultsResponse wrapper for the ListHttpProbeResults operation
@@ -108,7 +124,7 @@ const (
 	ListHttpProbeResultsSortOrderDesc ListHttpProbeResultsSortOrderEnum = "DESC"
 )
 
-var mappingListHttpProbeResultsSortOrder = map[string]ListHttpProbeResultsSortOrderEnum{
+var mappingListHttpProbeResultsSortOrderEnum = map[string]ListHttpProbeResultsSortOrderEnum{
 	"ASC":  ListHttpProbeResultsSortOrderAsc,
 	"DESC": ListHttpProbeResultsSortOrderDesc,
 }
@@ -116,8 +132,16 @@ var mappingListHttpProbeResultsSortOrder = map[string]ListHttpProbeResultsSortOr
 // GetListHttpProbeResultsSortOrderEnumValues Enumerates the set of values for ListHttpProbeResultsSortOrderEnum
 func GetListHttpProbeResultsSortOrderEnumValues() []ListHttpProbeResultsSortOrderEnum {
 	values := make([]ListHttpProbeResultsSortOrderEnum, 0)
-	for _, v := range mappingListHttpProbeResultsSortOrder {
+	for _, v := range mappingListHttpProbeResultsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHttpProbeResultsSortOrderEnumStringValues Enumerates the set of values in String for ListHttpProbeResultsSortOrderEnum
+func GetListHttpProbeResultsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

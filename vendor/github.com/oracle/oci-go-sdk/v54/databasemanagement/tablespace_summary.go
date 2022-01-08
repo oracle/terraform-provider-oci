@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TablespaceSummary The summary of a tablespace.
@@ -129,12 +131,87 @@ type TablespaceSummary struct {
 	// The percentage of used space out of the total allocated space in the tablespace.
 	UsedPercentAllocated *float64 `mandatory:"false" json:"usedPercentAllocated"`
 
+	// Indicates whether this is the default tablespace.
+	IsDefault *bool `mandatory:"false" json:"isDefault"`
+
 	// A list of the data files associated with the tablespace.
 	Datafiles []Datafile `mandatory:"false" json:"datafiles"`
 }
 
 func (m TablespaceSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TablespaceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTablespaceSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetTablespaceSummaryTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingTablespaceSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetTablespaceSummaryStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryLoggingEnum[string(m.Logging)]; !ok && m.Logging != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Logging: %s. Supported values are: %s.", m.Logging, strings.Join(GetTablespaceSummaryLoggingEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryExtentManagementEnum[string(m.ExtentManagement)]; !ok && m.ExtentManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExtentManagement: %s. Supported values are: %s.", m.ExtentManagement, strings.Join(GetTablespaceSummaryExtentManagementEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryAllocationTypeEnum[string(m.AllocationType)]; !ok && m.AllocationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AllocationType: %s. Supported values are: %s.", m.AllocationType, strings.Join(GetTablespaceSummaryAllocationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummarySegmentSpaceManagementEnum[string(m.SegmentSpaceManagement)]; !ok && m.SegmentSpaceManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SegmentSpaceManagement: %s. Supported values are: %s.", m.SegmentSpaceManagement, strings.Join(GetTablespaceSummarySegmentSpaceManagementEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryDefaultTableCompressionEnum[string(m.DefaultTableCompression)]; !ok && m.DefaultTableCompression != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultTableCompression: %s. Supported values are: %s.", m.DefaultTableCompression, strings.Join(GetTablespaceSummaryDefaultTableCompressionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryRetentionEnum[string(m.Retention)]; !ok && m.Retention != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Retention: %s. Supported values are: %s.", m.Retention, strings.Join(GetTablespaceSummaryRetentionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryPredicateEvaluationEnum[string(m.PredicateEvaluation)]; !ok && m.PredicateEvaluation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PredicateEvaluation: %s. Supported values are: %s.", m.PredicateEvaluation, strings.Join(GetTablespaceSummaryPredicateEvaluationEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryCompressForEnum[string(m.CompressFor)]; !ok && m.CompressFor != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CompressFor: %s. Supported values are: %s.", m.CompressFor, strings.Join(GetTablespaceSummaryCompressForEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryDefaultInMemoryEnum[string(m.DefaultInMemory)]; !ok && m.DefaultInMemory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemory: %s. Supported values are: %s.", m.DefaultInMemory, strings.Join(GetTablespaceSummaryDefaultInMemoryEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryDefaultInMemoryPriorityEnum[string(m.DefaultInMemoryPriority)]; !ok && m.DefaultInMemoryPriority != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryPriority: %s. Supported values are: %s.", m.DefaultInMemoryPriority, strings.Join(GetTablespaceSummaryDefaultInMemoryPriorityEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryDefaultInMemoryDistributeEnum[string(m.DefaultInMemoryDistribute)]; !ok && m.DefaultInMemoryDistribute != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryDistribute: %s. Supported values are: %s.", m.DefaultInMemoryDistribute, strings.Join(GetTablespaceSummaryDefaultInMemoryDistributeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryDefaultInMemoryCompressionEnum[string(m.DefaultInMemoryCompression)]; !ok && m.DefaultInMemoryCompression != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryCompression: %s. Supported values are: %s.", m.DefaultInMemoryCompression, strings.Join(GetTablespaceSummaryDefaultInMemoryCompressionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryDefaultInMemoryDuplicateEnum[string(m.DefaultInMemoryDuplicate)]; !ok && m.DefaultInMemoryDuplicate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryDuplicate: %s. Supported values are: %s.", m.DefaultInMemoryDuplicate, strings.Join(GetTablespaceSummaryDefaultInMemoryDuplicateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummarySharedEnum[string(m.Shared)]; !ok && m.Shared != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shared: %s. Supported values are: %s.", m.Shared, strings.Join(GetTablespaceSummarySharedEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryDefaultIndexCompressionEnum[string(m.DefaultIndexCompression)]; !ok && m.DefaultIndexCompression != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultIndexCompression: %s. Supported values are: %s.", m.DefaultIndexCompression, strings.Join(GetTablespaceSummaryDefaultIndexCompressionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryIndexCompressForEnum[string(m.IndexCompressFor)]; !ok && m.IndexCompressFor != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IndexCompressFor: %s. Supported values are: %s.", m.IndexCompressFor, strings.Join(GetTablespaceSummaryIndexCompressForEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryDefaultInMemoryServiceEnum[string(m.DefaultInMemoryService)]; !ok && m.DefaultInMemoryService != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryService: %s. Supported values are: %s.", m.DefaultInMemoryService, strings.Join(GetTablespaceSummaryDefaultInMemoryServiceEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSummaryLostWriteProtectEnum[string(m.LostWriteProtect)]; !ok && m.LostWriteProtect != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LostWriteProtect: %s. Supported values are: %s.", m.LostWriteProtect, strings.Join(GetTablespaceSummaryLostWriteProtectEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // TablespaceSummaryTypeEnum Enum with underlying type: string
@@ -148,7 +225,7 @@ const (
 	TablespaceSummaryTypeTemporary           TablespaceSummaryTypeEnum = "TEMPORARY"
 )
 
-var mappingTablespaceSummaryType = map[string]TablespaceSummaryTypeEnum{
+var mappingTablespaceSummaryTypeEnum = map[string]TablespaceSummaryTypeEnum{
 	"UNDO":                  TablespaceSummaryTypeUndo,
 	"LOST_WRITE_PROTECTION": TablespaceSummaryTypeLostWriteProtection,
 	"PERMANENT":             TablespaceSummaryTypePermanent,
@@ -158,10 +235,20 @@ var mappingTablespaceSummaryType = map[string]TablespaceSummaryTypeEnum{
 // GetTablespaceSummaryTypeEnumValues Enumerates the set of values for TablespaceSummaryTypeEnum
 func GetTablespaceSummaryTypeEnumValues() []TablespaceSummaryTypeEnum {
 	values := make([]TablespaceSummaryTypeEnum, 0)
-	for _, v := range mappingTablespaceSummaryType {
+	for _, v := range mappingTablespaceSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryTypeEnumStringValues Enumerates the set of values in String for TablespaceSummaryTypeEnum
+func GetTablespaceSummaryTypeEnumStringValues() []string {
+	return []string{
+		"UNDO",
+		"LOST_WRITE_PROTECTION",
+		"PERMANENT",
+		"TEMPORARY",
+	}
 }
 
 // TablespaceSummaryStatusEnum Enum with underlying type: string
@@ -174,7 +261,7 @@ const (
 	TablespaceSummaryStatusReadOnly TablespaceSummaryStatusEnum = "READ_ONLY"
 )
 
-var mappingTablespaceSummaryStatus = map[string]TablespaceSummaryStatusEnum{
+var mappingTablespaceSummaryStatusEnum = map[string]TablespaceSummaryStatusEnum{
 	"ONLINE":    TablespaceSummaryStatusOnline,
 	"OFFLINE":   TablespaceSummaryStatusOffline,
 	"READ_ONLY": TablespaceSummaryStatusReadOnly,
@@ -183,10 +270,19 @@ var mappingTablespaceSummaryStatus = map[string]TablespaceSummaryStatusEnum{
 // GetTablespaceSummaryStatusEnumValues Enumerates the set of values for TablespaceSummaryStatusEnum
 func GetTablespaceSummaryStatusEnumValues() []TablespaceSummaryStatusEnum {
 	values := make([]TablespaceSummaryStatusEnum, 0)
-	for _, v := range mappingTablespaceSummaryStatus {
+	for _, v := range mappingTablespaceSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryStatusEnumStringValues Enumerates the set of values in String for TablespaceSummaryStatusEnum
+func GetTablespaceSummaryStatusEnumStringValues() []string {
+	return []string{
+		"ONLINE",
+		"OFFLINE",
+		"READ_ONLY",
+	}
 }
 
 // TablespaceSummaryLoggingEnum Enum with underlying type: string
@@ -198,7 +294,7 @@ const (
 	TablespaceSummaryLoggingNologging TablespaceSummaryLoggingEnum = "NOLOGGING"
 )
 
-var mappingTablespaceSummaryLogging = map[string]TablespaceSummaryLoggingEnum{
+var mappingTablespaceSummaryLoggingEnum = map[string]TablespaceSummaryLoggingEnum{
 	"LOGGING":   TablespaceSummaryLoggingLogging,
 	"NOLOGGING": TablespaceSummaryLoggingNologging,
 }
@@ -206,10 +302,18 @@ var mappingTablespaceSummaryLogging = map[string]TablespaceSummaryLoggingEnum{
 // GetTablespaceSummaryLoggingEnumValues Enumerates the set of values for TablespaceSummaryLoggingEnum
 func GetTablespaceSummaryLoggingEnumValues() []TablespaceSummaryLoggingEnum {
 	values := make([]TablespaceSummaryLoggingEnum, 0)
-	for _, v := range mappingTablespaceSummaryLogging {
+	for _, v := range mappingTablespaceSummaryLoggingEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryLoggingEnumStringValues Enumerates the set of values in String for TablespaceSummaryLoggingEnum
+func GetTablespaceSummaryLoggingEnumStringValues() []string {
+	return []string{
+		"LOGGING",
+		"NOLOGGING",
+	}
 }
 
 // TablespaceSummaryExtentManagementEnum Enum with underlying type: string
@@ -221,7 +325,7 @@ const (
 	TablespaceSummaryExtentManagementDictionary TablespaceSummaryExtentManagementEnum = "DICTIONARY"
 )
 
-var mappingTablespaceSummaryExtentManagement = map[string]TablespaceSummaryExtentManagementEnum{
+var mappingTablespaceSummaryExtentManagementEnum = map[string]TablespaceSummaryExtentManagementEnum{
 	"LOCAL":      TablespaceSummaryExtentManagementLocal,
 	"DICTIONARY": TablespaceSummaryExtentManagementDictionary,
 }
@@ -229,10 +333,18 @@ var mappingTablespaceSummaryExtentManagement = map[string]TablespaceSummaryExten
 // GetTablespaceSummaryExtentManagementEnumValues Enumerates the set of values for TablespaceSummaryExtentManagementEnum
 func GetTablespaceSummaryExtentManagementEnumValues() []TablespaceSummaryExtentManagementEnum {
 	values := make([]TablespaceSummaryExtentManagementEnum, 0)
-	for _, v := range mappingTablespaceSummaryExtentManagement {
+	for _, v := range mappingTablespaceSummaryExtentManagementEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryExtentManagementEnumStringValues Enumerates the set of values in String for TablespaceSummaryExtentManagementEnum
+func GetTablespaceSummaryExtentManagementEnumStringValues() []string {
+	return []string{
+		"LOCAL",
+		"DICTIONARY",
+	}
 }
 
 // TablespaceSummaryAllocationTypeEnum Enum with underlying type: string
@@ -245,7 +357,7 @@ const (
 	TablespaceSummaryAllocationTypeUser    TablespaceSummaryAllocationTypeEnum = "USER"
 )
 
-var mappingTablespaceSummaryAllocationType = map[string]TablespaceSummaryAllocationTypeEnum{
+var mappingTablespaceSummaryAllocationTypeEnum = map[string]TablespaceSummaryAllocationTypeEnum{
 	"SYSTEM":  TablespaceSummaryAllocationTypeSystem,
 	"UNIFORM": TablespaceSummaryAllocationTypeUniform,
 	"USER":    TablespaceSummaryAllocationTypeUser,
@@ -254,10 +366,19 @@ var mappingTablespaceSummaryAllocationType = map[string]TablespaceSummaryAllocat
 // GetTablespaceSummaryAllocationTypeEnumValues Enumerates the set of values for TablespaceSummaryAllocationTypeEnum
 func GetTablespaceSummaryAllocationTypeEnumValues() []TablespaceSummaryAllocationTypeEnum {
 	values := make([]TablespaceSummaryAllocationTypeEnum, 0)
-	for _, v := range mappingTablespaceSummaryAllocationType {
+	for _, v := range mappingTablespaceSummaryAllocationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryAllocationTypeEnumStringValues Enumerates the set of values in String for TablespaceSummaryAllocationTypeEnum
+func GetTablespaceSummaryAllocationTypeEnumStringValues() []string {
+	return []string{
+		"SYSTEM",
+		"UNIFORM",
+		"USER",
+	}
 }
 
 // TablespaceSummarySegmentSpaceManagementEnum Enum with underlying type: string
@@ -269,7 +390,7 @@ const (
 	TablespaceSummarySegmentSpaceManagementAuto   TablespaceSummarySegmentSpaceManagementEnum = "AUTO"
 )
 
-var mappingTablespaceSummarySegmentSpaceManagement = map[string]TablespaceSummarySegmentSpaceManagementEnum{
+var mappingTablespaceSummarySegmentSpaceManagementEnum = map[string]TablespaceSummarySegmentSpaceManagementEnum{
 	"MANUAL": TablespaceSummarySegmentSpaceManagementManual,
 	"AUTO":   TablespaceSummarySegmentSpaceManagementAuto,
 }
@@ -277,10 +398,18 @@ var mappingTablespaceSummarySegmentSpaceManagement = map[string]TablespaceSummar
 // GetTablespaceSummarySegmentSpaceManagementEnumValues Enumerates the set of values for TablespaceSummarySegmentSpaceManagementEnum
 func GetTablespaceSummarySegmentSpaceManagementEnumValues() []TablespaceSummarySegmentSpaceManagementEnum {
 	values := make([]TablespaceSummarySegmentSpaceManagementEnum, 0)
-	for _, v := range mappingTablespaceSummarySegmentSpaceManagement {
+	for _, v := range mappingTablespaceSummarySegmentSpaceManagementEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummarySegmentSpaceManagementEnumStringValues Enumerates the set of values in String for TablespaceSummarySegmentSpaceManagementEnum
+func GetTablespaceSummarySegmentSpaceManagementEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTO",
+	}
 }
 
 // TablespaceSummaryDefaultTableCompressionEnum Enum with underlying type: string
@@ -292,7 +421,7 @@ const (
 	TablespaceSummaryDefaultTableCompressionDisabled TablespaceSummaryDefaultTableCompressionEnum = "DISABLED"
 )
 
-var mappingTablespaceSummaryDefaultTableCompression = map[string]TablespaceSummaryDefaultTableCompressionEnum{
+var mappingTablespaceSummaryDefaultTableCompressionEnum = map[string]TablespaceSummaryDefaultTableCompressionEnum{
 	"ENABLED":  TablespaceSummaryDefaultTableCompressionEnabled,
 	"DISABLED": TablespaceSummaryDefaultTableCompressionDisabled,
 }
@@ -300,10 +429,18 @@ var mappingTablespaceSummaryDefaultTableCompression = map[string]TablespaceSumma
 // GetTablespaceSummaryDefaultTableCompressionEnumValues Enumerates the set of values for TablespaceSummaryDefaultTableCompressionEnum
 func GetTablespaceSummaryDefaultTableCompressionEnumValues() []TablespaceSummaryDefaultTableCompressionEnum {
 	values := make([]TablespaceSummaryDefaultTableCompressionEnum, 0)
-	for _, v := range mappingTablespaceSummaryDefaultTableCompression {
+	for _, v := range mappingTablespaceSummaryDefaultTableCompressionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryDefaultTableCompressionEnumStringValues Enumerates the set of values in String for TablespaceSummaryDefaultTableCompressionEnum
+func GetTablespaceSummaryDefaultTableCompressionEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }
 
 // TablespaceSummaryRetentionEnum Enum with underlying type: string
@@ -316,7 +453,7 @@ const (
 	TablespaceSummaryRetentionNotApply    TablespaceSummaryRetentionEnum = "NOT_APPLY"
 )
 
-var mappingTablespaceSummaryRetention = map[string]TablespaceSummaryRetentionEnum{
+var mappingTablespaceSummaryRetentionEnum = map[string]TablespaceSummaryRetentionEnum{
 	"GUARANTEE":   TablespaceSummaryRetentionGuarantee,
 	"NOGUARANTEE": TablespaceSummaryRetentionNoguarantee,
 	"NOT_APPLY":   TablespaceSummaryRetentionNotApply,
@@ -325,10 +462,19 @@ var mappingTablespaceSummaryRetention = map[string]TablespaceSummaryRetentionEnu
 // GetTablespaceSummaryRetentionEnumValues Enumerates the set of values for TablespaceSummaryRetentionEnum
 func GetTablespaceSummaryRetentionEnumValues() []TablespaceSummaryRetentionEnum {
 	values := make([]TablespaceSummaryRetentionEnum, 0)
-	for _, v := range mappingTablespaceSummaryRetention {
+	for _, v := range mappingTablespaceSummaryRetentionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryRetentionEnumStringValues Enumerates the set of values in String for TablespaceSummaryRetentionEnum
+func GetTablespaceSummaryRetentionEnumStringValues() []string {
+	return []string{
+		"GUARANTEE",
+		"NOGUARANTEE",
+		"NOT_APPLY",
+	}
 }
 
 // TablespaceSummaryPredicateEvaluationEnum Enum with underlying type: string
@@ -340,7 +486,7 @@ const (
 	TablespaceSummaryPredicateEvaluationStorage TablespaceSummaryPredicateEvaluationEnum = "STORAGE"
 )
 
-var mappingTablespaceSummaryPredicateEvaluation = map[string]TablespaceSummaryPredicateEvaluationEnum{
+var mappingTablespaceSummaryPredicateEvaluationEnum = map[string]TablespaceSummaryPredicateEvaluationEnum{
 	"HOST":    TablespaceSummaryPredicateEvaluationHost,
 	"STORAGE": TablespaceSummaryPredicateEvaluationStorage,
 }
@@ -348,10 +494,18 @@ var mappingTablespaceSummaryPredicateEvaluation = map[string]TablespaceSummaryPr
 // GetTablespaceSummaryPredicateEvaluationEnumValues Enumerates the set of values for TablespaceSummaryPredicateEvaluationEnum
 func GetTablespaceSummaryPredicateEvaluationEnumValues() []TablespaceSummaryPredicateEvaluationEnum {
 	values := make([]TablespaceSummaryPredicateEvaluationEnum, 0)
-	for _, v := range mappingTablespaceSummaryPredicateEvaluation {
+	for _, v := range mappingTablespaceSummaryPredicateEvaluationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryPredicateEvaluationEnumStringValues Enumerates the set of values in String for TablespaceSummaryPredicateEvaluationEnum
+func GetTablespaceSummaryPredicateEvaluationEnumStringValues() []string {
+	return []string{
+		"HOST",
+		"STORAGE",
+	}
 }
 
 // TablespaceSummaryCompressForEnum Enum with underlying type: string
@@ -369,7 +523,7 @@ const (
 	TablespaceSummaryCompressForForAllOperations TablespaceSummaryCompressForEnum = "FOR_ALL_OPERATIONS"
 )
 
-var mappingTablespaceSummaryCompressFor = map[string]TablespaceSummaryCompressForEnum{
+var mappingTablespaceSummaryCompressForEnum = map[string]TablespaceSummaryCompressForEnum{
 	"BASIC":              TablespaceSummaryCompressForBasic,
 	"ADVANCED":           TablespaceSummaryCompressForAdvanced,
 	"QUERY_LOW":          TablespaceSummaryCompressForQueryLow,
@@ -383,10 +537,24 @@ var mappingTablespaceSummaryCompressFor = map[string]TablespaceSummaryCompressFo
 // GetTablespaceSummaryCompressForEnumValues Enumerates the set of values for TablespaceSummaryCompressForEnum
 func GetTablespaceSummaryCompressForEnumValues() []TablespaceSummaryCompressForEnum {
 	values := make([]TablespaceSummaryCompressForEnum, 0)
-	for _, v := range mappingTablespaceSummaryCompressFor {
+	for _, v := range mappingTablespaceSummaryCompressForEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryCompressForEnumStringValues Enumerates the set of values in String for TablespaceSummaryCompressForEnum
+func GetTablespaceSummaryCompressForEnumStringValues() []string {
+	return []string{
+		"BASIC",
+		"ADVANCED",
+		"QUERY_LOW",
+		"QUERY_HIGH",
+		"ARCHIVE_LOW",
+		"ARCHIVE_HIGH",
+		"DIRECT_LOAD_ONLY",
+		"FOR_ALL_OPERATIONS",
+	}
 }
 
 // TablespaceSummaryDefaultInMemoryEnum Enum with underlying type: string
@@ -398,7 +566,7 @@ const (
 	TablespaceSummaryDefaultInMemoryDisabled TablespaceSummaryDefaultInMemoryEnum = "DISABLED"
 )
 
-var mappingTablespaceSummaryDefaultInMemory = map[string]TablespaceSummaryDefaultInMemoryEnum{
+var mappingTablespaceSummaryDefaultInMemoryEnum = map[string]TablespaceSummaryDefaultInMemoryEnum{
 	"ENABLED":  TablespaceSummaryDefaultInMemoryEnabled,
 	"DISABLED": TablespaceSummaryDefaultInMemoryDisabled,
 }
@@ -406,10 +574,18 @@ var mappingTablespaceSummaryDefaultInMemory = map[string]TablespaceSummaryDefaul
 // GetTablespaceSummaryDefaultInMemoryEnumValues Enumerates the set of values for TablespaceSummaryDefaultInMemoryEnum
 func GetTablespaceSummaryDefaultInMemoryEnumValues() []TablespaceSummaryDefaultInMemoryEnum {
 	values := make([]TablespaceSummaryDefaultInMemoryEnum, 0)
-	for _, v := range mappingTablespaceSummaryDefaultInMemory {
+	for _, v := range mappingTablespaceSummaryDefaultInMemoryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryDefaultInMemoryEnumStringValues Enumerates the set of values in String for TablespaceSummaryDefaultInMemoryEnum
+func GetTablespaceSummaryDefaultInMemoryEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }
 
 // TablespaceSummaryDefaultInMemoryPriorityEnum Enum with underlying type: string
@@ -424,7 +600,7 @@ const (
 	TablespaceSummaryDefaultInMemoryPriorityNone     TablespaceSummaryDefaultInMemoryPriorityEnum = "NONE"
 )
 
-var mappingTablespaceSummaryDefaultInMemoryPriority = map[string]TablespaceSummaryDefaultInMemoryPriorityEnum{
+var mappingTablespaceSummaryDefaultInMemoryPriorityEnum = map[string]TablespaceSummaryDefaultInMemoryPriorityEnum{
 	"LOW":      TablespaceSummaryDefaultInMemoryPriorityLow,
 	"MEDIUM":   TablespaceSummaryDefaultInMemoryPriorityMedium,
 	"HIGH":     TablespaceSummaryDefaultInMemoryPriorityHigh,
@@ -435,10 +611,21 @@ var mappingTablespaceSummaryDefaultInMemoryPriority = map[string]TablespaceSumma
 // GetTablespaceSummaryDefaultInMemoryPriorityEnumValues Enumerates the set of values for TablespaceSummaryDefaultInMemoryPriorityEnum
 func GetTablespaceSummaryDefaultInMemoryPriorityEnumValues() []TablespaceSummaryDefaultInMemoryPriorityEnum {
 	values := make([]TablespaceSummaryDefaultInMemoryPriorityEnum, 0)
-	for _, v := range mappingTablespaceSummaryDefaultInMemoryPriority {
+	for _, v := range mappingTablespaceSummaryDefaultInMemoryPriorityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryDefaultInMemoryPriorityEnumStringValues Enumerates the set of values in String for TablespaceSummaryDefaultInMemoryPriorityEnum
+func GetTablespaceSummaryDefaultInMemoryPriorityEnumStringValues() []string {
+	return []string{
+		"LOW",
+		"MEDIUM",
+		"HIGH",
+		"CRITICAL",
+		"NONE",
+	}
 }
 
 // TablespaceSummaryDefaultInMemoryDistributeEnum Enum with underlying type: string
@@ -452,7 +639,7 @@ const (
 	TablespaceSummaryDefaultInMemoryDistributeBySubpartition TablespaceSummaryDefaultInMemoryDistributeEnum = "BY_SUBPARTITION"
 )
 
-var mappingTablespaceSummaryDefaultInMemoryDistribute = map[string]TablespaceSummaryDefaultInMemoryDistributeEnum{
+var mappingTablespaceSummaryDefaultInMemoryDistributeEnum = map[string]TablespaceSummaryDefaultInMemoryDistributeEnum{
 	"AUTO":            TablespaceSummaryDefaultInMemoryDistributeAuto,
 	"BY_ROWID_RANGE":  TablespaceSummaryDefaultInMemoryDistributeByRowidRange,
 	"BY_PARTITION":    TablespaceSummaryDefaultInMemoryDistributeByPartition,
@@ -462,10 +649,20 @@ var mappingTablespaceSummaryDefaultInMemoryDistribute = map[string]TablespaceSum
 // GetTablespaceSummaryDefaultInMemoryDistributeEnumValues Enumerates the set of values for TablespaceSummaryDefaultInMemoryDistributeEnum
 func GetTablespaceSummaryDefaultInMemoryDistributeEnumValues() []TablespaceSummaryDefaultInMemoryDistributeEnum {
 	values := make([]TablespaceSummaryDefaultInMemoryDistributeEnum, 0)
-	for _, v := range mappingTablespaceSummaryDefaultInMemoryDistribute {
+	for _, v := range mappingTablespaceSummaryDefaultInMemoryDistributeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryDefaultInMemoryDistributeEnumStringValues Enumerates the set of values in String for TablespaceSummaryDefaultInMemoryDistributeEnum
+func GetTablespaceSummaryDefaultInMemoryDistributeEnumStringValues() []string {
+	return []string{
+		"AUTO",
+		"BY_ROWID_RANGE",
+		"BY_PARTITION",
+		"BY_SUBPARTITION",
+	}
 }
 
 // TablespaceSummaryDefaultInMemoryCompressionEnum Enum with underlying type: string
@@ -481,7 +678,7 @@ const (
 	TablespaceSummaryDefaultInMemoryCompressionForCapacityHigh TablespaceSummaryDefaultInMemoryCompressionEnum = "FOR_CAPACITY_HIGH"
 )
 
-var mappingTablespaceSummaryDefaultInMemoryCompression = map[string]TablespaceSummaryDefaultInMemoryCompressionEnum{
+var mappingTablespaceSummaryDefaultInMemoryCompressionEnum = map[string]TablespaceSummaryDefaultInMemoryCompressionEnum{
 	"NO_MEMCOMPRESS":    TablespaceSummaryDefaultInMemoryCompressionNoMemcompress,
 	"FOR_DML":           TablespaceSummaryDefaultInMemoryCompressionForDml,
 	"FOR_QUERY_LOW":     TablespaceSummaryDefaultInMemoryCompressionForQueryLow,
@@ -493,10 +690,22 @@ var mappingTablespaceSummaryDefaultInMemoryCompression = map[string]TablespaceSu
 // GetTablespaceSummaryDefaultInMemoryCompressionEnumValues Enumerates the set of values for TablespaceSummaryDefaultInMemoryCompressionEnum
 func GetTablespaceSummaryDefaultInMemoryCompressionEnumValues() []TablespaceSummaryDefaultInMemoryCompressionEnum {
 	values := make([]TablespaceSummaryDefaultInMemoryCompressionEnum, 0)
-	for _, v := range mappingTablespaceSummaryDefaultInMemoryCompression {
+	for _, v := range mappingTablespaceSummaryDefaultInMemoryCompressionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryDefaultInMemoryCompressionEnumStringValues Enumerates the set of values in String for TablespaceSummaryDefaultInMemoryCompressionEnum
+func GetTablespaceSummaryDefaultInMemoryCompressionEnumStringValues() []string {
+	return []string{
+		"NO_MEMCOMPRESS",
+		"FOR_DML",
+		"FOR_QUERY_LOW",
+		"FOR_QUERY_HIGH",
+		"FOR_CAPACITY_LOW",
+		"FOR_CAPACITY_HIGH",
+	}
 }
 
 // TablespaceSummaryDefaultInMemoryDuplicateEnum Enum with underlying type: string
@@ -509,7 +718,7 @@ const (
 	TablespaceSummaryDefaultInMemoryDuplicateDuplicateAll TablespaceSummaryDefaultInMemoryDuplicateEnum = "DUPLICATE_ALL"
 )
 
-var mappingTablespaceSummaryDefaultInMemoryDuplicate = map[string]TablespaceSummaryDefaultInMemoryDuplicateEnum{
+var mappingTablespaceSummaryDefaultInMemoryDuplicateEnum = map[string]TablespaceSummaryDefaultInMemoryDuplicateEnum{
 	"NO_DUPLICATE":  TablespaceSummaryDefaultInMemoryDuplicateNoDuplicate,
 	"DUPLICATE":     TablespaceSummaryDefaultInMemoryDuplicateDuplicate,
 	"DUPLICATE_ALL": TablespaceSummaryDefaultInMemoryDuplicateDuplicateAll,
@@ -518,10 +727,19 @@ var mappingTablespaceSummaryDefaultInMemoryDuplicate = map[string]TablespaceSumm
 // GetTablespaceSummaryDefaultInMemoryDuplicateEnumValues Enumerates the set of values for TablespaceSummaryDefaultInMemoryDuplicateEnum
 func GetTablespaceSummaryDefaultInMemoryDuplicateEnumValues() []TablespaceSummaryDefaultInMemoryDuplicateEnum {
 	values := make([]TablespaceSummaryDefaultInMemoryDuplicateEnum, 0)
-	for _, v := range mappingTablespaceSummaryDefaultInMemoryDuplicate {
+	for _, v := range mappingTablespaceSummaryDefaultInMemoryDuplicateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryDefaultInMemoryDuplicateEnumStringValues Enumerates the set of values in String for TablespaceSummaryDefaultInMemoryDuplicateEnum
+func GetTablespaceSummaryDefaultInMemoryDuplicateEnumStringValues() []string {
+	return []string{
+		"NO_DUPLICATE",
+		"DUPLICATE",
+		"DUPLICATE_ALL",
+	}
 }
 
 // TablespaceSummarySharedEnum Enum with underlying type: string
@@ -534,7 +752,7 @@ const (
 	TablespaceSummarySharedLocalOnAll  TablespaceSummarySharedEnum = "LOCAL_ON_ALL"
 )
 
-var mappingTablespaceSummaryShared = map[string]TablespaceSummarySharedEnum{
+var mappingTablespaceSummarySharedEnum = map[string]TablespaceSummarySharedEnum{
 	"SHARED":        TablespaceSummarySharedShared,
 	"LOCAL_ON_LEAF": TablespaceSummarySharedLocalOnLeaf,
 	"LOCAL_ON_ALL":  TablespaceSummarySharedLocalOnAll,
@@ -543,10 +761,19 @@ var mappingTablespaceSummaryShared = map[string]TablespaceSummarySharedEnum{
 // GetTablespaceSummarySharedEnumValues Enumerates the set of values for TablespaceSummarySharedEnum
 func GetTablespaceSummarySharedEnumValues() []TablespaceSummarySharedEnum {
 	values := make([]TablespaceSummarySharedEnum, 0)
-	for _, v := range mappingTablespaceSummaryShared {
+	for _, v := range mappingTablespaceSummarySharedEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummarySharedEnumStringValues Enumerates the set of values in String for TablespaceSummarySharedEnum
+func GetTablespaceSummarySharedEnumStringValues() []string {
+	return []string{
+		"SHARED",
+		"LOCAL_ON_LEAF",
+		"LOCAL_ON_ALL",
+	}
 }
 
 // TablespaceSummaryDefaultIndexCompressionEnum Enum with underlying type: string
@@ -558,7 +785,7 @@ const (
 	TablespaceSummaryDefaultIndexCompressionDisabled TablespaceSummaryDefaultIndexCompressionEnum = "DISABLED"
 )
 
-var mappingTablespaceSummaryDefaultIndexCompression = map[string]TablespaceSummaryDefaultIndexCompressionEnum{
+var mappingTablespaceSummaryDefaultIndexCompressionEnum = map[string]TablespaceSummaryDefaultIndexCompressionEnum{
 	"ENABLED":  TablespaceSummaryDefaultIndexCompressionEnabled,
 	"DISABLED": TablespaceSummaryDefaultIndexCompressionDisabled,
 }
@@ -566,10 +793,18 @@ var mappingTablespaceSummaryDefaultIndexCompression = map[string]TablespaceSumma
 // GetTablespaceSummaryDefaultIndexCompressionEnumValues Enumerates the set of values for TablespaceSummaryDefaultIndexCompressionEnum
 func GetTablespaceSummaryDefaultIndexCompressionEnumValues() []TablespaceSummaryDefaultIndexCompressionEnum {
 	values := make([]TablespaceSummaryDefaultIndexCompressionEnum, 0)
-	for _, v := range mappingTablespaceSummaryDefaultIndexCompression {
+	for _, v := range mappingTablespaceSummaryDefaultIndexCompressionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryDefaultIndexCompressionEnumStringValues Enumerates the set of values in String for TablespaceSummaryDefaultIndexCompressionEnum
+func GetTablespaceSummaryDefaultIndexCompressionEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }
 
 // TablespaceSummaryIndexCompressForEnum Enum with underlying type: string
@@ -581,7 +816,7 @@ const (
 	TablespaceSummaryIndexCompressForHigh TablespaceSummaryIndexCompressForEnum = "ADVANCED_HIGH"
 )
 
-var mappingTablespaceSummaryIndexCompressFor = map[string]TablespaceSummaryIndexCompressForEnum{
+var mappingTablespaceSummaryIndexCompressForEnum = map[string]TablespaceSummaryIndexCompressForEnum{
 	"ADVANCED_LOW":  TablespaceSummaryIndexCompressForLow,
 	"ADVANCED_HIGH": TablespaceSummaryIndexCompressForHigh,
 }
@@ -589,10 +824,18 @@ var mappingTablespaceSummaryIndexCompressFor = map[string]TablespaceSummaryIndex
 // GetTablespaceSummaryIndexCompressForEnumValues Enumerates the set of values for TablespaceSummaryIndexCompressForEnum
 func GetTablespaceSummaryIndexCompressForEnumValues() []TablespaceSummaryIndexCompressForEnum {
 	values := make([]TablespaceSummaryIndexCompressForEnum, 0)
-	for _, v := range mappingTablespaceSummaryIndexCompressFor {
+	for _, v := range mappingTablespaceSummaryIndexCompressForEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryIndexCompressForEnumStringValues Enumerates the set of values in String for TablespaceSummaryIndexCompressForEnum
+func GetTablespaceSummaryIndexCompressForEnumStringValues() []string {
+	return []string{
+		"ADVANCED_LOW",
+		"ADVANCED_HIGH",
+	}
 }
 
 // TablespaceSummaryDefaultInMemoryServiceEnum Enum with underlying type: string
@@ -606,7 +849,7 @@ const (
 	TablespaceSummaryDefaultInMemoryServiceUserDefined TablespaceSummaryDefaultInMemoryServiceEnum = "USER_DEFINED"
 )
 
-var mappingTablespaceSummaryDefaultInMemoryService = map[string]TablespaceSummaryDefaultInMemoryServiceEnum{
+var mappingTablespaceSummaryDefaultInMemoryServiceEnum = map[string]TablespaceSummaryDefaultInMemoryServiceEnum{
 	"DEFAULT":      TablespaceSummaryDefaultInMemoryServiceDefault,
 	"NONE":         TablespaceSummaryDefaultInMemoryServiceNone,
 	"ALL":          TablespaceSummaryDefaultInMemoryServiceAll,
@@ -616,10 +859,20 @@ var mappingTablespaceSummaryDefaultInMemoryService = map[string]TablespaceSummar
 // GetTablespaceSummaryDefaultInMemoryServiceEnumValues Enumerates the set of values for TablespaceSummaryDefaultInMemoryServiceEnum
 func GetTablespaceSummaryDefaultInMemoryServiceEnumValues() []TablespaceSummaryDefaultInMemoryServiceEnum {
 	values := make([]TablespaceSummaryDefaultInMemoryServiceEnum, 0)
-	for _, v := range mappingTablespaceSummaryDefaultInMemoryService {
+	for _, v := range mappingTablespaceSummaryDefaultInMemoryServiceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryDefaultInMemoryServiceEnumStringValues Enumerates the set of values in String for TablespaceSummaryDefaultInMemoryServiceEnum
+func GetTablespaceSummaryDefaultInMemoryServiceEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+		"NONE",
+		"ALL",
+		"USER_DEFINED",
+	}
 }
 
 // TablespaceSummaryLostWriteProtectEnum Enum with underlying type: string
@@ -632,7 +885,7 @@ const (
 	TablespaceSummaryLostWriteProtectSuspend    TablespaceSummaryLostWriteProtectEnum = "SUSPEND"
 )
 
-var mappingTablespaceSummaryLostWriteProtect = map[string]TablespaceSummaryLostWriteProtectEnum{
+var mappingTablespaceSummaryLostWriteProtectEnum = map[string]TablespaceSummaryLostWriteProtectEnum{
 	"ENABLED":     TablespaceSummaryLostWriteProtectEnabled,
 	"PROTECT_OFF": TablespaceSummaryLostWriteProtectProtectOff,
 	"SUSPEND":     TablespaceSummaryLostWriteProtectSuspend,
@@ -641,8 +894,17 @@ var mappingTablespaceSummaryLostWriteProtect = map[string]TablespaceSummaryLostW
 // GetTablespaceSummaryLostWriteProtectEnumValues Enumerates the set of values for TablespaceSummaryLostWriteProtectEnum
 func GetTablespaceSummaryLostWriteProtectEnumValues() []TablespaceSummaryLostWriteProtectEnum {
 	values := make([]TablespaceSummaryLostWriteProtectEnum, 0)
-	for _, v := range mappingTablespaceSummaryLostWriteProtect {
+	for _, v := range mappingTablespaceSummaryLostWriteProtectEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSummaryLostWriteProtectEnumStringValues Enumerates the set of values in String for TablespaceSummaryLostWriteProtectEnum
+func GetTablespaceSummaryLostWriteProtectEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"PROTECT_OFF",
+		"SUSPEND",
+	}
 }

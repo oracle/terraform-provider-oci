@@ -13,7 +13,9 @@
 package resourcemanager
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LogEntry Log entry for an operation resulting from a job's execution.
@@ -38,6 +40,24 @@ func (m LogEntry) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogEntry) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogEntryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetLogEntryTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLogEntryLevelEnum[string(m.Level)]; !ok && m.Level != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Level: %s. Supported values are: %s.", m.Level, strings.Join(GetLogEntryLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogEntryTypeEnum Enum with underlying type: string
 type LogEntryTypeEnum string
 
@@ -46,17 +66,24 @@ const (
 	LogEntryTypeTerraformConsole LogEntryTypeEnum = "TERRAFORM_CONSOLE"
 )
 
-var mappingLogEntryType = map[string]LogEntryTypeEnum{
+var mappingLogEntryTypeEnum = map[string]LogEntryTypeEnum{
 	"TERRAFORM_CONSOLE": LogEntryTypeTerraformConsole,
 }
 
 // GetLogEntryTypeEnumValues Enumerates the set of values for LogEntryTypeEnum
 func GetLogEntryTypeEnumValues() []LogEntryTypeEnum {
 	values := make([]LogEntryTypeEnum, 0)
-	for _, v := range mappingLogEntryType {
+	for _, v := range mappingLogEntryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogEntryTypeEnumStringValues Enumerates the set of values in String for LogEntryTypeEnum
+func GetLogEntryTypeEnumStringValues() []string {
+	return []string{
+		"TERRAFORM_CONSOLE",
+	}
 }
 
 // LogEntryLevelEnum Enum with underlying type: string
@@ -72,7 +99,7 @@ const (
 	LogEntryLevelFatal LogEntryLevelEnum = "FATAL"
 )
 
-var mappingLogEntryLevel = map[string]LogEntryLevelEnum{
+var mappingLogEntryLevelEnum = map[string]LogEntryLevelEnum{
 	"TRACE": LogEntryLevelTrace,
 	"DEBUG": LogEntryLevelDebug,
 	"INFO":  LogEntryLevelInfo,
@@ -84,8 +111,20 @@ var mappingLogEntryLevel = map[string]LogEntryLevelEnum{
 // GetLogEntryLevelEnumValues Enumerates the set of values for LogEntryLevelEnum
 func GetLogEntryLevelEnumValues() []LogEntryLevelEnum {
 	values := make([]LogEntryLevelEnum, 0)
-	for _, v := range mappingLogEntryLevel {
+	for _, v := range mappingLogEntryLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogEntryLevelEnumStringValues Enumerates the set of values in String for LogEntryLevelEnum
+func GetLogEntryLevelEnumStringValues() []string {
+	return []string{
+		"TRACE",
+		"DEBUG",
+		"INFO",
+		"WARN",
+		"ERROR",
+		"FATAL",
+	}
 }

@@ -11,7 +11,9 @@ package integration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // IntegrationInstance Description of Integration Instance.
@@ -75,10 +77,36 @@ type IntegrationInstance struct {
 	ConsumptionModel IntegrationInstanceConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
 
 	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
+
+	IdcsInfo *IdcsInfoDetails `mandatory:"false" json:"idcsInfo"`
+
+	// A list of associated attachments to other services
+	Attachments []AttachmentDetails `mandatory:"false" json:"attachments"`
 }
 
 func (m IntegrationInstance) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IntegrationInstance) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIntegrationInstanceIntegrationInstanceTypeEnum[string(m.IntegrationInstanceType)]; !ok && m.IntegrationInstanceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IntegrationInstanceType: %s. Supported values are: %s.", m.IntegrationInstanceType, strings.Join(GetIntegrationInstanceIntegrationInstanceTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingIntegrationInstanceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetIntegrationInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIntegrationInstanceConsumptionModelEnum[string(m.ConsumptionModel)]; !ok && m.ConsumptionModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConsumptionModel: %s. Supported values are: %s.", m.ConsumptionModel, strings.Join(GetIntegrationInstanceConsumptionModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -96,6 +124,8 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 		AlternateCustomEndpoints []CustomEndpointDetails                        `json:"alternateCustomEndpoints"`
 		ConsumptionModel         IntegrationInstanceConsumptionModelEnum        `json:"consumptionModel"`
 		NetworkEndpointDetails   networkendpointdetails                         `json:"networkEndpointDetails"`
+		IdcsInfo                 *IdcsInfoDetails                               `json:"idcsInfo"`
+		Attachments              []AttachmentDetails                            `json:"attachments"`
 		Id                       *string                                        `json:"id"`
 		DisplayName              *string                                        `json:"displayName"`
 		CompartmentId            *string                                        `json:"compartmentId"`
@@ -145,6 +175,13 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 		m.NetworkEndpointDetails = nil
 	}
 
+	m.IdcsInfo = model.IdcsInfo
+
+	m.Attachments = make([]AttachmentDetails, len(model.Attachments))
+	for i, n := range model.Attachments {
+		m.Attachments[i] = n
+	}
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName
@@ -167,22 +204,36 @@ type IntegrationInstanceIntegrationInstanceTypeEnum string
 
 // Set of constants representing the allowable values for IntegrationInstanceIntegrationInstanceTypeEnum
 const (
-	IntegrationInstanceIntegrationInstanceTypeStandard   IntegrationInstanceIntegrationInstanceTypeEnum = "STANDARD"
-	IntegrationInstanceIntegrationInstanceTypeEnterprise IntegrationInstanceIntegrationInstanceTypeEnum = "ENTERPRISE"
+	IntegrationInstanceIntegrationInstanceTypeStandard    IntegrationInstanceIntegrationInstanceTypeEnum = "STANDARD"
+	IntegrationInstanceIntegrationInstanceTypeEnterprise  IntegrationInstanceIntegrationInstanceTypeEnum = "ENTERPRISE"
+	IntegrationInstanceIntegrationInstanceTypeFree        IntegrationInstanceIntegrationInstanceTypeEnum = "FREE"
+	IntegrationInstanceIntegrationInstanceTypeEnterprisex IntegrationInstanceIntegrationInstanceTypeEnum = "ENTERPRISEX"
 )
 
-var mappingIntegrationInstanceIntegrationInstanceType = map[string]IntegrationInstanceIntegrationInstanceTypeEnum{
-	"STANDARD":   IntegrationInstanceIntegrationInstanceTypeStandard,
-	"ENTERPRISE": IntegrationInstanceIntegrationInstanceTypeEnterprise,
+var mappingIntegrationInstanceIntegrationInstanceTypeEnum = map[string]IntegrationInstanceIntegrationInstanceTypeEnum{
+	"STANDARD":    IntegrationInstanceIntegrationInstanceTypeStandard,
+	"ENTERPRISE":  IntegrationInstanceIntegrationInstanceTypeEnterprise,
+	"FREE":        IntegrationInstanceIntegrationInstanceTypeFree,
+	"ENTERPRISEX": IntegrationInstanceIntegrationInstanceTypeEnterprisex,
 }
 
 // GetIntegrationInstanceIntegrationInstanceTypeEnumValues Enumerates the set of values for IntegrationInstanceIntegrationInstanceTypeEnum
 func GetIntegrationInstanceIntegrationInstanceTypeEnumValues() []IntegrationInstanceIntegrationInstanceTypeEnum {
 	values := make([]IntegrationInstanceIntegrationInstanceTypeEnum, 0)
-	for _, v := range mappingIntegrationInstanceIntegrationInstanceType {
+	for _, v := range mappingIntegrationInstanceIntegrationInstanceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIntegrationInstanceIntegrationInstanceTypeEnumStringValues Enumerates the set of values in String for IntegrationInstanceIntegrationInstanceTypeEnum
+func GetIntegrationInstanceIntegrationInstanceTypeEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"ENTERPRISE",
+		"FREE",
+		"ENTERPRISEX",
+	}
 }
 
 // IntegrationInstanceLifecycleStateEnum Enum with underlying type: string
@@ -199,7 +250,7 @@ const (
 	IntegrationInstanceLifecycleStateFailed   IntegrationInstanceLifecycleStateEnum = "FAILED"
 )
 
-var mappingIntegrationInstanceLifecycleState = map[string]IntegrationInstanceLifecycleStateEnum{
+var mappingIntegrationInstanceLifecycleStateEnum = map[string]IntegrationInstanceLifecycleStateEnum{
 	"CREATING": IntegrationInstanceLifecycleStateCreating,
 	"UPDATING": IntegrationInstanceLifecycleStateUpdating,
 	"ACTIVE":   IntegrationInstanceLifecycleStateActive,
@@ -212,10 +263,23 @@ var mappingIntegrationInstanceLifecycleState = map[string]IntegrationInstanceLif
 // GetIntegrationInstanceLifecycleStateEnumValues Enumerates the set of values for IntegrationInstanceLifecycleStateEnum
 func GetIntegrationInstanceLifecycleStateEnumValues() []IntegrationInstanceLifecycleStateEnum {
 	values := make([]IntegrationInstanceLifecycleStateEnum, 0)
-	for _, v := range mappingIntegrationInstanceLifecycleState {
+	for _, v := range mappingIntegrationInstanceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIntegrationInstanceLifecycleStateEnumStringValues Enumerates the set of values in String for IntegrationInstanceLifecycleStateEnum
+func GetIntegrationInstanceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // IntegrationInstanceConsumptionModelEnum Enum with underlying type: string
@@ -228,7 +292,7 @@ const (
 	IntegrationInstanceConsumptionModelOic4saas IntegrationInstanceConsumptionModelEnum = "OIC4SAAS"
 )
 
-var mappingIntegrationInstanceConsumptionModel = map[string]IntegrationInstanceConsumptionModelEnum{
+var mappingIntegrationInstanceConsumptionModelEnum = map[string]IntegrationInstanceConsumptionModelEnum{
 	"UCM":      IntegrationInstanceConsumptionModelUcm,
 	"GOV":      IntegrationInstanceConsumptionModelGov,
 	"OIC4SAAS": IntegrationInstanceConsumptionModelOic4saas,
@@ -237,8 +301,17 @@ var mappingIntegrationInstanceConsumptionModel = map[string]IntegrationInstanceC
 // GetIntegrationInstanceConsumptionModelEnumValues Enumerates the set of values for IntegrationInstanceConsumptionModelEnum
 func GetIntegrationInstanceConsumptionModelEnumValues() []IntegrationInstanceConsumptionModelEnum {
 	values := make([]IntegrationInstanceConsumptionModelEnum, 0)
-	for _, v := range mappingIntegrationInstanceConsumptionModel {
+	for _, v := range mappingIntegrationInstanceConsumptionModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIntegrationInstanceConsumptionModelEnumStringValues Enumerates the set of values in String for IntegrationInstanceConsumptionModelEnum
+func GetIntegrationInstanceConsumptionModelEnumStringValues() []string {
+	return []string{
+		"UCM",
+		"GOV",
+		"OIC4SAAS",
+	}
 }

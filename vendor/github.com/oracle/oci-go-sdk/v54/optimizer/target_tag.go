@@ -12,7 +12,9 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TargetTag A tag key definition used in the current profile override, including the tag namespace, tag key, tag value type, and tag values.
@@ -39,4 +41,19 @@ type TargetTag struct {
 
 func (m TargetTag) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TargetTag) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTagValueTypeEnum[string(m.TagValueType)]; !ok && m.TagValueType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TagValueType: %s. Supported values are: %s.", m.TagValueType, strings.Join(GetTagValueTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

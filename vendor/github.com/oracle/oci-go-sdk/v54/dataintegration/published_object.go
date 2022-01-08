@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PublishedObject The information about the published object.
@@ -148,6 +150,18 @@ func (m publishedobject) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m publishedobject) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PublishedObjectModelTypeEnum Enum with underlying type: string
 type PublishedObjectModelTypeEnum string
 
@@ -161,7 +175,7 @@ const (
 	PublishedObjectModelTypeRestTask        PublishedObjectModelTypeEnum = "REST_TASK"
 )
 
-var mappingPublishedObjectModelType = map[string]PublishedObjectModelTypeEnum{
+var mappingPublishedObjectModelTypeEnum = map[string]PublishedObjectModelTypeEnum{
 	"INTEGRATION_TASK":  PublishedObjectModelTypeIntegrationTask,
 	"DATA_LOADER_TASK":  PublishedObjectModelTypeDataLoaderTask,
 	"PIPELINE_TASK":     PublishedObjectModelTypePipelineTask,
@@ -173,8 +187,20 @@ var mappingPublishedObjectModelType = map[string]PublishedObjectModelTypeEnum{
 // GetPublishedObjectModelTypeEnumValues Enumerates the set of values for PublishedObjectModelTypeEnum
 func GetPublishedObjectModelTypeEnumValues() []PublishedObjectModelTypeEnum {
 	values := make([]PublishedObjectModelTypeEnum, 0)
-	for _, v := range mappingPublishedObjectModelType {
+	for _, v := range mappingPublishedObjectModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPublishedObjectModelTypeEnumStringValues Enumerates the set of values in String for PublishedObjectModelTypeEnum
+func GetPublishedObjectModelTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }

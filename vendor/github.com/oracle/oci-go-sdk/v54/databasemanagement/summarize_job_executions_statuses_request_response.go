@@ -5,15 +5,13 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeJobExecutionsStatusesRequest wrapper for the SummarizeJobExecutionsStatuses operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeJobExecutionsStatuses.go.html to see an example of how to use SummarizeJobExecutionsStatusesRequest.
 type SummarizeJobExecutionsStatusesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -62,6 +60,10 @@ func (request SummarizeJobExecutionsStatusesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeJobExecutionsStatusesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +77,23 @@ func (request SummarizeJobExecutionsStatusesRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeJobExecutionsStatusesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeJobExecutionsStatusesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeJobExecutionsStatusesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeJobExecutionsStatusesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeJobExecutionsStatusesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeJobExecutionsStatusesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeJobExecutionsStatusesResponse wrapper for the SummarizeJobExecutionsStatuses operation
@@ -109,7 +128,7 @@ const (
 	SummarizeJobExecutionsStatusesSortByName        SummarizeJobExecutionsStatusesSortByEnum = "NAME"
 )
 
-var mappingSummarizeJobExecutionsStatusesSortBy = map[string]SummarizeJobExecutionsStatusesSortByEnum{
+var mappingSummarizeJobExecutionsStatusesSortByEnum = map[string]SummarizeJobExecutionsStatusesSortByEnum{
 	"TIMECREATED": SummarizeJobExecutionsStatusesSortByTimecreated,
 	"NAME":        SummarizeJobExecutionsStatusesSortByName,
 }
@@ -117,10 +136,18 @@ var mappingSummarizeJobExecutionsStatusesSortBy = map[string]SummarizeJobExecuti
 // GetSummarizeJobExecutionsStatusesSortByEnumValues Enumerates the set of values for SummarizeJobExecutionsStatusesSortByEnum
 func GetSummarizeJobExecutionsStatusesSortByEnumValues() []SummarizeJobExecutionsStatusesSortByEnum {
 	values := make([]SummarizeJobExecutionsStatusesSortByEnum, 0)
-	for _, v := range mappingSummarizeJobExecutionsStatusesSortBy {
+	for _, v := range mappingSummarizeJobExecutionsStatusesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeJobExecutionsStatusesSortByEnumStringValues Enumerates the set of values in String for SummarizeJobExecutionsStatusesSortByEnum
+func GetSummarizeJobExecutionsStatusesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // SummarizeJobExecutionsStatusesSortOrderEnum Enum with underlying type: string
@@ -132,7 +159,7 @@ const (
 	SummarizeJobExecutionsStatusesSortOrderDesc SummarizeJobExecutionsStatusesSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeJobExecutionsStatusesSortOrder = map[string]SummarizeJobExecutionsStatusesSortOrderEnum{
+var mappingSummarizeJobExecutionsStatusesSortOrderEnum = map[string]SummarizeJobExecutionsStatusesSortOrderEnum{
 	"ASC":  SummarizeJobExecutionsStatusesSortOrderAsc,
 	"DESC": SummarizeJobExecutionsStatusesSortOrderDesc,
 }
@@ -140,8 +167,16 @@ var mappingSummarizeJobExecutionsStatusesSortOrder = map[string]SummarizeJobExec
 // GetSummarizeJobExecutionsStatusesSortOrderEnumValues Enumerates the set of values for SummarizeJobExecutionsStatusesSortOrderEnum
 func GetSummarizeJobExecutionsStatusesSortOrderEnumValues() []SummarizeJobExecutionsStatusesSortOrderEnum {
 	values := make([]SummarizeJobExecutionsStatusesSortOrderEnum, 0)
-	for _, v := range mappingSummarizeJobExecutionsStatusesSortOrder {
+	for _, v := range mappingSummarizeJobExecutionsStatusesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeJobExecutionsStatusesSortOrderEnumStringValues Enumerates the set of values in String for SummarizeJobExecutionsStatusesSortOrderEnum
+func GetSummarizeJobExecutionsStatusesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

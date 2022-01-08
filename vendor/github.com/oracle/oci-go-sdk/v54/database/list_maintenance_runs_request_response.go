@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListMaintenanceRunsRequest wrapper for the ListMaintenanceRuns operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListMaintenanceRuns.go.html to see an example of how to use ListMaintenanceRunsRequest.
 type ListMaintenanceRunsRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -47,6 +45,9 @@ type ListMaintenanceRunsRequest struct {
 	// A filter to return only resources that match the given availability domain exactly.
 	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
 
+	// The sub-type of the maintenance run.
+	MaintenanceSubtype MaintenanceRunSummaryMaintenanceSubtypeEnum `mandatory:"false" contributesTo:"query" name:"maintenanceSubtype" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -63,6 +64,10 @@ func (request ListMaintenanceRunsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListMaintenanceRunsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +81,35 @@ func (request ListMaintenanceRunsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListMaintenanceRunsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListMaintenanceRunsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMaintenanceRunSummaryTargetResourceTypeEnum[string(request.TargetResourceType)]; !ok && request.TargetResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetResourceType: %s. Supported values are: %s.", request.TargetResourceType, strings.Join(GetMaintenanceRunSummaryTargetResourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMaintenanceRunSummaryMaintenanceTypeEnum[string(request.MaintenanceType)]; !ok && request.MaintenanceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceType: %s. Supported values are: %s.", request.MaintenanceType, strings.Join(GetMaintenanceRunSummaryMaintenanceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMaintenanceRunsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMaintenanceRunsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMaintenanceRunsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMaintenanceRunsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMaintenanceRunSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetMaintenanceRunSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMaintenanceRunSummaryMaintenanceSubtypeEnum[string(request.MaintenanceSubtype)]; !ok && request.MaintenanceSubtype != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceSubtype: %s. Supported values are: %s.", request.MaintenanceSubtype, strings.Join(GetMaintenanceRunSummaryMaintenanceSubtypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListMaintenanceRunsResponse wrapper for the ListMaintenanceRuns operation
@@ -117,7 +151,7 @@ const (
 	ListMaintenanceRunsSortByDisplayname   ListMaintenanceRunsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListMaintenanceRunsSortBy = map[string]ListMaintenanceRunsSortByEnum{
+var mappingListMaintenanceRunsSortByEnum = map[string]ListMaintenanceRunsSortByEnum{
 	"TIME_SCHEDULED": ListMaintenanceRunsSortByTimeScheduled,
 	"TIME_ENDED":     ListMaintenanceRunsSortByTimeEnded,
 	"DISPLAYNAME":    ListMaintenanceRunsSortByDisplayname,
@@ -126,10 +160,19 @@ var mappingListMaintenanceRunsSortBy = map[string]ListMaintenanceRunsSortByEnum{
 // GetListMaintenanceRunsSortByEnumValues Enumerates the set of values for ListMaintenanceRunsSortByEnum
 func GetListMaintenanceRunsSortByEnumValues() []ListMaintenanceRunsSortByEnum {
 	values := make([]ListMaintenanceRunsSortByEnum, 0)
-	for _, v := range mappingListMaintenanceRunsSortBy {
+	for _, v := range mappingListMaintenanceRunsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMaintenanceRunsSortByEnumStringValues Enumerates the set of values in String for ListMaintenanceRunsSortByEnum
+func GetListMaintenanceRunsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_SCHEDULED",
+		"TIME_ENDED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListMaintenanceRunsSortOrderEnum Enum with underlying type: string
@@ -141,7 +184,7 @@ const (
 	ListMaintenanceRunsSortOrderDesc ListMaintenanceRunsSortOrderEnum = "DESC"
 )
 
-var mappingListMaintenanceRunsSortOrder = map[string]ListMaintenanceRunsSortOrderEnum{
+var mappingListMaintenanceRunsSortOrderEnum = map[string]ListMaintenanceRunsSortOrderEnum{
 	"ASC":  ListMaintenanceRunsSortOrderAsc,
 	"DESC": ListMaintenanceRunsSortOrderDesc,
 }
@@ -149,8 +192,16 @@ var mappingListMaintenanceRunsSortOrder = map[string]ListMaintenanceRunsSortOrde
 // GetListMaintenanceRunsSortOrderEnumValues Enumerates the set of values for ListMaintenanceRunsSortOrderEnum
 func GetListMaintenanceRunsSortOrderEnumValues() []ListMaintenanceRunsSortOrderEnum {
 	values := make([]ListMaintenanceRunsSortOrderEnum, 0)
-	for _, v := range mappingListMaintenanceRunsSortOrder {
+	for _, v := range mappingListMaintenanceRunsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMaintenanceRunsSortOrderEnumStringValues Enumerates the set of values in String for ListMaintenanceRunsSortOrderEnum
+func GetListMaintenanceRunsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

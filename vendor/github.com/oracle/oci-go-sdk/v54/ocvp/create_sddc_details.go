@@ -11,7 +11,9 @@
 package ocvp
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateSddcDetails Details of the SDDC.
@@ -29,9 +31,10 @@ type CreateSddcDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The number of ESXi hosts to create in the SDDC. You can add more hosts later
-	// (see CreateEsxiHost).
-	// **Note:** If you later delete EXSi hosts from the SDDC to total less than 3,
-	// you are still billed for the 3 minimum recommended ESXi hosts. Also,
+	// (see CreateEsxiHost). Creating
+	// a SDDC with a ESXi host count of 1 will be considered a non-production SDDC.
+	// **Note:** If you later delete EXSi hosts from a production SDDC to total less
+	// than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also,
 	// you cannot add more VMware workloads to the SDDC until it again has at least
 	// 3 ESXi hosts.
 	EsxiHostsCount *int `mandatory:"true" json:"esxiHostsCount"`
@@ -99,6 +102,11 @@ type CreateSddcDetails struct {
 	// Indicates whether to enable HCX Enterprise for this SDDC.
 	IsHcxEnterpriseEnabled *bool `mandatory:"false" json:"isHcxEnterpriseEnabled"`
 
+	// Indicates whether to create a non-production SDDC.
+	// **Note:** Currently the only supported non-production SDDCs are created with a
+	// ESXi host count of 1.
+	IsNonProduction *bool `mandatory:"false" json:"isNonProduction"`
+
 	// The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application
 	// workloads.
 	WorkloadNetworkCidr *string `mandatory:"false" json:"workloadNetworkCidr"`
@@ -110,6 +118,13 @@ type CreateSddcDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
 	// for the Provisioning component of the VMware environment.
 	ProvisioningVlanId *string `mandatory:"false" json:"provisioningVlanId"`
+
+	// The initial compute shape of the SDDC's ESXi hosts.
+	// ListSupportedHostShapes.
+	InitialHostShapeName *string `mandatory:"false" json:"initialHostShapeName"`
+
+	// The initial OCPU count of the SDDC's ESXi hosts.
+	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -124,4 +139,19 @@ type CreateSddcDetails struct {
 
 func (m CreateSddcDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateSddcDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSkuEnum[string(m.InitialSku)]; !ok && m.InitialSku != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitialSku: %s. Supported values are: %s.", m.InitialSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

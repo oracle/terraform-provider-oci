@@ -13,7 +13,9 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AwrDbReport The result of the AWR report.
@@ -62,6 +64,21 @@ func (m AwrDbReport) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AwrDbReport) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAwrDbReportFormatEnum[string(m.Format)]; !ok && m.Format != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Format: %s. Supported values are: %s.", m.Format, strings.Join(GetAwrDbReportFormatEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m AwrDbReport) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeAwrDbReport AwrDbReport
@@ -86,7 +103,7 @@ const (
 	AwrDbReportFormatXml  AwrDbReportFormatEnum = "XML"
 )
 
-var mappingAwrDbReportFormat = map[string]AwrDbReportFormatEnum{
+var mappingAwrDbReportFormatEnum = map[string]AwrDbReportFormatEnum{
 	"HTML": AwrDbReportFormatHtml,
 	"TEXT": AwrDbReportFormatText,
 	"XML":  AwrDbReportFormatXml,
@@ -95,8 +112,17 @@ var mappingAwrDbReportFormat = map[string]AwrDbReportFormatEnum{
 // GetAwrDbReportFormatEnumValues Enumerates the set of values for AwrDbReportFormatEnum
 func GetAwrDbReportFormatEnumValues() []AwrDbReportFormatEnum {
 	values := make([]AwrDbReportFormatEnum, 0)
-	for _, v := range mappingAwrDbReportFormat {
+	for _, v := range mappingAwrDbReportFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAwrDbReportFormatEnumStringValues Enumerates the set of values in String for AwrDbReportFormatEnum
+func GetAwrDbReportFormatEnumStringValues() []string {
+	return []string{
+		"HTML",
+		"TEXT",
+		"XML",
+	}
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AbstractReadAttribute The abstract read attribute.
@@ -69,6 +71,18 @@ func (m abstractreadattribute) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m abstractreadattribute) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AbstractReadAttributeModelTypeEnum Enum with underlying type: string
 type AbstractReadAttributeModelTypeEnum string
 
@@ -79,7 +93,7 @@ const (
 	AbstractReadAttributeModelTypeBiccReadAttribute   AbstractReadAttributeModelTypeEnum = "BICC_READ_ATTRIBUTE"
 )
 
-var mappingAbstractReadAttributeModelType = map[string]AbstractReadAttributeModelTypeEnum{
+var mappingAbstractReadAttributeModelTypeEnum = map[string]AbstractReadAttributeModelTypeEnum{
 	"ORACLEREADATTRIBUTE":   AbstractReadAttributeModelTypeOraclereadattribute,
 	"ORACLE_READ_ATTRIBUTE": AbstractReadAttributeModelTypeOracleReadAttribute,
 	"BICC_READ_ATTRIBUTE":   AbstractReadAttributeModelTypeBiccReadAttribute,
@@ -88,8 +102,17 @@ var mappingAbstractReadAttributeModelType = map[string]AbstractReadAttributeMode
 // GetAbstractReadAttributeModelTypeEnumValues Enumerates the set of values for AbstractReadAttributeModelTypeEnum
 func GetAbstractReadAttributeModelTypeEnumValues() []AbstractReadAttributeModelTypeEnum {
 	values := make([]AbstractReadAttributeModelTypeEnum, 0)
-	for _, v := range mappingAbstractReadAttributeModelType {
+	for _, v := range mappingAbstractReadAttributeModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAbstractReadAttributeModelTypeEnumStringValues Enumerates the set of values in String for AbstractReadAttributeModelTypeEnum
+func GetAbstractReadAttributeModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLEREADATTRIBUTE",
+		"ORACLE_READ_ATTRIBUTE",
+		"BICC_READ_ATTRIBUTE",
+	}
 }

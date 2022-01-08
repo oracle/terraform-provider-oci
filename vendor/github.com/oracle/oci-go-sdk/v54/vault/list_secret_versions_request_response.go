@@ -5,15 +5,13 @@
 package vault
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListSecretVersionsRequest wrapper for the ListSecretVersions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ListSecretVersions.go.html to see an example of how to use ListSecretVersionsRequest.
 type ListSecretVersionsRequest struct {
 
 	// The OCID of the secret.
@@ -49,6 +47,10 @@ func (request ListSecretVersionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSecretVersionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +64,23 @@ func (request ListSecretVersionsRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSecretVersionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSecretVersionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSecretVersionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSecretVersionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSecretVersionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSecretVersionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSecretVersionsResponse wrapper for the ListSecretVersions operation
@@ -101,17 +120,24 @@ const (
 	ListSecretVersionsSortByVersionNumber ListSecretVersionsSortByEnum = "VERSION_NUMBER"
 )
 
-var mappingListSecretVersionsSortBy = map[string]ListSecretVersionsSortByEnum{
+var mappingListSecretVersionsSortByEnum = map[string]ListSecretVersionsSortByEnum{
 	"VERSION_NUMBER": ListSecretVersionsSortByVersionNumber,
 }
 
 // GetListSecretVersionsSortByEnumValues Enumerates the set of values for ListSecretVersionsSortByEnum
 func GetListSecretVersionsSortByEnumValues() []ListSecretVersionsSortByEnum {
 	values := make([]ListSecretVersionsSortByEnum, 0)
-	for _, v := range mappingListSecretVersionsSortBy {
+	for _, v := range mappingListSecretVersionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSecretVersionsSortByEnumStringValues Enumerates the set of values in String for ListSecretVersionsSortByEnum
+func GetListSecretVersionsSortByEnumStringValues() []string {
+	return []string{
+		"VERSION_NUMBER",
+	}
 }
 
 // ListSecretVersionsSortOrderEnum Enum with underlying type: string
@@ -123,7 +149,7 @@ const (
 	ListSecretVersionsSortOrderDesc ListSecretVersionsSortOrderEnum = "DESC"
 )
 
-var mappingListSecretVersionsSortOrder = map[string]ListSecretVersionsSortOrderEnum{
+var mappingListSecretVersionsSortOrderEnum = map[string]ListSecretVersionsSortOrderEnum{
 	"ASC":  ListSecretVersionsSortOrderAsc,
 	"DESC": ListSecretVersionsSortOrderDesc,
 }
@@ -131,8 +157,16 @@ var mappingListSecretVersionsSortOrder = map[string]ListSecretVersionsSortOrderE
 // GetListSecretVersionsSortOrderEnumValues Enumerates the set of values for ListSecretVersionsSortOrderEnum
 func GetListSecretVersionsSortOrderEnumValues() []ListSecretVersionsSortOrderEnum {
 	values := make([]ListSecretVersionsSortOrderEnum, 0)
-	for _, v := range mappingListSecretVersionsSortOrder {
+	for _, v := range mappingListSecretVersionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSecretVersionsSortOrderEnumStringValues Enumerates the set of values in String for ListSecretVersionsSortOrderEnum
+func GetListSecretVersionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

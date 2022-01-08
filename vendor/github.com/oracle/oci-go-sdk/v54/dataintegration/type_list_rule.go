@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TypeListRule The type list rule that defines how fields are projected.
@@ -97,6 +99,24 @@ func (m TypeListRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TypeListRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTypeListRuleMatchingStrategyEnum[string(m.MatchingStrategy)]; !ok && m.MatchingStrategy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchingStrategy: %s. Supported values are: %s.", m.MatchingStrategy, strings.Join(GetTypeListRuleMatchingStrategyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTypeListRuleRuleTypeEnum[string(m.RuleType)]; !ok && m.RuleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuleType: %s. Supported values are: %s.", m.RuleType, strings.Join(GetTypeListRuleRuleTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m TypeListRule) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeTypeListRule TypeListRule
@@ -121,7 +141,7 @@ const (
 	TypeListRuleMatchingStrategyNameOnly   TypeListRuleMatchingStrategyEnum = "NAME_ONLY"
 )
 
-var mappingTypeListRuleMatchingStrategy = map[string]TypeListRuleMatchingStrategyEnum{
+var mappingTypeListRuleMatchingStrategyEnum = map[string]TypeListRuleMatchingStrategyEnum{
 	"NAME_OR_TAGS": TypeListRuleMatchingStrategyNameOrTags,
 	"TAGS_ONLY":    TypeListRuleMatchingStrategyTagsOnly,
 	"NAME_ONLY":    TypeListRuleMatchingStrategyNameOnly,
@@ -130,10 +150,19 @@ var mappingTypeListRuleMatchingStrategy = map[string]TypeListRuleMatchingStrateg
 // GetTypeListRuleMatchingStrategyEnumValues Enumerates the set of values for TypeListRuleMatchingStrategyEnum
 func GetTypeListRuleMatchingStrategyEnumValues() []TypeListRuleMatchingStrategyEnum {
 	values := make([]TypeListRuleMatchingStrategyEnum, 0)
-	for _, v := range mappingTypeListRuleMatchingStrategy {
+	for _, v := range mappingTypeListRuleMatchingStrategyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTypeListRuleMatchingStrategyEnumStringValues Enumerates the set of values in String for TypeListRuleMatchingStrategyEnum
+func GetTypeListRuleMatchingStrategyEnumStringValues() []string {
+	return []string{
+		"NAME_OR_TAGS",
+		"TAGS_ONLY",
+		"NAME_ONLY",
+	}
 }
 
 // TypeListRuleRuleTypeEnum Enum with underlying type: string
@@ -145,7 +174,7 @@ const (
 	TypeListRuleRuleTypeExclude TypeListRuleRuleTypeEnum = "EXCLUDE"
 )
 
-var mappingTypeListRuleRuleType = map[string]TypeListRuleRuleTypeEnum{
+var mappingTypeListRuleRuleTypeEnum = map[string]TypeListRuleRuleTypeEnum{
 	"INCLUDE": TypeListRuleRuleTypeInclude,
 	"EXCLUDE": TypeListRuleRuleTypeExclude,
 }
@@ -153,8 +182,16 @@ var mappingTypeListRuleRuleType = map[string]TypeListRuleRuleTypeEnum{
 // GetTypeListRuleRuleTypeEnumValues Enumerates the set of values for TypeListRuleRuleTypeEnum
 func GetTypeListRuleRuleTypeEnumValues() []TypeListRuleRuleTypeEnum {
 	values := make([]TypeListRuleRuleTypeEnum, 0)
-	for _, v := range mappingTypeListRuleRuleType {
+	for _, v := range mappingTypeListRuleRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTypeListRuleRuleTypeEnumStringValues Enumerates the set of values in String for TypeListRuleRuleTypeEnum
+func GetTypeListRuleRuleTypeEnumStringValues() []string {
+	return []string{
+		"INCLUDE",
+		"EXCLUDE",
+	}
 }

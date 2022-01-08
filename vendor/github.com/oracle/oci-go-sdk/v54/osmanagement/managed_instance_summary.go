@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ManagedInstanceSummary An OCI Compute instance that is being managed
@@ -52,6 +54,24 @@ func (m ManagedInstanceSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ManagedInstanceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingManagedInstanceSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetManagedInstanceSummaryStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOsFamiliesEnum[string(m.OsFamily)]; !ok && m.OsFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamiliesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ManagedInstanceSummaryStatusEnum Enum with underlying type: string
 type ManagedInstanceSummaryStatusEnum string
 
@@ -63,7 +83,7 @@ const (
 	ManagedInstanceSummaryStatusWarning     ManagedInstanceSummaryStatusEnum = "WARNING"
 )
 
-var mappingManagedInstanceSummaryStatus = map[string]ManagedInstanceSummaryStatusEnum{
+var mappingManagedInstanceSummaryStatusEnum = map[string]ManagedInstanceSummaryStatusEnum{
 	"NORMAL":      ManagedInstanceSummaryStatusNormal,
 	"UNREACHABLE": ManagedInstanceSummaryStatusUnreachable,
 	"ERROR":       ManagedInstanceSummaryStatusError,
@@ -73,8 +93,18 @@ var mappingManagedInstanceSummaryStatus = map[string]ManagedInstanceSummaryStatu
 // GetManagedInstanceSummaryStatusEnumValues Enumerates the set of values for ManagedInstanceSummaryStatusEnum
 func GetManagedInstanceSummaryStatusEnumValues() []ManagedInstanceSummaryStatusEnum {
 	values := make([]ManagedInstanceSummaryStatusEnum, 0)
-	for _, v := range mappingManagedInstanceSummaryStatus {
+	for _, v := range mappingManagedInstanceSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetManagedInstanceSummaryStatusEnumStringValues Enumerates the set of values in String for ManagedInstanceSummaryStatusEnum
+func GetManagedInstanceSummaryStatusEnumStringValues() []string {
+	return []string{
+		"NORMAL",
+		"UNREACHABLE",
+		"ERROR",
+		"WARNING",
+	}
 }

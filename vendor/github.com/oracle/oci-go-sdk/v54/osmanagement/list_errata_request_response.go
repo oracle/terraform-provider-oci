@@ -5,15 +5,13 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListErrataRequest wrapper for the ListErrata operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListErrata.go.html to see an example of how to use ListErrataRequest.
 type ListErrataRequest struct {
 
 	// The ID of the compartment in which to list resources. This parameter is optional and in some cases may have no effect.
@@ -61,6 +59,10 @@ func (request ListErrataRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListErrataRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +76,23 @@ func (request ListErrataRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListErrataRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListErrataRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListErrataSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListErrataSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListErrataSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListErrataSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListErrataResponse wrapper for the ListErrata operation
@@ -114,7 +133,7 @@ const (
 	ListErrataSortOrderDesc ListErrataSortOrderEnum = "DESC"
 )
 
-var mappingListErrataSortOrder = map[string]ListErrataSortOrderEnum{
+var mappingListErrataSortOrderEnum = map[string]ListErrataSortOrderEnum{
 	"ASC":  ListErrataSortOrderAsc,
 	"DESC": ListErrataSortOrderDesc,
 }
@@ -122,10 +141,18 @@ var mappingListErrataSortOrder = map[string]ListErrataSortOrderEnum{
 // GetListErrataSortOrderEnumValues Enumerates the set of values for ListErrataSortOrderEnum
 func GetListErrataSortOrderEnumValues() []ListErrataSortOrderEnum {
 	values := make([]ListErrataSortOrderEnum, 0)
-	for _, v := range mappingListErrataSortOrder {
+	for _, v := range mappingListErrataSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListErrataSortOrderEnumStringValues Enumerates the set of values in String for ListErrataSortOrderEnum
+func GetListErrataSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListErrataSortByEnum Enum with underlying type: string
@@ -137,7 +164,7 @@ const (
 	ListErrataSortByAdvisoryname ListErrataSortByEnum = "ADVISORYNAME"
 )
 
-var mappingListErrataSortBy = map[string]ListErrataSortByEnum{
+var mappingListErrataSortByEnum = map[string]ListErrataSortByEnum{
 	"ISSUEDATE":    ListErrataSortByIssuedate,
 	"ADVISORYNAME": ListErrataSortByAdvisoryname,
 }
@@ -145,8 +172,16 @@ var mappingListErrataSortBy = map[string]ListErrataSortByEnum{
 // GetListErrataSortByEnumValues Enumerates the set of values for ListErrataSortByEnum
 func GetListErrataSortByEnumValues() []ListErrataSortByEnum {
 	values := make([]ListErrataSortByEnum, 0)
-	for _, v := range mappingListErrataSortBy {
+	for _, v := range mappingListErrataSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListErrataSortByEnumStringValues Enumerates the set of values in String for ListErrataSortByEnum
+func GetListErrataSortByEnumStringValues() []string {
+	return []string{
+		"ISSUEDATE",
+		"ADVISORYNAME",
+	}
 }

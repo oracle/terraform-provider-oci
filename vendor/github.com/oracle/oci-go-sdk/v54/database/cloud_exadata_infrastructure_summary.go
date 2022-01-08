@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CloudExadataInfrastructureSummary Details of the cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
@@ -46,6 +48,36 @@ type CloudExadataInfrastructureSummary struct {
 	// The available storage can be allocated to the cloud Exadata infrastructure resource, in gigabytes (GB).
 	AvailableStorageSizeInGBs *int `mandatory:"false" json:"availableStorageSizeInGBs"`
 
+	// The total number of CPU cores allocated.
+	CpuCount *int `mandatory:"false" json:"cpuCount"`
+
+	// The total number of CPU cores available.
+	MaxCpuCount *int `mandatory:"false" json:"maxCpuCount"`
+
+	// The memory allocated in GBs.
+	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
+
+	// The total memory available in GBs.
+	MaxMemoryInGBs *int `mandatory:"false" json:"maxMemoryInGBs"`
+
+	// The local node storage allocated in GBs.
+	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
+
+	// The total local node storage available in GBs.
+	MaxDbNodeStorageInGBs *int `mandatory:"false" json:"maxDbNodeStorageInGBs"`
+
+	// Size, in terabytes, of the DATA disk group.
+	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
+
+	// The total available DATA disk group size.
+	MaxDataStorageInTBs *float64 `mandatory:"false" json:"maxDataStorageInTBs"`
+
+	// The requested number of additional storage servers for the Exadata infrastructure.
+	AdditionalStorageCount *int `mandatory:"false" json:"additionalStorageCount"`
+
+	// The requested number of additional storage servers activated for the Exadata infrastructure.
+	ActivatedStorageCount *int `mandatory:"false" json:"activatedStorageCount"`
+
 	// The date and time the cloud Exadata infrastructure resource was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -79,6 +111,21 @@ func (m CloudExadataInfrastructureSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CloudExadataInfrastructureSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCloudExadataInfrastructureSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCloudExadataInfrastructureSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CloudExadataInfrastructureSummaryLifecycleStateEnum Enum with underlying type: string
 type CloudExadataInfrastructureSummaryLifecycleStateEnum string
 
@@ -93,7 +140,7 @@ const (
 	CloudExadataInfrastructureSummaryLifecycleStateMaintenanceInProgress CloudExadataInfrastructureSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingCloudExadataInfrastructureSummaryLifecycleState = map[string]CloudExadataInfrastructureSummaryLifecycleStateEnum{
+var mappingCloudExadataInfrastructureSummaryLifecycleStateEnum = map[string]CloudExadataInfrastructureSummaryLifecycleStateEnum{
 	"PROVISIONING":            CloudExadataInfrastructureSummaryLifecycleStateProvisioning,
 	"AVAILABLE":               CloudExadataInfrastructureSummaryLifecycleStateAvailable,
 	"UPDATING":                CloudExadataInfrastructureSummaryLifecycleStateUpdating,
@@ -106,8 +153,21 @@ var mappingCloudExadataInfrastructureSummaryLifecycleState = map[string]CloudExa
 // GetCloudExadataInfrastructureSummaryLifecycleStateEnumValues Enumerates the set of values for CloudExadataInfrastructureSummaryLifecycleStateEnum
 func GetCloudExadataInfrastructureSummaryLifecycleStateEnumValues() []CloudExadataInfrastructureSummaryLifecycleStateEnum {
 	values := make([]CloudExadataInfrastructureSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingCloudExadataInfrastructureSummaryLifecycleState {
+	for _, v := range mappingCloudExadataInfrastructureSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudExadataInfrastructureSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for CloudExadataInfrastructureSummaryLifecycleStateEnum
+func GetCloudExadataInfrastructureSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }

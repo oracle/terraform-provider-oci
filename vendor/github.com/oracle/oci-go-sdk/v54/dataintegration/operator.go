@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Operator An operator defines some data integration semantics in a data flow. It may be reading/writing data or transforming the data.
@@ -243,6 +245,18 @@ func (m operator) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m operator) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // OperatorModelTypeEnum Enum with underlying type: string
 type OperatorModelTypeEnum string
 
@@ -268,7 +282,7 @@ const (
 	OperatorModelTypeLookupOperator     OperatorModelTypeEnum = "LOOKUP_OPERATOR"
 )
 
-var mappingOperatorModelType = map[string]OperatorModelTypeEnum{
+var mappingOperatorModelTypeEnum = map[string]OperatorModelTypeEnum{
 	"SOURCE_OPERATOR":     OperatorModelTypeSourceOperator,
 	"FILTER_OPERATOR":     OperatorModelTypeFilterOperator,
 	"JOINER_OPERATOR":     OperatorModelTypeJoinerOperator,
@@ -292,8 +306,32 @@ var mappingOperatorModelType = map[string]OperatorModelTypeEnum{
 // GetOperatorModelTypeEnumValues Enumerates the set of values for OperatorModelTypeEnum
 func GetOperatorModelTypeEnumValues() []OperatorModelTypeEnum {
 	values := make([]OperatorModelTypeEnum, 0)
-	for _, v := range mappingOperatorModelType {
+	for _, v := range mappingOperatorModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperatorModelTypeEnumStringValues Enumerates the set of values in String for OperatorModelTypeEnum
+func GetOperatorModelTypeEnumStringValues() []string {
+	return []string{
+		"SOURCE_OPERATOR",
+		"FILTER_OPERATOR",
+		"JOINER_OPERATOR",
+		"AGGREGATOR_OPERATOR",
+		"PROJECTION_OPERATOR",
+		"TARGET_OPERATOR",
+		"DISTINCT_OPERATOR",
+		"SORT_OPERATOR",
+		"UNION_OPERATOR",
+		"INTERSECT_OPERATOR",
+		"MINUS_OPERATOR",
+		"MERGE_OPERATOR",
+		"START_OPERATOR",
+		"END_OPERATOR",
+		"PIPELINE_OPERATOR",
+		"TASK_OPERATOR",
+		"EXPRESSION_OPERATOR",
+		"LOOKUP_OPERATOR",
+	}
 }

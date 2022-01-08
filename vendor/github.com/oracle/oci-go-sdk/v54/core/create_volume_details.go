@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateVolumeDetails The details of the volume to create. For CreateVolume operation, this field is required in the request,
@@ -58,6 +60,7 @@ type CreateVolumeDetails struct {
 	//   * `0`: Represents Lower Cost option.
 	//   * `10`: Represents Balanced option.
 	//   * `20`: Represents Higher Performance option.
+	// For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
 	// The size of the volume in GBs.
@@ -74,16 +77,32 @@ type CreateVolumeDetails struct {
 	// backup for the volume.
 	VolumeBackupId *string `mandatory:"false" json:"volumeBackupId"`
 
-	// Specifies whether the auto-tune performance is enabled for this volume.
+	// Specifies whether the auto-tune performance is enabled for this volume. This field is deprecated.
+	// Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
 
 	// The list of block volume replicas to be enabled for this volume
 	// in the specified destination availability domains.
 	BlockVolumeReplicas []BlockVolumeReplicaDetails `mandatory:"false" json:"blockVolumeReplicas"`
+
+	// The list of autotune policies to be enabled for this volume.
+	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
 }
 
 func (m CreateVolumeDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateVolumeDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -102,6 +121,7 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		VolumeBackupId      *string                           `json:"volumeBackupId"`
 		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
 		BlockVolumeReplicas []BlockVolumeReplicaDetails       `json:"blockVolumeReplicas"`
+		AutotunePolicies    []autotunepolicy                  `json:"autotunePolicies"`
 		CompartmentId       *string                           `json:"compartmentId"`
 	}{}
 
@@ -145,6 +165,19 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	m.BlockVolumeReplicas = make([]BlockVolumeReplicaDetails, len(model.BlockVolumeReplicas))
 	for i, n := range model.BlockVolumeReplicas {
 		m.BlockVolumeReplicas[i] = n
+	}
+
+	m.AutotunePolicies = make([]AutotunePolicy, len(model.AutotunePolicies))
+	for i, n := range model.AutotunePolicies {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.AutotunePolicies[i] = nn.(AutotunePolicy)
+		} else {
+			m.AutotunePolicies[i] = nil
+		}
 	}
 
 	m.CompartmentId = model.CompartmentId

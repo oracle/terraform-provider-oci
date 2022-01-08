@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteVolumeBackupPolicyAssignmentRequest wrapper for the DeleteVolumeBackupPolicyAssignment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVolumeBackupPolicyAssignment.go.html to see an example of how to use DeleteVolumeBackupPolicyAssignmentRequest.
 type DeleteVolumeBackupPolicyAssignmentRequest struct {
 
 	// The OCID of the volume backup policy assignment.
@@ -40,6 +38,10 @@ func (request DeleteVolumeBackupPolicyAssignmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteVolumeBackupPolicyAssignmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -53,6 +55,17 @@ func (request DeleteVolumeBackupPolicyAssignmentRequest) BinaryRequestBody() (*c
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteVolumeBackupPolicyAssignmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteVolumeBackupPolicyAssignmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteVolumeBackupPolicyAssignmentResponse wrapper for the DeleteVolumeBackupPolicyAssignment operation

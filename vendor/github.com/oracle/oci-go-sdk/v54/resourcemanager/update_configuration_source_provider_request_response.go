@@ -5,15 +5,13 @@
 package resourcemanager
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateConfigurationSourceProviderRequest wrapper for the UpdateConfigurationSourceProvider operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/UpdateConfigurationSourceProvider.go.html to see an example of how to use UpdateConfigurationSourceProviderRequest.
 type UpdateConfigurationSourceProviderRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration source provider.
@@ -43,6 +41,10 @@ func (request UpdateConfigurationSourceProviderRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateConfigurationSourceProviderRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +58,17 @@ func (request UpdateConfigurationSourceProviderRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateConfigurationSourceProviderRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateConfigurationSourceProviderRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateConfigurationSourceProviderResponse wrapper for the UpdateConfigurationSourceProvider operation

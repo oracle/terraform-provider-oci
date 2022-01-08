@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ImageCapabilitySchemaDescriptor Image Capability Schema Descriptor is a type of capability for an image.
@@ -81,6 +83,21 @@ func (m imagecapabilityschemadescriptor) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m imagecapabilityschemadescriptor) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingImageCapabilitySchemaDescriptorSourceEnum[string(m.Source)]; !ok && m.Source != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Source: %s. Supported values are: %s.", m.Source, strings.Join(GetImageCapabilitySchemaDescriptorSourceEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ImageCapabilitySchemaDescriptorSourceEnum Enum with underlying type: string
 type ImageCapabilitySchemaDescriptorSourceEnum string
 
@@ -90,7 +107,7 @@ const (
 	ImageCapabilitySchemaDescriptorSourceImage  ImageCapabilitySchemaDescriptorSourceEnum = "IMAGE"
 )
 
-var mappingImageCapabilitySchemaDescriptorSource = map[string]ImageCapabilitySchemaDescriptorSourceEnum{
+var mappingImageCapabilitySchemaDescriptorSourceEnum = map[string]ImageCapabilitySchemaDescriptorSourceEnum{
 	"GLOBAL": ImageCapabilitySchemaDescriptorSourceGlobal,
 	"IMAGE":  ImageCapabilitySchemaDescriptorSourceImage,
 }
@@ -98,8 +115,16 @@ var mappingImageCapabilitySchemaDescriptorSource = map[string]ImageCapabilitySch
 // GetImageCapabilitySchemaDescriptorSourceEnumValues Enumerates the set of values for ImageCapabilitySchemaDescriptorSourceEnum
 func GetImageCapabilitySchemaDescriptorSourceEnumValues() []ImageCapabilitySchemaDescriptorSourceEnum {
 	values := make([]ImageCapabilitySchemaDescriptorSourceEnum, 0)
-	for _, v := range mappingImageCapabilitySchemaDescriptorSource {
+	for _, v := range mappingImageCapabilitySchemaDescriptorSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetImageCapabilitySchemaDescriptorSourceEnumStringValues Enumerates the set of values in String for ImageCapabilitySchemaDescriptorSourceEnum
+func GetImageCapabilitySchemaDescriptorSourceEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"IMAGE",
+	}
 }

@@ -23,7 +23,7 @@ const (
 	ActionTypesFailed     ActionTypesEnum = "FAILED"
 )
 
-var mappingActionTypes = map[string]ActionTypesEnum{
+var mappingActionTypesEnum = map[string]ActionTypesEnum{
 	"CREATED":     ActionTypesCreated,
 	"UPDATED":     ActionTypesUpdated,
 	"DELETED":     ActionTypesDeleted,
@@ -35,8 +35,20 @@ var mappingActionTypes = map[string]ActionTypesEnum{
 // GetActionTypesEnumValues Enumerates the set of values for ActionTypesEnum
 func GetActionTypesEnumValues() []ActionTypesEnum {
 	values := make([]ActionTypesEnum, 0)
-	for _, v := range mappingActionTypes {
+	for _, v := range mappingActionTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetActionTypesEnumStringValues Enumerates the set of values in String for ActionTypesEnum
+func GetActionTypesEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"UPDATED",
+		"DELETED",
+		"IN_PROGRESS",
+		"RELATED",
+		"FAILED",
+	}
 }

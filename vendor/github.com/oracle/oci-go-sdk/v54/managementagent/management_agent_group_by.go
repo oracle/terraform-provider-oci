@@ -19,7 +19,7 @@ const (
 	ManagementAgentGroupByVersion            ManagementAgentGroupByEnum = "version"
 )
 
-var mappingManagementAgentGroupBy = map[string]ManagementAgentGroupByEnum{
+var mappingManagementAgentGroupByEnum = map[string]ManagementAgentGroupByEnum{
 	"availabilityStatus": ManagementAgentGroupByAvailabilityStatus,
 	"platformType":       ManagementAgentGroupByPlatformType,
 	"version":            ManagementAgentGroupByVersion,
@@ -28,8 +28,17 @@ var mappingManagementAgentGroupBy = map[string]ManagementAgentGroupByEnum{
 // GetManagementAgentGroupByEnumValues Enumerates the set of values for ManagementAgentGroupByEnum
 func GetManagementAgentGroupByEnumValues() []ManagementAgentGroupByEnum {
 	values := make([]ManagementAgentGroupByEnum, 0)
-	for _, v := range mappingManagementAgentGroupBy {
+	for _, v := range mappingManagementAgentGroupByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetManagementAgentGroupByEnumStringValues Enumerates the set of values in String for ManagementAgentGroupByEnum
+func GetManagementAgentGroupByEnumStringValues() []string {
+	return []string{
+		"availabilityStatus",
+		"platformType",
+		"version",
+	}
 }

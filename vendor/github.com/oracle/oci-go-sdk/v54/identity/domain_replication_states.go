@@ -4,28 +4,45 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// DomainReplicationStates Domain replication replication log for all domains for a given region
+// DomainReplicationStates (For tenancies that support identity domains) The identity domain replication log for all identity domains for a given region.
 type DomainReplicationStates struct {
 
-	// The OCID of the domain
+	// The OCID of the identity domain.
 	DomainId *string `mandatory:"true" json:"domainId"`
 
-	// The IDCS replicated region state
+	// The IDCS-replicated region state.
 	State ReplicatedRegionDetailsStateEnum `mandatory:"true" json:"state"`
 
-	// The replica region for domain.
+	// The replica region for the identity domain.
 	ReplicaRegion *string `mandatory:"true" json:"replicaRegion"`
 }
 
 func (m DomainReplicationStates) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DomainReplicationStates) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingReplicatedRegionDetailsStateEnum[string(m.State)]; !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetReplicatedRegionDetailsStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

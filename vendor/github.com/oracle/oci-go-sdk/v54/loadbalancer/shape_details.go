@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ShapeDetails The configuration details to update load balancer to a different shape.
@@ -25,11 +27,23 @@ type ShapeDetails struct {
 	// Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can
 	// achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps
 	// parameter.
-	// The values must be between minimumBandwidthInMbps and 8192 (8Gbps).
+	// The values must be between minimumBandwidthInMbps and 8000 (8Gbps).
 	// Example: `1500`
 	MaximumBandwidthInMbps *int `mandatory:"true" json:"maximumBandwidthInMbps"`
 }
 
 func (m ShapeDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ShapeDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

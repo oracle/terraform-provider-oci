@@ -10,7 +10,9 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutoScalePolicyRule A rule that defines a specific autoscale action to take and the metric that triggers that action.
@@ -26,6 +28,21 @@ func (m AutoScalePolicyRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutoScalePolicyRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutoScalePolicyRuleActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetAutoScalePolicyRuleActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutoScalePolicyRuleActionEnum Enum with underlying type: string
 type AutoScalePolicyRuleActionEnum string
 
@@ -35,7 +52,7 @@ const (
 	AutoScalePolicyRuleActionDown AutoScalePolicyRuleActionEnum = "CHANGE_SHAPE_SCALE_DOWN"
 )
 
-var mappingAutoScalePolicyRuleAction = map[string]AutoScalePolicyRuleActionEnum{
+var mappingAutoScalePolicyRuleActionEnum = map[string]AutoScalePolicyRuleActionEnum{
 	"CHANGE_SHAPE_SCALE_UP":   AutoScalePolicyRuleActionUp,
 	"CHANGE_SHAPE_SCALE_DOWN": AutoScalePolicyRuleActionDown,
 }
@@ -43,8 +60,16 @@ var mappingAutoScalePolicyRuleAction = map[string]AutoScalePolicyRuleActionEnum{
 // GetAutoScalePolicyRuleActionEnumValues Enumerates the set of values for AutoScalePolicyRuleActionEnum
 func GetAutoScalePolicyRuleActionEnumValues() []AutoScalePolicyRuleActionEnum {
 	values := make([]AutoScalePolicyRuleActionEnum, 0)
-	for _, v := range mappingAutoScalePolicyRuleAction {
+	for _, v := range mappingAutoScalePolicyRuleActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutoScalePolicyRuleActionEnumStringValues Enumerates the set of values in String for AutoScalePolicyRuleActionEnum
+func GetAutoScalePolicyRuleActionEnumStringValues() []string {
+	return []string{
+		"CHANGE_SHAPE_SCALE_UP",
+		"CHANGE_SHAPE_SCALE_DOWN",
+	}
 }

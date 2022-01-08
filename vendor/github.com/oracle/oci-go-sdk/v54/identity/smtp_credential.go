@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SmtpCredential Simple Mail Transfer Protocol (SMTP) credentials are needed to send email through Email Delivery.
@@ -18,7 +20,7 @@ import (
 // A user can have up to 2 SMTP credentials at a time.
 // **Note:** The credential set is always an Oracle-generated SMTP user name and password pair;
 // you cannot designate the SMTP user name or the SMTP password.
-// For more information, see Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcredentials.htm#SMTP).
+// For more information, see Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/access/managing-user-credentials.htm#SMTP).
 type SmtpCredential struct {
 
 	// The SMTP user name.
@@ -34,6 +36,7 @@ type SmtpCredential struct {
 	UserId *string `mandatory:"false" json:"userId"`
 
 	// The description you assign to the SMTP credential. Does not have to be unique, and it's changeable.
+	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Date and time the `SmtpCredential` object was created, in the format defined by RFC3339.
@@ -57,6 +60,21 @@ func (m SmtpCredential) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SmtpCredential) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSmtpCredentialLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSmtpCredentialLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SmtpCredentialLifecycleStateEnum Enum with underlying type: string
 type SmtpCredentialLifecycleStateEnum string
 
@@ -69,7 +87,7 @@ const (
 	SmtpCredentialLifecycleStateDeleted  SmtpCredentialLifecycleStateEnum = "DELETED"
 )
 
-var mappingSmtpCredentialLifecycleState = map[string]SmtpCredentialLifecycleStateEnum{
+var mappingSmtpCredentialLifecycleStateEnum = map[string]SmtpCredentialLifecycleStateEnum{
 	"CREATING": SmtpCredentialLifecycleStateCreating,
 	"ACTIVE":   SmtpCredentialLifecycleStateActive,
 	"INACTIVE": SmtpCredentialLifecycleStateInactive,
@@ -80,8 +98,19 @@ var mappingSmtpCredentialLifecycleState = map[string]SmtpCredentialLifecycleStat
 // GetSmtpCredentialLifecycleStateEnumValues Enumerates the set of values for SmtpCredentialLifecycleStateEnum
 func GetSmtpCredentialLifecycleStateEnumValues() []SmtpCredentialLifecycleStateEnum {
 	values := make([]SmtpCredentialLifecycleStateEnum, 0)
-	for _, v := range mappingSmtpCredentialLifecycleState {
+	for _, v := range mappingSmtpCredentialLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSmtpCredentialLifecycleStateEnumStringValues Enumerates the set of values in String for SmtpCredentialLifecycleStateEnum
+func GetSmtpCredentialLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

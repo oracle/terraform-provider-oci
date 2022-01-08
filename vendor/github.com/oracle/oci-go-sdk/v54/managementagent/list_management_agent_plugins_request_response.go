@@ -5,15 +5,13 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListManagementAgentPluginsRequest wrapper for the ListManagementAgentPlugins operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentPlugins.go.html to see an example of how to use ListManagementAgentPluginsRequest.
 type ListManagementAgentPluginsRequest struct {
 
 	// The OCID of the compartment to which a request will be scoped.
@@ -55,6 +53,10 @@ func (request ListManagementAgentPluginsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListManagementAgentPluginsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,32 @@ func (request ListManagementAgentPluginsRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListManagementAgentPluginsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListManagementAgentPluginsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListManagementAgentPluginsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagementAgentPluginsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentPluginsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagementAgentPluginsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentPluginsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListManagementAgentPluginsLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.PlatformType {
+		if _, ok := mappingPlatformTypesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetPlatformTypesEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListManagementAgentPluginsResponse wrapper for the ListManagementAgentPlugins operation
@@ -107,7 +135,7 @@ const (
 	ListManagementAgentPluginsSortOrderDesc ListManagementAgentPluginsSortOrderEnum = "DESC"
 )
 
-var mappingListManagementAgentPluginsSortOrder = map[string]ListManagementAgentPluginsSortOrderEnum{
+var mappingListManagementAgentPluginsSortOrderEnum = map[string]ListManagementAgentPluginsSortOrderEnum{
 	"ASC":  ListManagementAgentPluginsSortOrderAsc,
 	"DESC": ListManagementAgentPluginsSortOrderDesc,
 }
@@ -115,10 +143,18 @@ var mappingListManagementAgentPluginsSortOrder = map[string]ListManagementAgentP
 // GetListManagementAgentPluginsSortOrderEnumValues Enumerates the set of values for ListManagementAgentPluginsSortOrderEnum
 func GetListManagementAgentPluginsSortOrderEnumValues() []ListManagementAgentPluginsSortOrderEnum {
 	values := make([]ListManagementAgentPluginsSortOrderEnum, 0)
-	for _, v := range mappingListManagementAgentPluginsSortOrder {
+	for _, v := range mappingListManagementAgentPluginsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentPluginsSortOrderEnumStringValues Enumerates the set of values in String for ListManagementAgentPluginsSortOrderEnum
+func GetListManagementAgentPluginsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListManagementAgentPluginsSortByEnum Enum with underlying type: string
@@ -129,17 +165,24 @@ const (
 	ListManagementAgentPluginsSortByDisplayname ListManagementAgentPluginsSortByEnum = "displayName"
 )
 
-var mappingListManagementAgentPluginsSortBy = map[string]ListManagementAgentPluginsSortByEnum{
+var mappingListManagementAgentPluginsSortByEnum = map[string]ListManagementAgentPluginsSortByEnum{
 	"displayName": ListManagementAgentPluginsSortByDisplayname,
 }
 
 // GetListManagementAgentPluginsSortByEnumValues Enumerates the set of values for ListManagementAgentPluginsSortByEnum
 func GetListManagementAgentPluginsSortByEnumValues() []ListManagementAgentPluginsSortByEnum {
 	values := make([]ListManagementAgentPluginsSortByEnum, 0)
-	for _, v := range mappingListManagementAgentPluginsSortBy {
+	for _, v := range mappingListManagementAgentPluginsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentPluginsSortByEnumStringValues Enumerates the set of values in String for ListManagementAgentPluginsSortByEnum
+func GetListManagementAgentPluginsSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+	}
 }
 
 // ListManagementAgentPluginsLifecycleStateEnum Enum with underlying type: string
@@ -157,7 +200,7 @@ const (
 	ListManagementAgentPluginsLifecycleStateFailed     ListManagementAgentPluginsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListManagementAgentPluginsLifecycleState = map[string]ListManagementAgentPluginsLifecycleStateEnum{
+var mappingListManagementAgentPluginsLifecycleStateEnum = map[string]ListManagementAgentPluginsLifecycleStateEnum{
 	"CREATING":   ListManagementAgentPluginsLifecycleStateCreating,
 	"UPDATING":   ListManagementAgentPluginsLifecycleStateUpdating,
 	"ACTIVE":     ListManagementAgentPluginsLifecycleStateActive,
@@ -171,8 +214,22 @@ var mappingListManagementAgentPluginsLifecycleState = map[string]ListManagementA
 // GetListManagementAgentPluginsLifecycleStateEnumValues Enumerates the set of values for ListManagementAgentPluginsLifecycleStateEnum
 func GetListManagementAgentPluginsLifecycleStateEnumValues() []ListManagementAgentPluginsLifecycleStateEnum {
 	values := make([]ListManagementAgentPluginsLifecycleStateEnum, 0)
-	for _, v := range mappingListManagementAgentPluginsLifecycleState {
+	for _, v := range mappingListManagementAgentPluginsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentPluginsLifecycleStateEnumStringValues Enumerates the set of values in String for ListManagementAgentPluginsLifecycleStateEnum
+func GetListManagementAgentPluginsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"TERMINATED",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

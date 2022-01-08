@@ -10,7 +10,9 @@
 package integration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateIntegrationInstanceDetails The information to be updated.
@@ -55,25 +57,54 @@ func (m UpdateIntegrationInstanceDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateIntegrationInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum[string(m.IntegrationInstanceType)]; !ok && m.IntegrationInstanceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IntegrationInstanceType: %s. Supported values are: %s.", m.IntegrationInstanceType, strings.Join(GetUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum Enum with underlying type: string
 type UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum string
 
 // Set of constants representing the allowable values for UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
 const (
-	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARD"
-	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISE"
+	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard    UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARD"
+	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISE"
+	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeFree        UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "FREE"
+	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISEX"
 )
 
-var mappingUpdateIntegrationInstanceDetailsIntegrationInstanceType = map[string]UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
-	"STANDARD":   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
-	"ENTERPRISE": UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+var mappingUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = map[string]UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
+	"STANDARD":    UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
+	"ENTERPRISE":  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
+	"FREE":        UpdateIntegrationInstanceDetailsIntegrationInstanceTypeFree,
+	"ENTERPRISEX": UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex,
 }
 
 // GetUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumValues Enumerates the set of values for UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
 func GetUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumValues() []UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum {
 	values := make([]UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum, 0)
-	for _, v := range mappingUpdateIntegrationInstanceDetailsIntegrationInstanceType {
+	for _, v := range mappingUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues Enumerates the set of values in String for UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
+func GetUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"ENTERPRISE",
+		"FREE",
+		"ENTERPRISEX",
+	}
 }

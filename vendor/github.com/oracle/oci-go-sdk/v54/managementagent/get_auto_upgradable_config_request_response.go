@@ -5,15 +5,13 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetAutoUpgradableConfigRequest wrapper for the GetAutoUpgradableConfig operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/GetAutoUpgradableConfig.go.html to see an example of how to use GetAutoUpgradableConfigRequest.
 type GetAutoUpgradableConfigRequest struct {
 
 	// The OCID of the compartment to which a request will be scoped.
@@ -34,6 +32,10 @@ func (request GetAutoUpgradableConfigRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetAutoUpgradableConfigRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -47,6 +49,17 @@ func (request GetAutoUpgradableConfigRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetAutoUpgradableConfigRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetAutoUpgradableConfigRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetAutoUpgradableConfigResponse wrapper for the GetAutoUpgradableConfig operation

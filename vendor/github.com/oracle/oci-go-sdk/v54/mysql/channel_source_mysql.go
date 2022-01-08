@@ -11,7 +11,9 @@ package mysql
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ChannelSourceMysql Core properties of a Mysql Channel source.
@@ -36,6 +38,21 @@ type ChannelSourceMysql struct {
 
 func (m ChannelSourceMysql) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ChannelSourceMysql) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingChannelSourceMysqlSslModeEnum[string(m.SslMode)]; !ok && m.SslMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SslMode: %s. Supported values are: %s.", m.SslMode, strings.Join(GetChannelSourceMysqlSslModeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -99,7 +116,7 @@ const (
 	ChannelSourceMysqlSslModeDisabled       ChannelSourceMysqlSslModeEnum = "DISABLED"
 )
 
-var mappingChannelSourceMysqlSslMode = map[string]ChannelSourceMysqlSslModeEnum{
+var mappingChannelSourceMysqlSslModeEnum = map[string]ChannelSourceMysqlSslModeEnum{
 	"VERIFY_IDENTITY": ChannelSourceMysqlSslModeVerifyIdentity,
 	"VERIFY_CA":       ChannelSourceMysqlSslModeVerifyCa,
 	"REQUIRED":        ChannelSourceMysqlSslModeRequired,
@@ -109,8 +126,18 @@ var mappingChannelSourceMysqlSslMode = map[string]ChannelSourceMysqlSslModeEnum{
 // GetChannelSourceMysqlSslModeEnumValues Enumerates the set of values for ChannelSourceMysqlSslModeEnum
 func GetChannelSourceMysqlSslModeEnumValues() []ChannelSourceMysqlSslModeEnum {
 	values := make([]ChannelSourceMysqlSslModeEnum, 0)
-	for _, v := range mappingChannelSourceMysqlSslMode {
+	for _, v := range mappingChannelSourceMysqlSslModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetChannelSourceMysqlSslModeEnumStringValues Enumerates the set of values in String for ChannelSourceMysqlSslModeEnum
+func GetChannelSourceMysqlSslModeEnumStringValues() []string {
+	return []string{
+		"VERIFY_IDENTITY",
+		"VERIFY_CA",
+		"REQUIRED",
+		"DISABLED",
+	}
 }

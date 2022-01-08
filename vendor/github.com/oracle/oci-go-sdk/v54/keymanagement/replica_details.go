@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ReplicaDetails Details of replication status
@@ -28,6 +30,21 @@ func (m ReplicaDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ReplicaDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingReplicaDetailsStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetReplicaDetailsStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ReplicaDetailsStatusEnum Enum with underlying type: string
 type ReplicaDetailsStatusEnum string
 
@@ -37,7 +54,7 @@ const (
 	ReplicaDetailsStatusReplicated  ReplicaDetailsStatusEnum = "REPLICATED"
 )
 
-var mappingReplicaDetailsStatus = map[string]ReplicaDetailsStatusEnum{
+var mappingReplicaDetailsStatusEnum = map[string]ReplicaDetailsStatusEnum{
 	"REPLICATING": ReplicaDetailsStatusReplicating,
 	"REPLICATED":  ReplicaDetailsStatusReplicated,
 }
@@ -45,8 +62,16 @@ var mappingReplicaDetailsStatus = map[string]ReplicaDetailsStatusEnum{
 // GetReplicaDetailsStatusEnumValues Enumerates the set of values for ReplicaDetailsStatusEnum
 func GetReplicaDetailsStatusEnumValues() []ReplicaDetailsStatusEnum {
 	values := make([]ReplicaDetailsStatusEnum, 0)
-	for _, v := range mappingReplicaDetailsStatus {
+	for _, v := range mappingReplicaDetailsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetReplicaDetailsStatusEnumStringValues Enumerates the set of values in String for ReplicaDetailsStatusEnum
+func GetReplicaDetailsStatusEnumStringValues() []string {
+	return []string{
+		"REPLICATING",
+		"REPLICATED",
+	}
 }

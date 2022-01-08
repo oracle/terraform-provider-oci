@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateApplicationDetails Properties used in application create operations.
@@ -46,6 +48,21 @@ func (m CreateApplicationDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateApplicationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateApplicationDetailsModelTypeEnum[string(m.ModelType)]; !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetCreateApplicationDetailsModelTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateApplicationDetailsModelTypeEnum Enum with underlying type: string
 type CreateApplicationDetailsModelTypeEnum string
 
@@ -54,15 +71,22 @@ const (
 	CreateApplicationDetailsModelTypeIntegrationApplication CreateApplicationDetailsModelTypeEnum = "INTEGRATION_APPLICATION"
 )
 
-var mappingCreateApplicationDetailsModelType = map[string]CreateApplicationDetailsModelTypeEnum{
+var mappingCreateApplicationDetailsModelTypeEnum = map[string]CreateApplicationDetailsModelTypeEnum{
 	"INTEGRATION_APPLICATION": CreateApplicationDetailsModelTypeIntegrationApplication,
 }
 
 // GetCreateApplicationDetailsModelTypeEnumValues Enumerates the set of values for CreateApplicationDetailsModelTypeEnum
 func GetCreateApplicationDetailsModelTypeEnumValues() []CreateApplicationDetailsModelTypeEnum {
 	values := make([]CreateApplicationDetailsModelTypeEnum, 0)
-	for _, v := range mappingCreateApplicationDetailsModelType {
+	for _, v := range mappingCreateApplicationDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateApplicationDetailsModelTypeEnumStringValues Enumerates the set of values in String for CreateApplicationDetailsModelTypeEnum
+func GetCreateApplicationDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_APPLICATION",
+	}
 }

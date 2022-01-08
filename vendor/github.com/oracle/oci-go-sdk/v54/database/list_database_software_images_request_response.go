@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDatabaseSoftwareImagesRequest wrapper for the ListDatabaseSoftwareImages operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDatabaseSoftwareImages.go.html to see an example of how to use ListDatabaseSoftwareImagesRequest.
 type ListDatabaseSoftwareImagesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -62,6 +60,10 @@ func (request ListDatabaseSoftwareImagesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDatabaseSoftwareImagesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +77,32 @@ func (request ListDatabaseSoftwareImagesRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDatabaseSoftwareImagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDatabaseSoftwareImagesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDatabaseSoftwareImagesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDatabaseSoftwareImagesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseSoftwareImagesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatabaseSoftwareImagesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseSoftwareImageSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDatabaseSoftwareImageSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseSoftwareImageSummaryImageTypeEnum[string(request.ImageType)]; !ok && request.ImageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ImageType: %s. Supported values are: %s.", request.ImageType, strings.Join(GetDatabaseSoftwareImageSummaryImageTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseSoftwareImageSummaryImageShapeFamilyEnum[string(request.ImageShapeFamily)]; !ok && request.ImageShapeFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ImageShapeFamily: %s. Supported values are: %s.", request.ImageShapeFamily, strings.Join(GetDatabaseSoftwareImageSummaryImageShapeFamilyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDatabaseSoftwareImagesResponse wrapper for the ListDatabaseSoftwareImages operation
@@ -115,7 +143,7 @@ const (
 	ListDatabaseSoftwareImagesSortByDisplayname ListDatabaseSoftwareImagesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListDatabaseSoftwareImagesSortBy = map[string]ListDatabaseSoftwareImagesSortByEnum{
+var mappingListDatabaseSoftwareImagesSortByEnum = map[string]ListDatabaseSoftwareImagesSortByEnum{
 	"TIMECREATED": ListDatabaseSoftwareImagesSortByTimecreated,
 	"DISPLAYNAME": ListDatabaseSoftwareImagesSortByDisplayname,
 }
@@ -123,10 +151,18 @@ var mappingListDatabaseSoftwareImagesSortBy = map[string]ListDatabaseSoftwareIma
 // GetListDatabaseSoftwareImagesSortByEnumValues Enumerates the set of values for ListDatabaseSoftwareImagesSortByEnum
 func GetListDatabaseSoftwareImagesSortByEnumValues() []ListDatabaseSoftwareImagesSortByEnum {
 	values := make([]ListDatabaseSoftwareImagesSortByEnum, 0)
-	for _, v := range mappingListDatabaseSoftwareImagesSortBy {
+	for _, v := range mappingListDatabaseSoftwareImagesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseSoftwareImagesSortByEnumStringValues Enumerates the set of values in String for ListDatabaseSoftwareImagesSortByEnum
+func GetListDatabaseSoftwareImagesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListDatabaseSoftwareImagesSortOrderEnum Enum with underlying type: string
@@ -138,7 +174,7 @@ const (
 	ListDatabaseSoftwareImagesSortOrderDesc ListDatabaseSoftwareImagesSortOrderEnum = "DESC"
 )
 
-var mappingListDatabaseSoftwareImagesSortOrder = map[string]ListDatabaseSoftwareImagesSortOrderEnum{
+var mappingListDatabaseSoftwareImagesSortOrderEnum = map[string]ListDatabaseSoftwareImagesSortOrderEnum{
 	"ASC":  ListDatabaseSoftwareImagesSortOrderAsc,
 	"DESC": ListDatabaseSoftwareImagesSortOrderDesc,
 }
@@ -146,8 +182,16 @@ var mappingListDatabaseSoftwareImagesSortOrder = map[string]ListDatabaseSoftware
 // GetListDatabaseSoftwareImagesSortOrderEnumValues Enumerates the set of values for ListDatabaseSoftwareImagesSortOrderEnum
 func GetListDatabaseSoftwareImagesSortOrderEnumValues() []ListDatabaseSoftwareImagesSortOrderEnum {
 	values := make([]ListDatabaseSoftwareImagesSortOrderEnum, 0)
-	for _, v := range mappingListDatabaseSoftwareImagesSortOrder {
+	for _, v := range mappingListDatabaseSoftwareImagesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseSoftwareImagesSortOrderEnumStringValues Enumerates the set of values in String for ListDatabaseSoftwareImagesSortOrderEnum
+func GetListDatabaseSoftwareImagesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

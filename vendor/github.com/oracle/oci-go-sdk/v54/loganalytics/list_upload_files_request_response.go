@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListUploadFilesRequest wrapper for the ListUploadFiles operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListUploadFiles.go.html to see an example of how to use ListUploadFilesRequest.
 type ListUploadFilesRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -56,6 +54,10 @@ func (request ListUploadFilesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListUploadFilesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,29 @@ func (request ListUploadFilesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListUploadFilesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListUploadFilesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListUploadFilesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListUploadFilesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUploadFilesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListUploadFilesSortByEnumStringValues(), ",")))
+	}
+	for _, val := range request.Status {
+		if _, ok := mappingListUploadFilesStatusEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", val, strings.Join(GetListUploadFilesStatusEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListUploadFilesResponse wrapper for the ListUploadFiles operation
@@ -107,7 +132,7 @@ const (
 	ListUploadFilesSortOrderDesc ListUploadFilesSortOrderEnum = "DESC"
 )
 
-var mappingListUploadFilesSortOrder = map[string]ListUploadFilesSortOrderEnum{
+var mappingListUploadFilesSortOrderEnum = map[string]ListUploadFilesSortOrderEnum{
 	"ASC":  ListUploadFilesSortOrderAsc,
 	"DESC": ListUploadFilesSortOrderDesc,
 }
@@ -115,10 +140,18 @@ var mappingListUploadFilesSortOrder = map[string]ListUploadFilesSortOrderEnum{
 // GetListUploadFilesSortOrderEnumValues Enumerates the set of values for ListUploadFilesSortOrderEnum
 func GetListUploadFilesSortOrderEnumValues() []ListUploadFilesSortOrderEnum {
 	values := make([]ListUploadFilesSortOrderEnum, 0)
-	for _, v := range mappingListUploadFilesSortOrder {
+	for _, v := range mappingListUploadFilesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUploadFilesSortOrderEnumStringValues Enumerates the set of values in String for ListUploadFilesSortOrderEnum
+func GetListUploadFilesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListUploadFilesSortByEnum Enum with underlying type: string
@@ -136,7 +169,7 @@ const (
 	ListUploadFilesSortByLoggroup     ListUploadFilesSortByEnum = "logGroup"
 )
 
-var mappingListUploadFilesSortBy = map[string]ListUploadFilesSortByEnum{
+var mappingListUploadFilesSortByEnum = map[string]ListUploadFilesSortByEnum{
 	"timeStarted":  ListUploadFilesSortByTimestarted,
 	"name":         ListUploadFilesSortByName,
 	"logGroupName": ListUploadFilesSortByLoggroupname,
@@ -150,10 +183,24 @@ var mappingListUploadFilesSortBy = map[string]ListUploadFilesSortByEnum{
 // GetListUploadFilesSortByEnumValues Enumerates the set of values for ListUploadFilesSortByEnum
 func GetListUploadFilesSortByEnumValues() []ListUploadFilesSortByEnum {
 	values := make([]ListUploadFilesSortByEnum, 0)
-	for _, v := range mappingListUploadFilesSortBy {
+	for _, v := range mappingListUploadFilesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUploadFilesSortByEnumStringValues Enumerates the set of values in String for ListUploadFilesSortByEnum
+func GetListUploadFilesSortByEnumStringValues() []string {
+	return []string{
+		"timeStarted",
+		"name",
+		"logGroupName",
+		"sourceName",
+		"status",
+		"timeCreated",
+		"fileName",
+		"logGroup",
+	}
 }
 
 // ListUploadFilesStatusEnum Enum with underlying type: string
@@ -166,7 +213,7 @@ const (
 	ListUploadFilesStatusFailed     ListUploadFilesStatusEnum = "FAILED"
 )
 
-var mappingListUploadFilesStatus = map[string]ListUploadFilesStatusEnum{
+var mappingListUploadFilesStatusEnum = map[string]ListUploadFilesStatusEnum{
 	"IN_PROGRESS": ListUploadFilesStatusInProgress,
 	"SUCCESSFUL":  ListUploadFilesStatusSuccessful,
 	"FAILED":      ListUploadFilesStatusFailed,
@@ -175,8 +222,17 @@ var mappingListUploadFilesStatus = map[string]ListUploadFilesStatusEnum{
 // GetListUploadFilesStatusEnumValues Enumerates the set of values for ListUploadFilesStatusEnum
 func GetListUploadFilesStatusEnumValues() []ListUploadFilesStatusEnum {
 	values := make([]ListUploadFilesStatusEnum, 0)
-	for _, v := range mappingListUploadFilesStatus {
+	for _, v := range mappingListUploadFilesStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUploadFilesStatusEnumStringValues Enumerates the set of values in String for ListUploadFilesStatusEnum
+func GetListUploadFilesStatusEnumStringValues() []string {
+	return []string{
+		"IN_PROGRESS",
+		"SUCCESSFUL",
+		"FAILED",
+	}
 }

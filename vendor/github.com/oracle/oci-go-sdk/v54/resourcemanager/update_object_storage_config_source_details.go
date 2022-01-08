@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateObjectStorageConfigSourceDetails Updates property details for the Object Storage bucket that contains Terraform configuration files.
@@ -41,6 +43,18 @@ func (m UpdateObjectStorageConfigSourceDetails) GetWorkingDirectory() *string {
 
 func (m UpdateObjectStorageConfigSourceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateObjectStorageConfigSourceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

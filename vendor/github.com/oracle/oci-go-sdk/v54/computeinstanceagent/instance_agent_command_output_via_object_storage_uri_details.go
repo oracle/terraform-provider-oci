@@ -12,7 +12,9 @@ package computeinstanceagent
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceAgentCommandOutputViaObjectStorageUriDetails The command output destination when saved to an Object Storage URL.
@@ -24,6 +26,18 @@ type InstanceAgentCommandOutputViaObjectStorageUriDetails struct {
 
 func (m InstanceAgentCommandOutputViaObjectStorageUriDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceAgentCommandOutputViaObjectStorageUriDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

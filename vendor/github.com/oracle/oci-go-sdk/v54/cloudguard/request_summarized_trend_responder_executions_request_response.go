@@ -5,15 +5,13 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // RequestSummarizedTrendResponderExecutionsRequest wrapper for the RequestSummarizedTrendResponderExecutions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedTrendResponderExecutions.go.html to see an example of how to use RequestSummarizedTrendResponderExecutionsRequest.
 type RequestSummarizedTrendResponderExecutionsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -59,6 +57,10 @@ func (request RequestSummarizedTrendResponderExecutionsRequest) String() string 
 // HTTPRequest implements the OCIRequest interface
 func (request RequestSummarizedTrendResponderExecutionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +74,20 @@ func (request RequestSummarizedTrendResponderExecutionsRequest) BinaryRequestBod
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request RequestSummarizedTrendResponderExecutionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request RequestSummarizedTrendResponderExecutionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRequestSummarizedTrendResponderExecutionsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetRequestSummarizedTrendResponderExecutionsAccessLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // RequestSummarizedTrendResponderExecutionsResponse wrapper for the RequestSummarizedTrendResponderExecutions operation
@@ -111,7 +127,7 @@ const (
 	RequestSummarizedTrendResponderExecutionsAccessLevelAccessible RequestSummarizedTrendResponderExecutionsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingRequestSummarizedTrendResponderExecutionsAccessLevel = map[string]RequestSummarizedTrendResponderExecutionsAccessLevelEnum{
+var mappingRequestSummarizedTrendResponderExecutionsAccessLevelEnum = map[string]RequestSummarizedTrendResponderExecutionsAccessLevelEnum{
 	"RESTRICTED": RequestSummarizedTrendResponderExecutionsAccessLevelRestricted,
 	"ACCESSIBLE": RequestSummarizedTrendResponderExecutionsAccessLevelAccessible,
 }
@@ -119,8 +135,16 @@ var mappingRequestSummarizedTrendResponderExecutionsAccessLevel = map[string]Req
 // GetRequestSummarizedTrendResponderExecutionsAccessLevelEnumValues Enumerates the set of values for RequestSummarizedTrendResponderExecutionsAccessLevelEnum
 func GetRequestSummarizedTrendResponderExecutionsAccessLevelEnumValues() []RequestSummarizedTrendResponderExecutionsAccessLevelEnum {
 	values := make([]RequestSummarizedTrendResponderExecutionsAccessLevelEnum, 0)
-	for _, v := range mappingRequestSummarizedTrendResponderExecutionsAccessLevel {
+	for _, v := range mappingRequestSummarizedTrendResponderExecutionsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRequestSummarizedTrendResponderExecutionsAccessLevelEnumStringValues Enumerates the set of values in String for RequestSummarizedTrendResponderExecutionsAccessLevelEnum
+func GetRequestSummarizedTrendResponderExecutionsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }

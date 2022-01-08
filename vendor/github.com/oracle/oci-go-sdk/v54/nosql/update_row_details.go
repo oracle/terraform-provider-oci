@@ -13,7 +13,9 @@
 package nosql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateRowDetails Specifications for the putting of a table row.
@@ -60,6 +62,21 @@ func (m UpdateRowDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateRowDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateRowDetailsOptionEnum[string(m.Option)]; !ok && m.Option != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Option: %s. Supported values are: %s.", m.Option, strings.Join(GetUpdateRowDetailsOptionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateRowDetailsOptionEnum Enum with underlying type: string
 type UpdateRowDetailsOptionEnum string
 
@@ -69,7 +86,7 @@ const (
 	UpdateRowDetailsOptionPresent UpdateRowDetailsOptionEnum = "IF_PRESENT"
 )
 
-var mappingUpdateRowDetailsOption = map[string]UpdateRowDetailsOptionEnum{
+var mappingUpdateRowDetailsOptionEnum = map[string]UpdateRowDetailsOptionEnum{
 	"IF_ABSENT":  UpdateRowDetailsOptionAbsent,
 	"IF_PRESENT": UpdateRowDetailsOptionPresent,
 }
@@ -77,8 +94,16 @@ var mappingUpdateRowDetailsOption = map[string]UpdateRowDetailsOptionEnum{
 // GetUpdateRowDetailsOptionEnumValues Enumerates the set of values for UpdateRowDetailsOptionEnum
 func GetUpdateRowDetailsOptionEnumValues() []UpdateRowDetailsOptionEnum {
 	values := make([]UpdateRowDetailsOptionEnum, 0)
-	for _, v := range mappingUpdateRowDetailsOption {
+	for _, v := range mappingUpdateRowDetailsOptionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateRowDetailsOptionEnumStringValues Enumerates the set of values in String for UpdateRowDetailsOptionEnum
+func GetUpdateRowDetailsOptionEnumStringValues() []string {
+	return []string{
+		"IF_ABSENT",
+		"IF_PRESENT",
+	}
 }

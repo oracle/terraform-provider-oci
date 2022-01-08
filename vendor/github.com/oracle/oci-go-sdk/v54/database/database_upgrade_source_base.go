@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseUpgradeSourceBase Details for the database upgrade source.
@@ -80,6 +82,18 @@ func (m databaseupgradesourcebase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m databaseupgradesourcebase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseUpgradeSourceBaseSourceEnum Enum with underlying type: string
 type DatabaseUpgradeSourceBaseSourceEnum string
 
@@ -90,7 +104,7 @@ const (
 	DatabaseUpgradeSourceBaseSourceSoftwareImage DatabaseUpgradeSourceBaseSourceEnum = "DB_SOFTWARE_IMAGE"
 )
 
-var mappingDatabaseUpgradeSourceBaseSource = map[string]DatabaseUpgradeSourceBaseSourceEnum{
+var mappingDatabaseUpgradeSourceBaseSourceEnum = map[string]DatabaseUpgradeSourceBaseSourceEnum{
 	"DB_HOME":           DatabaseUpgradeSourceBaseSourceHome,
 	"DB_VERSION":        DatabaseUpgradeSourceBaseSourceVersion,
 	"DB_SOFTWARE_IMAGE": DatabaseUpgradeSourceBaseSourceSoftwareImage,
@@ -99,8 +113,17 @@ var mappingDatabaseUpgradeSourceBaseSource = map[string]DatabaseUpgradeSourceBas
 // GetDatabaseUpgradeSourceBaseSourceEnumValues Enumerates the set of values for DatabaseUpgradeSourceBaseSourceEnum
 func GetDatabaseUpgradeSourceBaseSourceEnumValues() []DatabaseUpgradeSourceBaseSourceEnum {
 	values := make([]DatabaseUpgradeSourceBaseSourceEnum, 0)
-	for _, v := range mappingDatabaseUpgradeSourceBaseSource {
+	for _, v := range mappingDatabaseUpgradeSourceBaseSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseUpgradeSourceBaseSourceEnumStringValues Enumerates the set of values in String for DatabaseUpgradeSourceBaseSourceEnum
+func GetDatabaseUpgradeSourceBaseSourceEnumStringValues() []string {
+	return []string{
+		"DB_HOME",
+		"DB_VERSION",
+		"DB_SOFTWARE_IMAGE",
+	}
 }

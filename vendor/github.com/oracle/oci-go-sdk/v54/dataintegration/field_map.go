@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // FieldMap A field map is a way to map a source row shape to a target row shape that may be different.
@@ -83,6 +85,18 @@ func (m fieldmap) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m fieldmap) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FieldMapModelTypeEnum Enum with underlying type: string
 type FieldMapModelTypeEnum string
 
@@ -94,7 +108,7 @@ const (
 	FieldMapModelTypeRuleBasedFieldMap   FieldMapModelTypeEnum = "RULE_BASED_FIELD_MAP"
 )
 
-var mappingFieldMapModelType = map[string]FieldMapModelTypeEnum{
+var mappingFieldMapModelTypeEnum = map[string]FieldMapModelTypeEnum{
 	"DIRECT_NAMED_FIELD_MAP": FieldMapModelTypeDirectNamedFieldMap,
 	"COMPOSITE_FIELD_MAP":    FieldMapModelTypeCompositeFieldMap,
 	"DIRECT_FIELD_MAP":       FieldMapModelTypeDirectFieldMap,
@@ -104,8 +118,18 @@ var mappingFieldMapModelType = map[string]FieldMapModelTypeEnum{
 // GetFieldMapModelTypeEnumValues Enumerates the set of values for FieldMapModelTypeEnum
 func GetFieldMapModelTypeEnumValues() []FieldMapModelTypeEnum {
 	values := make([]FieldMapModelTypeEnum, 0)
-	for _, v := range mappingFieldMapModelType {
+	for _, v := range mappingFieldMapModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFieldMapModelTypeEnumStringValues Enumerates the set of values in String for FieldMapModelTypeEnum
+func GetFieldMapModelTypeEnumStringValues() []string {
+	return []string{
+		"DIRECT_NAMED_FIELD_MAP",
+		"COMPOSITE_FIELD_MAP",
+		"DIRECT_FIELD_MAP",
+		"RULE_BASED_FIELD_MAP",
+	}
 }

@@ -5,15 +5,13 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListResponderRecipeResponderRulesRequest wrapper for the ListResponderRecipeResponderRules operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResponderRecipeResponderRules.go.html to see an example of how to use ListResponderRecipeResponderRulesRequest.
 type ListResponderRecipeResponderRulesRequest struct {
 
 	// OCID of ResponderRecipe
@@ -55,6 +53,10 @@ func (request ListResponderRecipeResponderRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListResponderRecipeResponderRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,26 @@ func (request ListResponderRecipeResponderRulesRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListResponderRecipeResponderRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListResponderRecipeResponderRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListResponderRecipeResponderRulesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListResponderRecipeResponderRulesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResponderRecipeResponderRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListResponderRecipeResponderRulesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResponderRecipeResponderRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListResponderRecipeResponderRulesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListResponderRecipeResponderRulesResponse wrapper for the ListResponderRecipeResponderRules operation
@@ -112,7 +134,7 @@ const (
 	ListResponderRecipeResponderRulesLifecycleStateFailed   ListResponderRecipeResponderRulesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListResponderRecipeResponderRulesLifecycleState = map[string]ListResponderRecipeResponderRulesLifecycleStateEnum{
+var mappingListResponderRecipeResponderRulesLifecycleStateEnum = map[string]ListResponderRecipeResponderRulesLifecycleStateEnum{
 	"CREATING": ListResponderRecipeResponderRulesLifecycleStateCreating,
 	"UPDATING": ListResponderRecipeResponderRulesLifecycleStateUpdating,
 	"ACTIVE":   ListResponderRecipeResponderRulesLifecycleStateActive,
@@ -125,10 +147,23 @@ var mappingListResponderRecipeResponderRulesLifecycleState = map[string]ListResp
 // GetListResponderRecipeResponderRulesLifecycleStateEnumValues Enumerates the set of values for ListResponderRecipeResponderRulesLifecycleStateEnum
 func GetListResponderRecipeResponderRulesLifecycleStateEnumValues() []ListResponderRecipeResponderRulesLifecycleStateEnum {
 	values := make([]ListResponderRecipeResponderRulesLifecycleStateEnum, 0)
-	for _, v := range mappingListResponderRecipeResponderRulesLifecycleState {
+	for _, v := range mappingListResponderRecipeResponderRulesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderRecipeResponderRulesLifecycleStateEnumStringValues Enumerates the set of values in String for ListResponderRecipeResponderRulesLifecycleStateEnum
+func GetListResponderRecipeResponderRulesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListResponderRecipeResponderRulesSortOrderEnum Enum with underlying type: string
@@ -140,7 +175,7 @@ const (
 	ListResponderRecipeResponderRulesSortOrderDesc ListResponderRecipeResponderRulesSortOrderEnum = "DESC"
 )
 
-var mappingListResponderRecipeResponderRulesSortOrder = map[string]ListResponderRecipeResponderRulesSortOrderEnum{
+var mappingListResponderRecipeResponderRulesSortOrderEnum = map[string]ListResponderRecipeResponderRulesSortOrderEnum{
 	"ASC":  ListResponderRecipeResponderRulesSortOrderAsc,
 	"DESC": ListResponderRecipeResponderRulesSortOrderDesc,
 }
@@ -148,10 +183,18 @@ var mappingListResponderRecipeResponderRulesSortOrder = map[string]ListResponder
 // GetListResponderRecipeResponderRulesSortOrderEnumValues Enumerates the set of values for ListResponderRecipeResponderRulesSortOrderEnum
 func GetListResponderRecipeResponderRulesSortOrderEnumValues() []ListResponderRecipeResponderRulesSortOrderEnum {
 	values := make([]ListResponderRecipeResponderRulesSortOrderEnum, 0)
-	for _, v := range mappingListResponderRecipeResponderRulesSortOrder {
+	for _, v := range mappingListResponderRecipeResponderRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderRecipeResponderRulesSortOrderEnumStringValues Enumerates the set of values in String for ListResponderRecipeResponderRulesSortOrderEnum
+func GetListResponderRecipeResponderRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListResponderRecipeResponderRulesSortByEnum Enum with underlying type: string
@@ -163,7 +206,7 @@ const (
 	ListResponderRecipeResponderRulesSortByRisklevel   ListResponderRecipeResponderRulesSortByEnum = "riskLevel"
 )
 
-var mappingListResponderRecipeResponderRulesSortBy = map[string]ListResponderRecipeResponderRulesSortByEnum{
+var mappingListResponderRecipeResponderRulesSortByEnum = map[string]ListResponderRecipeResponderRulesSortByEnum{
 	"displayName": ListResponderRecipeResponderRulesSortByDisplayname,
 	"riskLevel":   ListResponderRecipeResponderRulesSortByRisklevel,
 }
@@ -171,8 +214,16 @@ var mappingListResponderRecipeResponderRulesSortBy = map[string]ListResponderRec
 // GetListResponderRecipeResponderRulesSortByEnumValues Enumerates the set of values for ListResponderRecipeResponderRulesSortByEnum
 func GetListResponderRecipeResponderRulesSortByEnumValues() []ListResponderRecipeResponderRulesSortByEnum {
 	values := make([]ListResponderRecipeResponderRulesSortByEnum, 0)
-	for _, v := range mappingListResponderRecipeResponderRulesSortBy {
+	for _, v := range mappingListResponderRecipeResponderRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderRecipeResponderRulesSortByEnumStringValues Enumerates the set of values in String for ListResponderRecipeResponderRulesSortByEnum
+func GetListResponderRecipeResponderRulesSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"riskLevel",
+	}
 }

@@ -11,7 +11,9 @@ package databasetools
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseToolsKeyStoreContent The key store content.
@@ -61,6 +63,18 @@ func (m databasetoolskeystorecontent) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m databasetoolskeystorecontent) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseToolsKeyStoreContentValueTypeEnum Enum with underlying type: string
 type DatabaseToolsKeyStoreContentValueTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	DatabaseToolsKeyStoreContentValueTypeSecretid DatabaseToolsKeyStoreContentValueTypeEnum = "SECRETID"
 )
 
-var mappingDatabaseToolsKeyStoreContentValueType = map[string]DatabaseToolsKeyStoreContentValueTypeEnum{
+var mappingDatabaseToolsKeyStoreContentValueTypeEnum = map[string]DatabaseToolsKeyStoreContentValueTypeEnum{
 	"SECRETID": DatabaseToolsKeyStoreContentValueTypeSecretid,
 }
 
 // GetDatabaseToolsKeyStoreContentValueTypeEnumValues Enumerates the set of values for DatabaseToolsKeyStoreContentValueTypeEnum
 func GetDatabaseToolsKeyStoreContentValueTypeEnumValues() []DatabaseToolsKeyStoreContentValueTypeEnum {
 	values := make([]DatabaseToolsKeyStoreContentValueTypeEnum, 0)
-	for _, v := range mappingDatabaseToolsKeyStoreContentValueType {
+	for _, v := range mappingDatabaseToolsKeyStoreContentValueTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseToolsKeyStoreContentValueTypeEnumStringValues Enumerates the set of values in String for DatabaseToolsKeyStoreContentValueTypeEnum
+func GetDatabaseToolsKeyStoreContentValueTypeEnumStringValues() []string {
+	return []string{
+		"SECRETID",
+	}
 }

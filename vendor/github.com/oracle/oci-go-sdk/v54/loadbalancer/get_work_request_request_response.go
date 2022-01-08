@@ -5,15 +5,13 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetWorkRequestRequest wrapper for the GetWorkRequest operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetWorkRequest.go.html to see an example of how to use GetWorkRequestRequest.
 type GetWorkRequestRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request to retrieve.
@@ -35,6 +33,10 @@ func (request GetWorkRequestRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetWorkRequestRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -50,6 +52,17 @@ func (request GetWorkRequestRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetWorkRequestRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // GetWorkRequestResponse wrapper for the GetWorkRequest operation
 type GetWorkRequestResponse struct {
 
@@ -59,9 +72,15 @@ type GetWorkRequestResponse struct {
 	// The WorkRequest instance
 	WorkRequest `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Flag to indicate whether or not the object was modified.  If this is true,
+	// the getter for the object itself will return null.  Callers should check this
+	// if they specified one of the request params that might result in a conditional
+	// response (like 'if-match'/'if-none-match').
+	IsNotModified bool
 }
 
 func (response GetWorkRequestResponse) String() string {

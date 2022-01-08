@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateDatabaseDetails Details for creating a database.
@@ -57,12 +59,36 @@ type CreateDatabaseDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	VaultId *string `mandatory:"false" json:"vaultId"`
+
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 }
 
 func (m CreateDatabaseDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDatabaseDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateDatabaseDetailsDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateDatabaseDetailsDbWorkloadEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateDatabaseDetailsDbWorkloadEnum Enum with underlying type: string
@@ -74,7 +100,7 @@ const (
 	CreateDatabaseDetailsDbWorkloadDss  CreateDatabaseDetailsDbWorkloadEnum = "DSS"
 )
 
-var mappingCreateDatabaseDetailsDbWorkload = map[string]CreateDatabaseDetailsDbWorkloadEnum{
+var mappingCreateDatabaseDetailsDbWorkloadEnum = map[string]CreateDatabaseDetailsDbWorkloadEnum{
 	"OLTP": CreateDatabaseDetailsDbWorkloadOltp,
 	"DSS":  CreateDatabaseDetailsDbWorkloadDss,
 }
@@ -82,8 +108,16 @@ var mappingCreateDatabaseDetailsDbWorkload = map[string]CreateDatabaseDetailsDbW
 // GetCreateDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for CreateDatabaseDetailsDbWorkloadEnum
 func GetCreateDatabaseDetailsDbWorkloadEnumValues() []CreateDatabaseDetailsDbWorkloadEnum {
 	values := make([]CreateDatabaseDetailsDbWorkloadEnum, 0)
-	for _, v := range mappingCreateDatabaseDetailsDbWorkload {
+	for _, v := range mappingCreateDatabaseDetailsDbWorkloadEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDatabaseDetailsDbWorkloadEnumStringValues Enumerates the set of values in String for CreateDatabaseDetailsDbWorkloadEnum
+func GetCreateDatabaseDetailsDbWorkloadEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DSS",
+	}
 }

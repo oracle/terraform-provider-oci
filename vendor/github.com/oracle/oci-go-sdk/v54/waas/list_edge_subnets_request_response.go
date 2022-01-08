@@ -5,15 +5,13 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListEdgeSubnetsRequest wrapper for the ListEdgeSubnets operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListEdgeSubnets.go.html to see an example of how to use ListEdgeSubnetsRequest.
 type ListEdgeSubnetsRequest struct {
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -43,6 +41,10 @@ func (request ListEdgeSubnetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListEdgeSubnetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +58,23 @@ func (request ListEdgeSubnetsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListEdgeSubnetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListEdgeSubnetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListEdgeSubnetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListEdgeSubnetsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEdgeSubnetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListEdgeSubnetsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListEdgeSubnetsResponse wrapper for the ListEdgeSubnets operation
@@ -93,7 +112,7 @@ const (
 	ListEdgeSubnetsSortByTimemodified ListEdgeSubnetsSortByEnum = "timeModified"
 )
 
-var mappingListEdgeSubnetsSortBy = map[string]ListEdgeSubnetsSortByEnum{
+var mappingListEdgeSubnetsSortByEnum = map[string]ListEdgeSubnetsSortByEnum{
 	"cidr":         ListEdgeSubnetsSortByCidr,
 	"region":       ListEdgeSubnetsSortByRegion,
 	"timeModified": ListEdgeSubnetsSortByTimemodified,
@@ -102,10 +121,19 @@ var mappingListEdgeSubnetsSortBy = map[string]ListEdgeSubnetsSortByEnum{
 // GetListEdgeSubnetsSortByEnumValues Enumerates the set of values for ListEdgeSubnetsSortByEnum
 func GetListEdgeSubnetsSortByEnumValues() []ListEdgeSubnetsSortByEnum {
 	values := make([]ListEdgeSubnetsSortByEnum, 0)
-	for _, v := range mappingListEdgeSubnetsSortBy {
+	for _, v := range mappingListEdgeSubnetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEdgeSubnetsSortByEnumStringValues Enumerates the set of values in String for ListEdgeSubnetsSortByEnum
+func GetListEdgeSubnetsSortByEnumStringValues() []string {
+	return []string{
+		"cidr",
+		"region",
+		"timeModified",
+	}
 }
 
 // ListEdgeSubnetsSortOrderEnum Enum with underlying type: string
@@ -117,7 +145,7 @@ const (
 	ListEdgeSubnetsSortOrderDesc ListEdgeSubnetsSortOrderEnum = "DESC"
 )
 
-var mappingListEdgeSubnetsSortOrder = map[string]ListEdgeSubnetsSortOrderEnum{
+var mappingListEdgeSubnetsSortOrderEnum = map[string]ListEdgeSubnetsSortOrderEnum{
 	"ASC":  ListEdgeSubnetsSortOrderAsc,
 	"DESC": ListEdgeSubnetsSortOrderDesc,
 }
@@ -125,8 +153,16 @@ var mappingListEdgeSubnetsSortOrder = map[string]ListEdgeSubnetsSortOrderEnum{
 // GetListEdgeSubnetsSortOrderEnumValues Enumerates the set of values for ListEdgeSubnetsSortOrderEnum
 func GetListEdgeSubnetsSortOrderEnumValues() []ListEdgeSubnetsSortOrderEnum {
 	values := make([]ListEdgeSubnetsSortOrderEnum, 0)
-	for _, v := range mappingListEdgeSubnetsSortOrder {
+	for _, v := range mappingListEdgeSubnetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEdgeSubnetsSortOrderEnumStringValues Enumerates the set of values in String for ListEdgeSubnetsSortOrderEnum
+func GetListEdgeSubnetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

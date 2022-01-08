@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RecalledData This is the information about recalled data
@@ -40,6 +42,21 @@ func (m RecalledData) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RecalledData) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRecalledDataStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetRecalledDataStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RecalledDataStatusEnum Enum with underlying type: string
 type RecalledDataStatusEnum string
 
@@ -49,7 +66,7 @@ const (
 	RecalledDataStatusPending  RecalledDataStatusEnum = "PENDING"
 )
 
-var mappingRecalledDataStatus = map[string]RecalledDataStatusEnum{
+var mappingRecalledDataStatusEnum = map[string]RecalledDataStatusEnum{
 	"RECALLED": RecalledDataStatusRecalled,
 	"PENDING":  RecalledDataStatusPending,
 }
@@ -57,8 +74,16 @@ var mappingRecalledDataStatus = map[string]RecalledDataStatusEnum{
 // GetRecalledDataStatusEnumValues Enumerates the set of values for RecalledDataStatusEnum
 func GetRecalledDataStatusEnumValues() []RecalledDataStatusEnum {
 	values := make([]RecalledDataStatusEnum, 0)
-	for _, v := range mappingRecalledDataStatus {
+	for _, v := range mappingRecalledDataStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecalledDataStatusEnumStringValues Enumerates the set of values in String for RecalledDataStatusEnum
+func GetRecalledDataStatusEnumStringValues() []string {
+	return []string{
+		"RECALLED",
+		"PENDING",
+	}
 }

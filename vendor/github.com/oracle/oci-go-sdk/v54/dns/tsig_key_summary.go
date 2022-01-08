@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TsigKeySummary A TSIG key.
@@ -59,6 +61,21 @@ func (m TsigKeySummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TsigKeySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTsigKeySummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTsigKeySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TsigKeySummaryLifecycleStateEnum Enum with underlying type: string
 type TsigKeySummaryLifecycleStateEnum string
 
@@ -72,7 +89,7 @@ const (
 	TsigKeySummaryLifecycleStateUpdating TsigKeySummaryLifecycleStateEnum = "UPDATING"
 )
 
-var mappingTsigKeySummaryLifecycleState = map[string]TsigKeySummaryLifecycleStateEnum{
+var mappingTsigKeySummaryLifecycleStateEnum = map[string]TsigKeySummaryLifecycleStateEnum{
 	"ACTIVE":   TsigKeySummaryLifecycleStateActive,
 	"CREATING": TsigKeySummaryLifecycleStateCreating,
 	"DELETED":  TsigKeySummaryLifecycleStateDeleted,
@@ -84,8 +101,20 @@ var mappingTsigKeySummaryLifecycleState = map[string]TsigKeySummaryLifecycleStat
 // GetTsigKeySummaryLifecycleStateEnumValues Enumerates the set of values for TsigKeySummaryLifecycleStateEnum
 func GetTsigKeySummaryLifecycleStateEnumValues() []TsigKeySummaryLifecycleStateEnum {
 	values := make([]TsigKeySummaryLifecycleStateEnum, 0)
-	for _, v := range mappingTsigKeySummaryLifecycleState {
+	for _, v := range mappingTsigKeySummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTsigKeySummaryLifecycleStateEnumStringValues Enumerates the set of values in String for TsigKeySummaryLifecycleStateEnum
+func GetTsigKeySummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"UPDATING",
+	}
 }

@@ -4,16 +4,18 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// NetworkPolicy Network policy, Consists of a list of Network Source ids.
+// NetworkPolicy Network policy, which consists of a list of network source IDs.
 type NetworkPolicy struct {
 
 	// Network Source ids
@@ -22,4 +24,16 @@ type NetworkPolicy struct {
 
 func (m NetworkPolicy) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m NetworkPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

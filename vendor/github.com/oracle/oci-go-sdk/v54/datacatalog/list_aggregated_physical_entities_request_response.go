@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAggregatedPhysicalEntitiesRequest wrapper for the ListAggregatedPhysicalEntities operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListAggregatedPhysicalEntities.go.html to see an example of how to use ListAggregatedPhysicalEntitiesRequest.
 type ListAggregatedPhysicalEntitiesRequest struct {
 
 	// Unique catalog identifier.
@@ -63,6 +61,10 @@ func (request ListAggregatedPhysicalEntitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAggregatedPhysicalEntitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +78,29 @@ func (request ListAggregatedPhysicalEntitiesRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAggregatedPhysicalEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAggregatedPhysicalEntitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingListAggregatedPhysicalEntitiesFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListAggregatedPhysicalEntitiesFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListAggregatedPhysicalEntitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAggregatedPhysicalEntitiesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAggregatedPhysicalEntitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAggregatedPhysicalEntitiesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAggregatedPhysicalEntitiesResponse wrapper for the ListAggregatedPhysicalEntities operation
@@ -130,7 +155,7 @@ const (
 	ListAggregatedPhysicalEntitiesFieldsProperties        ListAggregatedPhysicalEntitiesFieldsEnum = "properties"
 )
 
-var mappingListAggregatedPhysicalEntitiesFields = map[string]ListAggregatedPhysicalEntitiesFieldsEnum{
+var mappingListAggregatedPhysicalEntitiesFieldsEnum = map[string]ListAggregatedPhysicalEntitiesFieldsEnum{
 	"key":               ListAggregatedPhysicalEntitiesFieldsKey,
 	"displayName":       ListAggregatedPhysicalEntitiesFieldsDisplayname,
 	"description":       ListAggregatedPhysicalEntitiesFieldsDescription,
@@ -158,10 +183,38 @@ var mappingListAggregatedPhysicalEntitiesFields = map[string]ListAggregatedPhysi
 // GetListAggregatedPhysicalEntitiesFieldsEnumValues Enumerates the set of values for ListAggregatedPhysicalEntitiesFieldsEnum
 func GetListAggregatedPhysicalEntitiesFieldsEnumValues() []ListAggregatedPhysicalEntitiesFieldsEnum {
 	values := make([]ListAggregatedPhysicalEntitiesFieldsEnum, 0)
-	for _, v := range mappingListAggregatedPhysicalEntitiesFields {
+	for _, v := range mappingListAggregatedPhysicalEntitiesFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAggregatedPhysicalEntitiesFieldsEnumStringValues Enumerates the set of values in String for ListAggregatedPhysicalEntitiesFieldsEnum
+func GetListAggregatedPhysicalEntitiesFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"dataAssetKey",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"lifecycleState",
+		"externalKey",
+		"timeExternal",
+		"timeStatusUpdated",
+		"isLogical",
+		"isPartition",
+		"folderKey",
+		"folderName",
+		"typeKey",
+		"path",
+		"harvestStatus",
+		"lastJobKey",
+		"uri",
+		"properties",
+	}
 }
 
 // ListAggregatedPhysicalEntitiesSortByEnum Enum with underlying type: string
@@ -173,7 +226,7 @@ const (
 	ListAggregatedPhysicalEntitiesSortByDisplayname ListAggregatedPhysicalEntitiesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAggregatedPhysicalEntitiesSortBy = map[string]ListAggregatedPhysicalEntitiesSortByEnum{
+var mappingListAggregatedPhysicalEntitiesSortByEnum = map[string]ListAggregatedPhysicalEntitiesSortByEnum{
 	"TIMECREATED": ListAggregatedPhysicalEntitiesSortByTimecreated,
 	"DISPLAYNAME": ListAggregatedPhysicalEntitiesSortByDisplayname,
 }
@@ -181,10 +234,18 @@ var mappingListAggregatedPhysicalEntitiesSortBy = map[string]ListAggregatedPhysi
 // GetListAggregatedPhysicalEntitiesSortByEnumValues Enumerates the set of values for ListAggregatedPhysicalEntitiesSortByEnum
 func GetListAggregatedPhysicalEntitiesSortByEnumValues() []ListAggregatedPhysicalEntitiesSortByEnum {
 	values := make([]ListAggregatedPhysicalEntitiesSortByEnum, 0)
-	for _, v := range mappingListAggregatedPhysicalEntitiesSortBy {
+	for _, v := range mappingListAggregatedPhysicalEntitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAggregatedPhysicalEntitiesSortByEnumStringValues Enumerates the set of values in String for ListAggregatedPhysicalEntitiesSortByEnum
+func GetListAggregatedPhysicalEntitiesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAggregatedPhysicalEntitiesSortOrderEnum Enum with underlying type: string
@@ -196,7 +257,7 @@ const (
 	ListAggregatedPhysicalEntitiesSortOrderDesc ListAggregatedPhysicalEntitiesSortOrderEnum = "DESC"
 )
 
-var mappingListAggregatedPhysicalEntitiesSortOrder = map[string]ListAggregatedPhysicalEntitiesSortOrderEnum{
+var mappingListAggregatedPhysicalEntitiesSortOrderEnum = map[string]ListAggregatedPhysicalEntitiesSortOrderEnum{
 	"ASC":  ListAggregatedPhysicalEntitiesSortOrderAsc,
 	"DESC": ListAggregatedPhysicalEntitiesSortOrderDesc,
 }
@@ -204,8 +265,16 @@ var mappingListAggregatedPhysicalEntitiesSortOrder = map[string]ListAggregatedPh
 // GetListAggregatedPhysicalEntitiesSortOrderEnumValues Enumerates the set of values for ListAggregatedPhysicalEntitiesSortOrderEnum
 func GetListAggregatedPhysicalEntitiesSortOrderEnumValues() []ListAggregatedPhysicalEntitiesSortOrderEnum {
 	values := make([]ListAggregatedPhysicalEntitiesSortOrderEnum, 0)
-	for _, v := range mappingListAggregatedPhysicalEntitiesSortOrder {
+	for _, v := range mappingListAggregatedPhysicalEntitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAggregatedPhysicalEntitiesSortOrderEnumStringValues Enumerates the set of values in String for ListAggregatedPhysicalEntitiesSortOrderEnum
+func GetListAggregatedPhysicalEntitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

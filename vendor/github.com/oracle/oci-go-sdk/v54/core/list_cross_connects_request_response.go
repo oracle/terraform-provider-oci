@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListCrossConnectsRequest wrapper for the ListCrossConnects operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnects.go.html to see an example of how to use ListCrossConnectsRequest.
 type ListCrossConnectsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -69,6 +67,10 @@ func (request ListCrossConnectsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListCrossConnectsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +84,26 @@ func (request ListCrossConnectsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListCrossConnectsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListCrossConnectsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListCrossConnectsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCrossConnectsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCrossConnectsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCrossConnectsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCrossConnectLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetCrossConnectLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListCrossConnectsResponse wrapper for the ListCrossConnects operation
@@ -121,7 +143,7 @@ const (
 	ListCrossConnectsSortByDisplayname ListCrossConnectsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListCrossConnectsSortBy = map[string]ListCrossConnectsSortByEnum{
+var mappingListCrossConnectsSortByEnum = map[string]ListCrossConnectsSortByEnum{
 	"TIMECREATED": ListCrossConnectsSortByTimecreated,
 	"DISPLAYNAME": ListCrossConnectsSortByDisplayname,
 }
@@ -129,10 +151,18 @@ var mappingListCrossConnectsSortBy = map[string]ListCrossConnectsSortByEnum{
 // GetListCrossConnectsSortByEnumValues Enumerates the set of values for ListCrossConnectsSortByEnum
 func GetListCrossConnectsSortByEnumValues() []ListCrossConnectsSortByEnum {
 	values := make([]ListCrossConnectsSortByEnum, 0)
-	for _, v := range mappingListCrossConnectsSortBy {
+	for _, v := range mappingListCrossConnectsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCrossConnectsSortByEnumStringValues Enumerates the set of values in String for ListCrossConnectsSortByEnum
+func GetListCrossConnectsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListCrossConnectsSortOrderEnum Enum with underlying type: string
@@ -144,7 +174,7 @@ const (
 	ListCrossConnectsSortOrderDesc ListCrossConnectsSortOrderEnum = "DESC"
 )
 
-var mappingListCrossConnectsSortOrder = map[string]ListCrossConnectsSortOrderEnum{
+var mappingListCrossConnectsSortOrderEnum = map[string]ListCrossConnectsSortOrderEnum{
 	"ASC":  ListCrossConnectsSortOrderAsc,
 	"DESC": ListCrossConnectsSortOrderDesc,
 }
@@ -152,8 +182,16 @@ var mappingListCrossConnectsSortOrder = map[string]ListCrossConnectsSortOrderEnu
 // GetListCrossConnectsSortOrderEnumValues Enumerates the set of values for ListCrossConnectsSortOrderEnum
 func GetListCrossConnectsSortOrderEnumValues() []ListCrossConnectsSortOrderEnum {
 	values := make([]ListCrossConnectsSortOrderEnum, 0)
-	for _, v := range mappingListCrossConnectsSortOrder {
+	for _, v := range mappingListCrossConnectsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCrossConnectsSortOrderEnumStringValues Enumerates the set of values in String for ListCrossConnectsSortOrderEnum
+func GetListCrossConnectsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

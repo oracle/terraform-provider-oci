@@ -10,7 +10,9 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BdsMetastoreConfiguration The metastore configuration information.
@@ -45,6 +47,24 @@ func (m BdsMetastoreConfiguration) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BdsMetastoreConfiguration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBdsMetastoreConfigurationMetastoreTypeEnum[string(m.MetastoreType)]; !ok && m.MetastoreType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MetastoreType: %s. Supported values are: %s.", m.MetastoreType, strings.Join(GetBdsMetastoreConfigurationMetastoreTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBdsMetastoreConfigurationLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBdsMetastoreConfigurationLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BdsMetastoreConfigurationMetastoreTypeEnum Enum with underlying type: string
 type BdsMetastoreConfigurationMetastoreTypeEnum string
 
@@ -54,7 +74,7 @@ const (
 	BdsMetastoreConfigurationMetastoreTypeExternal BdsMetastoreConfigurationMetastoreTypeEnum = "EXTERNAL"
 )
 
-var mappingBdsMetastoreConfigurationMetastoreType = map[string]BdsMetastoreConfigurationMetastoreTypeEnum{
+var mappingBdsMetastoreConfigurationMetastoreTypeEnum = map[string]BdsMetastoreConfigurationMetastoreTypeEnum{
 	"LOCAL":    BdsMetastoreConfigurationMetastoreTypeLocal,
 	"EXTERNAL": BdsMetastoreConfigurationMetastoreTypeExternal,
 }
@@ -62,10 +82,18 @@ var mappingBdsMetastoreConfigurationMetastoreType = map[string]BdsMetastoreConfi
 // GetBdsMetastoreConfigurationMetastoreTypeEnumValues Enumerates the set of values for BdsMetastoreConfigurationMetastoreTypeEnum
 func GetBdsMetastoreConfigurationMetastoreTypeEnumValues() []BdsMetastoreConfigurationMetastoreTypeEnum {
 	values := make([]BdsMetastoreConfigurationMetastoreTypeEnum, 0)
-	for _, v := range mappingBdsMetastoreConfigurationMetastoreType {
+	for _, v := range mappingBdsMetastoreConfigurationMetastoreTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBdsMetastoreConfigurationMetastoreTypeEnumStringValues Enumerates the set of values in String for BdsMetastoreConfigurationMetastoreTypeEnum
+func GetBdsMetastoreConfigurationMetastoreTypeEnumStringValues() []string {
+	return []string{
+		"LOCAL",
+		"EXTERNAL",
+	}
 }
 
 // BdsMetastoreConfigurationLifecycleStateEnum Enum with underlying type: string
@@ -83,7 +111,7 @@ const (
 	BdsMetastoreConfigurationLifecycleStateDeleted    BdsMetastoreConfigurationLifecycleStateEnum = "DELETED"
 )
 
-var mappingBdsMetastoreConfigurationLifecycleState = map[string]BdsMetastoreConfigurationLifecycleStateEnum{
+var mappingBdsMetastoreConfigurationLifecycleStateEnum = map[string]BdsMetastoreConfigurationLifecycleStateEnum{
 	"CREATING":   BdsMetastoreConfigurationLifecycleStateCreating,
 	"ACTIVATING": BdsMetastoreConfigurationLifecycleStateActivating,
 	"ACTIVE":     BdsMetastoreConfigurationLifecycleStateActive,
@@ -97,8 +125,22 @@ var mappingBdsMetastoreConfigurationLifecycleState = map[string]BdsMetastoreConf
 // GetBdsMetastoreConfigurationLifecycleStateEnumValues Enumerates the set of values for BdsMetastoreConfigurationLifecycleStateEnum
 func GetBdsMetastoreConfigurationLifecycleStateEnumValues() []BdsMetastoreConfigurationLifecycleStateEnum {
 	values := make([]BdsMetastoreConfigurationLifecycleStateEnum, 0)
-	for _, v := range mappingBdsMetastoreConfigurationLifecycleState {
+	for _, v := range mappingBdsMetastoreConfigurationLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBdsMetastoreConfigurationLifecycleStateEnumStringValues Enumerates the set of values in String for BdsMetastoreConfigurationLifecycleStateEnum
+func GetBdsMetastoreConfigurationLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"FAILED",
+		"DELETING",
+		"DELETED",
+	}
 }

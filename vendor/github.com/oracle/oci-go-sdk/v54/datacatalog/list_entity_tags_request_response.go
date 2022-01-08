@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListEntityTagsRequest wrapper for the ListEntityTags operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListEntityTags.go.html to see an example of how to use ListEntityTagsRequest.
 type ListEntityTagsRequest struct {
 
 	// Unique catalog identifier.
@@ -73,6 +71,10 @@ func (request ListEntityTagsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListEntityTagsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -86,6 +88,32 @@ func (request ListEntityTagsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListEntityTagsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListEntityTagsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListEntityTagsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListEntityTagsLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListEntityTagsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListEntityTagsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListEntityTagsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListEntityTagsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEntityTagsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListEntityTagsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListEntityTagsResponse wrapper for the ListEntityTags operation
@@ -129,7 +157,7 @@ const (
 	ListEntityTagsLifecycleStateMoving   ListEntityTagsLifecycleStateEnum = "MOVING"
 )
 
-var mappingListEntityTagsLifecycleState = map[string]ListEntityTagsLifecycleStateEnum{
+var mappingListEntityTagsLifecycleStateEnum = map[string]ListEntityTagsLifecycleStateEnum{
 	"CREATING": ListEntityTagsLifecycleStateCreating,
 	"ACTIVE":   ListEntityTagsLifecycleStateActive,
 	"INACTIVE": ListEntityTagsLifecycleStateInactive,
@@ -143,10 +171,24 @@ var mappingListEntityTagsLifecycleState = map[string]ListEntityTagsLifecycleStat
 // GetListEntityTagsLifecycleStateEnumValues Enumerates the set of values for ListEntityTagsLifecycleStateEnum
 func GetListEntityTagsLifecycleStateEnumValues() []ListEntityTagsLifecycleStateEnum {
 	values := make([]ListEntityTagsLifecycleStateEnum, 0)
-	for _, v := range mappingListEntityTagsLifecycleState {
+	for _, v := range mappingListEntityTagsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEntityTagsLifecycleStateEnumStringValues Enumerates the set of values in String for ListEntityTagsLifecycleStateEnum
+func GetListEntityTagsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListEntityTagsFieldsEnum Enum with underlying type: string
@@ -166,7 +208,7 @@ const (
 	ListEntityTagsFieldsEntitykey       ListEntityTagsFieldsEnum = "entityKey"
 )
 
-var mappingListEntityTagsFields = map[string]ListEntityTagsFieldsEnum{
+var mappingListEntityTagsFieldsEnum = map[string]ListEntityTagsFieldsEnum{
 	"key":             ListEntityTagsFieldsKey,
 	"name":            ListEntityTagsFieldsName,
 	"termKey":         ListEntityTagsFieldsTermkey,
@@ -182,10 +224,26 @@ var mappingListEntityTagsFields = map[string]ListEntityTagsFieldsEnum{
 // GetListEntityTagsFieldsEnumValues Enumerates the set of values for ListEntityTagsFieldsEnum
 func GetListEntityTagsFieldsEnumValues() []ListEntityTagsFieldsEnum {
 	values := make([]ListEntityTagsFieldsEnum, 0)
-	for _, v := range mappingListEntityTagsFields {
+	for _, v := range mappingListEntityTagsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEntityTagsFieldsEnumStringValues Enumerates the set of values in String for ListEntityTagsFieldsEnum
+func GetListEntityTagsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"name",
+		"termKey",
+		"termPath",
+		"termDescription",
+		"lifecycleState",
+		"timeCreated",
+		"uri",
+		"glossaryKey",
+		"entityKey",
+	}
 }
 
 // ListEntityTagsSortByEnum Enum with underlying type: string
@@ -197,7 +255,7 @@ const (
 	ListEntityTagsSortByDisplayname ListEntityTagsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListEntityTagsSortBy = map[string]ListEntityTagsSortByEnum{
+var mappingListEntityTagsSortByEnum = map[string]ListEntityTagsSortByEnum{
 	"TIMECREATED": ListEntityTagsSortByTimecreated,
 	"DISPLAYNAME": ListEntityTagsSortByDisplayname,
 }
@@ -205,10 +263,18 @@ var mappingListEntityTagsSortBy = map[string]ListEntityTagsSortByEnum{
 // GetListEntityTagsSortByEnumValues Enumerates the set of values for ListEntityTagsSortByEnum
 func GetListEntityTagsSortByEnumValues() []ListEntityTagsSortByEnum {
 	values := make([]ListEntityTagsSortByEnum, 0)
-	for _, v := range mappingListEntityTagsSortBy {
+	for _, v := range mappingListEntityTagsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEntityTagsSortByEnumStringValues Enumerates the set of values in String for ListEntityTagsSortByEnum
+func GetListEntityTagsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListEntityTagsSortOrderEnum Enum with underlying type: string
@@ -220,7 +286,7 @@ const (
 	ListEntityTagsSortOrderDesc ListEntityTagsSortOrderEnum = "DESC"
 )
 
-var mappingListEntityTagsSortOrder = map[string]ListEntityTagsSortOrderEnum{
+var mappingListEntityTagsSortOrderEnum = map[string]ListEntityTagsSortOrderEnum{
 	"ASC":  ListEntityTagsSortOrderAsc,
 	"DESC": ListEntityTagsSortOrderDesc,
 }
@@ -228,8 +294,16 @@ var mappingListEntityTagsSortOrder = map[string]ListEntityTagsSortOrderEnum{
 // GetListEntityTagsSortOrderEnumValues Enumerates the set of values for ListEntityTagsSortOrderEnum
 func GetListEntityTagsSortOrderEnumValues() []ListEntityTagsSortOrderEnum {
 	values := make([]ListEntityTagsSortOrderEnum, 0)
-	for _, v := range mappingListEntityTagsSortOrder {
+	for _, v := range mappingListEntityTagsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEntityTagsSortOrderEnumStringValues Enumerates the set of values in String for ListEntityTagsSortOrderEnum
+func GetListEntityTagsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

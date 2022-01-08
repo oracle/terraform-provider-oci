@@ -5,16 +5,14 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // RegisterLookupRequest wrapper for the RegisterLookup operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RegisterLookup.go.html to see an example of how to use RegisterLookupRequest.
 type RegisterLookupRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -87,6 +85,20 @@ func (request RegisterLookupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request RegisterLookupRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRegisterLookupTypeEnum[string(request.Type)]; !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetRegisterLookupTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RegisterLookupResponse wrapper for the RegisterLookup operation
 type RegisterLookupResponse struct {
 
@@ -121,7 +133,7 @@ const (
 	RegisterLookupTypeDictionary RegisterLookupTypeEnum = "Dictionary"
 )
 
-var mappingRegisterLookupType = map[string]RegisterLookupTypeEnum{
+var mappingRegisterLookupTypeEnum = map[string]RegisterLookupTypeEnum{
 	"Lookup":     RegisterLookupTypeLookup,
 	"Dictionary": RegisterLookupTypeDictionary,
 }
@@ -129,8 +141,16 @@ var mappingRegisterLookupType = map[string]RegisterLookupTypeEnum{
 // GetRegisterLookupTypeEnumValues Enumerates the set of values for RegisterLookupTypeEnum
 func GetRegisterLookupTypeEnumValues() []RegisterLookupTypeEnum {
 	values := make([]RegisterLookupTypeEnum, 0)
-	for _, v := range mappingRegisterLookupType {
+	for _, v := range mappingRegisterLookupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRegisterLookupTypeEnumStringValues Enumerates the set of values in String for RegisterLookupTypeEnum
+func GetRegisterLookupTypeEnumStringValues() []string {
+	return []string{
+		"Lookup",
+		"Dictionary",
+	}
 }

@@ -11,7 +11,9 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // FacetedSearchSortRequest Object with sort criteria details
@@ -28,6 +30,21 @@ func (m FacetedSearchSortRequest) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FacetedSearchSortRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingFacetedSearchSortRequestSortOrderEnum[string(m.SortOrder)]; !ok && m.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", m.SortOrder, strings.Join(GetFacetedSearchSortRequestSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FacetedSearchSortRequestSortOrderEnum Enum with underlying type: string
 type FacetedSearchSortRequestSortOrderEnum string
 
@@ -37,7 +54,7 @@ const (
 	FacetedSearchSortRequestSortOrderDesc FacetedSearchSortRequestSortOrderEnum = "DESC"
 )
 
-var mappingFacetedSearchSortRequestSortOrder = map[string]FacetedSearchSortRequestSortOrderEnum{
+var mappingFacetedSearchSortRequestSortOrderEnum = map[string]FacetedSearchSortRequestSortOrderEnum{
 	"ASC":  FacetedSearchSortRequestSortOrderAsc,
 	"DESC": FacetedSearchSortRequestSortOrderDesc,
 }
@@ -45,8 +62,16 @@ var mappingFacetedSearchSortRequestSortOrder = map[string]FacetedSearchSortReque
 // GetFacetedSearchSortRequestSortOrderEnumValues Enumerates the set of values for FacetedSearchSortRequestSortOrderEnum
 func GetFacetedSearchSortRequestSortOrderEnumValues() []FacetedSearchSortRequestSortOrderEnum {
 	values := make([]FacetedSearchSortRequestSortOrderEnum, 0)
-	for _, v := range mappingFacetedSearchSortRequestSortOrder {
+	for _, v := range mappingFacetedSearchSortRequestSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFacetedSearchSortRequestSortOrderEnumStringValues Enumerates the set of values in String for FacetedSearchSortRequestSortOrderEnum
+func GetFacetedSearchSortRequestSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

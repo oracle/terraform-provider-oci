@@ -5,15 +5,13 @@
 package analytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAnalyticsInstancesRequest wrapper for the ListAnalyticsInstances operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ListAnalyticsInstances.go.html to see an example of how to use ListAnalyticsInstancesRequest.
 type ListAnalyticsInstancesRequest struct {
 
 	// The OCID of the compartment.
@@ -68,6 +66,10 @@ func (request ListAnalyticsInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAnalyticsInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -81,6 +83,32 @@ func (request ListAnalyticsInstancesRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAnalyticsInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAnalyticsInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAnalyticsInstancesCapacityTypeEnum[string(request.CapacityType)]; !ok && request.CapacityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CapacityType: %s. Supported values are: %s.", request.CapacityType, strings.Join(GetListAnalyticsInstancesCapacityTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAnalyticsInstancesFeatureSetEnum[string(request.FeatureSet)]; !ok && request.FeatureSet != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeatureSet: %s. Supported values are: %s.", request.FeatureSet, strings.Join(GetListAnalyticsInstancesFeatureSetEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAnalyticsInstancesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListAnalyticsInstancesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAnalyticsInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAnalyticsInstancesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAnalyticsInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAnalyticsInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAnalyticsInstancesResponse wrapper for the ListAnalyticsInstances operation
@@ -120,7 +148,7 @@ const (
 	ListAnalyticsInstancesCapacityTypeUserCount ListAnalyticsInstancesCapacityTypeEnum = "USER_COUNT"
 )
 
-var mappingListAnalyticsInstancesCapacityType = map[string]ListAnalyticsInstancesCapacityTypeEnum{
+var mappingListAnalyticsInstancesCapacityTypeEnum = map[string]ListAnalyticsInstancesCapacityTypeEnum{
 	"OLPU_COUNT": ListAnalyticsInstancesCapacityTypeOlpuCount,
 	"USER_COUNT": ListAnalyticsInstancesCapacityTypeUserCount,
 }
@@ -128,10 +156,18 @@ var mappingListAnalyticsInstancesCapacityType = map[string]ListAnalyticsInstance
 // GetListAnalyticsInstancesCapacityTypeEnumValues Enumerates the set of values for ListAnalyticsInstancesCapacityTypeEnum
 func GetListAnalyticsInstancesCapacityTypeEnumValues() []ListAnalyticsInstancesCapacityTypeEnum {
 	values := make([]ListAnalyticsInstancesCapacityTypeEnum, 0)
-	for _, v := range mappingListAnalyticsInstancesCapacityType {
+	for _, v := range mappingListAnalyticsInstancesCapacityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAnalyticsInstancesCapacityTypeEnumStringValues Enumerates the set of values in String for ListAnalyticsInstancesCapacityTypeEnum
+func GetListAnalyticsInstancesCapacityTypeEnumStringValues() []string {
+	return []string{
+		"OLPU_COUNT",
+		"USER_COUNT",
+	}
 }
 
 // ListAnalyticsInstancesFeatureSetEnum Enum with underlying type: string
@@ -143,7 +179,7 @@ const (
 	ListAnalyticsInstancesFeatureSetEnterpriseAnalytics  ListAnalyticsInstancesFeatureSetEnum = "ENTERPRISE_ANALYTICS"
 )
 
-var mappingListAnalyticsInstancesFeatureSet = map[string]ListAnalyticsInstancesFeatureSetEnum{
+var mappingListAnalyticsInstancesFeatureSetEnum = map[string]ListAnalyticsInstancesFeatureSetEnum{
 	"SELF_SERVICE_ANALYTICS": ListAnalyticsInstancesFeatureSetSelfServiceAnalytics,
 	"ENTERPRISE_ANALYTICS":   ListAnalyticsInstancesFeatureSetEnterpriseAnalytics,
 }
@@ -151,10 +187,18 @@ var mappingListAnalyticsInstancesFeatureSet = map[string]ListAnalyticsInstancesF
 // GetListAnalyticsInstancesFeatureSetEnumValues Enumerates the set of values for ListAnalyticsInstancesFeatureSetEnum
 func GetListAnalyticsInstancesFeatureSetEnumValues() []ListAnalyticsInstancesFeatureSetEnum {
 	values := make([]ListAnalyticsInstancesFeatureSetEnum, 0)
-	for _, v := range mappingListAnalyticsInstancesFeatureSet {
+	for _, v := range mappingListAnalyticsInstancesFeatureSetEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAnalyticsInstancesFeatureSetEnumStringValues Enumerates the set of values in String for ListAnalyticsInstancesFeatureSetEnum
+func GetListAnalyticsInstancesFeatureSetEnumStringValues() []string {
+	return []string{
+		"SELF_SERVICE_ANALYTICS",
+		"ENTERPRISE_ANALYTICS",
+	}
 }
 
 // ListAnalyticsInstancesLifecycleStateEnum Enum with underlying type: string
@@ -171,7 +215,7 @@ const (
 	ListAnalyticsInstancesLifecycleStateUpdating ListAnalyticsInstancesLifecycleStateEnum = "UPDATING"
 )
 
-var mappingListAnalyticsInstancesLifecycleState = map[string]ListAnalyticsInstancesLifecycleStateEnum{
+var mappingListAnalyticsInstancesLifecycleStateEnum = map[string]ListAnalyticsInstancesLifecycleStateEnum{
 	"ACTIVE":   ListAnalyticsInstancesLifecycleStateActive,
 	"CREATING": ListAnalyticsInstancesLifecycleStateCreating,
 	"DELETED":  ListAnalyticsInstancesLifecycleStateDeleted,
@@ -184,10 +228,23 @@ var mappingListAnalyticsInstancesLifecycleState = map[string]ListAnalyticsInstan
 // GetListAnalyticsInstancesLifecycleStateEnumValues Enumerates the set of values for ListAnalyticsInstancesLifecycleStateEnum
 func GetListAnalyticsInstancesLifecycleStateEnumValues() []ListAnalyticsInstancesLifecycleStateEnum {
 	values := make([]ListAnalyticsInstancesLifecycleStateEnum, 0)
-	for _, v := range mappingListAnalyticsInstancesLifecycleState {
+	for _, v := range mappingListAnalyticsInstancesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAnalyticsInstancesLifecycleStateEnumStringValues Enumerates the set of values in String for ListAnalyticsInstancesLifecycleStateEnum
+func GetListAnalyticsInstancesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"INACTIVE",
+		"UPDATING",
+	}
 }
 
 // ListAnalyticsInstancesSortByEnum Enum with underlying type: string
@@ -203,7 +260,7 @@ const (
 	ListAnalyticsInstancesSortByTimecreated    ListAnalyticsInstancesSortByEnum = "timeCreated"
 )
 
-var mappingListAnalyticsInstancesSortBy = map[string]ListAnalyticsInstancesSortByEnum{
+var mappingListAnalyticsInstancesSortByEnum = map[string]ListAnalyticsInstancesSortByEnum{
 	"capacityType":   ListAnalyticsInstancesSortByCapacitytype,
 	"capacityValue":  ListAnalyticsInstancesSortByCapacityvalue,
 	"featureSet":     ListAnalyticsInstancesSortByFeatureset,
@@ -215,10 +272,22 @@ var mappingListAnalyticsInstancesSortBy = map[string]ListAnalyticsInstancesSortB
 // GetListAnalyticsInstancesSortByEnumValues Enumerates the set of values for ListAnalyticsInstancesSortByEnum
 func GetListAnalyticsInstancesSortByEnumValues() []ListAnalyticsInstancesSortByEnum {
 	values := make([]ListAnalyticsInstancesSortByEnum, 0)
-	for _, v := range mappingListAnalyticsInstancesSortBy {
+	for _, v := range mappingListAnalyticsInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAnalyticsInstancesSortByEnumStringValues Enumerates the set of values in String for ListAnalyticsInstancesSortByEnum
+func GetListAnalyticsInstancesSortByEnumStringValues() []string {
+	return []string{
+		"capacityType",
+		"capacityValue",
+		"featureSet",
+		"lifecycleState",
+		"name",
+		"timeCreated",
+	}
 }
 
 // ListAnalyticsInstancesSortOrderEnum Enum with underlying type: string
@@ -230,7 +299,7 @@ const (
 	ListAnalyticsInstancesSortOrderDesc ListAnalyticsInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListAnalyticsInstancesSortOrder = map[string]ListAnalyticsInstancesSortOrderEnum{
+var mappingListAnalyticsInstancesSortOrderEnum = map[string]ListAnalyticsInstancesSortOrderEnum{
 	"ASC":  ListAnalyticsInstancesSortOrderAsc,
 	"DESC": ListAnalyticsInstancesSortOrderDesc,
 }
@@ -238,8 +307,16 @@ var mappingListAnalyticsInstancesSortOrder = map[string]ListAnalyticsInstancesSo
 // GetListAnalyticsInstancesSortOrderEnumValues Enumerates the set of values for ListAnalyticsInstancesSortOrderEnum
 func GetListAnalyticsInstancesSortOrderEnumValues() []ListAnalyticsInstancesSortOrderEnum {
 	values := make([]ListAnalyticsInstancesSortOrderEnum, 0)
-	for _, v := range mappingListAnalyticsInstancesSortOrder {
+	for _, v := range mappingListAnalyticsInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAnalyticsInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListAnalyticsInstancesSortOrderEnum
+func GetListAnalyticsInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

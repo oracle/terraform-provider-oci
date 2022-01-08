@@ -19,7 +19,7 @@ const (
 	SummarizeApplicationUsageFieldsApproximateManagedInstanceCount SummarizeApplicationUsageFieldsEnum = "approximateManagedInstanceCount"
 )
 
-var mappingSummarizeApplicationUsageFields = map[string]SummarizeApplicationUsageFieldsEnum{
+var mappingSummarizeApplicationUsageFieldsEnum = map[string]SummarizeApplicationUsageFieldsEnum{
 	"approximateJreCount":             SummarizeApplicationUsageFieldsApproximateJreCount,
 	"approximateInstallationCount":    SummarizeApplicationUsageFieldsApproximateInstallationCount,
 	"approximateManagedInstanceCount": SummarizeApplicationUsageFieldsApproximateManagedInstanceCount,
@@ -28,8 +28,17 @@ var mappingSummarizeApplicationUsageFields = map[string]SummarizeApplicationUsag
 // GetSummarizeApplicationUsageFieldsEnumValues Enumerates the set of values for SummarizeApplicationUsageFieldsEnum
 func GetSummarizeApplicationUsageFieldsEnumValues() []SummarizeApplicationUsageFieldsEnum {
 	values := make([]SummarizeApplicationUsageFieldsEnum, 0)
-	for _, v := range mappingSummarizeApplicationUsageFields {
+	for _, v := range mappingSummarizeApplicationUsageFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeApplicationUsageFieldsEnumStringValues Enumerates the set of values in String for SummarizeApplicationUsageFieldsEnum
+func GetSummarizeApplicationUsageFieldsEnumStringValues() []string {
+	return []string{
+		"approximateJreCount",
+		"approximateInstallationCount",
+		"approximateManagedInstanceCount",
+	}
 }

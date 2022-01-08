@@ -5,15 +5,13 @@
 package integration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteIntegrationInstanceRequest wrapper for the DeleteIntegrationInstance operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/DeleteIntegrationInstance.go.html to see an example of how to use DeleteIntegrationInstanceRequest.
 type DeleteIntegrationInstanceRequest struct {
 
 	// Unique Integration Instance identifier.
@@ -41,6 +39,10 @@ func (request DeleteIntegrationInstanceRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteIntegrationInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -54,6 +56,17 @@ func (request DeleteIntegrationInstanceRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteIntegrationInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteIntegrationInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteIntegrationInstanceResponse wrapper for the DeleteIntegrationInstance operation

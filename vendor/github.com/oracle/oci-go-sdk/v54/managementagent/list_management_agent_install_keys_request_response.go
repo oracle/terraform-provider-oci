@@ -5,15 +5,13 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListManagementAgentInstallKeysRequest wrapper for the ListManagementAgentInstallKeys operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentInstallKeys.go.html to see an example of how to use ListManagementAgentInstallKeysRequest.
 type ListManagementAgentInstallKeysRequest struct {
 
 	// The OCID of the compartment to which a request will be scoped.
@@ -55,6 +53,10 @@ func (request ListManagementAgentInstallKeysRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListManagementAgentInstallKeysRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,26 @@ func (request ListManagementAgentInstallKeysRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListManagementAgentInstallKeysRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListManagementAgentInstallKeysRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListManagementAgentInstallKeysLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListManagementAgentInstallKeysLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentInstallKeysSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagementAgentInstallKeysSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentInstallKeysSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagementAgentInstallKeysSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListManagementAgentInstallKeysResponse wrapper for the ListManagementAgentInstallKeys operation
@@ -113,7 +135,7 @@ const (
 	ListManagementAgentInstallKeysLifecycleStateFailed     ListManagementAgentInstallKeysLifecycleStateEnum = "FAILED"
 )
 
-var mappingListManagementAgentInstallKeysLifecycleState = map[string]ListManagementAgentInstallKeysLifecycleStateEnum{
+var mappingListManagementAgentInstallKeysLifecycleStateEnum = map[string]ListManagementAgentInstallKeysLifecycleStateEnum{
 	"CREATING":   ListManagementAgentInstallKeysLifecycleStateCreating,
 	"UPDATING":   ListManagementAgentInstallKeysLifecycleStateUpdating,
 	"ACTIVE":     ListManagementAgentInstallKeysLifecycleStateActive,
@@ -127,10 +149,24 @@ var mappingListManagementAgentInstallKeysLifecycleState = map[string]ListManagem
 // GetListManagementAgentInstallKeysLifecycleStateEnumValues Enumerates the set of values for ListManagementAgentInstallKeysLifecycleStateEnum
 func GetListManagementAgentInstallKeysLifecycleStateEnumValues() []ListManagementAgentInstallKeysLifecycleStateEnum {
 	values := make([]ListManagementAgentInstallKeysLifecycleStateEnum, 0)
-	for _, v := range mappingListManagementAgentInstallKeysLifecycleState {
+	for _, v := range mappingListManagementAgentInstallKeysLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentInstallKeysLifecycleStateEnumStringValues Enumerates the set of values in String for ListManagementAgentInstallKeysLifecycleStateEnum
+func GetListManagementAgentInstallKeysLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"TERMINATED",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListManagementAgentInstallKeysSortOrderEnum Enum with underlying type: string
@@ -142,7 +178,7 @@ const (
 	ListManagementAgentInstallKeysSortOrderDesc ListManagementAgentInstallKeysSortOrderEnum = "DESC"
 )
 
-var mappingListManagementAgentInstallKeysSortOrder = map[string]ListManagementAgentInstallKeysSortOrderEnum{
+var mappingListManagementAgentInstallKeysSortOrderEnum = map[string]ListManagementAgentInstallKeysSortOrderEnum{
 	"ASC":  ListManagementAgentInstallKeysSortOrderAsc,
 	"DESC": ListManagementAgentInstallKeysSortOrderDesc,
 }
@@ -150,10 +186,18 @@ var mappingListManagementAgentInstallKeysSortOrder = map[string]ListManagementAg
 // GetListManagementAgentInstallKeysSortOrderEnumValues Enumerates the set of values for ListManagementAgentInstallKeysSortOrderEnum
 func GetListManagementAgentInstallKeysSortOrderEnumValues() []ListManagementAgentInstallKeysSortOrderEnum {
 	values := make([]ListManagementAgentInstallKeysSortOrderEnum, 0)
-	for _, v := range mappingListManagementAgentInstallKeysSortOrder {
+	for _, v := range mappingListManagementAgentInstallKeysSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentInstallKeysSortOrderEnumStringValues Enumerates the set of values in String for ListManagementAgentInstallKeysSortOrderEnum
+func GetListManagementAgentInstallKeysSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListManagementAgentInstallKeysSortByEnum Enum with underlying type: string
@@ -165,7 +209,7 @@ const (
 	ListManagementAgentInstallKeysSortByDisplayname ListManagementAgentInstallKeysSortByEnum = "displayName"
 )
 
-var mappingListManagementAgentInstallKeysSortBy = map[string]ListManagementAgentInstallKeysSortByEnum{
+var mappingListManagementAgentInstallKeysSortByEnum = map[string]ListManagementAgentInstallKeysSortByEnum{
 	"timeCreated": ListManagementAgentInstallKeysSortByTimecreated,
 	"displayName": ListManagementAgentInstallKeysSortByDisplayname,
 }
@@ -173,8 +217,16 @@ var mappingListManagementAgentInstallKeysSortBy = map[string]ListManagementAgent
 // GetListManagementAgentInstallKeysSortByEnumValues Enumerates the set of values for ListManagementAgentInstallKeysSortByEnum
 func GetListManagementAgentInstallKeysSortByEnumValues() []ListManagementAgentInstallKeysSortByEnum {
 	values := make([]ListManagementAgentInstallKeysSortByEnum, 0)
-	for _, v := range mappingListManagementAgentInstallKeysSortBy {
+	for _, v := range mappingListManagementAgentInstallKeysSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentInstallKeysSortByEnumStringValues Enumerates the set of values in String for ListManagementAgentInstallKeysSortByEnum
+func GetListManagementAgentInstallKeysSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

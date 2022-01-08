@@ -87,10 +87,6 @@ func (client *OperatorActionsClient) ConfigurationProvider() *common.Configurati
 }
 
 // GetOperatorAction Gets the operator action associated with the specified operator action ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorAction.go.html to see an example of how to use GetOperatorAction API.
 func (client OperatorActionsClient) GetOperatorAction(ctx context.Context, request GetOperatorActionRequest) (response GetOperatorActionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -142,10 +138,6 @@ func (client OperatorActionsClient) getOperatorAction(ctx context.Context, reque
 }
 
 // ListOperatorActions Lists all the OperatorActions available in the system.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorActions.go.html to see an example of how to use ListOperatorActions API.
 func (client OperatorActionsClient) ListOperatorActions(ctx context.Context, request ListOperatorActionsRequest) (response ListOperatorActionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -13,7 +13,9 @@
 package nosql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TableLimits Throughput and storage limits configuration of a table.
@@ -27,8 +29,59 @@ type TableLimits struct {
 
 	// Maximum size of storage used by the table.
 	MaxStorageInGBs *int `mandatory:"true" json:"maxStorageInGBs"`
+
+	// The capacity mode of the table.  If capacityMode = ON_DEMAND,
+	// maxReadUnits and maxWriteUnits are not used, and both will have
+	// the value of zero.
+	CapacityMode TableLimitsCapacityModeEnum `mandatory:"false" json:"capacityMode,omitempty"`
 }
 
 func (m TableLimits) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TableLimits) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTableLimitsCapacityModeEnum[string(m.CapacityMode)]; !ok && m.CapacityMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CapacityMode: %s. Supported values are: %s.", m.CapacityMode, strings.Join(GetTableLimitsCapacityModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
+// TableLimitsCapacityModeEnum Enum with underlying type: string
+type TableLimitsCapacityModeEnum string
+
+// Set of constants representing the allowable values for TableLimitsCapacityModeEnum
+const (
+	TableLimitsCapacityModeProvisioned TableLimitsCapacityModeEnum = "PROVISIONED"
+	TableLimitsCapacityModeOnDemand    TableLimitsCapacityModeEnum = "ON_DEMAND"
+)
+
+var mappingTableLimitsCapacityModeEnum = map[string]TableLimitsCapacityModeEnum{
+	"PROVISIONED": TableLimitsCapacityModeProvisioned,
+	"ON_DEMAND":   TableLimitsCapacityModeOnDemand,
+}
+
+// GetTableLimitsCapacityModeEnumValues Enumerates the set of values for TableLimitsCapacityModeEnum
+func GetTableLimitsCapacityModeEnumValues() []TableLimitsCapacityModeEnum {
+	values := make([]TableLimitsCapacityModeEnum, 0)
+	for _, v := range mappingTableLimitsCapacityModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetTableLimitsCapacityModeEnumStringValues Enumerates the set of values in String for TableLimitsCapacityModeEnum
+func GetTableLimitsCapacityModeEnumStringValues() []string {
+	return []string{
+		"PROVISIONED",
+		"ON_DEMAND",
+	}
 }

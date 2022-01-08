@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CachingRuleSummary The caching rule settings.
@@ -47,6 +49,21 @@ func (m CachingRuleSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CachingRuleSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCachingRuleSummaryActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetCachingRuleSummaryActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CachingRuleSummaryActionEnum Enum with underlying type: string
 type CachingRuleSummaryActionEnum string
 
@@ -56,7 +73,7 @@ const (
 	CachingRuleSummaryActionBypassCache CachingRuleSummaryActionEnum = "BYPASS_CACHE"
 )
 
-var mappingCachingRuleSummaryAction = map[string]CachingRuleSummaryActionEnum{
+var mappingCachingRuleSummaryActionEnum = map[string]CachingRuleSummaryActionEnum{
 	"CACHE":        CachingRuleSummaryActionCache,
 	"BYPASS_CACHE": CachingRuleSummaryActionBypassCache,
 }
@@ -64,8 +81,16 @@ var mappingCachingRuleSummaryAction = map[string]CachingRuleSummaryActionEnum{
 // GetCachingRuleSummaryActionEnumValues Enumerates the set of values for CachingRuleSummaryActionEnum
 func GetCachingRuleSummaryActionEnumValues() []CachingRuleSummaryActionEnum {
 	values := make([]CachingRuleSummaryActionEnum, 0)
-	for _, v := range mappingCachingRuleSummaryAction {
+	for _, v := range mappingCachingRuleSummaryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCachingRuleSummaryActionEnumStringValues Enumerates the set of values in String for CachingRuleSummaryActionEnum
+func GetCachingRuleSummaryActionEnumStringValues() []string {
+	return []string{
+		"CACHE",
+		"BYPASS_CACHE",
+	}
 }

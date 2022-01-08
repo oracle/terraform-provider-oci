@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DecryptedData The representation of DecryptedData
@@ -42,6 +44,21 @@ func (m DecryptedData) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DecryptedData) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDecryptedDataEncryptionAlgorithmEnum[string(m.EncryptionAlgorithm)]; !ok && m.EncryptionAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EncryptionAlgorithm: %s. Supported values are: %s.", m.EncryptionAlgorithm, strings.Join(GetDecryptedDataEncryptionAlgorithmEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DecryptedDataEncryptionAlgorithmEnum Enum with underlying type: string
 type DecryptedDataEncryptionAlgorithmEnum string
 
@@ -52,7 +69,7 @@ const (
 	DecryptedDataEncryptionAlgorithmRsaOaepSha256 DecryptedDataEncryptionAlgorithmEnum = "RSA_OAEP_SHA_256"
 )
 
-var mappingDecryptedDataEncryptionAlgorithm = map[string]DecryptedDataEncryptionAlgorithmEnum{
+var mappingDecryptedDataEncryptionAlgorithmEnum = map[string]DecryptedDataEncryptionAlgorithmEnum{
 	"AES_256_GCM":      DecryptedDataEncryptionAlgorithmAes256Gcm,
 	"RSA_OAEP_SHA_1":   DecryptedDataEncryptionAlgorithmRsaOaepSha1,
 	"RSA_OAEP_SHA_256": DecryptedDataEncryptionAlgorithmRsaOaepSha256,
@@ -61,8 +78,17 @@ var mappingDecryptedDataEncryptionAlgorithm = map[string]DecryptedDataEncryption
 // GetDecryptedDataEncryptionAlgorithmEnumValues Enumerates the set of values for DecryptedDataEncryptionAlgorithmEnum
 func GetDecryptedDataEncryptionAlgorithmEnumValues() []DecryptedDataEncryptionAlgorithmEnum {
 	values := make([]DecryptedDataEncryptionAlgorithmEnum, 0)
-	for _, v := range mappingDecryptedDataEncryptionAlgorithm {
+	for _, v := range mappingDecryptedDataEncryptionAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDecryptedDataEncryptionAlgorithmEnumStringValues Enumerates the set of values in String for DecryptedDataEncryptionAlgorithmEnum
+func GetDecryptedDataEncryptionAlgorithmEnumStringValues() []string {
+	return []string{
+		"AES_256_GCM",
+		"RSA_OAEP_SHA_1",
+		"RSA_OAEP_SHA_256",
+	}
 }

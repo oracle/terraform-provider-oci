@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CustomAuthenticationPolicy Use a function to validate a custom header or query parameter sent with the request authentication.
@@ -41,6 +43,18 @@ func (m CustomAuthenticationPolicy) GetIsAnonymousAccessAllowed() *bool {
 
 func (m CustomAuthenticationPolicy) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CustomAuthenticationPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

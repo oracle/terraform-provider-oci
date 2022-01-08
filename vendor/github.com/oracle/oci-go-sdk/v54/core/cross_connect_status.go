@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CrossConnectStatus The status of the cross-connect.
@@ -56,6 +58,27 @@ func (m CrossConnectStatus) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CrossConnectStatus) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCrossConnectStatusInterfaceStateEnum[string(m.InterfaceState)]; !ok && m.InterfaceState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InterfaceState: %s. Supported values are: %s.", m.InterfaceState, strings.Join(GetCrossConnectStatusInterfaceStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCrossConnectStatusLightLevelIndicatorEnum[string(m.LightLevelIndicator)]; !ok && m.LightLevelIndicator != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LightLevelIndicator: %s. Supported values are: %s.", m.LightLevelIndicator, strings.Join(GetCrossConnectStatusLightLevelIndicatorEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCrossConnectStatusEncryptionStatusEnum[string(m.EncryptionStatus)]; !ok && m.EncryptionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EncryptionStatus: %s. Supported values are: %s.", m.EncryptionStatus, strings.Join(GetCrossConnectStatusEncryptionStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CrossConnectStatusInterfaceStateEnum Enum with underlying type: string
 type CrossConnectStatusInterfaceStateEnum string
 
@@ -65,7 +88,7 @@ const (
 	CrossConnectStatusInterfaceStateDown CrossConnectStatusInterfaceStateEnum = "DOWN"
 )
 
-var mappingCrossConnectStatusInterfaceState = map[string]CrossConnectStatusInterfaceStateEnum{
+var mappingCrossConnectStatusInterfaceStateEnum = map[string]CrossConnectStatusInterfaceStateEnum{
 	"UP":   CrossConnectStatusInterfaceStateUp,
 	"DOWN": CrossConnectStatusInterfaceStateDown,
 }
@@ -73,10 +96,18 @@ var mappingCrossConnectStatusInterfaceState = map[string]CrossConnectStatusInter
 // GetCrossConnectStatusInterfaceStateEnumValues Enumerates the set of values for CrossConnectStatusInterfaceStateEnum
 func GetCrossConnectStatusInterfaceStateEnumValues() []CrossConnectStatusInterfaceStateEnum {
 	values := make([]CrossConnectStatusInterfaceStateEnum, 0)
-	for _, v := range mappingCrossConnectStatusInterfaceState {
+	for _, v := range mappingCrossConnectStatusInterfaceStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCrossConnectStatusInterfaceStateEnumStringValues Enumerates the set of values in String for CrossConnectStatusInterfaceStateEnum
+func GetCrossConnectStatusInterfaceStateEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+	}
 }
 
 // CrossConnectStatusLightLevelIndicatorEnum Enum with underlying type: string
@@ -91,7 +122,7 @@ const (
 	CrossConnectStatusLightLevelIndicatorGood     CrossConnectStatusLightLevelIndicatorEnum = "GOOD"
 )
 
-var mappingCrossConnectStatusLightLevelIndicator = map[string]CrossConnectStatusLightLevelIndicatorEnum{
+var mappingCrossConnectStatusLightLevelIndicatorEnum = map[string]CrossConnectStatusLightLevelIndicatorEnum{
 	"NO_LIGHT":  CrossConnectStatusLightLevelIndicatorNoLight,
 	"LOW_WARN":  CrossConnectStatusLightLevelIndicatorLowWarn,
 	"HIGH_WARN": CrossConnectStatusLightLevelIndicatorHighWarn,
@@ -102,10 +133,21 @@ var mappingCrossConnectStatusLightLevelIndicator = map[string]CrossConnectStatus
 // GetCrossConnectStatusLightLevelIndicatorEnumValues Enumerates the set of values for CrossConnectStatusLightLevelIndicatorEnum
 func GetCrossConnectStatusLightLevelIndicatorEnumValues() []CrossConnectStatusLightLevelIndicatorEnum {
 	values := make([]CrossConnectStatusLightLevelIndicatorEnum, 0)
-	for _, v := range mappingCrossConnectStatusLightLevelIndicator {
+	for _, v := range mappingCrossConnectStatusLightLevelIndicatorEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCrossConnectStatusLightLevelIndicatorEnumStringValues Enumerates the set of values in String for CrossConnectStatusLightLevelIndicatorEnum
+func GetCrossConnectStatusLightLevelIndicatorEnumStringValues() []string {
+	return []string{
+		"NO_LIGHT",
+		"LOW_WARN",
+		"HIGH_WARN",
+		"BAD",
+		"GOOD",
+	}
 }
 
 // CrossConnectStatusEncryptionStatusEnum Enum with underlying type: string
@@ -120,7 +162,7 @@ const (
 	CrossConnectStatusEncryptionStatusCakMismatch    CrossConnectStatusEncryptionStatusEnum = "CAK_MISMATCH"
 )
 
-var mappingCrossConnectStatusEncryptionStatus = map[string]CrossConnectStatusEncryptionStatusEnum{
+var mappingCrossConnectStatusEncryptionStatusEnum = map[string]CrossConnectStatusEncryptionStatusEnum{
 	"UP":              CrossConnectStatusEncryptionStatusUp,
 	"DOWN":            CrossConnectStatusEncryptionStatusDown,
 	"CIPHER_MISMATCH": CrossConnectStatusEncryptionStatusCipherMismatch,
@@ -131,8 +173,19 @@ var mappingCrossConnectStatusEncryptionStatus = map[string]CrossConnectStatusEnc
 // GetCrossConnectStatusEncryptionStatusEnumValues Enumerates the set of values for CrossConnectStatusEncryptionStatusEnum
 func GetCrossConnectStatusEncryptionStatusEnumValues() []CrossConnectStatusEncryptionStatusEnum {
 	values := make([]CrossConnectStatusEncryptionStatusEnum, 0)
-	for _, v := range mappingCrossConnectStatusEncryptionStatus {
+	for _, v := range mappingCrossConnectStatusEncryptionStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCrossConnectStatusEncryptionStatusEnumStringValues Enumerates the set of values in String for CrossConnectStatusEncryptionStatusEnum
+func GetCrossConnectStatusEncryptionStatusEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+		"CIPHER_MISMATCH",
+		"CKN_MISMATCH",
+		"CAK_MISMATCH",
+	}
 }

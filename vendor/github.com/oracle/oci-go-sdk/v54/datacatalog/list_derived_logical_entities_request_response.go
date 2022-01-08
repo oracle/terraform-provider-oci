@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDerivedLogicalEntitiesRequest wrapper for the ListDerivedLogicalEntities operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListDerivedLogicalEntities.go.html to see an example of how to use ListDerivedLogicalEntitiesRequest.
 type ListDerivedLogicalEntitiesRequest struct {
 
 	// Unique catalog identifier.
@@ -68,6 +66,10 @@ func (request ListDerivedLogicalEntitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDerivedLogicalEntitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -81,6 +83,23 @@ func (request ListDerivedLogicalEntitiesRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDerivedLogicalEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDerivedLogicalEntitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDerivedLogicalEntitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDerivedLogicalEntitiesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDerivedLogicalEntitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDerivedLogicalEntitiesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDerivedLogicalEntitiesResponse wrapper for the ListDerivedLogicalEntities operation
@@ -115,7 +134,7 @@ const (
 	ListDerivedLogicalEntitiesSortByDisplayname ListDerivedLogicalEntitiesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListDerivedLogicalEntitiesSortBy = map[string]ListDerivedLogicalEntitiesSortByEnum{
+var mappingListDerivedLogicalEntitiesSortByEnum = map[string]ListDerivedLogicalEntitiesSortByEnum{
 	"TIMECREATED": ListDerivedLogicalEntitiesSortByTimecreated,
 	"DISPLAYNAME": ListDerivedLogicalEntitiesSortByDisplayname,
 }
@@ -123,10 +142,18 @@ var mappingListDerivedLogicalEntitiesSortBy = map[string]ListDerivedLogicalEntit
 // GetListDerivedLogicalEntitiesSortByEnumValues Enumerates the set of values for ListDerivedLogicalEntitiesSortByEnum
 func GetListDerivedLogicalEntitiesSortByEnumValues() []ListDerivedLogicalEntitiesSortByEnum {
 	values := make([]ListDerivedLogicalEntitiesSortByEnum, 0)
-	for _, v := range mappingListDerivedLogicalEntitiesSortBy {
+	for _, v := range mappingListDerivedLogicalEntitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDerivedLogicalEntitiesSortByEnumStringValues Enumerates the set of values in String for ListDerivedLogicalEntitiesSortByEnum
+func GetListDerivedLogicalEntitiesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListDerivedLogicalEntitiesSortOrderEnum Enum with underlying type: string
@@ -138,7 +165,7 @@ const (
 	ListDerivedLogicalEntitiesSortOrderDesc ListDerivedLogicalEntitiesSortOrderEnum = "DESC"
 )
 
-var mappingListDerivedLogicalEntitiesSortOrder = map[string]ListDerivedLogicalEntitiesSortOrderEnum{
+var mappingListDerivedLogicalEntitiesSortOrderEnum = map[string]ListDerivedLogicalEntitiesSortOrderEnum{
 	"ASC":  ListDerivedLogicalEntitiesSortOrderAsc,
 	"DESC": ListDerivedLogicalEntitiesSortOrderDesc,
 }
@@ -146,8 +173,16 @@ var mappingListDerivedLogicalEntitiesSortOrder = map[string]ListDerivedLogicalEn
 // GetListDerivedLogicalEntitiesSortOrderEnumValues Enumerates the set of values for ListDerivedLogicalEntitiesSortOrderEnum
 func GetListDerivedLogicalEntitiesSortOrderEnumValues() []ListDerivedLogicalEntitiesSortOrderEnum {
 	values := make([]ListDerivedLogicalEntitiesSortOrderEnum, 0)
-	for _, v := range mappingListDerivedLogicalEntitiesSortOrder {
+	for _, v := range mappingListDerivedLogicalEntitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDerivedLogicalEntitiesSortOrderEnumStringValues Enumerates the set of values in String for ListDerivedLogicalEntitiesSortOrderEnum
+func GetListDerivedLogicalEntitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

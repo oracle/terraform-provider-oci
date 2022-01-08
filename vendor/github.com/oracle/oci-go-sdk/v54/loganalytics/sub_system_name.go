@@ -17,15 +17,22 @@ const (
 	SubSystemNameLog SubSystemNameEnum = "LOG"
 )
 
-var mappingSubSystemName = map[string]SubSystemNameEnum{
+var mappingSubSystemNameEnum = map[string]SubSystemNameEnum{
 	"LOG": SubSystemNameLog,
 }
 
 // GetSubSystemNameEnumValues Enumerates the set of values for SubSystemNameEnum
 func GetSubSystemNameEnumValues() []SubSystemNameEnum {
 	values := make([]SubSystemNameEnum, 0)
-	for _, v := range mappingSubSystemName {
+	for _, v := range mappingSubSystemNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSubSystemNameEnumStringValues Enumerates the set of values in String for SubSystemNameEnum
+func GetSubSystemNameEnumStringValues() []string {
+	return []string{
+		"LOG",
+	}
 }

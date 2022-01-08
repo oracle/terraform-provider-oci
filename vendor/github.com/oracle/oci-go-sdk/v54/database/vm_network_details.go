@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // VmNetworkDetails Details of the client or backup networks in an Exadata VM cluster network. Applies to Exadata Cloud@Customer instances only.
@@ -39,6 +41,21 @@ func (m VmNetworkDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VmNetworkDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVmNetworkDetailsNetworkTypeEnum[string(m.NetworkType)]; !ok && m.NetworkType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkType: %s. Supported values are: %s.", m.NetworkType, strings.Join(GetVmNetworkDetailsNetworkTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VmNetworkDetailsNetworkTypeEnum Enum with underlying type: string
 type VmNetworkDetailsNetworkTypeEnum string
 
@@ -48,7 +65,7 @@ const (
 	VmNetworkDetailsNetworkTypeBackup VmNetworkDetailsNetworkTypeEnum = "BACKUP"
 )
 
-var mappingVmNetworkDetailsNetworkType = map[string]VmNetworkDetailsNetworkTypeEnum{
+var mappingVmNetworkDetailsNetworkTypeEnum = map[string]VmNetworkDetailsNetworkTypeEnum{
 	"CLIENT": VmNetworkDetailsNetworkTypeClient,
 	"BACKUP": VmNetworkDetailsNetworkTypeBackup,
 }
@@ -56,8 +73,16 @@ var mappingVmNetworkDetailsNetworkType = map[string]VmNetworkDetailsNetworkTypeE
 // GetVmNetworkDetailsNetworkTypeEnumValues Enumerates the set of values for VmNetworkDetailsNetworkTypeEnum
 func GetVmNetworkDetailsNetworkTypeEnumValues() []VmNetworkDetailsNetworkTypeEnum {
 	values := make([]VmNetworkDetailsNetworkTypeEnum, 0)
-	for _, v := range mappingVmNetworkDetailsNetworkType {
+	for _, v := range mappingVmNetworkDetailsNetworkTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVmNetworkDetailsNetworkTypeEnumStringValues Enumerates the set of values in String for VmNetworkDetailsNetworkTypeEnum
+func GetVmNetworkDetailsNetworkTypeEnumStringValues() []string {
+	return []string{
+		"CLIENT",
+		"BACKUP",
+	}
 }

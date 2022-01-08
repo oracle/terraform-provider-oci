@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ThreatFeed The settings of the threat intelligence feed. You can block requests from IP addresses based on their reputations with various commercial and open source threat feeds.
@@ -33,6 +35,21 @@ func (m ThreatFeed) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ThreatFeed) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingThreatFeedActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetThreatFeedActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ThreatFeedActionEnum Enum with underlying type: string
 type ThreatFeedActionEnum string
 
@@ -43,7 +60,7 @@ const (
 	ThreatFeedActionBlock  ThreatFeedActionEnum = "BLOCK"
 )
 
-var mappingThreatFeedAction = map[string]ThreatFeedActionEnum{
+var mappingThreatFeedActionEnum = map[string]ThreatFeedActionEnum{
 	"OFF":    ThreatFeedActionOff,
 	"DETECT": ThreatFeedActionDetect,
 	"BLOCK":  ThreatFeedActionBlock,
@@ -52,8 +69,17 @@ var mappingThreatFeedAction = map[string]ThreatFeedActionEnum{
 // GetThreatFeedActionEnumValues Enumerates the set of values for ThreatFeedActionEnum
 func GetThreatFeedActionEnumValues() []ThreatFeedActionEnum {
 	values := make([]ThreatFeedActionEnum, 0)
-	for _, v := range mappingThreatFeedAction {
+	for _, v := range mappingThreatFeedActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetThreatFeedActionEnumStringValues Enumerates the set of values in String for ThreatFeedActionEnum
+func GetThreatFeedActionEnumStringValues() []string {
+	return []string{
+		"OFF",
+		"DETECT",
+		"BLOCK",
+	}
 }

@@ -12,7 +12,9 @@ package waf
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateNetworkAddressListVcnAddressesDetails The information to be updated for NetworkAddressListVcnAddresses.
@@ -60,6 +62,18 @@ func (m UpdateNetworkAddressListVcnAddressesDetails) GetSystemTags() map[string]
 
 func (m UpdateNetworkAddressListVcnAddressesDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateNetworkAddressListVcnAddressesDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

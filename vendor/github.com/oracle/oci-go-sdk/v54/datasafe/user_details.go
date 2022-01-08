@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UserDetails The details of a particular user.
@@ -39,6 +41,21 @@ func (m UserDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUserDetailsAuthenticationTypeEnum[string(m.AuthenticationType)]; !ok && m.AuthenticationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationType: %s. Supported values are: %s.", m.AuthenticationType, strings.Join(GetUserDetailsAuthenticationTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UserDetailsAuthenticationTypeEnum Enum with underlying type: string
 type UserDetailsAuthenticationTypeEnum string
 
@@ -48,7 +65,7 @@ const (
 	UserDetailsAuthenticationTypeNone     UserDetailsAuthenticationTypeEnum = "NONE"
 )
 
-var mappingUserDetailsAuthenticationType = map[string]UserDetailsAuthenticationTypeEnum{
+var mappingUserDetailsAuthenticationTypeEnum = map[string]UserDetailsAuthenticationTypeEnum{
 	"PASSWORD": UserDetailsAuthenticationTypePassword,
 	"NONE":     UserDetailsAuthenticationTypeNone,
 }
@@ -56,8 +73,16 @@ var mappingUserDetailsAuthenticationType = map[string]UserDetailsAuthenticationT
 // GetUserDetailsAuthenticationTypeEnumValues Enumerates the set of values for UserDetailsAuthenticationTypeEnum
 func GetUserDetailsAuthenticationTypeEnumValues() []UserDetailsAuthenticationTypeEnum {
 	values := make([]UserDetailsAuthenticationTypeEnum, 0)
-	for _, v := range mappingUserDetailsAuthenticationType {
+	for _, v := range mappingUserDetailsAuthenticationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserDetailsAuthenticationTypeEnumStringValues Enumerates the set of values in String for UserDetailsAuthenticationTypeEnum
+func GetUserDetailsAuthenticationTypeEnumStringValues() []string {
+	return []string{
+		"PASSWORD",
+		"NONE",
+	}
 }

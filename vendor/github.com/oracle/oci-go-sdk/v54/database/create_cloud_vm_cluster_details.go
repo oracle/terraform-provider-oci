@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateCloudVmClusterDetails Details for the create cloud VM cluster operation. Applies to Exadata Cloud Service instances only.
@@ -57,6 +59,18 @@ type CreateCloudVmClusterDetails struct {
 	// The number of OCPU cores to enable for a cloud VM cluster. Only 1 decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
+	// The memory to be allocated in GBs.
+	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
+
+	// The local node storage to be allocated in GBs.
+	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
+
+	// The data disk group size to be allocated in TBs.
+	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
+
+	// The list of Db servers.
+	DbServers []string `mandatory:"false" json:"dbServers"`
+
 	// The cluster name for cloud VM cluster. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
 
@@ -88,6 +102,9 @@ type CreateCloudVmClusterDetails struct {
 	// The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
 	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 
+	// The private zone id in which DNS records need to be created.
+	PrivateZoneId *string `mandatory:"false" json:"privateZoneId"`
+
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
 	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
@@ -110,6 +127,21 @@ func (m CreateCloudVmClusterDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateCloudVmClusterDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateCloudVmClusterDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateCloudVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateCloudVmClusterDetailsLicenseModelEnum Enum with underlying type: string
 type CreateCloudVmClusterDetailsLicenseModelEnum string
 
@@ -119,7 +151,7 @@ const (
 	CreateCloudVmClusterDetailsLicenseModelBringYourOwnLicense CreateCloudVmClusterDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingCreateCloudVmClusterDetailsLicenseModel = map[string]CreateCloudVmClusterDetailsLicenseModelEnum{
+var mappingCreateCloudVmClusterDetailsLicenseModelEnum = map[string]CreateCloudVmClusterDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       CreateCloudVmClusterDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": CreateCloudVmClusterDetailsLicenseModelBringYourOwnLicense,
 }
@@ -127,8 +159,16 @@ var mappingCreateCloudVmClusterDetailsLicenseModel = map[string]CreateCloudVmClu
 // GetCreateCloudVmClusterDetailsLicenseModelEnumValues Enumerates the set of values for CreateCloudVmClusterDetailsLicenseModelEnum
 func GetCreateCloudVmClusterDetailsLicenseModelEnumValues() []CreateCloudVmClusterDetailsLicenseModelEnum {
 	values := make([]CreateCloudVmClusterDetailsLicenseModelEnum, 0)
-	for _, v := range mappingCreateCloudVmClusterDetailsLicenseModel {
+	for _, v := range mappingCreateCloudVmClusterDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateCloudVmClusterDetailsLicenseModelEnumStringValues Enumerates the set of values in String for CreateCloudVmClusterDetailsLicenseModelEnum
+func GetCreateCloudVmClusterDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

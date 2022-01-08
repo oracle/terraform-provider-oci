@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ApiValidationDetail Detail of a single error or warning.
@@ -32,6 +34,21 @@ func (m ApiValidationDetail) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ApiValidationDetail) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingApiValidationDetailSeverityEnum[string(m.Severity)]; !ok && m.Severity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetApiValidationDetailSeverityEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ApiValidationDetailSeverityEnum Enum with underlying type: string
 type ApiValidationDetailSeverityEnum string
 
@@ -42,7 +59,7 @@ const (
 	ApiValidationDetailSeverityError   ApiValidationDetailSeverityEnum = "ERROR"
 )
 
-var mappingApiValidationDetailSeverity = map[string]ApiValidationDetailSeverityEnum{
+var mappingApiValidationDetailSeverityEnum = map[string]ApiValidationDetailSeverityEnum{
 	"INFO":    ApiValidationDetailSeverityInfo,
 	"WARNING": ApiValidationDetailSeverityWarning,
 	"ERROR":   ApiValidationDetailSeverityError,
@@ -51,8 +68,17 @@ var mappingApiValidationDetailSeverity = map[string]ApiValidationDetailSeverityE
 // GetApiValidationDetailSeverityEnumValues Enumerates the set of values for ApiValidationDetailSeverityEnum
 func GetApiValidationDetailSeverityEnumValues() []ApiValidationDetailSeverityEnum {
 	values := make([]ApiValidationDetailSeverityEnum, 0)
-	for _, v := range mappingApiValidationDetailSeverity {
+	for _, v := range mappingApiValidationDetailSeverityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApiValidationDetailSeverityEnumStringValues Enumerates the set of values in String for ApiValidationDetailSeverityEnum
+func GetApiValidationDetailSeverityEnumStringValues() []string {
+	return []string{
+		"INFO",
+		"WARNING",
+		"ERROR",
+	}
 }

@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ConnectionConfiguration Configuration details for the connection between the client and backend servers.
@@ -27,8 +29,58 @@ type ConnectionConfiguration struct {
 	// The backend TCP Proxy Protocol version.
 	// Example: `1`
 	BackendTcpProxyProtocolVersion *int `mandatory:"false" json:"backendTcpProxyProtocolVersion"`
+
+	// An array that represents the PPV2 Options that can be enabled on TCP Listeners.
+	// Example: ["PP2_TYPE_AUTHORITY"]
+	BackendTcpProxyProtocolOptions []ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum `mandatory:"false" json:"backendTcpProxyProtocolOptions,omitempty"`
 }
 
 func (m ConnectionConfiguration) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ConnectionConfiguration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.BackendTcpProxyProtocolOptions {
+		if _, ok := mappingConnectionConfigurationBackendTcpProxyProtocolOptionsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackendTcpProxyProtocolOptions: %s. Supported values are: %s.", val, strings.Join(GetConnectionConfigurationBackendTcpProxyProtocolOptionsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
+// ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum Enum with underlying type: string
+type ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum string
+
+// Set of constants representing the allowable values for ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum
+const (
+	ConnectionConfigurationBackendTcpProxyProtocolOptionsPp2TypeAuthority ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum = "PP2_TYPE_AUTHORITY"
+)
+
+var mappingConnectionConfigurationBackendTcpProxyProtocolOptionsEnum = map[string]ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum{
+	"PP2_TYPE_AUTHORITY": ConnectionConfigurationBackendTcpProxyProtocolOptionsPp2TypeAuthority,
+}
+
+// GetConnectionConfigurationBackendTcpProxyProtocolOptionsEnumValues Enumerates the set of values for ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum
+func GetConnectionConfigurationBackendTcpProxyProtocolOptionsEnumValues() []ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum {
+	values := make([]ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum, 0)
+	for _, v := range mappingConnectionConfigurationBackendTcpProxyProtocolOptionsEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetConnectionConfigurationBackendTcpProxyProtocolOptionsEnumStringValues Enumerates the set of values in String for ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum
+func GetConnectionConfigurationBackendTcpProxyProtocolOptionsEnumStringValues() []string {
+	return []string{
+		"PP2_TYPE_AUTHORITY",
+	}
 }

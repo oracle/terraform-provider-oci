@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // MaintenanceWindow The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window.
@@ -18,6 +20,17 @@ type MaintenanceWindow struct {
 
 	// The maintenance window scheduling preference.
 	Preference MaintenanceWindowPreferenceEnum `mandatory:"true" json:"preference"`
+
+	// Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
+	// *IMPORTANT*: Non-rolling infrastructure patching involves system down time. See Oracle-Managed Infrastructure Maintenance Updates (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information.
+	PatchingMode MaintenanceWindowPatchingModeEnum `mandatory:"false" json:"patchingMode,omitempty"`
+
+	// If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
+	IsCustomActionTimeoutEnabled *bool `mandatory:"false" json:"isCustomActionTimeoutEnabled"`
+
+	// Determines the amount of time the system will wait before the start of each database server patching operation.
+	// Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive).
+	CustomActionTimeoutInMins *int `mandatory:"false" json:"customActionTimeoutInMins"`
 
 	// Months during the year when maintenance should be performed.
 	Months []Month `mandatory:"false" json:"months"`
@@ -42,6 +55,24 @@ func (m MaintenanceWindow) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MaintenanceWindow) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMaintenanceWindowPreferenceEnum[string(m.Preference)]; !ok && m.Preference != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Preference: %s. Supported values are: %s.", m.Preference, strings.Join(GetMaintenanceWindowPreferenceEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingMaintenanceWindowPatchingModeEnum[string(m.PatchingMode)]; !ok && m.PatchingMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchingMode: %s. Supported values are: %s.", m.PatchingMode, strings.Join(GetMaintenanceWindowPatchingModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MaintenanceWindowPreferenceEnum Enum with underlying type: string
 type MaintenanceWindowPreferenceEnum string
 
@@ -51,7 +82,7 @@ const (
 	MaintenanceWindowPreferenceCustomPreference MaintenanceWindowPreferenceEnum = "CUSTOM_PREFERENCE"
 )
 
-var mappingMaintenanceWindowPreference = map[string]MaintenanceWindowPreferenceEnum{
+var mappingMaintenanceWindowPreferenceEnum = map[string]MaintenanceWindowPreferenceEnum{
 	"NO_PREFERENCE":     MaintenanceWindowPreferenceNoPreference,
 	"CUSTOM_PREFERENCE": MaintenanceWindowPreferenceCustomPreference,
 }
@@ -59,8 +90,47 @@ var mappingMaintenanceWindowPreference = map[string]MaintenanceWindowPreferenceE
 // GetMaintenanceWindowPreferenceEnumValues Enumerates the set of values for MaintenanceWindowPreferenceEnum
 func GetMaintenanceWindowPreferenceEnumValues() []MaintenanceWindowPreferenceEnum {
 	values := make([]MaintenanceWindowPreferenceEnum, 0)
-	for _, v := range mappingMaintenanceWindowPreference {
+	for _, v := range mappingMaintenanceWindowPreferenceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMaintenanceWindowPreferenceEnumStringValues Enumerates the set of values in String for MaintenanceWindowPreferenceEnum
+func GetMaintenanceWindowPreferenceEnumStringValues() []string {
+	return []string{
+		"NO_PREFERENCE",
+		"CUSTOM_PREFERENCE",
+	}
+}
+
+// MaintenanceWindowPatchingModeEnum Enum with underlying type: string
+type MaintenanceWindowPatchingModeEnum string
+
+// Set of constants representing the allowable values for MaintenanceWindowPatchingModeEnum
+const (
+	MaintenanceWindowPatchingModeRolling    MaintenanceWindowPatchingModeEnum = "ROLLING"
+	MaintenanceWindowPatchingModeNonrolling MaintenanceWindowPatchingModeEnum = "NONROLLING"
+)
+
+var mappingMaintenanceWindowPatchingModeEnum = map[string]MaintenanceWindowPatchingModeEnum{
+	"ROLLING":    MaintenanceWindowPatchingModeRolling,
+	"NONROLLING": MaintenanceWindowPatchingModeNonrolling,
+}
+
+// GetMaintenanceWindowPatchingModeEnumValues Enumerates the set of values for MaintenanceWindowPatchingModeEnum
+func GetMaintenanceWindowPatchingModeEnumValues() []MaintenanceWindowPatchingModeEnum {
+	values := make([]MaintenanceWindowPatchingModeEnum, 0)
+	for _, v := range mappingMaintenanceWindowPatchingModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMaintenanceWindowPatchingModeEnumStringValues Enumerates the set of values in String for MaintenanceWindowPatchingModeEnum
+func GetMaintenanceWindowPatchingModeEnumStringValues() []string {
+	return []string{
+		"ROLLING",
+		"NONROLLING",
+	}
 }

@@ -28,7 +28,7 @@ const (
 	OperationTypesMoveConfiguration   OperationTypesEnum = "MOVE_CONFIGURATION"
 )
 
-var mappingOperationTypes = map[string]OperationTypesEnum{
+var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CREATE_LOG":           OperationTypesCreateLog,
 	"UPDATE_LOG":           OperationTypesUpdateLog,
 	"DELETE_LOG":           OperationTypesDeleteLog,
@@ -46,8 +46,26 @@ var mappingOperationTypes = map[string]OperationTypesEnum{
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
 func GetOperationTypesEnumValues() []OperationTypesEnum {
 	values := make([]OperationTypesEnum, 0)
-	for _, v := range mappingOperationTypes {
+	for _, v := range mappingOperationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypesEnumStringValues Enumerates the set of values in String for OperationTypesEnum
+func GetOperationTypesEnumStringValues() []string {
+	return []string{
+		"CREATE_LOG",
+		"UPDATE_LOG",
+		"DELETE_LOG",
+		"MOVE_LOG",
+		"CREATE_LOG_GROUP",
+		"UPDATE_LOG_GROUP",
+		"DELETE_LOG_GROUP",
+		"MOVE_LOG_GROUP",
+		"CREATE_CONFIGURATION",
+		"UPDATE_CONFIGURATION",
+		"DELETE_CONFIGURATION",
+		"MOVE_CONFIGURATION",
+	}
 }

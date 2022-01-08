@@ -19,15 +19,22 @@ const (
 	WorkRequestResourceMetadataKeyOperationName WorkRequestResourceMetadataKeyEnum = "OPERATION_NAME"
 )
 
-var mappingWorkRequestResourceMetadataKey = map[string]WorkRequestResourceMetadataKeyEnum{
+var mappingWorkRequestResourceMetadataKeyEnum = map[string]WorkRequestResourceMetadataKeyEnum{
 	"OPERATION_NAME": WorkRequestResourceMetadataKeyOperationName,
 }
 
 // GetWorkRequestResourceMetadataKeyEnumValues Enumerates the set of values for WorkRequestResourceMetadataKeyEnum
 func GetWorkRequestResourceMetadataKeyEnumValues() []WorkRequestResourceMetadataKeyEnum {
 	values := make([]WorkRequestResourceMetadataKeyEnum, 0)
-	for _, v := range mappingWorkRequestResourceMetadataKey {
+	for _, v := range mappingWorkRequestResourceMetadataKeyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceMetadataKeyEnumStringValues Enumerates the set of values in String for WorkRequestResourceMetadataKeyEnum
+func GetWorkRequestResourceMetadataKeyEnumStringValues() []string {
+	return []string{
+		"OPERATION_NAME",
+	}
 }

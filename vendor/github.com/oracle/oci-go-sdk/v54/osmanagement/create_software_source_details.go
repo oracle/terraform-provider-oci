@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateSoftwareSourceDetails Description of a software source to be created on the management system
@@ -55,4 +57,22 @@ type CreateSoftwareSourceDetails struct {
 
 func (m CreateSoftwareSourceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateSoftwareSourceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingArchTypesEnum[string(m.ArchType)]; !ok && m.ArchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchType: %s. Supported values are: %s.", m.ArchType, strings.Join(GetArchTypesEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingChecksumTypesEnum[string(m.ChecksumType)]; !ok && m.ChecksumType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ChecksumType: %s. Supported values are: %s.", m.ChecksumType, strings.Join(GetChecksumTypesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

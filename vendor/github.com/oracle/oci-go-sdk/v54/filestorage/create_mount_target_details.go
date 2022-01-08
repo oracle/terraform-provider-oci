@@ -4,13 +4,16 @@
 
 // File Storage API
 //
-// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// Use the File Storage service API to manage file systems, mount targets, and snapshots.
+// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateMountTargetDetails Details for creating the mount target.
@@ -38,6 +41,13 @@ type CreateMountTargetDetails struct {
 	// Must be unique across all VNICs in the subnet and comply
 	// with RFC 952 (https://tools.ietf.org/html/rfc952)
 	// and RFC 1123 (https://tools.ietf.org/html/rfc1123).
+	// Note: This attribute value is stored in the PrivateIp (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource,
+	// not in the `mountTarget` resource.
+	// To update the `hostnameLabel`, use `GetMountTarget` to obtain the
+	// OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target's
+	// private IPs (`privateIpIds`). Then, you can use
+	// UpdatePrivateIp (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp)
+	// to update the `hostnameLabel` value.
 	// For more information, see
 	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm).
 	// Example: `files-1`
@@ -46,14 +56,28 @@ type CreateMountTargetDetails struct {
 	// A private IP address of your choice. Must be an available IP address within
 	// the subnet's CIDR. If you don't specify a value, Oracle automatically
 	// assigns a private IP address from the subnet.
+	// Note: This attribute value is stored in the PrivateIp (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource,
+	// not in the `mountTarget` resource.
+	// To update the `ipAddress`, use `GetMountTarget` to obtain the
+	// OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target's
+	// private IPs (`privateIpIds`). Then, you can use
+	// UpdatePrivateIp (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp)
+	// to update the `ipAddress` value.
 	// Example: `10.0.3.3`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
+
+	// Describes whether Idmapping is turned on or off. If on, describes method used to perform ID Mapping
+	IdmapType MountTargetIdmapTypeEnum `mandatory:"false" json:"idmapType,omitempty"`
+
+	LdapIdmap *CreateLdapIdmapDetails `mandatory:"false" json:"ldapIdmap"`
 
 	// A list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this mount target.
 	// A maximum of 5 is allowed.
 	// Setting this to an empty array after the list is created removes the mount target from all NSGs.
 	// For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	Kerberos *CreateKerberosDetails `mandatory:"false" json:"kerberos"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
@@ -69,4 +93,19 @@ type CreateMountTargetDetails struct {
 
 func (m CreateMountTargetDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateMountTargetDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingMountTargetIdmapTypeEnum[string(m.IdmapType)]; !ok && m.IdmapType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IdmapType: %s. Supported values are: %s.", m.IdmapType, strings.Join(GetMountTargetIdmapTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

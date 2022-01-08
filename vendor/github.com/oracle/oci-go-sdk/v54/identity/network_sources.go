@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // NetworkSources A network source specifies a list of source IP addresses that are allowed to make authorization requests.
@@ -69,6 +71,21 @@ func (m NetworkSources) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m NetworkSources) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingNetworkSourcesLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNetworkSourcesLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // NetworkSourcesLifecycleStateEnum Enum with underlying type: string
 type NetworkSourcesLifecycleStateEnum string
 
@@ -81,7 +98,7 @@ const (
 	NetworkSourcesLifecycleStateDeleted  NetworkSourcesLifecycleStateEnum = "DELETED"
 )
 
-var mappingNetworkSourcesLifecycleState = map[string]NetworkSourcesLifecycleStateEnum{
+var mappingNetworkSourcesLifecycleStateEnum = map[string]NetworkSourcesLifecycleStateEnum{
 	"CREATING": NetworkSourcesLifecycleStateCreating,
 	"ACTIVE":   NetworkSourcesLifecycleStateActive,
 	"INACTIVE": NetworkSourcesLifecycleStateInactive,
@@ -92,8 +109,19 @@ var mappingNetworkSourcesLifecycleState = map[string]NetworkSourcesLifecycleStat
 // GetNetworkSourcesLifecycleStateEnumValues Enumerates the set of values for NetworkSourcesLifecycleStateEnum
 func GetNetworkSourcesLifecycleStateEnumValues() []NetworkSourcesLifecycleStateEnum {
 	values := make([]NetworkSourcesLifecycleStateEnum, 0)
-	for _, v := range mappingNetworkSourcesLifecycleState {
+	for _, v := range mappingNetworkSourcesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkSourcesLifecycleStateEnumStringValues Enumerates the set of values in String for NetworkSourcesLifecycleStateEnum
+func GetNetworkSourcesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

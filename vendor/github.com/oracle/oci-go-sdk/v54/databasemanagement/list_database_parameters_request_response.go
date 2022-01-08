@@ -5,15 +5,13 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDatabaseParametersRequest wrapper for the ListDatabaseParameters operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListDatabaseParameters.go.html to see an example of how to use ListDatabaseParametersRequest.
 type ListDatabaseParametersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
@@ -53,6 +51,10 @@ func (request ListDatabaseParametersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDatabaseParametersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +68,26 @@ func (request ListDatabaseParametersRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDatabaseParametersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDatabaseParametersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDatabaseParametersSourceEnum[string(request.Source)]; !ok && request.Source != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Source: %s. Supported values are: %s.", request.Source, strings.Join(GetListDatabaseParametersSourceEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseParametersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDatabaseParametersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseParametersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatabaseParametersSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDatabaseParametersResponse wrapper for the ListDatabaseParameters operation
@@ -100,7 +122,7 @@ const (
 	ListDatabaseParametersSourceSpfile  ListDatabaseParametersSourceEnum = "SPFILE"
 )
 
-var mappingListDatabaseParametersSource = map[string]ListDatabaseParametersSourceEnum{
+var mappingListDatabaseParametersSourceEnum = map[string]ListDatabaseParametersSourceEnum{
 	"CURRENT": ListDatabaseParametersSourceCurrent,
 	"SPFILE":  ListDatabaseParametersSourceSpfile,
 }
@@ -108,10 +130,18 @@ var mappingListDatabaseParametersSource = map[string]ListDatabaseParametersSourc
 // GetListDatabaseParametersSourceEnumValues Enumerates the set of values for ListDatabaseParametersSourceEnum
 func GetListDatabaseParametersSourceEnumValues() []ListDatabaseParametersSourceEnum {
 	values := make([]ListDatabaseParametersSourceEnum, 0)
-	for _, v := range mappingListDatabaseParametersSource {
+	for _, v := range mappingListDatabaseParametersSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseParametersSourceEnumStringValues Enumerates the set of values in String for ListDatabaseParametersSourceEnum
+func GetListDatabaseParametersSourceEnumStringValues() []string {
+	return []string{
+		"CURRENT",
+		"SPFILE",
+	}
 }
 
 // ListDatabaseParametersSortByEnum Enum with underlying type: string
@@ -122,17 +152,24 @@ const (
 	ListDatabaseParametersSortByName ListDatabaseParametersSortByEnum = "NAME"
 )
 
-var mappingListDatabaseParametersSortBy = map[string]ListDatabaseParametersSortByEnum{
+var mappingListDatabaseParametersSortByEnum = map[string]ListDatabaseParametersSortByEnum{
 	"NAME": ListDatabaseParametersSortByName,
 }
 
 // GetListDatabaseParametersSortByEnumValues Enumerates the set of values for ListDatabaseParametersSortByEnum
 func GetListDatabaseParametersSortByEnumValues() []ListDatabaseParametersSortByEnum {
 	values := make([]ListDatabaseParametersSortByEnum, 0)
-	for _, v := range mappingListDatabaseParametersSortBy {
+	for _, v := range mappingListDatabaseParametersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseParametersSortByEnumStringValues Enumerates the set of values in String for ListDatabaseParametersSortByEnum
+func GetListDatabaseParametersSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+	}
 }
 
 // ListDatabaseParametersSortOrderEnum Enum with underlying type: string
@@ -144,7 +181,7 @@ const (
 	ListDatabaseParametersSortOrderDesc ListDatabaseParametersSortOrderEnum = "DESC"
 )
 
-var mappingListDatabaseParametersSortOrder = map[string]ListDatabaseParametersSortOrderEnum{
+var mappingListDatabaseParametersSortOrderEnum = map[string]ListDatabaseParametersSortOrderEnum{
 	"ASC":  ListDatabaseParametersSortOrderAsc,
 	"DESC": ListDatabaseParametersSortOrderDesc,
 }
@@ -152,8 +189,16 @@ var mappingListDatabaseParametersSortOrder = map[string]ListDatabaseParametersSo
 // GetListDatabaseParametersSortOrderEnumValues Enumerates the set of values for ListDatabaseParametersSortOrderEnum
 func GetListDatabaseParametersSortOrderEnumValues() []ListDatabaseParametersSortOrderEnum {
 	values := make([]ListDatabaseParametersSortOrderEnum, 0)
-	for _, v := range mappingListDatabaseParametersSortOrder {
+	for _, v := range mappingListDatabaseParametersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseParametersSortOrderEnumStringValues Enumerates the set of values in String for ListDatabaseParametersSortOrderEnum
+func GetListDatabaseParametersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AbstractWriteAttribute The abstract write attribute.
@@ -89,6 +91,18 @@ func (m abstractwriteattribute) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m abstractwriteattribute) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AbstractWriteAttributeModelTypeEnum Enum with underlying type: string
 type AbstractWriteAttributeModelTypeEnum string
 
@@ -104,7 +118,7 @@ const (
 	AbstractWriteAttributeModelTypeObjectStorageWriteAttribute AbstractWriteAttributeModelTypeEnum = "OBJECT_STORAGE_WRITE_ATTRIBUTE"
 )
 
-var mappingAbstractWriteAttributeModelType = map[string]AbstractWriteAttributeModelTypeEnum{
+var mappingAbstractWriteAttributeModelTypeEnum = map[string]AbstractWriteAttributeModelTypeEnum{
 	"ORACLEWRITEATTRIBUTE":           AbstractWriteAttributeModelTypeOraclewriteattribute,
 	"ORACLEATPWRITEATTRIBUTE":        AbstractWriteAttributeModelTypeOracleatpwriteattribute,
 	"ORACLEADWCWRITEATTRIBUTE":       AbstractWriteAttributeModelTypeOracleadwcwriteattribute,
@@ -118,8 +132,22 @@ var mappingAbstractWriteAttributeModelType = map[string]AbstractWriteAttributeMo
 // GetAbstractWriteAttributeModelTypeEnumValues Enumerates the set of values for AbstractWriteAttributeModelTypeEnum
 func GetAbstractWriteAttributeModelTypeEnumValues() []AbstractWriteAttributeModelTypeEnum {
 	values := make([]AbstractWriteAttributeModelTypeEnum, 0)
-	for _, v := range mappingAbstractWriteAttributeModelType {
+	for _, v := range mappingAbstractWriteAttributeModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAbstractWriteAttributeModelTypeEnumStringValues Enumerates the set of values in String for AbstractWriteAttributeModelTypeEnum
+func GetAbstractWriteAttributeModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLEWRITEATTRIBUTE",
+		"ORACLEATPWRITEATTRIBUTE",
+		"ORACLEADWCWRITEATTRIBUTE",
+		"OBJECTSTORAGEWRITEATTRIBUTE",
+		"ORACLE_WRITE_ATTRIBUTE",
+		"ORACLE_ATP_WRITE_ATTRIBUTE",
+		"ORACLE_ADWC_WRITE_ATTRIBUTE",
+		"OBJECT_STORAGE_WRITE_ATTRIBUTE",
+	}
 }

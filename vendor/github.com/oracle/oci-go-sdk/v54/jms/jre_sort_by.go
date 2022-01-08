@@ -26,7 +26,7 @@ const (
 	JreSortBySecurityStatus                  JreSortByEnum = "securityStatus"
 )
 
-var mappingJreSortBy = map[string]JreSortByEnum{
+var mappingJreSortByEnum = map[string]JreSortByEnum{
 	"distribution":                    JreSortByDistribution,
 	"timeFirstSeen":                   JreSortByTimeFirstSeen,
 	"timeLastSeen":                    JreSortByTimeLastSeen,
@@ -42,8 +42,24 @@ var mappingJreSortBy = map[string]JreSortByEnum{
 // GetJreSortByEnumValues Enumerates the set of values for JreSortByEnum
 func GetJreSortByEnumValues() []JreSortByEnum {
 	values := make([]JreSortByEnum, 0)
-	for _, v := range mappingJreSortBy {
+	for _, v := range mappingJreSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJreSortByEnumStringValues Enumerates the set of values in String for JreSortByEnum
+func GetJreSortByEnumStringValues() []string {
+	return []string{
+		"distribution",
+		"timeFirstSeen",
+		"timeLastSeen",
+		"vendor",
+		"version",
+		"approximateInstallationCount",
+		"approximateApplicationCount",
+		"approximateManagedInstanceCount",
+		"osName",
+		"securityStatus",
+	}
 }

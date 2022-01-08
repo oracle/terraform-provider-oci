@@ -5,15 +5,13 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAcceptedAgreementsRequest wrapper for the ListAcceptedAgreements operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListAcceptedAgreements.go.html to see an example of how to use ListAcceptedAgreementsRequest.
 type ListAcceptedAgreementsRequest struct {
 
 	// The unique identifier for the compartment.
@@ -61,6 +59,10 @@ func (request ListAcceptedAgreementsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAcceptedAgreementsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +76,23 @@ func (request ListAcceptedAgreementsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAcceptedAgreementsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAcceptedAgreementsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAcceptedAgreementsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAcceptedAgreementsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAcceptedAgreementsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAcceptedAgreementsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAcceptedAgreementsResponse wrapper for the ListAcceptedAgreements operation
@@ -112,17 +131,24 @@ const (
 	ListAcceptedAgreementsSortByTimeaccepted ListAcceptedAgreementsSortByEnum = "TIMEACCEPTED"
 )
 
-var mappingListAcceptedAgreementsSortBy = map[string]ListAcceptedAgreementsSortByEnum{
+var mappingListAcceptedAgreementsSortByEnum = map[string]ListAcceptedAgreementsSortByEnum{
 	"TIMEACCEPTED": ListAcceptedAgreementsSortByTimeaccepted,
 }
 
 // GetListAcceptedAgreementsSortByEnumValues Enumerates the set of values for ListAcceptedAgreementsSortByEnum
 func GetListAcceptedAgreementsSortByEnumValues() []ListAcceptedAgreementsSortByEnum {
 	values := make([]ListAcceptedAgreementsSortByEnum, 0)
-	for _, v := range mappingListAcceptedAgreementsSortBy {
+	for _, v := range mappingListAcceptedAgreementsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAcceptedAgreementsSortByEnumStringValues Enumerates the set of values in String for ListAcceptedAgreementsSortByEnum
+func GetListAcceptedAgreementsSortByEnumStringValues() []string {
+	return []string{
+		"TIMEACCEPTED",
+	}
 }
 
 // ListAcceptedAgreementsSortOrderEnum Enum with underlying type: string
@@ -134,7 +160,7 @@ const (
 	ListAcceptedAgreementsSortOrderDesc ListAcceptedAgreementsSortOrderEnum = "DESC"
 )
 
-var mappingListAcceptedAgreementsSortOrder = map[string]ListAcceptedAgreementsSortOrderEnum{
+var mappingListAcceptedAgreementsSortOrderEnum = map[string]ListAcceptedAgreementsSortOrderEnum{
 	"ASC":  ListAcceptedAgreementsSortOrderAsc,
 	"DESC": ListAcceptedAgreementsSortOrderDesc,
 }
@@ -142,8 +168,16 @@ var mappingListAcceptedAgreementsSortOrder = map[string]ListAcceptedAgreementsSo
 // GetListAcceptedAgreementsSortOrderEnumValues Enumerates the set of values for ListAcceptedAgreementsSortOrderEnum
 func GetListAcceptedAgreementsSortOrderEnumValues() []ListAcceptedAgreementsSortOrderEnum {
 	values := make([]ListAcceptedAgreementsSortOrderEnum, 0)
-	for _, v := range mappingListAcceptedAgreementsSortOrder {
+	for _, v := range mappingListAcceptedAgreementsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAcceptedAgreementsSortOrderEnumStringValues Enumerates the set of values in String for ListAcceptedAgreementsSortOrderEnum
+func GetListAcceptedAgreementsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

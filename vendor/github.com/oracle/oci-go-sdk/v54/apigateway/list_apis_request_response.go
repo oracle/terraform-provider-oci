@@ -5,15 +5,13 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListApisRequest wrapper for the ListApis operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListApis.go.html to see an example of how to use ListApisRequest.
 type ListApisRequest struct {
 
 	// The ocid of the compartment in which to list resources.
@@ -57,6 +55,10 @@ func (request ListApisRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListApisRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,26 @@ func (request ListApisRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListApisRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListApisRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingApiSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetApiSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListApisSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListApisSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListApisSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListApisSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListApisResponse wrapper for the ListApis operation
@@ -117,7 +139,7 @@ const (
 	ListApisSortOrderDesc ListApisSortOrderEnum = "DESC"
 )
 
-var mappingListApisSortOrder = map[string]ListApisSortOrderEnum{
+var mappingListApisSortOrderEnum = map[string]ListApisSortOrderEnum{
 	"ASC":  ListApisSortOrderAsc,
 	"DESC": ListApisSortOrderDesc,
 }
@@ -125,10 +147,18 @@ var mappingListApisSortOrder = map[string]ListApisSortOrderEnum{
 // GetListApisSortOrderEnumValues Enumerates the set of values for ListApisSortOrderEnum
 func GetListApisSortOrderEnumValues() []ListApisSortOrderEnum {
 	values := make([]ListApisSortOrderEnum, 0)
-	for _, v := range mappingListApisSortOrder {
+	for _, v := range mappingListApisSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListApisSortOrderEnumStringValues Enumerates the set of values in String for ListApisSortOrderEnum
+func GetListApisSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListApisSortByEnum Enum with underlying type: string
@@ -140,7 +170,7 @@ const (
 	ListApisSortByDisplayname ListApisSortByEnum = "displayName"
 )
 
-var mappingListApisSortBy = map[string]ListApisSortByEnum{
+var mappingListApisSortByEnum = map[string]ListApisSortByEnum{
 	"timeCreated": ListApisSortByTimecreated,
 	"displayName": ListApisSortByDisplayname,
 }
@@ -148,8 +178,16 @@ var mappingListApisSortBy = map[string]ListApisSortByEnum{
 // GetListApisSortByEnumValues Enumerates the set of values for ListApisSortByEnum
 func GetListApisSortByEnumValues() []ListApisSortByEnum {
 	values := make([]ListApisSortByEnum, 0)
-	for _, v := range mappingListApisSortBy {
+	for _, v := range mappingListApisSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListApisSortByEnumStringValues Enumerates the set of values in String for ListApisSortByEnum
+func GetListApisSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

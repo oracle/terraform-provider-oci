@@ -5,15 +5,13 @@
 package servicecatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListApplicationsRequest wrapper for the ListApplications operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListApplications.go.html to see an example of how to use ListApplicationsRequest.
 type ListApplicationsRequest struct {
 
 	// The unique identifier for the compartment.
@@ -70,6 +68,10 @@ func (request ListApplicationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListApplicationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -83,6 +85,32 @@ func (request ListApplicationsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListApplicationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListApplicationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.PackageType {
+		if _, ok := mappingPackageTypeEnumEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", val, strings.Join(GetPackageTypeEnumEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.Pricing {
+		if _, ok := mappingPricingTypeEnumEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Pricing: %s. Supported values are: %s.", val, strings.Join(GetPricingTypeEnumEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListApplicationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListApplicationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListApplicationsResponse wrapper for the ListApplications operation
@@ -122,7 +150,7 @@ const (
 	ListApplicationsSortOrderDesc ListApplicationsSortOrderEnum = "DESC"
 )
 
-var mappingListApplicationsSortOrder = map[string]ListApplicationsSortOrderEnum{
+var mappingListApplicationsSortOrderEnum = map[string]ListApplicationsSortOrderEnum{
 	"ASC":  ListApplicationsSortOrderAsc,
 	"DESC": ListApplicationsSortOrderDesc,
 }
@@ -130,8 +158,16 @@ var mappingListApplicationsSortOrder = map[string]ListApplicationsSortOrderEnum{
 // GetListApplicationsSortOrderEnumValues Enumerates the set of values for ListApplicationsSortOrderEnum
 func GetListApplicationsSortOrderEnumValues() []ListApplicationsSortOrderEnum {
 	values := make([]ListApplicationsSortOrderEnum, 0)
-	for _, v := range mappingListApplicationsSortOrder {
+	for _, v := range mappingListApplicationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListApplicationsSortOrderEnumStringValues Enumerates the set of values in String for ListApplicationsSortOrderEnum
+func GetListApplicationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

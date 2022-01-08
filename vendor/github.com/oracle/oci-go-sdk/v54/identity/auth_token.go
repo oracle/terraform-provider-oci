@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AuthToken An `AuthToken` is an Oracle-generated token string that you can use to authenticate with third-party APIs
@@ -19,7 +21,7 @@ import (
 // The auth token is associated with the user's Console login. Auth tokens never expire. A user can have up to two
 // auth tokens at a time.
 // **Note:** The token is always an Oracle-generated string; you can't change it to a string of your choice.
-// For more information, see Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcredentials.htm).
+// For more information, see Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/access/managing-user-credentials.htm).
 type AuthToken struct {
 
 	// The auth token. The value is available only in the response for `CreateAuthToken`, and not
@@ -33,6 +35,7 @@ type AuthToken struct {
 	UserId *string `mandatory:"false" json:"userId"`
 
 	// The description you assign to the auth token. Does not have to be unique, and it's changeable.
+	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Date and time the `AuthToken` object was created, in the format defined by RFC3339.
@@ -56,6 +59,21 @@ func (m AuthToken) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AuthToken) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAuthTokenLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAuthTokenLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AuthTokenLifecycleStateEnum Enum with underlying type: string
 type AuthTokenLifecycleStateEnum string
 
@@ -68,7 +86,7 @@ const (
 	AuthTokenLifecycleStateDeleted  AuthTokenLifecycleStateEnum = "DELETED"
 )
 
-var mappingAuthTokenLifecycleState = map[string]AuthTokenLifecycleStateEnum{
+var mappingAuthTokenLifecycleStateEnum = map[string]AuthTokenLifecycleStateEnum{
 	"CREATING": AuthTokenLifecycleStateCreating,
 	"ACTIVE":   AuthTokenLifecycleStateActive,
 	"INACTIVE": AuthTokenLifecycleStateInactive,
@@ -79,8 +97,19 @@ var mappingAuthTokenLifecycleState = map[string]AuthTokenLifecycleStateEnum{
 // GetAuthTokenLifecycleStateEnumValues Enumerates the set of values for AuthTokenLifecycleStateEnum
 func GetAuthTokenLifecycleStateEnumValues() []AuthTokenLifecycleStateEnum {
 	values := make([]AuthTokenLifecycleStateEnum, 0)
-	for _, v := range mappingAuthTokenLifecycleState {
+	for _, v := range mappingAuthTokenLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAuthTokenLifecycleStateEnumStringValues Enumerates the set of values in String for AuthTokenLifecycleStateEnum
+func GetAuthTokenLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAutonomousDatabasesRequest wrapper for the ListAutonomousDatabases operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousDatabases.go.html to see an example of how to use ListAutonomousDatabasesRequest.
 type ListAutonomousDatabasesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -76,6 +74,10 @@ func (request ListAutonomousDatabasesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAutonomousDatabasesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -89,6 +91,32 @@ func (request ListAutonomousDatabasesRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAutonomousDatabasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAutonomousDatabasesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAutonomousDatabasesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAutonomousDatabasesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutonomousDatabasesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAutonomousDatabasesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryInfrastructureTypeEnum[string(request.InfrastructureType)]; !ok && request.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", request.InfrastructureType, strings.Join(GetAutonomousDatabaseSummaryInfrastructureTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryDbWorkloadEnum[string(request.DbWorkload)]; !ok && request.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", request.DbWorkload, strings.Join(GetAutonomousDatabaseSummaryDbWorkloadEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAutonomousDatabasesResponse wrapper for the ListAutonomousDatabases operation
@@ -129,7 +157,7 @@ const (
 	ListAutonomousDatabasesSortByDisplayname ListAutonomousDatabasesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAutonomousDatabasesSortBy = map[string]ListAutonomousDatabasesSortByEnum{
+var mappingListAutonomousDatabasesSortByEnum = map[string]ListAutonomousDatabasesSortByEnum{
 	"TIMECREATED": ListAutonomousDatabasesSortByTimecreated,
 	"DISPLAYNAME": ListAutonomousDatabasesSortByDisplayname,
 }
@@ -137,10 +165,18 @@ var mappingListAutonomousDatabasesSortBy = map[string]ListAutonomousDatabasesSor
 // GetListAutonomousDatabasesSortByEnumValues Enumerates the set of values for ListAutonomousDatabasesSortByEnum
 func GetListAutonomousDatabasesSortByEnumValues() []ListAutonomousDatabasesSortByEnum {
 	values := make([]ListAutonomousDatabasesSortByEnum, 0)
-	for _, v := range mappingListAutonomousDatabasesSortBy {
+	for _, v := range mappingListAutonomousDatabasesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousDatabasesSortByEnumStringValues Enumerates the set of values in String for ListAutonomousDatabasesSortByEnum
+func GetListAutonomousDatabasesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAutonomousDatabasesSortOrderEnum Enum with underlying type: string
@@ -152,7 +188,7 @@ const (
 	ListAutonomousDatabasesSortOrderDesc ListAutonomousDatabasesSortOrderEnum = "DESC"
 )
 
-var mappingListAutonomousDatabasesSortOrder = map[string]ListAutonomousDatabasesSortOrderEnum{
+var mappingListAutonomousDatabasesSortOrderEnum = map[string]ListAutonomousDatabasesSortOrderEnum{
 	"ASC":  ListAutonomousDatabasesSortOrderAsc,
 	"DESC": ListAutonomousDatabasesSortOrderDesc,
 }
@@ -160,8 +196,16 @@ var mappingListAutonomousDatabasesSortOrder = map[string]ListAutonomousDatabases
 // GetListAutonomousDatabasesSortOrderEnumValues Enumerates the set of values for ListAutonomousDatabasesSortOrderEnum
 func GetListAutonomousDatabasesSortOrderEnumValues() []ListAutonomousDatabasesSortOrderEnum {
 	values := make([]ListAutonomousDatabasesSortOrderEnum, 0)
-	for _, v := range mappingListAutonomousDatabasesSortOrder {
+	for _, v := range mappingListAutonomousDatabasesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousDatabasesSortOrderEnumStringValues Enumerates the set of values in String for ListAutonomousDatabasesSortOrderEnum
+func GetListAutonomousDatabasesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

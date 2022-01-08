@@ -14,50 +14,65 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// TunnelPhaseTwoDetails Tunnel detail information specific to IPSec phase 2.
+// TunnelPhaseTwoDetails IPsec tunnel detail information specific to phase two.
 type TunnelPhaseTwoDetails struct {
 
 	// Indicates whether custom phase two configuration is enabled.
+	// If this option is not enabled, default settings are proposed.
 	IsCustomPhaseTwoConfig *bool `mandatory:"false" json:"isCustomPhaseTwoConfig"`
 
-	// The total configured lifetime of an IKE security association.
+	// The total configured lifetime of the IKE security association.
 	Lifetime *int64 `mandatory:"false" json:"lifetime"`
 
-	// The lifetime remaining before the key is refreshed.
+	// The remaining lifetime before the key is refreshed.
 	RemainingLifetime *int64 `mandatory:"false" json:"remainingLifetime"`
 
-	// Phase Two authentication algorithm supported during tunnel negotiation.
+	// Phase two authentication algorithm proposed during tunnel negotiation.
 	CustomAuthenticationAlgorithm *string `mandatory:"false" json:"customAuthenticationAlgorithm"`
 
-	// The negotiated authentication algorithm.
+	// The negotiated phase two authentication algorithm.
 	NegotiatedAuthenticationAlgorithm *string `mandatory:"false" json:"negotiatedAuthenticationAlgorithm"`
 
-	// Custom Encryption Algorithm
+	// The proposed custom phase two encryption algorithm.
 	CustomEncryptionAlgorithm *string `mandatory:"false" json:"customEncryptionAlgorithm"`
 
 	// The negotiated encryption algorithm.
 	NegotiatedEncryptionAlgorithm *string `mandatory:"false" json:"negotiatedEncryptionAlgorithm"`
 
-	// Proposed Diffie-Hellman group.
+	// The proposed Diffie-Hellman group.
 	DhGroup *string `mandatory:"false" json:"dhGroup"`
 
 	// The negotiated Diffie-Hellman group.
 	NegotiatedDhGroup *string `mandatory:"false" json:"negotiatedDhGroup"`
 
-	// ESP Phase 2 established
+	// Indicates that ESP phase two is established.
 	IsEspEstablished *bool `mandatory:"false" json:"isEspEstablished"`
 
-	// Is PFS (perfect forward secrecy) enabled
+	// Indicates that PFS (perfect forward secrecy) is enabled.
 	IsPfsEnabled *bool `mandatory:"false" json:"isPfsEnabled"`
 
-	// The date and time we retrieved the remaining lifetime, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the remaining lifetime was last retrieved, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	RemainingLifetimeLastRetrieved *common.SDKTime `mandatory:"false" json:"remainingLifetimeLastRetrieved"`
 }
 
 func (m TunnelPhaseTwoDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TunnelPhaseTwoDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

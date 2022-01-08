@@ -5,15 +5,13 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListPackagesRequest wrapper for the ListPackages operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListPackages.go.html to see an example of how to use ListPackagesRequest.
 type ListPackagesRequest struct {
 
 	// The unique identifier for the listing.
@@ -58,6 +56,10 @@ func (request ListPackagesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPackagesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +73,23 @@ func (request ListPackagesRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPackagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPackagesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPackagesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPackagesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPackagesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPackagesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPackagesResponse wrapper for the ListPackages operation
@@ -109,17 +128,24 @@ const (
 	ListPackagesSortByTimereleased ListPackagesSortByEnum = "TIMERELEASED"
 )
 
-var mappingListPackagesSortBy = map[string]ListPackagesSortByEnum{
+var mappingListPackagesSortByEnum = map[string]ListPackagesSortByEnum{
 	"TIMERELEASED": ListPackagesSortByTimereleased,
 }
 
 // GetListPackagesSortByEnumValues Enumerates the set of values for ListPackagesSortByEnum
 func GetListPackagesSortByEnumValues() []ListPackagesSortByEnum {
 	values := make([]ListPackagesSortByEnum, 0)
-	for _, v := range mappingListPackagesSortBy {
+	for _, v := range mappingListPackagesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPackagesSortByEnumStringValues Enumerates the set of values in String for ListPackagesSortByEnum
+func GetListPackagesSortByEnumStringValues() []string {
+	return []string{
+		"TIMERELEASED",
+	}
 }
 
 // ListPackagesSortOrderEnum Enum with underlying type: string
@@ -131,7 +157,7 @@ const (
 	ListPackagesSortOrderDesc ListPackagesSortOrderEnum = "DESC"
 )
 
-var mappingListPackagesSortOrder = map[string]ListPackagesSortOrderEnum{
+var mappingListPackagesSortOrderEnum = map[string]ListPackagesSortOrderEnum{
 	"ASC":  ListPackagesSortOrderAsc,
 	"DESC": ListPackagesSortOrderDesc,
 }
@@ -139,8 +165,16 @@ var mappingListPackagesSortOrder = map[string]ListPackagesSortOrderEnum{
 // GetListPackagesSortOrderEnumValues Enumerates the set of values for ListPackagesSortOrderEnum
 func GetListPackagesSortOrderEnumValues() []ListPackagesSortOrderEnum {
 	values := make([]ListPackagesSortOrderEnum, 0)
-	for _, v := range mappingListPackagesSortOrder {
+	for _, v := range mappingListPackagesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPackagesSortOrderEnumStringValues Enumerates the set of values in String for ListPackagesSortOrderEnum
+func GetListPackagesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

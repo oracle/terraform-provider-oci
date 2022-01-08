@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RouteTable A collection of `RouteRule` objects, which are used to route packets
@@ -57,10 +59,28 @@ type RouteTable struct {
 	// The date and time the route table was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Indicates whether or not ECMP is enabled on the route table.
+	IsEcmpEnabled *bool `mandatory:"false" json:"isEcmpEnabled"`
 }
 
 func (m RouteTable) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RouteTable) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRouteTableLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRouteTableLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // RouteTableLifecycleStateEnum Enum with underlying type: string
@@ -74,7 +94,7 @@ const (
 	RouteTableLifecycleStateTerminated   RouteTableLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingRouteTableLifecycleState = map[string]RouteTableLifecycleStateEnum{
+var mappingRouteTableLifecycleStateEnum = map[string]RouteTableLifecycleStateEnum{
 	"PROVISIONING": RouteTableLifecycleStateProvisioning,
 	"AVAILABLE":    RouteTableLifecycleStateAvailable,
 	"TERMINATING":  RouteTableLifecycleStateTerminating,
@@ -84,8 +104,18 @@ var mappingRouteTableLifecycleState = map[string]RouteTableLifecycleStateEnum{
 // GetRouteTableLifecycleStateEnumValues Enumerates the set of values for RouteTableLifecycleStateEnum
 func GetRouteTableLifecycleStateEnumValues() []RouteTableLifecycleStateEnum {
 	values := make([]RouteTableLifecycleStateEnum, 0)
-	for _, v := range mappingRouteTableLifecycleState {
+	for _, v := range mappingRouteTableLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRouteTableLifecycleStateEnumStringValues Enumerates the set of values in String for RouteTableLifecycleStateEnum
+func GetRouteTableLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

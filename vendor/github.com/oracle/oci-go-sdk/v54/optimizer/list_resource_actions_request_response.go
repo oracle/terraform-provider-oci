@@ -5,15 +5,13 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListResourceActionsRequest wrapper for the ListResourceActions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListResourceActions.go.html to see an example of how to use ListResourceActionsRequest.
 type ListResourceActionsRequest struct {
 
 	// The OCID of the compartment.
@@ -66,6 +64,10 @@ func (request ListResourceActionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListResourceActionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +81,29 @@ func (request ListResourceActionsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListResourceActionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListResourceActionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListResourceActionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListResourceActionsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResourceActionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListResourceActionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResourceActionsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListResourceActionsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResourceActionsStatusEnum[string(request.Status)]; !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListResourceActionsStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListResourceActionsResponse wrapper for the ListResourceActions operation
@@ -122,7 +147,7 @@ const (
 	ListResourceActionsSortOrderDesc ListResourceActionsSortOrderEnum = "DESC"
 )
 
-var mappingListResourceActionsSortOrder = map[string]ListResourceActionsSortOrderEnum{
+var mappingListResourceActionsSortOrderEnum = map[string]ListResourceActionsSortOrderEnum{
 	"ASC":  ListResourceActionsSortOrderAsc,
 	"DESC": ListResourceActionsSortOrderDesc,
 }
@@ -130,10 +155,18 @@ var mappingListResourceActionsSortOrder = map[string]ListResourceActionsSortOrde
 // GetListResourceActionsSortOrderEnumValues Enumerates the set of values for ListResourceActionsSortOrderEnum
 func GetListResourceActionsSortOrderEnumValues() []ListResourceActionsSortOrderEnum {
 	values := make([]ListResourceActionsSortOrderEnum, 0)
-	for _, v := range mappingListResourceActionsSortOrder {
+	for _, v := range mappingListResourceActionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResourceActionsSortOrderEnumStringValues Enumerates the set of values in String for ListResourceActionsSortOrderEnum
+func GetListResourceActionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListResourceActionsSortByEnum Enum with underlying type: string
@@ -145,7 +178,7 @@ const (
 	ListResourceActionsSortByTimecreated ListResourceActionsSortByEnum = "TIMECREATED"
 )
 
-var mappingListResourceActionsSortBy = map[string]ListResourceActionsSortByEnum{
+var mappingListResourceActionsSortByEnum = map[string]ListResourceActionsSortByEnum{
 	"NAME":        ListResourceActionsSortByName,
 	"TIMECREATED": ListResourceActionsSortByTimecreated,
 }
@@ -153,10 +186,18 @@ var mappingListResourceActionsSortBy = map[string]ListResourceActionsSortByEnum{
 // GetListResourceActionsSortByEnumValues Enumerates the set of values for ListResourceActionsSortByEnum
 func GetListResourceActionsSortByEnumValues() []ListResourceActionsSortByEnum {
 	values := make([]ListResourceActionsSortByEnum, 0)
-	for _, v := range mappingListResourceActionsSortBy {
+	for _, v := range mappingListResourceActionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResourceActionsSortByEnumStringValues Enumerates the set of values in String for ListResourceActionsSortByEnum
+func GetListResourceActionsSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }
 
 // ListResourceActionsLifecycleStateEnum Enum with underlying type: string
@@ -175,7 +216,7 @@ const (
 	ListResourceActionsLifecycleStateCreating  ListResourceActionsLifecycleStateEnum = "CREATING"
 )
 
-var mappingListResourceActionsLifecycleState = map[string]ListResourceActionsLifecycleStateEnum{
+var mappingListResourceActionsLifecycleStateEnum = map[string]ListResourceActionsLifecycleStateEnum{
 	"ACTIVE":    ListResourceActionsLifecycleStateActive,
 	"FAILED":    ListResourceActionsLifecycleStateFailed,
 	"INACTIVE":  ListResourceActionsLifecycleStateInactive,
@@ -190,10 +231,25 @@ var mappingListResourceActionsLifecycleState = map[string]ListResourceActionsLif
 // GetListResourceActionsLifecycleStateEnumValues Enumerates the set of values for ListResourceActionsLifecycleStateEnum
 func GetListResourceActionsLifecycleStateEnumValues() []ListResourceActionsLifecycleStateEnum {
 	values := make([]ListResourceActionsLifecycleStateEnum, 0)
-	for _, v := range mappingListResourceActionsLifecycleState {
+	for _, v := range mappingListResourceActionsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResourceActionsLifecycleStateEnumStringValues Enumerates the set of values in String for ListResourceActionsLifecycleStateEnum
+func GetListResourceActionsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"FAILED",
+		"INACTIVE",
+		"ATTACHING",
+		"DETACHING",
+		"DELETING",
+		"DELETED",
+		"UPDATING",
+		"CREATING",
+	}
 }
 
 // ListResourceActionsStatusEnum Enum with underlying type: string
@@ -207,7 +263,7 @@ const (
 	ListResourceActionsStatusImplemented ListResourceActionsStatusEnum = "IMPLEMENTED"
 )
 
-var mappingListResourceActionsStatus = map[string]ListResourceActionsStatusEnum{
+var mappingListResourceActionsStatusEnum = map[string]ListResourceActionsStatusEnum{
 	"PENDING":     ListResourceActionsStatusPending,
 	"DISMISSED":   ListResourceActionsStatusDismissed,
 	"POSTPONED":   ListResourceActionsStatusPostponed,
@@ -217,8 +273,18 @@ var mappingListResourceActionsStatus = map[string]ListResourceActionsStatusEnum{
 // GetListResourceActionsStatusEnumValues Enumerates the set of values for ListResourceActionsStatusEnum
 func GetListResourceActionsStatusEnumValues() []ListResourceActionsStatusEnum {
 	values := make([]ListResourceActionsStatusEnum, 0)
-	for _, v := range mappingListResourceActionsStatus {
+	for _, v := range mappingListResourceActionsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResourceActionsStatusEnumStringValues Enumerates the set of values in String for ListResourceActionsStatusEnum
+func GetListResourceActionsStatusEnumStringValues() []string {
+	return []string{
+		"PENDING",
+		"DISMISSED",
+		"POSTPONED",
+		"IMPLEMENTED",
+	}
 }

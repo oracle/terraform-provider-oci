@@ -22,7 +22,7 @@ const (
 	SortByTimeCreated    SortByEnum = "timeCreated"
 )
 
-var mappingSortBy = map[string]SortByEnum{
+var mappingSortByEnum = map[string]SortByEnum{
 	"capacityType":   SortByCapacityType,
 	"capacityValue":  SortByCapacityValue,
 	"featureSet":     SortByFeatureSet,
@@ -34,8 +34,20 @@ var mappingSortBy = map[string]SortByEnum{
 // GetSortByEnumValues Enumerates the set of values for SortByEnum
 func GetSortByEnumValues() []SortByEnum {
 	values := make([]SortByEnum, 0)
-	for _, v := range mappingSortBy {
+	for _, v := range mappingSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSortByEnumStringValues Enumerates the set of values in String for SortByEnum
+func GetSortByEnumStringValues() []string {
+	return []string{
+		"capacityType",
+		"capacityValue",
+		"featureSet",
+		"lifecycleState",
+		"name",
+		"timeCreated",
+	}
 }

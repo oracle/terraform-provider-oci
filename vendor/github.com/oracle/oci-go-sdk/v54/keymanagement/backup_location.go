@@ -12,7 +12,9 @@ package keymanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BackupLocation Backup upload location
@@ -66,6 +68,18 @@ func (m backuplocation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m backuplocation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BackupLocationDestinationEnum Enum with underlying type: string
 type BackupLocationDestinationEnum string
 
@@ -75,7 +89,7 @@ const (
 	BackupLocationDestinationPreAuthenticatedRequestUri BackupLocationDestinationEnum = "PRE_AUTHENTICATED_REQUEST_URI"
 )
 
-var mappingBackupLocationDestination = map[string]BackupLocationDestinationEnum{
+var mappingBackupLocationDestinationEnum = map[string]BackupLocationDestinationEnum{
 	"BUCKET":                        BackupLocationDestinationBucket,
 	"PRE_AUTHENTICATED_REQUEST_URI": BackupLocationDestinationPreAuthenticatedRequestUri,
 }
@@ -83,8 +97,16 @@ var mappingBackupLocationDestination = map[string]BackupLocationDestinationEnum{
 // GetBackupLocationDestinationEnumValues Enumerates the set of values for BackupLocationDestinationEnum
 func GetBackupLocationDestinationEnumValues() []BackupLocationDestinationEnum {
 	values := make([]BackupLocationDestinationEnum, 0)
-	for _, v := range mappingBackupLocationDestination {
+	for _, v := range mappingBackupLocationDestinationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupLocationDestinationEnumStringValues Enumerates the set of values in String for BackupLocationDestinationEnum
+func GetBackupLocationDestinationEnumStringValues() []string {
+	return []string{
+		"BUCKET",
+		"PRE_AUTHENTICATED_REQUEST_URI",
+	}
 }

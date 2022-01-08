@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SchemaDriftConfig The configuration for handling schema drift in a Source or Target operator.
@@ -33,6 +35,27 @@ func (m SchemaDriftConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SchemaDriftConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSchemaDriftConfigExtraColumnHandlingEnum[string(m.ExtraColumnHandling)]; !ok && m.ExtraColumnHandling != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExtraColumnHandling: %s. Supported values are: %s.", m.ExtraColumnHandling, strings.Join(GetSchemaDriftConfigExtraColumnHandlingEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSchemaDriftConfigMissingColumnHandlingEnum[string(m.MissingColumnHandling)]; !ok && m.MissingColumnHandling != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MissingColumnHandling: %s. Supported values are: %s.", m.MissingColumnHandling, strings.Join(GetSchemaDriftConfigMissingColumnHandlingEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSchemaDriftConfigDataTypeChangeHandlingEnum[string(m.DataTypeChangeHandling)]; !ok && m.DataTypeChangeHandling != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataTypeChangeHandling: %s. Supported values are: %s.", m.DataTypeChangeHandling, strings.Join(GetSchemaDriftConfigDataTypeChangeHandlingEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SchemaDriftConfigExtraColumnHandlingEnum Enum with underlying type: string
 type SchemaDriftConfigExtraColumnHandlingEnum string
 
@@ -43,7 +66,7 @@ const (
 	SchemaDriftConfigExtraColumnHandlingDoNotAllow SchemaDriftConfigExtraColumnHandlingEnum = "DO_NOT_ALLOW"
 )
 
-var mappingSchemaDriftConfigExtraColumnHandling = map[string]SchemaDriftConfigExtraColumnHandlingEnum{
+var mappingSchemaDriftConfigExtraColumnHandlingEnum = map[string]SchemaDriftConfigExtraColumnHandlingEnum{
 	"ALLOW":        SchemaDriftConfigExtraColumnHandlingAllow,
 	"NULL_FILLUP":  SchemaDriftConfigExtraColumnHandlingNullFillup,
 	"DO_NOT_ALLOW": SchemaDriftConfigExtraColumnHandlingDoNotAllow,
@@ -52,10 +75,19 @@ var mappingSchemaDriftConfigExtraColumnHandling = map[string]SchemaDriftConfigEx
 // GetSchemaDriftConfigExtraColumnHandlingEnumValues Enumerates the set of values for SchemaDriftConfigExtraColumnHandlingEnum
 func GetSchemaDriftConfigExtraColumnHandlingEnumValues() []SchemaDriftConfigExtraColumnHandlingEnum {
 	values := make([]SchemaDriftConfigExtraColumnHandlingEnum, 0)
-	for _, v := range mappingSchemaDriftConfigExtraColumnHandling {
+	for _, v := range mappingSchemaDriftConfigExtraColumnHandlingEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSchemaDriftConfigExtraColumnHandlingEnumStringValues Enumerates the set of values in String for SchemaDriftConfigExtraColumnHandlingEnum
+func GetSchemaDriftConfigExtraColumnHandlingEnumStringValues() []string {
+	return []string{
+		"ALLOW",
+		"NULL_FILLUP",
+		"DO_NOT_ALLOW",
+	}
 }
 
 // SchemaDriftConfigMissingColumnHandlingEnum Enum with underlying type: string
@@ -68,7 +100,7 @@ const (
 	SchemaDriftConfigMissingColumnHandlingDoNotAllow SchemaDriftConfigMissingColumnHandlingEnum = "DO_NOT_ALLOW"
 )
 
-var mappingSchemaDriftConfigMissingColumnHandling = map[string]SchemaDriftConfigMissingColumnHandlingEnum{
+var mappingSchemaDriftConfigMissingColumnHandlingEnum = map[string]SchemaDriftConfigMissingColumnHandlingEnum{
 	"ALLOW":        SchemaDriftConfigMissingColumnHandlingAllow,
 	"NULL_SELECT":  SchemaDriftConfigMissingColumnHandlingNullSelect,
 	"DO_NOT_ALLOW": SchemaDriftConfigMissingColumnHandlingDoNotAllow,
@@ -77,10 +109,19 @@ var mappingSchemaDriftConfigMissingColumnHandling = map[string]SchemaDriftConfig
 // GetSchemaDriftConfigMissingColumnHandlingEnumValues Enumerates the set of values for SchemaDriftConfigMissingColumnHandlingEnum
 func GetSchemaDriftConfigMissingColumnHandlingEnumValues() []SchemaDriftConfigMissingColumnHandlingEnum {
 	values := make([]SchemaDriftConfigMissingColumnHandlingEnum, 0)
-	for _, v := range mappingSchemaDriftConfigMissingColumnHandling {
+	for _, v := range mappingSchemaDriftConfigMissingColumnHandlingEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSchemaDriftConfigMissingColumnHandlingEnumStringValues Enumerates the set of values in String for SchemaDriftConfigMissingColumnHandlingEnum
+func GetSchemaDriftConfigMissingColumnHandlingEnumStringValues() []string {
+	return []string{
+		"ALLOW",
+		"NULL_SELECT",
+		"DO_NOT_ALLOW",
+	}
 }
 
 // SchemaDriftConfigDataTypeChangeHandlingEnum Enum with underlying type: string
@@ -93,7 +134,7 @@ const (
 	SchemaDriftConfigDataTypeChangeHandlingDoNotAllow       SchemaDriftConfigDataTypeChangeHandlingEnum = "DO_NOT_ALLOW"
 )
 
-var mappingSchemaDriftConfigDataTypeChangeHandling = map[string]SchemaDriftConfigDataTypeChangeHandlingEnum{
+var mappingSchemaDriftConfigDataTypeChangeHandlingEnum = map[string]SchemaDriftConfigDataTypeChangeHandlingEnum{
 	"ALLOW":               SchemaDriftConfigDataTypeChangeHandlingAllow,
 	"DO_CAST_IF_POSSIBLE": SchemaDriftConfigDataTypeChangeHandlingDoCastIfPossible,
 	"DO_NOT_ALLOW":        SchemaDriftConfigDataTypeChangeHandlingDoNotAllow,
@@ -102,8 +143,17 @@ var mappingSchemaDriftConfigDataTypeChangeHandling = map[string]SchemaDriftConfi
 // GetSchemaDriftConfigDataTypeChangeHandlingEnumValues Enumerates the set of values for SchemaDriftConfigDataTypeChangeHandlingEnum
 func GetSchemaDriftConfigDataTypeChangeHandlingEnumValues() []SchemaDriftConfigDataTypeChangeHandlingEnum {
 	values := make([]SchemaDriftConfigDataTypeChangeHandlingEnum, 0)
-	for _, v := range mappingSchemaDriftConfigDataTypeChangeHandling {
+	for _, v := range mappingSchemaDriftConfigDataTypeChangeHandlingEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSchemaDriftConfigDataTypeChangeHandlingEnumStringValues Enumerates the set of values in String for SchemaDriftConfigDataTypeChangeHandlingEnum
+func GetSchemaDriftConfigDataTypeChangeHandlingEnumStringValues() []string {
+	return []string{
+		"ALLOW",
+		"DO_CAST_IF_POSSIBLE",
+		"DO_NOT_ALLOW",
+	}
 }

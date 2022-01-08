@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // HealthCheck Health checks monitor the status of your origin servers and only route traffic to the origins that pass the health check. If the health check fails, origin is automatically removed from the load balancing.
@@ -60,6 +62,27 @@ func (m HealthCheck) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m HealthCheck) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingHealthCheckMethodEnum[string(m.Method)]; !ok && m.Method != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Method: %s. Supported values are: %s.", m.Method, strings.Join(GetHealthCheckMethodEnumStringValues(), ",")))
+	}
+	for _, val := range m.ExpectedResponseCodeGroup {
+		if _, ok := mappingHealthCheckExpectedResponseCodeGroupEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExpectedResponseCodeGroup: %s. Supported values are: %s.", val, strings.Join(GetHealthCheckExpectedResponseCodeGroupEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HealthCheckMethodEnum Enum with underlying type: string
 type HealthCheckMethodEnum string
 
@@ -70,7 +93,7 @@ const (
 	HealthCheckMethodPost HealthCheckMethodEnum = "POST"
 )
 
-var mappingHealthCheckMethod = map[string]HealthCheckMethodEnum{
+var mappingHealthCheckMethodEnum = map[string]HealthCheckMethodEnum{
 	"GET":  HealthCheckMethodGet,
 	"HEAD": HealthCheckMethodHead,
 	"POST": HealthCheckMethodPost,
@@ -79,10 +102,19 @@ var mappingHealthCheckMethod = map[string]HealthCheckMethodEnum{
 // GetHealthCheckMethodEnumValues Enumerates the set of values for HealthCheckMethodEnum
 func GetHealthCheckMethodEnumValues() []HealthCheckMethodEnum {
 	values := make([]HealthCheckMethodEnum, 0)
-	for _, v := range mappingHealthCheckMethod {
+	for _, v := range mappingHealthCheckMethodEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHealthCheckMethodEnumStringValues Enumerates the set of values in String for HealthCheckMethodEnum
+func GetHealthCheckMethodEnumStringValues() []string {
+	return []string{
+		"GET",
+		"HEAD",
+		"POST",
+	}
 }
 
 // HealthCheckExpectedResponseCodeGroupEnum Enum with underlying type: string
@@ -96,7 +128,7 @@ const (
 	HealthCheckExpectedResponseCodeGroup5xx HealthCheckExpectedResponseCodeGroupEnum = "5XX"
 )
 
-var mappingHealthCheckExpectedResponseCodeGroup = map[string]HealthCheckExpectedResponseCodeGroupEnum{
+var mappingHealthCheckExpectedResponseCodeGroupEnum = map[string]HealthCheckExpectedResponseCodeGroupEnum{
 	"2XX": HealthCheckExpectedResponseCodeGroup2xx,
 	"3XX": HealthCheckExpectedResponseCodeGroup3xx,
 	"4XX": HealthCheckExpectedResponseCodeGroup4xx,
@@ -106,8 +138,18 @@ var mappingHealthCheckExpectedResponseCodeGroup = map[string]HealthCheckExpected
 // GetHealthCheckExpectedResponseCodeGroupEnumValues Enumerates the set of values for HealthCheckExpectedResponseCodeGroupEnum
 func GetHealthCheckExpectedResponseCodeGroupEnumValues() []HealthCheckExpectedResponseCodeGroupEnum {
 	values := make([]HealthCheckExpectedResponseCodeGroupEnum, 0)
-	for _, v := range mappingHealthCheckExpectedResponseCodeGroup {
+	for _, v := range mappingHealthCheckExpectedResponseCodeGroupEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHealthCheckExpectedResponseCodeGroupEnumStringValues Enumerates the set of values in String for HealthCheckExpectedResponseCodeGroupEnum
+func GetHealthCheckExpectedResponseCodeGroupEnumStringValues() []string {
+	return []string{
+		"2XX",
+		"3XX",
+		"4XX",
+		"5XX",
+	}
 }

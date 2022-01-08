@@ -14,33 +14,56 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// PhaseTwoConfigDetails Phase 2 Configuration Details
+// PhaseTwoConfigDetails Configuration details for IPSec phase two configuration parameters.
 type PhaseTwoConfigDetails struct {
 
-	// Indicates whether custom phase two configuration is enabled.
+	// Indicates whether custom configuration is enabled for phase two options.
 	IsCustomPhaseTwoConfig *bool `mandatory:"false" json:"isCustomPhaseTwoConfig"`
 
-	// Phase two authentication algorithm supported during tunnel negotiation.
+	// The authentication algorithm proposed during phase two tunnel negotiation.
 	AuthenticationAlgorithm PhaseTwoConfigDetailsAuthenticationAlgorithmEnum `mandatory:"false" json:"authenticationAlgorithm,omitempty"`
 
-	// Phase two encryption algorithm supported during tunnel negotiation.
+	// The encryption algorithm proposed during phase two tunnel negotiation.
 	EncryptionAlgorithm PhaseTwoConfigDetailsEncryptionAlgorithmEnum `mandatory:"false" json:"encryptionAlgorithm,omitempty"`
 
-	// Lifetime in seconds for IPSec phase two.
+	// Lifetime in seconds for the IPSec session key set in phase two. The default is 3600 which is equivalent to 1 hour.
 	LifetimeInSeconds *int `mandatory:"false" json:"lifetimeInSeconds"`
 
 	// Indicates whether perfect forward secrecy (PFS) is enabled.
 	IsPfsEnabled *bool `mandatory:"false" json:"isPfsEnabled"`
 
-	// Diffie-Hellman group used for PFS.
+	// The Diffie-Hellman group used for PFS, if PFS is enabled.
 	PfsDhGroup PhaseTwoConfigDetailsPfsDhGroupEnum `mandatory:"false" json:"pfsDhGroup,omitempty"`
 }
 
 func (m PhaseTwoConfigDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PhaseTwoConfigDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPhaseTwoConfigDetailsAuthenticationAlgorithmEnum[string(m.AuthenticationAlgorithm)]; !ok && m.AuthenticationAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationAlgorithm: %s. Supported values are: %s.", m.AuthenticationAlgorithm, strings.Join(GetPhaseTwoConfigDetailsAuthenticationAlgorithmEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPhaseTwoConfigDetailsEncryptionAlgorithmEnum[string(m.EncryptionAlgorithm)]; !ok && m.EncryptionAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EncryptionAlgorithm: %s. Supported values are: %s.", m.EncryptionAlgorithm, strings.Join(GetPhaseTwoConfigDetailsEncryptionAlgorithmEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPhaseTwoConfigDetailsPfsDhGroupEnum[string(m.PfsDhGroup)]; !ok && m.PfsDhGroup != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PfsDhGroup: %s. Supported values are: %s.", m.PfsDhGroup, strings.Join(GetPhaseTwoConfigDetailsPfsDhGroupEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // PhaseTwoConfigDetailsAuthenticationAlgorithmEnum Enum with underlying type: string
@@ -52,7 +75,7 @@ const (
 	PhaseTwoConfigDetailsAuthenticationAlgorithmSha1128    PhaseTwoConfigDetailsAuthenticationAlgorithmEnum = "HMAC_SHA1_128"
 )
 
-var mappingPhaseTwoConfigDetailsAuthenticationAlgorithm = map[string]PhaseTwoConfigDetailsAuthenticationAlgorithmEnum{
+var mappingPhaseTwoConfigDetailsAuthenticationAlgorithmEnum = map[string]PhaseTwoConfigDetailsAuthenticationAlgorithmEnum{
 	"HMAC_SHA2_256_128": PhaseTwoConfigDetailsAuthenticationAlgorithmSha2256128,
 	"HMAC_SHA1_128":     PhaseTwoConfigDetailsAuthenticationAlgorithmSha1128,
 }
@@ -60,10 +83,18 @@ var mappingPhaseTwoConfigDetailsAuthenticationAlgorithm = map[string]PhaseTwoCon
 // GetPhaseTwoConfigDetailsAuthenticationAlgorithmEnumValues Enumerates the set of values for PhaseTwoConfigDetailsAuthenticationAlgorithmEnum
 func GetPhaseTwoConfigDetailsAuthenticationAlgorithmEnumValues() []PhaseTwoConfigDetailsAuthenticationAlgorithmEnum {
 	values := make([]PhaseTwoConfigDetailsAuthenticationAlgorithmEnum, 0)
-	for _, v := range mappingPhaseTwoConfigDetailsAuthenticationAlgorithm {
+	for _, v := range mappingPhaseTwoConfigDetailsAuthenticationAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPhaseTwoConfigDetailsAuthenticationAlgorithmEnumStringValues Enumerates the set of values in String for PhaseTwoConfigDetailsAuthenticationAlgorithmEnum
+func GetPhaseTwoConfigDetailsAuthenticationAlgorithmEnumStringValues() []string {
+	return []string{
+		"HMAC_SHA2_256_128",
+		"HMAC_SHA1_128",
+	}
 }
 
 // PhaseTwoConfigDetailsEncryptionAlgorithmEnum Enum with underlying type: string
@@ -79,7 +110,7 @@ const (
 	PhaseTwoConfigDetailsEncryptionAlgorithm128Cbc PhaseTwoConfigDetailsEncryptionAlgorithmEnum = "AES_128_CBC"
 )
 
-var mappingPhaseTwoConfigDetailsEncryptionAlgorithm = map[string]PhaseTwoConfigDetailsEncryptionAlgorithmEnum{
+var mappingPhaseTwoConfigDetailsEncryptionAlgorithmEnum = map[string]PhaseTwoConfigDetailsEncryptionAlgorithmEnum{
 	"AES_256_GCM": PhaseTwoConfigDetailsEncryptionAlgorithm256Gcm,
 	"AES_192_GCM": PhaseTwoConfigDetailsEncryptionAlgorithm192Gcm,
 	"AES_128_GCM": PhaseTwoConfigDetailsEncryptionAlgorithm128Gcm,
@@ -91,10 +122,22 @@ var mappingPhaseTwoConfigDetailsEncryptionAlgorithm = map[string]PhaseTwoConfigD
 // GetPhaseTwoConfigDetailsEncryptionAlgorithmEnumValues Enumerates the set of values for PhaseTwoConfigDetailsEncryptionAlgorithmEnum
 func GetPhaseTwoConfigDetailsEncryptionAlgorithmEnumValues() []PhaseTwoConfigDetailsEncryptionAlgorithmEnum {
 	values := make([]PhaseTwoConfigDetailsEncryptionAlgorithmEnum, 0)
-	for _, v := range mappingPhaseTwoConfigDetailsEncryptionAlgorithm {
+	for _, v := range mappingPhaseTwoConfigDetailsEncryptionAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPhaseTwoConfigDetailsEncryptionAlgorithmEnumStringValues Enumerates the set of values in String for PhaseTwoConfigDetailsEncryptionAlgorithmEnum
+func GetPhaseTwoConfigDetailsEncryptionAlgorithmEnumStringValues() []string {
+	return []string{
+		"AES_256_GCM",
+		"AES_192_GCM",
+		"AES_128_GCM",
+		"AES_256_CBC",
+		"AES_192_CBC",
+		"AES_128_CBC",
+	}
 }
 
 // PhaseTwoConfigDetailsPfsDhGroupEnum Enum with underlying type: string
@@ -110,7 +153,7 @@ const (
 	PhaseTwoConfigDetailsPfsDhGroupGroup24 PhaseTwoConfigDetailsPfsDhGroupEnum = "GROUP24"
 )
 
-var mappingPhaseTwoConfigDetailsPfsDhGroup = map[string]PhaseTwoConfigDetailsPfsDhGroupEnum{
+var mappingPhaseTwoConfigDetailsPfsDhGroupEnum = map[string]PhaseTwoConfigDetailsPfsDhGroupEnum{
 	"GROUP2":  PhaseTwoConfigDetailsPfsDhGroupGroup2,
 	"GROUP5":  PhaseTwoConfigDetailsPfsDhGroupGroup5,
 	"GROUP14": PhaseTwoConfigDetailsPfsDhGroupGroup14,
@@ -122,8 +165,20 @@ var mappingPhaseTwoConfigDetailsPfsDhGroup = map[string]PhaseTwoConfigDetailsPfs
 // GetPhaseTwoConfigDetailsPfsDhGroupEnumValues Enumerates the set of values for PhaseTwoConfigDetailsPfsDhGroupEnum
 func GetPhaseTwoConfigDetailsPfsDhGroupEnumValues() []PhaseTwoConfigDetailsPfsDhGroupEnum {
 	values := make([]PhaseTwoConfigDetailsPfsDhGroupEnum, 0)
-	for _, v := range mappingPhaseTwoConfigDetailsPfsDhGroup {
+	for _, v := range mappingPhaseTwoConfigDetailsPfsDhGroupEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPhaseTwoConfigDetailsPfsDhGroupEnumStringValues Enumerates the set of values in String for PhaseTwoConfigDetailsPfsDhGroupEnum
+func GetPhaseTwoConfigDetailsPfsDhGroupEnumStringValues() []string {
+	return []string{
+		"GROUP2",
+		"GROUP5",
+		"GROUP14",
+		"GROUP19",
+		"GROUP20",
+		"GROUP24",
+	}
 }

@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateZoneRecordsRequest wrapper for the UpdateZoneRecords operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateZoneRecords.go.html to see an example of how to use UpdateZoneRecordsRequest.
 type UpdateZoneRecordsRequest struct {
 
 	// The name or OCID of the target zone.
@@ -62,6 +60,10 @@ func (request UpdateZoneRecordsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateZoneRecordsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +77,20 @@ func (request UpdateZoneRecordsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateZoneRecordsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateZoneRecordsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateZoneRecordsScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetUpdateZoneRecordsScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateZoneRecordsResponse wrapper for the UpdateZoneRecords operation
@@ -122,7 +138,7 @@ const (
 	UpdateZoneRecordsScopePrivate UpdateZoneRecordsScopeEnum = "PRIVATE"
 )
 
-var mappingUpdateZoneRecordsScope = map[string]UpdateZoneRecordsScopeEnum{
+var mappingUpdateZoneRecordsScopeEnum = map[string]UpdateZoneRecordsScopeEnum{
 	"GLOBAL":  UpdateZoneRecordsScopeGlobal,
 	"PRIVATE": UpdateZoneRecordsScopePrivate,
 }
@@ -130,8 +146,16 @@ var mappingUpdateZoneRecordsScope = map[string]UpdateZoneRecordsScopeEnum{
 // GetUpdateZoneRecordsScopeEnumValues Enumerates the set of values for UpdateZoneRecordsScopeEnum
 func GetUpdateZoneRecordsScopeEnumValues() []UpdateZoneRecordsScopeEnum {
 	values := make([]UpdateZoneRecordsScopeEnum, 0)
-	for _, v := range mappingUpdateZoneRecordsScope {
+	for _, v := range mappingUpdateZoneRecordsScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateZoneRecordsScopeEnumStringValues Enumerates the set of values in String for UpdateZoneRecordsScopeEnum
+func GetUpdateZoneRecordsScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

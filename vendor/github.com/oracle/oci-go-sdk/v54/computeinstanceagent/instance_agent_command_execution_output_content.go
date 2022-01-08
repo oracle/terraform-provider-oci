@@ -12,7 +12,9 @@ package computeinstanceagent
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceAgentCommandExecutionOutputContent The execution output from a command.
@@ -90,6 +92,18 @@ func (m instanceagentcommandexecutionoutputcontent) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m instanceagentcommandexecutionoutputcontent) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceAgentCommandExecutionOutputContentOutputTypeEnum Enum with underlying type: string
 type InstanceAgentCommandExecutionOutputContentOutputTypeEnum string
 
@@ -100,7 +114,7 @@ const (
 	InstanceAgentCommandExecutionOutputContentOutputTypeObjectStorageTuple InstanceAgentCommandExecutionOutputContentOutputTypeEnum = "OBJECT_STORAGE_TUPLE"
 )
 
-var mappingInstanceAgentCommandExecutionOutputContentOutputType = map[string]InstanceAgentCommandExecutionOutputContentOutputTypeEnum{
+var mappingInstanceAgentCommandExecutionOutputContentOutputTypeEnum = map[string]InstanceAgentCommandExecutionOutputContentOutputTypeEnum{
 	"TEXT":                 InstanceAgentCommandExecutionOutputContentOutputTypeText,
 	"OBJECT_STORAGE_URI":   InstanceAgentCommandExecutionOutputContentOutputTypeObjectStorageUri,
 	"OBJECT_STORAGE_TUPLE": InstanceAgentCommandExecutionOutputContentOutputTypeObjectStorageTuple,
@@ -109,8 +123,17 @@ var mappingInstanceAgentCommandExecutionOutputContentOutputType = map[string]Ins
 // GetInstanceAgentCommandExecutionOutputContentOutputTypeEnumValues Enumerates the set of values for InstanceAgentCommandExecutionOutputContentOutputTypeEnum
 func GetInstanceAgentCommandExecutionOutputContentOutputTypeEnumValues() []InstanceAgentCommandExecutionOutputContentOutputTypeEnum {
 	values := make([]InstanceAgentCommandExecutionOutputContentOutputTypeEnum, 0)
-	for _, v := range mappingInstanceAgentCommandExecutionOutputContentOutputType {
+	for _, v := range mappingInstanceAgentCommandExecutionOutputContentOutputTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceAgentCommandExecutionOutputContentOutputTypeEnumStringValues Enumerates the set of values in String for InstanceAgentCommandExecutionOutputContentOutputTypeEnum
+func GetInstanceAgentCommandExecutionOutputContentOutputTypeEnumStringValues() []string {
+	return []string{
+		"TEXT",
+		"OBJECT_STORAGE_URI",
+		"OBJECT_STORAGE_TUPLE",
+	}
 }

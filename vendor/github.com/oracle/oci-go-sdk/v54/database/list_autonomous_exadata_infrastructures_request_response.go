@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAutonomousExadataInfrastructuresRequest wrapper for the ListAutonomousExadataInfrastructures operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousExadataInfrastructures.go.html to see an example of how to use ListAutonomousExadataInfrastructuresRequest.
 type ListAutonomousExadataInfrastructuresRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -57,6 +55,10 @@ func (request ListAutonomousExadataInfrastructuresRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAutonomousExadataInfrastructuresRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,26 @@ func (request ListAutonomousExadataInfrastructuresRequest) BinaryRequestBody() (
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAutonomousExadataInfrastructuresRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAutonomousExadataInfrastructuresRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAutonomousExadataInfrastructuresSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAutonomousExadataInfrastructuresSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutonomousExadataInfrastructuresSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAutonomousExadataInfrastructuresSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousExadataInfrastructureSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAutonomousExadataInfrastructureSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAutonomousExadataInfrastructuresResponse wrapper for the ListAutonomousExadataInfrastructures operation
@@ -110,7 +132,7 @@ const (
 	ListAutonomousExadataInfrastructuresSortByDisplayname ListAutonomousExadataInfrastructuresSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAutonomousExadataInfrastructuresSortBy = map[string]ListAutonomousExadataInfrastructuresSortByEnum{
+var mappingListAutonomousExadataInfrastructuresSortByEnum = map[string]ListAutonomousExadataInfrastructuresSortByEnum{
 	"TIMECREATED": ListAutonomousExadataInfrastructuresSortByTimecreated,
 	"DISPLAYNAME": ListAutonomousExadataInfrastructuresSortByDisplayname,
 }
@@ -118,10 +140,18 @@ var mappingListAutonomousExadataInfrastructuresSortBy = map[string]ListAutonomou
 // GetListAutonomousExadataInfrastructuresSortByEnumValues Enumerates the set of values for ListAutonomousExadataInfrastructuresSortByEnum
 func GetListAutonomousExadataInfrastructuresSortByEnumValues() []ListAutonomousExadataInfrastructuresSortByEnum {
 	values := make([]ListAutonomousExadataInfrastructuresSortByEnum, 0)
-	for _, v := range mappingListAutonomousExadataInfrastructuresSortBy {
+	for _, v := range mappingListAutonomousExadataInfrastructuresSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousExadataInfrastructuresSortByEnumStringValues Enumerates the set of values in String for ListAutonomousExadataInfrastructuresSortByEnum
+func GetListAutonomousExadataInfrastructuresSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAutonomousExadataInfrastructuresSortOrderEnum Enum with underlying type: string
@@ -133,7 +163,7 @@ const (
 	ListAutonomousExadataInfrastructuresSortOrderDesc ListAutonomousExadataInfrastructuresSortOrderEnum = "DESC"
 )
 
-var mappingListAutonomousExadataInfrastructuresSortOrder = map[string]ListAutonomousExadataInfrastructuresSortOrderEnum{
+var mappingListAutonomousExadataInfrastructuresSortOrderEnum = map[string]ListAutonomousExadataInfrastructuresSortOrderEnum{
 	"ASC":  ListAutonomousExadataInfrastructuresSortOrderAsc,
 	"DESC": ListAutonomousExadataInfrastructuresSortOrderDesc,
 }
@@ -141,8 +171,16 @@ var mappingListAutonomousExadataInfrastructuresSortOrder = map[string]ListAutono
 // GetListAutonomousExadataInfrastructuresSortOrderEnumValues Enumerates the set of values for ListAutonomousExadataInfrastructuresSortOrderEnum
 func GetListAutonomousExadataInfrastructuresSortOrderEnumValues() []ListAutonomousExadataInfrastructuresSortOrderEnum {
 	values := make([]ListAutonomousExadataInfrastructuresSortOrderEnum, 0)
-	for _, v := range mappingListAutonomousExadataInfrastructuresSortOrder {
+	for _, v := range mappingListAutonomousExadataInfrastructuresSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousExadataInfrastructuresSortOrderEnumStringValues Enumerates the set of values in String for ListAutonomousExadataInfrastructuresSortOrderEnum
+func GetListAutonomousExadataInfrastructuresSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

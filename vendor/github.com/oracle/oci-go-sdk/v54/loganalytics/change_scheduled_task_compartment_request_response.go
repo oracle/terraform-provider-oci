@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeScheduledTaskCompartmentRequest wrapper for the ChangeScheduledTaskCompartment operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeScheduledTaskCompartment.go.html to see an example of how to use ChangeScheduledTaskCompartmentRequest.
 type ChangeScheduledTaskCompartmentRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -55,6 +53,10 @@ func (request ChangeScheduledTaskCompartmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeScheduledTaskCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,17 @@ func (request ChangeScheduledTaskCompartmentRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeScheduledTaskCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeScheduledTaskCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeScheduledTaskCompartmentResponse wrapper for the ChangeScheduledTaskCompartment operation

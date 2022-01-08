@@ -11,7 +11,9 @@ package analytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateAnalyticsInstanceDetails Input payload to create an Anaytics instance.
@@ -51,10 +53,31 @@ type CreateAnalyticsInstanceDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the OCI Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m CreateAnalyticsInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateAnalyticsInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFeatureSetEnum[string(m.FeatureSet)]; !ok && m.FeatureSet != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeatureSet: %s. Supported values are: %s.", m.FeatureSet, strings.Join(GetFeatureSetEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLicenseTypeEnum[string(m.LicenseType)]; !ok && m.LicenseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -66,6 +89,7 @@ func (m *CreateAnalyticsInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		IdcsAccessToken        *string                           `json:"idcsAccessToken"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
+		KmsKeyId               *string                           `json:"kmsKeyId"`
 		Name                   *string                           `json:"name"`
 		CompartmentId          *string                           `json:"compartmentId"`
 		FeatureSet             FeatureSetEnum                    `json:"featureSet"`
@@ -97,6 +121,8 @@ func (m *CreateAnalyticsInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.KmsKeyId = model.KmsKeyId
 
 	m.Name = model.Name
 

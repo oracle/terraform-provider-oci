@@ -7,14 +7,14 @@
 // APIs for dynamically scaling Compute resources to meet application requirements. For more information about
 // autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
 // Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
-// **Note:** Autoscaling is not available in US Government Cloud tenancies. For more information, see
-// Oracle Cloud Infrastructure US Government Cloud (https://docs.cloud.oracle.com/Content/General/Concepts/govoverview.htm).
 //
 
 package autoscaling
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Threshold The representation of Threshold
@@ -31,6 +31,21 @@ func (m Threshold) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Threshold) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingThresholdOperatorEnum[string(m.Operator)]; !ok && m.Operator != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operator: %s. Supported values are: %s.", m.Operator, strings.Join(GetThresholdOperatorEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ThresholdOperatorEnum Enum with underlying type: string
 type ThresholdOperatorEnum string
 
@@ -42,7 +57,7 @@ const (
 	ThresholdOperatorLte ThresholdOperatorEnum = "LTE"
 )
 
-var mappingThresholdOperator = map[string]ThresholdOperatorEnum{
+var mappingThresholdOperatorEnum = map[string]ThresholdOperatorEnum{
 	"GT":  ThresholdOperatorGt,
 	"GTE": ThresholdOperatorGte,
 	"LT":  ThresholdOperatorLt,
@@ -52,8 +67,18 @@ var mappingThresholdOperator = map[string]ThresholdOperatorEnum{
 // GetThresholdOperatorEnumValues Enumerates the set of values for ThresholdOperatorEnum
 func GetThresholdOperatorEnumValues() []ThresholdOperatorEnum {
 	values := make([]ThresholdOperatorEnum, 0)
-	for _, v := range mappingThresholdOperator {
+	for _, v := range mappingThresholdOperatorEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetThresholdOperatorEnumStringValues Enumerates the set of values in String for ThresholdOperatorEnum
+func GetThresholdOperatorEnumStringValues() []string {
+	return []string{
+		"GT",
+		"GTE",
+		"LT",
+		"LTE",
+	}
 }

@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BuildStage Specifies the build stage.
@@ -147,6 +149,24 @@ func (m BuildStage) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BuildStage) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBuildStageImageEnum[string(m.Image)]; !ok && m.Image != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Image: %s. Supported values are: %s.", m.Image, strings.Join(GetBuildStageImageEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingBuildPipelineStageLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBuildPipelineStageLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m BuildStage) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeBuildStage BuildStage
@@ -169,15 +189,22 @@ const (
 	BuildStageImageOl7X8664Standard10 BuildStageImageEnum = "OL7_X86_64_STANDARD_10"
 )
 
-var mappingBuildStageImage = map[string]BuildStageImageEnum{
+var mappingBuildStageImageEnum = map[string]BuildStageImageEnum{
 	"OL7_X86_64_STANDARD_10": BuildStageImageOl7X8664Standard10,
 }
 
 // GetBuildStageImageEnumValues Enumerates the set of values for BuildStageImageEnum
 func GetBuildStageImageEnumValues() []BuildStageImageEnum {
 	values := make([]BuildStageImageEnum, 0)
-	for _, v := range mappingBuildStageImage {
+	for _, v := range mappingBuildStageImageEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBuildStageImageEnumStringValues Enumerates the set of values in String for BuildStageImageEnum
+func GetBuildStageImageEnumStringValues() []string {
+	return []string{
+		"OL7_X86_64_STANDARD_10",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateInstanceDetails The representation of UpdateInstanceDetails
@@ -79,6 +81,11 @@ type UpdateInstanceDetails struct {
 
 	ShapeConfig *UpdateInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
+	// The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
+	// * `LIVE_MIGRATE` - Run maintenance using a live migration.
+	// * `REBOOT` - Run maintenance using a reboot.
+	PreferredMaintenanceAction UpdateInstanceDetailsPreferredMaintenanceActionEnum `mandatory:"false" json:"preferredMaintenanceAction,omitempty"`
+
 	InstanceOptions *InstanceOptions `mandatory:"false" json:"instanceOptions"`
 
 	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
@@ -99,4 +106,50 @@ type UpdateInstanceDetails struct {
 
 func (m UpdateInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateInstanceDetailsPreferredMaintenanceActionEnum[string(m.PreferredMaintenanceAction)]; !ok && m.PreferredMaintenanceAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PreferredMaintenanceAction: %s. Supported values are: %s.", m.PreferredMaintenanceAction, strings.Join(GetUpdateInstanceDetailsPreferredMaintenanceActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
+// UpdateInstanceDetailsPreferredMaintenanceActionEnum Enum with underlying type: string
+type UpdateInstanceDetailsPreferredMaintenanceActionEnum string
+
+// Set of constants representing the allowable values for UpdateInstanceDetailsPreferredMaintenanceActionEnum
+const (
+	UpdateInstanceDetailsPreferredMaintenanceActionLiveMigrate UpdateInstanceDetailsPreferredMaintenanceActionEnum = "LIVE_MIGRATE"
+	UpdateInstanceDetailsPreferredMaintenanceActionReboot      UpdateInstanceDetailsPreferredMaintenanceActionEnum = "REBOOT"
+)
+
+var mappingUpdateInstanceDetailsPreferredMaintenanceActionEnum = map[string]UpdateInstanceDetailsPreferredMaintenanceActionEnum{
+	"LIVE_MIGRATE": UpdateInstanceDetailsPreferredMaintenanceActionLiveMigrate,
+	"REBOOT":       UpdateInstanceDetailsPreferredMaintenanceActionReboot,
+}
+
+// GetUpdateInstanceDetailsPreferredMaintenanceActionEnumValues Enumerates the set of values for UpdateInstanceDetailsPreferredMaintenanceActionEnum
+func GetUpdateInstanceDetailsPreferredMaintenanceActionEnumValues() []UpdateInstanceDetailsPreferredMaintenanceActionEnum {
+	values := make([]UpdateInstanceDetailsPreferredMaintenanceActionEnum, 0)
+	for _, v := range mappingUpdateInstanceDetailsPreferredMaintenanceActionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateInstanceDetailsPreferredMaintenanceActionEnumStringValues Enumerates the set of values in String for UpdateInstanceDetailsPreferredMaintenanceActionEnum
+func GetUpdateInstanceDetailsPreferredMaintenanceActionEnumStringValues() []string {
+	return []string{
+		"LIVE_MIGRATE",
+		"REBOOT",
+	}
 }

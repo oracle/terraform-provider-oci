@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateVolumeAttachmentDetails details for updating a volume attachment.
@@ -27,6 +29,21 @@ type UpdateVolumeAttachmentDetails struct {
 
 func (m UpdateVolumeAttachmentDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateVolumeAttachmentDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateVolumeAttachmentDetailsIscsiLoginStateEnum[string(m.IscsiLoginState)]; !ok && m.IscsiLoginState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IscsiLoginState: %s. Supported values are: %s.", m.IscsiLoginState, strings.Join(GetUpdateVolumeAttachmentDetailsIscsiLoginStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateVolumeAttachmentDetailsIscsiLoginStateEnum Enum with underlying type: string
@@ -43,7 +60,7 @@ const (
 	UpdateVolumeAttachmentDetailsIscsiLoginStateLogoutFailed    UpdateVolumeAttachmentDetailsIscsiLoginStateEnum = "LOGOUT_FAILED"
 )
 
-var mappingUpdateVolumeAttachmentDetailsIscsiLoginState = map[string]UpdateVolumeAttachmentDetailsIscsiLoginStateEnum{
+var mappingUpdateVolumeAttachmentDetailsIscsiLoginStateEnum = map[string]UpdateVolumeAttachmentDetailsIscsiLoginStateEnum{
 	"UNKNOWN":          UpdateVolumeAttachmentDetailsIscsiLoginStateUnknown,
 	"LOGGING_IN":       UpdateVolumeAttachmentDetailsIscsiLoginStateLoggingIn,
 	"LOGIN_SUCCEEDED":  UpdateVolumeAttachmentDetailsIscsiLoginStateLoginSucceeded,
@@ -56,8 +73,21 @@ var mappingUpdateVolumeAttachmentDetailsIscsiLoginState = map[string]UpdateVolum
 // GetUpdateVolumeAttachmentDetailsIscsiLoginStateEnumValues Enumerates the set of values for UpdateVolumeAttachmentDetailsIscsiLoginStateEnum
 func GetUpdateVolumeAttachmentDetailsIscsiLoginStateEnumValues() []UpdateVolumeAttachmentDetailsIscsiLoginStateEnum {
 	values := make([]UpdateVolumeAttachmentDetailsIscsiLoginStateEnum, 0)
-	for _, v := range mappingUpdateVolumeAttachmentDetailsIscsiLoginState {
+	for _, v := range mappingUpdateVolumeAttachmentDetailsIscsiLoginStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateVolumeAttachmentDetailsIscsiLoginStateEnumStringValues Enumerates the set of values in String for UpdateVolumeAttachmentDetailsIscsiLoginStateEnum
+func GetUpdateVolumeAttachmentDetailsIscsiLoginStateEnumStringValues() []string {
+	return []string{
+		"UNKNOWN",
+		"LOGGING_IN",
+		"LOGIN_SUCCEEDED",
+		"LOGIN_FAILED",
+		"LOGGING_OUT",
+		"LOGOUT_SUCCEEDED",
+		"LOGOUT_FAILED",
+	}
 }

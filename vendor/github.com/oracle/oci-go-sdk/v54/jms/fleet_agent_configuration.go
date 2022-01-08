@@ -10,7 +10,9 @@
 package jms
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // FleetAgentConfiguration Management Agent Configuration for a Fleet. Includes JRE scanning frequency and list of include/exclude file system paths.
@@ -32,4 +34,16 @@ type FleetAgentConfiguration struct {
 
 func (m FleetAgentConfiguration) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FleetAgentConfiguration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

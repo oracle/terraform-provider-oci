@@ -5,15 +5,13 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDataAccessContainersRequest wrapper for the ListDataAccessContainers operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListDataAccessContainers.go.html to see an example of how to use ListDataAccessContainersRequest.
 type ListDataAccessContainersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
@@ -54,6 +52,10 @@ func (request ListDataAccessContainersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDataAccessContainersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +69,23 @@ func (request ListDataAccessContainersRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDataAccessContainersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDataAccessContainersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDataAccessContainersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDataAccessContainersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataAccessContainersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDataAccessContainersSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDataAccessContainersResponse wrapper for the ListDataAccessContainers operation
@@ -105,17 +124,24 @@ const (
 	ListDataAccessContainersSortByName ListDataAccessContainersSortByEnum = "NAME"
 )
 
-var mappingListDataAccessContainersSortBy = map[string]ListDataAccessContainersSortByEnum{
+var mappingListDataAccessContainersSortByEnum = map[string]ListDataAccessContainersSortByEnum{
 	"NAME": ListDataAccessContainersSortByName,
 }
 
 // GetListDataAccessContainersSortByEnumValues Enumerates the set of values for ListDataAccessContainersSortByEnum
 func GetListDataAccessContainersSortByEnumValues() []ListDataAccessContainersSortByEnum {
 	values := make([]ListDataAccessContainersSortByEnum, 0)
-	for _, v := range mappingListDataAccessContainersSortBy {
+	for _, v := range mappingListDataAccessContainersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataAccessContainersSortByEnumStringValues Enumerates the set of values in String for ListDataAccessContainersSortByEnum
+func GetListDataAccessContainersSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+	}
 }
 
 // ListDataAccessContainersSortOrderEnum Enum with underlying type: string
@@ -127,7 +153,7 @@ const (
 	ListDataAccessContainersSortOrderDesc ListDataAccessContainersSortOrderEnum = "DESC"
 )
 
-var mappingListDataAccessContainersSortOrder = map[string]ListDataAccessContainersSortOrderEnum{
+var mappingListDataAccessContainersSortOrderEnum = map[string]ListDataAccessContainersSortOrderEnum{
 	"ASC":  ListDataAccessContainersSortOrderAsc,
 	"DESC": ListDataAccessContainersSortOrderDesc,
 }
@@ -135,8 +161,16 @@ var mappingListDataAccessContainersSortOrder = map[string]ListDataAccessContaine
 // GetListDataAccessContainersSortOrderEnumValues Enumerates the set of values for ListDataAccessContainersSortOrderEnum
 func GetListDataAccessContainersSortOrderEnumValues() []ListDataAccessContainersSortOrderEnum {
 	values := make([]ListDataAccessContainersSortOrderEnum, 0)
-	for _, v := range mappingListDataAccessContainersSortOrder {
+	for _, v := range mappingListDataAccessContainersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataAccessContainersSortOrderEnumStringValues Enumerates the set of values in String for ListDataAccessContainersSortOrderEnum
+func GetListDataAccessContainersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -24,6 +24,7 @@ const (
 	ServiceListDataSafeDev6  ServiceListEnum = "DataSafe-dev6"
 	ServiceListDataSafeDev7  ServiceListEnum = "DataSafe-dev7"
 	ServiceListDataSafeDev8  ServiceListEnum = "DataSafe-dev8"
+	ServiceListDataSafeDev9  ServiceListEnum = "DataSafe-dev9"
 	ServiceListDataSafeLrg1  ServiceListEnum = "DataSafe-lrg1"
 	ServiceListDataSafeLrg2  ServiceListEnum = "DataSafe-lrg2"
 	ServiceListDataSafeLrg3  ServiceListEnum = "DataSafe-lrg3"
@@ -33,7 +34,7 @@ const (
 	ServiceListDataSafeStage ServiceListEnum = "DataSafe-stage"
 )
 
-var mappingServiceList = map[string]ServiceListEnum{
+var mappingServiceListEnum = map[string]ServiceListEnum{
 	"DataSafe":       ServiceListDataSafe,
 	"DataSafe-dev":   ServiceListDataSafeDev,
 	"DataSafe-dev1":  ServiceListDataSafeDev1,
@@ -44,6 +45,7 @@ var mappingServiceList = map[string]ServiceListEnum{
 	"DataSafe-dev6":  ServiceListDataSafeDev6,
 	"DataSafe-dev7":  ServiceListDataSafeDev7,
 	"DataSafe-dev8":  ServiceListDataSafeDev8,
+	"DataSafe-dev9":  ServiceListDataSafeDev9,
 	"DataSafe-lrg1":  ServiceListDataSafeLrg1,
 	"DataSafe-lrg2":  ServiceListDataSafeLrg2,
 	"DataSafe-lrg3":  ServiceListDataSafeLrg3,
@@ -56,8 +58,32 @@ var mappingServiceList = map[string]ServiceListEnum{
 // GetServiceListEnumValues Enumerates the set of values for ServiceListEnum
 func GetServiceListEnumValues() []ServiceListEnum {
 	values := make([]ServiceListEnum, 0)
-	for _, v := range mappingServiceList {
+	for _, v := range mappingServiceListEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetServiceListEnumStringValues Enumerates the set of values in String for ServiceListEnum
+func GetServiceListEnumStringValues() []string {
+	return []string{
+		"DataSafe",
+		"DataSafe-dev",
+		"DataSafe-dev1",
+		"DataSafe-dev2",
+		"DataSafe-dev3",
+		"DataSafe-dev4",
+		"DataSafe-dev5",
+		"DataSafe-dev6",
+		"DataSafe-dev7",
+		"DataSafe-dev8",
+		"DataSafe-dev9",
+		"DataSafe-lrg1",
+		"DataSafe-lrg2",
+		"DataSafe-lrg3",
+		"DataSafe-lrg4",
+		"DataSafe-ptest",
+		"DataSafe-stest",
+		"DataSafe-stage",
+	}
 }

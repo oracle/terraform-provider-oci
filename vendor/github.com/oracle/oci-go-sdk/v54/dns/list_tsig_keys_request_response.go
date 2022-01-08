@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListTsigKeysRequest wrapper for the ListTsigKeys operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListTsigKeys.go.html to see an example of how to use ListTsigKeysRequest.
 type ListTsigKeysRequest struct {
 
 	// The OCID of the compartment the resource belongs to.
@@ -60,6 +58,10 @@ func (request ListTsigKeysRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListTsigKeysRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,29 @@ func (request ListTsigKeysRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTsigKeysRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListTsigKeysRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTsigKeySummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetTsigKeySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTsigKeysSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTsigKeysSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTsigKeysSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListTsigKeysSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTsigKeysScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListTsigKeysScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListTsigKeysResponse wrapper for the ListTsigKeys operation
@@ -112,7 +137,7 @@ const (
 	ListTsigKeysSortByTimecreated ListTsigKeysSortByEnum = "timeCreated"
 )
 
-var mappingListTsigKeysSortBy = map[string]ListTsigKeysSortByEnum{
+var mappingListTsigKeysSortByEnum = map[string]ListTsigKeysSortByEnum{
 	"name":        ListTsigKeysSortByName,
 	"timeCreated": ListTsigKeysSortByTimecreated,
 }
@@ -120,10 +145,18 @@ var mappingListTsigKeysSortBy = map[string]ListTsigKeysSortByEnum{
 // GetListTsigKeysSortByEnumValues Enumerates the set of values for ListTsigKeysSortByEnum
 func GetListTsigKeysSortByEnumValues() []ListTsigKeysSortByEnum {
 	values := make([]ListTsigKeysSortByEnum, 0)
-	for _, v := range mappingListTsigKeysSortBy {
+	for _, v := range mappingListTsigKeysSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTsigKeysSortByEnumStringValues Enumerates the set of values in String for ListTsigKeysSortByEnum
+func GetListTsigKeysSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"timeCreated",
+	}
 }
 
 // ListTsigKeysSortOrderEnum Enum with underlying type: string
@@ -135,7 +168,7 @@ const (
 	ListTsigKeysSortOrderDesc ListTsigKeysSortOrderEnum = "DESC"
 )
 
-var mappingListTsigKeysSortOrder = map[string]ListTsigKeysSortOrderEnum{
+var mappingListTsigKeysSortOrderEnum = map[string]ListTsigKeysSortOrderEnum{
 	"ASC":  ListTsigKeysSortOrderAsc,
 	"DESC": ListTsigKeysSortOrderDesc,
 }
@@ -143,10 +176,18 @@ var mappingListTsigKeysSortOrder = map[string]ListTsigKeysSortOrderEnum{
 // GetListTsigKeysSortOrderEnumValues Enumerates the set of values for ListTsigKeysSortOrderEnum
 func GetListTsigKeysSortOrderEnumValues() []ListTsigKeysSortOrderEnum {
 	values := make([]ListTsigKeysSortOrderEnum, 0)
-	for _, v := range mappingListTsigKeysSortOrder {
+	for _, v := range mappingListTsigKeysSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTsigKeysSortOrderEnumStringValues Enumerates the set of values in String for ListTsigKeysSortOrderEnum
+func GetListTsigKeysSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListTsigKeysScopeEnum Enum with underlying type: string
@@ -158,7 +199,7 @@ const (
 	ListTsigKeysScopePrivate ListTsigKeysScopeEnum = "PRIVATE"
 )
 
-var mappingListTsigKeysScope = map[string]ListTsigKeysScopeEnum{
+var mappingListTsigKeysScopeEnum = map[string]ListTsigKeysScopeEnum{
 	"GLOBAL":  ListTsigKeysScopeGlobal,
 	"PRIVATE": ListTsigKeysScopePrivate,
 }
@@ -166,8 +207,16 @@ var mappingListTsigKeysScope = map[string]ListTsigKeysScopeEnum{
 // GetListTsigKeysScopeEnumValues Enumerates the set of values for ListTsigKeysScopeEnum
 func GetListTsigKeysScopeEnumValues() []ListTsigKeysScopeEnum {
 	values := make([]ListTsigKeysScopeEnum, 0)
-	for _, v := range mappingListTsigKeysScope {
+	for _, v := range mappingListTsigKeysScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTsigKeysScopeEnumStringValues Enumerates the set of values in String for ListTsigKeysScopeEnum
+func GetListTsigKeysScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

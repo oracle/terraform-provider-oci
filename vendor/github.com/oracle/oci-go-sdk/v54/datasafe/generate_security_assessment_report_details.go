@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // GenerateSecurityAssessmentReportDetails The details used to generate a new security assessment report.
@@ -24,6 +26,21 @@ func (m GenerateSecurityAssessmentReportDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m GenerateSecurityAssessmentReportDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGenerateSecurityAssessmentReportDetailsFormatEnum[string(m.Format)]; !ok && m.Format != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Format: %s. Supported values are: %s.", m.Format, strings.Join(GetGenerateSecurityAssessmentReportDetailsFormatEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // GenerateSecurityAssessmentReportDetailsFormatEnum Enum with underlying type: string
 type GenerateSecurityAssessmentReportDetailsFormatEnum string
 
@@ -33,7 +50,7 @@ const (
 	GenerateSecurityAssessmentReportDetailsFormatXls GenerateSecurityAssessmentReportDetailsFormatEnum = "XLS"
 )
 
-var mappingGenerateSecurityAssessmentReportDetailsFormat = map[string]GenerateSecurityAssessmentReportDetailsFormatEnum{
+var mappingGenerateSecurityAssessmentReportDetailsFormatEnum = map[string]GenerateSecurityAssessmentReportDetailsFormatEnum{
 	"PDF": GenerateSecurityAssessmentReportDetailsFormatPdf,
 	"XLS": GenerateSecurityAssessmentReportDetailsFormatXls,
 }
@@ -41,8 +58,16 @@ var mappingGenerateSecurityAssessmentReportDetailsFormat = map[string]GenerateSe
 // GetGenerateSecurityAssessmentReportDetailsFormatEnumValues Enumerates the set of values for GenerateSecurityAssessmentReportDetailsFormatEnum
 func GetGenerateSecurityAssessmentReportDetailsFormatEnumValues() []GenerateSecurityAssessmentReportDetailsFormatEnum {
 	values := make([]GenerateSecurityAssessmentReportDetailsFormatEnum, 0)
-	for _, v := range mappingGenerateSecurityAssessmentReportDetailsFormat {
+	for _, v := range mappingGenerateSecurityAssessmentReportDetailsFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGenerateSecurityAssessmentReportDetailsFormatEnumStringValues Enumerates the set of values in String for GenerateSecurityAssessmentReportDetailsFormatEnum
+func GetGenerateSecurityAssessmentReportDetailsFormatEnumStringValues() []string {
+	return []string{
+		"PDF",
+		"XLS",
+	}
 }

@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DeployPipeline A set of stages whose predecessor relation forms a directed acyclic graph.
@@ -63,6 +65,21 @@ func (m DeployPipeline) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DeployPipeline) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDeployPipelineLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeployPipelineLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DeployPipelineLifecycleStateEnum Enum with underlying type: string
 type DeployPipelineLifecycleStateEnum string
 
@@ -77,7 +94,7 @@ const (
 	DeployPipelineLifecycleStateFailed   DeployPipelineLifecycleStateEnum = "FAILED"
 )
 
-var mappingDeployPipelineLifecycleState = map[string]DeployPipelineLifecycleStateEnum{
+var mappingDeployPipelineLifecycleStateEnum = map[string]DeployPipelineLifecycleStateEnum{
 	"CREATING": DeployPipelineLifecycleStateCreating,
 	"UPDATING": DeployPipelineLifecycleStateUpdating,
 	"ACTIVE":   DeployPipelineLifecycleStateActive,
@@ -90,8 +107,21 @@ var mappingDeployPipelineLifecycleState = map[string]DeployPipelineLifecycleStat
 // GetDeployPipelineLifecycleStateEnumValues Enumerates the set of values for DeployPipelineLifecycleStateEnum
 func GetDeployPipelineLifecycleStateEnumValues() []DeployPipelineLifecycleStateEnum {
 	values := make([]DeployPipelineLifecycleStateEnum, 0)
-	for _, v := range mappingDeployPipelineLifecycleState {
+	for _, v := range mappingDeployPipelineLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployPipelineLifecycleStateEnumStringValues Enumerates the set of values in String for DeployPipelineLifecycleStateEnum
+func GetDeployPipelineLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

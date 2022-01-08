@@ -5,15 +5,13 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListFileSystemsRequest wrapper for the ListFileSystems operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFileSystems.go.html to see an example of how to use ListFileSystemsRequest.
 type ListFileSystemsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -49,10 +47,10 @@ type ListFileSystemsRequest struct {
 	// the resouce type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot used to create a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot used to create a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	SourceSnapshotId *string `mandatory:"false" contributesTo:"query" name:"sourceSnapshotId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system that contains the source snapshot of a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system that contains the source snapshot of a cloned file system. See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	ParentFileSystemId *string `mandatory:"false" contributesTo:"query" name:"parentFileSystemId"`
 
 	// The field to sort by. You can provide either value, but not both.
@@ -82,6 +80,10 @@ func (request ListFileSystemsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListFileSystemsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -95,6 +97,26 @@ func (request ListFileSystemsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListFileSystemsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListFileSystemsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListFileSystemsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListFileSystemsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFileSystemsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListFileSystemsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFileSystemsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFileSystemsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListFileSystemsResponse wrapper for the ListFileSystems operation
@@ -139,7 +161,7 @@ const (
 	ListFileSystemsLifecycleStateFailed   ListFileSystemsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListFileSystemsLifecycleState = map[string]ListFileSystemsLifecycleStateEnum{
+var mappingListFileSystemsLifecycleStateEnum = map[string]ListFileSystemsLifecycleStateEnum{
 	"CREATING": ListFileSystemsLifecycleStateCreating,
 	"ACTIVE":   ListFileSystemsLifecycleStateActive,
 	"DELETING": ListFileSystemsLifecycleStateDeleting,
@@ -150,10 +172,21 @@ var mappingListFileSystemsLifecycleState = map[string]ListFileSystemsLifecycleSt
 // GetListFileSystemsLifecycleStateEnumValues Enumerates the set of values for ListFileSystemsLifecycleStateEnum
 func GetListFileSystemsLifecycleStateEnumValues() []ListFileSystemsLifecycleStateEnum {
 	values := make([]ListFileSystemsLifecycleStateEnum, 0)
-	for _, v := range mappingListFileSystemsLifecycleState {
+	for _, v := range mappingListFileSystemsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFileSystemsLifecycleStateEnumStringValues Enumerates the set of values in String for ListFileSystemsLifecycleStateEnum
+func GetListFileSystemsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListFileSystemsSortByEnum Enum with underlying type: string
@@ -165,7 +198,7 @@ const (
 	ListFileSystemsSortByDisplayname ListFileSystemsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListFileSystemsSortBy = map[string]ListFileSystemsSortByEnum{
+var mappingListFileSystemsSortByEnum = map[string]ListFileSystemsSortByEnum{
 	"TIMECREATED": ListFileSystemsSortByTimecreated,
 	"DISPLAYNAME": ListFileSystemsSortByDisplayname,
 }
@@ -173,10 +206,18 @@ var mappingListFileSystemsSortBy = map[string]ListFileSystemsSortByEnum{
 // GetListFileSystemsSortByEnumValues Enumerates the set of values for ListFileSystemsSortByEnum
 func GetListFileSystemsSortByEnumValues() []ListFileSystemsSortByEnum {
 	values := make([]ListFileSystemsSortByEnum, 0)
-	for _, v := range mappingListFileSystemsSortBy {
+	for _, v := range mappingListFileSystemsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFileSystemsSortByEnumStringValues Enumerates the set of values in String for ListFileSystemsSortByEnum
+func GetListFileSystemsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListFileSystemsSortOrderEnum Enum with underlying type: string
@@ -188,7 +229,7 @@ const (
 	ListFileSystemsSortOrderDesc ListFileSystemsSortOrderEnum = "DESC"
 )
 
-var mappingListFileSystemsSortOrder = map[string]ListFileSystemsSortOrderEnum{
+var mappingListFileSystemsSortOrderEnum = map[string]ListFileSystemsSortOrderEnum{
 	"ASC":  ListFileSystemsSortOrderAsc,
 	"DESC": ListFileSystemsSortOrderDesc,
 }
@@ -196,8 +237,16 @@ var mappingListFileSystemsSortOrder = map[string]ListFileSystemsSortOrderEnum{
 // GetListFileSystemsSortOrderEnumValues Enumerates the set of values for ListFileSystemsSortOrderEnum
 func GetListFileSystemsSortOrderEnumValues() []ListFileSystemsSortOrderEnum {
 	values := make([]ListFileSystemsSortOrderEnum, 0)
-	for _, v := range mappingListFileSystemsSortOrder {
+	for _, v := range mappingListFileSystemsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFileSystemsSortOrderEnumStringValues Enumerates the set of values in String for ListFileSystemsSortOrderEnum
+func GetListFileSystemsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

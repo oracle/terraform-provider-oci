@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutonomousContainerDatabase The representation of AutonomousContainerDatabase
@@ -46,7 +48,7 @@ type AutonomousContainerDatabase struct {
 	// The infrastructure type this resource belongs to.
 	InfrastructureType AutonomousContainerDatabaseInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
 
-	// The OCID of the cloud Autonomous VM Cluster.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
 	CloudAutonomousVmClusterId *string `mandatory:"false" json:"cloudAutonomousVmClusterId"`
 
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
@@ -107,10 +109,55 @@ type AutonomousContainerDatabase struct {
 
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
+
+	// Indicates if FIPS-140 compliant cryptography is enabled for the Autonomous Container Database.
+	IsFipsEnabled *bool `mandatory:"false" json:"isFipsEnabled"`
+
+	// The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
+	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// Sum of OCPUs available on the Autonomous VM Cluster + Sum of Fractional OCPUs available in the Autonomous Container Database.
+	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
+
+	// The number of CPU cores allocated to the Autonomous VM cluster.
+	TotalCpus *int `mandatory:"false" json:"totalCpus"`
+
+	// CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
+
+	// An array of CPU values that can be used to successfully provision a single Autonomous Database.
+	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 }
 
 func (m AutonomousContainerDatabase) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousContainerDatabase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousContainerDatabaseServiceLevelAgreementTypeEnum[string(m.ServiceLevelAgreementType)]; !ok && m.ServiceLevelAgreementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceLevelAgreementType: %s. Supported values are: %s.", m.ServiceLevelAgreementType, strings.Join(GetAutonomousContainerDatabaseServiceLevelAgreementTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousContainerDatabaseLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousContainerDatabaseLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousContainerDatabasePatchModelEnum[string(m.PatchModel)]; !ok && m.PatchModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchModel: %s. Supported values are: %s.", m.PatchModel, strings.Join(GetAutonomousContainerDatabasePatchModelEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAutonomousContainerDatabaseInfrastructureTypeEnum[string(m.InfrastructureType)]; !ok && m.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetAutonomousContainerDatabaseInfrastructureTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousContainerDatabaseRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetAutonomousContainerDatabaseRoleEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // AutonomousContainerDatabaseServiceLevelAgreementTypeEnum Enum with underlying type: string
@@ -123,7 +170,7 @@ const (
 	AutonomousContainerDatabaseServiceLevelAgreementTypeAutonomousDataguard AutonomousContainerDatabaseServiceLevelAgreementTypeEnum = "AUTONOMOUS_DATAGUARD"
 )
 
-var mappingAutonomousContainerDatabaseServiceLevelAgreementType = map[string]AutonomousContainerDatabaseServiceLevelAgreementTypeEnum{
+var mappingAutonomousContainerDatabaseServiceLevelAgreementTypeEnum = map[string]AutonomousContainerDatabaseServiceLevelAgreementTypeEnum{
 	"STANDARD":             AutonomousContainerDatabaseServiceLevelAgreementTypeStandard,
 	"MISSION_CRITICAL":     AutonomousContainerDatabaseServiceLevelAgreementTypeMissionCritical,
 	"AUTONOMOUS_DATAGUARD": AutonomousContainerDatabaseServiceLevelAgreementTypeAutonomousDataguard,
@@ -132,10 +179,19 @@ var mappingAutonomousContainerDatabaseServiceLevelAgreementType = map[string]Aut
 // GetAutonomousContainerDatabaseServiceLevelAgreementTypeEnumValues Enumerates the set of values for AutonomousContainerDatabaseServiceLevelAgreementTypeEnum
 func GetAutonomousContainerDatabaseServiceLevelAgreementTypeEnumValues() []AutonomousContainerDatabaseServiceLevelAgreementTypeEnum {
 	values := make([]AutonomousContainerDatabaseServiceLevelAgreementTypeEnum, 0)
-	for _, v := range mappingAutonomousContainerDatabaseServiceLevelAgreementType {
+	for _, v := range mappingAutonomousContainerDatabaseServiceLevelAgreementTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousContainerDatabaseServiceLevelAgreementTypeEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseServiceLevelAgreementTypeEnum
+func GetAutonomousContainerDatabaseServiceLevelAgreementTypeEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"MISSION_CRITICAL",
+		"AUTONOMOUS_DATAGUARD",
+	}
 }
 
 // AutonomousContainerDatabaseInfrastructureTypeEnum Enum with underlying type: string
@@ -147,7 +203,7 @@ const (
 	AutonomousContainerDatabaseInfrastructureTypeCloudAtCustomer AutonomousContainerDatabaseInfrastructureTypeEnum = "CLOUD_AT_CUSTOMER"
 )
 
-var mappingAutonomousContainerDatabaseInfrastructureType = map[string]AutonomousContainerDatabaseInfrastructureTypeEnum{
+var mappingAutonomousContainerDatabaseInfrastructureTypeEnum = map[string]AutonomousContainerDatabaseInfrastructureTypeEnum{
 	"CLOUD":             AutonomousContainerDatabaseInfrastructureTypeCloud,
 	"CLOUD_AT_CUSTOMER": AutonomousContainerDatabaseInfrastructureTypeCloudAtCustomer,
 }
@@ -155,10 +211,18 @@ var mappingAutonomousContainerDatabaseInfrastructureType = map[string]Autonomous
 // GetAutonomousContainerDatabaseInfrastructureTypeEnumValues Enumerates the set of values for AutonomousContainerDatabaseInfrastructureTypeEnum
 func GetAutonomousContainerDatabaseInfrastructureTypeEnumValues() []AutonomousContainerDatabaseInfrastructureTypeEnum {
 	values := make([]AutonomousContainerDatabaseInfrastructureTypeEnum, 0)
-	for _, v := range mappingAutonomousContainerDatabaseInfrastructureType {
+	for _, v := range mappingAutonomousContainerDatabaseInfrastructureTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousContainerDatabaseInfrastructureTypeEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseInfrastructureTypeEnum
+func GetAutonomousContainerDatabaseInfrastructureTypeEnumStringValues() []string {
+	return []string{
+		"CLOUD",
+		"CLOUD_AT_CUSTOMER",
+	}
 }
 
 // AutonomousContainerDatabaseLifecycleStateEnum Enum with underlying type: string
@@ -181,7 +245,7 @@ const (
 	AutonomousContainerDatabaseLifecycleStateUnavailable           AutonomousContainerDatabaseLifecycleStateEnum = "UNAVAILABLE"
 )
 
-var mappingAutonomousContainerDatabaseLifecycleState = map[string]AutonomousContainerDatabaseLifecycleStateEnum{
+var mappingAutonomousContainerDatabaseLifecycleStateEnum = map[string]AutonomousContainerDatabaseLifecycleStateEnum{
 	"PROVISIONING":            AutonomousContainerDatabaseLifecycleStateProvisioning,
 	"AVAILABLE":               AutonomousContainerDatabaseLifecycleStateAvailable,
 	"UPDATING":                AutonomousContainerDatabaseLifecycleStateUpdating,
@@ -200,10 +264,29 @@ var mappingAutonomousContainerDatabaseLifecycleState = map[string]AutonomousCont
 // GetAutonomousContainerDatabaseLifecycleStateEnumValues Enumerates the set of values for AutonomousContainerDatabaseLifecycleStateEnum
 func GetAutonomousContainerDatabaseLifecycleStateEnumValues() []AutonomousContainerDatabaseLifecycleStateEnum {
 	values := make([]AutonomousContainerDatabaseLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousContainerDatabaseLifecycleState {
+	for _, v := range mappingAutonomousContainerDatabaseLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousContainerDatabaseLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseLifecycleStateEnum
+func GetAutonomousContainerDatabaseLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"BACKUP_IN_PROGRESS",
+		"RESTORING",
+		"RESTORE_FAILED",
+		"RESTARTING",
+		"MAINTENANCE_IN_PROGRESS",
+		"ROLE_CHANGE_IN_PROGRESS",
+		"UNAVAILABLE",
+	}
 }
 
 // AutonomousContainerDatabasePatchModelEnum Enum with underlying type: string
@@ -215,7 +298,7 @@ const (
 	AutonomousContainerDatabasePatchModelUpdateRevisions AutonomousContainerDatabasePatchModelEnum = "RELEASE_UPDATE_REVISIONS"
 )
 
-var mappingAutonomousContainerDatabasePatchModel = map[string]AutonomousContainerDatabasePatchModelEnum{
+var mappingAutonomousContainerDatabasePatchModelEnum = map[string]AutonomousContainerDatabasePatchModelEnum{
 	"RELEASE_UPDATES":          AutonomousContainerDatabasePatchModelUpdates,
 	"RELEASE_UPDATE_REVISIONS": AutonomousContainerDatabasePatchModelUpdateRevisions,
 }
@@ -223,10 +306,18 @@ var mappingAutonomousContainerDatabasePatchModel = map[string]AutonomousContaine
 // GetAutonomousContainerDatabasePatchModelEnumValues Enumerates the set of values for AutonomousContainerDatabasePatchModelEnum
 func GetAutonomousContainerDatabasePatchModelEnumValues() []AutonomousContainerDatabasePatchModelEnum {
 	values := make([]AutonomousContainerDatabasePatchModelEnum, 0)
-	for _, v := range mappingAutonomousContainerDatabasePatchModel {
+	for _, v := range mappingAutonomousContainerDatabasePatchModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousContainerDatabasePatchModelEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabasePatchModelEnum
+func GetAutonomousContainerDatabasePatchModelEnumStringValues() []string {
+	return []string{
+		"RELEASE_UPDATES",
+		"RELEASE_UPDATE_REVISIONS",
+	}
 }
 
 // AutonomousContainerDatabaseRoleEnum Enum with underlying type: string
@@ -239,7 +330,7 @@ const (
 	AutonomousContainerDatabaseRoleDisabledStandby AutonomousContainerDatabaseRoleEnum = "DISABLED_STANDBY"
 )
 
-var mappingAutonomousContainerDatabaseRole = map[string]AutonomousContainerDatabaseRoleEnum{
+var mappingAutonomousContainerDatabaseRoleEnum = map[string]AutonomousContainerDatabaseRoleEnum{
 	"PRIMARY":          AutonomousContainerDatabaseRolePrimary,
 	"STANDBY":          AutonomousContainerDatabaseRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseRoleDisabledStandby,
@@ -248,8 +339,17 @@ var mappingAutonomousContainerDatabaseRole = map[string]AutonomousContainerDatab
 // GetAutonomousContainerDatabaseRoleEnumValues Enumerates the set of values for AutonomousContainerDatabaseRoleEnum
 func GetAutonomousContainerDatabaseRoleEnumValues() []AutonomousContainerDatabaseRoleEnum {
 	values := make([]AutonomousContainerDatabaseRoleEnum, 0)
-	for _, v := range mappingAutonomousContainerDatabaseRole {
+	for _, v := range mappingAutonomousContainerDatabaseRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousContainerDatabaseRoleEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseRoleEnum
+func GetAutonomousContainerDatabaseRoleEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"STANDBY",
+		"DISABLED_STANDBY",
+	}
 }

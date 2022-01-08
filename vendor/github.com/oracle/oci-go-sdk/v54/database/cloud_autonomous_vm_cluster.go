@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CloudAutonomousVmCluster Details of the cloud Autonomous VM cluster.
@@ -91,8 +93,8 @@ type CloudAutonomousVmCluster struct {
 
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
-	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
-	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the
+	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel CloudAutonomousVmClusterLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last maintenance run.
@@ -109,10 +111,52 @@ type CloudAutonomousVmCluster struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// CPU cores available for allocation to Autonomous Databases.
+	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
+
+	// CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
+
+	// The number of Autonomous Container Databases that can be created with the currently available local storage.
+	AvailableContainerDatabases *int `mandatory:"false" json:"availableContainerDatabases"`
+
+	// The total number of Autonomous Container Databases that can be created with the allocated local storage.
+	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
+
+	// The data disk group size available for Autonomous Databases, in TBs.
+	AvailableAutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"availableAutonomousDataStorageSizeInTBs"`
+
+	// The data disk group size allocated for Autonomous Databases, in TBs.
+	AutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"autonomousDataStorageSizeInTBs"`
+
+	// The local node storage allocated in GBs.
+	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
+
+	// The amount of memory (in GBs) enabled per each OCPU core.
+	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 }
 
 func (m CloudAutonomousVmCluster) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CloudAutonomousVmCluster) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCloudAutonomousVmClusterLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCloudAutonomousVmClusterLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCloudAutonomousVmClusterLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCloudAutonomousVmClusterLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CloudAutonomousVmClusterLifecycleStateEnum Enum with underlying type: string
@@ -129,7 +173,7 @@ const (
 	CloudAutonomousVmClusterLifecycleStateMaintenanceInProgress CloudAutonomousVmClusterLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingCloudAutonomousVmClusterLifecycleState = map[string]CloudAutonomousVmClusterLifecycleStateEnum{
+var mappingCloudAutonomousVmClusterLifecycleStateEnum = map[string]CloudAutonomousVmClusterLifecycleStateEnum{
 	"PROVISIONING":            CloudAutonomousVmClusterLifecycleStateProvisioning,
 	"AVAILABLE":               CloudAutonomousVmClusterLifecycleStateAvailable,
 	"UPDATING":                CloudAutonomousVmClusterLifecycleStateUpdating,
@@ -142,10 +186,23 @@ var mappingCloudAutonomousVmClusterLifecycleState = map[string]CloudAutonomousVm
 // GetCloudAutonomousVmClusterLifecycleStateEnumValues Enumerates the set of values for CloudAutonomousVmClusterLifecycleStateEnum
 func GetCloudAutonomousVmClusterLifecycleStateEnumValues() []CloudAutonomousVmClusterLifecycleStateEnum {
 	values := make([]CloudAutonomousVmClusterLifecycleStateEnum, 0)
-	for _, v := range mappingCloudAutonomousVmClusterLifecycleState {
+	for _, v := range mappingCloudAutonomousVmClusterLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudAutonomousVmClusterLifecycleStateEnumStringValues Enumerates the set of values in String for CloudAutonomousVmClusterLifecycleStateEnum
+func GetCloudAutonomousVmClusterLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }
 
 // CloudAutonomousVmClusterLicenseModelEnum Enum with underlying type: string
@@ -157,7 +214,7 @@ const (
 	CloudAutonomousVmClusterLicenseModelBringYourOwnLicense CloudAutonomousVmClusterLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingCloudAutonomousVmClusterLicenseModel = map[string]CloudAutonomousVmClusterLicenseModelEnum{
+var mappingCloudAutonomousVmClusterLicenseModelEnum = map[string]CloudAutonomousVmClusterLicenseModelEnum{
 	"LICENSE_INCLUDED":       CloudAutonomousVmClusterLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": CloudAutonomousVmClusterLicenseModelBringYourOwnLicense,
 }
@@ -165,8 +222,16 @@ var mappingCloudAutonomousVmClusterLicenseModel = map[string]CloudAutonomousVmCl
 // GetCloudAutonomousVmClusterLicenseModelEnumValues Enumerates the set of values for CloudAutonomousVmClusterLicenseModelEnum
 func GetCloudAutonomousVmClusterLicenseModelEnumValues() []CloudAutonomousVmClusterLicenseModelEnum {
 	values := make([]CloudAutonomousVmClusterLicenseModelEnum, 0)
-	for _, v := range mappingCloudAutonomousVmClusterLicenseModel {
+	for _, v := range mappingCloudAutonomousVmClusterLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudAutonomousVmClusterLicenseModelEnumStringValues Enumerates the set of values in String for CloudAutonomousVmClusterLicenseModelEnum
+func GetCloudAutonomousVmClusterLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

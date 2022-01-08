@@ -19,7 +19,7 @@ const (
 	ConfigTypesApdex       ConfigTypesEnum = "APDEX"
 )
 
-var mappingConfigTypes = map[string]ConfigTypesEnum{
+var mappingConfigTypesEnum = map[string]ConfigTypesEnum{
 	"SPAN_FILTER":  ConfigTypesSpanFilter,
 	"METRIC_GROUP": ConfigTypesMetricGroup,
 	"APDEX":        ConfigTypesApdex,
@@ -28,8 +28,17 @@ var mappingConfigTypes = map[string]ConfigTypesEnum{
 // GetConfigTypesEnumValues Enumerates the set of values for ConfigTypesEnum
 func GetConfigTypesEnumValues() []ConfigTypesEnum {
 	values := make([]ConfigTypesEnum, 0)
-	for _, v := range mappingConfigTypes {
+	for _, v := range mappingConfigTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigTypesEnumStringValues Enumerates the set of values in String for ConfigTypesEnum
+func GetConfigTypesEnumStringValues() []string {
+	return []string{
+		"SPAN_FILTER",
+		"METRIC_GROUP",
+		"APDEX",
+	}
 }

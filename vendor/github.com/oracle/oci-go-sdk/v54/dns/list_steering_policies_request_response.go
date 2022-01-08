@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListSteeringPoliciesRequest wrapper for the ListSteeringPolicies operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListSteeringPolicies.go.html to see an example of how to use ListSteeringPoliciesRequest.
 type ListSteeringPoliciesRequest struct {
 
 	// The OCID of the compartment the resource belongs to.
@@ -80,6 +78,10 @@ func (request ListSteeringPoliciesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSteeringPoliciesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -93,6 +95,29 @@ func (request ListSteeringPoliciesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSteeringPoliciesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSteeringPoliciesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSteeringPolicySummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetSteeringPolicySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSteeringPoliciesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSteeringPoliciesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSteeringPoliciesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSteeringPoliciesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSteeringPoliciesScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListSteeringPoliciesScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSteeringPoliciesResponse wrapper for the ListSteeringPolicies operation
@@ -136,7 +161,7 @@ const (
 	ListSteeringPoliciesSortByTemplate    ListSteeringPoliciesSortByEnum = "template"
 )
 
-var mappingListSteeringPoliciesSortBy = map[string]ListSteeringPoliciesSortByEnum{
+var mappingListSteeringPoliciesSortByEnum = map[string]ListSteeringPoliciesSortByEnum{
 	"displayName": ListSteeringPoliciesSortByDisplayname,
 	"timeCreated": ListSteeringPoliciesSortByTimecreated,
 	"template":    ListSteeringPoliciesSortByTemplate,
@@ -145,10 +170,19 @@ var mappingListSteeringPoliciesSortBy = map[string]ListSteeringPoliciesSortByEnu
 // GetListSteeringPoliciesSortByEnumValues Enumerates the set of values for ListSteeringPoliciesSortByEnum
 func GetListSteeringPoliciesSortByEnumValues() []ListSteeringPoliciesSortByEnum {
 	values := make([]ListSteeringPoliciesSortByEnum, 0)
-	for _, v := range mappingListSteeringPoliciesSortBy {
+	for _, v := range mappingListSteeringPoliciesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSteeringPoliciesSortByEnumStringValues Enumerates the set of values in String for ListSteeringPoliciesSortByEnum
+func GetListSteeringPoliciesSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"timeCreated",
+		"template",
+	}
 }
 
 // ListSteeringPoliciesSortOrderEnum Enum with underlying type: string
@@ -160,7 +194,7 @@ const (
 	ListSteeringPoliciesSortOrderDesc ListSteeringPoliciesSortOrderEnum = "DESC"
 )
 
-var mappingListSteeringPoliciesSortOrder = map[string]ListSteeringPoliciesSortOrderEnum{
+var mappingListSteeringPoliciesSortOrderEnum = map[string]ListSteeringPoliciesSortOrderEnum{
 	"ASC":  ListSteeringPoliciesSortOrderAsc,
 	"DESC": ListSteeringPoliciesSortOrderDesc,
 }
@@ -168,10 +202,18 @@ var mappingListSteeringPoliciesSortOrder = map[string]ListSteeringPoliciesSortOr
 // GetListSteeringPoliciesSortOrderEnumValues Enumerates the set of values for ListSteeringPoliciesSortOrderEnum
 func GetListSteeringPoliciesSortOrderEnumValues() []ListSteeringPoliciesSortOrderEnum {
 	values := make([]ListSteeringPoliciesSortOrderEnum, 0)
-	for _, v := range mappingListSteeringPoliciesSortOrder {
+	for _, v := range mappingListSteeringPoliciesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSteeringPoliciesSortOrderEnumStringValues Enumerates the set of values in String for ListSteeringPoliciesSortOrderEnum
+func GetListSteeringPoliciesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListSteeringPoliciesScopeEnum Enum with underlying type: string
@@ -183,7 +225,7 @@ const (
 	ListSteeringPoliciesScopePrivate ListSteeringPoliciesScopeEnum = "PRIVATE"
 )
 
-var mappingListSteeringPoliciesScope = map[string]ListSteeringPoliciesScopeEnum{
+var mappingListSteeringPoliciesScopeEnum = map[string]ListSteeringPoliciesScopeEnum{
 	"GLOBAL":  ListSteeringPoliciesScopeGlobal,
 	"PRIVATE": ListSteeringPoliciesScopePrivate,
 }
@@ -191,8 +233,16 @@ var mappingListSteeringPoliciesScope = map[string]ListSteeringPoliciesScopeEnum{
 // GetListSteeringPoliciesScopeEnumValues Enumerates the set of values for ListSteeringPoliciesScopeEnum
 func GetListSteeringPoliciesScopeEnumValues() []ListSteeringPoliciesScopeEnum {
 	values := make([]ListSteeringPoliciesScopeEnum, 0)
-	for _, v := range mappingListSteeringPoliciesScope {
+	for _, v := range mappingListSteeringPoliciesScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSteeringPoliciesScopeEnumStringValues Enumerates the set of values in String for ListSteeringPoliciesScopeEnum
+func GetListSteeringPoliciesScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

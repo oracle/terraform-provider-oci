@@ -5,15 +5,13 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListBucketsRequest wrapper for the ListBuckets operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListBuckets.go.html to see an example of how to use ListBucketsRequest.
 type ListBucketsRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -32,8 +30,7 @@ type ListBucketsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Bucket summary in list of buckets includes the 'namespace', 'name', 'compartmentId', 'createdBy', 'timeCreated',
-	// and 'etag' fields. This parameter can also include 'tags' (freeformTags and definedTags). The only supported value
-	// of this parameter is 'tags' for now. Example 'tags'.
+	// and 'etag' fields. This parameter can also include 'tags' (freeformTags and definedTags). The only supported value of this parameter is 'tags' for now. Example 'tags'.
 	Fields []ListBucketsFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"csv"`
 
 	// The client request ID for tracing.
@@ -51,6 +48,10 @@ func (request ListBucketsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBucketsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +65,23 @@ func (request ListBucketsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBucketsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBucketsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingListBucketsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListBucketsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBucketsResponse wrapper for the ListBuckets operation
@@ -109,15 +127,22 @@ const (
 	ListBucketsFieldsTags ListBucketsFieldsEnum = "tags"
 )
 
-var mappingListBucketsFields = map[string]ListBucketsFieldsEnum{
+var mappingListBucketsFieldsEnum = map[string]ListBucketsFieldsEnum{
 	"tags": ListBucketsFieldsTags,
 }
 
 // GetListBucketsFieldsEnumValues Enumerates the set of values for ListBucketsFieldsEnum
 func GetListBucketsFieldsEnumValues() []ListBucketsFieldsEnum {
 	values := make([]ListBucketsFieldsEnum, 0)
-	for _, v := range mappingListBucketsFields {
+	for _, v := range mappingListBucketsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBucketsFieldsEnumStringValues Enumerates the set of values in String for ListBucketsFieldsEnum
+func GetListBucketsFieldsEnumStringValues() []string {
+	return []string{
+		"tags",
+	}
 }

@@ -20,7 +20,7 @@ const (
 	IsEligibleForInstallationUnknown        IsEligibleForInstallationEnum = "UNKNOWN"
 )
 
-var mappingIsEligibleForInstallation = map[string]IsEligibleForInstallationEnum{
+var mappingIsEligibleForInstallationEnum = map[string]IsEligibleForInstallationEnum{
 	"INSTALLABLE":     IsEligibleForInstallationInstallable,
 	"NOT_INSTALLABLE": IsEligibleForInstallationNotInstallable,
 	"UNKNOWN":         IsEligibleForInstallationUnknown,
@@ -29,8 +29,17 @@ var mappingIsEligibleForInstallation = map[string]IsEligibleForInstallationEnum{
 // GetIsEligibleForInstallationEnumValues Enumerates the set of values for IsEligibleForInstallationEnum
 func GetIsEligibleForInstallationEnumValues() []IsEligibleForInstallationEnum {
 	values := make([]IsEligibleForInstallationEnum, 0)
-	for _, v := range mappingIsEligibleForInstallation {
+	for _, v := range mappingIsEligibleForInstallationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIsEligibleForInstallationEnumStringValues Enumerates the set of values in String for IsEligibleForInstallationEnum
+func GetIsEligibleForInstallationEnumStringValues() []string {
+	return []string{
+		"INSTALLABLE",
+		"NOT_INSTALLABLE",
+		"UNKNOWN",
+	}
 }

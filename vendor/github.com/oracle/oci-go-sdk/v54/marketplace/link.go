@@ -4,13 +4,15 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Link The model for links.
@@ -25,4 +27,19 @@ type Link struct {
 
 func (m Link) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Link) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLinkEnumEnum[string(m.Rel)]; !ok && m.Rel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Rel: %s. Supported values are: %s.", m.Rel, strings.Join(GetLinkEnumEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

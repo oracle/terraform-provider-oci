@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // CreateSteeringPolicyRequest wrapper for the CreateSteeringPolicy operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateSteeringPolicy.go.html to see an example of how to use CreateSteeringPolicyRequest.
 type CreateSteeringPolicyRequest struct {
 
 	// Details for creating a new steering policy.
@@ -47,6 +45,10 @@ func (request CreateSteeringPolicyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CreateSteeringPolicyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -60,6 +62,20 @@ func (request CreateSteeringPolicyRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateSteeringPolicyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateSteeringPolicyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateSteeringPolicyScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetCreateSteeringPolicyScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateSteeringPolicyResponse wrapper for the CreateSteeringPolicy operation
@@ -102,7 +118,7 @@ const (
 	CreateSteeringPolicyScopePrivate CreateSteeringPolicyScopeEnum = "PRIVATE"
 )
 
-var mappingCreateSteeringPolicyScope = map[string]CreateSteeringPolicyScopeEnum{
+var mappingCreateSteeringPolicyScopeEnum = map[string]CreateSteeringPolicyScopeEnum{
 	"GLOBAL":  CreateSteeringPolicyScopeGlobal,
 	"PRIVATE": CreateSteeringPolicyScopePrivate,
 }
@@ -110,8 +126,16 @@ var mappingCreateSteeringPolicyScope = map[string]CreateSteeringPolicyScopeEnum{
 // GetCreateSteeringPolicyScopeEnumValues Enumerates the set of values for CreateSteeringPolicyScopeEnum
 func GetCreateSteeringPolicyScopeEnumValues() []CreateSteeringPolicyScopeEnum {
 	values := make([]CreateSteeringPolicyScopeEnum, 0)
-	for _, v := range mappingCreateSteeringPolicyScope {
+	for _, v := range mappingCreateSteeringPolicyScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateSteeringPolicyScopeEnumStringValues Enumerates the set of values in String for CreateSteeringPolicyScopeEnum
+func GetCreateSteeringPolicyScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

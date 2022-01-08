@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListUserDefinedFunctionsRequest wrapper for the ListUserDefinedFunctions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListUserDefinedFunctions.go.html to see an example of how to use ListUserDefinedFunctionsRequest.
 type ListUserDefinedFunctionsRequest struct {
 
 	// The workspace ID.
@@ -60,6 +58,10 @@ func (request ListUserDefinedFunctionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListUserDefinedFunctionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,23 @@ func (request ListUserDefinedFunctionsRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListUserDefinedFunctionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListUserDefinedFunctionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListUserDefinedFunctionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListUserDefinedFunctionsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUserDefinedFunctionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListUserDefinedFunctionsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListUserDefinedFunctionsResponse wrapper for the ListUserDefinedFunctions operation
@@ -116,7 +135,7 @@ const (
 	ListUserDefinedFunctionsSortOrderDesc ListUserDefinedFunctionsSortOrderEnum = "DESC"
 )
 
-var mappingListUserDefinedFunctionsSortOrder = map[string]ListUserDefinedFunctionsSortOrderEnum{
+var mappingListUserDefinedFunctionsSortOrderEnum = map[string]ListUserDefinedFunctionsSortOrderEnum{
 	"ASC":  ListUserDefinedFunctionsSortOrderAsc,
 	"DESC": ListUserDefinedFunctionsSortOrderDesc,
 }
@@ -124,10 +143,18 @@ var mappingListUserDefinedFunctionsSortOrder = map[string]ListUserDefinedFunctio
 // GetListUserDefinedFunctionsSortOrderEnumValues Enumerates the set of values for ListUserDefinedFunctionsSortOrderEnum
 func GetListUserDefinedFunctionsSortOrderEnumValues() []ListUserDefinedFunctionsSortOrderEnum {
 	values := make([]ListUserDefinedFunctionsSortOrderEnum, 0)
-	for _, v := range mappingListUserDefinedFunctionsSortOrder {
+	for _, v := range mappingListUserDefinedFunctionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserDefinedFunctionsSortOrderEnumStringValues Enumerates the set of values in String for ListUserDefinedFunctionsSortOrderEnum
+func GetListUserDefinedFunctionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListUserDefinedFunctionsSortByEnum Enum with underlying type: string
@@ -139,7 +166,7 @@ const (
 	ListUserDefinedFunctionsSortByDisplayName ListUserDefinedFunctionsSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListUserDefinedFunctionsSortBy = map[string]ListUserDefinedFunctionsSortByEnum{
+var mappingListUserDefinedFunctionsSortByEnum = map[string]ListUserDefinedFunctionsSortByEnum{
 	"TIME_CREATED": ListUserDefinedFunctionsSortByTimeCreated,
 	"DISPLAY_NAME": ListUserDefinedFunctionsSortByDisplayName,
 }
@@ -147,8 +174,16 @@ var mappingListUserDefinedFunctionsSortBy = map[string]ListUserDefinedFunctionsS
 // GetListUserDefinedFunctionsSortByEnumValues Enumerates the set of values for ListUserDefinedFunctionsSortByEnum
 func GetListUserDefinedFunctionsSortByEnumValues() []ListUserDefinedFunctionsSortByEnum {
 	values := make([]ListUserDefinedFunctionsSortByEnum, 0)
-	for _, v := range mappingListUserDefinedFunctionsSortBy {
+	for _, v := range mappingListUserDefinedFunctionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserDefinedFunctionsSortByEnumStringValues Enumerates the set of values in String for ListUserDefinedFunctionsSortByEnum
+func GetListUserDefinedFunctionsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

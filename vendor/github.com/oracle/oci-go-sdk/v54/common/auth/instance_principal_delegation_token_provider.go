@@ -6,6 +6,7 @@ package auth
 import (
 	"crypto/rsa"
 	"fmt"
+
 	"github.com/oracle/oci-go-sdk/v54/common"
 )
 
@@ -34,7 +35,7 @@ func InstancePrincipalDelegationTokenConfigurationProviderForRegion(delegationTo
 func newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken *string, region common.Region, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher,
 	error)) (common.ConfigurationProvider, error) {
 
-	keyProvider, err := newInstancePrincipalKeyProvider(modifier)
+	keyProvider, err := newInstancePrincipalKeyProvider(modifier, "")
 	if err != nil {
 		return nil, fmt.Errorf("failed to create a new key provider for instance principal: %s", err.Error())
 	}

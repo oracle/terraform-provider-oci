@@ -5,15 +5,13 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListSystemPrivilegesRequest wrapper for the ListSystemPrivileges operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSystemPrivileges.go.html to see an example of how to use ListSystemPrivilegesRequest.
 type ListSystemPrivilegesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
@@ -54,6 +52,10 @@ func (request ListSystemPrivilegesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSystemPrivilegesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +69,23 @@ func (request ListSystemPrivilegesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSystemPrivilegesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSystemPrivilegesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSystemPrivilegesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSystemPrivilegesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSystemPrivilegesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSystemPrivilegesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSystemPrivilegesResponse wrapper for the ListSystemPrivileges operation
@@ -105,17 +124,24 @@ const (
 	ListSystemPrivilegesSortByName ListSystemPrivilegesSortByEnum = "NAME"
 )
 
-var mappingListSystemPrivilegesSortBy = map[string]ListSystemPrivilegesSortByEnum{
+var mappingListSystemPrivilegesSortByEnum = map[string]ListSystemPrivilegesSortByEnum{
 	"NAME": ListSystemPrivilegesSortByName,
 }
 
 // GetListSystemPrivilegesSortByEnumValues Enumerates the set of values for ListSystemPrivilegesSortByEnum
 func GetListSystemPrivilegesSortByEnumValues() []ListSystemPrivilegesSortByEnum {
 	values := make([]ListSystemPrivilegesSortByEnum, 0)
-	for _, v := range mappingListSystemPrivilegesSortBy {
+	for _, v := range mappingListSystemPrivilegesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSystemPrivilegesSortByEnumStringValues Enumerates the set of values in String for ListSystemPrivilegesSortByEnum
+func GetListSystemPrivilegesSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+	}
 }
 
 // ListSystemPrivilegesSortOrderEnum Enum with underlying type: string
@@ -127,7 +153,7 @@ const (
 	ListSystemPrivilegesSortOrderDesc ListSystemPrivilegesSortOrderEnum = "DESC"
 )
 
-var mappingListSystemPrivilegesSortOrder = map[string]ListSystemPrivilegesSortOrderEnum{
+var mappingListSystemPrivilegesSortOrderEnum = map[string]ListSystemPrivilegesSortOrderEnum{
 	"ASC":  ListSystemPrivilegesSortOrderAsc,
 	"DESC": ListSystemPrivilegesSortOrderDesc,
 }
@@ -135,8 +161,16 @@ var mappingListSystemPrivilegesSortOrder = map[string]ListSystemPrivilegesSortOr
 // GetListSystemPrivilegesSortOrderEnumValues Enumerates the set of values for ListSystemPrivilegesSortOrderEnum
 func GetListSystemPrivilegesSortOrderEnumValues() []ListSystemPrivilegesSortOrderEnum {
 	values := make([]ListSystemPrivilegesSortOrderEnum, 0)
-	for _, v := range mappingListSystemPrivilegesSortOrder {
+	for _, v := range mappingListSystemPrivilegesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSystemPrivilegesSortOrderEnumStringValues Enumerates the set of values in String for ListSystemPrivilegesSortOrderEnum
+func GetListSystemPrivilegesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // JsChallenge The JavaScript challenge settings. JavaScript Challenge is the function to filter abnormal or malicious bots and allow access to real clients.
@@ -47,6 +49,21 @@ func (m JsChallenge) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m JsChallenge) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingJsChallengeActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetJsChallengeActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // JsChallengeActionEnum Enum with underlying type: string
 type JsChallengeActionEnum string
 
@@ -56,7 +73,7 @@ const (
 	JsChallengeActionBlock  JsChallengeActionEnum = "BLOCK"
 )
 
-var mappingJsChallengeAction = map[string]JsChallengeActionEnum{
+var mappingJsChallengeActionEnum = map[string]JsChallengeActionEnum{
 	"DETECT": JsChallengeActionDetect,
 	"BLOCK":  JsChallengeActionBlock,
 }
@@ -64,8 +81,16 @@ var mappingJsChallengeAction = map[string]JsChallengeActionEnum{
 // GetJsChallengeActionEnumValues Enumerates the set of values for JsChallengeActionEnum
 func GetJsChallengeActionEnumValues() []JsChallengeActionEnum {
 	values := make([]JsChallengeActionEnum, 0)
-	for _, v := range mappingJsChallengeAction {
+	for _, v := range mappingJsChallengeActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJsChallengeActionEnumStringValues Enumerates the set of values in String for JsChallengeActionEnum
+func GetJsChallengeActionEnumStringValues() []string {
+	return []string{
+		"DETECT",
+		"BLOCK",
+	}
 }

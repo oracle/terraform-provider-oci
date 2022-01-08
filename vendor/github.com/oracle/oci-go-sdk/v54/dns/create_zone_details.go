@@ -12,7 +12,9 @@ package dns
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateZoneDetails The body for defining a new zone.
@@ -43,6 +45,10 @@ type CreateZoneDetails struct {
 	// External master servers for the zone. `externalMasters` becomes a
 	// required parameter when the `zoneType` value is `SECONDARY`.
 	ExternalMasters []ExternalMaster `mandatory:"false" json:"externalMasters"`
+
+	// External secondary servers for the zone.
+	// This field is currently not supported when `zoneType` is `SECONDARY` or `scope` is `PRIVATE`.
+	ExternalDownstreams []ExternalDownstream `mandatory:"false" json:"externalDownstreams"`
 
 	// The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL
 	// zones.
@@ -76,6 +82,24 @@ func (m CreateZoneDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateZoneDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateZoneDetailsZoneTypeEnum[string(m.ZoneType)]; !ok && m.ZoneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ZoneType: %s. Supported values are: %s.", m.ZoneType, strings.Join(GetCreateZoneDetailsZoneTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingScopeEnum[string(m.Scope)]; !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m CreateZoneDetails) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeCreateZoneDetails CreateZoneDetails
@@ -99,7 +123,7 @@ const (
 	CreateZoneDetailsZoneTypeSecondary CreateZoneDetailsZoneTypeEnum = "SECONDARY"
 )
 
-var mappingCreateZoneDetailsZoneType = map[string]CreateZoneDetailsZoneTypeEnum{
+var mappingCreateZoneDetailsZoneTypeEnum = map[string]CreateZoneDetailsZoneTypeEnum{
 	"PRIMARY":   CreateZoneDetailsZoneTypePrimary,
 	"SECONDARY": CreateZoneDetailsZoneTypeSecondary,
 }
@@ -107,8 +131,16 @@ var mappingCreateZoneDetailsZoneType = map[string]CreateZoneDetailsZoneTypeEnum{
 // GetCreateZoneDetailsZoneTypeEnumValues Enumerates the set of values for CreateZoneDetailsZoneTypeEnum
 func GetCreateZoneDetailsZoneTypeEnumValues() []CreateZoneDetailsZoneTypeEnum {
 	values := make([]CreateZoneDetailsZoneTypeEnum, 0)
-	for _, v := range mappingCreateZoneDetailsZoneType {
+	for _, v := range mappingCreateZoneDetailsZoneTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateZoneDetailsZoneTypeEnumStringValues Enumerates the set of values in String for CreateZoneDetailsZoneTypeEnum
+func GetCreateZoneDetailsZoneTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"SECONDARY",
+	}
 }

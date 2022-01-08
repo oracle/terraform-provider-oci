@@ -12,7 +12,9 @@
 package monitoring
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Alarm The properties that define an alarm.
@@ -154,6 +156,27 @@ func (m Alarm) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Alarm) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAlarmSeverityEnum[string(m.Severity)]; !ok && m.Severity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetAlarmSeverityEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAlarmLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAlarmLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAlarmMessageFormatEnum[string(m.MessageFormat)]; !ok && m.MessageFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MessageFormat: %s. Supported values are: %s.", m.MessageFormat, strings.Join(GetAlarmMessageFormatEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AlarmSeverityEnum Enum with underlying type: string
 type AlarmSeverityEnum string
 
@@ -165,7 +188,7 @@ const (
 	AlarmSeverityInfo     AlarmSeverityEnum = "INFO"
 )
 
-var mappingAlarmSeverity = map[string]AlarmSeverityEnum{
+var mappingAlarmSeverityEnum = map[string]AlarmSeverityEnum{
 	"CRITICAL": AlarmSeverityCritical,
 	"ERROR":    AlarmSeverityError,
 	"WARNING":  AlarmSeverityWarning,
@@ -175,10 +198,20 @@ var mappingAlarmSeverity = map[string]AlarmSeverityEnum{
 // GetAlarmSeverityEnumValues Enumerates the set of values for AlarmSeverityEnum
 func GetAlarmSeverityEnumValues() []AlarmSeverityEnum {
 	values := make([]AlarmSeverityEnum, 0)
-	for _, v := range mappingAlarmSeverity {
+	for _, v := range mappingAlarmSeverityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAlarmSeverityEnumStringValues Enumerates the set of values in String for AlarmSeverityEnum
+func GetAlarmSeverityEnumStringValues() []string {
+	return []string{
+		"CRITICAL",
+		"ERROR",
+		"WARNING",
+		"INFO",
+	}
 }
 
 // AlarmMessageFormatEnum Enum with underlying type: string
@@ -191,7 +224,7 @@ const (
 	AlarmMessageFormatOnsOptimized AlarmMessageFormatEnum = "ONS_OPTIMIZED"
 )
 
-var mappingAlarmMessageFormat = map[string]AlarmMessageFormatEnum{
+var mappingAlarmMessageFormatEnum = map[string]AlarmMessageFormatEnum{
 	"RAW":           AlarmMessageFormatRaw,
 	"PRETTY_JSON":   AlarmMessageFormatPrettyJson,
 	"ONS_OPTIMIZED": AlarmMessageFormatOnsOptimized,
@@ -200,10 +233,19 @@ var mappingAlarmMessageFormat = map[string]AlarmMessageFormatEnum{
 // GetAlarmMessageFormatEnumValues Enumerates the set of values for AlarmMessageFormatEnum
 func GetAlarmMessageFormatEnumValues() []AlarmMessageFormatEnum {
 	values := make([]AlarmMessageFormatEnum, 0)
-	for _, v := range mappingAlarmMessageFormat {
+	for _, v := range mappingAlarmMessageFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAlarmMessageFormatEnumStringValues Enumerates the set of values in String for AlarmMessageFormatEnum
+func GetAlarmMessageFormatEnumStringValues() []string {
+	return []string{
+		"RAW",
+		"PRETTY_JSON",
+		"ONS_OPTIMIZED",
+	}
 }
 
 // AlarmLifecycleStateEnum Enum with underlying type: string
@@ -216,7 +258,7 @@ const (
 	AlarmLifecycleStateDeleted  AlarmLifecycleStateEnum = "DELETED"
 )
 
-var mappingAlarmLifecycleState = map[string]AlarmLifecycleStateEnum{
+var mappingAlarmLifecycleStateEnum = map[string]AlarmLifecycleStateEnum{
 	"ACTIVE":   AlarmLifecycleStateActive,
 	"DELETING": AlarmLifecycleStateDeleting,
 	"DELETED":  AlarmLifecycleStateDeleted,
@@ -225,8 +267,17 @@ var mappingAlarmLifecycleState = map[string]AlarmLifecycleStateEnum{
 // GetAlarmLifecycleStateEnumValues Enumerates the set of values for AlarmLifecycleStateEnum
 func GetAlarmLifecycleStateEnumValues() []AlarmLifecycleStateEnum {
 	values := make([]AlarmLifecycleStateEnum, 0)
-	for _, v := range mappingAlarmLifecycleState {
+	for _, v := range mappingAlarmLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAlarmLifecycleStateEnumStringValues Enumerates the set of values in String for AlarmLifecycleStateEnum
+func GetAlarmLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

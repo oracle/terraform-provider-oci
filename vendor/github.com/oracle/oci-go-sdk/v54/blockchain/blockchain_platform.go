@@ -10,7 +10,9 @@
 package blockchain
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BlockchainPlatform Blockchain Platform Instance Description.
@@ -96,6 +98,33 @@ func (m BlockchainPlatform) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BlockchainPlatform) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBlockchainPlatformPlatformRoleEnum[string(m.PlatformRole)]; !ok && m.PlatformRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformRole: %s. Supported values are: %s.", m.PlatformRole, strings.Join(GetBlockchainPlatformPlatformRoleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBlockchainPlatformComputeShapeEnum[string(m.ComputeShape)]; !ok && m.ComputeShape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeShape: %s. Supported values are: %s.", m.ComputeShape, strings.Join(GetBlockchainPlatformComputeShapeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingBlockchainPlatformPlatformShapeTypeEnum[string(m.PlatformShapeType)]; !ok && m.PlatformShapeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformShapeType: %s. Supported values are: %s.", m.PlatformShapeType, strings.Join(GetBlockchainPlatformPlatformShapeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBlockchainPlatformLoadBalancerShapeEnum[string(m.LoadBalancerShape)]; !ok && m.LoadBalancerShape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LoadBalancerShape: %s. Supported values are: %s.", m.LoadBalancerShape, strings.Join(GetBlockchainPlatformLoadBalancerShapeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBlockchainPlatformLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBlockchainPlatformLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BlockchainPlatformPlatformRoleEnum Enum with underlying type: string
 type BlockchainPlatformPlatformRoleEnum string
 
@@ -105,7 +134,7 @@ const (
 	BlockchainPlatformPlatformRoleParticipant BlockchainPlatformPlatformRoleEnum = "PARTICIPANT"
 )
 
-var mappingBlockchainPlatformPlatformRole = map[string]BlockchainPlatformPlatformRoleEnum{
+var mappingBlockchainPlatformPlatformRoleEnum = map[string]BlockchainPlatformPlatformRoleEnum{
 	"FOUNDER":     BlockchainPlatformPlatformRoleFounder,
 	"PARTICIPANT": BlockchainPlatformPlatformRoleParticipant,
 }
@@ -113,10 +142,18 @@ var mappingBlockchainPlatformPlatformRole = map[string]BlockchainPlatformPlatfor
 // GetBlockchainPlatformPlatformRoleEnumValues Enumerates the set of values for BlockchainPlatformPlatformRoleEnum
 func GetBlockchainPlatformPlatformRoleEnumValues() []BlockchainPlatformPlatformRoleEnum {
 	values := make([]BlockchainPlatformPlatformRoleEnum, 0)
-	for _, v := range mappingBlockchainPlatformPlatformRole {
+	for _, v := range mappingBlockchainPlatformPlatformRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBlockchainPlatformPlatformRoleEnumStringValues Enumerates the set of values in String for BlockchainPlatformPlatformRoleEnum
+func GetBlockchainPlatformPlatformRoleEnumStringValues() []string {
+	return []string{
+		"FOUNDER",
+		"PARTICIPANT",
+	}
 }
 
 // BlockchainPlatformComputeShapeEnum Enum with underlying type: string
@@ -132,7 +169,7 @@ const (
 	BlockchainPlatformComputeShapeEnterpriseCustom     BlockchainPlatformComputeShapeEnum = "ENTERPRISE_CUSTOM"
 )
 
-var mappingBlockchainPlatformComputeShape = map[string]BlockchainPlatformComputeShapeEnum{
+var mappingBlockchainPlatformComputeShapeEnum = map[string]BlockchainPlatformComputeShapeEnum{
 	"STANDARD":               BlockchainPlatformComputeShapeStandard,
 	"ENTERPRISE_SMALL":       BlockchainPlatformComputeShapeEnterpriseSmall,
 	"ENTERPRISE_MEDIUM":      BlockchainPlatformComputeShapeEnterpriseMedium,
@@ -144,10 +181,22 @@ var mappingBlockchainPlatformComputeShape = map[string]BlockchainPlatformCompute
 // GetBlockchainPlatformComputeShapeEnumValues Enumerates the set of values for BlockchainPlatformComputeShapeEnum
 func GetBlockchainPlatformComputeShapeEnumValues() []BlockchainPlatformComputeShapeEnum {
 	values := make([]BlockchainPlatformComputeShapeEnum, 0)
-	for _, v := range mappingBlockchainPlatformComputeShape {
+	for _, v := range mappingBlockchainPlatformComputeShapeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBlockchainPlatformComputeShapeEnumStringValues Enumerates the set of values in String for BlockchainPlatformComputeShapeEnum
+func GetBlockchainPlatformComputeShapeEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"ENTERPRISE_SMALL",
+		"ENTERPRISE_MEDIUM",
+		"ENTERPRISE_LARGE",
+		"ENTERPRISE_EXTRA_LARGE",
+		"ENTERPRISE_CUSTOM",
+	}
 }
 
 // BlockchainPlatformPlatformShapeTypeEnum Enum with underlying type: string
@@ -159,7 +208,7 @@ const (
 	BlockchainPlatformPlatformShapeTypeCustom  BlockchainPlatformPlatformShapeTypeEnum = "CUSTOM"
 )
 
-var mappingBlockchainPlatformPlatformShapeType = map[string]BlockchainPlatformPlatformShapeTypeEnum{
+var mappingBlockchainPlatformPlatformShapeTypeEnum = map[string]BlockchainPlatformPlatformShapeTypeEnum{
 	"DEFAULT": BlockchainPlatformPlatformShapeTypeDefault,
 	"CUSTOM":  BlockchainPlatformPlatformShapeTypeCustom,
 }
@@ -167,10 +216,18 @@ var mappingBlockchainPlatformPlatformShapeType = map[string]BlockchainPlatformPl
 // GetBlockchainPlatformPlatformShapeTypeEnumValues Enumerates the set of values for BlockchainPlatformPlatformShapeTypeEnum
 func GetBlockchainPlatformPlatformShapeTypeEnumValues() []BlockchainPlatformPlatformShapeTypeEnum {
 	values := make([]BlockchainPlatformPlatformShapeTypeEnum, 0)
-	for _, v := range mappingBlockchainPlatformPlatformShapeType {
+	for _, v := range mappingBlockchainPlatformPlatformShapeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBlockchainPlatformPlatformShapeTypeEnumStringValues Enumerates the set of values in String for BlockchainPlatformPlatformShapeTypeEnum
+func GetBlockchainPlatformPlatformShapeTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+		"CUSTOM",
+	}
 }
 
 // BlockchainPlatformLoadBalancerShapeEnum Enum with underlying type: string
@@ -182,7 +239,7 @@ const (
 	BlockchainPlatformLoadBalancerShape400Mbps BlockchainPlatformLoadBalancerShapeEnum = "LB_400_MBPS"
 )
 
-var mappingBlockchainPlatformLoadBalancerShape = map[string]BlockchainPlatformLoadBalancerShapeEnum{
+var mappingBlockchainPlatformLoadBalancerShapeEnum = map[string]BlockchainPlatformLoadBalancerShapeEnum{
 	"LB_100_MBPS": BlockchainPlatformLoadBalancerShape100Mbps,
 	"LB_400_MBPS": BlockchainPlatformLoadBalancerShape400Mbps,
 }
@@ -190,10 +247,18 @@ var mappingBlockchainPlatformLoadBalancerShape = map[string]BlockchainPlatformLo
 // GetBlockchainPlatformLoadBalancerShapeEnumValues Enumerates the set of values for BlockchainPlatformLoadBalancerShapeEnum
 func GetBlockchainPlatformLoadBalancerShapeEnumValues() []BlockchainPlatformLoadBalancerShapeEnum {
 	values := make([]BlockchainPlatformLoadBalancerShapeEnum, 0)
-	for _, v := range mappingBlockchainPlatformLoadBalancerShape {
+	for _, v := range mappingBlockchainPlatformLoadBalancerShapeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBlockchainPlatformLoadBalancerShapeEnumStringValues Enumerates the set of values in String for BlockchainPlatformLoadBalancerShapeEnum
+func GetBlockchainPlatformLoadBalancerShapeEnumStringValues() []string {
+	return []string{
+		"LB_100_MBPS",
+		"LB_400_MBPS",
+	}
 }
 
 // BlockchainPlatformLifecycleStateEnum Enum with underlying type: string
@@ -211,7 +276,7 @@ const (
 	BlockchainPlatformLifecycleStateFailed   BlockchainPlatformLifecycleStateEnum = "FAILED"
 )
 
-var mappingBlockchainPlatformLifecycleState = map[string]BlockchainPlatformLifecycleStateEnum{
+var mappingBlockchainPlatformLifecycleStateEnum = map[string]BlockchainPlatformLifecycleStateEnum{
 	"CREATING": BlockchainPlatformLifecycleStateCreating,
 	"UPDATING": BlockchainPlatformLifecycleStateUpdating,
 	"ACTIVE":   BlockchainPlatformLifecycleStateActive,
@@ -225,8 +290,22 @@ var mappingBlockchainPlatformLifecycleState = map[string]BlockchainPlatformLifec
 // GetBlockchainPlatformLifecycleStateEnumValues Enumerates the set of values for BlockchainPlatformLifecycleStateEnum
 func GetBlockchainPlatformLifecycleStateEnumValues() []BlockchainPlatformLifecycleStateEnum {
 	values := make([]BlockchainPlatformLifecycleStateEnum, 0)
-	for _, v := range mappingBlockchainPlatformLifecycleState {
+	for _, v := range mappingBlockchainPlatformLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBlockchainPlatformLifecycleStateEnumStringValues Enumerates the set of values in String for BlockchainPlatformLifecycleStateEnum
+func GetBlockchainPlatformLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"SCALING",
+		"INACTIVE",
+		"FAILED",
+	}
 }

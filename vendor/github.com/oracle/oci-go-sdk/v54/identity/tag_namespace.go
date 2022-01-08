@@ -4,17 +4,19 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TagNamespace A managed container for defined tags. A tag namespace is unique in a tenancy. For more information,
-// see Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Identity/Concepts/taggingoverview.htm).
+// see Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values
 // using the API.
 type TagNamespace struct {
@@ -32,7 +34,7 @@ type TagNamespace struct {
 	Description *string `mandatory:"true" json:"description"`
 
 	// Whether the tag namespace is retired.
-	// See Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
+	// See Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm#retiringkeys).
 	IsRetired *bool `mandatory:"true" json:"isRetired"`
 
 	// Date and time the tagNamespace was created, in the format defined by RFC3339.
@@ -57,6 +59,21 @@ func (m TagNamespace) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TagNamespace) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTagNamespaceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTagNamespaceLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TagNamespaceLifecycleStateEnum Enum with underlying type: string
 type TagNamespaceLifecycleStateEnum string
 
@@ -68,7 +85,7 @@ const (
 	TagNamespaceLifecycleStateDeleted  TagNamespaceLifecycleStateEnum = "DELETED"
 )
 
-var mappingTagNamespaceLifecycleState = map[string]TagNamespaceLifecycleStateEnum{
+var mappingTagNamespaceLifecycleStateEnum = map[string]TagNamespaceLifecycleStateEnum{
 	"ACTIVE":   TagNamespaceLifecycleStateActive,
 	"INACTIVE": TagNamespaceLifecycleStateInactive,
 	"DELETING": TagNamespaceLifecycleStateDeleting,
@@ -78,8 +95,18 @@ var mappingTagNamespaceLifecycleState = map[string]TagNamespaceLifecycleStateEnu
 // GetTagNamespaceLifecycleStateEnumValues Enumerates the set of values for TagNamespaceLifecycleStateEnum
 func GetTagNamespaceLifecycleStateEnumValues() []TagNamespaceLifecycleStateEnum {
 	values := make([]TagNamespaceLifecycleStateEnum, 0)
-	for _, v := range mappingTagNamespaceLifecycleState {
+	for _, v := range mappingTagNamespaceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTagNamespaceLifecycleStateEnumStringValues Enumerates the set of values in String for TagNamespaceLifecycleStateEnum
+func GetTagNamespaceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

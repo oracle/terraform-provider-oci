@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // EstimateReleaseDataSizeRequest wrapper for the EstimateReleaseDataSize operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EstimateReleaseDataSize.go.html to see an example of how to use EstimateReleaseDataSizeRequest.
 type EstimateReleaseDataSizeRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -37,6 +35,10 @@ func (request EstimateReleaseDataSizeRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request EstimateReleaseDataSizeRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -50,6 +52,17 @@ func (request EstimateReleaseDataSizeRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request EstimateReleaseDataSizeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request EstimateReleaseDataSizeRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // EstimateReleaseDataSizeResponse wrapper for the EstimateReleaseDataSize operation

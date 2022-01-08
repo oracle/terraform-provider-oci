@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // View An OCI DNS view.
@@ -63,6 +65,21 @@ func (m View) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m View) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingViewLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetViewLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ViewLifecycleStateEnum Enum with underlying type: string
 type ViewLifecycleStateEnum string
 
@@ -74,7 +91,7 @@ const (
 	ViewLifecycleStateUpdating ViewLifecycleStateEnum = "UPDATING"
 )
 
-var mappingViewLifecycleState = map[string]ViewLifecycleStateEnum{
+var mappingViewLifecycleStateEnum = map[string]ViewLifecycleStateEnum{
 	"ACTIVE":   ViewLifecycleStateActive,
 	"DELETED":  ViewLifecycleStateDeleted,
 	"DELETING": ViewLifecycleStateDeleting,
@@ -84,8 +101,18 @@ var mappingViewLifecycleState = map[string]ViewLifecycleStateEnum{
 // GetViewLifecycleStateEnumValues Enumerates the set of values for ViewLifecycleStateEnum
 func GetViewLifecycleStateEnumValues() []ViewLifecycleStateEnum {
 	values := make([]ViewLifecycleStateEnum, 0)
-	for _, v := range mappingViewLifecycleState {
+	for _, v := range mappingViewLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetViewLifecycleStateEnumStringValues Enumerates the set of values in String for ViewLifecycleStateEnum
+func GetViewLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+		"DELETING",
+		"UPDATING",
+	}
 }

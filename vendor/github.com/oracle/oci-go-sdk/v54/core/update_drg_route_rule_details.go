@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateDrgRouteRuleDetails Details used to update a route rule in the DRG route table.
@@ -43,6 +45,21 @@ func (m UpdateDrgRouteRuleDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateDrgRouteRuleDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateDrgRouteRuleDetailsDestinationTypeEnum[string(m.DestinationType)]; !ok && m.DestinationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DestinationType: %s. Supported values are: %s.", m.DestinationType, strings.Join(GetUpdateDrgRouteRuleDetailsDestinationTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateDrgRouteRuleDetailsDestinationTypeEnum Enum with underlying type: string
 type UpdateDrgRouteRuleDetailsDestinationTypeEnum string
 
@@ -51,15 +68,22 @@ const (
 	UpdateDrgRouteRuleDetailsDestinationTypeCidrBlock UpdateDrgRouteRuleDetailsDestinationTypeEnum = "CIDR_BLOCK"
 )
 
-var mappingUpdateDrgRouteRuleDetailsDestinationType = map[string]UpdateDrgRouteRuleDetailsDestinationTypeEnum{
+var mappingUpdateDrgRouteRuleDetailsDestinationTypeEnum = map[string]UpdateDrgRouteRuleDetailsDestinationTypeEnum{
 	"CIDR_BLOCK": UpdateDrgRouteRuleDetailsDestinationTypeCidrBlock,
 }
 
 // GetUpdateDrgRouteRuleDetailsDestinationTypeEnumValues Enumerates the set of values for UpdateDrgRouteRuleDetailsDestinationTypeEnum
 func GetUpdateDrgRouteRuleDetailsDestinationTypeEnumValues() []UpdateDrgRouteRuleDetailsDestinationTypeEnum {
 	values := make([]UpdateDrgRouteRuleDetailsDestinationTypeEnum, 0)
-	for _, v := range mappingUpdateDrgRouteRuleDetailsDestinationType {
+	for _, v := range mappingUpdateDrgRouteRuleDetailsDestinationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateDrgRouteRuleDetailsDestinationTypeEnumStringValues Enumerates the set of values in String for UpdateDrgRouteRuleDetailsDestinationTypeEnum
+func GetUpdateDrgRouteRuleDetailsDestinationTypeEnumStringValues() []string {
+	return []string{
+		"CIDR_BLOCK",
+	}
 }

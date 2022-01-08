@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateVolumeGroupRequest wrapper for the UpdateVolumeGroup operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVolumeGroup.go.html to see an example of how to use UpdateVolumeGroupRequest.
 type UpdateVolumeGroupRequest struct {
 
 	// The Oracle Cloud ID (OCID) that uniquely identifies the volume group.
@@ -26,6 +24,11 @@ type UpdateVolumeGroupRequest struct {
 	// parameter to the value of the etag from a previous GET or POST response for that resource. The resource
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
+	// Specifies whether to disable or preserve the individual volume replication when removing a volume from the
+	// replication enabled volume group. When set to `true`, the individual volume replica is preserved. The default
+	// value is `true`.
+	PreserveVolumeReplica *bool `mandatory:"false" contributesTo:"query" name:"preserveVolumeReplica"`
 
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -43,6 +46,10 @@ func (request UpdateVolumeGroupRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateVolumeGroupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +63,17 @@ func (request UpdateVolumeGroupRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateVolumeGroupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateVolumeGroupRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateVolumeGroupResponse wrapper for the UpdateVolumeGroup operation

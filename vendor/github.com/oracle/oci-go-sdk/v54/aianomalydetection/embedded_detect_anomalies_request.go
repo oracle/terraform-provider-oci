@@ -13,7 +13,9 @@ package aianomalydetection
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // EmbeddedDetectAnomaliesRequest The request body when the user selects to provide byte data in detect call which is Base64 encoded.
@@ -35,6 +37,21 @@ func (m EmbeddedDetectAnomaliesRequest) GetModelId() *string {
 
 func (m EmbeddedDetectAnomaliesRequest) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EmbeddedDetectAnomaliesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingEmbeddedDetectAnomaliesRequestContentTypeEnum[string(m.ContentType)]; !ok && m.ContentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContentType: %s. Supported values are: %s.", m.ContentType, strings.Join(GetEmbeddedDetectAnomaliesRequestContentTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -60,7 +77,7 @@ const (
 	EmbeddedDetectAnomaliesRequestContentTypeJson EmbeddedDetectAnomaliesRequestContentTypeEnum = "JSON"
 )
 
-var mappingEmbeddedDetectAnomaliesRequestContentType = map[string]EmbeddedDetectAnomaliesRequestContentTypeEnum{
+var mappingEmbeddedDetectAnomaliesRequestContentTypeEnum = map[string]EmbeddedDetectAnomaliesRequestContentTypeEnum{
 	"CSV":  EmbeddedDetectAnomaliesRequestContentTypeCsv,
 	"JSON": EmbeddedDetectAnomaliesRequestContentTypeJson,
 }
@@ -68,8 +85,16 @@ var mappingEmbeddedDetectAnomaliesRequestContentType = map[string]EmbeddedDetect
 // GetEmbeddedDetectAnomaliesRequestContentTypeEnumValues Enumerates the set of values for EmbeddedDetectAnomaliesRequestContentTypeEnum
 func GetEmbeddedDetectAnomaliesRequestContentTypeEnumValues() []EmbeddedDetectAnomaliesRequestContentTypeEnum {
 	values := make([]EmbeddedDetectAnomaliesRequestContentTypeEnum, 0)
-	for _, v := range mappingEmbeddedDetectAnomaliesRequestContentType {
+	for _, v := range mappingEmbeddedDetectAnomaliesRequestContentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEmbeddedDetectAnomaliesRequestContentTypeEnumStringValues Enumerates the set of values in String for EmbeddedDetectAnomaliesRequestContentTypeEnum
+func GetEmbeddedDetectAnomaliesRequestContentTypeEnumStringValues() []string {
+	return []string{
+		"CSV",
+		"JSON",
+	}
 }

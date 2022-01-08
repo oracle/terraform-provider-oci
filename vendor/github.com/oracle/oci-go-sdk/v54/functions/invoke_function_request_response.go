@@ -5,16 +5,14 @@
 package functions
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // InvokeFunctionRequest wrapper for the InvokeFunction operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/InvokeFunction.go.html to see an example of how to use InvokeFunctionRequest.
 type InvokeFunctionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this function.
@@ -68,6 +66,23 @@ func (request InvokeFunctionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request InvokeFunctionRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInvokeFunctionFnIntentEnum[string(request.FnIntent)]; !ok && request.FnIntent != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FnIntent: %s. Supported values are: %s.", request.FnIntent, strings.Join(GetInvokeFunctionFnIntentEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInvokeFunctionFnInvokeTypeEnum[string(request.FnInvokeType)]; !ok && request.FnInvokeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FnInvokeType: %s. Supported values are: %s.", request.FnInvokeType, strings.Join(GetInvokeFunctionFnInvokeTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InvokeFunctionResponse wrapper for the InvokeFunction operation
 type InvokeFunctionResponse struct {
 
@@ -100,7 +115,7 @@ const (
 	InvokeFunctionFnIntentCloudevent  InvokeFunctionFnIntentEnum = "cloudevent"
 )
 
-var mappingInvokeFunctionFnIntent = map[string]InvokeFunctionFnIntentEnum{
+var mappingInvokeFunctionFnIntentEnum = map[string]InvokeFunctionFnIntentEnum{
 	"httprequest": InvokeFunctionFnIntentHttprequest,
 	"cloudevent":  InvokeFunctionFnIntentCloudevent,
 }
@@ -108,10 +123,18 @@ var mappingInvokeFunctionFnIntent = map[string]InvokeFunctionFnIntentEnum{
 // GetInvokeFunctionFnIntentEnumValues Enumerates the set of values for InvokeFunctionFnIntentEnum
 func GetInvokeFunctionFnIntentEnumValues() []InvokeFunctionFnIntentEnum {
 	values := make([]InvokeFunctionFnIntentEnum, 0)
-	for _, v := range mappingInvokeFunctionFnIntent {
+	for _, v := range mappingInvokeFunctionFnIntentEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInvokeFunctionFnIntentEnumStringValues Enumerates the set of values in String for InvokeFunctionFnIntentEnum
+func GetInvokeFunctionFnIntentEnumStringValues() []string {
+	return []string{
+		"httprequest",
+		"cloudevent",
+	}
 }
 
 // InvokeFunctionFnInvokeTypeEnum Enum with underlying type: string
@@ -123,7 +146,7 @@ const (
 	InvokeFunctionFnInvokeTypeSync     InvokeFunctionFnInvokeTypeEnum = "sync"
 )
 
-var mappingInvokeFunctionFnInvokeType = map[string]InvokeFunctionFnInvokeTypeEnum{
+var mappingInvokeFunctionFnInvokeTypeEnum = map[string]InvokeFunctionFnInvokeTypeEnum{
 	"detached": InvokeFunctionFnInvokeTypeDetached,
 	"sync":     InvokeFunctionFnInvokeTypeSync,
 }
@@ -131,8 +154,16 @@ var mappingInvokeFunctionFnInvokeType = map[string]InvokeFunctionFnInvokeTypeEnu
 // GetInvokeFunctionFnInvokeTypeEnumValues Enumerates the set of values for InvokeFunctionFnInvokeTypeEnum
 func GetInvokeFunctionFnInvokeTypeEnumValues() []InvokeFunctionFnInvokeTypeEnum {
 	values := make([]InvokeFunctionFnInvokeTypeEnum, 0)
-	for _, v := range mappingInvokeFunctionFnInvokeType {
+	for _, v := range mappingInvokeFunctionFnInvokeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInvokeFunctionFnInvokeTypeEnumStringValues Enumerates the set of values in String for InvokeFunctionFnInvokeTypeEnum
+func GetInvokeFunctionFnInvokeTypeEnumStringValues() []string {
+	return []string{
+		"detached",
+		"sync",
+	}
 }

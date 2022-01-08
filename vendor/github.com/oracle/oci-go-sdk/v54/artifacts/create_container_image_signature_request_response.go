@@ -5,15 +5,13 @@
 package artifacts
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // CreateContainerImageSignatureRequest wrapper for the CreateContainerImageSignature operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/CreateContainerImageSignature.go.html to see an example of how to use CreateContainerImageSignatureRequest.
 type CreateContainerImageSignatureRequest struct {
 
 	// Upload container image signature details
@@ -47,6 +45,10 @@ func (request CreateContainerImageSignatureRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CreateContainerImageSignatureRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -60,6 +62,17 @@ func (request CreateContainerImageSignatureRequest) BinaryRequestBody() (*common
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateContainerImageSignatureRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateContainerImageSignatureRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateContainerImageSignatureResponse wrapper for the CreateContainerImageSignature operation

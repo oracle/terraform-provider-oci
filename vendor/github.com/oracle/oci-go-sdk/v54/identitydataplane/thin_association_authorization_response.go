@@ -10,7 +10,9 @@
 package identitydataplane
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ThinAssociationAuthorizationResponse The representation of ThinAssociationAuthorizationResponse
@@ -30,6 +32,21 @@ func (m ThinAssociationAuthorizationResponse) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ThinAssociationAuthorizationResponse) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingThinAssociationAuthorizationResponseAssociationResultEnum[string(m.AssociationResult)]; !ok && m.AssociationResult != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AssociationResult: %s. Supported values are: %s.", m.AssociationResult, strings.Join(GetThinAssociationAuthorizationResponseAssociationResultEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ThinAssociationAuthorizationResponseAssociationResultEnum Enum with underlying type: string
 type ThinAssociationAuthorizationResponseAssociationResultEnum string
 
@@ -42,7 +59,7 @@ const (
 	ThinAssociationAuthorizationResponseAssociationResultSuccess            ThinAssociationAuthorizationResponseAssociationResultEnum = "SUCCESS"
 )
 
-var mappingThinAssociationAuthorizationResponseAssociationResult = map[string]ThinAssociationAuthorizationResponseAssociationResultEnum{
+var mappingThinAssociationAuthorizationResponseAssociationResultEnum = map[string]ThinAssociationAuthorizationResponseAssociationResultEnum{
 	"FAIL_UNKNOWN":         ThinAssociationAuthorizationResponseAssociationResultFailUnknown,
 	"FAIL_BAD_REQUEST":     ThinAssociationAuthorizationResponseAssociationResultFailBadRequest,
 	"FAIL_MISSING_ENDORSE": ThinAssociationAuthorizationResponseAssociationResultFailMissingEndorse,
@@ -53,8 +70,19 @@ var mappingThinAssociationAuthorizationResponseAssociationResult = map[string]Th
 // GetThinAssociationAuthorizationResponseAssociationResultEnumValues Enumerates the set of values for ThinAssociationAuthorizationResponseAssociationResultEnum
 func GetThinAssociationAuthorizationResponseAssociationResultEnumValues() []ThinAssociationAuthorizationResponseAssociationResultEnum {
 	values := make([]ThinAssociationAuthorizationResponseAssociationResultEnum, 0)
-	for _, v := range mappingThinAssociationAuthorizationResponseAssociationResult {
+	for _, v := range mappingThinAssociationAuthorizationResponseAssociationResultEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetThinAssociationAuthorizationResponseAssociationResultEnumStringValues Enumerates the set of values in String for ThinAssociationAuthorizationResponseAssociationResultEnum
+func GetThinAssociationAuthorizationResponseAssociationResultEnumStringValues() []string {
+	return []string{
+		"FAIL_UNKNOWN",
+		"FAIL_BAD_REQUEST",
+		"FAIL_MISSING_ENDORSE",
+		"FAIL_MISSING_ADMIT",
+		"SUCCESS",
+	}
 }

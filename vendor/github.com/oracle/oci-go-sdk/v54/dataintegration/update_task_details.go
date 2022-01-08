@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateTaskDetails Properties used in task create operations.
@@ -217,6 +219,18 @@ func (m updatetaskdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m updatetaskdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateTaskDetailsModelTypeEnum Enum with underlying type: string
 type UpdateTaskDetailsModelTypeEnum string
 
@@ -230,7 +244,7 @@ const (
 	UpdateTaskDetailsModelTypeRestTask        UpdateTaskDetailsModelTypeEnum = "REST_TASK"
 )
 
-var mappingUpdateTaskDetailsModelType = map[string]UpdateTaskDetailsModelTypeEnum{
+var mappingUpdateTaskDetailsModelTypeEnum = map[string]UpdateTaskDetailsModelTypeEnum{
 	"INTEGRATION_TASK":  UpdateTaskDetailsModelTypeIntegrationTask,
 	"DATA_LOADER_TASK":  UpdateTaskDetailsModelTypeDataLoaderTask,
 	"PIPELINE_TASK":     UpdateTaskDetailsModelTypePipelineTask,
@@ -242,8 +256,20 @@ var mappingUpdateTaskDetailsModelType = map[string]UpdateTaskDetailsModelTypeEnu
 // GetUpdateTaskDetailsModelTypeEnumValues Enumerates the set of values for UpdateTaskDetailsModelTypeEnum
 func GetUpdateTaskDetailsModelTypeEnumValues() []UpdateTaskDetailsModelTypeEnum {
 	values := make([]UpdateTaskDetailsModelTypeEnum, 0)
-	for _, v := range mappingUpdateTaskDetailsModelType {
+	for _, v := range mappingUpdateTaskDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTaskDetailsModelTypeEnumStringValues Enumerates the set of values in String for UpdateTaskDetailsModelTypeEnum
+func GetUpdateTaskDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }

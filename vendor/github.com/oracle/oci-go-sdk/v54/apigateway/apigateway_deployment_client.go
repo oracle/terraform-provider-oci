@@ -87,10 +87,6 @@ func (client *DeploymentClient) ConfigurationProvider() *common.ConfigurationPro
 }
 
 // ChangeDeploymentCompartment Changes the deployment compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeDeploymentCompartment.go.html to see an example of how to use ChangeDeploymentCompartment API.
 func (client DeploymentClient) ChangeDeploymentCompartment(ctx context.Context, request ChangeDeploymentCompartmentRequest) (response ChangeDeploymentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -147,10 +143,6 @@ func (client DeploymentClient) changeDeploymentCompartment(ctx context.Context, 
 }
 
 // CreateDeployment Creates a new deployment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateDeployment.go.html to see an example of how to use CreateDeployment API.
 func (client DeploymentClient) CreateDeployment(ctx context.Context, request CreateDeploymentRequest) (response CreateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -207,10 +199,6 @@ func (client DeploymentClient) createDeployment(ctx context.Context, request com
 }
 
 // DeleteDeployment Deletes the deployment with the given identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteDeployment.go.html to see an example of how to use DeleteDeployment API.
 func (client DeploymentClient) DeleteDeployment(ctx context.Context, request DeleteDeploymentRequest) (response DeleteDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -262,10 +250,6 @@ func (client DeploymentClient) deleteDeployment(ctx context.Context, request com
 }
 
 // GetDeployment Gets a deployment by identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetDeployment.go.html to see an example of how to use GetDeployment API.
 func (client DeploymentClient) GetDeployment(ctx context.Context, request GetDeploymentRequest) (response GetDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -317,10 +301,6 @@ func (client DeploymentClient) getDeployment(ctx context.Context, request common
 }
 
 // ListDeployments Returns a list of deployments.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListDeployments.go.html to see an example of how to use ListDeployments API.
 func (client DeploymentClient) ListDeployments(ctx context.Context, request ListDeploymentsRequest) (response ListDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -372,10 +352,6 @@ func (client DeploymentClient) listDeployments(ctx context.Context, request comm
 }
 
 // UpdateDeployment Updates the deployment with the given identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateDeployment.go.html to see an example of how to use UpdateDeployment API.
 func (client DeploymentClient) UpdateDeployment(ctx context.Context, request UpdateDeploymentRequest) (response UpdateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

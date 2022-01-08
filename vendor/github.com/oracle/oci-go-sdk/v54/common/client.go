@@ -29,9 +29,6 @@ import (
 )
 
 const (
-	// DefaultHostURLTemplate The default url template for service hosts
-	DefaultHostURLTemplate = "%s.%s.oraclecloud.com"
-
 	// requestHeaderAccept The key for passing a header to indicate Accept
 	requestHeaderAccept = "Accept"
 
@@ -83,9 +80,8 @@ const (
 	defaultConfigFileName    = "config"
 	defaultConfigDirName     = ".oci"
 	configFilePathEnvVarName = "OCI_CONFIG_FILE"
-
-	secondaryConfigDirName = ".oraclebmc"
-	maxBodyLenForDebug     = 1024 * 1000
+	secondaryConfigDirName   = ".oraclebmc"
+	maxBodyLenForDebug       = 1024 * 1000
 
 	// appendUserAgentEnv The key for retrieving append user agent value from env var
 	appendUserAgentEnv = "OCI_SDK_APPEND_USER_AGENT"
@@ -275,6 +271,7 @@ func NewClientWithOboToken(configProvider ConfigurationProvider, oboToken string
 
 // Add obo token header to Interceptor and sign to client
 func signOboToken(client *BaseClient, oboToken string, configProvider ConfigurationProvider) {
+
 	// Interceptor to add obo token header
 	client.Interceptor = func(request *http.Request) error {
 		request.Header.Add(requestHeaderOpcOboToken, oboToken)

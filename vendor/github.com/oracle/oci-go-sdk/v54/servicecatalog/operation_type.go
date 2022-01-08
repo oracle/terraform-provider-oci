@@ -20,7 +20,7 @@ const (
 	OperationTypeMovePrivateApplication   OperationTypeEnum = "MOVE_PRIVATE_APPLICATION"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_PRIVATE_APPLICATION": OperationTypeCreatePrivateApplication,
 	"UPDATE_PRIVATE_APPLICATION": OperationTypeUpdatePrivateApplication,
 	"DELETE_PRIVATE_APPLICATION": OperationTypeDeletePrivateApplication,
@@ -30,8 +30,18 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_PRIVATE_APPLICATION",
+		"UPDATE_PRIVATE_APPLICATION",
+		"DELETE_PRIVATE_APPLICATION",
+		"MOVE_PRIVATE_APPLICATION",
+	}
 }

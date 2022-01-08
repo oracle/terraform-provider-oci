@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DrgAttachmentNetworkCreateDetails The representation of DrgAttachmentNetworkCreateDetails
@@ -57,6 +59,22 @@ func (m *drgattachmentnetworkcreatedetails) UnmarshalPolymorphicJSON(data []byte
 
 	var err error
 	switch m.Type {
+	case "IPSEC_TUNNEL":
+		mm := IpsecTunnelDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VIRTUAL_CIRCUIT":
+		mm := VirtualCircuitDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REMOTE_PEERING_CONNECTION":
+		mm := RemotePeeringConnectionDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INTERNET":
+		mm := InternetDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VCN":
 		mm := VcnDrgAttachmentNetworkCreateDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -75,23 +93,54 @@ func (m drgattachmentnetworkcreatedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m drgattachmentnetworkcreatedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DrgAttachmentNetworkCreateDetailsTypeEnum Enum with underlying type: string
 type DrgAttachmentNetworkCreateDetailsTypeEnum string
 
 // Set of constants representing the allowable values for DrgAttachmentNetworkCreateDetailsTypeEnum
 const (
-	DrgAttachmentNetworkCreateDetailsTypeVcn DrgAttachmentNetworkCreateDetailsTypeEnum = "VCN"
+	DrgAttachmentNetworkCreateDetailsTypeVcn                     DrgAttachmentNetworkCreateDetailsTypeEnum = "VCN"
+	DrgAttachmentNetworkCreateDetailsTypeVirtualCircuit          DrgAttachmentNetworkCreateDetailsTypeEnum = "VIRTUAL_CIRCUIT"
+	DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection DrgAttachmentNetworkCreateDetailsTypeEnum = "REMOTE_PEERING_CONNECTION"
+	DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel             DrgAttachmentNetworkCreateDetailsTypeEnum = "IPSEC_TUNNEL"
+	DrgAttachmentNetworkCreateDetailsTypeInternet                DrgAttachmentNetworkCreateDetailsTypeEnum = "INTERNET"
 )
 
-var mappingDrgAttachmentNetworkCreateDetailsType = map[string]DrgAttachmentNetworkCreateDetailsTypeEnum{
-	"VCN": DrgAttachmentNetworkCreateDetailsTypeVcn,
+var mappingDrgAttachmentNetworkCreateDetailsTypeEnum = map[string]DrgAttachmentNetworkCreateDetailsTypeEnum{
+	"VCN":                       DrgAttachmentNetworkCreateDetailsTypeVcn,
+	"VIRTUAL_CIRCUIT":           DrgAttachmentNetworkCreateDetailsTypeVirtualCircuit,
+	"REMOTE_PEERING_CONNECTION": DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection,
+	"IPSEC_TUNNEL":              DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel,
+	"INTERNET":                  DrgAttachmentNetworkCreateDetailsTypeInternet,
 }
 
 // GetDrgAttachmentNetworkCreateDetailsTypeEnumValues Enumerates the set of values for DrgAttachmentNetworkCreateDetailsTypeEnum
 func GetDrgAttachmentNetworkCreateDetailsTypeEnumValues() []DrgAttachmentNetworkCreateDetailsTypeEnum {
 	values := make([]DrgAttachmentNetworkCreateDetailsTypeEnum, 0)
-	for _, v := range mappingDrgAttachmentNetworkCreateDetailsType {
+	for _, v := range mappingDrgAttachmentNetworkCreateDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgAttachmentNetworkCreateDetailsTypeEnumStringValues Enumerates the set of values in String for DrgAttachmentNetworkCreateDetailsTypeEnum
+func GetDrgAttachmentNetworkCreateDetailsTypeEnumStringValues() []string {
+	return []string{
+		"VCN",
+		"VIRTUAL_CIRCUIT",
+		"REMOTE_PEERING_CONNECTION",
+		"IPSEC_TUNNEL",
+		"INTERNET",
+	}
 }

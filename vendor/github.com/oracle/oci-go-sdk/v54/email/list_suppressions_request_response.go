@@ -5,15 +5,13 @@
 package email
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListSuppressionsRequest wrapper for the ListSuppressions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSuppressions.go.html to see an example of how to use ListSuppressionsRequest.
 type ListSuppressionsRequest struct {
 
 	// The OCID for the compartment.
@@ -74,6 +72,10 @@ func (request ListSuppressionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSuppressionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -87,6 +89,23 @@ func (request ListSuppressionsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSuppressionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSuppressionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSuppressionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSuppressionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSuppressionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSuppressionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSuppressionsResponse wrapper for the ListSuppressions operation
@@ -129,7 +148,7 @@ const (
 	ListSuppressionsSortByEmailaddress ListSuppressionsSortByEnum = "EMAILADDRESS"
 )
 
-var mappingListSuppressionsSortBy = map[string]ListSuppressionsSortByEnum{
+var mappingListSuppressionsSortByEnum = map[string]ListSuppressionsSortByEnum{
 	"TIMECREATED":  ListSuppressionsSortByTimecreated,
 	"EMAILADDRESS": ListSuppressionsSortByEmailaddress,
 }
@@ -137,10 +156,18 @@ var mappingListSuppressionsSortBy = map[string]ListSuppressionsSortByEnum{
 // GetListSuppressionsSortByEnumValues Enumerates the set of values for ListSuppressionsSortByEnum
 func GetListSuppressionsSortByEnumValues() []ListSuppressionsSortByEnum {
 	values := make([]ListSuppressionsSortByEnum, 0)
-	for _, v := range mappingListSuppressionsSortBy {
+	for _, v := range mappingListSuppressionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSuppressionsSortByEnumStringValues Enumerates the set of values in String for ListSuppressionsSortByEnum
+func GetListSuppressionsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"EMAILADDRESS",
+	}
 }
 
 // ListSuppressionsSortOrderEnum Enum with underlying type: string
@@ -152,7 +179,7 @@ const (
 	ListSuppressionsSortOrderDesc ListSuppressionsSortOrderEnum = "DESC"
 )
 
-var mappingListSuppressionsSortOrder = map[string]ListSuppressionsSortOrderEnum{
+var mappingListSuppressionsSortOrderEnum = map[string]ListSuppressionsSortOrderEnum{
 	"ASC":  ListSuppressionsSortOrderAsc,
 	"DESC": ListSuppressionsSortOrderDesc,
 }
@@ -160,8 +187,16 @@ var mappingListSuppressionsSortOrder = map[string]ListSuppressionsSortOrderEnum{
 // GetListSuppressionsSortOrderEnumValues Enumerates the set of values for ListSuppressionsSortOrderEnum
 func GetListSuppressionsSortOrderEnumValues() []ListSuppressionsSortOrderEnum {
 	values := make([]ListSuppressionsSortOrderEnum, 0)
-	for _, v := range mappingListSuppressionsSortOrder {
+	for _, v := range mappingListSuppressionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSuppressionsSortOrderEnumStringValues Enumerates the set of values in String for ListSuppressionsSortOrderEnum
+func GetListSuppressionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

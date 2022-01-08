@@ -5,15 +5,13 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListTargetsRequest wrapper for the ListTargets operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListTargets.go.html to see an example of how to use ListTargetsRequest.
 type ListTargetsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -65,6 +63,10 @@ func (request ListTargetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListTargetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +80,29 @@ func (request ListTargetsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTargetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListTargetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListTargetsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListTargetsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTargetsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListTargetsAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTargetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListTargetsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTargetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTargetsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListTargetsResponse wrapper for the ListTargets operation
@@ -122,7 +147,7 @@ const (
 	ListTargetsLifecycleStateFailed   ListTargetsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListTargetsLifecycleState = map[string]ListTargetsLifecycleStateEnum{
+var mappingListTargetsLifecycleStateEnum = map[string]ListTargetsLifecycleStateEnum{
 	"CREATING": ListTargetsLifecycleStateCreating,
 	"UPDATING": ListTargetsLifecycleStateUpdating,
 	"ACTIVE":   ListTargetsLifecycleStateActive,
@@ -135,10 +160,23 @@ var mappingListTargetsLifecycleState = map[string]ListTargetsLifecycleStateEnum{
 // GetListTargetsLifecycleStateEnumValues Enumerates the set of values for ListTargetsLifecycleStateEnum
 func GetListTargetsLifecycleStateEnumValues() []ListTargetsLifecycleStateEnum {
 	values := make([]ListTargetsLifecycleStateEnum, 0)
-	for _, v := range mappingListTargetsLifecycleState {
+	for _, v := range mappingListTargetsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetsLifecycleStateEnumStringValues Enumerates the set of values in String for ListTargetsLifecycleStateEnum
+func GetListTargetsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListTargetsAccessLevelEnum Enum with underlying type: string
@@ -150,7 +188,7 @@ const (
 	ListTargetsAccessLevelAccessible ListTargetsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListTargetsAccessLevel = map[string]ListTargetsAccessLevelEnum{
+var mappingListTargetsAccessLevelEnum = map[string]ListTargetsAccessLevelEnum{
 	"RESTRICTED": ListTargetsAccessLevelRestricted,
 	"ACCESSIBLE": ListTargetsAccessLevelAccessible,
 }
@@ -158,10 +196,18 @@ var mappingListTargetsAccessLevel = map[string]ListTargetsAccessLevelEnum{
 // GetListTargetsAccessLevelEnumValues Enumerates the set of values for ListTargetsAccessLevelEnum
 func GetListTargetsAccessLevelEnumValues() []ListTargetsAccessLevelEnum {
 	values := make([]ListTargetsAccessLevelEnum, 0)
-	for _, v := range mappingListTargetsAccessLevel {
+	for _, v := range mappingListTargetsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetsAccessLevelEnumStringValues Enumerates the set of values in String for ListTargetsAccessLevelEnum
+func GetListTargetsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }
 
 // ListTargetsSortOrderEnum Enum with underlying type: string
@@ -173,7 +219,7 @@ const (
 	ListTargetsSortOrderDesc ListTargetsSortOrderEnum = "DESC"
 )
 
-var mappingListTargetsSortOrder = map[string]ListTargetsSortOrderEnum{
+var mappingListTargetsSortOrderEnum = map[string]ListTargetsSortOrderEnum{
 	"ASC":  ListTargetsSortOrderAsc,
 	"DESC": ListTargetsSortOrderDesc,
 }
@@ -181,10 +227,18 @@ var mappingListTargetsSortOrder = map[string]ListTargetsSortOrderEnum{
 // GetListTargetsSortOrderEnumValues Enumerates the set of values for ListTargetsSortOrderEnum
 func GetListTargetsSortOrderEnumValues() []ListTargetsSortOrderEnum {
 	values := make([]ListTargetsSortOrderEnum, 0)
-	for _, v := range mappingListTargetsSortOrder {
+	for _, v := range mappingListTargetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetsSortOrderEnumStringValues Enumerates the set of values in String for ListTargetsSortOrderEnum
+func GetListTargetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListTargetsSortByEnum Enum with underlying type: string
@@ -196,7 +250,7 @@ const (
 	ListTargetsSortByDisplayname ListTargetsSortByEnum = "displayName"
 )
 
-var mappingListTargetsSortBy = map[string]ListTargetsSortByEnum{
+var mappingListTargetsSortByEnum = map[string]ListTargetsSortByEnum{
 	"timeCreated": ListTargetsSortByTimecreated,
 	"displayName": ListTargetsSortByDisplayname,
 }
@@ -204,8 +258,16 @@ var mappingListTargetsSortBy = map[string]ListTargetsSortByEnum{
 // GetListTargetsSortByEnumValues Enumerates the set of values for ListTargetsSortByEnum
 func GetListTargetsSortByEnumValues() []ListTargetsSortByEnum {
 	values := make([]ListTargetsSortByEnum, 0)
-	for _, v := range mappingListTargetsSortBy {
+	for _, v := range mappingListTargetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetsSortByEnumStringValues Enumerates the set of values in String for ListTargetsSortByEnum
+func GetListTargetsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

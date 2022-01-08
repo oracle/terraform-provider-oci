@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataAsset Represents a data source in the Data Integration service.
@@ -216,6 +218,18 @@ func (m dataasset) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m dataasset) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DataAssetModelTypeEnum Enum with underlying type: string
 type DataAssetModelTypeEnum string
 
@@ -231,7 +245,7 @@ const (
 	DataAssetModelTypeAmazonS3DataAsset            DataAssetModelTypeEnum = "AMAZON_S3_DATA_ASSET"
 )
 
-var mappingDataAssetModelType = map[string]DataAssetModelTypeEnum{
+var mappingDataAssetModelTypeEnum = map[string]DataAssetModelTypeEnum{
 	"ORACLE_DATA_ASSET":                DataAssetModelTypeOracleDataAsset,
 	"ORACLE_OBJECT_STORAGE_DATA_ASSET": DataAssetModelTypeOracleObjectStorageDataAsset,
 	"ORACLE_ATP_DATA_ASSET":            DataAssetModelTypeOracleAtpDataAsset,
@@ -245,8 +259,22 @@ var mappingDataAssetModelType = map[string]DataAssetModelTypeEnum{
 // GetDataAssetModelTypeEnumValues Enumerates the set of values for DataAssetModelTypeEnum
 func GetDataAssetModelTypeEnumValues() []DataAssetModelTypeEnum {
 	values := make([]DataAssetModelTypeEnum, 0)
-	for _, v := range mappingDataAssetModelType {
+	for _, v := range mappingDataAssetModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataAssetModelTypeEnumStringValues Enumerates the set of values in String for DataAssetModelTypeEnum
+func GetDataAssetModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_DATA_ASSET",
+		"ORACLE_OBJECT_STORAGE_DATA_ASSET",
+		"ORACLE_ATP_DATA_ASSET",
+		"ORACLE_ADWC_DATA_ASSET",
+		"MYSQL_DATA_ASSET",
+		"GENERIC_JDBC_DATA_ASSET",
+		"FUSION_APP_DATA_ASSET",
+		"AMAZON_S3_DATA_ASSET",
+	}
 }

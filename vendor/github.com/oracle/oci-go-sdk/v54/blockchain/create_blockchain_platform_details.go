@@ -10,7 +10,9 @@
 package blockchain
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateBlockchainPlatformDetails Blockchain Platform details for creating a new service.
@@ -63,4 +65,22 @@ type CreateBlockchainPlatformDetails struct {
 
 func (m CreateBlockchainPlatformDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateBlockchainPlatformDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBlockchainPlatformPlatformRoleEnum[string(m.PlatformRole)]; !ok && m.PlatformRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformRole: %s. Supported values are: %s.", m.PlatformRole, strings.Join(GetBlockchainPlatformPlatformRoleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBlockchainPlatformComputeShapeEnum[string(m.ComputeShape)]; !ok && m.ComputeShape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeShape: %s. Supported values are: %s.", m.ComputeShape, strings.Join(GetBlockchainPlatformComputeShapeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

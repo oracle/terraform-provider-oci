@@ -12,7 +12,9 @@
 package aianomalydetection
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataAssetSummary Summary of the DataAsset.
@@ -63,4 +65,22 @@ type DataAssetSummary struct {
 
 func (m DataAssetSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataAssetSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataSourceTypeEnum[string(m.DataSourceType)]; !ok && m.DataSourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSourceType: %s. Supported values are: %s.", m.DataSourceType, strings.Join(GetDataSourceTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDataAssetLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDataAssetLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

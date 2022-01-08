@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DbNode The representation of DbNode
@@ -88,6 +90,24 @@ func (m DbNode) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbNode) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDbNodeLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbNodeLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDbNodeMaintenanceTypeEnum[string(m.MaintenanceType)]; !ok && m.MaintenanceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceType: %s. Supported values are: %s.", m.MaintenanceType, strings.Join(GetDbNodeMaintenanceTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DbNodeLifecycleStateEnum Enum with underlying type: string
 type DbNodeLifecycleStateEnum string
 
@@ -104,7 +124,7 @@ const (
 	DbNodeLifecycleStateFailed       DbNodeLifecycleStateEnum = "FAILED"
 )
 
-var mappingDbNodeLifecycleState = map[string]DbNodeLifecycleStateEnum{
+var mappingDbNodeLifecycleStateEnum = map[string]DbNodeLifecycleStateEnum{
 	"PROVISIONING": DbNodeLifecycleStateProvisioning,
 	"AVAILABLE":    DbNodeLifecycleStateAvailable,
 	"UPDATING":     DbNodeLifecycleStateUpdating,
@@ -119,10 +139,25 @@ var mappingDbNodeLifecycleState = map[string]DbNodeLifecycleStateEnum{
 // GetDbNodeLifecycleStateEnumValues Enumerates the set of values for DbNodeLifecycleStateEnum
 func GetDbNodeLifecycleStateEnumValues() []DbNodeLifecycleStateEnum {
 	values := make([]DbNodeLifecycleStateEnum, 0)
-	for _, v := range mappingDbNodeLifecycleState {
+	for _, v := range mappingDbNodeLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbNodeLifecycleStateEnumStringValues Enumerates the set of values in String for DbNodeLifecycleStateEnum
+func GetDbNodeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"STOPPING",
+		"STOPPED",
+		"STARTING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }
 
 // DbNodeMaintenanceTypeEnum Enum with underlying type: string
@@ -133,15 +168,22 @@ const (
 	DbNodeMaintenanceTypeVmdbRebootMigration DbNodeMaintenanceTypeEnum = "VMDB_REBOOT_MIGRATION"
 )
 
-var mappingDbNodeMaintenanceType = map[string]DbNodeMaintenanceTypeEnum{
+var mappingDbNodeMaintenanceTypeEnum = map[string]DbNodeMaintenanceTypeEnum{
 	"VMDB_REBOOT_MIGRATION": DbNodeMaintenanceTypeVmdbRebootMigration,
 }
 
 // GetDbNodeMaintenanceTypeEnumValues Enumerates the set of values for DbNodeMaintenanceTypeEnum
 func GetDbNodeMaintenanceTypeEnumValues() []DbNodeMaintenanceTypeEnum {
 	values := make([]DbNodeMaintenanceTypeEnum, 0)
-	for _, v := range mappingDbNodeMaintenanceType {
+	for _, v := range mappingDbNodeMaintenanceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbNodeMaintenanceTypeEnumStringValues Enumerates the set of values in String for DbNodeMaintenanceTypeEnum
+func GetDbNodeMaintenanceTypeEnumStringValues() []string {
+	return []string{
+		"VMDB_REBOOT_MIGRATION",
+	}
 }

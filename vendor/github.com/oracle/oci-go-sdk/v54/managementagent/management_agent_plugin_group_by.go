@@ -17,15 +17,22 @@ const (
 	ManagementAgentPluginGroupByPluginName ManagementAgentPluginGroupByEnum = "pluginName"
 )
 
-var mappingManagementAgentPluginGroupBy = map[string]ManagementAgentPluginGroupByEnum{
+var mappingManagementAgentPluginGroupByEnum = map[string]ManagementAgentPluginGroupByEnum{
 	"pluginName": ManagementAgentPluginGroupByPluginName,
 }
 
 // GetManagementAgentPluginGroupByEnumValues Enumerates the set of values for ManagementAgentPluginGroupByEnum
 func GetManagementAgentPluginGroupByEnumValues() []ManagementAgentPluginGroupByEnum {
 	values := make([]ManagementAgentPluginGroupByEnum, 0)
-	for _, v := range mappingManagementAgentPluginGroupBy {
+	for _, v := range mappingManagementAgentPluginGroupByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetManagementAgentPluginGroupByEnumStringValues Enumerates the set of values in String for ManagementAgentPluginGroupByEnum
+func GetManagementAgentPluginGroupByEnumStringValues() []string {
+	return []string{
+		"pluginName",
+	}
 }

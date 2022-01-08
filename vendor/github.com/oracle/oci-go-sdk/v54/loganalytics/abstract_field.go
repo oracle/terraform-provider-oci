@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AbstractField Generic field defining all attributes common to all querylanguage fields.
@@ -174,6 +176,21 @@ func (m abstractfield) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m abstractfield) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingValueTypeEnum[string(m.ValueType)]; !ok && m.ValueType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValueType: %s. Supported values are: %s.", m.ValueType, strings.Join(GetValueTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AbstractFieldNameEnum Enum with underlying type: string
 type AbstractFieldNameEnum string
 
@@ -185,7 +202,7 @@ const (
 	AbstractFieldNameSort     AbstractFieldNameEnum = "SORT"
 )
 
-var mappingAbstractFieldName = map[string]AbstractFieldNameEnum{
+var mappingAbstractFieldNameEnum = map[string]AbstractFieldNameEnum{
 	"FIELD":    AbstractFieldNameField,
 	"FIELDS":   AbstractFieldNameFields,
 	"FUNCTION": AbstractFieldNameFunction,
@@ -195,8 +212,18 @@ var mappingAbstractFieldName = map[string]AbstractFieldNameEnum{
 // GetAbstractFieldNameEnumValues Enumerates the set of values for AbstractFieldNameEnum
 func GetAbstractFieldNameEnumValues() []AbstractFieldNameEnum {
 	values := make([]AbstractFieldNameEnum, 0)
-	for _, v := range mappingAbstractFieldName {
+	for _, v := range mappingAbstractFieldNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAbstractFieldNameEnumStringValues Enumerates the set of values in String for AbstractFieldNameEnum
+func GetAbstractFieldNameEnumStringValues() []string {
+	return []string{
+		"FIELD",
+		"FIELDS",
+		"FUNCTION",
+		"SORT",
+	}
 }

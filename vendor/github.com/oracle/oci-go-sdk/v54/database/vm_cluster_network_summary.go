@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // VmClusterNetworkSummary Details of the VM cluster network. Applies to Exadata Cloud@Customer instances only.
@@ -66,6 +68,21 @@ func (m VmClusterNetworkSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VmClusterNetworkSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingVmClusterNetworkSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVmClusterNetworkSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VmClusterNetworkSummaryLifecycleStateEnum Enum with underlying type: string
 type VmClusterNetworkSummaryLifecycleStateEnum string
 
@@ -83,7 +100,7 @@ const (
 	VmClusterNetworkSummaryLifecycleStateFailed             VmClusterNetworkSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingVmClusterNetworkSummaryLifecycleState = map[string]VmClusterNetworkSummaryLifecycleStateEnum{
+var mappingVmClusterNetworkSummaryLifecycleStateEnum = map[string]VmClusterNetworkSummaryLifecycleStateEnum{
 	"CREATING":            VmClusterNetworkSummaryLifecycleStateCreating,
 	"REQUIRES_VALIDATION": VmClusterNetworkSummaryLifecycleStateRequiresValidation,
 	"VALIDATING":          VmClusterNetworkSummaryLifecycleStateValidating,
@@ -99,8 +116,24 @@ var mappingVmClusterNetworkSummaryLifecycleState = map[string]VmClusterNetworkSu
 // GetVmClusterNetworkSummaryLifecycleStateEnumValues Enumerates the set of values for VmClusterNetworkSummaryLifecycleStateEnum
 func GetVmClusterNetworkSummaryLifecycleStateEnumValues() []VmClusterNetworkSummaryLifecycleStateEnum {
 	values := make([]VmClusterNetworkSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingVmClusterNetworkSummaryLifecycleState {
+	for _, v := range mappingVmClusterNetworkSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVmClusterNetworkSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for VmClusterNetworkSummaryLifecycleStateEnum
+func GetVmClusterNetworkSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"REQUIRES_VALIDATION",
+		"VALIDATING",
+		"VALIDATED",
+		"VALIDATION_FAILED",
+		"UPDATING",
+		"ALLOCATED",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }

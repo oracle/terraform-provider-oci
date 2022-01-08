@@ -13,7 +13,9 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // JobExecutionResultLocation The location of the job execution result.
@@ -63,6 +65,18 @@ func (m jobexecutionresultlocation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m jobexecutionresultlocation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // JobExecutionResultLocationTypeEnum Enum with underlying type: string
 type JobExecutionResultLocationTypeEnum string
 
@@ -71,15 +85,22 @@ const (
 	JobExecutionResultLocationTypeObjectStorage JobExecutionResultLocationTypeEnum = "OBJECT_STORAGE"
 )
 
-var mappingJobExecutionResultLocationType = map[string]JobExecutionResultLocationTypeEnum{
+var mappingJobExecutionResultLocationTypeEnum = map[string]JobExecutionResultLocationTypeEnum{
 	"OBJECT_STORAGE": JobExecutionResultLocationTypeObjectStorage,
 }
 
 // GetJobExecutionResultLocationTypeEnumValues Enumerates the set of values for JobExecutionResultLocationTypeEnum
 func GetJobExecutionResultLocationTypeEnumValues() []JobExecutionResultLocationTypeEnum {
 	values := make([]JobExecutionResultLocationTypeEnum, 0)
-	for _, v := range mappingJobExecutionResultLocationType {
+	for _, v := range mappingJobExecutionResultLocationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobExecutionResultLocationTypeEnumStringValues Enumerates the set of values in String for JobExecutionResultLocationTypeEnum
+func GetJobExecutionResultLocationTypeEnumStringValues() []string {
+	return []string{
+		"OBJECT_STORAGE",
+	}
 }

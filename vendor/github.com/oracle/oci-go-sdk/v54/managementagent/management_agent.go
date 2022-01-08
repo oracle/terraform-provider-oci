@@ -10,7 +10,9 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ManagementAgent The details of the Management Agent inventory including the associated plugins.
@@ -97,4 +99,28 @@ type ManagementAgent struct {
 
 func (m ManagementAgent) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ManagementAgent) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPlatformTypesEnum[string(m.PlatformType)]; !ok && m.PlatformType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", m.PlatformType, strings.Join(GetPlatformTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAvailabilityStatusEnum[string(m.AvailabilityStatus)]; !ok && m.AvailabilityStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityStatus: %s. Supported values are: %s.", m.AvailabilityStatus, strings.Join(GetAvailabilityStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLifecycleStatesEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInstallTypesEnum[string(m.InstallType)]; !ok && m.InstallType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstallType: %s. Supported values are: %s.", m.InstallType, strings.Join(GetInstallTypesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

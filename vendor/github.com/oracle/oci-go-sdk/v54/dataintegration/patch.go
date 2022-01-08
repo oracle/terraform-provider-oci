@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Patch The patch object contains the audit summary information and the definition of the patch.
@@ -73,6 +75,24 @@ func (m Patch) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Patch) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPatchPatchTypeEnum[string(m.PatchType)]; !ok && m.PatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchType: %s. Supported values are: %s.", m.PatchType, strings.Join(GetPatchPatchTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPatchPatchStatusEnum[string(m.PatchStatus)]; !ok && m.PatchStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchStatus: %s. Supported values are: %s.", m.PatchStatus, strings.Join(GetPatchPatchStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PatchPatchTypeEnum Enum with underlying type: string
 type PatchPatchTypeEnum string
 
@@ -83,7 +103,7 @@ const (
 	PatchPatchTypeUnpublish PatchPatchTypeEnum = "UNPUBLISH"
 )
 
-var mappingPatchPatchType = map[string]PatchPatchTypeEnum{
+var mappingPatchPatchTypeEnum = map[string]PatchPatchTypeEnum{
 	"PUBLISH":   PatchPatchTypePublish,
 	"REFRESH":   PatchPatchTypeRefresh,
 	"UNPUBLISH": PatchPatchTypeUnpublish,
@@ -92,10 +112,19 @@ var mappingPatchPatchType = map[string]PatchPatchTypeEnum{
 // GetPatchPatchTypeEnumValues Enumerates the set of values for PatchPatchTypeEnum
 func GetPatchPatchTypeEnumValues() []PatchPatchTypeEnum {
 	values := make([]PatchPatchTypeEnum, 0)
-	for _, v := range mappingPatchPatchType {
+	for _, v := range mappingPatchPatchTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchPatchTypeEnumStringValues Enumerates the set of values in String for PatchPatchTypeEnum
+func GetPatchPatchTypeEnumStringValues() []string {
+	return []string{
+		"PUBLISH",
+		"REFRESH",
+		"UNPUBLISH",
+	}
 }
 
 // PatchPatchStatusEnum Enum with underlying type: string
@@ -109,7 +138,7 @@ const (
 	PatchPatchStatusInProgress PatchPatchStatusEnum = "IN_PROGRESS"
 )
 
-var mappingPatchPatchStatus = map[string]PatchPatchStatusEnum{
+var mappingPatchPatchStatusEnum = map[string]PatchPatchStatusEnum{
 	"QUEUED":      PatchPatchStatusQueued,
 	"SUCCESSFUL":  PatchPatchStatusSuccessful,
 	"FAILED":      PatchPatchStatusFailed,
@@ -119,8 +148,18 @@ var mappingPatchPatchStatus = map[string]PatchPatchStatusEnum{
 // GetPatchPatchStatusEnumValues Enumerates the set of values for PatchPatchStatusEnum
 func GetPatchPatchStatusEnumValues() []PatchPatchStatusEnum {
 	values := make([]PatchPatchStatusEnum, 0)
-	for _, v := range mappingPatchPatchStatus {
+	for _, v := range mappingPatchPatchStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchPatchStatusEnumStringValues Enumerates the set of values in String for PatchPatchStatusEnum
+func GetPatchPatchStatusEnumStringValues() []string {
+	return []string{
+		"QUEUED",
+		"SUCCESSFUL",
+		"FAILED",
+		"IN_PROGRESS",
+	}
 }

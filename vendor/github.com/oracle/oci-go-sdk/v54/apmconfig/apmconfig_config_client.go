@@ -85,10 +85,6 @@ func (client *ConfigClient) ConfigurationProvider() *common.ConfigurationProvide
 }
 
 // CreateConfig Creates a new Configuration item.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/CreateConfig.go.html to see an example of how to use CreateConfig API.
 func (client ConfigClient) CreateConfig(ctx context.Context, request CreateConfigRequest) (response CreateConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,10 +141,6 @@ func (client ConfigClient) createConfig(ctx context.Context, request common.OCIR
 }
 
 // DeleteConfig Deletes the specified configuration item
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/DeleteConfig.go.html to see an example of how to use DeleteConfig API.
 func (client ConfigClient) DeleteConfig(ctx context.Context, request DeleteConfigRequest) (response DeleteConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -200,10 +192,6 @@ func (client ConfigClient) deleteConfig(ctx context.Context, request common.OCIR
 }
 
 // GetConfig Get the configuration of the item identified by the OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/GetConfig.go.html to see an example of how to use GetConfig API.
 func (client ConfigClient) GetConfig(ctx context.Context, request GetConfigRequest) (response GetConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -255,10 +243,6 @@ func (client ConfigClient) getConfig(ctx context.Context, request common.OCIRequ
 }
 
 // ListConfigs Returns all configured items optionally filtered by configuration type
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/ListConfigs.go.html to see an example of how to use ListConfigs API.
 func (client ConfigClient) ListConfigs(ctx context.Context, request ListConfigsRequest) (response ListConfigsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -310,10 +294,6 @@ func (client ConfigClient) listConfigs(ctx context.Context, request common.OCIRe
 }
 
 // UpdateConfig Updates the item.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/UpdateConfig.go.html to see an example of how to use UpdateConfig API.
 func (client ConfigClient) UpdateConfig(ctx context.Context, request UpdateConfigRequest) (response UpdateConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

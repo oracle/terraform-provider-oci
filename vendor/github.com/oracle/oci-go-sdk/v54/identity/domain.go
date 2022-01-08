@@ -4,62 +4,64 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// Domain Properties for a Domain
+// Domain (For tenancies that support identity domains) Properties for an identity domain. An identity domain is used to manage users and groups, integration standards, external identities, and secure application integration through Oracle Single Sign-on (SSO) configuration.
 type Domain struct {
 
-	// The OCID of the domain
+	// The OCID of the identity domain.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment containing the domain.
+	// The OCID of the compartment containing the identity domain.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The mutable display name of the domain
+	// The mutable display name of the identity domain.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The domain descripition
+	// The identity domain description. You can have an empty description.
 	Description *string `mandatory:"true" json:"description"`
 
-	// Region agnostic domain URL.
+	// Region-agnostic identity domain URL.
 	Url *string `mandatory:"true" json:"url"`
 
-	// Region specific domain URL.
+	// Region-specific identity domain URL.
 	HomeRegionUrl *string `mandatory:"true" json:"homeRegionUrl"`
 
-	// The home region for the domain.
+	// The home region for the identity domain.
 	// See Regions and Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm)
 	// for the full list of supported region names.
 	// Example: `us-phoenix-1`
 	HomeRegion *string `mandatory:"true" json:"homeRegion"`
 
-	// The regions domain is replication to.
+	// The regions where replicas of the identity domain exist.
 	ReplicaRegions []ReplicatedRegionDetails `mandatory:"true" json:"replicaRegions"`
 
 	// The type of the domain.
 	Type DomainTypeEnum `mandatory:"true" json:"type"`
 
-	// The License type of Domain
+	// The license type of the identity domain.
 	LicenseType *string `mandatory:"true" json:"licenseType"`
 
-	// Indicates whether domain is hidden on login screen or not.
+	// Indicates whether the identity domain is hidden on the sign-in screen or not.
 	IsHiddenOnLogin *bool `mandatory:"true" json:"isHiddenOnLogin"`
 
-	// Date and time the domain was created, in the format defined by RFC3339.
+	// Date and time the identity domain was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The current state.
 	LifecycleState DomainLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Any additional details about the current state of the Domain.
+	// Any additional details about the current state of the identity domain.
 	LifecycleDetails DomainLifecycleDetailsEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -77,6 +79,27 @@ func (m Domain) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Domain) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDomainTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetDomainTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDomainLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDomainLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDomainLifecycleDetailsEnum[string(m.LifecycleDetails)]; !ok && m.LifecycleDetails != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetails: %s. Supported values are: %s.", m.LifecycleDetails, strings.Join(GetDomainLifecycleDetailsEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DomainTypeEnum Enum with underlying type: string
 type DomainTypeEnum string
 
@@ -86,7 +109,7 @@ const (
 	DomainTypeSecondary DomainTypeEnum = "SECONDARY"
 )
 
-var mappingDomainType = map[string]DomainTypeEnum{
+var mappingDomainTypeEnum = map[string]DomainTypeEnum{
 	"DEFAULT":   DomainTypeDefault,
 	"SECONDARY": DomainTypeSecondary,
 }
@@ -94,10 +117,18 @@ var mappingDomainType = map[string]DomainTypeEnum{
 // GetDomainTypeEnumValues Enumerates the set of values for DomainTypeEnum
 func GetDomainTypeEnumValues() []DomainTypeEnum {
 	values := make([]DomainTypeEnum, 0)
-	for _, v := range mappingDomainType {
+	for _, v := range mappingDomainTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDomainTypeEnumStringValues Enumerates the set of values in String for DomainTypeEnum
+func GetDomainTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+		"SECONDARY",
+	}
 }
 
 // DomainLifecycleStateEnum Enum with underlying type: string
@@ -111,7 +142,7 @@ const (
 	DomainLifecycleStateInactive DomainLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingDomainLifecycleState = map[string]DomainLifecycleStateEnum{
+var mappingDomainLifecycleStateEnum = map[string]DomainLifecycleStateEnum{
 	"CREATING": DomainLifecycleStateCreating,
 	"ACTIVE":   DomainLifecycleStateActive,
 	"DELETING": DomainLifecycleStateDeleting,
@@ -121,10 +152,20 @@ var mappingDomainLifecycleState = map[string]DomainLifecycleStateEnum{
 // GetDomainLifecycleStateEnumValues Enumerates the set of values for DomainLifecycleStateEnum
 func GetDomainLifecycleStateEnumValues() []DomainLifecycleStateEnum {
 	values := make([]DomainLifecycleStateEnum, 0)
-	for _, v := range mappingDomainLifecycleState {
+	for _, v := range mappingDomainLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDomainLifecycleStateEnumStringValues Enumerates the set of values in String for DomainLifecycleStateEnum
+func GetDomainLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"INACTIVE",
+	}
 }
 
 // DomainLifecycleDetailsEnum Enum with underlying type: string
@@ -137,7 +178,7 @@ const (
 	DomainLifecycleDetailsUpdating     DomainLifecycleDetailsEnum = "UPDATING"
 )
 
-var mappingDomainLifecycleDetails = map[string]DomainLifecycleDetailsEnum{
+var mappingDomainLifecycleDetailsEnum = map[string]DomainLifecycleDetailsEnum{
 	"DEACTIVATING": DomainLifecycleDetailsDeactivating,
 	"ACTIVATING":   DomainLifecycleDetailsActivating,
 	"UPDATING":     DomainLifecycleDetailsUpdating,
@@ -146,8 +187,17 @@ var mappingDomainLifecycleDetails = map[string]DomainLifecycleDetailsEnum{
 // GetDomainLifecycleDetailsEnumValues Enumerates the set of values for DomainLifecycleDetailsEnum
 func GetDomainLifecycleDetailsEnumValues() []DomainLifecycleDetailsEnum {
 	values := make([]DomainLifecycleDetailsEnum, 0)
-	for _, v := range mappingDomainLifecycleDetails {
+	for _, v := range mappingDomainLifecycleDetailsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDomainLifecycleDetailsEnumStringValues Enumerates the set of values in String for DomainLifecycleDetailsEnum
+func GetDomainLifecycleDetailsEnumStringValues() []string {
+	return []string{
+		"DEACTIVATING",
+		"ACTIVATING",
+		"UPDATING",
+	}
 }

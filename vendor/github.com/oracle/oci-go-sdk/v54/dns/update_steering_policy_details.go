@@ -12,7 +12,9 @@ package dns
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateSteeringPolicyDetails The body for updating a steering policy. New rules and answers provided in the request will
@@ -100,6 +102,21 @@ func (m UpdateSteeringPolicyDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateSteeringPolicyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateSteeringPolicyDetailsTemplateEnum[string(m.Template)]; !ok && m.Template != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Template: %s. Supported values are: %s.", m.Template, strings.Join(GetUpdateSteeringPolicyDetailsTemplateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnmarshalJSON unmarshals from json
 func (m *UpdateSteeringPolicyDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
@@ -164,7 +181,7 @@ const (
 	UpdateSteeringPolicyDetailsTemplateCustom      UpdateSteeringPolicyDetailsTemplateEnum = "CUSTOM"
 )
 
-var mappingUpdateSteeringPolicyDetailsTemplate = map[string]UpdateSteeringPolicyDetailsTemplateEnum{
+var mappingUpdateSteeringPolicyDetailsTemplateEnum = map[string]UpdateSteeringPolicyDetailsTemplateEnum{
 	"FAILOVER":     UpdateSteeringPolicyDetailsTemplateFailover,
 	"LOAD_BALANCE": UpdateSteeringPolicyDetailsTemplateLoadBalance,
 	"ROUTE_BY_GEO": UpdateSteeringPolicyDetailsTemplateRouteByGeo,
@@ -176,8 +193,20 @@ var mappingUpdateSteeringPolicyDetailsTemplate = map[string]UpdateSteeringPolicy
 // GetUpdateSteeringPolicyDetailsTemplateEnumValues Enumerates the set of values for UpdateSteeringPolicyDetailsTemplateEnum
 func GetUpdateSteeringPolicyDetailsTemplateEnumValues() []UpdateSteeringPolicyDetailsTemplateEnum {
 	values := make([]UpdateSteeringPolicyDetailsTemplateEnum, 0)
-	for _, v := range mappingUpdateSteeringPolicyDetailsTemplate {
+	for _, v := range mappingUpdateSteeringPolicyDetailsTemplateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateSteeringPolicyDetailsTemplateEnumStringValues Enumerates the set of values in String for UpdateSteeringPolicyDetailsTemplateEnum
+func GetUpdateSteeringPolicyDetailsTemplateEnumStringValues() []string {
+	return []string{
+		"FAILOVER",
+		"LOAD_BALANCE",
+		"ROUTE_BY_GEO",
+		"ROUTE_BY_ASN",
+		"ROUTE_BY_IP",
+		"CUSTOM",
+	}
 }

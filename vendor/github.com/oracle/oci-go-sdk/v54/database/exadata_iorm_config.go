@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExadataIormConfig The IORM settings of the Exadata DB system.
@@ -35,6 +37,24 @@ func (m ExadataIormConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExadataIormConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingExadataIormConfigLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExadataIormConfigLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExadataIormConfigObjectiveEnum[string(m.Objective)]; !ok && m.Objective != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Objective: %s. Supported values are: %s.", m.Objective, strings.Join(GetExadataIormConfigObjectiveEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExadataIormConfigLifecycleStateEnum Enum with underlying type: string
 type ExadataIormConfigLifecycleStateEnum string
 
@@ -47,7 +67,7 @@ const (
 	ExadataIormConfigLifecycleStateFailed        ExadataIormConfigLifecycleStateEnum = "FAILED"
 )
 
-var mappingExadataIormConfigLifecycleState = map[string]ExadataIormConfigLifecycleStateEnum{
+var mappingExadataIormConfigLifecycleStateEnum = map[string]ExadataIormConfigLifecycleStateEnum{
 	"BOOTSTRAPPING": ExadataIormConfigLifecycleStateBootstrapping,
 	"ENABLED":       ExadataIormConfigLifecycleStateEnabled,
 	"DISABLED":      ExadataIormConfigLifecycleStateDisabled,
@@ -58,10 +78,21 @@ var mappingExadataIormConfigLifecycleState = map[string]ExadataIormConfigLifecyc
 // GetExadataIormConfigLifecycleStateEnumValues Enumerates the set of values for ExadataIormConfigLifecycleStateEnum
 func GetExadataIormConfigLifecycleStateEnumValues() []ExadataIormConfigLifecycleStateEnum {
 	values := make([]ExadataIormConfigLifecycleStateEnum, 0)
-	for _, v := range mappingExadataIormConfigLifecycleState {
+	for _, v := range mappingExadataIormConfigLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExadataIormConfigLifecycleStateEnumStringValues Enumerates the set of values in String for ExadataIormConfigLifecycleStateEnum
+func GetExadataIormConfigLifecycleStateEnumStringValues() []string {
+	return []string{
+		"BOOTSTRAPPING",
+		"ENABLED",
+		"DISABLED",
+		"UPDATING",
+		"FAILED",
+	}
 }
 
 // ExadataIormConfigObjectiveEnum Enum with underlying type: string
@@ -76,7 +107,7 @@ const (
 	ExadataIormConfigObjectiveBasic          ExadataIormConfigObjectiveEnum = "BASIC"
 )
 
-var mappingExadataIormConfigObjective = map[string]ExadataIormConfigObjectiveEnum{
+var mappingExadataIormConfigObjectiveEnum = map[string]ExadataIormConfigObjectiveEnum{
 	"LOW_LATENCY":     ExadataIormConfigObjectiveLowLatency,
 	"HIGH_THROUGHPUT": ExadataIormConfigObjectiveHighThroughput,
 	"BALANCED":        ExadataIormConfigObjectiveBalanced,
@@ -87,8 +118,19 @@ var mappingExadataIormConfigObjective = map[string]ExadataIormConfigObjectiveEnu
 // GetExadataIormConfigObjectiveEnumValues Enumerates the set of values for ExadataIormConfigObjectiveEnum
 func GetExadataIormConfigObjectiveEnumValues() []ExadataIormConfigObjectiveEnum {
 	values := make([]ExadataIormConfigObjectiveEnum, 0)
-	for _, v := range mappingExadataIormConfigObjective {
+	for _, v := range mappingExadataIormConfigObjectiveEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExadataIormConfigObjectiveEnumStringValues Enumerates the set of values in String for ExadataIormConfigObjectiveEnum
+func GetExadataIormConfigObjectiveEnumStringValues() []string {
+	return []string{
+		"LOW_LATENCY",
+		"HIGH_THROUGHPUT",
+		"BALANCED",
+		"AUTO",
+		"BASIC",
+	}
 }

@@ -12,7 +12,9 @@ package dns
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SteeringPolicyRule The configuration of the sorting and filtering behaviors in a steering policy. Rules can
@@ -96,6 +98,18 @@ func (m steeringpolicyrule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m steeringpolicyrule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SteeringPolicyRuleRuleTypeEnum Enum with underlying type: string
 type SteeringPolicyRuleRuleTypeEnum string
 
@@ -108,7 +122,7 @@ const (
 	SteeringPolicyRuleRuleTypeLimit    SteeringPolicyRuleRuleTypeEnum = "LIMIT"
 )
 
-var mappingSteeringPolicyRuleRuleType = map[string]SteeringPolicyRuleRuleTypeEnum{
+var mappingSteeringPolicyRuleRuleTypeEnum = map[string]SteeringPolicyRuleRuleTypeEnum{
 	"FILTER":   SteeringPolicyRuleRuleTypeFilter,
 	"HEALTH":   SteeringPolicyRuleRuleTypeHealth,
 	"WEIGHTED": SteeringPolicyRuleRuleTypeWeighted,
@@ -119,8 +133,19 @@ var mappingSteeringPolicyRuleRuleType = map[string]SteeringPolicyRuleRuleTypeEnu
 // GetSteeringPolicyRuleRuleTypeEnumValues Enumerates the set of values for SteeringPolicyRuleRuleTypeEnum
 func GetSteeringPolicyRuleRuleTypeEnumValues() []SteeringPolicyRuleRuleTypeEnum {
 	values := make([]SteeringPolicyRuleRuleTypeEnum, 0)
-	for _, v := range mappingSteeringPolicyRuleRuleType {
+	for _, v := range mappingSteeringPolicyRuleRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSteeringPolicyRuleRuleTypeEnumStringValues Enumerates the set of values in String for SteeringPolicyRuleRuleTypeEnum
+func GetSteeringPolicyRuleRuleTypeEnumStringValues() []string {
+	return []string{
+		"FILTER",
+		"HEALTH",
+		"WEIGHTED",
+		"PRIORITY",
+		"LIMIT",
+	}
 }

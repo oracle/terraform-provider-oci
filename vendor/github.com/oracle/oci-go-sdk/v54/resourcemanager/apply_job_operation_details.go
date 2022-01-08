@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ApplyJobOperationDetails Job details that are specific to apply operations.
@@ -32,6 +34,21 @@ type ApplyJobOperationDetails struct {
 
 func (m ApplyJobOperationDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ApplyJobOperationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingApplyJobOperationDetailsExecutionPlanStrategyEnum[string(m.ExecutionPlanStrategy)]; !ok && m.ExecutionPlanStrategy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExecutionPlanStrategy: %s. Supported values are: %s.", m.ExecutionPlanStrategy, strings.Join(GetApplyJobOperationDetailsExecutionPlanStrategyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -58,7 +75,7 @@ const (
 	ApplyJobOperationDetailsExecutionPlanStrategyAutoApproved      ApplyJobOperationDetailsExecutionPlanStrategyEnum = "AUTO_APPROVED"
 )
 
-var mappingApplyJobOperationDetailsExecutionPlanStrategy = map[string]ApplyJobOperationDetailsExecutionPlanStrategyEnum{
+var mappingApplyJobOperationDetailsExecutionPlanStrategyEnum = map[string]ApplyJobOperationDetailsExecutionPlanStrategyEnum{
 	"FROM_PLAN_JOB_ID":     ApplyJobOperationDetailsExecutionPlanStrategyFromPlanJobId,
 	"FROM_LATEST_PLAN_JOB": ApplyJobOperationDetailsExecutionPlanStrategyFromLatestPlanJob,
 	"AUTO_APPROVED":        ApplyJobOperationDetailsExecutionPlanStrategyAutoApproved,
@@ -67,8 +84,17 @@ var mappingApplyJobOperationDetailsExecutionPlanStrategy = map[string]ApplyJobOp
 // GetApplyJobOperationDetailsExecutionPlanStrategyEnumValues Enumerates the set of values for ApplyJobOperationDetailsExecutionPlanStrategyEnum
 func GetApplyJobOperationDetailsExecutionPlanStrategyEnumValues() []ApplyJobOperationDetailsExecutionPlanStrategyEnum {
 	values := make([]ApplyJobOperationDetailsExecutionPlanStrategyEnum, 0)
-	for _, v := range mappingApplyJobOperationDetailsExecutionPlanStrategy {
+	for _, v := range mappingApplyJobOperationDetailsExecutionPlanStrategyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApplyJobOperationDetailsExecutionPlanStrategyEnumStringValues Enumerates the set of values in String for ApplyJobOperationDetailsExecutionPlanStrategyEnum
+func GetApplyJobOperationDetailsExecutionPlanStrategyEnumStringValues() []string {
+	return []string{
+		"FROM_PLAN_JOB_ID",
+		"FROM_LATEST_PLAN_JOB",
+		"AUTO_APPROVED",
+	}
 }

@@ -10,7 +10,9 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateGroupDetails Request body for operationally managing a group.
@@ -27,6 +29,21 @@ func (m UpdateGroupDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateGroupDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateGroupDetailsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetUpdateGroupDetailsTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateGroupDetailsTypeEnum Enum with underlying type: string
 type UpdateGroupDetailsTypeEnum string
 
@@ -37,7 +54,7 @@ const (
 	UpdateGroupDetailsTypeTrimHorizon UpdateGroupDetailsTypeEnum = "TRIM_HORIZON"
 )
 
-var mappingUpdateGroupDetailsType = map[string]UpdateGroupDetailsTypeEnum{
+var mappingUpdateGroupDetailsTypeEnum = map[string]UpdateGroupDetailsTypeEnum{
 	"AT_TIME":      UpdateGroupDetailsTypeAtTime,
 	"LATEST":       UpdateGroupDetailsTypeLatest,
 	"TRIM_HORIZON": UpdateGroupDetailsTypeTrimHorizon,
@@ -46,8 +63,17 @@ var mappingUpdateGroupDetailsType = map[string]UpdateGroupDetailsTypeEnum{
 // GetUpdateGroupDetailsTypeEnumValues Enumerates the set of values for UpdateGroupDetailsTypeEnum
 func GetUpdateGroupDetailsTypeEnumValues() []UpdateGroupDetailsTypeEnum {
 	values := make([]UpdateGroupDetailsTypeEnum, 0)
-	for _, v := range mappingUpdateGroupDetailsType {
+	for _, v := range mappingUpdateGroupDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateGroupDetailsTypeEnumStringValues Enumerates the set of values in String for UpdateGroupDetailsTypeEnum
+func GetUpdateGroupDetailsTypeEnumStringValues() []string {
+	return []string{
+		"AT_TIME",
+		"LATEST",
+		"TRIM_HORIZON",
+	}
 }

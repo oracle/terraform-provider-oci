@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataAssetSummary The summary object for data asset.
@@ -206,6 +208,18 @@ func (m dataassetsummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m dataassetsummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DataAssetSummaryModelTypeEnum Enum with underlying type: string
 type DataAssetSummaryModelTypeEnum string
 
@@ -221,7 +235,7 @@ const (
 	DataAssetSummaryModelTypeAmazonS3DataAsset            DataAssetSummaryModelTypeEnum = "AMAZON_S3_DATA_ASSET"
 )
 
-var mappingDataAssetSummaryModelType = map[string]DataAssetSummaryModelTypeEnum{
+var mappingDataAssetSummaryModelTypeEnum = map[string]DataAssetSummaryModelTypeEnum{
 	"ORACLE_DATA_ASSET":                DataAssetSummaryModelTypeOracleDataAsset,
 	"ORACLE_OBJECT_STORAGE_DATA_ASSET": DataAssetSummaryModelTypeOracleObjectStorageDataAsset,
 	"ORACLE_ATP_DATA_ASSET":            DataAssetSummaryModelTypeOracleAtpDataAsset,
@@ -235,8 +249,22 @@ var mappingDataAssetSummaryModelType = map[string]DataAssetSummaryModelTypeEnum{
 // GetDataAssetSummaryModelTypeEnumValues Enumerates the set of values for DataAssetSummaryModelTypeEnum
 func GetDataAssetSummaryModelTypeEnumValues() []DataAssetSummaryModelTypeEnum {
 	values := make([]DataAssetSummaryModelTypeEnum, 0)
-	for _, v := range mappingDataAssetSummaryModelType {
+	for _, v := range mappingDataAssetSummaryModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataAssetSummaryModelTypeEnumStringValues Enumerates the set of values in String for DataAssetSummaryModelTypeEnum
+func GetDataAssetSummaryModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_DATA_ASSET",
+		"ORACLE_OBJECT_STORAGE_DATA_ASSET",
+		"ORACLE_ATP_DATA_ASSET",
+		"ORACLE_ADWC_DATA_ASSET",
+		"MYSQL_DATA_ASSET",
+		"GENERIC_JDBC_DATA_ASSET",
+		"FUSION_APP_DATA_ASSET",
+		"AMAZON_S3_DATA_ASSET",
+	}
 }

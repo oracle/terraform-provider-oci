@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PluggableDatabaseSummary A pluggable database (PDB) is portable collection of schemas, schema objects, and non-schema objects that appears to an Oracle client as a non-container database. To use a PDB, it needs to be plugged into a CDB.
@@ -62,6 +64,24 @@ func (m PluggableDatabaseSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PluggableDatabaseSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPluggableDatabaseSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPluggableDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPluggableDatabaseSummaryOpenModeEnum[string(m.OpenMode)]; !ok && m.OpenMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetPluggableDatabaseSummaryOpenModeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PluggableDatabaseSummaryLifecycleStateEnum Enum with underlying type: string
 type PluggableDatabaseSummaryLifecycleStateEnum string
 
@@ -75,7 +95,7 @@ const (
 	PluggableDatabaseSummaryLifecycleStateFailed       PluggableDatabaseSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingPluggableDatabaseSummaryLifecycleState = map[string]PluggableDatabaseSummaryLifecycleStateEnum{
+var mappingPluggableDatabaseSummaryLifecycleStateEnum = map[string]PluggableDatabaseSummaryLifecycleStateEnum{
 	"PROVISIONING": PluggableDatabaseSummaryLifecycleStateProvisioning,
 	"AVAILABLE":    PluggableDatabaseSummaryLifecycleStateAvailable,
 	"TERMINATING":  PluggableDatabaseSummaryLifecycleStateTerminating,
@@ -87,10 +107,22 @@ var mappingPluggableDatabaseSummaryLifecycleState = map[string]PluggableDatabase
 // GetPluggableDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for PluggableDatabaseSummaryLifecycleStateEnum
 func GetPluggableDatabaseSummaryLifecycleStateEnumValues() []PluggableDatabaseSummaryLifecycleStateEnum {
 	values := make([]PluggableDatabaseSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingPluggableDatabaseSummaryLifecycleState {
+	for _, v := range mappingPluggableDatabaseSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPluggableDatabaseSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for PluggableDatabaseSummaryLifecycleStateEnum
+func GetPluggableDatabaseSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+		"UPDATING",
+		"FAILED",
+	}
 }
 
 // PluggableDatabaseSummaryOpenModeEnum Enum with underlying type: string
@@ -104,7 +136,7 @@ const (
 	PluggableDatabaseSummaryOpenModeMigrate   PluggableDatabaseSummaryOpenModeEnum = "MIGRATE"
 )
 
-var mappingPluggableDatabaseSummaryOpenMode = map[string]PluggableDatabaseSummaryOpenModeEnum{
+var mappingPluggableDatabaseSummaryOpenModeEnum = map[string]PluggableDatabaseSummaryOpenModeEnum{
 	"READ_ONLY":  PluggableDatabaseSummaryOpenModeReadOnly,
 	"READ_WRITE": PluggableDatabaseSummaryOpenModeReadWrite,
 	"MOUNTED":    PluggableDatabaseSummaryOpenModeMounted,
@@ -114,8 +146,18 @@ var mappingPluggableDatabaseSummaryOpenMode = map[string]PluggableDatabaseSummar
 // GetPluggableDatabaseSummaryOpenModeEnumValues Enumerates the set of values for PluggableDatabaseSummaryOpenModeEnum
 func GetPluggableDatabaseSummaryOpenModeEnumValues() []PluggableDatabaseSummaryOpenModeEnum {
 	values := make([]PluggableDatabaseSummaryOpenModeEnum, 0)
-	for _, v := range mappingPluggableDatabaseSummaryOpenMode {
+	for _, v := range mappingPluggableDatabaseSummaryOpenModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPluggableDatabaseSummaryOpenModeEnumStringValues Enumerates the set of values in String for PluggableDatabaseSummaryOpenModeEnum
+func GetPluggableDatabaseSummaryOpenModeEnumStringValues() []string {
+	return []string{
+		"READ_ONLY",
+		"READ_WRITE",
+		"MOUNTED",
+		"MIGRATE",
+	}
 }

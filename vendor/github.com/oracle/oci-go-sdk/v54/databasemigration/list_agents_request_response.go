@@ -5,15 +5,13 @@
 package databasemigration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAgentsRequest wrapper for the ListAgents operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListAgents.go.html to see an example of how to use ListAgentsRequest.
 type ListAgentsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -54,6 +52,10 @@ func (request ListAgentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAgentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +69,26 @@ func (request ListAgentsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAgentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAgentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAgentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAgentsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAgentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAgentsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAgentsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListAgentsLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAgentsResponse wrapper for the ListAgents operation
@@ -106,7 +128,7 @@ const (
 	ListAgentsSortByDisplayname ListAgentsSortByEnum = "displayName"
 )
 
-var mappingListAgentsSortBy = map[string]ListAgentsSortByEnum{
+var mappingListAgentsSortByEnum = map[string]ListAgentsSortByEnum{
 	"timeCreated": ListAgentsSortByTimecreated,
 	"displayName": ListAgentsSortByDisplayname,
 }
@@ -114,10 +136,18 @@ var mappingListAgentsSortBy = map[string]ListAgentsSortByEnum{
 // GetListAgentsSortByEnumValues Enumerates the set of values for ListAgentsSortByEnum
 func GetListAgentsSortByEnumValues() []ListAgentsSortByEnum {
 	values := make([]ListAgentsSortByEnum, 0)
-	for _, v := range mappingListAgentsSortBy {
+	for _, v := range mappingListAgentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAgentsSortByEnumStringValues Enumerates the set of values in String for ListAgentsSortByEnum
+func GetListAgentsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListAgentsSortOrderEnum Enum with underlying type: string
@@ -129,7 +159,7 @@ const (
 	ListAgentsSortOrderDesc ListAgentsSortOrderEnum = "DESC"
 )
 
-var mappingListAgentsSortOrder = map[string]ListAgentsSortOrderEnum{
+var mappingListAgentsSortOrderEnum = map[string]ListAgentsSortOrderEnum{
 	"ASC":  ListAgentsSortOrderAsc,
 	"DESC": ListAgentsSortOrderDesc,
 }
@@ -137,10 +167,18 @@ var mappingListAgentsSortOrder = map[string]ListAgentsSortOrderEnum{
 // GetListAgentsSortOrderEnumValues Enumerates the set of values for ListAgentsSortOrderEnum
 func GetListAgentsSortOrderEnumValues() []ListAgentsSortOrderEnum {
 	values := make([]ListAgentsSortOrderEnum, 0)
-	for _, v := range mappingListAgentsSortOrder {
+	for _, v := range mappingListAgentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAgentsSortOrderEnumStringValues Enumerates the set of values in String for ListAgentsSortOrderEnum
+func GetListAgentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAgentsLifecycleStateEnum Enum with underlying type: string
@@ -157,7 +195,7 @@ const (
 	ListAgentsLifecycleStateFailed   ListAgentsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListAgentsLifecycleState = map[string]ListAgentsLifecycleStateEnum{
+var mappingListAgentsLifecycleStateEnum = map[string]ListAgentsLifecycleStateEnum{
 	"CREATING": ListAgentsLifecycleStateCreating,
 	"UPDATING": ListAgentsLifecycleStateUpdating,
 	"ACTIVE":   ListAgentsLifecycleStateActive,
@@ -170,8 +208,21 @@ var mappingListAgentsLifecycleState = map[string]ListAgentsLifecycleStateEnum{
 // GetListAgentsLifecycleStateEnumValues Enumerates the set of values for ListAgentsLifecycleStateEnum
 func GetListAgentsLifecycleStateEnumValues() []ListAgentsLifecycleStateEnum {
 	values := make([]ListAgentsLifecycleStateEnum, 0)
-	for _, v := range mappingListAgentsLifecycleState {
+	for _, v := range mappingListAgentsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAgentsLifecycleStateEnumStringValues Enumerates the set of values in String for ListAgentsLifecycleStateEnum
+func GetListAgentsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

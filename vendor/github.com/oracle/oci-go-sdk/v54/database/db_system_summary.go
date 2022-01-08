@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DbSystemSummary The Database Service supports several types of DB systems, ranging in size, price, and performance. For details about
@@ -188,6 +190,30 @@ func (m DbSystemSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbSystemSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDbSystemSummaryDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetDbSystemSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDbSystemSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbSystemSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDbSystemSummaryDiskRedundancyEnum[string(m.DiskRedundancy)]; !ok && m.DiskRedundancy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiskRedundancy: %s. Supported values are: %s.", m.DiskRedundancy, strings.Join(GetDbSystemSummaryDiskRedundancyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDbSystemSummaryLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetDbSystemSummaryLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DbSystemSummaryDatabaseEditionEnum Enum with underlying type: string
 type DbSystemSummaryDatabaseEditionEnum string
 
@@ -199,7 +225,7 @@ const (
 	DbSystemSummaryDatabaseEditionEnterpriseEditionExtremePerformance DbSystemSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 )
 
-var mappingDbSystemSummaryDatabaseEdition = map[string]DbSystemSummaryDatabaseEditionEnum{
+var mappingDbSystemSummaryDatabaseEditionEnum = map[string]DbSystemSummaryDatabaseEditionEnum{
 	"STANDARD_EDITION":                       DbSystemSummaryDatabaseEditionStandardEdition,
 	"ENTERPRISE_EDITION":                     DbSystemSummaryDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    DbSystemSummaryDatabaseEditionEnterpriseEditionHighPerformance,
@@ -209,10 +235,20 @@ var mappingDbSystemSummaryDatabaseEdition = map[string]DbSystemSummaryDatabaseEd
 // GetDbSystemSummaryDatabaseEditionEnumValues Enumerates the set of values for DbSystemSummaryDatabaseEditionEnum
 func GetDbSystemSummaryDatabaseEditionEnumValues() []DbSystemSummaryDatabaseEditionEnum {
 	values := make([]DbSystemSummaryDatabaseEditionEnum, 0)
-	for _, v := range mappingDbSystemSummaryDatabaseEdition {
+	for _, v := range mappingDbSystemSummaryDatabaseEditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemSummaryDatabaseEditionEnumStringValues Enumerates the set of values in String for DbSystemSummaryDatabaseEditionEnum
+func GetDbSystemSummaryDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+	}
 }
 
 // DbSystemSummaryLifecycleStateEnum Enum with underlying type: string
@@ -229,9 +265,10 @@ const (
 	DbSystemSummaryLifecycleStateMigrated              DbSystemSummaryLifecycleStateEnum = "MIGRATED"
 	DbSystemSummaryLifecycleStateMaintenanceInProgress DbSystemSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 	DbSystemSummaryLifecycleStateNeedsAttention        DbSystemSummaryLifecycleStateEnum = "NEEDS_ATTENTION"
+	DbSystemSummaryLifecycleStateUpgrading             DbSystemSummaryLifecycleStateEnum = "UPGRADING"
 )
 
-var mappingDbSystemSummaryLifecycleState = map[string]DbSystemSummaryLifecycleStateEnum{
+var mappingDbSystemSummaryLifecycleStateEnum = map[string]DbSystemSummaryLifecycleStateEnum{
 	"PROVISIONING":            DbSystemSummaryLifecycleStateProvisioning,
 	"AVAILABLE":               DbSystemSummaryLifecycleStateAvailable,
 	"UPDATING":                DbSystemSummaryLifecycleStateUpdating,
@@ -241,15 +278,32 @@ var mappingDbSystemSummaryLifecycleState = map[string]DbSystemSummaryLifecycleSt
 	"MIGRATED":                DbSystemSummaryLifecycleStateMigrated,
 	"MAINTENANCE_IN_PROGRESS": DbSystemSummaryLifecycleStateMaintenanceInProgress,
 	"NEEDS_ATTENTION":         DbSystemSummaryLifecycleStateNeedsAttention,
+	"UPGRADING":               DbSystemSummaryLifecycleStateUpgrading,
 }
 
 // GetDbSystemSummaryLifecycleStateEnumValues Enumerates the set of values for DbSystemSummaryLifecycleStateEnum
 func GetDbSystemSummaryLifecycleStateEnumValues() []DbSystemSummaryLifecycleStateEnum {
 	values := make([]DbSystemSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingDbSystemSummaryLifecycleState {
+	for _, v := range mappingDbSystemSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for DbSystemSummaryLifecycleStateEnum
+func GetDbSystemSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MIGRATED",
+		"MAINTENANCE_IN_PROGRESS",
+		"NEEDS_ATTENTION",
+		"UPGRADING",
+	}
 }
 
 // DbSystemSummaryDiskRedundancyEnum Enum with underlying type: string
@@ -261,7 +315,7 @@ const (
 	DbSystemSummaryDiskRedundancyNormal DbSystemSummaryDiskRedundancyEnum = "NORMAL"
 )
 
-var mappingDbSystemSummaryDiskRedundancy = map[string]DbSystemSummaryDiskRedundancyEnum{
+var mappingDbSystemSummaryDiskRedundancyEnum = map[string]DbSystemSummaryDiskRedundancyEnum{
 	"HIGH":   DbSystemSummaryDiskRedundancyHigh,
 	"NORMAL": DbSystemSummaryDiskRedundancyNormal,
 }
@@ -269,10 +323,18 @@ var mappingDbSystemSummaryDiskRedundancy = map[string]DbSystemSummaryDiskRedunda
 // GetDbSystemSummaryDiskRedundancyEnumValues Enumerates the set of values for DbSystemSummaryDiskRedundancyEnum
 func GetDbSystemSummaryDiskRedundancyEnumValues() []DbSystemSummaryDiskRedundancyEnum {
 	values := make([]DbSystemSummaryDiskRedundancyEnum, 0)
-	for _, v := range mappingDbSystemSummaryDiskRedundancy {
+	for _, v := range mappingDbSystemSummaryDiskRedundancyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemSummaryDiskRedundancyEnumStringValues Enumerates the set of values in String for DbSystemSummaryDiskRedundancyEnum
+func GetDbSystemSummaryDiskRedundancyEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"NORMAL",
+	}
 }
 
 // DbSystemSummaryLicenseModelEnum Enum with underlying type: string
@@ -284,7 +346,7 @@ const (
 	DbSystemSummaryLicenseModelBringYourOwnLicense DbSystemSummaryLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingDbSystemSummaryLicenseModel = map[string]DbSystemSummaryLicenseModelEnum{
+var mappingDbSystemSummaryLicenseModelEnum = map[string]DbSystemSummaryLicenseModelEnum{
 	"LICENSE_INCLUDED":       DbSystemSummaryLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": DbSystemSummaryLicenseModelBringYourOwnLicense,
 }
@@ -292,8 +354,16 @@ var mappingDbSystemSummaryLicenseModel = map[string]DbSystemSummaryLicenseModelE
 // GetDbSystemSummaryLicenseModelEnumValues Enumerates the set of values for DbSystemSummaryLicenseModelEnum
 func GetDbSystemSummaryLicenseModelEnumValues() []DbSystemSummaryLicenseModelEnum {
 	values := make([]DbSystemSummaryLicenseModelEnum, 0)
-	for _, v := range mappingDbSystemSummaryLicenseModel {
+	for _, v := range mappingDbSystemSummaryLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemSummaryLicenseModelEnumStringValues Enumerates the set of values in String for DbSystemSummaryLicenseModelEnum
+func GetDbSystemSummaryLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

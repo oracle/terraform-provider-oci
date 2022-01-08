@@ -11,7 +11,9 @@ package certificatesmanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CertificateAuthority The metadata details of the certificate authority (CA). This object does not contain the CA contents.
@@ -75,6 +77,27 @@ type CertificateAuthority struct {
 
 func (m CertificateAuthority) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CertificateAuthority) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCertificateAuthorityLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCertificateAuthorityLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCertificateAuthorityConfigTypeEnum[string(m.ConfigType)]; !ok && m.ConfigType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigType: %s. Supported values are: %s.", m.ConfigType, strings.Join(GetCertificateAuthorityConfigTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingSignatureAlgorithmEnum[string(m.SigningAlgorithm)]; !ok && m.SigningAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SigningAlgorithm: %s. Supported values are: %s.", m.SigningAlgorithm, strings.Join(GetSignatureAlgorithmEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json

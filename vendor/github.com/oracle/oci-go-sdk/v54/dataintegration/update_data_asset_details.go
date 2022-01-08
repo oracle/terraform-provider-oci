@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateDataAssetDetails Properties used in data asset update operations.
@@ -188,6 +190,18 @@ func (m updatedataassetdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m updatedataassetdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateDataAssetDetailsModelTypeEnum Enum with underlying type: string
 type UpdateDataAssetDetailsModelTypeEnum string
 
@@ -203,7 +217,7 @@ const (
 	UpdateDataAssetDetailsModelTypeAmazonS3DataAsset            UpdateDataAssetDetailsModelTypeEnum = "AMAZON_S3_DATA_ASSET"
 )
 
-var mappingUpdateDataAssetDetailsModelType = map[string]UpdateDataAssetDetailsModelTypeEnum{
+var mappingUpdateDataAssetDetailsModelTypeEnum = map[string]UpdateDataAssetDetailsModelTypeEnum{
 	"ORACLE_DATA_ASSET":                UpdateDataAssetDetailsModelTypeOracleDataAsset,
 	"ORACLE_OBJECT_STORAGE_DATA_ASSET": UpdateDataAssetDetailsModelTypeOracleObjectStorageDataAsset,
 	"ORACLE_ATP_DATA_ASSET":            UpdateDataAssetDetailsModelTypeOracleAtpDataAsset,
@@ -217,8 +231,22 @@ var mappingUpdateDataAssetDetailsModelType = map[string]UpdateDataAssetDetailsMo
 // GetUpdateDataAssetDetailsModelTypeEnumValues Enumerates the set of values for UpdateDataAssetDetailsModelTypeEnum
 func GetUpdateDataAssetDetailsModelTypeEnumValues() []UpdateDataAssetDetailsModelTypeEnum {
 	values := make([]UpdateDataAssetDetailsModelTypeEnum, 0)
-	for _, v := range mappingUpdateDataAssetDetailsModelType {
+	for _, v := range mappingUpdateDataAssetDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateDataAssetDetailsModelTypeEnumStringValues Enumerates the set of values in String for UpdateDataAssetDetailsModelTypeEnum
+func GetUpdateDataAssetDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_DATA_ASSET",
+		"ORACLE_OBJECT_STORAGE_DATA_ASSET",
+		"ORACLE_ATP_DATA_ASSET",
+		"ORACLE_ADWC_DATA_ASSET",
+		"MYSQL_DATA_ASSET",
+		"GENERIC_JDBC_DATA_ASSET",
+		"FUSION_APP_DATA_ASSET",
+		"AMAZON_S3_DATA_ASSET",
+	}
 }

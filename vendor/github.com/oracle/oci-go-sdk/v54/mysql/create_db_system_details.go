@@ -11,7 +11,9 @@ package mysql
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateDbSystemDetails Details required to create a DB System.
@@ -28,15 +30,6 @@ type CreateDbSystemDetails struct {
 
 	// The OCID of the subnet the DB System is associated with.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
-
-	// The username for the administrative user.
-	AdminUsername *string `mandatory:"true" json:"adminUsername"`
-
-	// The password for the administrative user. The password must be
-	// between 8 and 32 characters long, and must contain at least 1
-	// numeric character, 1 lowercase character, 1 uppercase character, and
-	// 1 special (nonalphanumeric) character.
-	AdminPassword *string `mandatory:"true" json:"adminPassword"`
 
 	// The user-friendly name for the DB System. It does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -71,6 +64,15 @@ type CreateDbSystemDetails struct {
 
 	// The specific MySQL version identifier.
 	MysqlVersion *string `mandatory:"false" json:"mysqlVersion"`
+
+	// The username for the administrative user.
+	AdminUsername *string `mandatory:"false" json:"adminUsername"`
+
+	// The password for the administrative user. The password must be
+	// between 8 and 32 characters long, and must contain at least 1
+	// numeric character, 1 lowercase character, 1 uppercase character, and
+	// 1 special (nonalphanumeric) character.
+	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
 	// Initial size of the data volume in GBs that will be created and attached.
 	// Keep in mind that this only specifies the size of the database data volume,
@@ -109,10 +111,31 @@ type CreateDbSystemDetails struct {
 	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	DeletionPolicy *CreateDeletionPolicyDetails `mandatory:"false" json:"deletionPolicy"`
+
+	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
+	// and whether to enable or disable syncing of the Binary Logs.
+	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`
 }
 
 func (m CreateDbSystemDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDbSystemDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCrashRecoveryStatusEnum[string(m.CrashRecovery)]; !ok && m.CrashRecovery != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CrashRecovery: %s. Supported values are: %s.", m.CrashRecovery, strings.Join(GetCrashRecoveryStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -125,6 +148,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		FaultDomain          *string                           `json:"faultDomain"`
 		ConfigurationId      *string                           `json:"configurationId"`
 		MysqlVersion         *string                           `json:"mysqlVersion"`
+		AdminUsername        *string                           `json:"adminUsername"`
+		AdminPassword        *string                           `json:"adminPassword"`
 		DataStorageSizeInGBs *int                              `json:"dataStorageSizeInGBs"`
 		HostnameLabel        *string                           `json:"hostnameLabel"`
 		IpAddress            *string                           `json:"ipAddress"`
@@ -135,11 +160,11 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		Maintenance          *CreateMaintenanceDetails         `json:"maintenance"`
 		FreeformTags         map[string]string                 `json:"freeformTags"`
 		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
+		DeletionPolicy       *CreateDeletionPolicyDetails      `json:"deletionPolicy"`
+		CrashRecovery        CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		CompartmentId        *string                           `json:"compartmentId"`
 		ShapeName            *string                           `json:"shapeName"`
 		SubnetId             *string                           `json:"subnetId"`
-		AdminUsername        *string                           `json:"adminUsername"`
-		AdminPassword        *string                           `json:"adminPassword"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -160,6 +185,10 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ConfigurationId = model.ConfigurationId
 
 	m.MysqlVersion = model.MysqlVersion
+
+	m.AdminUsername = model.AdminUsername
+
+	m.AdminPassword = model.AdminPassword
 
 	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
 
@@ -189,15 +218,15 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
+	m.DeletionPolicy = model.DeletionPolicy
+
+	m.CrashRecovery = model.CrashRecovery
+
 	m.CompartmentId = model.CompartmentId
 
 	m.ShapeName = model.ShapeName
 
 	m.SubnetId = model.SubnetId
-
-	m.AdminUsername = model.AdminUsername
-
-	m.AdminPassword = model.AdminPassword
 
 	return
 }

@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SignedData The representation of SignedData
@@ -39,6 +41,21 @@ func (m SignedData) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SignedData) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSignedDataSigningAlgorithmEnum[string(m.SigningAlgorithm)]; !ok && m.SigningAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SigningAlgorithm: %s. Supported values are: %s.", m.SigningAlgorithm, strings.Join(GetSignedDataSigningAlgorithmEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SignedDataSigningAlgorithmEnum Enum with underlying type: string
 type SignedDataSigningAlgorithmEnum string
 
@@ -57,7 +74,7 @@ const (
 	SignedDataSigningAlgorithmEcdsaSha512       SignedDataSigningAlgorithmEnum = "ECDSA_SHA_512"
 )
 
-var mappingSignedDataSigningAlgorithm = map[string]SignedDataSigningAlgorithmEnum{
+var mappingSignedDataSigningAlgorithmEnum = map[string]SignedDataSigningAlgorithmEnum{
 	"SHA_224_RSA_PKCS_PSS":   SignedDataSigningAlgorithmSha224RsaPkcsPss,
 	"SHA_256_RSA_PKCS_PSS":   SignedDataSigningAlgorithmSha256RsaPkcsPss,
 	"SHA_384_RSA_PKCS_PSS":   SignedDataSigningAlgorithmSha384RsaPkcsPss,
@@ -74,8 +91,25 @@ var mappingSignedDataSigningAlgorithm = map[string]SignedDataSigningAlgorithmEnu
 // GetSignedDataSigningAlgorithmEnumValues Enumerates the set of values for SignedDataSigningAlgorithmEnum
 func GetSignedDataSigningAlgorithmEnumValues() []SignedDataSigningAlgorithmEnum {
 	values := make([]SignedDataSigningAlgorithmEnum, 0)
-	for _, v := range mappingSignedDataSigningAlgorithm {
+	for _, v := range mappingSignedDataSigningAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSignedDataSigningAlgorithmEnumStringValues Enumerates the set of values in String for SignedDataSigningAlgorithmEnum
+func GetSignedDataSigningAlgorithmEnumStringValues() []string {
+	return []string{
+		"SHA_224_RSA_PKCS_PSS",
+		"SHA_256_RSA_PKCS_PSS",
+		"SHA_384_RSA_PKCS_PSS",
+		"SHA_512_RSA_PKCS_PSS",
+		"SHA_224_RSA_PKCS1_V1_5",
+		"SHA_256_RSA_PKCS1_V1_5",
+		"SHA_384_RSA_PKCS1_V1_5",
+		"SHA_512_RSA_PKCS1_V1_5",
+		"ECDSA_SHA_256",
+		"ECDSA_SHA_384",
+		"ECDSA_SHA_512",
+	}
 }

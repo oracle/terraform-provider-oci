@@ -20,7 +20,7 @@ const (
 	HttpProbeMethodHead HttpProbeMethodEnum = "HEAD"
 )
 
-var mappingHttpProbeMethod = map[string]HttpProbeMethodEnum{
+var mappingHttpProbeMethodEnum = map[string]HttpProbeMethodEnum{
 	"GET":  HttpProbeMethodGet,
 	"HEAD": HttpProbeMethodHead,
 }
@@ -28,8 +28,16 @@ var mappingHttpProbeMethod = map[string]HttpProbeMethodEnum{
 // GetHttpProbeMethodEnumValues Enumerates the set of values for HttpProbeMethodEnum
 func GetHttpProbeMethodEnumValues() []HttpProbeMethodEnum {
 	values := make([]HttpProbeMethodEnum, 0)
-	for _, v := range mappingHttpProbeMethod {
+	for _, v := range mappingHttpProbeMethodEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHttpProbeMethodEnumStringValues Enumerates the set of values in String for HttpProbeMethodEnum
+func GetHttpProbeMethodEnumStringValues() []string {
+	return []string{
+		"GET",
+		"HEAD",
+	}
 }

@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetTermRequest wrapper for the GetTerm operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetTerm.go.html to see an example of how to use GetTermRequest.
 type GetTermRequest struct {
 
 	// Unique catalog identifier.
@@ -43,6 +41,10 @@ func (request GetTermRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetTermRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +58,23 @@ func (request GetTermRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetTermRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetTermRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetTermFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetTermFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetTermResponse wrapper for the GetTerm operation
@@ -109,7 +128,7 @@ const (
 	GetTermFieldsAssociatedobjects         GetTermFieldsEnum = "associatedObjects"
 )
 
-var mappingGetTermFields = map[string]GetTermFieldsEnum{
+var mappingGetTermFieldsEnum = map[string]GetTermFieldsEnum{
 	"key":                       GetTermFieldsKey,
 	"displayName":               GetTermFieldsDisplayname,
 	"description":               GetTermFieldsDescription,
@@ -133,8 +152,32 @@ var mappingGetTermFields = map[string]GetTermFieldsEnum{
 // GetGetTermFieldsEnumValues Enumerates the set of values for GetTermFieldsEnum
 func GetGetTermFieldsEnumValues() []GetTermFieldsEnum {
 	values := make([]GetTermFieldsEnum, 0)
-	for _, v := range mappingGetTermFields {
+	for _, v := range mappingGetTermFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetTermFieldsEnumStringValues Enumerates the set of values in String for GetTermFieldsEnum
+func GetGetTermFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"glossaryKey",
+		"parentTermKey",
+		"isAllowedToHaveChildTerms",
+		"path",
+		"lifecycleState",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"owner",
+		"workflowStatus",
+		"uri",
+		"relatedTerms",
+		"associatedObjectCount",
+		"associatedObjects",
+	}
 }

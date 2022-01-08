@@ -5,15 +5,13 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListProfileLevelsRequest wrapper for the ListProfileLevels operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListProfileLevels.go.html to see an example of how to use ListProfileLevelsRequest.
 type ListProfileLevelsRequest struct {
 
 	// The OCID of the compartment.
@@ -57,6 +55,10 @@ func (request ListProfileLevelsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListProfileLevelsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,23 @@ func (request ListProfileLevelsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListProfileLevelsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListProfileLevelsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListProfileLevelsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListProfileLevelsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProfileLevelsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListProfileLevelsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListProfileLevelsResponse wrapper for the ListProfileLevels operation
@@ -113,7 +132,7 @@ const (
 	ListProfileLevelsSortOrderDesc ListProfileLevelsSortOrderEnum = "DESC"
 )
 
-var mappingListProfileLevelsSortOrder = map[string]ListProfileLevelsSortOrderEnum{
+var mappingListProfileLevelsSortOrderEnum = map[string]ListProfileLevelsSortOrderEnum{
 	"ASC":  ListProfileLevelsSortOrderAsc,
 	"DESC": ListProfileLevelsSortOrderDesc,
 }
@@ -121,10 +140,18 @@ var mappingListProfileLevelsSortOrder = map[string]ListProfileLevelsSortOrderEnu
 // GetListProfileLevelsSortOrderEnumValues Enumerates the set of values for ListProfileLevelsSortOrderEnum
 func GetListProfileLevelsSortOrderEnumValues() []ListProfileLevelsSortOrderEnum {
 	values := make([]ListProfileLevelsSortOrderEnum, 0)
-	for _, v := range mappingListProfileLevelsSortOrder {
+	for _, v := range mappingListProfileLevelsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProfileLevelsSortOrderEnumStringValues Enumerates the set of values in String for ListProfileLevelsSortOrderEnum
+func GetListProfileLevelsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListProfileLevelsSortByEnum Enum with underlying type: string
@@ -136,7 +163,7 @@ const (
 	ListProfileLevelsSortByTimecreated ListProfileLevelsSortByEnum = "TIMECREATED"
 )
 
-var mappingListProfileLevelsSortBy = map[string]ListProfileLevelsSortByEnum{
+var mappingListProfileLevelsSortByEnum = map[string]ListProfileLevelsSortByEnum{
 	"NAME":        ListProfileLevelsSortByName,
 	"TIMECREATED": ListProfileLevelsSortByTimecreated,
 }
@@ -144,8 +171,16 @@ var mappingListProfileLevelsSortBy = map[string]ListProfileLevelsSortByEnum{
 // GetListProfileLevelsSortByEnumValues Enumerates the set of values for ListProfileLevelsSortByEnum
 func GetListProfileLevelsSortByEnumValues() []ListProfileLevelsSortByEnum {
 	values := make([]ListProfileLevelsSortByEnum, 0)
-	for _, v := range mappingListProfileLevelsSortBy {
+	for _, v := range mappingListProfileLevelsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProfileLevelsSortByEnumStringValues Enumerates the set of values in String for ListProfileLevelsSortByEnum
+func GetListProfileLevelsSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }

@@ -5,15 +5,13 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListBackendSetsRequest wrapper for the ListBackendSets operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ListBackendSets.go.html to see an example of how to use ListBackendSetsRequest.
 type ListBackendSetsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend sets to retrieve.
@@ -22,6 +20,13 @@ type ListBackendSetsRequest struct {
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the if-match
+	// parameter to the value of the ETag from a previous GET or POST response for that resource. The
+	// resource is updated or deleted only if the ETag you provide matches the resource's current ETag
+	// value.
+	// Example: `example-etag`
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -35,6 +40,10 @@ func (request ListBackendSetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBackendSetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -50,6 +59,17 @@ func (request ListBackendSetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBackendSetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ListBackendSetsResponse wrapper for the ListBackendSets operation
 type ListBackendSetsResponse struct {
 
@@ -59,9 +79,18 @@ type ListBackendSetsResponse struct {
 	// The []BackendSet instance
 	Items []BackendSet `presentIn:"body"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	ETag *string `presentIn:"header" name:"etag"`
+
+	// Flag to indicate whether or not the object was modified.  If this is true,
+	// the getter for the object itself will return null.  Callers should check this
+	// if they specified one of the request params that might result in a conditional
+	// response (like 'if-match'/'if-none-match').
+	IsNotModified bool
 }
 
 func (response ListBackendSetsResponse) String() string {

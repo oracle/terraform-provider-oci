@@ -4,13 +4,15 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AgreementSummary The model for a summary of an end user license agreement.
@@ -33,6 +35,21 @@ func (m AgreementSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AgreementSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAgreementSummaryAuthorEnum[string(m.Author)]; !ok && m.Author != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Author: %s. Supported values are: %s.", m.Author, strings.Join(GetAgreementSummaryAuthorEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AgreementSummaryAuthorEnum Enum with underlying type: string
 type AgreementSummaryAuthorEnum string
 
@@ -43,7 +60,7 @@ const (
 	AgreementSummaryAuthorPii     AgreementSummaryAuthorEnum = "PII"
 )
 
-var mappingAgreementSummaryAuthor = map[string]AgreementSummaryAuthorEnum{
+var mappingAgreementSummaryAuthorEnum = map[string]AgreementSummaryAuthorEnum{
 	"ORACLE":  AgreementSummaryAuthorOracle,
 	"PARTNER": AgreementSummaryAuthorPartner,
 	"PII":     AgreementSummaryAuthorPii,
@@ -52,8 +69,17 @@ var mappingAgreementSummaryAuthor = map[string]AgreementSummaryAuthorEnum{
 // GetAgreementSummaryAuthorEnumValues Enumerates the set of values for AgreementSummaryAuthorEnum
 func GetAgreementSummaryAuthorEnumValues() []AgreementSummaryAuthorEnum {
 	values := make([]AgreementSummaryAuthorEnum, 0)
-	for _, v := range mappingAgreementSummaryAuthor {
+	for _, v := range mappingAgreementSummaryAuthorEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAgreementSummaryAuthorEnumStringValues Enumerates the set of values in String for AgreementSummaryAuthorEnum
+func GetAgreementSummaryAuthorEnumStringValues() []string {
+	return []string{
+		"ORACLE",
+		"PARTNER",
+		"PII",
+	}
 }

@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LogAnalyticsSourceDataFilter LogAnalyticsSourceDataFilter
@@ -64,6 +66,21 @@ func (m LogAnalyticsSourceDataFilter) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsSourceDataFilter) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsSourceDataFilterFilterTypeEnum[string(m.FilterType)]; !ok && m.FilterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FilterType: %s. Supported values are: %s.", m.FilterType, strings.Join(GetLogAnalyticsSourceDataFilterFilterTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsSourceDataFilterFilterTypeEnum Enum with underlying type: string
 type LogAnalyticsSourceDataFilterFilterTypeEnum string
 
@@ -75,7 +92,7 @@ const (
 	LogAnalyticsSourceDataFilterFilterTypeDropString   LogAnalyticsSourceDataFilterFilterTypeEnum = "DROP_STRING"
 )
 
-var mappingLogAnalyticsSourceDataFilterFilterType = map[string]LogAnalyticsSourceDataFilterFilterTypeEnum{
+var mappingLogAnalyticsSourceDataFilterFilterTypeEnum = map[string]LogAnalyticsSourceDataFilterFilterTypeEnum{
 	"MASK":           LogAnalyticsSourceDataFilterFilterTypeMask,
 	"HASH_MASK":      LogAnalyticsSourceDataFilterFilterTypeHashMask,
 	"DROP_LOG_ENTRY": LogAnalyticsSourceDataFilterFilterTypeDropLogEntry,
@@ -85,8 +102,18 @@ var mappingLogAnalyticsSourceDataFilterFilterType = map[string]LogAnalyticsSourc
 // GetLogAnalyticsSourceDataFilterFilterTypeEnumValues Enumerates the set of values for LogAnalyticsSourceDataFilterFilterTypeEnum
 func GetLogAnalyticsSourceDataFilterFilterTypeEnumValues() []LogAnalyticsSourceDataFilterFilterTypeEnum {
 	values := make([]LogAnalyticsSourceDataFilterFilterTypeEnum, 0)
-	for _, v := range mappingLogAnalyticsSourceDataFilterFilterType {
+	for _, v := range mappingLogAnalyticsSourceDataFilterFilterTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsSourceDataFilterFilterTypeEnumStringValues Enumerates the set of values in String for LogAnalyticsSourceDataFilterFilterTypeEnum
+func GetLogAnalyticsSourceDataFilterFilterTypeEnumStringValues() []string {
+	return []string{
+		"MASK",
+		"HASH_MASK",
+		"DROP_LOG_ENTRY",
+		"DROP_STRING",
+	}
 }

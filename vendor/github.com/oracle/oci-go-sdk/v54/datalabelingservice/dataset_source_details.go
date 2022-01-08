@@ -2,16 +2,18 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// DataLabelingService API
+// Data Labeling Management API
 //
-// A description of the DataLabelingService API
+// Use Data Labeling Management API to create, list, edit & delete datasets.
 //
 
 package datalabelingservice
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatasetSourceDetails This allows the customer to specify the source of the dataset.
@@ -61,6 +63,18 @@ func (m datasetsourcedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m datasetsourcedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatasetSourceDetailsSourceTypeEnum Enum with underlying type: string
 type DatasetSourceDetailsSourceTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	DatasetSourceDetailsSourceTypeObjectStorage DatasetSourceDetailsSourceTypeEnum = "OBJECT_STORAGE"
 )
 
-var mappingDatasetSourceDetailsSourceType = map[string]DatasetSourceDetailsSourceTypeEnum{
+var mappingDatasetSourceDetailsSourceTypeEnum = map[string]DatasetSourceDetailsSourceTypeEnum{
 	"OBJECT_STORAGE": DatasetSourceDetailsSourceTypeObjectStorage,
 }
 
 // GetDatasetSourceDetailsSourceTypeEnumValues Enumerates the set of values for DatasetSourceDetailsSourceTypeEnum
 func GetDatasetSourceDetailsSourceTypeEnumValues() []DatasetSourceDetailsSourceTypeEnum {
 	values := make([]DatasetSourceDetailsSourceTypeEnum, 0)
-	for _, v := range mappingDatasetSourceDetailsSourceType {
+	for _, v := range mappingDatasetSourceDetailsSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatasetSourceDetailsSourceTypeEnumStringValues Enumerates the set of values in String for DatasetSourceDetailsSourceTypeEnum
+func GetDatasetSourceDetailsSourceTypeEnumStringValues() []string {
+	return []string{
+		"OBJECT_STORAGE",
+	}
 }

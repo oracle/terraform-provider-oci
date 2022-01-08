@@ -17,15 +17,22 @@ const (
 	PhaseExtractTypesError PhaseExtractTypesEnum = "ERROR"
 )
 
-var mappingPhaseExtractTypes = map[string]PhaseExtractTypesEnum{
+var mappingPhaseExtractTypesEnum = map[string]PhaseExtractTypesEnum{
 	"ERROR": PhaseExtractTypesError,
 }
 
 // GetPhaseExtractTypesEnumValues Enumerates the set of values for PhaseExtractTypesEnum
 func GetPhaseExtractTypesEnumValues() []PhaseExtractTypesEnum {
 	values := make([]PhaseExtractTypesEnum, 0)
-	for _, v := range mappingPhaseExtractTypes {
+	for _, v := range mappingPhaseExtractTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPhaseExtractTypesEnumStringValues Enumerates the set of values in String for PhaseExtractTypesEnum
+func GetPhaseExtractTypesEnumStringValues() []string {
+	return []string{
+		"ERROR",
+	}
 }

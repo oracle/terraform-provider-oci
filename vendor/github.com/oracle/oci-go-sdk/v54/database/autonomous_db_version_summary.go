@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutonomousDbVersionSummary The supported Autonomous Database version.
@@ -26,7 +28,7 @@ type AutonomousDbVersionSummary struct {
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
 	DbWorkload AutonomousDbVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
-	// True if the database uses dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).
+	// True if the database uses dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
 	// A URL that points to a detailed description of the Autonomous Database version.
@@ -49,6 +51,21 @@ func (m AutonomousDbVersionSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDbVersionSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAutonomousDbVersionSummaryDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetAutonomousDbVersionSummaryDbWorkloadEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousDbVersionSummaryDbWorkloadEnum Enum with underlying type: string
 type AutonomousDbVersionSummaryDbWorkloadEnum string
 
@@ -60,7 +77,7 @@ const (
 	AutonomousDbVersionSummaryDbWorkloadApex AutonomousDbVersionSummaryDbWorkloadEnum = "APEX"
 )
 
-var mappingAutonomousDbVersionSummaryDbWorkload = map[string]AutonomousDbVersionSummaryDbWorkloadEnum{
+var mappingAutonomousDbVersionSummaryDbWorkloadEnum = map[string]AutonomousDbVersionSummaryDbWorkloadEnum{
 	"OLTP": AutonomousDbVersionSummaryDbWorkloadOltp,
 	"DW":   AutonomousDbVersionSummaryDbWorkloadDw,
 	"AJD":  AutonomousDbVersionSummaryDbWorkloadAjd,
@@ -70,8 +87,18 @@ var mappingAutonomousDbVersionSummaryDbWorkload = map[string]AutonomousDbVersion
 // GetAutonomousDbVersionSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDbVersionSummaryDbWorkloadEnum
 func GetAutonomousDbVersionSummaryDbWorkloadEnumValues() []AutonomousDbVersionSummaryDbWorkloadEnum {
 	values := make([]AutonomousDbVersionSummaryDbWorkloadEnum, 0)
-	for _, v := range mappingAutonomousDbVersionSummaryDbWorkload {
+	for _, v := range mappingAutonomousDbVersionSummaryDbWorkloadEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDbVersionSummaryDbWorkloadEnumStringValues Enumerates the set of values in String for AutonomousDbVersionSummaryDbWorkloadEnum
+func GetAutonomousDbVersionSummaryDbWorkloadEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DW",
+		"AJD",
+		"APEX",
+	}
 }

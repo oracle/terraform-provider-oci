@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WorkRequest A description of workRequest status.
@@ -56,27 +58,56 @@ func (m WorkRequest) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingWorkRequestOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetWorkRequestOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingWorkRequestStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestOperationTypeEnum Enum with underlying type: string
 type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeCopyObject WorkRequestOperationTypeEnum = "COPY_OBJECT"
-	WorkRequestOperationTypeReencrypt  WorkRequestOperationTypeEnum = "REENCRYPT"
+	WorkRequestOperationTypeCopyObject      WorkRequestOperationTypeEnum = "COPY_OBJECT"
+	WorkRequestOperationTypeReencrypt       WorkRequestOperationTypeEnum = "REENCRYPT"
+	WorkRequestOperationTypeBulkCopyObjects WorkRequestOperationTypeEnum = "BULK_COPY_OBJECTS"
 )
 
-var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
-	"COPY_OBJECT": WorkRequestOperationTypeCopyObject,
-	"REENCRYPT":   WorkRequestOperationTypeReencrypt,
+var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
+	"COPY_OBJECT":       WorkRequestOperationTypeCopyObject,
+	"REENCRYPT":         WorkRequestOperationTypeReencrypt,
+	"BULK_COPY_OBJECTS": WorkRequestOperationTypeBulkCopyObjects,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
 func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
 	values := make([]WorkRequestOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestOperationType {
+	for _, v := range mappingWorkRequestOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestOperationTypeEnumStringValues Enumerates the set of values in String for WorkRequestOperationTypeEnum
+func GetWorkRequestOperationTypeEnumStringValues() []string {
+	return []string{
+		"COPY_OBJECT",
+		"REENCRYPT",
+		"BULK_COPY_OBJECTS",
+	}
 }
 
 // WorkRequestStatusEnum Enum with underlying type: string
@@ -92,7 +123,7 @@ const (
 	WorkRequestStatusCanceled   WorkRequestStatusEnum = "CANCELED"
 )
 
-var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
+var mappingWorkRequestStatusEnum = map[string]WorkRequestStatusEnum{
 	"ACCEPTED":    WorkRequestStatusAccepted,
 	"IN_PROGRESS": WorkRequestStatusInProgress,
 	"FAILED":      WorkRequestStatusFailed,
@@ -104,8 +135,20 @@ var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
 // GetWorkRequestStatusEnumValues Enumerates the set of values for WorkRequestStatusEnum
 func GetWorkRequestStatusEnumValues() []WorkRequestStatusEnum {
 	values := make([]WorkRequestStatusEnum, 0)
-	for _, v := range mappingWorkRequestStatus {
+	for _, v := range mappingWorkRequestStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestStatusEnumStringValues Enumerates the set of values in String for WorkRequestStatusEnum
+func GetWorkRequestStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"COMPLETED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExportKeyDetails The details of the key that you want to wrap and export.
@@ -43,6 +45,21 @@ func (m ExportKeyDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExportKeyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExportKeyDetailsAlgorithmEnum[string(m.Algorithm)]; !ok && m.Algorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Algorithm: %s. Supported values are: %s.", m.Algorithm, strings.Join(GetExportKeyDetailsAlgorithmEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExportKeyDetailsAlgorithmEnum Enum with underlying type: string
 type ExportKeyDetailsAlgorithmEnum string
 
@@ -52,7 +69,7 @@ const (
 	ExportKeyDetailsAlgorithmSha256    ExportKeyDetailsAlgorithmEnum = "RSA_OAEP_SHA256"
 )
 
-var mappingExportKeyDetailsAlgorithm = map[string]ExportKeyDetailsAlgorithmEnum{
+var mappingExportKeyDetailsAlgorithmEnum = map[string]ExportKeyDetailsAlgorithmEnum{
 	"RSA_OAEP_AES_SHA256": ExportKeyDetailsAlgorithmAesSha256,
 	"RSA_OAEP_SHA256":     ExportKeyDetailsAlgorithmSha256,
 }
@@ -60,8 +77,16 @@ var mappingExportKeyDetailsAlgorithm = map[string]ExportKeyDetailsAlgorithmEnum{
 // GetExportKeyDetailsAlgorithmEnumValues Enumerates the set of values for ExportKeyDetailsAlgorithmEnum
 func GetExportKeyDetailsAlgorithmEnumValues() []ExportKeyDetailsAlgorithmEnum {
 	values := make([]ExportKeyDetailsAlgorithmEnum, 0)
-	for _, v := range mappingExportKeyDetailsAlgorithm {
+	for _, v := range mappingExportKeyDetailsAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExportKeyDetailsAlgorithmEnumStringValues Enumerates the set of values in String for ExportKeyDetailsAlgorithmEnum
+func GetExportKeyDetailsAlgorithmEnumStringValues() []string {
+	return []string{
+		"RSA_OAEP_AES_SHA256",
+		"RSA_OAEP_SHA256",
+	}
 }

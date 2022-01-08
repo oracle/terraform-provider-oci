@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BlockVolumeReplica An asynchronous replica of a block volume that can then be used to create
@@ -71,10 +73,28 @@ type BlockVolumeReplica struct {
 
 	// The total size of the data transferred from the source block volume to the block volume replica, in GBs.
 	TotalDataTransferredInGBs *int64 `mandatory:"false" json:"totalDataTransferredInGBs"`
+
+	// The OCID of the volume group replica.
+	VolumeGroupReplicaId *string `mandatory:"false" json:"volumeGroupReplicaId"`
 }
 
 func (m BlockVolumeReplica) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BlockVolumeReplica) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBlockVolumeReplicaLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBlockVolumeReplicaLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // BlockVolumeReplicaLifecycleStateEnum Enum with underlying type: string
@@ -90,7 +110,7 @@ const (
 	BlockVolumeReplicaLifecycleStateFaulty       BlockVolumeReplicaLifecycleStateEnum = "FAULTY"
 )
 
-var mappingBlockVolumeReplicaLifecycleState = map[string]BlockVolumeReplicaLifecycleStateEnum{
+var mappingBlockVolumeReplicaLifecycleStateEnum = map[string]BlockVolumeReplicaLifecycleStateEnum{
 	"PROVISIONING": BlockVolumeReplicaLifecycleStateProvisioning,
 	"AVAILABLE":    BlockVolumeReplicaLifecycleStateAvailable,
 	"ACTIVATING":   BlockVolumeReplicaLifecycleStateActivating,
@@ -102,8 +122,20 @@ var mappingBlockVolumeReplicaLifecycleState = map[string]BlockVolumeReplicaLifec
 // GetBlockVolumeReplicaLifecycleStateEnumValues Enumerates the set of values for BlockVolumeReplicaLifecycleStateEnum
 func GetBlockVolumeReplicaLifecycleStateEnumValues() []BlockVolumeReplicaLifecycleStateEnum {
 	values := make([]BlockVolumeReplicaLifecycleStateEnum, 0)
-	for _, v := range mappingBlockVolumeReplicaLifecycleState {
+	for _, v := range mappingBlockVolumeReplicaLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBlockVolumeReplicaLifecycleStateEnumStringValues Enumerates the set of values in String for BlockVolumeReplicaLifecycleStateEnum
+func GetBlockVolumeReplicaLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"ACTIVATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAULTY",
+	}
 }

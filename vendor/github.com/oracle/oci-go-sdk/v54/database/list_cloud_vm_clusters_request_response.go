@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListCloudVmClustersRequest wrapper for the ListCloudVmClusters operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListCloudVmClusters.go.html to see an example of how to use ListCloudVmClustersRequest.
 type ListCloudVmClustersRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -55,6 +53,10 @@ func (request ListCloudVmClustersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListCloudVmClustersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,26 @@ func (request ListCloudVmClustersRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListCloudVmClustersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListCloudVmClustersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListCloudVmClustersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCloudVmClustersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCloudVmClustersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCloudVmClustersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCloudVmClusterSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetCloudVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListCloudVmClustersResponse wrapper for the ListCloudVmClusters operation
@@ -108,7 +130,7 @@ const (
 	ListCloudVmClustersSortByDisplayname ListCloudVmClustersSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListCloudVmClustersSortBy = map[string]ListCloudVmClustersSortByEnum{
+var mappingListCloudVmClustersSortByEnum = map[string]ListCloudVmClustersSortByEnum{
 	"TIMECREATED": ListCloudVmClustersSortByTimecreated,
 	"DISPLAYNAME": ListCloudVmClustersSortByDisplayname,
 }
@@ -116,10 +138,18 @@ var mappingListCloudVmClustersSortBy = map[string]ListCloudVmClustersSortByEnum{
 // GetListCloudVmClustersSortByEnumValues Enumerates the set of values for ListCloudVmClustersSortByEnum
 func GetListCloudVmClustersSortByEnumValues() []ListCloudVmClustersSortByEnum {
 	values := make([]ListCloudVmClustersSortByEnum, 0)
-	for _, v := range mappingListCloudVmClustersSortBy {
+	for _, v := range mappingListCloudVmClustersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCloudVmClustersSortByEnumStringValues Enumerates the set of values in String for ListCloudVmClustersSortByEnum
+func GetListCloudVmClustersSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListCloudVmClustersSortOrderEnum Enum with underlying type: string
@@ -131,7 +161,7 @@ const (
 	ListCloudVmClustersSortOrderDesc ListCloudVmClustersSortOrderEnum = "DESC"
 )
 
-var mappingListCloudVmClustersSortOrder = map[string]ListCloudVmClustersSortOrderEnum{
+var mappingListCloudVmClustersSortOrderEnum = map[string]ListCloudVmClustersSortOrderEnum{
 	"ASC":  ListCloudVmClustersSortOrderAsc,
 	"DESC": ListCloudVmClustersSortOrderDesc,
 }
@@ -139,8 +169,16 @@ var mappingListCloudVmClustersSortOrder = map[string]ListCloudVmClustersSortOrde
 // GetListCloudVmClustersSortOrderEnumValues Enumerates the set of values for ListCloudVmClustersSortOrderEnum
 func GetListCloudVmClustersSortOrderEnumValues() []ListCloudVmClustersSortOrderEnum {
 	values := make([]ListCloudVmClustersSortOrderEnum, 0)
-	for _, v := range mappingListCloudVmClustersSortOrder {
+	for _, v := range mappingListCloudVmClustersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCloudVmClustersSortOrderEnumStringValues Enumerates the set of values in String for ListCloudVmClustersSortOrderEnum
+func GetListCloudVmClustersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

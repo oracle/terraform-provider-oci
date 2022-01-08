@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListRulesRequest wrapper for the ListRules operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListRules.go.html to see an example of how to use ListRulesRequest.
 type ListRulesRequest struct {
 
 	// Unique catalog identifier.
@@ -87,6 +85,10 @@ func (request ListRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -100,6 +102,38 @@ func (request ListRulesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRulesRuleTypeEnum[string(request.RuleType)]; !ok && request.RuleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuleType: %s. Supported values are: %s.", request.RuleType, strings.Join(GetListRulesRuleTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRulesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListRulesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRulesOriginTypeEnum[string(request.OriginType)]; !ok && request.OriginType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OriginType: %s. Supported values are: %s.", request.OriginType, strings.Join(GetListRulesOriginTypeEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListRulesFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListRulesFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRulesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRulesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRulesResponse wrapper for the ListRules operation
@@ -138,7 +172,7 @@ const (
 	ListRulesRuleTypeUniquekey  ListRulesRuleTypeEnum = "UNIQUEKEY"
 )
 
-var mappingListRulesRuleType = map[string]ListRulesRuleTypeEnum{
+var mappingListRulesRuleTypeEnum = map[string]ListRulesRuleTypeEnum{
 	"PRIMARYKEY": ListRulesRuleTypePrimarykey,
 	"FOREIGNKEY": ListRulesRuleTypeForeignkey,
 	"UNIQUEKEY":  ListRulesRuleTypeUniquekey,
@@ -147,10 +181,19 @@ var mappingListRulesRuleType = map[string]ListRulesRuleTypeEnum{
 // GetListRulesRuleTypeEnumValues Enumerates the set of values for ListRulesRuleTypeEnum
 func GetListRulesRuleTypeEnumValues() []ListRulesRuleTypeEnum {
 	values := make([]ListRulesRuleTypeEnum, 0)
-	for _, v := range mappingListRulesRuleType {
+	for _, v := range mappingListRulesRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRulesRuleTypeEnumStringValues Enumerates the set of values in String for ListRulesRuleTypeEnum
+func GetListRulesRuleTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARYKEY",
+		"FOREIGNKEY",
+		"UNIQUEKEY",
+	}
 }
 
 // ListRulesLifecycleStateEnum Enum with underlying type: string
@@ -168,7 +211,7 @@ const (
 	ListRulesLifecycleStateMoving   ListRulesLifecycleStateEnum = "MOVING"
 )
 
-var mappingListRulesLifecycleState = map[string]ListRulesLifecycleStateEnum{
+var mappingListRulesLifecycleStateEnum = map[string]ListRulesLifecycleStateEnum{
 	"CREATING": ListRulesLifecycleStateCreating,
 	"ACTIVE":   ListRulesLifecycleStateActive,
 	"INACTIVE": ListRulesLifecycleStateInactive,
@@ -182,10 +225,24 @@ var mappingListRulesLifecycleState = map[string]ListRulesLifecycleStateEnum{
 // GetListRulesLifecycleStateEnumValues Enumerates the set of values for ListRulesLifecycleStateEnum
 func GetListRulesLifecycleStateEnumValues() []ListRulesLifecycleStateEnum {
 	values := make([]ListRulesLifecycleStateEnum, 0)
-	for _, v := range mappingListRulesLifecycleState {
+	for _, v := range mappingListRulesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRulesLifecycleStateEnumStringValues Enumerates the set of values in String for ListRulesLifecycleStateEnum
+func GetListRulesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListRulesOriginTypeEnum Enum with underlying type: string
@@ -198,7 +255,7 @@ const (
 	ListRulesOriginTypeProfiling ListRulesOriginTypeEnum = "PROFILING"
 )
 
-var mappingListRulesOriginType = map[string]ListRulesOriginTypeEnum{
+var mappingListRulesOriginTypeEnum = map[string]ListRulesOriginTypeEnum{
 	"SOURCE":    ListRulesOriginTypeSource,
 	"USER":      ListRulesOriginTypeUser,
 	"PROFILING": ListRulesOriginTypeProfiling,
@@ -207,10 +264,19 @@ var mappingListRulesOriginType = map[string]ListRulesOriginTypeEnum{
 // GetListRulesOriginTypeEnumValues Enumerates the set of values for ListRulesOriginTypeEnum
 func GetListRulesOriginTypeEnumValues() []ListRulesOriginTypeEnum {
 	values := make([]ListRulesOriginTypeEnum, 0)
-	for _, v := range mappingListRulesOriginType {
+	for _, v := range mappingListRulesOriginTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRulesOriginTypeEnumStringValues Enumerates the set of values in String for ListRulesOriginTypeEnum
+func GetListRulesOriginTypeEnumStringValues() []string {
+	return []string{
+		"SOURCE",
+		"USER",
+		"PROFILING",
+	}
 }
 
 // ListRulesFieldsEnum Enum with underlying type: string
@@ -234,7 +300,7 @@ const (
 	ListRulesFieldsUri                  ListRulesFieldsEnum = "uri"
 )
 
-var mappingListRulesFields = map[string]ListRulesFieldsEnum{
+var mappingListRulesFieldsEnum = map[string]ListRulesFieldsEnum{
 	"key":                  ListRulesFieldsKey,
 	"displayName":          ListRulesFieldsDisplayname,
 	"ruleType":             ListRulesFieldsRuletype,
@@ -254,10 +320,30 @@ var mappingListRulesFields = map[string]ListRulesFieldsEnum{
 // GetListRulesFieldsEnumValues Enumerates the set of values for ListRulesFieldsEnum
 func GetListRulesFieldsEnumValues() []ListRulesFieldsEnum {
 	values := make([]ListRulesFieldsEnum, 0)
-	for _, v := range mappingListRulesFields {
+	for _, v := range mappingListRulesFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRulesFieldsEnumStringValues Enumerates the set of values in String for ListRulesFieldsEnum
+func GetListRulesFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"ruleType",
+		"externalKey",
+		"referencedFolderKey",
+		"referencedFolderName",
+		"referencedEntityKey",
+		"referencedEntityName",
+		"referencedRuleKey",
+		"referencedRuleName",
+		"originType",
+		"lifecycleState",
+		"timeCreated",
+		"uri",
+	}
 }
 
 // ListRulesSortByEnum Enum with underlying type: string
@@ -269,7 +355,7 @@ const (
 	ListRulesSortByDisplayname ListRulesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListRulesSortBy = map[string]ListRulesSortByEnum{
+var mappingListRulesSortByEnum = map[string]ListRulesSortByEnum{
 	"TIMECREATED": ListRulesSortByTimecreated,
 	"DISPLAYNAME": ListRulesSortByDisplayname,
 }
@@ -277,10 +363,18 @@ var mappingListRulesSortBy = map[string]ListRulesSortByEnum{
 // GetListRulesSortByEnumValues Enumerates the set of values for ListRulesSortByEnum
 func GetListRulesSortByEnumValues() []ListRulesSortByEnum {
 	values := make([]ListRulesSortByEnum, 0)
-	for _, v := range mappingListRulesSortBy {
+	for _, v := range mappingListRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRulesSortByEnumStringValues Enumerates the set of values in String for ListRulesSortByEnum
+func GetListRulesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListRulesSortOrderEnum Enum with underlying type: string
@@ -292,7 +386,7 @@ const (
 	ListRulesSortOrderDesc ListRulesSortOrderEnum = "DESC"
 )
 
-var mappingListRulesSortOrder = map[string]ListRulesSortOrderEnum{
+var mappingListRulesSortOrderEnum = map[string]ListRulesSortOrderEnum{
 	"ASC":  ListRulesSortOrderAsc,
 	"DESC": ListRulesSortOrderDesc,
 }
@@ -300,8 +394,16 @@ var mappingListRulesSortOrder = map[string]ListRulesSortOrderEnum{
 // GetListRulesSortOrderEnumValues Enumerates the set of values for ListRulesSortOrderEnum
 func GetListRulesSortOrderEnumValues() []ListRulesSortOrderEnum {
 	values := make([]ListRulesSortOrderEnum, 0)
-	for _, v := range mappingListRulesSortOrder {
+	for _, v := range mappingListRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRulesSortOrderEnumStringValues Enumerates the set of values in String for ListRulesSortOrderEnum
+func GetListRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

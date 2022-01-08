@@ -5,15 +5,13 @@
 package blockchain
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListBlockchainPlatformsRequest wrapper for the ListBlockchainPlatforms operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/ListBlockchainPlatforms.go.html to see an example of how to use ListBlockchainPlatformsRequest.
 type ListBlockchainPlatformsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -54,6 +52,10 @@ func (request ListBlockchainPlatformsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBlockchainPlatformsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +69,26 @@ func (request ListBlockchainPlatformsRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBlockchainPlatformsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBlockchainPlatformsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListBlockchainPlatformsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBlockchainPlatformsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBlockchainPlatformsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBlockchainPlatformsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBlockchainPlatformLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBlockchainPlatformLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBlockchainPlatformsResponse wrapper for the ListBlockchainPlatforms operation
@@ -106,7 +128,7 @@ const (
 	ListBlockchainPlatformsSortOrderDesc ListBlockchainPlatformsSortOrderEnum = "DESC"
 )
 
-var mappingListBlockchainPlatformsSortOrder = map[string]ListBlockchainPlatformsSortOrderEnum{
+var mappingListBlockchainPlatformsSortOrderEnum = map[string]ListBlockchainPlatformsSortOrderEnum{
 	"ASC":  ListBlockchainPlatformsSortOrderAsc,
 	"DESC": ListBlockchainPlatformsSortOrderDesc,
 }
@@ -114,10 +136,18 @@ var mappingListBlockchainPlatformsSortOrder = map[string]ListBlockchainPlatforms
 // GetListBlockchainPlatformsSortOrderEnumValues Enumerates the set of values for ListBlockchainPlatformsSortOrderEnum
 func GetListBlockchainPlatformsSortOrderEnumValues() []ListBlockchainPlatformsSortOrderEnum {
 	values := make([]ListBlockchainPlatformsSortOrderEnum, 0)
-	for _, v := range mappingListBlockchainPlatformsSortOrder {
+	for _, v := range mappingListBlockchainPlatformsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBlockchainPlatformsSortOrderEnumStringValues Enumerates the set of values in String for ListBlockchainPlatformsSortOrderEnum
+func GetListBlockchainPlatformsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListBlockchainPlatformsSortByEnum Enum with underlying type: string
@@ -129,7 +159,7 @@ const (
 	ListBlockchainPlatformsSortByDisplayname ListBlockchainPlatformsSortByEnum = "displayName"
 )
 
-var mappingListBlockchainPlatformsSortBy = map[string]ListBlockchainPlatformsSortByEnum{
+var mappingListBlockchainPlatformsSortByEnum = map[string]ListBlockchainPlatformsSortByEnum{
 	"timeCreated": ListBlockchainPlatformsSortByTimecreated,
 	"displayName": ListBlockchainPlatformsSortByDisplayname,
 }
@@ -137,8 +167,16 @@ var mappingListBlockchainPlatformsSortBy = map[string]ListBlockchainPlatformsSor
 // GetListBlockchainPlatformsSortByEnumValues Enumerates the set of values for ListBlockchainPlatformsSortByEnum
 func GetListBlockchainPlatformsSortByEnumValues() []ListBlockchainPlatformsSortByEnum {
 	values := make([]ListBlockchainPlatformsSortByEnum, 0)
-	for _, v := range mappingListBlockchainPlatformsSortBy {
+	for _, v := range mappingListBlockchainPlatformsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBlockchainPlatformsSortByEnumStringValues Enumerates the set of values in String for ListBlockchainPlatformsSortByEnum
+func GetListBlockchainPlatformsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

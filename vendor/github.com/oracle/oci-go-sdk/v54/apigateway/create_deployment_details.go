@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateDeploymentDetails Information about a new deployment.
@@ -36,7 +38,12 @@ type CreateDeploymentDetails struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of API Catalog resource
+	CatalogId *string `mandatory:"false" json:"catalogId"`
+
 	Specification *ApiSpecification `mandatory:"false" json:"specification"`
+
+	Catalog *CatalogSpecification `mandatory:"false" json:"catalog"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see
@@ -53,4 +60,16 @@ type CreateDeploymentDetails struct {
 
 func (m CreateDeploymentDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDeploymentDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

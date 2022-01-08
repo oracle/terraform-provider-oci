@@ -5,15 +5,13 @@
 package networkloadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListNetworkLoadBalancersRequest wrapper for the ListNetworkLoadBalancers operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListNetworkLoadBalancers.go.html to see an example of how to use ListNetworkLoadBalancersRequest.
 type ListNetworkLoadBalancersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the network load balancers to list.
@@ -57,6 +55,10 @@ func (request ListNetworkLoadBalancersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListNetworkLoadBalancersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,26 @@ func (request ListNetworkLoadBalancersRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListNetworkLoadBalancersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListNetworkLoadBalancersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListNetworkLoadBalancersLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListNetworkLoadBalancersLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNetworkLoadBalancersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNetworkLoadBalancersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNetworkLoadBalancersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNetworkLoadBalancersSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListNetworkLoadBalancersResponse wrapper for the ListNetworkLoadBalancers operation
@@ -113,7 +135,7 @@ const (
 	ListNetworkLoadBalancersLifecycleStateFailed   ListNetworkLoadBalancersLifecycleStateEnum = "FAILED"
 )
 
-var mappingListNetworkLoadBalancersLifecycleState = map[string]ListNetworkLoadBalancersLifecycleStateEnum{
+var mappingListNetworkLoadBalancersLifecycleStateEnum = map[string]ListNetworkLoadBalancersLifecycleStateEnum{
 	"CREATING": ListNetworkLoadBalancersLifecycleStateCreating,
 	"UPDATING": ListNetworkLoadBalancersLifecycleStateUpdating,
 	"ACTIVE":   ListNetworkLoadBalancersLifecycleStateActive,
@@ -125,10 +147,22 @@ var mappingListNetworkLoadBalancersLifecycleState = map[string]ListNetworkLoadBa
 // GetListNetworkLoadBalancersLifecycleStateEnumValues Enumerates the set of values for ListNetworkLoadBalancersLifecycleStateEnum
 func GetListNetworkLoadBalancersLifecycleStateEnumValues() []ListNetworkLoadBalancersLifecycleStateEnum {
 	values := make([]ListNetworkLoadBalancersLifecycleStateEnum, 0)
-	for _, v := range mappingListNetworkLoadBalancersLifecycleState {
+	for _, v := range mappingListNetworkLoadBalancersLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkLoadBalancersLifecycleStateEnumStringValues Enumerates the set of values in String for ListNetworkLoadBalancersLifecycleStateEnum
+func GetListNetworkLoadBalancersLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListNetworkLoadBalancersSortOrderEnum Enum with underlying type: string
@@ -140,7 +174,7 @@ const (
 	ListNetworkLoadBalancersSortOrderDesc ListNetworkLoadBalancersSortOrderEnum = "DESC"
 )
 
-var mappingListNetworkLoadBalancersSortOrder = map[string]ListNetworkLoadBalancersSortOrderEnum{
+var mappingListNetworkLoadBalancersSortOrderEnum = map[string]ListNetworkLoadBalancersSortOrderEnum{
 	"ASC":  ListNetworkLoadBalancersSortOrderAsc,
 	"DESC": ListNetworkLoadBalancersSortOrderDesc,
 }
@@ -148,10 +182,18 @@ var mappingListNetworkLoadBalancersSortOrder = map[string]ListNetworkLoadBalance
 // GetListNetworkLoadBalancersSortOrderEnumValues Enumerates the set of values for ListNetworkLoadBalancersSortOrderEnum
 func GetListNetworkLoadBalancersSortOrderEnumValues() []ListNetworkLoadBalancersSortOrderEnum {
 	values := make([]ListNetworkLoadBalancersSortOrderEnum, 0)
-	for _, v := range mappingListNetworkLoadBalancersSortOrder {
+	for _, v := range mappingListNetworkLoadBalancersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkLoadBalancersSortOrderEnumStringValues Enumerates the set of values in String for ListNetworkLoadBalancersSortOrderEnum
+func GetListNetworkLoadBalancersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListNetworkLoadBalancersSortByEnum Enum with underlying type: string
@@ -163,7 +205,7 @@ const (
 	ListNetworkLoadBalancersSortByDisplayname ListNetworkLoadBalancersSortByEnum = "displayName"
 )
 
-var mappingListNetworkLoadBalancersSortBy = map[string]ListNetworkLoadBalancersSortByEnum{
+var mappingListNetworkLoadBalancersSortByEnum = map[string]ListNetworkLoadBalancersSortByEnum{
 	"timeCreated": ListNetworkLoadBalancersSortByTimecreated,
 	"displayName": ListNetworkLoadBalancersSortByDisplayname,
 }
@@ -171,8 +213,16 @@ var mappingListNetworkLoadBalancersSortBy = map[string]ListNetworkLoadBalancersS
 // GetListNetworkLoadBalancersSortByEnumValues Enumerates the set of values for ListNetworkLoadBalancersSortByEnum
 func GetListNetworkLoadBalancersSortByEnumValues() []ListNetworkLoadBalancersSortByEnum {
 	values := make([]ListNetworkLoadBalancersSortByEnum, 0)
-	for _, v := range mappingListNetworkLoadBalancersSortBy {
+	for _, v := range mappingListNetworkLoadBalancersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkLoadBalancersSortByEnumStringValues Enumerates the set of values in String for ListNetworkLoadBalancersSortByEnum
+func GetListNetworkLoadBalancersSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

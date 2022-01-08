@@ -5,15 +5,13 @@
 package databasemigration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListMigrationObjectTypesRequest wrapper for the ListMigrationObjectTypes operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrationObjectTypes.go.html to see an example of how to use ListMigrationObjectTypesRequest.
 type ListMigrationObjectTypesRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -45,6 +43,10 @@ func (request ListMigrationObjectTypesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListMigrationObjectTypesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -58,6 +60,23 @@ func (request ListMigrationObjectTypesRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListMigrationObjectTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListMigrationObjectTypesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListMigrationObjectTypesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMigrationObjectTypesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMigrationObjectTypesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMigrationObjectTypesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListMigrationObjectTypesResponse wrapper for the ListMigrationObjectTypes operation
@@ -96,17 +115,24 @@ const (
 	ListMigrationObjectTypesSortByName ListMigrationObjectTypesSortByEnum = "name"
 )
 
-var mappingListMigrationObjectTypesSortBy = map[string]ListMigrationObjectTypesSortByEnum{
+var mappingListMigrationObjectTypesSortByEnum = map[string]ListMigrationObjectTypesSortByEnum{
 	"name": ListMigrationObjectTypesSortByName,
 }
 
 // GetListMigrationObjectTypesSortByEnumValues Enumerates the set of values for ListMigrationObjectTypesSortByEnum
 func GetListMigrationObjectTypesSortByEnumValues() []ListMigrationObjectTypesSortByEnum {
 	values := make([]ListMigrationObjectTypesSortByEnum, 0)
-	for _, v := range mappingListMigrationObjectTypesSortBy {
+	for _, v := range mappingListMigrationObjectTypesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMigrationObjectTypesSortByEnumStringValues Enumerates the set of values in String for ListMigrationObjectTypesSortByEnum
+func GetListMigrationObjectTypesSortByEnumStringValues() []string {
+	return []string{
+		"name",
+	}
 }
 
 // ListMigrationObjectTypesSortOrderEnum Enum with underlying type: string
@@ -118,7 +144,7 @@ const (
 	ListMigrationObjectTypesSortOrderDesc ListMigrationObjectTypesSortOrderEnum = "DESC"
 )
 
-var mappingListMigrationObjectTypesSortOrder = map[string]ListMigrationObjectTypesSortOrderEnum{
+var mappingListMigrationObjectTypesSortOrderEnum = map[string]ListMigrationObjectTypesSortOrderEnum{
 	"ASC":  ListMigrationObjectTypesSortOrderAsc,
 	"DESC": ListMigrationObjectTypesSortOrderDesc,
 }
@@ -126,8 +152,16 @@ var mappingListMigrationObjectTypesSortOrder = map[string]ListMigrationObjectTyp
 // GetListMigrationObjectTypesSortOrderEnumValues Enumerates the set of values for ListMigrationObjectTypesSortOrderEnum
 func GetListMigrationObjectTypesSortOrderEnumValues() []ListMigrationObjectTypesSortOrderEnum {
 	values := make([]ListMigrationObjectTypesSortOrderEnum, 0)
-	for _, v := range mappingListMigrationObjectTypesSortOrder {
+	for _, v := range mappingListMigrationObjectTypesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMigrationObjectTypesSortOrderEnumStringValues Enumerates the set of values in String for ListMigrationObjectTypesSortOrderEnum
+func GetListMigrationObjectTypesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

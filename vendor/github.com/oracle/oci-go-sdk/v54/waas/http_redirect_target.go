@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // HttpRedirectTarget The representation of HttpRedirectTarget
@@ -36,6 +38,21 @@ func (m HttpRedirectTarget) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m HttpRedirectTarget) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingHttpRedirectTargetProtocolEnum[string(m.Protocol)]; !ok && m.Protocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetHttpRedirectTargetProtocolEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HttpRedirectTargetProtocolEnum Enum with underlying type: string
 type HttpRedirectTargetProtocolEnum string
 
@@ -45,7 +62,7 @@ const (
 	HttpRedirectTargetProtocolHttps HttpRedirectTargetProtocolEnum = "HTTPS"
 )
 
-var mappingHttpRedirectTargetProtocol = map[string]HttpRedirectTargetProtocolEnum{
+var mappingHttpRedirectTargetProtocolEnum = map[string]HttpRedirectTargetProtocolEnum{
 	"HTTP":  HttpRedirectTargetProtocolHttp,
 	"HTTPS": HttpRedirectTargetProtocolHttps,
 }
@@ -53,8 +70,16 @@ var mappingHttpRedirectTargetProtocol = map[string]HttpRedirectTargetProtocolEnu
 // GetHttpRedirectTargetProtocolEnumValues Enumerates the set of values for HttpRedirectTargetProtocolEnum
 func GetHttpRedirectTargetProtocolEnumValues() []HttpRedirectTargetProtocolEnum {
 	values := make([]HttpRedirectTargetProtocolEnum, 0)
-	for _, v := range mappingHttpRedirectTargetProtocol {
+	for _, v := range mappingHttpRedirectTargetProtocolEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHttpRedirectTargetProtocolEnumStringValues Enumerates the set of values in String for HttpRedirectTargetProtocolEnum
+func GetHttpRedirectTargetProtocolEnumStringValues() []string {
+	return []string{
+		"HTTP",
+		"HTTPS",
+	}
 }

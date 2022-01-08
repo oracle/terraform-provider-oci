@@ -11,7 +11,9 @@ package datasafe
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TargetDatabase The details of the Data Safe target database.
@@ -43,6 +45,9 @@ type TargetDatabase struct {
 
 	ConnectionOption ConnectionOption `mandatory:"false" json:"connectionOption"`
 
+	// The OCIDs of associated resources like Database, Data Safe private endpoint etc.
+	AssociatedResourceIds []string `mandatory:"false" json:"associatedResourceIds"`
+
 	// Details about the current state of the target database in Data Safe.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -66,24 +71,40 @@ func (m TargetDatabase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TargetDatabase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnmarshalJSON unmarshals from json
 func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                           `json:"description"`
-		Credentials      *Credentials                      `json:"credentials"`
-		TlsConfig        *TlsConfig                        `json:"tlsConfig"`
-		ConnectionOption connectionoption                  `json:"connectionOption"`
-		LifecycleDetails *string                           `json:"lifecycleDetails"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
-		CompartmentId    *string                           `json:"compartmentId"`
-		Id               *string                           `json:"id"`
-		DisplayName      *string                           `json:"displayName"`
-		DatabaseDetails  databasedetails                   `json:"databaseDetails"`
-		LifecycleState   LifecycleStateEnum                `json:"lifecycleState"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
+		Description           *string                           `json:"description"`
+		Credentials           *Credentials                      `json:"credentials"`
+		TlsConfig             *TlsConfig                        `json:"tlsConfig"`
+		ConnectionOption      connectionoption                  `json:"connectionOption"`
+		AssociatedResourceIds []string                          `json:"associatedResourceIds"`
+		LifecycleDetails      *string                           `json:"lifecycleDetails"`
+		TimeUpdated           *common.SDKTime                   `json:"timeUpdated"`
+		FreeformTags          map[string]string                 `json:"freeformTags"`
+		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags            map[string]map[string]interface{} `json:"systemTags"`
+		CompartmentId         *string                           `json:"compartmentId"`
+		Id                    *string                           `json:"id"`
+		DisplayName           *string                           `json:"displayName"`
+		DatabaseDetails       databasedetails                   `json:"databaseDetails"`
+		LifecycleState        LifecycleStateEnum                `json:"lifecycleState"`
+		TimeCreated           *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -105,6 +126,11 @@ func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 		m.ConnectionOption = nn.(ConnectionOption)
 	} else {
 		m.ConnectionOption = nil
+	}
+
+	m.AssociatedResourceIds = make([]string, len(model.AssociatedResourceIds))
+	for i, n := range model.AssociatedResourceIds {
+		m.AssociatedResourceIds[i] = n
 	}
 
 	m.LifecycleDetails = model.LifecycleDetails

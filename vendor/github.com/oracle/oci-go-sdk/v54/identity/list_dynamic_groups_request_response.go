@@ -5,15 +5,13 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDynamicGroupsRequest wrapper for the ListDynamicGroups operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListDynamicGroups.go.html to see an example of how to use ListDynamicGroupsRequest.
 type ListDynamicGroupsRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
@@ -60,6 +58,10 @@ func (request ListDynamicGroupsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDynamicGroupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,26 @@ func (request ListDynamicGroupsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDynamicGroupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDynamicGroupsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDynamicGroupsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDynamicGroupsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDynamicGroupsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDynamicGroupsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDynamicGroupLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDynamicGroupLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDynamicGroupsResponse wrapper for the ListDynamicGroups operation
@@ -112,7 +134,7 @@ const (
 	ListDynamicGroupsSortByName        ListDynamicGroupsSortByEnum = "NAME"
 )
 
-var mappingListDynamicGroupsSortBy = map[string]ListDynamicGroupsSortByEnum{
+var mappingListDynamicGroupsSortByEnum = map[string]ListDynamicGroupsSortByEnum{
 	"TIMECREATED": ListDynamicGroupsSortByTimecreated,
 	"NAME":        ListDynamicGroupsSortByName,
 }
@@ -120,10 +142,18 @@ var mappingListDynamicGroupsSortBy = map[string]ListDynamicGroupsSortByEnum{
 // GetListDynamicGroupsSortByEnumValues Enumerates the set of values for ListDynamicGroupsSortByEnum
 func GetListDynamicGroupsSortByEnumValues() []ListDynamicGroupsSortByEnum {
 	values := make([]ListDynamicGroupsSortByEnum, 0)
-	for _, v := range mappingListDynamicGroupsSortBy {
+	for _, v := range mappingListDynamicGroupsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDynamicGroupsSortByEnumStringValues Enumerates the set of values in String for ListDynamicGroupsSortByEnum
+func GetListDynamicGroupsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListDynamicGroupsSortOrderEnum Enum with underlying type: string
@@ -135,7 +165,7 @@ const (
 	ListDynamicGroupsSortOrderDesc ListDynamicGroupsSortOrderEnum = "DESC"
 )
 
-var mappingListDynamicGroupsSortOrder = map[string]ListDynamicGroupsSortOrderEnum{
+var mappingListDynamicGroupsSortOrderEnum = map[string]ListDynamicGroupsSortOrderEnum{
 	"ASC":  ListDynamicGroupsSortOrderAsc,
 	"DESC": ListDynamicGroupsSortOrderDesc,
 }
@@ -143,8 +173,16 @@ var mappingListDynamicGroupsSortOrder = map[string]ListDynamicGroupsSortOrderEnu
 // GetListDynamicGroupsSortOrderEnumValues Enumerates the set of values for ListDynamicGroupsSortOrderEnum
 func GetListDynamicGroupsSortOrderEnumValues() []ListDynamicGroupsSortOrderEnum {
 	values := make([]ListDynamicGroupsSortOrderEnum, 0)
-	for _, v := range mappingListDynamicGroupsSortOrder {
+	for _, v := range mappingListDynamicGroupsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDynamicGroupsSortOrderEnumStringValues Enumerates the set of values in String for ListDynamicGroupsSortOrderEnum
+func GetListDynamicGroupsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

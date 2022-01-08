@@ -10,7 +10,9 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutoScalingConfiguration The information about the autoscale configuration.
@@ -41,6 +43,24 @@ func (m AutoScalingConfiguration) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutoScalingConfiguration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingNodeNodeTypeEnum[string(m.NodeType)]; !ok && m.NodeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NodeType: %s. Supported values are: %s.", m.NodeType, strings.Join(GetNodeNodeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutoScalingConfigurationLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutoScalingConfigurationLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutoScalingConfigurationLifecycleStateEnum Enum with underlying type: string
 type AutoScalingConfigurationLifecycleStateEnum string
 
@@ -54,7 +74,7 @@ const (
 	AutoScalingConfigurationLifecycleStateFailed   AutoScalingConfigurationLifecycleStateEnum = "FAILED"
 )
 
-var mappingAutoScalingConfigurationLifecycleState = map[string]AutoScalingConfigurationLifecycleStateEnum{
+var mappingAutoScalingConfigurationLifecycleStateEnum = map[string]AutoScalingConfigurationLifecycleStateEnum{
 	"CREATING": AutoScalingConfigurationLifecycleStateCreating,
 	"ACTIVE":   AutoScalingConfigurationLifecycleStateActive,
 	"UPDATING": AutoScalingConfigurationLifecycleStateUpdating,
@@ -66,8 +86,20 @@ var mappingAutoScalingConfigurationLifecycleState = map[string]AutoScalingConfig
 // GetAutoScalingConfigurationLifecycleStateEnumValues Enumerates the set of values for AutoScalingConfigurationLifecycleStateEnum
 func GetAutoScalingConfigurationLifecycleStateEnumValues() []AutoScalingConfigurationLifecycleStateEnum {
 	values := make([]AutoScalingConfigurationLifecycleStateEnum, 0)
-	for _, v := range mappingAutoScalingConfigurationLifecycleState {
+	for _, v := range mappingAutoScalingConfigurationLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutoScalingConfigurationLifecycleStateEnumStringValues Enumerates the set of values in String for AutoScalingConfigurationLifecycleStateEnum
+func GetAutoScalingConfigurationLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

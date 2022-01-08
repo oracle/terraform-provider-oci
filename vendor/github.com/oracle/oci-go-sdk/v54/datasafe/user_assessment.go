@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UserAssessment The details of the user assessment, which includes statistics related to target database users.
@@ -110,6 +112,27 @@ func (m UserAssessment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserAssessment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUserAssessmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetUserAssessmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUserAssessmentTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetUserAssessmentTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingUserAssessmentTriggeredByEnum[string(m.TriggeredBy)]; !ok && m.TriggeredBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggeredBy: %s. Supported values are: %s.", m.TriggeredBy, strings.Join(GetUserAssessmentTriggeredByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UserAssessmentTriggeredByEnum Enum with underlying type: string
 type UserAssessmentTriggeredByEnum string
 
@@ -119,7 +142,7 @@ const (
 	UserAssessmentTriggeredBySystem UserAssessmentTriggeredByEnum = "SYSTEM"
 )
 
-var mappingUserAssessmentTriggeredBy = map[string]UserAssessmentTriggeredByEnum{
+var mappingUserAssessmentTriggeredByEnum = map[string]UserAssessmentTriggeredByEnum{
 	"USER":   UserAssessmentTriggeredByUser,
 	"SYSTEM": UserAssessmentTriggeredBySystem,
 }
@@ -127,10 +150,18 @@ var mappingUserAssessmentTriggeredBy = map[string]UserAssessmentTriggeredByEnum{
 // GetUserAssessmentTriggeredByEnumValues Enumerates the set of values for UserAssessmentTriggeredByEnum
 func GetUserAssessmentTriggeredByEnumValues() []UserAssessmentTriggeredByEnum {
 	values := make([]UserAssessmentTriggeredByEnum, 0)
-	for _, v := range mappingUserAssessmentTriggeredBy {
+	for _, v := range mappingUserAssessmentTriggeredByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserAssessmentTriggeredByEnumStringValues Enumerates the set of values in String for UserAssessmentTriggeredByEnum
+func GetUserAssessmentTriggeredByEnumStringValues() []string {
+	return []string{
+		"USER",
+		"SYSTEM",
+	}
 }
 
 // UserAssessmentTypeEnum Enum with underlying type: string
@@ -144,7 +175,7 @@ const (
 	UserAssessmentTypeCompartment  UserAssessmentTypeEnum = "COMPARTMENT"
 )
 
-var mappingUserAssessmentType = map[string]UserAssessmentTypeEnum{
+var mappingUserAssessmentTypeEnum = map[string]UserAssessmentTypeEnum{
 	"LATEST":        UserAssessmentTypeLatest,
 	"SAVED":         UserAssessmentTypeSaved,
 	"SAVE_SCHEDULE": UserAssessmentTypeSaveSchedule,
@@ -154,8 +185,18 @@ var mappingUserAssessmentType = map[string]UserAssessmentTypeEnum{
 // GetUserAssessmentTypeEnumValues Enumerates the set of values for UserAssessmentTypeEnum
 func GetUserAssessmentTypeEnumValues() []UserAssessmentTypeEnum {
 	values := make([]UserAssessmentTypeEnum, 0)
-	for _, v := range mappingUserAssessmentType {
+	for _, v := range mappingUserAssessmentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserAssessmentTypeEnumStringValues Enumerates the set of values in String for UserAssessmentTypeEnum
+func GetUserAssessmentTypeEnumStringValues() []string {
+	return []string{
+		"LATEST",
+		"SAVED",
+		"SAVE_SCHEDULE",
+		"COMPARTMENT",
+	}
 }

@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ObjectLifecycleRule To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
@@ -61,6 +63,21 @@ func (m ObjectLifecycleRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ObjectLifecycleRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingObjectLifecycleRuleTimeUnitEnum[string(m.TimeUnit)]; !ok && m.TimeUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TimeUnit: %s. Supported values are: %s.", m.TimeUnit, strings.Join(GetObjectLifecycleRuleTimeUnitEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ObjectLifecycleRuleTimeUnitEnum Enum with underlying type: string
 type ObjectLifecycleRuleTimeUnitEnum string
 
@@ -70,7 +87,7 @@ const (
 	ObjectLifecycleRuleTimeUnitYears ObjectLifecycleRuleTimeUnitEnum = "YEARS"
 )
 
-var mappingObjectLifecycleRuleTimeUnit = map[string]ObjectLifecycleRuleTimeUnitEnum{
+var mappingObjectLifecycleRuleTimeUnitEnum = map[string]ObjectLifecycleRuleTimeUnitEnum{
 	"DAYS":  ObjectLifecycleRuleTimeUnitDays,
 	"YEARS": ObjectLifecycleRuleTimeUnitYears,
 }
@@ -78,8 +95,16 @@ var mappingObjectLifecycleRuleTimeUnit = map[string]ObjectLifecycleRuleTimeUnitE
 // GetObjectLifecycleRuleTimeUnitEnumValues Enumerates the set of values for ObjectLifecycleRuleTimeUnitEnum
 func GetObjectLifecycleRuleTimeUnitEnumValues() []ObjectLifecycleRuleTimeUnitEnum {
 	values := make([]ObjectLifecycleRuleTimeUnitEnum, 0)
-	for _, v := range mappingObjectLifecycleRuleTimeUnit {
+	for _, v := range mappingObjectLifecycleRuleTimeUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetObjectLifecycleRuleTimeUnitEnumStringValues Enumerates the set of values in String for ObjectLifecycleRuleTimeUnitEnum
+func GetObjectLifecycleRuleTimeUnitEnumStringValues() []string {
+	return []string{
+		"DAYS",
+		"YEARS",
+	}
 }

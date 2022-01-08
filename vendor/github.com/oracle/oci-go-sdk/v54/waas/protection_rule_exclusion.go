@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ProtectionRuleExclusion Allows specified types of requests to bypass the protection rule. If a request matches any of the criteria in the `exclusions` field, the protection rule will not be executed. Rules can have more than one exclusion and exclusions are applied to requests disjunctively, meaning the specified exclusion strings are independently matched against the specified targets of a request. The first target to match a specified string will trigger an exclusion. **Example:** If the following exclusions are defined for a protection rule:
@@ -39,6 +41,21 @@ func (m ProtectionRuleExclusion) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ProtectionRuleExclusion) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingProtectionRuleExclusionTargetEnum[string(m.Target)]; !ok && m.Target != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Target: %s. Supported values are: %s.", m.Target, strings.Join(GetProtectionRuleExclusionTargetEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ProtectionRuleExclusionTargetEnum Enum with underlying type: string
 type ProtectionRuleExclusionTargetEnum string
 
@@ -50,7 +67,7 @@ const (
 	ProtectionRuleExclusionTargetArgsNames          ProtectionRuleExclusionTargetEnum = "ARGS_NAMES"
 )
 
-var mappingProtectionRuleExclusionTarget = map[string]ProtectionRuleExclusionTargetEnum{
+var mappingProtectionRuleExclusionTargetEnum = map[string]ProtectionRuleExclusionTargetEnum{
 	"REQUEST_COOKIES":      ProtectionRuleExclusionTargetRequestCookies,
 	"REQUEST_COOKIE_NAMES": ProtectionRuleExclusionTargetRequestCookieNames,
 	"ARGS":                 ProtectionRuleExclusionTargetArgs,
@@ -60,8 +77,18 @@ var mappingProtectionRuleExclusionTarget = map[string]ProtectionRuleExclusionTar
 // GetProtectionRuleExclusionTargetEnumValues Enumerates the set of values for ProtectionRuleExclusionTargetEnum
 func GetProtectionRuleExclusionTargetEnumValues() []ProtectionRuleExclusionTargetEnum {
 	values := make([]ProtectionRuleExclusionTargetEnum, 0)
-	for _, v := range mappingProtectionRuleExclusionTarget {
+	for _, v := range mappingProtectionRuleExclusionTargetEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProtectionRuleExclusionTargetEnumStringValues Enumerates the set of values in String for ProtectionRuleExclusionTargetEnum
+func GetProtectionRuleExclusionTargetEnumStringValues() []string {
+	return []string{
+		"REQUEST_COOKIES",
+		"REQUEST_COOKIE_NAMES",
+		"ARGS",
+		"ARGS_NAMES",
+	}
 }

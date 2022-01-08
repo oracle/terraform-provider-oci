@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDataAssetTagsRequest wrapper for the ListDataAssetTags operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListDataAssetTags.go.html to see an example of how to use ListDataAssetTagsRequest.
 type ListDataAssetTagsRequest struct {
 
 	// Unique catalog identifier.
@@ -70,6 +68,10 @@ func (request ListDataAssetTagsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDataAssetTagsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -83,6 +85,32 @@ func (request ListDataAssetTagsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDataAssetTagsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDataAssetTagsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDataAssetTagsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDataAssetTagsLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListDataAssetTagsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListDataAssetTagsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListDataAssetTagsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDataAssetTagsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataAssetTagsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDataAssetTagsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDataAssetTagsResponse wrapper for the ListDataAssetTags operation
@@ -126,7 +154,7 @@ const (
 	ListDataAssetTagsLifecycleStateMoving   ListDataAssetTagsLifecycleStateEnum = "MOVING"
 )
 
-var mappingListDataAssetTagsLifecycleState = map[string]ListDataAssetTagsLifecycleStateEnum{
+var mappingListDataAssetTagsLifecycleStateEnum = map[string]ListDataAssetTagsLifecycleStateEnum{
 	"CREATING": ListDataAssetTagsLifecycleStateCreating,
 	"ACTIVE":   ListDataAssetTagsLifecycleStateActive,
 	"INACTIVE": ListDataAssetTagsLifecycleStateInactive,
@@ -140,10 +168,24 @@ var mappingListDataAssetTagsLifecycleState = map[string]ListDataAssetTagsLifecyc
 // GetListDataAssetTagsLifecycleStateEnumValues Enumerates the set of values for ListDataAssetTagsLifecycleStateEnum
 func GetListDataAssetTagsLifecycleStateEnumValues() []ListDataAssetTagsLifecycleStateEnum {
 	values := make([]ListDataAssetTagsLifecycleStateEnum, 0)
-	for _, v := range mappingListDataAssetTagsLifecycleState {
+	for _, v := range mappingListDataAssetTagsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataAssetTagsLifecycleStateEnumStringValues Enumerates the set of values in String for ListDataAssetTagsLifecycleStateEnum
+func GetListDataAssetTagsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListDataAssetTagsFieldsEnum Enum with underlying type: string
@@ -163,7 +205,7 @@ const (
 	ListDataAssetTagsFieldsDataassetkey    ListDataAssetTagsFieldsEnum = "dataAssetKey"
 )
 
-var mappingListDataAssetTagsFields = map[string]ListDataAssetTagsFieldsEnum{
+var mappingListDataAssetTagsFieldsEnum = map[string]ListDataAssetTagsFieldsEnum{
 	"key":             ListDataAssetTagsFieldsKey,
 	"name":            ListDataAssetTagsFieldsName,
 	"termKey":         ListDataAssetTagsFieldsTermkey,
@@ -179,10 +221,26 @@ var mappingListDataAssetTagsFields = map[string]ListDataAssetTagsFieldsEnum{
 // GetListDataAssetTagsFieldsEnumValues Enumerates the set of values for ListDataAssetTagsFieldsEnum
 func GetListDataAssetTagsFieldsEnumValues() []ListDataAssetTagsFieldsEnum {
 	values := make([]ListDataAssetTagsFieldsEnum, 0)
-	for _, v := range mappingListDataAssetTagsFields {
+	for _, v := range mappingListDataAssetTagsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataAssetTagsFieldsEnumStringValues Enumerates the set of values in String for ListDataAssetTagsFieldsEnum
+func GetListDataAssetTagsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"name",
+		"termKey",
+		"termPath",
+		"termDescription",
+		"lifecycleState",
+		"timeCreated",
+		"uri",
+		"glossaryKey",
+		"dataAssetKey",
+	}
 }
 
 // ListDataAssetTagsSortByEnum Enum with underlying type: string
@@ -194,7 +252,7 @@ const (
 	ListDataAssetTagsSortByDisplayname ListDataAssetTagsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListDataAssetTagsSortBy = map[string]ListDataAssetTagsSortByEnum{
+var mappingListDataAssetTagsSortByEnum = map[string]ListDataAssetTagsSortByEnum{
 	"TIMECREATED": ListDataAssetTagsSortByTimecreated,
 	"DISPLAYNAME": ListDataAssetTagsSortByDisplayname,
 }
@@ -202,10 +260,18 @@ var mappingListDataAssetTagsSortBy = map[string]ListDataAssetTagsSortByEnum{
 // GetListDataAssetTagsSortByEnumValues Enumerates the set of values for ListDataAssetTagsSortByEnum
 func GetListDataAssetTagsSortByEnumValues() []ListDataAssetTagsSortByEnum {
 	values := make([]ListDataAssetTagsSortByEnum, 0)
-	for _, v := range mappingListDataAssetTagsSortBy {
+	for _, v := range mappingListDataAssetTagsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataAssetTagsSortByEnumStringValues Enumerates the set of values in String for ListDataAssetTagsSortByEnum
+func GetListDataAssetTagsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListDataAssetTagsSortOrderEnum Enum with underlying type: string
@@ -217,7 +283,7 @@ const (
 	ListDataAssetTagsSortOrderDesc ListDataAssetTagsSortOrderEnum = "DESC"
 )
 
-var mappingListDataAssetTagsSortOrder = map[string]ListDataAssetTagsSortOrderEnum{
+var mappingListDataAssetTagsSortOrderEnum = map[string]ListDataAssetTagsSortOrderEnum{
 	"ASC":  ListDataAssetTagsSortOrderAsc,
 	"DESC": ListDataAssetTagsSortOrderDesc,
 }
@@ -225,8 +291,16 @@ var mappingListDataAssetTagsSortOrder = map[string]ListDataAssetTagsSortOrderEnu
 // GetListDataAssetTagsSortOrderEnumValues Enumerates the set of values for ListDataAssetTagsSortOrderEnum
 func GetListDataAssetTagsSortOrderEnumValues() []ListDataAssetTagsSortOrderEnum {
 	values := make([]ListDataAssetTagsSortOrderEnum, 0)
-	for _, v := range mappingListDataAssetTagsSortOrder {
+	for _, v := range mappingListDataAssetTagsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataAssetTagsSortOrderEnumStringValues Enumerates the set of values in String for ListDataAssetTagsSortOrderEnum
+func GetListDataAssetTagsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

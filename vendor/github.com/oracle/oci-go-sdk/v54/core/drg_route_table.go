@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DrgRouteTable All routing inside the DRG is driven by the contents of DRG route tables.
@@ -74,6 +76,21 @@ func (m DrgRouteTable) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DrgRouteTable) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDrgRouteTableLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrgRouteTableLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DrgRouteTableLifecycleStateEnum Enum with underlying type: string
 type DrgRouteTableLifecycleStateEnum string
 
@@ -85,7 +102,7 @@ const (
 	DrgRouteTableLifecycleStateTerminated   DrgRouteTableLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingDrgRouteTableLifecycleState = map[string]DrgRouteTableLifecycleStateEnum{
+var mappingDrgRouteTableLifecycleStateEnum = map[string]DrgRouteTableLifecycleStateEnum{
 	"PROVISIONING": DrgRouteTableLifecycleStateProvisioning,
 	"AVAILABLE":    DrgRouteTableLifecycleStateAvailable,
 	"TERMINATING":  DrgRouteTableLifecycleStateTerminating,
@@ -95,8 +112,18 @@ var mappingDrgRouteTableLifecycleState = map[string]DrgRouteTableLifecycleStateE
 // GetDrgRouteTableLifecycleStateEnumValues Enumerates the set of values for DrgRouteTableLifecycleStateEnum
 func GetDrgRouteTableLifecycleStateEnumValues() []DrgRouteTableLifecycleStateEnum {
 	values := make([]DrgRouteTableLifecycleStateEnum, 0)
-	for _, v := range mappingDrgRouteTableLifecycleState {
+	for _, v := range mappingDrgRouteTableLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgRouteTableLifecycleStateEnumStringValues Enumerates the set of values in String for DrgRouteTableLifecycleStateEnum
+func GetDrgRouteTableLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

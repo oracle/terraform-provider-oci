@@ -5,15 +5,13 @@
 package monitoring
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAlarmsRequest wrapper for the ListAlarms operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ListAlarms.go.html to see an example of how to use ListAlarmsRequest.
 type ListAlarmsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
@@ -70,6 +68,10 @@ func (request ListAlarmsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAlarmsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -83,6 +85,26 @@ func (request ListAlarmsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAlarmsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAlarmsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAlarmLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAlarmLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAlarmsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAlarmsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAlarmsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAlarmsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAlarmsResponse wrapper for the ListAlarms operation
@@ -121,7 +143,7 @@ const (
 	ListAlarmsSortBySeverity    ListAlarmsSortByEnum = "severity"
 )
 
-var mappingListAlarmsSortBy = map[string]ListAlarmsSortByEnum{
+var mappingListAlarmsSortByEnum = map[string]ListAlarmsSortByEnum{
 	"displayName": ListAlarmsSortByDisplayname,
 	"severity":    ListAlarmsSortBySeverity,
 }
@@ -129,10 +151,18 @@ var mappingListAlarmsSortBy = map[string]ListAlarmsSortByEnum{
 // GetListAlarmsSortByEnumValues Enumerates the set of values for ListAlarmsSortByEnum
 func GetListAlarmsSortByEnumValues() []ListAlarmsSortByEnum {
 	values := make([]ListAlarmsSortByEnum, 0)
-	for _, v := range mappingListAlarmsSortBy {
+	for _, v := range mappingListAlarmsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAlarmsSortByEnumStringValues Enumerates the set of values in String for ListAlarmsSortByEnum
+func GetListAlarmsSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"severity",
+	}
 }
 
 // ListAlarmsSortOrderEnum Enum with underlying type: string
@@ -144,7 +174,7 @@ const (
 	ListAlarmsSortOrderDesc ListAlarmsSortOrderEnum = "DESC"
 )
 
-var mappingListAlarmsSortOrder = map[string]ListAlarmsSortOrderEnum{
+var mappingListAlarmsSortOrderEnum = map[string]ListAlarmsSortOrderEnum{
 	"ASC":  ListAlarmsSortOrderAsc,
 	"DESC": ListAlarmsSortOrderDesc,
 }
@@ -152,8 +182,16 @@ var mappingListAlarmsSortOrder = map[string]ListAlarmsSortOrderEnum{
 // GetListAlarmsSortOrderEnumValues Enumerates the set of values for ListAlarmsSortOrderEnum
 func GetListAlarmsSortOrderEnumValues() []ListAlarmsSortOrderEnum {
 	values := make([]ListAlarmsSortOrderEnum, 0)
-	for _, v := range mappingListAlarmsSortOrder {
+	for _, v := range mappingListAlarmsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAlarmsSortOrderEnumStringValues Enumerates the set of values in String for ListAlarmsSortOrderEnum
+func GetListAlarmsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

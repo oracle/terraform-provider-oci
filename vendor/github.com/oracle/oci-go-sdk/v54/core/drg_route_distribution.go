@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DrgRouteDistribution A route distribution establishes how routes get imported into DRG route tables and exported through the DRG attachments.
@@ -24,10 +26,10 @@ import (
 // route distribution specify how how incoming route advertisements through a referenced attachment or all attachments of a certain type are inserted into the route table.
 // You can assign a route distribution as a DRG attachment's export distribution. Export route distribution statements specify how routes in a
 // DRG attachment's assigned table are advertised out through the attachment. When a DRG attachment is created, a route distribution is created with a
-// single ACCEPT statement with an empty match criteria (empty match criteria implies match ALL).
+// single ACCEPT statement with match criteria MATCH_ALL.
 // Exporting routes through VCN attachments is unsupported, so no VCN attachments are assigned an export distribution.
 // The two auto-generated DRG route tables (one as the default for VCN attachments, and the other for all other types of attachments)
-// are each assigned an auto generated import route distribution. The default VCN table's import distribution has a single statement with empty match criteria statement to import routes from
+// are each assigned an auto generated import route distribution. The default VCN table's import distribution has a single statement with match criteria MATCH_ALL to import routes from
 // each DRG attachment type. The other table's import distribution has a statement to import routes from attachments with the VCN type.
 // The route distribution is always in the same compartment as the DRG.
 type DrgRouteDistribution struct {
@@ -70,6 +72,24 @@ func (m DrgRouteDistribution) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DrgRouteDistribution) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDrgRouteDistributionLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrgRouteDistributionLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDrgRouteDistributionDistributionTypeEnum[string(m.DistributionType)]; !ok && m.DistributionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DistributionType: %s. Supported values are: %s.", m.DistributionType, strings.Join(GetDrgRouteDistributionDistributionTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DrgRouteDistributionLifecycleStateEnum Enum with underlying type: string
 type DrgRouteDistributionLifecycleStateEnum string
 
@@ -81,7 +101,7 @@ const (
 	DrgRouteDistributionLifecycleStateTerminated   DrgRouteDistributionLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingDrgRouteDistributionLifecycleState = map[string]DrgRouteDistributionLifecycleStateEnum{
+var mappingDrgRouteDistributionLifecycleStateEnum = map[string]DrgRouteDistributionLifecycleStateEnum{
 	"PROVISIONING": DrgRouteDistributionLifecycleStateProvisioning,
 	"AVAILABLE":    DrgRouteDistributionLifecycleStateAvailable,
 	"TERMINATING":  DrgRouteDistributionLifecycleStateTerminating,
@@ -91,10 +111,20 @@ var mappingDrgRouteDistributionLifecycleState = map[string]DrgRouteDistributionL
 // GetDrgRouteDistributionLifecycleStateEnumValues Enumerates the set of values for DrgRouteDistributionLifecycleStateEnum
 func GetDrgRouteDistributionLifecycleStateEnumValues() []DrgRouteDistributionLifecycleStateEnum {
 	values := make([]DrgRouteDistributionLifecycleStateEnum, 0)
-	for _, v := range mappingDrgRouteDistributionLifecycleState {
+	for _, v := range mappingDrgRouteDistributionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgRouteDistributionLifecycleStateEnumStringValues Enumerates the set of values in String for DrgRouteDistributionLifecycleStateEnum
+func GetDrgRouteDistributionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }
 
 // DrgRouteDistributionDistributionTypeEnum Enum with underlying type: string
@@ -106,7 +136,7 @@ const (
 	DrgRouteDistributionDistributionTypeExport DrgRouteDistributionDistributionTypeEnum = "EXPORT"
 )
 
-var mappingDrgRouteDistributionDistributionType = map[string]DrgRouteDistributionDistributionTypeEnum{
+var mappingDrgRouteDistributionDistributionTypeEnum = map[string]DrgRouteDistributionDistributionTypeEnum{
 	"IMPORT": DrgRouteDistributionDistributionTypeImport,
 	"EXPORT": DrgRouteDistributionDistributionTypeExport,
 }
@@ -114,8 +144,16 @@ var mappingDrgRouteDistributionDistributionType = map[string]DrgRouteDistributio
 // GetDrgRouteDistributionDistributionTypeEnumValues Enumerates the set of values for DrgRouteDistributionDistributionTypeEnum
 func GetDrgRouteDistributionDistributionTypeEnumValues() []DrgRouteDistributionDistributionTypeEnum {
 	values := make([]DrgRouteDistributionDistributionTypeEnum, 0)
-	for _, v := range mappingDrgRouteDistributionDistributionType {
+	for _, v := range mappingDrgRouteDistributionDistributionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgRouteDistributionDistributionTypeEnumStringValues Enumerates the set of values in String for DrgRouteDistributionDistributionTypeEnum
+func GetDrgRouteDistributionDistributionTypeEnumStringValues() []string {
+	return []string{
+		"IMPORT",
+		"EXPORT",
+	}
 }

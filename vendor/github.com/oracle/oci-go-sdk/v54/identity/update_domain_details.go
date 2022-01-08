@@ -4,25 +4,27 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// UpdateDomainDetails Update domain details
+// UpdateDomainDetails (For tenancies that support identity domains) Update identity domain details.
 type UpdateDomainDetails struct {
 
-	// The domain description
+	// The identity domain description. You can have an empty description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The mutable display name of the domain
+	// The mutable display name of the identity domain.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Indicates whether domain is hidden on login screen or not.
+	// Indicates whether the identity domain is hidden on the sign-in screen or not.
 	IsHiddenOnLogin *bool `mandatory:"false" json:"isHiddenOnLogin"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -38,4 +40,16 @@ type UpdateDomainDetails struct {
 
 func (m UpdateDomainDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateDomainDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -12,7 +12,9 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RecommendationCount The count of recommendations in a category, grouped by importance.
@@ -27,4 +29,19 @@ type RecommendationCount struct {
 
 func (m RecommendationCount) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RecommendationCount) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingImportanceEnum[string(m.Importance)]; !ok && m.Importance != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Importance: %s. Supported values are: %s.", m.Importance, strings.Join(GetImportanceEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

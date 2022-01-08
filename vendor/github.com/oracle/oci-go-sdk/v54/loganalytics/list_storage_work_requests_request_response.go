@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListStorageWorkRequestsRequest wrapper for the ListStorageWorkRequests operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListStorageWorkRequests.go.html to see an example of how to use ListStorageWorkRequestsRequest.
 type ListStorageWorkRequestsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -68,6 +66,10 @@ func (request ListStorageWorkRequestsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListStorageWorkRequestsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -81,6 +83,29 @@ func (request ListStorageWorkRequestsRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListStorageWorkRequestsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListStorageWorkRequestsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListStorageWorkRequestsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListStorageWorkRequestsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListStorageWorkRequestsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListStorageWorkRequestsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListStorageWorkRequestsOperationTypeEnum[string(request.OperationType)]; !ok && request.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", request.OperationType, strings.Join(GetListStorageWorkRequestsOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListStorageWorkRequestsStatusEnum[string(request.Status)]; !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListStorageWorkRequestsStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListStorageWorkRequestsResponse wrapper for the ListStorageWorkRequests operation
@@ -124,7 +149,7 @@ const (
 	ListStorageWorkRequestsSortOrderDesc ListStorageWorkRequestsSortOrderEnum = "DESC"
 )
 
-var mappingListStorageWorkRequestsSortOrder = map[string]ListStorageWorkRequestsSortOrderEnum{
+var mappingListStorageWorkRequestsSortOrderEnum = map[string]ListStorageWorkRequestsSortOrderEnum{
 	"ASC":  ListStorageWorkRequestsSortOrderAsc,
 	"DESC": ListStorageWorkRequestsSortOrderDesc,
 }
@@ -132,10 +157,18 @@ var mappingListStorageWorkRequestsSortOrder = map[string]ListStorageWorkRequests
 // GetListStorageWorkRequestsSortOrderEnumValues Enumerates the set of values for ListStorageWorkRequestsSortOrderEnum
 func GetListStorageWorkRequestsSortOrderEnumValues() []ListStorageWorkRequestsSortOrderEnum {
 	values := make([]ListStorageWorkRequestsSortOrderEnum, 0)
-	for _, v := range mappingListStorageWorkRequestsSortOrder {
+	for _, v := range mappingListStorageWorkRequestsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStorageWorkRequestsSortOrderEnumStringValues Enumerates the set of values in String for ListStorageWorkRequestsSortOrderEnum
+func GetListStorageWorkRequestsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListStorageWorkRequestsSortByEnum Enum with underlying type: string
@@ -148,7 +181,7 @@ const (
 	ListStorageWorkRequestsSortByTimefinished ListStorageWorkRequestsSortByEnum = "timeFinished"
 )
 
-var mappingListStorageWorkRequestsSortBy = map[string]ListStorageWorkRequestsSortByEnum{
+var mappingListStorageWorkRequestsSortByEnum = map[string]ListStorageWorkRequestsSortByEnum{
 	"timeAccepted": ListStorageWorkRequestsSortByTimeaccepted,
 	"timeExpires":  ListStorageWorkRequestsSortByTimeexpires,
 	"timeFinished": ListStorageWorkRequestsSortByTimefinished,
@@ -157,10 +190,19 @@ var mappingListStorageWorkRequestsSortBy = map[string]ListStorageWorkRequestsSor
 // GetListStorageWorkRequestsSortByEnumValues Enumerates the set of values for ListStorageWorkRequestsSortByEnum
 func GetListStorageWorkRequestsSortByEnumValues() []ListStorageWorkRequestsSortByEnum {
 	values := make([]ListStorageWorkRequestsSortByEnum, 0)
-	for _, v := range mappingListStorageWorkRequestsSortBy {
+	for _, v := range mappingListStorageWorkRequestsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStorageWorkRequestsSortByEnumStringValues Enumerates the set of values in String for ListStorageWorkRequestsSortByEnum
+func GetListStorageWorkRequestsSortByEnumStringValues() []string {
+	return []string{
+		"timeAccepted",
+		"timeExpires",
+		"timeFinished",
+	}
 }
 
 // ListStorageWorkRequestsOperationTypeEnum Enum with underlying type: string
@@ -176,7 +218,7 @@ const (
 	ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData ListStorageWorkRequestsOperationTypeEnum = "CLEANUP_ARCHIVAL_STORAGE_DATA"
 )
 
-var mappingListStorageWorkRequestsOperationType = map[string]ListStorageWorkRequestsOperationTypeEnum{
+var mappingListStorageWorkRequestsOperationTypeEnum = map[string]ListStorageWorkRequestsOperationTypeEnum{
 	"OFFBOARD_TENANCY":              ListStorageWorkRequestsOperationTypeOffboardTenancy,
 	"PURGE_STORAGE_DATA":            ListStorageWorkRequestsOperationTypePurgeStorageData,
 	"RECALL_ARCHIVED_STORAGE_DATA":  ListStorageWorkRequestsOperationTypeRecallArchivedStorageData,
@@ -188,10 +230,22 @@ var mappingListStorageWorkRequestsOperationType = map[string]ListStorageWorkRequ
 // GetListStorageWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListStorageWorkRequestsOperationTypeEnum
 func GetListStorageWorkRequestsOperationTypeEnumValues() []ListStorageWorkRequestsOperationTypeEnum {
 	values := make([]ListStorageWorkRequestsOperationTypeEnum, 0)
-	for _, v := range mappingListStorageWorkRequestsOperationType {
+	for _, v := range mappingListStorageWorkRequestsOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStorageWorkRequestsOperationTypeEnumStringValues Enumerates the set of values in String for ListStorageWorkRequestsOperationTypeEnum
+func GetListStorageWorkRequestsOperationTypeEnumStringValues() []string {
+	return []string{
+		"OFFBOARD_TENANCY",
+		"PURGE_STORAGE_DATA",
+		"RECALL_ARCHIVED_STORAGE_DATA",
+		"RELEASE_RECALLED_STORAGE_DATA",
+		"ARCHIVE_STORAGE_DATA",
+		"CLEANUP_ARCHIVAL_STORAGE_DATA",
+	}
 }
 
 // ListStorageWorkRequestsStatusEnum Enum with underlying type: string
@@ -206,7 +260,7 @@ const (
 	ListStorageWorkRequestsStatusSucceeded  ListStorageWorkRequestsStatusEnum = "SUCCEEDED"
 )
 
-var mappingListStorageWorkRequestsStatus = map[string]ListStorageWorkRequestsStatusEnum{
+var mappingListStorageWorkRequestsStatusEnum = map[string]ListStorageWorkRequestsStatusEnum{
 	"ACCEPTED":    ListStorageWorkRequestsStatusAccepted,
 	"CANCELED":    ListStorageWorkRequestsStatusCanceled,
 	"FAILED":      ListStorageWorkRequestsStatusFailed,
@@ -217,8 +271,19 @@ var mappingListStorageWorkRequestsStatus = map[string]ListStorageWorkRequestsSta
 // GetListStorageWorkRequestsStatusEnumValues Enumerates the set of values for ListStorageWorkRequestsStatusEnum
 func GetListStorageWorkRequestsStatusEnumValues() []ListStorageWorkRequestsStatusEnum {
 	values := make([]ListStorageWorkRequestsStatusEnum, 0)
-	for _, v := range mappingListStorageWorkRequestsStatus {
+	for _, v := range mappingListStorageWorkRequestsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStorageWorkRequestsStatusEnumStringValues Enumerates the set of values in String for ListStorageWorkRequestsStatusEnum
+func GetListStorageWorkRequestsStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"CANCELED",
+		"FAILED",
+		"IN_PROGRESS",
+		"SUCCEEDED",
+	}
 }

@@ -5,15 +5,13 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListWaasPolicyCustomProtectionRulesRequest wrapper for the ListWaasPolicyCustomProtectionRules operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWaasPolicyCustomProtectionRules.go.html to see an example of how to use ListWaasPolicyCustomProtectionRulesRequest.
 type ListWaasPolicyCustomProtectionRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
@@ -46,6 +44,10 @@ func (request ListWaasPolicyCustomProtectionRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWaasPolicyCustomProtectionRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +61,23 @@ func (request ListWaasPolicyCustomProtectionRulesRequest) BinaryRequestBody() (*
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWaasPolicyCustomProtectionRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWaasPolicyCustomProtectionRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Action {
+		if _, ok := mappingListWaasPolicyCustomProtectionRulesActionEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", val, strings.Join(GetListWaasPolicyCustomProtectionRulesActionEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWaasPolicyCustomProtectionRulesResponse wrapper for the ListWaasPolicyCustomProtectionRules operation
@@ -98,7 +117,7 @@ const (
 	ListWaasPolicyCustomProtectionRulesActionBlock  ListWaasPolicyCustomProtectionRulesActionEnum = "BLOCK"
 )
 
-var mappingListWaasPolicyCustomProtectionRulesAction = map[string]ListWaasPolicyCustomProtectionRulesActionEnum{
+var mappingListWaasPolicyCustomProtectionRulesActionEnum = map[string]ListWaasPolicyCustomProtectionRulesActionEnum{
 	"DETECT": ListWaasPolicyCustomProtectionRulesActionDetect,
 	"BLOCK":  ListWaasPolicyCustomProtectionRulesActionBlock,
 }
@@ -106,8 +125,16 @@ var mappingListWaasPolicyCustomProtectionRulesAction = map[string]ListWaasPolicy
 // GetListWaasPolicyCustomProtectionRulesActionEnumValues Enumerates the set of values for ListWaasPolicyCustomProtectionRulesActionEnum
 func GetListWaasPolicyCustomProtectionRulesActionEnumValues() []ListWaasPolicyCustomProtectionRulesActionEnum {
 	values := make([]ListWaasPolicyCustomProtectionRulesActionEnum, 0)
-	for _, v := range mappingListWaasPolicyCustomProtectionRulesAction {
+	for _, v := range mappingListWaasPolicyCustomProtectionRulesActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWaasPolicyCustomProtectionRulesActionEnumStringValues Enumerates the set of values in String for ListWaasPolicyCustomProtectionRulesActionEnum
+func GetListWaasPolicyCustomProtectionRulesActionEnumStringValues() []string {
+	return []string{
+		"DETECT",
+		"BLOCK",
+	}
 }

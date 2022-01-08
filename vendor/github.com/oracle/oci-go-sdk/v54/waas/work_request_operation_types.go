@@ -26,7 +26,7 @@ const (
 	WorkRequestOperationTypesDeleteCustomProtectionRule WorkRequestOperationTypesEnum = "DELETE_CUSTOM_PROTECTION_RULE"
 )
 
-var mappingWorkRequestOperationTypes = map[string]WorkRequestOperationTypesEnum{
+var mappingWorkRequestOperationTypesEnum = map[string]WorkRequestOperationTypesEnum{
 	"CREATE_WAAS_POLICY":            WorkRequestOperationTypesCreateWaasPolicy,
 	"UPDATE_WAAS_POLICY":            WorkRequestOperationTypesUpdateWaasPolicy,
 	"DELETE_WAAS_POLICY":            WorkRequestOperationTypesDeleteWaasPolicy,
@@ -42,8 +42,24 @@ var mappingWorkRequestOperationTypes = map[string]WorkRequestOperationTypesEnum{
 // GetWorkRequestOperationTypesEnumValues Enumerates the set of values for WorkRequestOperationTypesEnum
 func GetWorkRequestOperationTypesEnumValues() []WorkRequestOperationTypesEnum {
 	values := make([]WorkRequestOperationTypesEnum, 0)
-	for _, v := range mappingWorkRequestOperationTypes {
+	for _, v := range mappingWorkRequestOperationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestOperationTypesEnumStringValues Enumerates the set of values in String for WorkRequestOperationTypesEnum
+func GetWorkRequestOperationTypesEnumStringValues() []string {
+	return []string{
+		"CREATE_WAAS_POLICY",
+		"UPDATE_WAAS_POLICY",
+		"DELETE_WAAS_POLICY",
+		"CREATE_HTTP_REDIRECT",
+		"UPDATE_HTTP_REDIRECT",
+		"DELETE_HTTP_REDIRECT",
+		"PURGE_WAAS_POLICY_CACHE",
+		"CREATE_CUSTOM_PROTECTION_RULE",
+		"UPDATE_CUSTOM_PROTECTION_RULE",
+		"DELETE_CUSTOM_PROTECTION_RULE",
+	}
 }

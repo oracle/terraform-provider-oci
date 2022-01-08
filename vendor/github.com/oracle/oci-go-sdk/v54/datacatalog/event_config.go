@@ -11,7 +11,9 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // EventConfig Describes an event configuration, for a given object type and property. Primarily, whether a property change will result in an event being emitted.
@@ -48,4 +50,19 @@ type EventConfig struct {
 
 func (m EventConfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EventConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingEventConfigStatusEnum[string(m.EventConfigStatus)]; !ok && m.EventConfigStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EventConfigStatus: %s. Supported values are: %s.", m.EventConfigStatus, strings.Join(GetEventConfigStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

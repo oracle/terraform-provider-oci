@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateSubnetDetails The representation of UpdateSubnetDetails
@@ -31,6 +33,19 @@ type UpdateSubnetDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// A DNS label for the subnet, used in conjunction with the VNIC's hostname and
+	// VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC
+	// within this subnet (for example, `bminstance-1.subnet123.vcn1.oraclevcn.com`).
+	// Must be an alphanumeric string that begins with a letter and is unique within the VCN.
+	// The value cannot be changed.
+	// This value must be set if you want to use the Internet and VCN Resolver to resolve the
+	// hostnames of instances in the subnet. It can only be set if the VCN itself
+	// was created with a DNS label.
+	// For more information, see
+	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+	// Example: `subnet123`
+	DnsLabel *string `mandatory:"false" json:"dnsLabel"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -68,4 +83,16 @@ type UpdateSubnetDetails struct {
 
 func (m UpdateSubnetDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateSubnetDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

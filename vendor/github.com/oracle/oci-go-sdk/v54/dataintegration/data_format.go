@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataFormat The data format object.
@@ -26,6 +28,21 @@ type DataFormat struct {
 
 func (m DataFormat) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataFormat) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDataFormatTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetDataFormatTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -71,7 +88,7 @@ const (
 	DataFormatTypeAvro    DataFormatTypeEnum = "AVRO"
 )
 
-var mappingDataFormatType = map[string]DataFormatTypeEnum{
+var mappingDataFormatTypeEnum = map[string]DataFormatTypeEnum{
 	"XML":     DataFormatTypeXml,
 	"JSON":    DataFormatTypeJson,
 	"CSV":     DataFormatTypeCsv,
@@ -83,8 +100,20 @@ var mappingDataFormatType = map[string]DataFormatTypeEnum{
 // GetDataFormatTypeEnumValues Enumerates the set of values for DataFormatTypeEnum
 func GetDataFormatTypeEnumValues() []DataFormatTypeEnum {
 	values := make([]DataFormatTypeEnum, 0)
-	for _, v := range mappingDataFormatType {
+	for _, v := range mappingDataFormatTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataFormatTypeEnumStringValues Enumerates the set of values in String for DataFormatTypeEnum
+func GetDataFormatTypeEnumStringValues() []string {
+	return []string{
+		"XML",
+		"JSON",
+		"CSV",
+		"ORC",
+		"PARQUET",
+		"AVRO",
+	}
 }

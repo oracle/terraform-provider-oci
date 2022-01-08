@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListPdbConversionHistoryEntriesRequest wrapper for the ListPdbConversionHistoryEntries operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListPdbConversionHistoryEntries.go.html to see an example of how to use ListPdbConversionHistoryEntriesRequest.
 type ListPdbConversionHistoryEntriesRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -52,6 +50,10 @@ func (request ListPdbConversionHistoryEntriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPdbConversionHistoryEntriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +67,29 @@ func (request ListPdbConversionHistoryEntriesRequest) BinaryRequestBody() (*comm
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPdbConversionHistoryEntriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPdbConversionHistoryEntriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPdbConversionHistoryEntrySummaryActionEnum[string(request.PdbConversionAction)]; !ok && request.PdbConversionAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PdbConversionAction: %s. Supported values are: %s.", request.PdbConversionAction, strings.Join(GetPdbConversionHistoryEntrySummaryActionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPdbConversionHistoryEntrySummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetPdbConversionHistoryEntrySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPdbConversionHistoryEntriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPdbConversionHistoryEntriesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPdbConversionHistoryEntriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPdbConversionHistoryEntriesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPdbConversionHistoryEntriesResponse wrapper for the ListPdbConversionHistoryEntries operation
@@ -104,17 +129,24 @@ const (
 	ListPdbConversionHistoryEntriesSortByTimestarted ListPdbConversionHistoryEntriesSortByEnum = "TIMESTARTED"
 )
 
-var mappingListPdbConversionHistoryEntriesSortBy = map[string]ListPdbConversionHistoryEntriesSortByEnum{
+var mappingListPdbConversionHistoryEntriesSortByEnum = map[string]ListPdbConversionHistoryEntriesSortByEnum{
 	"TIMESTARTED": ListPdbConversionHistoryEntriesSortByTimestarted,
 }
 
 // GetListPdbConversionHistoryEntriesSortByEnumValues Enumerates the set of values for ListPdbConversionHistoryEntriesSortByEnum
 func GetListPdbConversionHistoryEntriesSortByEnumValues() []ListPdbConversionHistoryEntriesSortByEnum {
 	values := make([]ListPdbConversionHistoryEntriesSortByEnum, 0)
-	for _, v := range mappingListPdbConversionHistoryEntriesSortBy {
+	for _, v := range mappingListPdbConversionHistoryEntriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPdbConversionHistoryEntriesSortByEnumStringValues Enumerates the set of values in String for ListPdbConversionHistoryEntriesSortByEnum
+func GetListPdbConversionHistoryEntriesSortByEnumStringValues() []string {
+	return []string{
+		"TIMESTARTED",
+	}
 }
 
 // ListPdbConversionHistoryEntriesSortOrderEnum Enum with underlying type: string
@@ -126,7 +158,7 @@ const (
 	ListPdbConversionHistoryEntriesSortOrderDesc ListPdbConversionHistoryEntriesSortOrderEnum = "DESC"
 )
 
-var mappingListPdbConversionHistoryEntriesSortOrder = map[string]ListPdbConversionHistoryEntriesSortOrderEnum{
+var mappingListPdbConversionHistoryEntriesSortOrderEnum = map[string]ListPdbConversionHistoryEntriesSortOrderEnum{
 	"ASC":  ListPdbConversionHistoryEntriesSortOrderAsc,
 	"DESC": ListPdbConversionHistoryEntriesSortOrderDesc,
 }
@@ -134,8 +166,16 @@ var mappingListPdbConversionHistoryEntriesSortOrder = map[string]ListPdbConversi
 // GetListPdbConversionHistoryEntriesSortOrderEnumValues Enumerates the set of values for ListPdbConversionHistoryEntriesSortOrderEnum
 func GetListPdbConversionHistoryEntriesSortOrderEnumValues() []ListPdbConversionHistoryEntriesSortOrderEnum {
 	values := make([]ListPdbConversionHistoryEntriesSortOrderEnum, 0)
-	for _, v := range mappingListPdbConversionHistoryEntriesSortOrder {
+	for _, v := range mappingListPdbConversionHistoryEntriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPdbConversionHistoryEntriesSortOrderEnumStringValues Enumerates the set of values in String for ListPdbConversionHistoryEntriesSortOrderEnum
+func GetListPdbConversionHistoryEntriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

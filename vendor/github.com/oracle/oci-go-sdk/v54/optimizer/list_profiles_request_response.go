@@ -5,15 +5,13 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListProfilesRequest wrapper for the ListProfiles operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListProfiles.go.html to see an example of how to use ListProfilesRequest.
 type ListProfilesRequest struct {
 
 	// The OCID of the compartment.
@@ -53,6 +51,10 @@ func (request ListProfilesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListProfilesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +68,26 @@ func (request ListProfilesRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListProfilesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListProfilesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListProfilesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListProfilesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProfilesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListProfilesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProfilesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListProfilesLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListProfilesResponse wrapper for the ListProfiles operation
@@ -109,7 +131,7 @@ const (
 	ListProfilesSortOrderDesc ListProfilesSortOrderEnum = "DESC"
 )
 
-var mappingListProfilesSortOrder = map[string]ListProfilesSortOrderEnum{
+var mappingListProfilesSortOrderEnum = map[string]ListProfilesSortOrderEnum{
 	"ASC":  ListProfilesSortOrderAsc,
 	"DESC": ListProfilesSortOrderDesc,
 }
@@ -117,10 +139,18 @@ var mappingListProfilesSortOrder = map[string]ListProfilesSortOrderEnum{
 // GetListProfilesSortOrderEnumValues Enumerates the set of values for ListProfilesSortOrderEnum
 func GetListProfilesSortOrderEnumValues() []ListProfilesSortOrderEnum {
 	values := make([]ListProfilesSortOrderEnum, 0)
-	for _, v := range mappingListProfilesSortOrder {
+	for _, v := range mappingListProfilesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProfilesSortOrderEnumStringValues Enumerates the set of values in String for ListProfilesSortOrderEnum
+func GetListProfilesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListProfilesSortByEnum Enum with underlying type: string
@@ -132,7 +162,7 @@ const (
 	ListProfilesSortByTimecreated ListProfilesSortByEnum = "TIMECREATED"
 )
 
-var mappingListProfilesSortBy = map[string]ListProfilesSortByEnum{
+var mappingListProfilesSortByEnum = map[string]ListProfilesSortByEnum{
 	"NAME":        ListProfilesSortByName,
 	"TIMECREATED": ListProfilesSortByTimecreated,
 }
@@ -140,10 +170,18 @@ var mappingListProfilesSortBy = map[string]ListProfilesSortByEnum{
 // GetListProfilesSortByEnumValues Enumerates the set of values for ListProfilesSortByEnum
 func GetListProfilesSortByEnumValues() []ListProfilesSortByEnum {
 	values := make([]ListProfilesSortByEnum, 0)
-	for _, v := range mappingListProfilesSortBy {
+	for _, v := range mappingListProfilesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProfilesSortByEnumStringValues Enumerates the set of values in String for ListProfilesSortByEnum
+func GetListProfilesSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }
 
 // ListProfilesLifecycleStateEnum Enum with underlying type: string
@@ -162,7 +200,7 @@ const (
 	ListProfilesLifecycleStateCreating  ListProfilesLifecycleStateEnum = "CREATING"
 )
 
-var mappingListProfilesLifecycleState = map[string]ListProfilesLifecycleStateEnum{
+var mappingListProfilesLifecycleStateEnum = map[string]ListProfilesLifecycleStateEnum{
 	"ACTIVE":    ListProfilesLifecycleStateActive,
 	"FAILED":    ListProfilesLifecycleStateFailed,
 	"INACTIVE":  ListProfilesLifecycleStateInactive,
@@ -177,8 +215,23 @@ var mappingListProfilesLifecycleState = map[string]ListProfilesLifecycleStateEnu
 // GetListProfilesLifecycleStateEnumValues Enumerates the set of values for ListProfilesLifecycleStateEnum
 func GetListProfilesLifecycleStateEnumValues() []ListProfilesLifecycleStateEnum {
 	values := make([]ListProfilesLifecycleStateEnum, 0)
-	for _, v := range mappingListProfilesLifecycleState {
+	for _, v := range mappingListProfilesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProfilesLifecycleStateEnumStringValues Enumerates the set of values in String for ListProfilesLifecycleStateEnum
+func GetListProfilesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"FAILED",
+		"INACTIVE",
+		"ATTACHING",
+		"DETACHING",
+		"DELETING",
+		"DELETED",
+		"UPDATING",
+		"CREATING",
+	}
 }

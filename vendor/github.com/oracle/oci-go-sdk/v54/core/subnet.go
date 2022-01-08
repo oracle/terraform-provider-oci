@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Subnet A logical subdivision of a VCN. Each subnet
@@ -97,6 +99,17 @@ type Subnet struct {
 	// Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678`
 	Ipv6VirtualRouterIp *string `mandatory:"false" json:"ipv6VirtualRouterIp"`
 
+	// Whether learning mode is enabled for this subnet. The default is `false`.
+	// **Note:** When a subnet has learning mode enabled, only certain types
+	// of resources can be launched in the subnet.
+	// Example: `true`
+	IsLearningEnabled *bool `mandatory:"false" json:"isLearningEnabled"`
+
+	// The VLAN tag assigned to VNIC Attachments within this Subnet if the Subnet has learning enabled.
+	// **Note:** When a subnet does not have learning enabled, this field will be null.
+	// Example: `100`
+	VlanTag *int `mandatory:"false" json:"vlanTag"`
+
 	// Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
 	// For IPV4, `prohibitInternetIngress` behaves similarly to `prohibitPublicIpOnVnic`.
 	// If it is set to false, VNICs created in this subnet will automatically be assigned public IP
@@ -142,6 +155,21 @@ func (m Subnet) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Subnet) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSubnetLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSubnetLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SubnetLifecycleStateEnum Enum with underlying type: string
 type SubnetLifecycleStateEnum string
 
@@ -154,7 +182,7 @@ const (
 	SubnetLifecycleStateUpdating     SubnetLifecycleStateEnum = "UPDATING"
 )
 
-var mappingSubnetLifecycleState = map[string]SubnetLifecycleStateEnum{
+var mappingSubnetLifecycleStateEnum = map[string]SubnetLifecycleStateEnum{
 	"PROVISIONING": SubnetLifecycleStateProvisioning,
 	"AVAILABLE":    SubnetLifecycleStateAvailable,
 	"TERMINATING":  SubnetLifecycleStateTerminating,
@@ -165,8 +193,19 @@ var mappingSubnetLifecycleState = map[string]SubnetLifecycleStateEnum{
 // GetSubnetLifecycleStateEnumValues Enumerates the set of values for SubnetLifecycleStateEnum
 func GetSubnetLifecycleStateEnumValues() []SubnetLifecycleStateEnum {
 	values := make([]SubnetLifecycleStateEnum, 0)
-	for _, v := range mappingSubnetLifecycleState {
+	for _, v := range mappingSubnetLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSubnetLifecycleStateEnumStringValues Enumerates the set of values in String for SubnetLifecycleStateEnum
+func GetSubnetLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+		"UPDATING",
+	}
 }

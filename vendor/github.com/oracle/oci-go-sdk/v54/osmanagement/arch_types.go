@@ -22,7 +22,7 @@ const (
 	ArchTypesAmd64Debian ArchTypesEnum = "AMD64_DEBIAN"
 )
 
-var mappingArchTypes = map[string]ArchTypesEnum{
+var mappingArchTypesEnum = map[string]ArchTypesEnum{
 	"IA_32":        ArchTypesIa32,
 	"X86_64":       ArchTypesX8664,
 	"AARCH64":      ArchTypesAarch64,
@@ -33,8 +33,19 @@ var mappingArchTypes = map[string]ArchTypesEnum{
 // GetArchTypesEnumValues Enumerates the set of values for ArchTypesEnum
 func GetArchTypesEnumValues() []ArchTypesEnum {
 	values := make([]ArchTypesEnum, 0)
-	for _, v := range mappingArchTypes {
+	for _, v := range mappingArchTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetArchTypesEnumStringValues Enumerates the set of values in String for ArchTypesEnum
+func GetArchTypesEnumStringValues() []string {
+	return []string{
+		"IA_32",
+		"X86_64",
+		"AARCH64",
+		"SPARC",
+		"AMD64_DEBIAN",
+	}
 }

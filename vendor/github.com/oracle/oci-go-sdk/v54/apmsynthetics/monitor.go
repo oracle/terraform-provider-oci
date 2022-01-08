@@ -4,14 +4,16 @@
 
 // Application Performance Monitoring Synthetic Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors.
+// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Monitor The information about a monitor.
@@ -26,7 +28,7 @@ type Monitor struct {
 	// Type of the monitor.
 	MonitorType MonitorTypesEnum `mandatory:"true" json:"monitorType"`
 
-	// List of vantage points from where monitor is running.
+	// List of public and dedicated vantage points where the monitor is running.
 	VantagePoints []VantagePointInfo `mandatory:"true" json:"vantagePoints"`
 
 	// Number of vantage points where monitor is running.
@@ -43,14 +45,15 @@ type Monitor struct {
 	Status MonitorStatusEnum `mandatory:"true" json:"status"`
 
 	// Interval in seconds after the start time when the job should be repeated.
-	// Minimum repeatIntervalInSeconds should be 300 seconds.
+	// Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor.
 	RepeatIntervalInSeconds *int `mandatory:"true" json:"repeatIntervalInSeconds"`
 
 	// If runOnce is enabled, then the monitor will run once.
 	IsRunOnce *bool `mandatory:"true" json:"isRunOnce"`
 
 	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
-	// Also, timeoutInSeconds should be a multiple of 60. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
+	// Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors.
+	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"true" json:"timeoutInSeconds"`
 
 	// Specify the endpoint on which to run the monitor.
@@ -85,6 +88,24 @@ type Monitor struct {
 
 func (m Monitor) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Monitor) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMonitorTypesEnum[string(m.MonitorType)]; !ok && m.MonitorType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MonitorType: %s. Supported values are: %s.", m.MonitorType, strings.Join(GetMonitorTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMonitorStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetMonitorStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json

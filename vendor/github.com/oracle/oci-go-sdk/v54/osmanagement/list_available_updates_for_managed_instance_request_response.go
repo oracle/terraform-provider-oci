@@ -5,15 +5,13 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAvailableUpdatesForManagedInstanceRequest wrapper for the ListAvailableUpdatesForManagedInstance operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailableUpdatesForManagedInstance.go.html to see an example of how to use ListAvailableUpdatesForManagedInstanceRequest.
 type ListAvailableUpdatesForManagedInstanceRequest struct {
 
 	// OCID for the managed instance
@@ -53,6 +51,10 @@ func (request ListAvailableUpdatesForManagedInstanceRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAvailableUpdatesForManagedInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +68,23 @@ func (request ListAvailableUpdatesForManagedInstanceRequest) BinaryRequestBody()
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAvailableUpdatesForManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAvailableUpdatesForManagedInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAvailableUpdatesForManagedInstanceSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAvailableUpdatesForManagedInstanceSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAvailableUpdatesForManagedInstanceSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAvailableUpdatesForManagedInstanceSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAvailableUpdatesForManagedInstanceResponse wrapper for the ListAvailableUpdatesForManagedInstance operation
@@ -106,7 +125,7 @@ const (
 	ListAvailableUpdatesForManagedInstanceSortOrderDesc ListAvailableUpdatesForManagedInstanceSortOrderEnum = "DESC"
 )
 
-var mappingListAvailableUpdatesForManagedInstanceSortOrder = map[string]ListAvailableUpdatesForManagedInstanceSortOrderEnum{
+var mappingListAvailableUpdatesForManagedInstanceSortOrderEnum = map[string]ListAvailableUpdatesForManagedInstanceSortOrderEnum{
 	"ASC":  ListAvailableUpdatesForManagedInstanceSortOrderAsc,
 	"DESC": ListAvailableUpdatesForManagedInstanceSortOrderDesc,
 }
@@ -114,10 +133,18 @@ var mappingListAvailableUpdatesForManagedInstanceSortOrder = map[string]ListAvai
 // GetListAvailableUpdatesForManagedInstanceSortOrderEnumValues Enumerates the set of values for ListAvailableUpdatesForManagedInstanceSortOrderEnum
 func GetListAvailableUpdatesForManagedInstanceSortOrderEnumValues() []ListAvailableUpdatesForManagedInstanceSortOrderEnum {
 	values := make([]ListAvailableUpdatesForManagedInstanceSortOrderEnum, 0)
-	for _, v := range mappingListAvailableUpdatesForManagedInstanceSortOrder {
+	for _, v := range mappingListAvailableUpdatesForManagedInstanceSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailableUpdatesForManagedInstanceSortOrderEnumStringValues Enumerates the set of values in String for ListAvailableUpdatesForManagedInstanceSortOrderEnum
+func GetListAvailableUpdatesForManagedInstanceSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAvailableUpdatesForManagedInstanceSortByEnum Enum with underlying type: string
@@ -129,7 +156,7 @@ const (
 	ListAvailableUpdatesForManagedInstanceSortByDisplayname ListAvailableUpdatesForManagedInstanceSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAvailableUpdatesForManagedInstanceSortBy = map[string]ListAvailableUpdatesForManagedInstanceSortByEnum{
+var mappingListAvailableUpdatesForManagedInstanceSortByEnum = map[string]ListAvailableUpdatesForManagedInstanceSortByEnum{
 	"TIMECREATED": ListAvailableUpdatesForManagedInstanceSortByTimecreated,
 	"DISPLAYNAME": ListAvailableUpdatesForManagedInstanceSortByDisplayname,
 }
@@ -137,8 +164,16 @@ var mappingListAvailableUpdatesForManagedInstanceSortBy = map[string]ListAvailab
 // GetListAvailableUpdatesForManagedInstanceSortByEnumValues Enumerates the set of values for ListAvailableUpdatesForManagedInstanceSortByEnum
 func GetListAvailableUpdatesForManagedInstanceSortByEnumValues() []ListAvailableUpdatesForManagedInstanceSortByEnum {
 	values := make([]ListAvailableUpdatesForManagedInstanceSortByEnum, 0)
-	for _, v := range mappingListAvailableUpdatesForManagedInstanceSortBy {
+	for _, v := range mappingListAvailableUpdatesForManagedInstanceSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailableUpdatesForManagedInstanceSortByEnumStringValues Enumerates the set of values in String for ListAvailableUpdatesForManagedInstanceSortByEnum
+func GetListAvailableUpdatesForManagedInstanceSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

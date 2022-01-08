@@ -5,15 +5,13 @@
 package apmsynthetics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListPublicVantagePointsRequest wrapper for the ListPublicVantagePoints operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListPublicVantagePoints.go.html to see an example of how to use ListPublicVantagePointsRequest.
 type ListPublicVantagePointsRequest struct {
 
 	// The APM domain ID the request is intended for.
@@ -35,10 +33,10 @@ type ListPublicVantagePointsRequest struct {
 	// sort by is case insensitive.
 	SortBy ListPublicVantagePointsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// A filter to return only resources that match the entire display name given.
+	// A filter to return only the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources that match the entire name given.
+	// A filter to return only the resources that match the entire name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// Unique identifier for the request.
@@ -57,6 +55,10 @@ func (request ListPublicVantagePointsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPublicVantagePointsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,23 @@ func (request ListPublicVantagePointsRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPublicVantagePointsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPublicVantagePointsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPublicVantagePointsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPublicVantagePointsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPublicVantagePointsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPublicVantagePointsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPublicVantagePointsResponse wrapper for the ListPublicVantagePoints operation
@@ -109,7 +128,7 @@ const (
 	ListPublicVantagePointsSortOrderDesc ListPublicVantagePointsSortOrderEnum = "DESC"
 )
 
-var mappingListPublicVantagePointsSortOrder = map[string]ListPublicVantagePointsSortOrderEnum{
+var mappingListPublicVantagePointsSortOrderEnum = map[string]ListPublicVantagePointsSortOrderEnum{
 	"ASC":  ListPublicVantagePointsSortOrderAsc,
 	"DESC": ListPublicVantagePointsSortOrderDesc,
 }
@@ -117,10 +136,18 @@ var mappingListPublicVantagePointsSortOrder = map[string]ListPublicVantagePoints
 // GetListPublicVantagePointsSortOrderEnumValues Enumerates the set of values for ListPublicVantagePointsSortOrderEnum
 func GetListPublicVantagePointsSortOrderEnumValues() []ListPublicVantagePointsSortOrderEnum {
 	values := make([]ListPublicVantagePointsSortOrderEnum, 0)
-	for _, v := range mappingListPublicVantagePointsSortOrder {
+	for _, v := range mappingListPublicVantagePointsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublicVantagePointsSortOrderEnumStringValues Enumerates the set of values in String for ListPublicVantagePointsSortOrderEnum
+func GetListPublicVantagePointsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListPublicVantagePointsSortByEnum Enum with underlying type: string
@@ -132,7 +159,7 @@ const (
 	ListPublicVantagePointsSortByDisplayname ListPublicVantagePointsSortByEnum = "displayName"
 )
 
-var mappingListPublicVantagePointsSortBy = map[string]ListPublicVantagePointsSortByEnum{
+var mappingListPublicVantagePointsSortByEnum = map[string]ListPublicVantagePointsSortByEnum{
 	"name":        ListPublicVantagePointsSortByName,
 	"displayName": ListPublicVantagePointsSortByDisplayname,
 }
@@ -140,8 +167,16 @@ var mappingListPublicVantagePointsSortBy = map[string]ListPublicVantagePointsSor
 // GetListPublicVantagePointsSortByEnumValues Enumerates the set of values for ListPublicVantagePointsSortByEnum
 func GetListPublicVantagePointsSortByEnumValues() []ListPublicVantagePointsSortByEnum {
 	values := make([]ListPublicVantagePointsSortByEnum, 0)
-	for _, v := range mappingListPublicVantagePointsSortBy {
+	for _, v := range mappingListPublicVantagePointsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublicVantagePointsSortByEnumStringValues Enumerates the set of values in String for ListPublicVantagePointsSortByEnum
+func GetListPublicVantagePointsSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"displayName",
+	}
 }

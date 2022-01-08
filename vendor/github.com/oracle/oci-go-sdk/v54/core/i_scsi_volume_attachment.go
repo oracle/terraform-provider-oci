@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // IScsiVolumeAttachment An ISCSI volume attachment.
@@ -73,7 +75,7 @@ type IScsiVolumeAttachment struct {
 	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
-	// Whether the attachment is multipath or not.
+	// Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
 	IsMultipath *bool `mandatory:"false" json:"isMultipath"`
 
 	// The Challenge-Handshake-Authentication-Protocol (CHAP) secret
@@ -92,7 +94,7 @@ type IScsiVolumeAttachment struct {
 	// The current state of the volume attachment.
 	LifecycleState VolumeAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The iscsi login state of the volume attachment. For a multipath volume attachment,
+	// The iscsi login state of the volume attachment. For a Iscsi volume attachment,
 	// all iscsi sessions need to be all logged-in or logged-out to be in logged-in or logged-out state.
 	IscsiLoginState VolumeAttachmentIscsiLoginStateEnum `mandatory:"false" json:"iscsiLoginState,omitempty"`
 
@@ -173,6 +175,27 @@ func (m IScsiVolumeAttachment) GetIscsiLoginState() VolumeAttachmentIscsiLoginSt
 
 func (m IScsiVolumeAttachment) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IScsiVolumeAttachment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingVolumeAttachmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeAttachmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVolumeAttachmentIscsiLoginStateEnum[string(m.IscsiLoginState)]; !ok && m.IscsiLoginState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IscsiLoginState: %s. Supported values are: %s.", m.IscsiLoginState, strings.Join(GetVolumeAttachmentIscsiLoginStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingEncryptionInTransitTypeEnum[string(m.EncryptionInTransitType)]; !ok && m.EncryptionInTransitType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EncryptionInTransitType: %s. Supported values are: %s.", m.EncryptionInTransitType, strings.Join(GetEncryptionInTransitTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

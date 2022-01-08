@@ -10,7 +10,9 @@
 package identitydataplane
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BadUserStateAuthenticateUserResult The representation of BadUserStateAuthenticateUserResult
@@ -36,6 +38,21 @@ func (m BadUserStateAuthenticateUserResult) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BadUserStateAuthenticateUserResult) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBadUserStateAuthenticateUserResultUserStateEnum[string(m.UserState)]; !ok && m.UserState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UserState: %s. Supported values are: %s.", m.UserState, strings.Join(GetBadUserStateAuthenticateUserResultUserStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BadUserStateAuthenticateUserResultUserStateEnum Enum with underlying type: string
 type BadUserStateAuthenticateUserResultUserStateEnum string
 
@@ -47,7 +64,7 @@ const (
 	BadUserStateAuthenticateUserResultUserStatePasswordInvalid        BadUserStateAuthenticateUserResultUserStateEnum = "PASSWORD_INVALID"
 )
 
-var mappingBadUserStateAuthenticateUserResultUserState = map[string]BadUserStateAuthenticateUserResultUserStateEnum{
+var mappingBadUserStateAuthenticateUserResultUserStateEnum = map[string]BadUserStateAuthenticateUserResultUserStateEnum{
 	"USER_BLOCKED":              BadUserStateAuthenticateUserResultUserStateUserBlocked,
 	"USER_DISABLED":             BadUserStateAuthenticateUserResultUserStateUserDisabled,
 	"ONE_TIME_PASSWORD_EXPIRED": BadUserStateAuthenticateUserResultUserStateOneTimePasswordExpired,
@@ -57,8 +74,18 @@ var mappingBadUserStateAuthenticateUserResultUserState = map[string]BadUserState
 // GetBadUserStateAuthenticateUserResultUserStateEnumValues Enumerates the set of values for BadUserStateAuthenticateUserResultUserStateEnum
 func GetBadUserStateAuthenticateUserResultUserStateEnumValues() []BadUserStateAuthenticateUserResultUserStateEnum {
 	values := make([]BadUserStateAuthenticateUserResultUserStateEnum, 0)
-	for _, v := range mappingBadUserStateAuthenticateUserResultUserState {
+	for _, v := range mappingBadUserStateAuthenticateUserResultUserStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBadUserStateAuthenticateUserResultUserStateEnumStringValues Enumerates the set of values in String for BadUserStateAuthenticateUserResultUserStateEnum
+func GetBadUserStateAuthenticateUserResultUserStateEnumStringValues() []string {
+	return []string{
+		"USER_BLOCKED",
+		"USER_DISABLED",
+		"ONE_TIME_PASSWORD_EXPIRED",
+		"PASSWORD_INVALID",
+	}
 }

@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SignDataDetails The representation of SignDataDetails
@@ -43,6 +45,24 @@ func (m SignDataDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SignDataDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSignDataDetailsSigningAlgorithmEnum[string(m.SigningAlgorithm)]; !ok && m.SigningAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SigningAlgorithm: %s. Supported values are: %s.", m.SigningAlgorithm, strings.Join(GetSignDataDetailsSigningAlgorithmEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingSignDataDetailsMessageTypeEnum[string(m.MessageType)]; !ok && m.MessageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MessageType: %s. Supported values are: %s.", m.MessageType, strings.Join(GetSignDataDetailsMessageTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SignDataDetailsMessageTypeEnum Enum with underlying type: string
 type SignDataDetailsMessageTypeEnum string
 
@@ -52,7 +72,7 @@ const (
 	SignDataDetailsMessageTypeDigest SignDataDetailsMessageTypeEnum = "DIGEST"
 )
 
-var mappingSignDataDetailsMessageType = map[string]SignDataDetailsMessageTypeEnum{
+var mappingSignDataDetailsMessageTypeEnum = map[string]SignDataDetailsMessageTypeEnum{
 	"RAW":    SignDataDetailsMessageTypeRaw,
 	"DIGEST": SignDataDetailsMessageTypeDigest,
 }
@@ -60,10 +80,18 @@ var mappingSignDataDetailsMessageType = map[string]SignDataDetailsMessageTypeEnu
 // GetSignDataDetailsMessageTypeEnumValues Enumerates the set of values for SignDataDetailsMessageTypeEnum
 func GetSignDataDetailsMessageTypeEnumValues() []SignDataDetailsMessageTypeEnum {
 	values := make([]SignDataDetailsMessageTypeEnum, 0)
-	for _, v := range mappingSignDataDetailsMessageType {
+	for _, v := range mappingSignDataDetailsMessageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSignDataDetailsMessageTypeEnumStringValues Enumerates the set of values in String for SignDataDetailsMessageTypeEnum
+func GetSignDataDetailsMessageTypeEnumStringValues() []string {
+	return []string{
+		"RAW",
+		"DIGEST",
+	}
 }
 
 // SignDataDetailsSigningAlgorithmEnum Enum with underlying type: string
@@ -84,7 +112,7 @@ const (
 	SignDataDetailsSigningAlgorithmEcdsaSha512       SignDataDetailsSigningAlgorithmEnum = "ECDSA_SHA_512"
 )
 
-var mappingSignDataDetailsSigningAlgorithm = map[string]SignDataDetailsSigningAlgorithmEnum{
+var mappingSignDataDetailsSigningAlgorithmEnum = map[string]SignDataDetailsSigningAlgorithmEnum{
 	"SHA_224_RSA_PKCS_PSS":   SignDataDetailsSigningAlgorithmSha224RsaPkcsPss,
 	"SHA_256_RSA_PKCS_PSS":   SignDataDetailsSigningAlgorithmSha256RsaPkcsPss,
 	"SHA_384_RSA_PKCS_PSS":   SignDataDetailsSigningAlgorithmSha384RsaPkcsPss,
@@ -101,8 +129,25 @@ var mappingSignDataDetailsSigningAlgorithm = map[string]SignDataDetailsSigningAl
 // GetSignDataDetailsSigningAlgorithmEnumValues Enumerates the set of values for SignDataDetailsSigningAlgorithmEnum
 func GetSignDataDetailsSigningAlgorithmEnumValues() []SignDataDetailsSigningAlgorithmEnum {
 	values := make([]SignDataDetailsSigningAlgorithmEnum, 0)
-	for _, v := range mappingSignDataDetailsSigningAlgorithm {
+	for _, v := range mappingSignDataDetailsSigningAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSignDataDetailsSigningAlgorithmEnumStringValues Enumerates the set of values in String for SignDataDetailsSigningAlgorithmEnum
+func GetSignDataDetailsSigningAlgorithmEnumStringValues() []string {
+	return []string{
+		"SHA_224_RSA_PKCS_PSS",
+		"SHA_256_RSA_PKCS_PSS",
+		"SHA_384_RSA_PKCS_PSS",
+		"SHA_512_RSA_PKCS_PSS",
+		"SHA_224_RSA_PKCS1_V1_5",
+		"SHA_256_RSA_PKCS1_V1_5",
+		"SHA_384_RSA_PKCS1_V1_5",
+		"SHA_512_RSA_PKCS1_V1_5",
+		"ECDSA_SHA_256",
+		"ECDSA_SHA_384",
+		"ECDSA_SHA_512",
+	}
 }

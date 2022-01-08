@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InternetGateway Represents a router that connects the edge of a VCN with the Internet. For an example scenario
@@ -64,6 +66,21 @@ func (m InternetGateway) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InternetGateway) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInternetGatewayLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInternetGatewayLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InternetGatewayLifecycleStateEnum Enum with underlying type: string
 type InternetGatewayLifecycleStateEnum string
 
@@ -75,7 +92,7 @@ const (
 	InternetGatewayLifecycleStateTerminated   InternetGatewayLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingInternetGatewayLifecycleState = map[string]InternetGatewayLifecycleStateEnum{
+var mappingInternetGatewayLifecycleStateEnum = map[string]InternetGatewayLifecycleStateEnum{
 	"PROVISIONING": InternetGatewayLifecycleStateProvisioning,
 	"AVAILABLE":    InternetGatewayLifecycleStateAvailable,
 	"TERMINATING":  InternetGatewayLifecycleStateTerminating,
@@ -85,8 +102,18 @@ var mappingInternetGatewayLifecycleState = map[string]InternetGatewayLifecycleSt
 // GetInternetGatewayLifecycleStateEnumValues Enumerates the set of values for InternetGatewayLifecycleStateEnum
 func GetInternetGatewayLifecycleStateEnumValues() []InternetGatewayLifecycleStateEnum {
 	values := make([]InternetGatewayLifecycleStateEnum, 0)
-	for _, v := range mappingInternetGatewayLifecycleState {
+	for _, v := range mappingInternetGatewayLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInternetGatewayLifecycleStateEnumStringValues Enumerates the set of values in String for InternetGatewayLifecycleStateEnum
+func GetInternetGatewayLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

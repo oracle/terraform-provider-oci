@@ -5,15 +5,13 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListEventsRequest wrapper for the ListEvents operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListEvents.go.html to see an example of how to use ListEventsRequest.
 type ListEventsRequest struct {
 
 	// Instance Oracle Cloud identifier (ocid)
@@ -63,6 +61,10 @@ func (request ListEventsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListEventsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +78,26 @@ func (request ListEventsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListEventsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListEventsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListEventsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListEventsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEventsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListEventsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEventsEventTypeEnum[string(request.EventType)]; !ok && request.EventType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EventType: %s. Supported values are: %s.", request.EventType, strings.Join(GetListEventsEventTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListEventsResponse wrapper for the ListEvents operation
@@ -116,7 +138,7 @@ const (
 	ListEventsSortOrderDesc ListEventsSortOrderEnum = "DESC"
 )
 
-var mappingListEventsSortOrder = map[string]ListEventsSortOrderEnum{
+var mappingListEventsSortOrderEnum = map[string]ListEventsSortOrderEnum{
 	"ASC":  ListEventsSortOrderAsc,
 	"DESC": ListEventsSortOrderDesc,
 }
@@ -124,10 +146,18 @@ var mappingListEventsSortOrder = map[string]ListEventsSortOrderEnum{
 // GetListEventsSortOrderEnumValues Enumerates the set of values for ListEventsSortOrderEnum
 func GetListEventsSortOrderEnumValues() []ListEventsSortOrderEnum {
 	values := make([]ListEventsSortOrderEnum, 0)
-	for _, v := range mappingListEventsSortOrder {
+	for _, v := range mappingListEventsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEventsSortOrderEnumStringValues Enumerates the set of values in String for ListEventsSortOrderEnum
+func GetListEventsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListEventsSortByEnum Enum with underlying type: string
@@ -139,7 +169,7 @@ const (
 	ListEventsSortByDisplayname ListEventsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListEventsSortBy = map[string]ListEventsSortByEnum{
+var mappingListEventsSortByEnum = map[string]ListEventsSortByEnum{
 	"TIMECREATED": ListEventsSortByTimecreated,
 	"DISPLAYNAME": ListEventsSortByDisplayname,
 }
@@ -147,10 +177,18 @@ var mappingListEventsSortBy = map[string]ListEventsSortByEnum{
 // GetListEventsSortByEnumValues Enumerates the set of values for ListEventsSortByEnum
 func GetListEventsSortByEnumValues() []ListEventsSortByEnum {
 	values := make([]ListEventsSortByEnum, 0)
-	for _, v := range mappingListEventsSortBy {
+	for _, v := range mappingListEventsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEventsSortByEnumStringValues Enumerates the set of values in String for ListEventsSortByEnum
+func GetListEventsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListEventsEventTypeEnum Enum with underlying type: string
@@ -170,7 +208,7 @@ const (
 	ListEventsEventTypeWarning          ListEventsEventTypeEnum = "WARNING"
 )
 
-var mappingListEventsEventType = map[string]ListEventsEventTypeEnum{
+var mappingListEventsEventTypeEnum = map[string]ListEventsEventTypeEnum{
 	"KERNEL_OOPS":       ListEventsEventTypeKernelOops,
 	"KERNEL_CRASH":      ListEventsEventTypeKernelCrash,
 	"CRASH":             ListEventsEventTypeCrash,
@@ -186,8 +224,24 @@ var mappingListEventsEventType = map[string]ListEventsEventTypeEnum{
 // GetListEventsEventTypeEnumValues Enumerates the set of values for ListEventsEventTypeEnum
 func GetListEventsEventTypeEnumValues() []ListEventsEventTypeEnum {
 	values := make([]ListEventsEventTypeEnum, 0)
-	for _, v := range mappingListEventsEventType {
+	for _, v := range mappingListEventsEventTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEventsEventTypeEnumStringValues Enumerates the set of values in String for ListEventsEventTypeEnum
+func GetListEventsEventTypeEnumStringValues() []string {
+	return []string{
+		"KERNEL_OOPS",
+		"KERNEL_CRASH",
+		"CRASH",
+		"EXPLOIT_ATTEMPT",
+		"COMPLIANCE",
+		"TUNING_SUGGESTION",
+		"TUNING_APPLIED",
+		"SECURITY",
+		"ERROR",
+		"WARNING",
+	}
 }

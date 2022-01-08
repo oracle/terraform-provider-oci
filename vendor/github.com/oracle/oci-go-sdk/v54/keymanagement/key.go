@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Key The representation of Key
@@ -78,6 +80,24 @@ func (m Key) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Key) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingKeyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetKeyLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingKeyProtectionModeEnum[string(m.ProtectionMode)]; !ok && m.ProtectionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetKeyProtectionModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // KeyProtectionModeEnum Enum with underlying type: string
 type KeyProtectionModeEnum string
 
@@ -87,7 +107,7 @@ const (
 	KeyProtectionModeSoftware KeyProtectionModeEnum = "SOFTWARE"
 )
 
-var mappingKeyProtectionMode = map[string]KeyProtectionModeEnum{
+var mappingKeyProtectionModeEnum = map[string]KeyProtectionModeEnum{
 	"HSM":      KeyProtectionModeHsm,
 	"SOFTWARE": KeyProtectionModeSoftware,
 }
@@ -95,10 +115,18 @@ var mappingKeyProtectionMode = map[string]KeyProtectionModeEnum{
 // GetKeyProtectionModeEnumValues Enumerates the set of values for KeyProtectionModeEnum
 func GetKeyProtectionModeEnumValues() []KeyProtectionModeEnum {
 	values := make([]KeyProtectionModeEnum, 0)
-	for _, v := range mappingKeyProtectionMode {
+	for _, v := range mappingKeyProtectionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyProtectionModeEnumStringValues Enumerates the set of values in String for KeyProtectionModeEnum
+func GetKeyProtectionModeEnumStringValues() []string {
+	return []string{
+		"HSM",
+		"SOFTWARE",
+	}
 }
 
 // KeyLifecycleStateEnum Enum with underlying type: string
@@ -121,7 +149,7 @@ const (
 	KeyLifecycleStateRestoring          KeyLifecycleStateEnum = "RESTORING"
 )
 
-var mappingKeyLifecycleState = map[string]KeyLifecycleStateEnum{
+var mappingKeyLifecycleStateEnum = map[string]KeyLifecycleStateEnum{
 	"CREATING":            KeyLifecycleStateCreating,
 	"ENABLING":            KeyLifecycleStateEnabling,
 	"ENABLED":             KeyLifecycleStateEnabled,
@@ -140,8 +168,27 @@ var mappingKeyLifecycleState = map[string]KeyLifecycleStateEnum{
 // GetKeyLifecycleStateEnumValues Enumerates the set of values for KeyLifecycleStateEnum
 func GetKeyLifecycleStateEnumValues() []KeyLifecycleStateEnum {
 	values := make([]KeyLifecycleStateEnum, 0)
-	for _, v := range mappingKeyLifecycleState {
+	for _, v := range mappingKeyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyLifecycleStateEnumStringValues Enumerates the set of values in String for KeyLifecycleStateEnum
+func GetKeyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"DISABLED",
+		"DELETING",
+		"DELETED",
+		"PENDING_DELETION",
+		"SCHEDULING_DELETION",
+		"CANCELLING_DELETION",
+		"UPDATING",
+		"BACKUP_IN_PROGRESS",
+		"RESTORING",
+	}
 }

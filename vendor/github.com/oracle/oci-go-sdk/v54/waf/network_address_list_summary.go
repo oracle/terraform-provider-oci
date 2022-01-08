@@ -12,7 +12,9 @@ package waf
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // NetworkAddressListSummary Summary of NetworkAddressList.
@@ -170,6 +172,21 @@ func (m networkaddresslistsummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m networkaddresslistsummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingNetworkAddressListLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNetworkAddressListLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // NetworkAddressListSummaryTypeEnum Enum with underlying type: string
 type NetworkAddressListSummaryTypeEnum string
 
@@ -179,7 +196,7 @@ const (
 	NetworkAddressListSummaryTypeVcnAddresses NetworkAddressListSummaryTypeEnum = "VCN_ADDRESSES"
 )
 
-var mappingNetworkAddressListSummaryType = map[string]NetworkAddressListSummaryTypeEnum{
+var mappingNetworkAddressListSummaryTypeEnum = map[string]NetworkAddressListSummaryTypeEnum{
 	"ADDRESSES":     NetworkAddressListSummaryTypeAddresses,
 	"VCN_ADDRESSES": NetworkAddressListSummaryTypeVcnAddresses,
 }
@@ -187,8 +204,16 @@ var mappingNetworkAddressListSummaryType = map[string]NetworkAddressListSummaryT
 // GetNetworkAddressListSummaryTypeEnumValues Enumerates the set of values for NetworkAddressListSummaryTypeEnum
 func GetNetworkAddressListSummaryTypeEnumValues() []NetworkAddressListSummaryTypeEnum {
 	values := make([]NetworkAddressListSummaryTypeEnum, 0)
-	for _, v := range mappingNetworkAddressListSummaryType {
+	for _, v := range mappingNetworkAddressListSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkAddressListSummaryTypeEnumStringValues Enumerates the set of values in String for NetworkAddressListSummaryTypeEnum
+func GetNetworkAddressListSummaryTypeEnumStringValues() []string {
+	return []string{
+		"ADDRESSES",
+		"VCN_ADDRESSES",
+	}
 }

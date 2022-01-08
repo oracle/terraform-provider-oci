@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateExadataInfrastructureDetails Request to create Exadata infrastructure resource. Applies to Exadata Cloud@Customer instances only.
@@ -68,6 +70,17 @@ type CreateExadataInfrastructureDetails struct {
 	// The number of compute servers for the Exadata infrastructure.
 	ComputeCount *int `mandatory:"false" json:"computeCount"`
 
+	// Indicates if deployment is Multi-Rack or not.
+	IsMultiRackDeployment *bool `mandatory:"false" json:"isMultiRackDeployment"`
+
+	// The base64 encoded Multi-Rack configuration json file.
+	MultiRackConfigurationFile []byte `mandatory:"false" json:"multiRackConfigurationFile"`
+
+	// Indicates whether cps offline diagnostic report is enabled for this Exadata infrastructure. This will allow a customer to quickly check status themselves and fix problems on their end, saving time and frustration
+	// for both Oracle and the customer when they find the CPS in a disconnected state.You can enable offline diagnostic report during Exadata infrastructure provisioning. You can also disable or enable it at any time
+	// using the UpdateExadatainfrastructure API.
+	IsCpsOfflineReportEnabled *bool `mandatory:"false" json:"isCpsOfflineReportEnabled"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -80,4 +93,16 @@ type CreateExadataInfrastructureDetails struct {
 
 func (m CreateExadataInfrastructureDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateExadataInfrastructureDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

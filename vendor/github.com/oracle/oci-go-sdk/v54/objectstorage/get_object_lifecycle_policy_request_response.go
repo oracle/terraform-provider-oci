@@ -5,15 +5,13 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetObjectLifecyclePolicyRequest wrapper for the GetObjectLifecyclePolicy operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetObjectLifecyclePolicy.go.html to see an example of how to use GetObjectLifecyclePolicyRequest.
 type GetObjectLifecyclePolicyRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -38,6 +36,10 @@ func (request GetObjectLifecyclePolicyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetObjectLifecyclePolicyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -51,6 +53,17 @@ func (request GetObjectLifecyclePolicyRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetObjectLifecyclePolicyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetObjectLifecyclePolicyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetObjectLifecyclePolicyResponse wrapper for the GetObjectLifecyclePolicy operation

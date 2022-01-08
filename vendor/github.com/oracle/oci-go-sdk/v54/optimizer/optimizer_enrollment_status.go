@@ -20,7 +20,7 @@ const (
 	OptimizerEnrollmentStatusInactive OptimizerEnrollmentStatusEnum = "INACTIVE"
 )
 
-var mappingOptimizerEnrollmentStatus = map[string]OptimizerEnrollmentStatusEnum{
+var mappingOptimizerEnrollmentStatusEnum = map[string]OptimizerEnrollmentStatusEnum{
 	"ACTIVE":   OptimizerEnrollmentStatusActive,
 	"INACTIVE": OptimizerEnrollmentStatusInactive,
 }
@@ -28,8 +28,16 @@ var mappingOptimizerEnrollmentStatus = map[string]OptimizerEnrollmentStatusEnum{
 // GetOptimizerEnrollmentStatusEnumValues Enumerates the set of values for OptimizerEnrollmentStatusEnum
 func GetOptimizerEnrollmentStatusEnumValues() []OptimizerEnrollmentStatusEnum {
 	values := make([]OptimizerEnrollmentStatusEnum, 0)
-	for _, v := range mappingOptimizerEnrollmentStatus {
+	for _, v := range mappingOptimizerEnrollmentStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOptimizerEnrollmentStatusEnumStringValues Enumerates the set of values in String for OptimizerEnrollmentStatusEnum
+func GetOptimizerEnrollmentStatusEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }

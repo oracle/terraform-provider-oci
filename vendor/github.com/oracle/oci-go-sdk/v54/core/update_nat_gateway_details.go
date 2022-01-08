@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateNatGatewayDetails The representation of UpdateNatGatewayDetails
@@ -37,8 +39,26 @@ type UpdateNatGatewayDetails struct {
 	// Whether the NAT gateway blocks traffic through it. The default is `false`.
 	// Example: `true`
 	BlockTraffic *bool `mandatory:"false" json:"blockTraffic"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the NAT gateway.
+	// If you don't specify a route table here, the NAT gateway is created without an associated route
+	// table. The Networking service does NOT automatically associate the attached VCN's default route
+	// table with the NAT gateway.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m UpdateNatGatewayDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateNatGatewayDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

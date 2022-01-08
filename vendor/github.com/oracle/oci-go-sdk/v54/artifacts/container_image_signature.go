@@ -2,16 +2,18 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Container Images API
+// Artifacts and Container Images API
 //
-// API covering the Registry (https://docs.cloud.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
-// Use this API to manage resources such as container images and repositories.
+// API covering the Artifacts and Registry (https://docs.cloud.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
+// Use this API to manage resources such as generic artifacts and container images.
 //
 
 package artifacts
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ContainerImageSignature Container image signature metadata.
@@ -60,6 +62,21 @@ func (m ContainerImageSignature) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ContainerImageSignature) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingContainerImageSignatureSigningAlgorithmEnum[string(m.SigningAlgorithm)]; !ok && m.SigningAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SigningAlgorithm: %s. Supported values are: %s.", m.SigningAlgorithm, strings.Join(GetContainerImageSignatureSigningAlgorithmEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ContainerImageSignatureSigningAlgorithmEnum Enum with underlying type: string
 type ContainerImageSignatureSigningAlgorithmEnum string
 
@@ -71,7 +88,7 @@ const (
 	ContainerImageSignatureSigningAlgorithm512RsaPkcsPss ContainerImageSignatureSigningAlgorithmEnum = "SHA_512_RSA_PKCS_PSS"
 )
 
-var mappingContainerImageSignatureSigningAlgorithm = map[string]ContainerImageSignatureSigningAlgorithmEnum{
+var mappingContainerImageSignatureSigningAlgorithmEnum = map[string]ContainerImageSignatureSigningAlgorithmEnum{
 	"SHA_224_RSA_PKCS_PSS": ContainerImageSignatureSigningAlgorithm224RsaPkcsPss,
 	"SHA_256_RSA_PKCS_PSS": ContainerImageSignatureSigningAlgorithm256RsaPkcsPss,
 	"SHA_384_RSA_PKCS_PSS": ContainerImageSignatureSigningAlgorithm384RsaPkcsPss,
@@ -81,8 +98,18 @@ var mappingContainerImageSignatureSigningAlgorithm = map[string]ContainerImageSi
 // GetContainerImageSignatureSigningAlgorithmEnumValues Enumerates the set of values for ContainerImageSignatureSigningAlgorithmEnum
 func GetContainerImageSignatureSigningAlgorithmEnumValues() []ContainerImageSignatureSigningAlgorithmEnum {
 	values := make([]ContainerImageSignatureSigningAlgorithmEnum, 0)
-	for _, v := range mappingContainerImageSignatureSigningAlgorithm {
+	for _, v := range mappingContainerImageSignatureSigningAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetContainerImageSignatureSigningAlgorithmEnumStringValues Enumerates the set of values in String for ContainerImageSignatureSigningAlgorithmEnum
+func GetContainerImageSignatureSigningAlgorithmEnumStringValues() []string {
+	return []string{
+		"SHA_224_RSA_PKCS_PSS",
+		"SHA_256_RSA_PKCS_PSS",
+		"SHA_384_RSA_PKCS_PSS",
+		"SHA_512_RSA_PKCS_PSS",
+	}
 }

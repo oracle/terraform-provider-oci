@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DevopsCodeRepositoryFilter The filter for GitLab events.
@@ -24,6 +26,23 @@ type DevopsCodeRepositoryFilter struct {
 
 func (m DevopsCodeRepositoryFilter) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DevopsCodeRepositoryFilter) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range m.Events {
+		if _, ok := mappingDevopsCodeRepositoryFilterEventsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Events: %s. Supported values are: %s.", val, strings.Join(GetDevopsCodeRepositoryFilterEventsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -48,15 +67,22 @@ const (
 	DevopsCodeRepositoryFilterEventsPush DevopsCodeRepositoryFilterEventsEnum = "PUSH"
 )
 
-var mappingDevopsCodeRepositoryFilterEvents = map[string]DevopsCodeRepositoryFilterEventsEnum{
+var mappingDevopsCodeRepositoryFilterEventsEnum = map[string]DevopsCodeRepositoryFilterEventsEnum{
 	"PUSH": DevopsCodeRepositoryFilterEventsPush,
 }
 
 // GetDevopsCodeRepositoryFilterEventsEnumValues Enumerates the set of values for DevopsCodeRepositoryFilterEventsEnum
 func GetDevopsCodeRepositoryFilterEventsEnumValues() []DevopsCodeRepositoryFilterEventsEnum {
 	values := make([]DevopsCodeRepositoryFilterEventsEnum, 0)
-	for _, v := range mappingDevopsCodeRepositoryFilterEvents {
+	for _, v := range mappingDevopsCodeRepositoryFilterEventsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDevopsCodeRepositoryFilterEventsEnumStringValues Enumerates the set of values in String for DevopsCodeRepositoryFilterEventsEnum
+func GetDevopsCodeRepositoryFilterEventsEnumStringValues() []string {
+	return []string{
+		"PUSH",
+	}
 }

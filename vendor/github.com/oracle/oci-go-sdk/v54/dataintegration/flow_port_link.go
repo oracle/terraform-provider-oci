@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // FlowPortLink Details about the link between two data flow operators.
@@ -128,6 +130,18 @@ func (m flowportlink) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m flowportlink) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FlowPortLinkModelTypeEnum Enum with underlying type: string
 type FlowPortLinkModelTypeEnum string
 
@@ -138,7 +152,7 @@ const (
 	FlowPortLinkModelTypeInputLink            FlowPortLinkModelTypeEnum = "INPUT_LINK"
 )
 
-var mappingFlowPortLinkModelType = map[string]FlowPortLinkModelTypeEnum{
+var mappingFlowPortLinkModelTypeEnum = map[string]FlowPortLinkModelTypeEnum{
 	"CONDITIONAL_INPUT_LINK": FlowPortLinkModelTypeConditionalInputLink,
 	"OUTPUT_LINK":            FlowPortLinkModelTypeOutputLink,
 	"INPUT_LINK":             FlowPortLinkModelTypeInputLink,
@@ -147,8 +161,17 @@ var mappingFlowPortLinkModelType = map[string]FlowPortLinkModelTypeEnum{
 // GetFlowPortLinkModelTypeEnumValues Enumerates the set of values for FlowPortLinkModelTypeEnum
 func GetFlowPortLinkModelTypeEnumValues() []FlowPortLinkModelTypeEnum {
 	values := make([]FlowPortLinkModelTypeEnum, 0)
-	for _, v := range mappingFlowPortLinkModelType {
+	for _, v := range mappingFlowPortLinkModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFlowPortLinkModelTypeEnumStringValues Enumerates the set of values in String for FlowPortLinkModelTypeEnum
+func GetFlowPortLinkModelTypeEnumStringValues() []string {
+	return []string{
+		"CONDITIONAL_INPUT_LINK",
+		"OUTPUT_LINK",
+		"INPUT_LINK",
+	}
 }

@@ -10,7 +10,9 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DbSystemEndpoint A particular functional endpoint for access to a DB System, and the properties that apply to it.
@@ -43,6 +45,27 @@ func (m DbSystemEndpoint) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbSystemEndpoint) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.Modes {
+		if _, ok := mappingDbSystemEndpointModesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Modes: %s. Supported values are: %s.", val, strings.Join(GetDbSystemEndpointModesEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingDbSystemEndpointStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetDbSystemEndpointStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DbSystemEndpointModesEnum Enum with underlying type: string
 type DbSystemEndpointModesEnum string
 
@@ -52,7 +75,7 @@ const (
 	DbSystemEndpointModesWrite DbSystemEndpointModesEnum = "WRITE"
 )
 
-var mappingDbSystemEndpointModes = map[string]DbSystemEndpointModesEnum{
+var mappingDbSystemEndpointModesEnum = map[string]DbSystemEndpointModesEnum{
 	"READ":  DbSystemEndpointModesRead,
 	"WRITE": DbSystemEndpointModesWrite,
 }
@@ -60,10 +83,18 @@ var mappingDbSystemEndpointModes = map[string]DbSystemEndpointModesEnum{
 // GetDbSystemEndpointModesEnumValues Enumerates the set of values for DbSystemEndpointModesEnum
 func GetDbSystemEndpointModesEnumValues() []DbSystemEndpointModesEnum {
 	values := make([]DbSystemEndpointModesEnum, 0)
-	for _, v := range mappingDbSystemEndpointModes {
+	for _, v := range mappingDbSystemEndpointModesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemEndpointModesEnumStringValues Enumerates the set of values in String for DbSystemEndpointModesEnum
+func GetDbSystemEndpointModesEnumStringValues() []string {
+	return []string{
+		"READ",
+		"WRITE",
+	}
 }
 
 // DbSystemEndpointStatusEnum Enum with underlying type: string
@@ -76,7 +107,7 @@ const (
 	DbSystemEndpointStatusUpdating DbSystemEndpointStatusEnum = "UPDATING"
 )
 
-var mappingDbSystemEndpointStatus = map[string]DbSystemEndpointStatusEnum{
+var mappingDbSystemEndpointStatusEnum = map[string]DbSystemEndpointStatusEnum{
 	"ACTIVE":   DbSystemEndpointStatusActive,
 	"INACTIVE": DbSystemEndpointStatusInactive,
 	"UPDATING": DbSystemEndpointStatusUpdating,
@@ -85,8 +116,17 @@ var mappingDbSystemEndpointStatus = map[string]DbSystemEndpointStatusEnum{
 // GetDbSystemEndpointStatusEnumValues Enumerates the set of values for DbSystemEndpointStatusEnum
 func GetDbSystemEndpointStatusEnumValues() []DbSystemEndpointStatusEnum {
 	values := make([]DbSystemEndpointStatusEnum, 0)
-	for _, v := range mappingDbSystemEndpointStatus {
+	for _, v := range mappingDbSystemEndpointStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemEndpointStatusEnumStringValues Enumerates the set of values in String for DbSystemEndpointStatusEnum
+func GetDbSystemEndpointStatusEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+	}
 }

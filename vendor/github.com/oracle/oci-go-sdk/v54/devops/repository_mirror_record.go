@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RepositoryMirrorRecord Object containing information about a mirror record.
@@ -40,6 +42,21 @@ func (m RepositoryMirrorRecord) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RepositoryMirrorRecord) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRepositoryMirrorRecordMirrorStatusEnum[string(m.MirrorStatus)]; !ok && m.MirrorStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MirrorStatus: %s. Supported values are: %s.", m.MirrorStatus, strings.Join(GetRepositoryMirrorRecordMirrorStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RepositoryMirrorRecordMirrorStatusEnum Enum with underlying type: string
 type RepositoryMirrorRecordMirrorStatusEnum string
 
@@ -52,7 +69,7 @@ const (
 	RepositoryMirrorRecordMirrorStatusFailed  RepositoryMirrorRecordMirrorStatusEnum = "FAILED"
 )
 
-var mappingRepositoryMirrorRecordMirrorStatus = map[string]RepositoryMirrorRecordMirrorStatusEnum{
+var mappingRepositoryMirrorRecordMirrorStatusEnum = map[string]RepositoryMirrorRecordMirrorStatusEnum{
 	"NONE":    RepositoryMirrorRecordMirrorStatusNone,
 	"QUEUED":  RepositoryMirrorRecordMirrorStatusQueued,
 	"RUNNING": RepositoryMirrorRecordMirrorStatusRunning,
@@ -63,8 +80,19 @@ var mappingRepositoryMirrorRecordMirrorStatus = map[string]RepositoryMirrorRecor
 // GetRepositoryMirrorRecordMirrorStatusEnumValues Enumerates the set of values for RepositoryMirrorRecordMirrorStatusEnum
 func GetRepositoryMirrorRecordMirrorStatusEnumValues() []RepositoryMirrorRecordMirrorStatusEnum {
 	values := make([]RepositoryMirrorRecordMirrorStatusEnum, 0)
-	for _, v := range mappingRepositoryMirrorRecordMirrorStatus {
+	for _, v := range mappingRepositoryMirrorRecordMirrorStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRepositoryMirrorRecordMirrorStatusEnumStringValues Enumerates the set of values in String for RepositoryMirrorRecordMirrorStatusEnum
+func GetRepositoryMirrorRecordMirrorStatusEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"QUEUED",
+		"RUNNING",
+		"PASSED",
+		"FAILED",
+	}
 }

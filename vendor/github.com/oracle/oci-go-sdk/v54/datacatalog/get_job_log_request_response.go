@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetJobLogRequest wrapper for the GetJobLog operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetJobLog.go.html to see an example of how to use GetJobLogRequest.
 type GetJobLogRequest struct {
 
 	// Unique catalog identifier.
@@ -46,6 +44,10 @@ func (request GetJobLogRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetJobLogRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +61,23 @@ func (request GetJobLogRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetJobLogRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetJobLogRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetJobLogFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetJobLogFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetJobLogResponse wrapper for the GetJobLog operation
@@ -103,7 +122,7 @@ const (
 	GetJobLogFieldsUri             GetJobLogFieldsEnum = "uri"
 )
 
-var mappingGetJobLogFields = map[string]GetJobLogFieldsEnum{
+var mappingGetJobLogFieldsEnum = map[string]GetJobLogFieldsEnum{
 	"key":             GetJobLogFieldsKey,
 	"jobExecutionKey": GetJobLogFieldsJobexecutionkey,
 	"createdById":     GetJobLogFieldsCreatedbyid,
@@ -118,8 +137,23 @@ var mappingGetJobLogFields = map[string]GetJobLogFieldsEnum{
 // GetGetJobLogFieldsEnumValues Enumerates the set of values for GetJobLogFieldsEnum
 func GetGetJobLogFieldsEnumValues() []GetJobLogFieldsEnum {
 	values := make([]GetJobLogFieldsEnum, 0)
-	for _, v := range mappingGetJobLogFields {
+	for _, v := range mappingGetJobLogFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetJobLogFieldsEnumStringValues Enumerates the set of values in String for GetJobLogFieldsEnum
+func GetGetJobLogFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"jobExecutionKey",
+		"createdById",
+		"updatedById",
+		"timeUpdated",
+		"timeCreated",
+		"severity",
+		"logMessage",
+		"uri",
+	}
 }

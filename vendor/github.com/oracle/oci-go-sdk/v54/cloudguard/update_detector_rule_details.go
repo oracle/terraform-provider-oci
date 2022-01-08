@@ -2,16 +2,19 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Cloud Guard APIs
+// Cloud Guard API
 //
-// A description of the Cloud Guard APIs
+// Use the Cloud Guard API to automate processes that you would otherwise perform through the Cloud Guard Console.
+// **Note:** You can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
 package cloudguard
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateDetectorRuleDetails Details of a Detector Rule to be overriden in Detector Recipe
@@ -21,7 +24,7 @@ type UpdateDetectorRuleDetails struct {
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
 	// The Risk Level
-	RiskLevel RiskLevelEnum `mandatory:"true" json:"riskLevel"`
+	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
 	// Configuration details
 	Configurations []DetectorConfiguration `mandatory:"false" json:"configurations"`
@@ -36,14 +39,29 @@ func (m UpdateDetectorRuleDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateDetectorRuleDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingRiskLevelEnum[string(m.RiskLevel)]; !ok && m.RiskLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RiskLevel: %s. Supported values are: %s.", m.RiskLevel, strings.Join(GetRiskLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnmarshalJSON unmarshals from json
 func (m *UpdateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		RiskLevel      RiskLevelEnum           `json:"riskLevel"`
 		Configurations []DetectorConfiguration `json:"configurations"`
 		Condition      condition               `json:"condition"`
 		Labels         []string                `json:"labels"`
 		IsEnabled      *bool                   `json:"isEnabled"`
-		RiskLevel      RiskLevelEnum           `json:"riskLevel"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -51,6 +69,8 @@ func (m *UpdateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.RiskLevel = model.RiskLevel
+
 	m.Configurations = make([]DetectorConfiguration, len(model.Configurations))
 	for i, n := range model.Configurations {
 		m.Configurations[i] = n
@@ -72,8 +92,6 @@ func (m *UpdateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.IsEnabled = model.IsEnabled
-
-	m.RiskLevel = model.RiskLevel
 
 	return
 }

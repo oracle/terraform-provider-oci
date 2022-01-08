@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListSourceEventTypesRequest wrapper for the ListSourceEventTypes operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceEventTypes.go.html to see an example of how to use ListSourceEventTypesRequest.
 type ListSourceEventTypesRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -61,6 +59,10 @@ func (request ListSourceEventTypesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSourceEventTypesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +76,26 @@ func (request ListSourceEventTypesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSourceEventTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSourceEventTypesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSourceEventTypesIsSystemEnum[string(request.IsSystem)]; !ok && request.IsSystem != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsSystem: %s. Supported values are: %s.", request.IsSystem, strings.Join(GetListSourceEventTypesIsSystemEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSourceEventTypesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSourceEventTypesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSourceEventTypesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSourceEventTypesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSourceEventTypesResponse wrapper for the ListSourceEventTypes operation
@@ -118,7 +140,7 @@ const (
 	ListSourceEventTypesIsSystemBuiltIn ListSourceEventTypesIsSystemEnum = "BUILT_IN"
 )
 
-var mappingListSourceEventTypesIsSystem = map[string]ListSourceEventTypesIsSystemEnum{
+var mappingListSourceEventTypesIsSystemEnum = map[string]ListSourceEventTypesIsSystemEnum{
 	"ALL":      ListSourceEventTypesIsSystemAll,
 	"CUSTOM":   ListSourceEventTypesIsSystemCustom,
 	"BUILT_IN": ListSourceEventTypesIsSystemBuiltIn,
@@ -127,10 +149,19 @@ var mappingListSourceEventTypesIsSystem = map[string]ListSourceEventTypesIsSyste
 // GetListSourceEventTypesIsSystemEnumValues Enumerates the set of values for ListSourceEventTypesIsSystemEnum
 func GetListSourceEventTypesIsSystemEnumValues() []ListSourceEventTypesIsSystemEnum {
 	values := make([]ListSourceEventTypesIsSystemEnum, 0)
-	for _, v := range mappingListSourceEventTypesIsSystem {
+	for _, v := range mappingListSourceEventTypesIsSystemEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceEventTypesIsSystemEnumStringValues Enumerates the set of values in String for ListSourceEventTypesIsSystemEnum
+func GetListSourceEventTypesIsSystemEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"CUSTOM",
+		"BUILT_IN",
+	}
 }
 
 // ListSourceEventTypesSortByEnum Enum with underlying type: string
@@ -142,7 +173,7 @@ const (
 	ListSourceEventTypesSortByTimeupdated ListSourceEventTypesSortByEnum = "timeUpdated"
 )
 
-var mappingListSourceEventTypesSortBy = map[string]ListSourceEventTypesSortByEnum{
+var mappingListSourceEventTypesSortByEnum = map[string]ListSourceEventTypesSortByEnum{
 	"eventType":   ListSourceEventTypesSortByEventtype,
 	"timeUpdated": ListSourceEventTypesSortByTimeupdated,
 }
@@ -150,10 +181,18 @@ var mappingListSourceEventTypesSortBy = map[string]ListSourceEventTypesSortByEnu
 // GetListSourceEventTypesSortByEnumValues Enumerates the set of values for ListSourceEventTypesSortByEnum
 func GetListSourceEventTypesSortByEnumValues() []ListSourceEventTypesSortByEnum {
 	values := make([]ListSourceEventTypesSortByEnum, 0)
-	for _, v := range mappingListSourceEventTypesSortBy {
+	for _, v := range mappingListSourceEventTypesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceEventTypesSortByEnumStringValues Enumerates the set of values in String for ListSourceEventTypesSortByEnum
+func GetListSourceEventTypesSortByEnumStringValues() []string {
+	return []string{
+		"eventType",
+		"timeUpdated",
+	}
 }
 
 // ListSourceEventTypesSortOrderEnum Enum with underlying type: string
@@ -165,7 +204,7 @@ const (
 	ListSourceEventTypesSortOrderDesc ListSourceEventTypesSortOrderEnum = "DESC"
 )
 
-var mappingListSourceEventTypesSortOrder = map[string]ListSourceEventTypesSortOrderEnum{
+var mappingListSourceEventTypesSortOrderEnum = map[string]ListSourceEventTypesSortOrderEnum{
 	"ASC":  ListSourceEventTypesSortOrderAsc,
 	"DESC": ListSourceEventTypesSortOrderDesc,
 }
@@ -173,8 +212,16 @@ var mappingListSourceEventTypesSortOrder = map[string]ListSourceEventTypesSortOr
 // GetListSourceEventTypesSortOrderEnumValues Enumerates the set of values for ListSourceEventTypesSortOrderEnum
 func GetListSourceEventTypesSortOrderEnumValues() []ListSourceEventTypesSortOrderEnum {
 	values := make([]ListSourceEventTypesSortOrderEnum, 0)
-	for _, v := range mappingListSourceEventTypesSortOrder {
+	for _, v := range mappingListSourceEventTypesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceEventTypesSortOrderEnumStringValues Enumerates the set of values in String for ListSourceEventTypesSortOrderEnum
+func GetListSourceEventTypesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

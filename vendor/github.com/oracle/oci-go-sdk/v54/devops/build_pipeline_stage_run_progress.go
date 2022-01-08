@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BuildPipelineStageRunProgress The details about the run progress of a stage in a build run.
@@ -132,6 +134,21 @@ func (m buildpipelinestagerunprogress) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m buildpipelinestagerunprogress) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBuildPipelineStageRunProgressStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetBuildPipelineStageRunProgressStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BuildPipelineStageRunProgressStatusEnum Enum with underlying type: string
 type BuildPipelineStageRunProgressStatusEnum string
 
@@ -145,7 +162,7 @@ const (
 	BuildPipelineStageRunProgressStatusCanceled   BuildPipelineStageRunProgressStatusEnum = "CANCELED"
 )
 
-var mappingBuildPipelineStageRunProgressStatus = map[string]BuildPipelineStageRunProgressStatusEnum{
+var mappingBuildPipelineStageRunProgressStatusEnum = map[string]BuildPipelineStageRunProgressStatusEnum{
 	"ACCEPTED":    BuildPipelineStageRunProgressStatusAccepted,
 	"IN_PROGRESS": BuildPipelineStageRunProgressStatusInProgress,
 	"FAILED":      BuildPipelineStageRunProgressStatusFailed,
@@ -157,8 +174,20 @@ var mappingBuildPipelineStageRunProgressStatus = map[string]BuildPipelineStageRu
 // GetBuildPipelineStageRunProgressStatusEnumValues Enumerates the set of values for BuildPipelineStageRunProgressStatusEnum
 func GetBuildPipelineStageRunProgressStatusEnumValues() []BuildPipelineStageRunProgressStatusEnum {
 	values := make([]BuildPipelineStageRunProgressStatusEnum, 0)
-	for _, v := range mappingBuildPipelineStageRunProgressStatus {
+	for _, v := range mappingBuildPipelineStageRunProgressStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBuildPipelineStageRunProgressStatusEnumStringValues Enumerates the set of values in String for BuildPipelineStageRunProgressStatusEnum
+func GetBuildPipelineStageRunProgressStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

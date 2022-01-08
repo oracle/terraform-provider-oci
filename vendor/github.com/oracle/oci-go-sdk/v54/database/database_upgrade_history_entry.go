@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DatabaseUpgradeHistoryEntry The Database service supports the upgrade history of databases.
@@ -65,6 +67,27 @@ func (m DatabaseUpgradeHistoryEntry) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseUpgradeHistoryEntry) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseUpgradeHistoryEntryActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetDatabaseUpgradeHistoryEntryActionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseUpgradeHistoryEntryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatabaseUpgradeHistoryEntryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDatabaseUpgradeHistoryEntrySourceEnum[string(m.Source)]; !ok && m.Source != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Source: %s. Supported values are: %s.", m.Source, strings.Join(GetDatabaseUpgradeHistoryEntrySourceEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseUpgradeHistoryEntryActionEnum Enum with underlying type: string
 type DatabaseUpgradeHistoryEntryActionEnum string
 
@@ -75,7 +98,7 @@ const (
 	DatabaseUpgradeHistoryEntryActionRollback DatabaseUpgradeHistoryEntryActionEnum = "ROLLBACK"
 )
 
-var mappingDatabaseUpgradeHistoryEntryAction = map[string]DatabaseUpgradeHistoryEntryActionEnum{
+var mappingDatabaseUpgradeHistoryEntryActionEnum = map[string]DatabaseUpgradeHistoryEntryActionEnum{
 	"PRECHECK": DatabaseUpgradeHistoryEntryActionPrecheck,
 	"UPGRADE":  DatabaseUpgradeHistoryEntryActionUpgrade,
 	"ROLLBACK": DatabaseUpgradeHistoryEntryActionRollback,
@@ -84,10 +107,19 @@ var mappingDatabaseUpgradeHistoryEntryAction = map[string]DatabaseUpgradeHistory
 // GetDatabaseUpgradeHistoryEntryActionEnumValues Enumerates the set of values for DatabaseUpgradeHistoryEntryActionEnum
 func GetDatabaseUpgradeHistoryEntryActionEnumValues() []DatabaseUpgradeHistoryEntryActionEnum {
 	values := make([]DatabaseUpgradeHistoryEntryActionEnum, 0)
-	for _, v := range mappingDatabaseUpgradeHistoryEntryAction {
+	for _, v := range mappingDatabaseUpgradeHistoryEntryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseUpgradeHistoryEntryActionEnumStringValues Enumerates the set of values in String for DatabaseUpgradeHistoryEntryActionEnum
+func GetDatabaseUpgradeHistoryEntryActionEnumStringValues() []string {
+	return []string{
+		"PRECHECK",
+		"UPGRADE",
+		"ROLLBACK",
+	}
 }
 
 // DatabaseUpgradeHistoryEntrySourceEnum Enum with underlying type: string
@@ -100,7 +132,7 @@ const (
 	DatabaseUpgradeHistoryEntrySourceSoftwareImage DatabaseUpgradeHistoryEntrySourceEnum = "DB_SOFTWARE_IMAGE"
 )
 
-var mappingDatabaseUpgradeHistoryEntrySource = map[string]DatabaseUpgradeHistoryEntrySourceEnum{
+var mappingDatabaseUpgradeHistoryEntrySourceEnum = map[string]DatabaseUpgradeHistoryEntrySourceEnum{
 	"DB_HOME":           DatabaseUpgradeHistoryEntrySourceHome,
 	"DB_VERSION":        DatabaseUpgradeHistoryEntrySourceVersion,
 	"DB_SOFTWARE_IMAGE": DatabaseUpgradeHistoryEntrySourceSoftwareImage,
@@ -109,10 +141,19 @@ var mappingDatabaseUpgradeHistoryEntrySource = map[string]DatabaseUpgradeHistory
 // GetDatabaseUpgradeHistoryEntrySourceEnumValues Enumerates the set of values for DatabaseUpgradeHistoryEntrySourceEnum
 func GetDatabaseUpgradeHistoryEntrySourceEnumValues() []DatabaseUpgradeHistoryEntrySourceEnum {
 	values := make([]DatabaseUpgradeHistoryEntrySourceEnum, 0)
-	for _, v := range mappingDatabaseUpgradeHistoryEntrySource {
+	for _, v := range mappingDatabaseUpgradeHistoryEntrySourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseUpgradeHistoryEntrySourceEnumStringValues Enumerates the set of values in String for DatabaseUpgradeHistoryEntrySourceEnum
+func GetDatabaseUpgradeHistoryEntrySourceEnumStringValues() []string {
+	return []string{
+		"DB_HOME",
+		"DB_VERSION",
+		"DB_SOFTWARE_IMAGE",
+	}
 }
 
 // DatabaseUpgradeHistoryEntryLifecycleStateEnum Enum with underlying type: string
@@ -125,7 +166,7 @@ const (
 	DatabaseUpgradeHistoryEntryLifecycleStateInProgress DatabaseUpgradeHistoryEntryLifecycleStateEnum = "IN_PROGRESS"
 )
 
-var mappingDatabaseUpgradeHistoryEntryLifecycleState = map[string]DatabaseUpgradeHistoryEntryLifecycleStateEnum{
+var mappingDatabaseUpgradeHistoryEntryLifecycleStateEnum = map[string]DatabaseUpgradeHistoryEntryLifecycleStateEnum{
 	"SUCCEEDED":   DatabaseUpgradeHistoryEntryLifecycleStateSucceeded,
 	"FAILED":      DatabaseUpgradeHistoryEntryLifecycleStateFailed,
 	"IN_PROGRESS": DatabaseUpgradeHistoryEntryLifecycleStateInProgress,
@@ -134,8 +175,17 @@ var mappingDatabaseUpgradeHistoryEntryLifecycleState = map[string]DatabaseUpgrad
 // GetDatabaseUpgradeHistoryEntryLifecycleStateEnumValues Enumerates the set of values for DatabaseUpgradeHistoryEntryLifecycleStateEnum
 func GetDatabaseUpgradeHistoryEntryLifecycleStateEnumValues() []DatabaseUpgradeHistoryEntryLifecycleStateEnum {
 	values := make([]DatabaseUpgradeHistoryEntryLifecycleStateEnum, 0)
-	for _, v := range mappingDatabaseUpgradeHistoryEntryLifecycleState {
+	for _, v := range mappingDatabaseUpgradeHistoryEntryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseUpgradeHistoryEntryLifecycleStateEnumStringValues Enumerates the set of values in String for DatabaseUpgradeHistoryEntryLifecycleStateEnum
+func GetDatabaseUpgradeHistoryEntryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"SUCCEEDED",
+		"FAILED",
+		"IN_PROGRESS",
+	}
 }

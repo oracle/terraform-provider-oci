@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AvailableSoftwareSourceSummary A software source which can be added to a managed instance. Once a software source is added, packages from that software source can be installed on that managed instance.
@@ -35,4 +37,16 @@ type AvailableSoftwareSourceSummary struct {
 
 func (m AvailableSoftwareSourceSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AvailableSoftwareSourceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

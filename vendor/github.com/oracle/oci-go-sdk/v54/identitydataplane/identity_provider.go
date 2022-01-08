@@ -10,7 +10,9 @@
 package identitydataplane
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // IdentityProvider The representation of IdentityProvider
@@ -51,6 +53,21 @@ func (m IdentityProvider) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IdentityProvider) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIdentityProviderProtocolEnum[string(m.Protocol)]; !ok && m.Protocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetIdentityProviderProtocolEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // IdentityProviderProtocolEnum Enum with underlying type: string
 type IdentityProviderProtocolEnum string
 
@@ -59,15 +76,22 @@ const (
 	IdentityProviderProtocolSaml2 IdentityProviderProtocolEnum = "SAML2"
 )
 
-var mappingIdentityProviderProtocol = map[string]IdentityProviderProtocolEnum{
+var mappingIdentityProviderProtocolEnum = map[string]IdentityProviderProtocolEnum{
 	"SAML2": IdentityProviderProtocolSaml2,
 }
 
 // GetIdentityProviderProtocolEnumValues Enumerates the set of values for IdentityProviderProtocolEnum
 func GetIdentityProviderProtocolEnumValues() []IdentityProviderProtocolEnum {
 	values := make([]IdentityProviderProtocolEnum, 0)
-	for _, v := range mappingIdentityProviderProtocol {
+	for _, v := range mappingIdentityProviderProtocolEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIdentityProviderProtocolEnumStringValues Enumerates the set of values in String for IdentityProviderProtocolEnum
+func GetIdentityProviderProtocolEnumStringValues() []string {
+	return []string{
+		"SAML2",
+	}
 }

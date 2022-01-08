@@ -12,7 +12,9 @@
 package aianomalydetection
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RowReductionDetails Information regarding how/what row reduction methods will be applied. If this property is not present or is null, then it means row reduction is not applied.
@@ -34,6 +36,21 @@ func (m RowReductionDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RowReductionDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRowReductionDetailsReductionMethodEnum[string(m.ReductionMethod)]; !ok && m.ReductionMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReductionMethod: %s. Supported values are: %s.", m.ReductionMethod, strings.Join(GetRowReductionDetailsReductionMethodEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RowReductionDetailsReductionMethodEnum Enum with underlying type: string
 type RowReductionDetailsReductionMethodEnum string
 
@@ -43,7 +60,7 @@ const (
 	RowReductionDetailsReductionMethodAverageRow RowReductionDetailsReductionMethodEnum = "AVERAGE_ROW"
 )
 
-var mappingRowReductionDetailsReductionMethod = map[string]RowReductionDetailsReductionMethodEnum{
+var mappingRowReductionDetailsReductionMethodEnum = map[string]RowReductionDetailsReductionMethodEnum{
 	"DELETE_ROW":  RowReductionDetailsReductionMethodDeleteRow,
 	"AVERAGE_ROW": RowReductionDetailsReductionMethodAverageRow,
 }
@@ -51,8 +68,16 @@ var mappingRowReductionDetailsReductionMethod = map[string]RowReductionDetailsRe
 // GetRowReductionDetailsReductionMethodEnumValues Enumerates the set of values for RowReductionDetailsReductionMethodEnum
 func GetRowReductionDetailsReductionMethodEnumValues() []RowReductionDetailsReductionMethodEnum {
 	values := make([]RowReductionDetailsReductionMethodEnum, 0)
-	for _, v := range mappingRowReductionDetailsReductionMethod {
+	for _, v := range mappingRowReductionDetailsReductionMethodEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRowReductionDetailsReductionMethodEnumStringValues Enumerates the set of values in String for RowReductionDetailsReductionMethodEnum
+func GetRowReductionDetailsReductionMethodEnumStringValues() []string {
+	return []string{
+		"DELETE_ROW",
+		"AVERAGE_ROW",
+	}
 }

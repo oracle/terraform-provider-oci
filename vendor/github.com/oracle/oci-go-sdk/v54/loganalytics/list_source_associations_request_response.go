@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListSourceAssociationsRequest wrapper for the ListSourceAssociations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceAssociations.go.html to see an example of how to use ListSourceAssociationsRequest.
 type ListSourceAssociationsRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -62,6 +60,10 @@ func (request ListSourceAssociationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSourceAssociationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +77,26 @@ func (request ListSourceAssociationsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSourceAssociationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSourceAssociationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSourceAssociationsLifeCycleStateEnum[string(request.LifeCycleState)]; !ok && request.LifeCycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifeCycleState: %s. Supported values are: %s.", request.LifeCycleState, strings.Join(GetListSourceAssociationsLifeCycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSourceAssociationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSourceAssociationsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSourceAssociationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSourceAssociationsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSourceAssociationsResponse wrapper for the ListSourceAssociations operation
@@ -121,7 +143,7 @@ const (
 	ListSourceAssociationsLifeCycleStateFailed     ListSourceAssociationsLifeCycleStateEnum = "FAILED"
 )
 
-var mappingListSourceAssociationsLifeCycleState = map[string]ListSourceAssociationsLifeCycleStateEnum{
+var mappingListSourceAssociationsLifeCycleStateEnum = map[string]ListSourceAssociationsLifeCycleStateEnum{
 	"ALL":         ListSourceAssociationsLifeCycleStateAll,
 	"ACCEPTED":    ListSourceAssociationsLifeCycleStateAccepted,
 	"IN_PROGRESS": ListSourceAssociationsLifeCycleStateInProgress,
@@ -132,10 +154,21 @@ var mappingListSourceAssociationsLifeCycleState = map[string]ListSourceAssociati
 // GetListSourceAssociationsLifeCycleStateEnumValues Enumerates the set of values for ListSourceAssociationsLifeCycleStateEnum
 func GetListSourceAssociationsLifeCycleStateEnumValues() []ListSourceAssociationsLifeCycleStateEnum {
 	values := make([]ListSourceAssociationsLifeCycleStateEnum, 0)
-	for _, v := range mappingListSourceAssociationsLifeCycleState {
+	for _, v := range mappingListSourceAssociationsLifeCycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceAssociationsLifeCycleStateEnumStringValues Enumerates the set of values in String for ListSourceAssociationsLifeCycleStateEnum
+func GetListSourceAssociationsLifeCycleStateEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+	}
 }
 
 // ListSourceAssociationsSortOrderEnum Enum with underlying type: string
@@ -147,7 +180,7 @@ const (
 	ListSourceAssociationsSortOrderDesc ListSourceAssociationsSortOrderEnum = "DESC"
 )
 
-var mappingListSourceAssociationsSortOrder = map[string]ListSourceAssociationsSortOrderEnum{
+var mappingListSourceAssociationsSortOrderEnum = map[string]ListSourceAssociationsSortOrderEnum{
 	"ASC":  ListSourceAssociationsSortOrderAsc,
 	"DESC": ListSourceAssociationsSortOrderDesc,
 }
@@ -155,10 +188,18 @@ var mappingListSourceAssociationsSortOrder = map[string]ListSourceAssociationsSo
 // GetListSourceAssociationsSortOrderEnumValues Enumerates the set of values for ListSourceAssociationsSortOrderEnum
 func GetListSourceAssociationsSortOrderEnumValues() []ListSourceAssociationsSortOrderEnum {
 	values := make([]ListSourceAssociationsSortOrderEnum, 0)
-	for _, v := range mappingListSourceAssociationsSortOrder {
+	for _, v := range mappingListSourceAssociationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceAssociationsSortOrderEnumStringValues Enumerates the set of values in String for ListSourceAssociationsSortOrderEnum
+func GetListSourceAssociationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListSourceAssociationsSortByEnum Enum with underlying type: string
@@ -171,7 +212,7 @@ const (
 	ListSourceAssociationsSortByStatus            ListSourceAssociationsSortByEnum = "status"
 )
 
-var mappingListSourceAssociationsSortBy = map[string]ListSourceAssociationsSortByEnum{
+var mappingListSourceAssociationsSortByEnum = map[string]ListSourceAssociationsSortByEnum{
 	"entityName":        ListSourceAssociationsSortByEntityname,
 	"timeLastAttempted": ListSourceAssociationsSortByTimelastattempted,
 	"status":            ListSourceAssociationsSortByStatus,
@@ -180,8 +221,17 @@ var mappingListSourceAssociationsSortBy = map[string]ListSourceAssociationsSortB
 // GetListSourceAssociationsSortByEnumValues Enumerates the set of values for ListSourceAssociationsSortByEnum
 func GetListSourceAssociationsSortByEnumValues() []ListSourceAssociationsSortByEnum {
 	values := make([]ListSourceAssociationsSortByEnum, 0)
-	for _, v := range mappingListSourceAssociationsSortBy {
+	for _, v := range mappingListSourceAssociationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceAssociationsSortByEnumStringValues Enumerates the set of values in String for ListSourceAssociationsSortByEnum
+func GetListSourceAssociationsSortByEnumStringValues() []string {
+	return []string{
+		"entityName",
+		"timeLastAttempted",
+		"status",
+	}
 }

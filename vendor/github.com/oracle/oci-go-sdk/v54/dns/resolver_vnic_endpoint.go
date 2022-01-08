@@ -12,7 +12,9 @@ package dns
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ResolverVnicEndpoint An OCI DNS resolver VNIC endpoint.
@@ -116,6 +118,21 @@ func (m ResolverVnicEndpoint) GetSelf() *string {
 
 func (m ResolverVnicEndpoint) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ResolverVnicEndpoint) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingResolverEndpointLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetResolverEndpointLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

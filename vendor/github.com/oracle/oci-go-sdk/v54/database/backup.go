@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Backup The representation of Backup
@@ -52,6 +54,15 @@ type Backup struct {
 	// The size of the database in gigabytes at the time the backup was taken.
 	DatabaseSizeInGBs *float64 `mandatory:"false" json:"databaseSizeInGBs"`
 
+	// The region location of the source database.
+	SourceDbRegion *string `mandatory:"false" json:"sourceDbRegion"`
+
+	// The name (`dbName`) of the database from which the backup was created.
+	SourceDbName *string `mandatory:"false" json:"sourceDbName"`
+
+	// The DB system name of the source database.
+	SourceDbSystemName *string `mandatory:"false" json:"sourceDbSystemName"`
+
 	// Shape of the backup's source database.
 	Shape *string `mandatory:"false" json:"shape"`
 
@@ -60,10 +71,37 @@ type Backup struct {
 
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	VaultId *string `mandatory:"false" json:"vaultId"`
 }
 
 func (m Backup) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Backup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBackupTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetBackupTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBackupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBackupLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBackupDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetBackupDatabaseEditionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // BackupTypeEnum Enum with underlying type: string
@@ -76,7 +114,7 @@ const (
 	BackupTypeVirtualFull BackupTypeEnum = "VIRTUAL_FULL"
 )
 
-var mappingBackupType = map[string]BackupTypeEnum{
+var mappingBackupTypeEnum = map[string]BackupTypeEnum{
 	"INCREMENTAL":  BackupTypeIncremental,
 	"FULL":         BackupTypeFull,
 	"VIRTUAL_FULL": BackupTypeVirtualFull,
@@ -85,10 +123,19 @@ var mappingBackupType = map[string]BackupTypeEnum{
 // GetBackupTypeEnumValues Enumerates the set of values for BackupTypeEnum
 func GetBackupTypeEnumValues() []BackupTypeEnum {
 	values := make([]BackupTypeEnum, 0)
-	for _, v := range mappingBackupType {
+	for _, v := range mappingBackupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupTypeEnumStringValues Enumerates the set of values in String for BackupTypeEnum
+func GetBackupTypeEnumStringValues() []string {
+	return []string{
+		"INCREMENTAL",
+		"FULL",
+		"VIRTUAL_FULL",
+	}
 }
 
 // BackupLifecycleStateEnum Enum with underlying type: string
@@ -104,7 +151,7 @@ const (
 	BackupLifecycleStateRestoring BackupLifecycleStateEnum = "RESTORING"
 )
 
-var mappingBackupLifecycleState = map[string]BackupLifecycleStateEnum{
+var mappingBackupLifecycleStateEnum = map[string]BackupLifecycleStateEnum{
 	"CREATING":  BackupLifecycleStateCreating,
 	"ACTIVE":    BackupLifecycleStateActive,
 	"DELETING":  BackupLifecycleStateDeleting,
@@ -116,10 +163,22 @@ var mappingBackupLifecycleState = map[string]BackupLifecycleStateEnum{
 // GetBackupLifecycleStateEnumValues Enumerates the set of values for BackupLifecycleStateEnum
 func GetBackupLifecycleStateEnumValues() []BackupLifecycleStateEnum {
 	values := make([]BackupLifecycleStateEnum, 0)
-	for _, v := range mappingBackupLifecycleState {
+	for _, v := range mappingBackupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupLifecycleStateEnumStringValues Enumerates the set of values in String for BackupLifecycleStateEnum
+func GetBackupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"RESTORING",
+	}
 }
 
 // BackupDatabaseEditionEnum Enum with underlying type: string
@@ -133,7 +192,7 @@ const (
 	BackupDatabaseEditionEnterpriseEditionExtremePerformance BackupDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 )
 
-var mappingBackupDatabaseEdition = map[string]BackupDatabaseEditionEnum{
+var mappingBackupDatabaseEditionEnum = map[string]BackupDatabaseEditionEnum{
 	"STANDARD_EDITION":                       BackupDatabaseEditionStandardEdition,
 	"ENTERPRISE_EDITION":                     BackupDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    BackupDatabaseEditionEnterpriseEditionHighPerformance,
@@ -143,8 +202,18 @@ var mappingBackupDatabaseEdition = map[string]BackupDatabaseEditionEnum{
 // GetBackupDatabaseEditionEnumValues Enumerates the set of values for BackupDatabaseEditionEnum
 func GetBackupDatabaseEditionEnumValues() []BackupDatabaseEditionEnum {
 	values := make([]BackupDatabaseEditionEnum, 0)
-	for _, v := range mappingBackupDatabaseEdition {
+	for _, v := range mappingBackupDatabaseEditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupDatabaseEditionEnumStringValues Enumerates the set of values in String for BackupDatabaseEditionEnum
+func GetBackupDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+	}
 }

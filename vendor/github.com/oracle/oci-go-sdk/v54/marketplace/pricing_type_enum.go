@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -19,7 +19,7 @@ const (
 	PricingTypeEnumPaygo PricingTypeEnumEnum = "PAYGO"
 )
 
-var mappingPricingTypeEnum = map[string]PricingTypeEnumEnum{
+var mappingPricingTypeEnumEnum = map[string]PricingTypeEnumEnum{
 	"FREE":  PricingTypeEnumFree,
 	"BYOL":  PricingTypeEnumByol,
 	"PAYGO": PricingTypeEnumPaygo,
@@ -28,8 +28,17 @@ var mappingPricingTypeEnum = map[string]PricingTypeEnumEnum{
 // GetPricingTypeEnumEnumValues Enumerates the set of values for PricingTypeEnumEnum
 func GetPricingTypeEnumEnumValues() []PricingTypeEnumEnum {
 	values := make([]PricingTypeEnumEnum, 0)
-	for _, v := range mappingPricingTypeEnum {
+	for _, v := range mappingPricingTypeEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPricingTypeEnumEnumStringValues Enumerates the set of values in String for PricingTypeEnumEnum
+func GetPricingTypeEnumEnumStringValues() []string {
+	return []string{
+		"FREE",
+		"BYOL",
+		"PAYGO",
+	}
 }

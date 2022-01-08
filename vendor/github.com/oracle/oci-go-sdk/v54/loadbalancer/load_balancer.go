@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LoadBalancer The properties that define a load balancer. For more information, see
@@ -78,6 +80,8 @@ type LoadBalancer struct {
 
 	Hostnames map[string]Hostname `mandatory:"false" json:"hostnames"`
 
+	CidrBlocks map[string]CidrBlocks `mandatory:"false" json:"cidrBlocks"`
+
 	SslCipherSuites map[string]SslCipherSuite `mandatory:"false" json:"sslCipherSuites"`
 
 	Certificates map[string]Certificate `mandatory:"false" json:"certificates"`
@@ -111,6 +115,21 @@ func (m LoadBalancer) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LoadBalancer) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLoadBalancerLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLoadBalancerLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LoadBalancerLifecycleStateEnum Enum with underlying type: string
 type LoadBalancerLifecycleStateEnum string
 
@@ -123,7 +142,7 @@ const (
 	LoadBalancerLifecycleStateDeleted  LoadBalancerLifecycleStateEnum = "DELETED"
 )
 
-var mappingLoadBalancerLifecycleState = map[string]LoadBalancerLifecycleStateEnum{
+var mappingLoadBalancerLifecycleStateEnum = map[string]LoadBalancerLifecycleStateEnum{
 	"CREATING": LoadBalancerLifecycleStateCreating,
 	"FAILED":   LoadBalancerLifecycleStateFailed,
 	"ACTIVE":   LoadBalancerLifecycleStateActive,
@@ -134,8 +153,19 @@ var mappingLoadBalancerLifecycleState = map[string]LoadBalancerLifecycleStateEnu
 // GetLoadBalancerLifecycleStateEnumValues Enumerates the set of values for LoadBalancerLifecycleStateEnum
 func GetLoadBalancerLifecycleStateEnumValues() []LoadBalancerLifecycleStateEnum {
 	values := make([]LoadBalancerLifecycleStateEnum, 0)
-	for _, v := range mappingLoadBalancerLifecycleState {
+	for _, v := range mappingLoadBalancerLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLoadBalancerLifecycleStateEnumStringValues Enumerates the set of values in String for LoadBalancerLifecycleStateEnum
+func GetLoadBalancerLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"FAILED",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

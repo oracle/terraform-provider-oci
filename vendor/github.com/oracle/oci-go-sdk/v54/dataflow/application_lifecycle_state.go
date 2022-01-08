@@ -19,7 +19,7 @@ const (
 	ApplicationLifecycleStateInactive ApplicationLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingApplicationLifecycleState = map[string]ApplicationLifecycleStateEnum{
+var mappingApplicationLifecycleStateEnum = map[string]ApplicationLifecycleStateEnum{
 	"ACTIVE":   ApplicationLifecycleStateActive,
 	"DELETED":  ApplicationLifecycleStateDeleted,
 	"INACTIVE": ApplicationLifecycleStateInactive,
@@ -28,8 +28,17 @@ var mappingApplicationLifecycleState = map[string]ApplicationLifecycleStateEnum{
 // GetApplicationLifecycleStateEnumValues Enumerates the set of values for ApplicationLifecycleStateEnum
 func GetApplicationLifecycleStateEnumValues() []ApplicationLifecycleStateEnum {
 	values := make([]ApplicationLifecycleStateEnum, 0)
-	for _, v := range mappingApplicationLifecycleState {
+	for _, v := range mappingApplicationLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApplicationLifecycleStateEnumStringValues Enumerates the set of values in String for ApplicationLifecycleStateEnum
+func GetApplicationLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+		"INACTIVE",
+	}
 }

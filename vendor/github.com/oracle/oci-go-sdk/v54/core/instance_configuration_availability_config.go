@@ -14,11 +14,18 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceConfigurationAvailabilityConfig Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware.
 type InstanceConfigurationAvailabilityConfig struct {
+
+	// Whether to live migrate supported VM instances to a healthy physical VM host without
+	// disrupting running instances during infrastructure maintenance events. If null, Oracle
+	// chooses the best option for migrating the VM during infrastructure maintenance events.
+	IsLiveMigrationPreferred *bool `mandatory:"false" json:"isLiveMigrationPreferred"`
 
 	// The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 	// * `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event.
@@ -31,6 +38,21 @@ func (m InstanceConfigurationAvailabilityConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceConfigurationAvailabilityConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingInstanceConfigurationAvailabilityConfigRecoveryActionEnum[string(m.RecoveryAction)]; !ok && m.RecoveryAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecoveryAction: %s. Supported values are: %s.", m.RecoveryAction, strings.Join(GetInstanceConfigurationAvailabilityConfigRecoveryActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceConfigurationAvailabilityConfigRecoveryActionEnum Enum with underlying type: string
 type InstanceConfigurationAvailabilityConfigRecoveryActionEnum string
 
@@ -40,7 +62,7 @@ const (
 	InstanceConfigurationAvailabilityConfigRecoveryActionStopInstance    InstanceConfigurationAvailabilityConfigRecoveryActionEnum = "STOP_INSTANCE"
 )
 
-var mappingInstanceConfigurationAvailabilityConfigRecoveryAction = map[string]InstanceConfigurationAvailabilityConfigRecoveryActionEnum{
+var mappingInstanceConfigurationAvailabilityConfigRecoveryActionEnum = map[string]InstanceConfigurationAvailabilityConfigRecoveryActionEnum{
 	"RESTORE_INSTANCE": InstanceConfigurationAvailabilityConfigRecoveryActionRestoreInstance,
 	"STOP_INSTANCE":    InstanceConfigurationAvailabilityConfigRecoveryActionStopInstance,
 }
@@ -48,8 +70,16 @@ var mappingInstanceConfigurationAvailabilityConfigRecoveryAction = map[string]In
 // GetInstanceConfigurationAvailabilityConfigRecoveryActionEnumValues Enumerates the set of values for InstanceConfigurationAvailabilityConfigRecoveryActionEnum
 func GetInstanceConfigurationAvailabilityConfigRecoveryActionEnumValues() []InstanceConfigurationAvailabilityConfigRecoveryActionEnum {
 	values := make([]InstanceConfigurationAvailabilityConfigRecoveryActionEnum, 0)
-	for _, v := range mappingInstanceConfigurationAvailabilityConfigRecoveryAction {
+	for _, v := range mappingInstanceConfigurationAvailabilityConfigRecoveryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceConfigurationAvailabilityConfigRecoveryActionEnumStringValues Enumerates the set of values in String for InstanceConfigurationAvailabilityConfigRecoveryActionEnum
+func GetInstanceConfigurationAvailabilityConfigRecoveryActionEnumStringValues() []string {
+	return []string{
+		"RESTORE_INSTANCE",
+		"STOP_INSTANCE",
+	}
 }

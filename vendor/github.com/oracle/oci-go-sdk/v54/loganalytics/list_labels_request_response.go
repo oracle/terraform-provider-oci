@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListLabelsRequest wrapper for the ListLabels operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLabels.go.html to see an example of how to use ListLabelsRequest.
 type ListLabelsRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -69,6 +67,10 @@ func (request ListLabelsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLabelsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +84,29 @@ func (request ListLabelsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLabelsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLabelsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLabelsIsSystemEnum[string(request.IsSystem)]; !ok && request.IsSystem != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsSystem: %s. Supported values are: %s.", request.IsSystem, strings.Join(GetListLabelsIsSystemEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLabelsLabelPriorityEnum[string(request.LabelPriority)]; !ok && request.LabelPriority != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LabelPriority: %s. Supported values are: %s.", request.LabelPriority, strings.Join(GetListLabelsLabelPriorityEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLabelsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLabelsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLabelsLabelSortByEnum[string(request.LabelSortBy)]; !ok && request.LabelSortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LabelSortBy: %s. Supported values are: %s.", request.LabelSortBy, strings.Join(GetListLabelsLabelSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLabelsResponse wrapper for the ListLabels operation
@@ -126,7 +151,7 @@ const (
 	ListLabelsIsSystemBuiltIn ListLabelsIsSystemEnum = "BUILT_IN"
 )
 
-var mappingListLabelsIsSystem = map[string]ListLabelsIsSystemEnum{
+var mappingListLabelsIsSystemEnum = map[string]ListLabelsIsSystemEnum{
 	"ALL":      ListLabelsIsSystemAll,
 	"CUSTOM":   ListLabelsIsSystemCustom,
 	"BUILT_IN": ListLabelsIsSystemBuiltIn,
@@ -135,10 +160,19 @@ var mappingListLabelsIsSystem = map[string]ListLabelsIsSystemEnum{
 // GetListLabelsIsSystemEnumValues Enumerates the set of values for ListLabelsIsSystemEnum
 func GetListLabelsIsSystemEnumValues() []ListLabelsIsSystemEnum {
 	values := make([]ListLabelsIsSystemEnum, 0)
-	for _, v := range mappingListLabelsIsSystem {
+	for _, v := range mappingListLabelsIsSystemEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLabelsIsSystemEnumStringValues Enumerates the set of values in String for ListLabelsIsSystemEnum
+func GetListLabelsIsSystemEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"CUSTOM",
+		"BUILT_IN",
+	}
 }
 
 // ListLabelsLabelPriorityEnum Enum with underlying type: string
@@ -152,7 +186,7 @@ const (
 	ListLabelsLabelPriorityHigh   ListLabelsLabelPriorityEnum = "HIGH"
 )
 
-var mappingListLabelsLabelPriority = map[string]ListLabelsLabelPriorityEnum{
+var mappingListLabelsLabelPriorityEnum = map[string]ListLabelsLabelPriorityEnum{
 	"NONE":   ListLabelsLabelPriorityNone,
 	"LOW":    ListLabelsLabelPriorityLow,
 	"MEDIUM": ListLabelsLabelPriorityMedium,
@@ -162,10 +196,20 @@ var mappingListLabelsLabelPriority = map[string]ListLabelsLabelPriorityEnum{
 // GetListLabelsLabelPriorityEnumValues Enumerates the set of values for ListLabelsLabelPriorityEnum
 func GetListLabelsLabelPriorityEnumValues() []ListLabelsLabelPriorityEnum {
 	values := make([]ListLabelsLabelPriorityEnum, 0)
-	for _, v := range mappingListLabelsLabelPriority {
+	for _, v := range mappingListLabelsLabelPriorityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLabelsLabelPriorityEnumStringValues Enumerates the set of values in String for ListLabelsLabelPriorityEnum
+func GetListLabelsLabelPriorityEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"LOW",
+		"MEDIUM",
+		"HIGH",
+	}
 }
 
 // ListLabelsSortOrderEnum Enum with underlying type: string
@@ -177,7 +221,7 @@ const (
 	ListLabelsSortOrderDesc ListLabelsSortOrderEnum = "DESC"
 )
 
-var mappingListLabelsSortOrder = map[string]ListLabelsSortOrderEnum{
+var mappingListLabelsSortOrderEnum = map[string]ListLabelsSortOrderEnum{
 	"ASC":  ListLabelsSortOrderAsc,
 	"DESC": ListLabelsSortOrderDesc,
 }
@@ -185,10 +229,18 @@ var mappingListLabelsSortOrder = map[string]ListLabelsSortOrderEnum{
 // GetListLabelsSortOrderEnumValues Enumerates the set of values for ListLabelsSortOrderEnum
 func GetListLabelsSortOrderEnumValues() []ListLabelsSortOrderEnum {
 	values := make([]ListLabelsSortOrderEnum, 0)
-	for _, v := range mappingListLabelsSortOrder {
+	for _, v := range mappingListLabelsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLabelsSortOrderEnumStringValues Enumerates the set of values in String for ListLabelsSortOrderEnum
+func GetListLabelsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListLabelsLabelSortByEnum Enum with underlying type: string
@@ -201,7 +253,7 @@ const (
 	ListLabelsLabelSortBySourceusing ListLabelsLabelSortByEnum = "sourceUsing"
 )
 
-var mappingListLabelsLabelSortBy = map[string]ListLabelsLabelSortByEnum{
+var mappingListLabelsLabelSortByEnum = map[string]ListLabelsLabelSortByEnum{
 	"name":        ListLabelsLabelSortByName,
 	"priority":    ListLabelsLabelSortByPriority,
 	"sourceUsing": ListLabelsLabelSortBySourceusing,
@@ -210,8 +262,17 @@ var mappingListLabelsLabelSortBy = map[string]ListLabelsLabelSortByEnum{
 // GetListLabelsLabelSortByEnumValues Enumerates the set of values for ListLabelsLabelSortByEnum
 func GetListLabelsLabelSortByEnumValues() []ListLabelsLabelSortByEnum {
 	values := make([]ListLabelsLabelSortByEnum, 0)
-	for _, v := range mappingListLabelsLabelSortBy {
+	for _, v := range mappingListLabelsLabelSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLabelsLabelSortByEnumStringValues Enumerates the set of values in String for ListLabelsLabelSortByEnum
+func GetListLabelsLabelSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"priority",
+		"sourceUsing",
+	}
 }

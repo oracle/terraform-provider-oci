@@ -12,7 +12,9 @@ package dns
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ResolverRuleDetails A rule for a resolver. Specifying both qnameCoverConditions and clientAddressConditions is not allowed.
@@ -84,6 +86,18 @@ func (m resolverruledetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m resolverruledetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ResolverRuleDetailsActionEnum Enum with underlying type: string
 type ResolverRuleDetailsActionEnum string
 
@@ -92,15 +106,22 @@ const (
 	ResolverRuleDetailsActionForward ResolverRuleDetailsActionEnum = "FORWARD"
 )
 
-var mappingResolverRuleDetailsAction = map[string]ResolverRuleDetailsActionEnum{
+var mappingResolverRuleDetailsActionEnum = map[string]ResolverRuleDetailsActionEnum{
 	"FORWARD": ResolverRuleDetailsActionForward,
 }
 
 // GetResolverRuleDetailsActionEnumValues Enumerates the set of values for ResolverRuleDetailsActionEnum
 func GetResolverRuleDetailsActionEnumValues() []ResolverRuleDetailsActionEnum {
 	values := make([]ResolverRuleDetailsActionEnum, 0)
-	for _, v := range mappingResolverRuleDetailsAction {
+	for _, v := range mappingResolverRuleDetailsActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResolverRuleDetailsActionEnumStringValues Enumerates the set of values in String for ResolverRuleDetailsActionEnum
+func GetResolverRuleDetailsActionEnumStringValues() []string {
+	return []string{
+		"FORWARD",
+	}
 }

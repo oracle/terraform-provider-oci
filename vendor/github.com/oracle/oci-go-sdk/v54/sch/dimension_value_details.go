@@ -13,7 +13,9 @@ package sch
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DimensionValueDetails Instructions for extracting the value corresponding to the specified dimension key: Either extract the value as-is (static) or derive the value from a path (evaluated).
@@ -67,6 +69,18 @@ func (m dimensionvaluedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m dimensionvaluedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DimensionValueDetailsKindEnum Enum with underlying type: string
 type DimensionValueDetailsKindEnum string
 
@@ -76,7 +90,7 @@ const (
 	DimensionValueDetailsKindStatic   DimensionValueDetailsKindEnum = "static"
 )
 
-var mappingDimensionValueDetailsKind = map[string]DimensionValueDetailsKindEnum{
+var mappingDimensionValueDetailsKindEnum = map[string]DimensionValueDetailsKindEnum{
 	"jmesPath": DimensionValueDetailsKindJmespath,
 	"static":   DimensionValueDetailsKindStatic,
 }
@@ -84,8 +98,16 @@ var mappingDimensionValueDetailsKind = map[string]DimensionValueDetailsKindEnum{
 // GetDimensionValueDetailsKindEnumValues Enumerates the set of values for DimensionValueDetailsKindEnum
 func GetDimensionValueDetailsKindEnumValues() []DimensionValueDetailsKindEnum {
 	values := make([]DimensionValueDetailsKindEnum, 0)
-	for _, v := range mappingDimensionValueDetailsKind {
+	for _, v := range mappingDimensionValueDetailsKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDimensionValueDetailsKindEnumStringValues Enumerates the set of values in String for DimensionValueDetailsKindEnum
+func GetDimensionValueDetailsKindEnumStringValues() []string {
+	return []string{
+		"jmesPath",
+		"static",
+	}
 }

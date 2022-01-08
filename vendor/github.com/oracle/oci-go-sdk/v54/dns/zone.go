@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Zone A DNS zone.
@@ -45,6 +47,10 @@ type Zone struct {
 	// External master servers for the zone. `externalMasters` becomes a
 	// required parameter when the `zoneType` value is `SECONDARY`.
 	ExternalMasters []ExternalMaster `mandatory:"true" json:"externalMasters"`
+
+	// External secondary servers for the zone.
+	// This field is currently not supported when `zoneType` is `SECONDARY` or `scope` is `PRIVATE`.
+	ExternalDownstreams []ExternalDownstream `mandatory:"true" json:"externalDownstreams"`
 
 	// The canonical absolute URL of the resource.
 	Self *string `mandatory:"true" json:"self"`
@@ -87,6 +93,27 @@ func (m Zone) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Zone) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingZoneZoneTypeEnum[string(m.ZoneType)]; !ok && m.ZoneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ZoneType: %s. Supported values are: %s.", m.ZoneType, strings.Join(GetZoneZoneTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScopeEnum[string(m.Scope)]; !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetScopeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingZoneLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetZoneLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ZoneZoneTypeEnum Enum with underlying type: string
 type ZoneZoneTypeEnum string
 
@@ -96,7 +123,7 @@ const (
 	ZoneZoneTypeSecondary ZoneZoneTypeEnum = "SECONDARY"
 )
 
-var mappingZoneZoneType = map[string]ZoneZoneTypeEnum{
+var mappingZoneZoneTypeEnum = map[string]ZoneZoneTypeEnum{
 	"PRIMARY":   ZoneZoneTypePrimary,
 	"SECONDARY": ZoneZoneTypeSecondary,
 }
@@ -104,10 +131,18 @@ var mappingZoneZoneType = map[string]ZoneZoneTypeEnum{
 // GetZoneZoneTypeEnumValues Enumerates the set of values for ZoneZoneTypeEnum
 func GetZoneZoneTypeEnumValues() []ZoneZoneTypeEnum {
 	values := make([]ZoneZoneTypeEnum, 0)
-	for _, v := range mappingZoneZoneType {
+	for _, v := range mappingZoneZoneTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetZoneZoneTypeEnumStringValues Enumerates the set of values in String for ZoneZoneTypeEnum
+func GetZoneZoneTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"SECONDARY",
+	}
 }
 
 // ZoneLifecycleStateEnum Enum with underlying type: string
@@ -123,7 +158,7 @@ const (
 	ZoneLifecycleStateUpdating ZoneLifecycleStateEnum = "UPDATING"
 )
 
-var mappingZoneLifecycleState = map[string]ZoneLifecycleStateEnum{
+var mappingZoneLifecycleStateEnum = map[string]ZoneLifecycleStateEnum{
 	"ACTIVE":   ZoneLifecycleStateActive,
 	"CREATING": ZoneLifecycleStateCreating,
 	"DELETED":  ZoneLifecycleStateDeleted,
@@ -135,8 +170,20 @@ var mappingZoneLifecycleState = map[string]ZoneLifecycleStateEnum{
 // GetZoneLifecycleStateEnumValues Enumerates the set of values for ZoneLifecycleStateEnum
 func GetZoneLifecycleStateEnumValues() []ZoneLifecycleStateEnum {
 	values := make([]ZoneLifecycleStateEnum, 0)
-	for _, v := range mappingZoneLifecycleState {
+	for _, v := range mappingZoneLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetZoneLifecycleStateEnumStringValues Enumerates the set of values in String for ZoneLifecycleStateEnum
+func GetZoneLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"UPDATING",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateVolumeGroupDetails The representation of UpdateVolumeGroupDetails
@@ -36,8 +38,24 @@ type UpdateVolumeGroupDetails struct {
 
 	// OCIDs for the volumes in this volume group.
 	VolumeIds []string `mandatory:"false" json:"volumeIds"`
+
+	// The list of volume group replicas that this volume group will be updated to have
+	// in the specified destination availability domains.
+	VolumeGroupReplicas []VolumeGroupReplicaDetails `mandatory:"false" json:"volumeGroupReplicas"`
 }
 
 func (m UpdateVolumeGroupDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateVolumeGroupDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

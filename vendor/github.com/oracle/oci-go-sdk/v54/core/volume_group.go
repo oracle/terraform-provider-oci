@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // VolumeGroup Specifies a volume group which is a collection of
@@ -67,28 +69,47 @@ type VolumeGroup struct {
 	// Specifies whether the newly created cloned volume group's data has finished copying
 	// from the source volume group or backup.
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
+
+	// The list of volume group replicas of this volume group.
+	VolumeGroupReplicas []VolumeGroupReplicaInfo `mandatory:"false" json:"volumeGroupReplicas"`
 }
 
 func (m VolumeGroup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VolumeGroup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVolumeGroupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeGroupLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnmarshalJSON unmarshals from json
 func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		SizeInGBs          *int64                            `json:"sizeInGBs"`
-		SourceDetails      volumegroupsourcedetails          `json:"sourceDetails"`
-		IsHydrated         *bool                             `json:"isHydrated"`
-		AvailabilityDomain *string                           `json:"availabilityDomain"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		DisplayName        *string                           `json:"displayName"`
-		Id                 *string                           `json:"id"`
-		LifecycleState     VolumeGroupLifecycleStateEnum     `json:"lifecycleState"`
-		SizeInMBs          *int64                            `json:"sizeInMBs"`
-		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
-		VolumeIds          []string                          `json:"volumeIds"`
+		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags        map[string]string                 `json:"freeformTags"`
+		SizeInGBs           *int64                            `json:"sizeInGBs"`
+		SourceDetails       volumegroupsourcedetails          `json:"sourceDetails"`
+		IsHydrated          *bool                             `json:"isHydrated"`
+		VolumeGroupReplicas []VolumeGroupReplicaInfo          `json:"volumeGroupReplicas"`
+		AvailabilityDomain  *string                           `json:"availabilityDomain"`
+		CompartmentId       *string                           `json:"compartmentId"`
+		DisplayName         *string                           `json:"displayName"`
+		Id                  *string                           `json:"id"`
+		LifecycleState      VolumeGroupLifecycleStateEnum     `json:"lifecycleState"`
+		SizeInMBs           *int64                            `json:"sizeInMBs"`
+		TimeCreated         *common.SDKTime                   `json:"timeCreated"`
+		VolumeIds           []string                          `json:"volumeIds"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -113,6 +134,11 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.IsHydrated = model.IsHydrated
+
+	m.VolumeGroupReplicas = make([]VolumeGroupReplicaInfo, len(model.VolumeGroupReplicas))
+	for i, n := range model.VolumeGroupReplicas {
+		m.VolumeGroupReplicas[i] = n
+	}
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 
@@ -148,7 +174,7 @@ const (
 	VolumeGroupLifecycleStateFaulty       VolumeGroupLifecycleStateEnum = "FAULTY"
 )
 
-var mappingVolumeGroupLifecycleState = map[string]VolumeGroupLifecycleStateEnum{
+var mappingVolumeGroupLifecycleStateEnum = map[string]VolumeGroupLifecycleStateEnum{
 	"PROVISIONING": VolumeGroupLifecycleStateProvisioning,
 	"AVAILABLE":    VolumeGroupLifecycleStateAvailable,
 	"TERMINATING":  VolumeGroupLifecycleStateTerminating,
@@ -159,8 +185,19 @@ var mappingVolumeGroupLifecycleState = map[string]VolumeGroupLifecycleStateEnum{
 // GetVolumeGroupLifecycleStateEnumValues Enumerates the set of values for VolumeGroupLifecycleStateEnum
 func GetVolumeGroupLifecycleStateEnumValues() []VolumeGroupLifecycleStateEnum {
 	values := make([]VolumeGroupLifecycleStateEnum, 0)
-	for _, v := range mappingVolumeGroupLifecycleState {
+	for _, v := range mappingVolumeGroupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeGroupLifecycleStateEnumStringValues Enumerates the set of values in String for VolumeGroupLifecycleStateEnum
+func GetVolumeGroupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+		"FAULTY",
+	}
 }

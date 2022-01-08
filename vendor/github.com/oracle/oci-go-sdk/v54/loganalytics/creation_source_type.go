@@ -19,7 +19,7 @@ const (
 	CreationSourceTypeNone                CreationSourceTypeEnum = "NONE"
 )
 
-var mappingCreationSourceType = map[string]CreationSourceTypeEnum{
+var mappingCreationSourceTypeEnum = map[string]CreationSourceTypeEnum{
 	"EM_BRIDGE":             CreationSourceTypeEmBridge,
 	"SERVICE_CONNECTOR_HUB": CreationSourceTypeServiceConnectorHub,
 	"NONE":                  CreationSourceTypeNone,
@@ -28,8 +28,17 @@ var mappingCreationSourceType = map[string]CreationSourceTypeEnum{
 // GetCreationSourceTypeEnumValues Enumerates the set of values for CreationSourceTypeEnum
 func GetCreationSourceTypeEnumValues() []CreationSourceTypeEnum {
 	values := make([]CreationSourceTypeEnum, 0)
-	for _, v := range mappingCreationSourceType {
+	for _, v := range mappingCreationSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreationSourceTypeEnumStringValues Enumerates the set of values in String for CreationSourceTypeEnum
+func GetCreationSourceTypeEnumStringValues() []string {
+	return []string{
+		"EM_BRIDGE",
+		"SERVICE_CONNECTOR_HUB",
+		"NONE",
+	}
 }

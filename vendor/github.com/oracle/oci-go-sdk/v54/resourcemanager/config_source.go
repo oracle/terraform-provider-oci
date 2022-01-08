@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ConfigSource Information about the Terraform configuration.
@@ -88,6 +90,18 @@ func (m configsource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m configsource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConfigSourceConfigSourceTypeEnum Enum with underlying type: string
 type ConfigSourceConfigSourceTypeEnum string
 
@@ -99,7 +113,7 @@ const (
 	ConfigSourceConfigSourceTypeObjectStorageConfigSource ConfigSourceConfigSourceTypeEnum = "OBJECT_STORAGE_CONFIG_SOURCE"
 )
 
-var mappingConfigSourceConfigSourceType = map[string]ConfigSourceConfigSourceTypeEnum{
+var mappingConfigSourceConfigSourceTypeEnum = map[string]ConfigSourceConfigSourceTypeEnum{
 	"ZIP_UPLOAD":                   ConfigSourceConfigSourceTypeZipUpload,
 	"GIT_CONFIG_SOURCE":            ConfigSourceConfigSourceTypeGitConfigSource,
 	"COMPARTMENT_CONFIG_SOURCE":    ConfigSourceConfigSourceTypeCompartmentConfigSource,
@@ -109,8 +123,18 @@ var mappingConfigSourceConfigSourceType = map[string]ConfigSourceConfigSourceTyp
 // GetConfigSourceConfigSourceTypeEnumValues Enumerates the set of values for ConfigSourceConfigSourceTypeEnum
 func GetConfigSourceConfigSourceTypeEnumValues() []ConfigSourceConfigSourceTypeEnum {
 	values := make([]ConfigSourceConfigSourceTypeEnum, 0)
-	for _, v := range mappingConfigSourceConfigSourceType {
+	for _, v := range mappingConfigSourceConfigSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigSourceConfigSourceTypeEnumStringValues Enumerates the set of values in String for ConfigSourceConfigSourceTypeEnum
+func GetConfigSourceConfigSourceTypeEnumStringValues() []string {
+	return []string{
+		"ZIP_UPLOAD",
+		"GIT_CONFIG_SOURCE",
+		"COMPARTMENT_CONFIG_SOURCE",
+		"OBJECT_STORAGE_CONFIG_SOURCE",
+	}
 }

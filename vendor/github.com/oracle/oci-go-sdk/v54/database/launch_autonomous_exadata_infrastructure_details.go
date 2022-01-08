@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LaunchAutonomousExadataInfrastructureDetails Describes the input parameters to launch a new Autonomous Exadata Infrastructure.
@@ -65,6 +67,21 @@ func (m LaunchAutonomousExadataInfrastructureDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LaunchAutonomousExadataInfrastructureDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetLaunchAutonomousExadataInfrastructureDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum Enum with underlying type: string
 type LaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum string
 
@@ -74,7 +91,7 @@ const (
 	LaunchAutonomousExadataInfrastructureDetailsLicenseModelBringYourOwnLicense LaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingLaunchAutonomousExadataInfrastructureDetailsLicenseModel = map[string]LaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum{
+var mappingLaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum = map[string]LaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       LaunchAutonomousExadataInfrastructureDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": LaunchAutonomousExadataInfrastructureDetailsLicenseModelBringYourOwnLicense,
 }
@@ -82,8 +99,16 @@ var mappingLaunchAutonomousExadataInfrastructureDetailsLicenseModel = map[string
 // GetLaunchAutonomousExadataInfrastructureDetailsLicenseModelEnumValues Enumerates the set of values for LaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum
 func GetLaunchAutonomousExadataInfrastructureDetailsLicenseModelEnumValues() []LaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum {
 	values := make([]LaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum, 0)
-	for _, v := range mappingLaunchAutonomousExadataInfrastructureDetailsLicenseModel {
+	for _, v := range mappingLaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchAutonomousExadataInfrastructureDetailsLicenseModelEnumStringValues Enumerates the set of values in String for LaunchAutonomousExadataInfrastructureDetailsLicenseModelEnum
+func GetLaunchAutonomousExadataInfrastructureDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

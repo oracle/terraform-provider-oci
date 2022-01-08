@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // VmClusterSummary Details of the Exadata Cloud@Customer VM cluster.
@@ -67,7 +69,7 @@ type VmClusterSummary struct {
 	// Size, in terabytes, of the DATA disk group.
 	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
 
-	// Size, in gigabytes, of the DATA disk group.
+	// Size of the DATA disk group in GBs.
 	DataStorageSizeInGBs *float64 `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance.
@@ -96,10 +98,31 @@ type VmClusterSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Indicates whether diagnostic collection is enabled for the VM cluster. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API.
+	IsDataCollectionEnabled *bool `mandatory:"false" json:"isDataCollectionEnabled"`
 }
 
 func (m VmClusterSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VmClusterSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingVmClusterSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVmClusterSummaryLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetVmClusterSummaryLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // VmClusterSummaryLifecycleStateEnum Enum with underlying type: string
@@ -116,7 +139,7 @@ const (
 	VmClusterSummaryLifecycleStateMaintenanceInProgress VmClusterSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingVmClusterSummaryLifecycleState = map[string]VmClusterSummaryLifecycleStateEnum{
+var mappingVmClusterSummaryLifecycleStateEnum = map[string]VmClusterSummaryLifecycleStateEnum{
 	"PROVISIONING":            VmClusterSummaryLifecycleStateProvisioning,
 	"AVAILABLE":               VmClusterSummaryLifecycleStateAvailable,
 	"UPDATING":                VmClusterSummaryLifecycleStateUpdating,
@@ -129,10 +152,23 @@ var mappingVmClusterSummaryLifecycleState = map[string]VmClusterSummaryLifecycle
 // GetVmClusterSummaryLifecycleStateEnumValues Enumerates the set of values for VmClusterSummaryLifecycleStateEnum
 func GetVmClusterSummaryLifecycleStateEnumValues() []VmClusterSummaryLifecycleStateEnum {
 	values := make([]VmClusterSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingVmClusterSummaryLifecycleState {
+	for _, v := range mappingVmClusterSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVmClusterSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for VmClusterSummaryLifecycleStateEnum
+func GetVmClusterSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }
 
 // VmClusterSummaryLicenseModelEnum Enum with underlying type: string
@@ -144,7 +180,7 @@ const (
 	VmClusterSummaryLicenseModelBringYourOwnLicense VmClusterSummaryLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingVmClusterSummaryLicenseModel = map[string]VmClusterSummaryLicenseModelEnum{
+var mappingVmClusterSummaryLicenseModelEnum = map[string]VmClusterSummaryLicenseModelEnum{
 	"LICENSE_INCLUDED":       VmClusterSummaryLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": VmClusterSummaryLicenseModelBringYourOwnLicense,
 }
@@ -152,8 +188,16 @@ var mappingVmClusterSummaryLicenseModel = map[string]VmClusterSummaryLicenseMode
 // GetVmClusterSummaryLicenseModelEnumValues Enumerates the set of values for VmClusterSummaryLicenseModelEnum
 func GetVmClusterSummaryLicenseModelEnumValues() []VmClusterSummaryLicenseModelEnum {
 	values := make([]VmClusterSummaryLicenseModelEnum, 0)
-	for _, v := range mappingVmClusterSummaryLicenseModel {
+	for _, v := range mappingVmClusterSummaryLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVmClusterSummaryLicenseModelEnumStringValues Enumerates the set of values in String for VmClusterSummaryLicenseModelEnum
+func GetVmClusterSummaryLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

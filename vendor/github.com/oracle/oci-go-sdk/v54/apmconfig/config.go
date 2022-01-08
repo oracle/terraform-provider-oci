@@ -11,7 +11,9 @@ package apmconfig
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Config A configuration item. This item has a number of mutually exclusive properties that can be used to set specific
@@ -125,4 +127,16 @@ func (m config) GetDefinedTags() map[string]map[string]interface{} {
 
 func (m config) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m config) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

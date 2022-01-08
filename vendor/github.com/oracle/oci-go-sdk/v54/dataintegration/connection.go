@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Connection The connection for a data asset.
@@ -216,6 +218,18 @@ func (m connection) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m connection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConnectionModelTypeEnum Enum with underlying type: string
 type ConnectionModelTypeEnum string
 
@@ -231,7 +245,7 @@ const (
 	ConnectionModelTypeAmazonS3Connection            ConnectionModelTypeEnum = "AMAZON_S3_CONNECTION"
 )
 
-var mappingConnectionModelType = map[string]ConnectionModelTypeEnum{
+var mappingConnectionModelTypeEnum = map[string]ConnectionModelTypeEnum{
 	"ORACLE_ADWC_CONNECTION":           ConnectionModelTypeOracleAdwcConnection,
 	"ORACLE_ATP_CONNECTION":            ConnectionModelTypeOracleAtpConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": ConnectionModelTypeOracleObjectStorageConnection,
@@ -245,8 +259,22 @@ var mappingConnectionModelType = map[string]ConnectionModelTypeEnum{
 // GetConnectionModelTypeEnumValues Enumerates the set of values for ConnectionModelTypeEnum
 func GetConnectionModelTypeEnumValues() []ConnectionModelTypeEnum {
 	values := make([]ConnectionModelTypeEnum, 0)
-	for _, v := range mappingConnectionModelType {
+	for _, v := range mappingConnectionModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConnectionModelTypeEnumStringValues Enumerates the set of values in String for ConnectionModelTypeEnum
+func GetConnectionModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_ADWC_CONNECTION",
+		"ORACLE_ATP_CONNECTION",
+		"ORACLE_OBJECT_STORAGE_CONNECTION",
+		"ORACLEDB_CONNECTION",
+		"MYSQL_CONNECTION",
+		"GENERIC_JDBC_CONNECTION",
+		"BICC_CONNECTION",
+		"AMAZON_S3_CONNECTION",
+	}
 }

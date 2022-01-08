@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Target The information about the target operator. The target operator lets you specify the data entity to store the transformed data.
@@ -136,6 +138,21 @@ func (m Target) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Target) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTargetDataPropertyEnum[string(m.DataProperty)]; !ok && m.DataProperty != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataProperty: %s. Supported values are: %s.", m.DataProperty, strings.Join(GetTargetDataPropertyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m Target) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeTarget Target
@@ -253,7 +270,7 @@ const (
 	TargetDataPropertyIgnore    TargetDataPropertyEnum = "IGNORE"
 )
 
-var mappingTargetDataProperty = map[string]TargetDataPropertyEnum{
+var mappingTargetDataPropertyEnum = map[string]TargetDataPropertyEnum{
 	"TRUNCATE":  TargetDataPropertyTruncate,
 	"MERGE":     TargetDataPropertyMerge,
 	"BACKUP":    TargetDataPropertyBackup,
@@ -265,8 +282,20 @@ var mappingTargetDataProperty = map[string]TargetDataPropertyEnum{
 // GetTargetDataPropertyEnumValues Enumerates the set of values for TargetDataPropertyEnum
 func GetTargetDataPropertyEnumValues() []TargetDataPropertyEnum {
 	values := make([]TargetDataPropertyEnum, 0)
-	for _, v := range mappingTargetDataProperty {
+	for _, v := range mappingTargetDataPropertyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTargetDataPropertyEnumStringValues Enumerates the set of values in String for TargetDataPropertyEnum
+func GetTargetDataPropertyEnumStringValues() []string {
+	return []string{
+		"TRUNCATE",
+		"MERGE",
+		"BACKUP",
+		"OVERWRITE",
+		"APPEND",
+		"IGNORE",
+	}
 }

@@ -5,15 +5,13 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListListingsRequest wrapper for the ListListings operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListListings.go.html to see an example of how to use ListListingsRequest.
 type ListListingsRequest struct {
 
 	// The name of the listing.
@@ -21,6 +19,9 @@ type ListListingsRequest struct {
 
 	// The unique identifier for the listing.
 	ListingId *string `mandatory:"false" contributesTo:"query" name:"listingId"`
+
+	// Image ID of the listing
+	ImageId *string `mandatory:"false" contributesTo:"query" name:"imageId"`
 
 	// Limit results to just this publisher.
 	PublisherId *string `mandatory:"false" contributesTo:"query" name:"publisherId"`
@@ -78,6 +79,10 @@ func (request ListListingsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListListingsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -91,6 +96,35 @@ func (request ListListingsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListListingsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListListingsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListListingsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListListingsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListListingsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListListingsSortOrderEnumStringValues(), ",")))
+	}
+	for _, val := range request.Pricing {
+		if _, ok := mappingPricingTypeEnumEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Pricing: %s. Supported values are: %s.", val, strings.Join(GetPricingTypeEnumEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ListingTypes {
+		if _, ok := mappingListingTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ListingTypes: %s. Supported values are: %s.", val, strings.Join(GetListingTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListListingsResponse wrapper for the ListListings operation
@@ -129,17 +163,24 @@ const (
 	ListListingsSortByTimereleased ListListingsSortByEnum = "TIMERELEASED"
 )
 
-var mappingListListingsSortBy = map[string]ListListingsSortByEnum{
+var mappingListListingsSortByEnum = map[string]ListListingsSortByEnum{
 	"TIMERELEASED": ListListingsSortByTimereleased,
 }
 
 // GetListListingsSortByEnumValues Enumerates the set of values for ListListingsSortByEnum
 func GetListListingsSortByEnumValues() []ListListingsSortByEnum {
 	values := make([]ListListingsSortByEnum, 0)
-	for _, v := range mappingListListingsSortBy {
+	for _, v := range mappingListListingsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListListingsSortByEnumStringValues Enumerates the set of values in String for ListListingsSortByEnum
+func GetListListingsSortByEnumStringValues() []string {
+	return []string{
+		"TIMERELEASED",
+	}
 }
 
 // ListListingsSortOrderEnum Enum with underlying type: string
@@ -151,7 +192,7 @@ const (
 	ListListingsSortOrderDesc ListListingsSortOrderEnum = "DESC"
 )
 
-var mappingListListingsSortOrder = map[string]ListListingsSortOrderEnum{
+var mappingListListingsSortOrderEnum = map[string]ListListingsSortOrderEnum{
 	"ASC":  ListListingsSortOrderAsc,
 	"DESC": ListListingsSortOrderDesc,
 }
@@ -159,8 +200,16 @@ var mappingListListingsSortOrder = map[string]ListListingsSortOrderEnum{
 // GetListListingsSortOrderEnumValues Enumerates the set of values for ListListingsSortOrderEnum
 func GetListListingsSortOrderEnumValues() []ListListingsSortOrderEnum {
 	values := make([]ListListingsSortOrderEnum, 0)
-	for _, v := range mappingListListingsSortOrder {
+	for _, v := range mappingListListingsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListListingsSortOrderEnumStringValues Enumerates the set of values in String for ListListingsSortOrderEnum
+func GetListListingsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

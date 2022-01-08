@@ -588,6 +588,14 @@ func structToRequestPart(request *http.Request, val reflect.Value) (err error) {
 		}
 
 		sv := val.Field(i)
+		if method := sv.MethodByName("ValidateEnumValue"); reflect.Value.IsValid(method) {
+			if validateResult := method.Call([]reflect.Value{})[1].Interface(); validateResult != nil {
+				if err = validateResult.(error); err != nil {
+					return
+				}
+			}
+		}
+
 		tag := sf.Tag.Get("contributesTo")
 		switch tag {
 		case "header":
@@ -679,7 +687,6 @@ func MakeDefaultHTTPRequestWithTaggedStruct(method, path string, requestStruct i
 	if err != nil {
 		return
 	}
-
 	return
 }
 

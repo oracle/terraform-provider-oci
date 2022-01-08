@@ -10,7 +10,9 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BdsInstance Description of the cluster.
@@ -74,6 +76,24 @@ func (m BdsInstance) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BdsInstance) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBdsInstanceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBdsInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingBdsInstanceClusterVersionEnum[string(m.ClusterVersion)]; !ok && m.ClusterVersion != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterVersion: %s. Supported values are: %s.", m.ClusterVersion, strings.Join(GetBdsInstanceClusterVersionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BdsInstanceLifecycleStateEnum Enum with underlying type: string
 type BdsInstanceLifecycleStateEnum string
 
@@ -90,7 +110,7 @@ const (
 	BdsInstanceLifecycleStateFailed     BdsInstanceLifecycleStateEnum = "FAILED"
 )
 
-var mappingBdsInstanceLifecycleState = map[string]BdsInstanceLifecycleStateEnum{
+var mappingBdsInstanceLifecycleStateEnum = map[string]BdsInstanceLifecycleStateEnum{
 	"CREATING":   BdsInstanceLifecycleStateCreating,
 	"ACTIVE":     BdsInstanceLifecycleStateActive,
 	"UPDATING":   BdsInstanceLifecycleStateUpdating,
@@ -105,10 +125,25 @@ var mappingBdsInstanceLifecycleState = map[string]BdsInstanceLifecycleStateEnum{
 // GetBdsInstanceLifecycleStateEnumValues Enumerates the set of values for BdsInstanceLifecycleStateEnum
 func GetBdsInstanceLifecycleStateEnumValues() []BdsInstanceLifecycleStateEnum {
 	values := make([]BdsInstanceLifecycleStateEnum, 0)
-	for _, v := range mappingBdsInstanceLifecycleState {
+	for _, v := range mappingBdsInstanceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBdsInstanceLifecycleStateEnumStringValues Enumerates the set of values in String for BdsInstanceLifecycleStateEnum
+func GetBdsInstanceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"SUSPENDING",
+		"SUSPENDED",
+		"RESUMING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // BdsInstanceClusterVersionEnum Enum with underlying type: string
@@ -121,7 +156,7 @@ const (
 	BdsInstanceClusterVersionOdh1 BdsInstanceClusterVersionEnum = "ODH1"
 )
 
-var mappingBdsInstanceClusterVersion = map[string]BdsInstanceClusterVersionEnum{
+var mappingBdsInstanceClusterVersionEnum = map[string]BdsInstanceClusterVersionEnum{
 	"CDH5": BdsInstanceClusterVersionCdh5,
 	"CDH6": BdsInstanceClusterVersionCdh6,
 	"ODH1": BdsInstanceClusterVersionOdh1,
@@ -130,8 +165,17 @@ var mappingBdsInstanceClusterVersion = map[string]BdsInstanceClusterVersionEnum{
 // GetBdsInstanceClusterVersionEnumValues Enumerates the set of values for BdsInstanceClusterVersionEnum
 func GetBdsInstanceClusterVersionEnumValues() []BdsInstanceClusterVersionEnum {
 	values := make([]BdsInstanceClusterVersionEnum, 0)
-	for _, v := range mappingBdsInstanceClusterVersion {
+	for _, v := range mappingBdsInstanceClusterVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBdsInstanceClusterVersionEnumStringValues Enumerates the set of values in String for BdsInstanceClusterVersionEnum
+func GetBdsInstanceClusterVersionEnumStringValues() []string {
+	return []string{
+		"CDH5",
+		"CDH6",
+		"ODH1",
+	}
 }

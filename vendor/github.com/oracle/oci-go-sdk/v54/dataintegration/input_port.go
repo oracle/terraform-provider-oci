@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InputPort The input port details.
@@ -80,6 +82,21 @@ func (m InputPort) GetDescription() *string {
 
 func (m InputPort) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InputPort) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInputPortPortTypeEnum[string(m.PortType)]; !ok && m.PortType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PortType: %s. Supported values are: %s.", m.PortType, strings.Join(GetInputPortPortTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -157,7 +174,7 @@ const (
 	InputPortPortTypeModel   InputPortPortTypeEnum = "MODEL"
 )
 
-var mappingInputPortPortType = map[string]InputPortPortTypeEnum{
+var mappingInputPortPortTypeEnum = map[string]InputPortPortTypeEnum{
 	"DATA":    InputPortPortTypeData,
 	"CONTROL": InputPortPortTypeControl,
 	"MODEL":   InputPortPortTypeModel,
@@ -166,8 +183,17 @@ var mappingInputPortPortType = map[string]InputPortPortTypeEnum{
 // GetInputPortPortTypeEnumValues Enumerates the set of values for InputPortPortTypeEnum
 func GetInputPortPortTypeEnumValues() []InputPortPortTypeEnum {
 	values := make([]InputPortPortTypeEnum, 0)
-	for _, v := range mappingInputPortPortType {
+	for _, v := range mappingInputPortPortTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInputPortPortTypeEnumStringValues Enumerates the set of values in String for InputPortPortTypeEnum
+func GetInputPortPortTypeEnumStringValues() []string {
+	return []string{
+		"DATA",
+		"CONTROL",
+		"MODEL",
+	}
 }

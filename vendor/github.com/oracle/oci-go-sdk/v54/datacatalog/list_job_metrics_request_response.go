@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListJobMetricsRequest wrapper for the ListJobMetrics operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListJobMetrics.go.html to see an example of how to use ListJobMetricsRequest.
 type ListJobMetricsRequest struct {
 
 	// Unique catalog identifier.
@@ -94,6 +92,10 @@ func (request ListJobMetricsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListJobMetricsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -107,6 +109,29 @@ func (request ListJobMetricsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListJobMetricsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListJobMetricsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingListJobMetricsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListJobMetricsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListJobMetricsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListJobMetricsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListJobMetricsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListJobMetricsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListJobMetricsResponse wrapper for the ListJobMetrics operation
@@ -154,7 +179,7 @@ const (
 	ListJobMetricsFieldsUri             ListJobMetricsFieldsEnum = "uri"
 )
 
-var mappingListJobMetricsFields = map[string]ListJobMetricsFieldsEnum{
+var mappingListJobMetricsFieldsEnum = map[string]ListJobMetricsFieldsEnum{
 	"key":             ListJobMetricsFieldsKey,
 	"description":     ListJobMetricsFieldsDescription,
 	"displayName":     ListJobMetricsFieldsDisplayname,
@@ -172,10 +197,28 @@ var mappingListJobMetricsFields = map[string]ListJobMetricsFieldsEnum{
 // GetListJobMetricsFieldsEnumValues Enumerates the set of values for ListJobMetricsFieldsEnum
 func GetListJobMetricsFieldsEnumValues() []ListJobMetricsFieldsEnum {
 	values := make([]ListJobMetricsFieldsEnum, 0)
-	for _, v := range mappingListJobMetricsFields {
+	for _, v := range mappingListJobMetricsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobMetricsFieldsEnumStringValues Enumerates the set of values in String for ListJobMetricsFieldsEnum
+func GetListJobMetricsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"description",
+		"displayName",
+		"timeInserted",
+		"category",
+		"subCategory",
+		"unit",
+		"value",
+		"batchKey",
+		"jobExecutionKey",
+		"timeCreated",
+		"uri",
+	}
 }
 
 // ListJobMetricsSortByEnum Enum with underlying type: string
@@ -187,7 +230,7 @@ const (
 	ListJobMetricsSortByDisplayname ListJobMetricsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListJobMetricsSortBy = map[string]ListJobMetricsSortByEnum{
+var mappingListJobMetricsSortByEnum = map[string]ListJobMetricsSortByEnum{
 	"TIMECREATED": ListJobMetricsSortByTimecreated,
 	"DISPLAYNAME": ListJobMetricsSortByDisplayname,
 }
@@ -195,10 +238,18 @@ var mappingListJobMetricsSortBy = map[string]ListJobMetricsSortByEnum{
 // GetListJobMetricsSortByEnumValues Enumerates the set of values for ListJobMetricsSortByEnum
 func GetListJobMetricsSortByEnumValues() []ListJobMetricsSortByEnum {
 	values := make([]ListJobMetricsSortByEnum, 0)
-	for _, v := range mappingListJobMetricsSortBy {
+	for _, v := range mappingListJobMetricsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobMetricsSortByEnumStringValues Enumerates the set of values in String for ListJobMetricsSortByEnum
+func GetListJobMetricsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListJobMetricsSortOrderEnum Enum with underlying type: string
@@ -210,7 +261,7 @@ const (
 	ListJobMetricsSortOrderDesc ListJobMetricsSortOrderEnum = "DESC"
 )
 
-var mappingListJobMetricsSortOrder = map[string]ListJobMetricsSortOrderEnum{
+var mappingListJobMetricsSortOrderEnum = map[string]ListJobMetricsSortOrderEnum{
 	"ASC":  ListJobMetricsSortOrderAsc,
 	"DESC": ListJobMetricsSortOrderDesc,
 }
@@ -218,8 +269,16 @@ var mappingListJobMetricsSortOrder = map[string]ListJobMetricsSortOrderEnum{
 // GetListJobMetricsSortOrderEnumValues Enumerates the set of values for ListJobMetricsSortOrderEnum
 func GetListJobMetricsSortOrderEnumValues() []ListJobMetricsSortOrderEnum {
 	values := make([]ListJobMetricsSortOrderEnum, 0)
-	for _, v := range mappingListJobMetricsSortOrder {
+	for _, v := range mappingListJobMetricsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobMetricsSortOrderEnumStringValues Enumerates the set of values in String for ListJobMetricsSortOrderEnum
+func GetListJobMetricsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

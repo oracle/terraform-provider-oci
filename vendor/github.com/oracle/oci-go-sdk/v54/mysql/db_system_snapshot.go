@@ -10,7 +10,9 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DbSystemSnapshot Snapshot of the DbSystem details at the time of the backup
@@ -35,6 +37,8 @@ type DbSystemSnapshot struct {
 	DataStorageSizeInGBs *int `mandatory:"true" json:"dataStorageSizeInGBs"`
 
 	Maintenance *MaintenanceDetails `mandatory:"true" json:"maintenance"`
+
+	DeletionPolicy *DeletionPolicyDetails `mandatory:"true" json:"deletionPolicy"`
 
 	// User-provided data about the DB System.
 	Description *string `mandatory:"false" json:"description"`
@@ -92,8 +96,27 @@ type DbSystemSnapshot struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
+	// and whether to enable or disable syncing of the Binary Logs.
+	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`
 }
 
 func (m DbSystemSnapshot) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbSystemSnapshot) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCrashRecoveryStatusEnum[string(m.CrashRecovery)]; !ok && m.CrashRecovery != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CrashRecovery: %s. Supported values are: %s.", m.CrashRecovery, strings.Join(GetCrashRecoveryStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

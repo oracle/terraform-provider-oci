@@ -12,7 +12,9 @@ package waf
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Action An object that represents action and its options.
@@ -82,6 +84,18 @@ func (m action) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m action) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ActionTypeEnum Enum with underlying type: string
 type ActionTypeEnum string
 
@@ -92,7 +106,7 @@ const (
 	ActionTypeReturnHttpResponse ActionTypeEnum = "RETURN_HTTP_RESPONSE"
 )
 
-var mappingActionType = map[string]ActionTypeEnum{
+var mappingActionTypeEnum = map[string]ActionTypeEnum{
 	"CHECK":                ActionTypeCheck,
 	"ALLOW":                ActionTypeAllow,
 	"RETURN_HTTP_RESPONSE": ActionTypeReturnHttpResponse,
@@ -101,8 +115,17 @@ var mappingActionType = map[string]ActionTypeEnum{
 // GetActionTypeEnumValues Enumerates the set of values for ActionTypeEnum
 func GetActionTypeEnumValues() []ActionTypeEnum {
 	values := make([]ActionTypeEnum, 0)
-	for _, v := range mappingActionType {
+	for _, v := range mappingActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetActionTypeEnumStringValues Enumerates the set of values in String for ActionTypeEnum
+func GetActionTypeEnumStringValues() []string {
+	return []string{
+		"CHECK",
+		"ALLOW",
+		"RETURN_HTTP_RESPONSE",
+	}
 }

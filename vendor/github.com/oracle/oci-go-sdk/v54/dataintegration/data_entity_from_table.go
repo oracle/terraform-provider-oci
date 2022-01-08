@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataEntityFromTable The table entity data entity.
@@ -74,6 +76,21 @@ func (m DataEntityFromTable) GetMetadata() *ObjectMetadata {
 
 func (m DataEntityFromTable) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataEntityFromTable) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataEntityFromTableEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetDataEntityFromTableEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -184,7 +201,7 @@ const (
 	DataEntityFromTableEntityTypeOther  DataEntityFromTableEntityTypeEnum = "OTHER"
 )
 
-var mappingDataEntityFromTableEntityType = map[string]DataEntityFromTableEntityTypeEnum{
+var mappingDataEntityFromTableEntityTypeEnum = map[string]DataEntityFromTableEntityTypeEnum{
 	"TABLE":  DataEntityFromTableEntityTypeTable,
 	"VIEW":   DataEntityFromTableEntityTypeView,
 	"FILE":   DataEntityFromTableEntityTypeFile,
@@ -196,8 +213,20 @@ var mappingDataEntityFromTableEntityType = map[string]DataEntityFromTableEntityT
 // GetDataEntityFromTableEntityTypeEnumValues Enumerates the set of values for DataEntityFromTableEntityTypeEnum
 func GetDataEntityFromTableEntityTypeEnumValues() []DataEntityFromTableEntityTypeEnum {
 	values := make([]DataEntityFromTableEntityTypeEnum, 0)
-	for _, v := range mappingDataEntityFromTableEntityType {
+	for _, v := range mappingDataEntityFromTableEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataEntityFromTableEntityTypeEnumStringValues Enumerates the set of values in String for DataEntityFromTableEntityTypeEnum
+func GetDataEntityFromTableEntityTypeEnumStringValues() []string {
+	return []string{
+		"TABLE",
+		"VIEW",
+		"FILE",
+		"QUEUE",
+		"STREAM",
+		"OTHER",
+	}
 }

@@ -5,15 +5,13 @@
 package certificatesmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAssociationsRequest wrapper for the ListAssociations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ListAssociations.go.html to see an example of how to use ListAssociationsRequest.
 type ListAssociationsRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If provided, the returned request ID
@@ -65,6 +63,10 @@ func (request ListAssociationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAssociationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +80,26 @@ func (request ListAssociationsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAssociationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAssociationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAssociationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAssociationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAssociationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAssociationsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAssociationsAssociationTypeEnum[string(request.AssociationType)]; !ok && request.AssociationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AssociationType: %s. Supported values are: %s.", request.AssociationType, strings.Join(GetListAssociationsAssociationTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAssociationsResponse wrapper for the ListAssociations operation
@@ -117,7 +139,7 @@ const (
 	ListAssociationsSortByTimecreated ListAssociationsSortByEnum = "TIMECREATED"
 )
 
-var mappingListAssociationsSortBy = map[string]ListAssociationsSortByEnum{
+var mappingListAssociationsSortByEnum = map[string]ListAssociationsSortByEnum{
 	"NAME":        ListAssociationsSortByName,
 	"TIMECREATED": ListAssociationsSortByTimecreated,
 }
@@ -125,10 +147,18 @@ var mappingListAssociationsSortBy = map[string]ListAssociationsSortByEnum{
 // GetListAssociationsSortByEnumValues Enumerates the set of values for ListAssociationsSortByEnum
 func GetListAssociationsSortByEnumValues() []ListAssociationsSortByEnum {
 	values := make([]ListAssociationsSortByEnum, 0)
-	for _, v := range mappingListAssociationsSortBy {
+	for _, v := range mappingListAssociationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociationsSortByEnumStringValues Enumerates the set of values in String for ListAssociationsSortByEnum
+func GetListAssociationsSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }
 
 // ListAssociationsSortOrderEnum Enum with underlying type: string
@@ -140,7 +170,7 @@ const (
 	ListAssociationsSortOrderDesc ListAssociationsSortOrderEnum = "DESC"
 )
 
-var mappingListAssociationsSortOrder = map[string]ListAssociationsSortOrderEnum{
+var mappingListAssociationsSortOrderEnum = map[string]ListAssociationsSortOrderEnum{
 	"ASC":  ListAssociationsSortOrderAsc,
 	"DESC": ListAssociationsSortOrderDesc,
 }
@@ -148,10 +178,18 @@ var mappingListAssociationsSortOrder = map[string]ListAssociationsSortOrderEnum{
 // GetListAssociationsSortOrderEnumValues Enumerates the set of values for ListAssociationsSortOrderEnum
 func GetListAssociationsSortOrderEnumValues() []ListAssociationsSortOrderEnum {
 	values := make([]ListAssociationsSortOrderEnum, 0)
-	for _, v := range mappingListAssociationsSortOrder {
+	for _, v := range mappingListAssociationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociationsSortOrderEnumStringValues Enumerates the set of values in String for ListAssociationsSortOrderEnum
+func GetListAssociationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAssociationsAssociationTypeEnum Enum with underlying type: string
@@ -164,7 +202,7 @@ const (
 	ListAssociationsAssociationTypeCaBundle             ListAssociationsAssociationTypeEnum = "CA_BUNDLE"
 )
 
-var mappingListAssociationsAssociationType = map[string]ListAssociationsAssociationTypeEnum{
+var mappingListAssociationsAssociationTypeEnum = map[string]ListAssociationsAssociationTypeEnum{
 	"CERTIFICATE":           ListAssociationsAssociationTypeCertificate,
 	"CERTIFICATE_AUTHORITY": ListAssociationsAssociationTypeCertificateAuthority,
 	"CA_BUNDLE":             ListAssociationsAssociationTypeCaBundle,
@@ -173,8 +211,17 @@ var mappingListAssociationsAssociationType = map[string]ListAssociationsAssociat
 // GetListAssociationsAssociationTypeEnumValues Enumerates the set of values for ListAssociationsAssociationTypeEnum
 func GetListAssociationsAssociationTypeEnumValues() []ListAssociationsAssociationTypeEnum {
 	values := make([]ListAssociationsAssociationTypeEnum, 0)
-	for _, v := range mappingListAssociationsAssociationType {
+	for _, v := range mappingListAssociationsAssociationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAssociationsAssociationTypeEnumStringValues Enumerates the set of values in String for ListAssociationsAssociationTypeEnum
+func GetListAssociationsAssociationTypeEnumStringValues() []string {
+	return []string{
+		"CERTIFICATE",
+		"CERTIFICATE_AUTHORITY",
+		"CA_BUNDLE",
+	}
 }

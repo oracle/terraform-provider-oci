@@ -4,13 +4,16 @@
 
 // File Storage API
 //
-// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// Use the File Storage service API to manage file systems, mount targets, and snapshots.
+// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SnapshotSummary Summary information for a snapshot.
@@ -35,17 +38,30 @@ type SnapshotSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// Specifies the generation type of the snapshot.
+	SnapshotType SnapshotSummarySnapshotTypeEnum `mandatory:"false" json:"snapshotType,omitempty"`
+
+	// The date and time the snapshot was taken, expressed
+	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// This value might be the same or different from `timeCreated` depending
+	// on the following factors:
+	// - If the snapshot is created in the original file system directory.
+	// - If the snapshot is cloned from a file system.
+	// - If the snapshot is replicated from a file system.
+	// Example: `2020-08-25T21:10:29.600Z`
+	SnapshotTime *common.SDKTime `mandatory:"false" json:"snapshotTime"`
+
 	// An OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) identifying the parent from which this snapshot was cloned.
 	// If this snapshot was not cloned, then the `provenanceId` is the same as the snapshot `id` value.
 	// If this snapshot was cloned, then the `provenanceId` value is the parent's `provenanceId`.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	ProvenanceId *string `mandatory:"false" json:"provenanceId"`
 
 	// Specifies whether the snapshot has been cloned.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	IsCloneSource *bool `mandatory:"false" json:"isCloneSource"`
 
-	// Additional information about the current 'lifecycleState'.
+	// Additional information about the current `lifecycleState`.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
@@ -64,6 +80,24 @@ func (m SnapshotSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SnapshotSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSnapshotSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSnapshotSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingSnapshotSummarySnapshotTypeEnum[string(m.SnapshotType)]; !ok && m.SnapshotType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SnapshotType: %s. Supported values are: %s.", m.SnapshotType, strings.Join(GetSnapshotSummarySnapshotTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SnapshotSummaryLifecycleStateEnum Enum with underlying type: string
 type SnapshotSummaryLifecycleStateEnum string
 
@@ -75,7 +109,7 @@ const (
 	SnapshotSummaryLifecycleStateDeleted  SnapshotSummaryLifecycleStateEnum = "DELETED"
 )
 
-var mappingSnapshotSummaryLifecycleState = map[string]SnapshotSummaryLifecycleStateEnum{
+var mappingSnapshotSummaryLifecycleStateEnum = map[string]SnapshotSummaryLifecycleStateEnum{
 	"CREATING": SnapshotSummaryLifecycleStateCreating,
 	"ACTIVE":   SnapshotSummaryLifecycleStateActive,
 	"DELETING": SnapshotSummaryLifecycleStateDeleting,
@@ -85,8 +119,52 @@ var mappingSnapshotSummaryLifecycleState = map[string]SnapshotSummaryLifecycleSt
 // GetSnapshotSummaryLifecycleStateEnumValues Enumerates the set of values for SnapshotSummaryLifecycleStateEnum
 func GetSnapshotSummaryLifecycleStateEnumValues() []SnapshotSummaryLifecycleStateEnum {
 	values := make([]SnapshotSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingSnapshotSummaryLifecycleState {
+	for _, v := range mappingSnapshotSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSnapshotSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for SnapshotSummaryLifecycleStateEnum
+func GetSnapshotSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
+}
+
+// SnapshotSummarySnapshotTypeEnum Enum with underlying type: string
+type SnapshotSummarySnapshotTypeEnum string
+
+// Set of constants representing the allowable values for SnapshotSummarySnapshotTypeEnum
+const (
+	SnapshotSummarySnapshotTypeUser        SnapshotSummarySnapshotTypeEnum = "USER"
+	SnapshotSummarySnapshotTypePolicyBased SnapshotSummarySnapshotTypeEnum = "POLICY_BASED"
+	SnapshotSummarySnapshotTypeReplication SnapshotSummarySnapshotTypeEnum = "REPLICATION"
+)
+
+var mappingSnapshotSummarySnapshotTypeEnum = map[string]SnapshotSummarySnapshotTypeEnum{
+	"USER":         SnapshotSummarySnapshotTypeUser,
+	"POLICY_BASED": SnapshotSummarySnapshotTypePolicyBased,
+	"REPLICATION":  SnapshotSummarySnapshotTypeReplication,
+}
+
+// GetSnapshotSummarySnapshotTypeEnumValues Enumerates the set of values for SnapshotSummarySnapshotTypeEnum
+func GetSnapshotSummarySnapshotTypeEnumValues() []SnapshotSummarySnapshotTypeEnum {
+	values := make([]SnapshotSummarySnapshotTypeEnum, 0)
+	for _, v := range mappingSnapshotSummarySnapshotTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSnapshotSummarySnapshotTypeEnumStringValues Enumerates the set of values in String for SnapshotSummarySnapshotTypeEnum
+func GetSnapshotSummarySnapshotTypeEnumStringValues() []string {
+	return []string{
+		"USER",
+		"POLICY_BASED",
+		"REPLICATION",
+	}
 }

@@ -21,7 +21,7 @@ const (
 	DatabaseStatusUnknown DatabaseStatusEnum = "UNKNOWN"
 )
 
-var mappingDatabaseStatus = map[string]DatabaseStatusEnum{
+var mappingDatabaseStatusEnum = map[string]DatabaseStatusEnum{
 	"UP":      DatabaseStatusUp,
 	"DOWN":    DatabaseStatusDown,
 	"UNKNOWN": DatabaseStatusUnknown,
@@ -30,8 +30,17 @@ var mappingDatabaseStatus = map[string]DatabaseStatusEnum{
 // GetDatabaseStatusEnumValues Enumerates the set of values for DatabaseStatusEnum
 func GetDatabaseStatusEnumValues() []DatabaseStatusEnum {
 	values := make([]DatabaseStatusEnum, 0)
-	for _, v := range mappingDatabaseStatus {
+	for _, v := range mappingDatabaseStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseStatusEnumStringValues Enumerates the set of values in String for DatabaseStatusEnum
+func GetDatabaseStatusEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+		"UNKNOWN",
+	}
 }

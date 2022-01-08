@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // JobRunSummary A summary of a specific job run.
@@ -51,4 +53,19 @@ type JobRunSummary struct {
 
 func (m JobRunSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m JobRunSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJobRunRunStatusEnum[string(m.RunStatus)]; !ok && m.RunStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RunStatus: %s. Supported values are: %s.", m.RunStatus, strings.Join(GetJobRunRunStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

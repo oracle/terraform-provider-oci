@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WindowsUpdate An update available for a Windows managed instance.
@@ -51,6 +53,30 @@ func (m WindowsUpdate) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WindowsUpdate) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateTypesEnum[string(m.UpdateType)]; !ok && m.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", m.UpdateType, strings.Join(GetUpdateTypesEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingIsEligibleForInstallationEnum[string(m.IsEligibleForInstallation)]; !ok && m.IsEligibleForInstallation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsEligibleForInstallation: %s. Supported values are: %s.", m.IsEligibleForInstallation, strings.Join(GetIsEligibleForInstallationEnumStringValues(), ",")))
+	}
+	for _, val := range m.InstallationRequirements {
+		if _, ok := mappingWindowsUpdateInstallationRequirementsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstallationRequirements: %s. Supported values are: %s.", val, strings.Join(GetWindowsUpdateInstallationRequirementsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WindowsUpdateInstallationRequirementsEnum Enum with underlying type: string
 type WindowsUpdateInstallationRequirementsEnum string
 
@@ -61,7 +87,7 @@ const (
 	WindowsUpdateInstallationRequirementsUserInteractionRequired WindowsUpdateInstallationRequirementsEnum = "USER_INTERACTION_REQUIRED"
 )
 
-var mappingWindowsUpdateInstallationRequirements = map[string]WindowsUpdateInstallationRequirementsEnum{
+var mappingWindowsUpdateInstallationRequirementsEnum = map[string]WindowsUpdateInstallationRequirementsEnum{
 	"EULA_ACCEPTANCE_REQUIRED":  WindowsUpdateInstallationRequirementsEulaAcceptanceRequired,
 	"SOFTWARE_MEDIA_REQUIRED":   WindowsUpdateInstallationRequirementsSoftwareMediaRequired,
 	"USER_INTERACTION_REQUIRED": WindowsUpdateInstallationRequirementsUserInteractionRequired,
@@ -70,8 +96,17 @@ var mappingWindowsUpdateInstallationRequirements = map[string]WindowsUpdateInsta
 // GetWindowsUpdateInstallationRequirementsEnumValues Enumerates the set of values for WindowsUpdateInstallationRequirementsEnum
 func GetWindowsUpdateInstallationRequirementsEnumValues() []WindowsUpdateInstallationRequirementsEnum {
 	values := make([]WindowsUpdateInstallationRequirementsEnum, 0)
-	for _, v := range mappingWindowsUpdateInstallationRequirements {
+	for _, v := range mappingWindowsUpdateInstallationRequirementsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWindowsUpdateInstallationRequirementsEnumStringValues Enumerates the set of values in String for WindowsUpdateInstallationRequirementsEnum
+func GetWindowsUpdateInstallationRequirementsEnumStringValues() []string {
+	return []string{
+		"EULA_ACCEPTANCE_REQUIRED",
+		"SOFTWARE_MEDIA_REQUIRED",
+		"USER_INTERACTION_REQUIRED",
+	}
 }

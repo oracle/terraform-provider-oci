@@ -11,7 +11,9 @@ package certificatesmanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateCertificateIssuedByInternalCaConfigDetails The details of the configuration for creating an internally managed certificate which is issued by a private certificate authority (CA).
@@ -47,6 +49,27 @@ func (m CreateCertificateIssuedByInternalCaConfigDetails) GetVersionName() *stri
 
 func (m CreateCertificateIssuedByInternalCaConfigDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateCertificateIssuedByInternalCaConfigDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCertificateProfileTypeEnum[string(m.CertificateProfileType)]; !ok && m.CertificateProfileType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CertificateProfileType: %s. Supported values are: %s.", m.CertificateProfileType, strings.Join(GetCertificateProfileTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingKeyAlgorithmEnum[string(m.KeyAlgorithm)]; !ok && m.KeyAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KeyAlgorithm: %s. Supported values are: %s.", m.KeyAlgorithm, strings.Join(GetKeyAlgorithmEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSignatureAlgorithmEnum[string(m.SignatureAlgorithm)]; !ok && m.SignatureAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SignatureAlgorithm: %s. Supported values are: %s.", m.SignatureAlgorithm, strings.Join(GetSignatureAlgorithmEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

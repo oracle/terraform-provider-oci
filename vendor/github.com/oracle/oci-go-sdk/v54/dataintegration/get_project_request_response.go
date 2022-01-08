@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetProjectRequest wrapper for the GetProject operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetProject.go.html to see an example of how to use GetProjectRequest.
 type GetProjectRequest struct {
 
 	// The workspace ID.
@@ -42,6 +40,10 @@ func (request GetProjectRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetProjectRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -55,6 +57,23 @@ func (request GetProjectRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetProjectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetProjectRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Projection {
+		if _, ok := mappingGetProjectProjectionEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Projection: %s. Supported values are: %s.", val, strings.Join(GetGetProjectProjectionEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetProjectResponse wrapper for the GetProject operation
@@ -91,15 +110,22 @@ const (
 	GetProjectProjectionChildCountStatistics GetProjectProjectionEnum = "CHILD_COUNT_STATISTICS"
 )
 
-var mappingGetProjectProjection = map[string]GetProjectProjectionEnum{
+var mappingGetProjectProjectionEnum = map[string]GetProjectProjectionEnum{
 	"CHILD_COUNT_STATISTICS": GetProjectProjectionChildCountStatistics,
 }
 
 // GetGetProjectProjectionEnumValues Enumerates the set of values for GetProjectProjectionEnum
 func GetGetProjectProjectionEnumValues() []GetProjectProjectionEnum {
 	values := make([]GetProjectProjectionEnum, 0)
-	for _, v := range mappingGetProjectProjection {
+	for _, v := range mappingGetProjectProjectionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetProjectProjectionEnumStringValues Enumerates the set of values in String for GetProjectProjectionEnum
+func GetGetProjectProjectionEnumStringValues() []string {
+	return []string{
+		"CHILD_COUNT_STATISTICS",
+	}
 }

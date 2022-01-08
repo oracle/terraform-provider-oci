@@ -12,7 +12,9 @@
 package aianomalydetection
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PerSignalDetails Detailed information like statistics, metrics and status for a signal
@@ -53,6 +55,21 @@ func (m PerSignalDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PerSignalDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPerSignalDetailsStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetPerSignalDetailsStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PerSignalDetailsStatusEnum Enum with underlying type: string
 type PerSignalDetailsStatusEnum string
 
@@ -63,7 +80,7 @@ const (
 	PerSignalDetailsStatusOther    PerSignalDetailsStatusEnum = "OTHER"
 )
 
-var mappingPerSignalDetailsStatus = map[string]PerSignalDetailsStatusEnum{
+var mappingPerSignalDetailsStatusEnum = map[string]PerSignalDetailsStatusEnum{
 	"ACCEPTED": PerSignalDetailsStatusAccepted,
 	"DROPPED":  PerSignalDetailsStatusDropped,
 	"OTHER":    PerSignalDetailsStatusOther,
@@ -72,8 +89,17 @@ var mappingPerSignalDetailsStatus = map[string]PerSignalDetailsStatusEnum{
 // GetPerSignalDetailsStatusEnumValues Enumerates the set of values for PerSignalDetailsStatusEnum
 func GetPerSignalDetailsStatusEnumValues() []PerSignalDetailsStatusEnum {
 	values := make([]PerSignalDetailsStatusEnum, 0)
-	for _, v := range mappingPerSignalDetailsStatus {
+	for _, v := range mappingPerSignalDetailsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPerSignalDetailsStatusEnumStringValues Enumerates the set of values in String for PerSignalDetailsStatusEnum
+func GetPerSignalDetailsStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"DROPPED",
+		"OTHER",
+	}
 }

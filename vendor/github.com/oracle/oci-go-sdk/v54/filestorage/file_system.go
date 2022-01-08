@@ -4,13 +4,16 @@
 
 // File Storage API
 //
-// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// Use the File Storage service API to manage file systems, mount targets, and snapshots.
+// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // FileSystem An NFS file system. To allow access to a file system, add it
@@ -22,7 +25,6 @@ import (
 // administrator. If you're an administrator who needs to write
 // policies to give users access, see Getting Started with
 // Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
-// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type FileSystem struct {
 
 	// The number of bytes consumed by the file system, including
@@ -73,21 +75,44 @@ type FileSystem struct {
 	SourceDetails *SourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// Specifies whether the file system has been cloned.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm).
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	IsCloneParent *bool `mandatory:"false" json:"isCloneParent"`
 
 	// Specifies whether the data has finished copying from the source to the clone.
 	// Hydration can take up to several hours to complete depending on the size of the source.
 	// The source and clone remain available during hydration, but there may be some performance impact.
-	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningafilesystem.htm#hydration).
+	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm#hydration).
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
 	// Additional information about the current 'lifecycleState'.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Specifies whether the file system can be used as a target file system for replication.
+	// For more information, see Using Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/using-replication.htm).
+	IsTargetable *bool `mandatory:"false" json:"isTargetable"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target associated with the file system.
+	// Empty if the file system is not being used as target in a replication.
+	ReplicationTargetId *string `mandatory:"false" json:"replicationTargetId"`
 }
 
 func (m FileSystem) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FileSystem) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFileSystemLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFileSystemLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // FileSystemLifecycleStateEnum Enum with underlying type: string
@@ -99,20 +124,33 @@ const (
 	FileSystemLifecycleStateActive   FileSystemLifecycleStateEnum = "ACTIVE"
 	FileSystemLifecycleStateDeleting FileSystemLifecycleStateEnum = "DELETING"
 	FileSystemLifecycleStateDeleted  FileSystemLifecycleStateEnum = "DELETED"
+	FileSystemLifecycleStateFailed   FileSystemLifecycleStateEnum = "FAILED"
 )
 
-var mappingFileSystemLifecycleState = map[string]FileSystemLifecycleStateEnum{
+var mappingFileSystemLifecycleStateEnum = map[string]FileSystemLifecycleStateEnum{
 	"CREATING": FileSystemLifecycleStateCreating,
 	"ACTIVE":   FileSystemLifecycleStateActive,
 	"DELETING": FileSystemLifecycleStateDeleting,
 	"DELETED":  FileSystemLifecycleStateDeleted,
+	"FAILED":   FileSystemLifecycleStateFailed,
 }
 
 // GetFileSystemLifecycleStateEnumValues Enumerates the set of values for FileSystemLifecycleStateEnum
 func GetFileSystemLifecycleStateEnumValues() []FileSystemLifecycleStateEnum {
 	values := make([]FileSystemLifecycleStateEnum, 0)
-	for _, v := range mappingFileSystemLifecycleState {
+	for _, v := range mappingFileSystemLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFileSystemLifecycleStateEnumStringValues Enumerates the set of values in String for FileSystemLifecycleStateEnum
+func GetFileSystemLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

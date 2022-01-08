@@ -4,20 +4,22 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// SearchListingsDetails The base model for a Search Listings details.
+// SearchListingsDetails A base request type that contains common criteria for Marketplace Search Listings details.
 type SearchListingsDetails interface {
 
-	// The type of matching context returned in the response.
+	// The type of matching context returned in the response. If you specify HIGHLIGHTS, then the service will highlight fragments in its response. The default value is NONE.
 	GetMatchingContextType() MatchingContextTypeEnumEnum
 }
 
@@ -73,4 +75,19 @@ func (m searchlistingsdetails) GetMatchingContextType() MatchingContextTypeEnumE
 
 func (m searchlistingsdetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m searchlistingsdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingMatchingContextTypeEnumEnum[string(m.MatchingContextType)]; !ok && m.MatchingContextType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchingContextType: %s. Supported values are: %s.", m.MatchingContextType, strings.Join(GetMatchingContextTypeEnumEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

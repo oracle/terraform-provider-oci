@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PutRepositoryRefDetails The information needed to create a reference. If the reference already exists, then it can be used to update the reference.
@@ -65,6 +67,18 @@ func (m putrepositoryrefdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m putrepositoryrefdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PutRepositoryRefDetailsRefTypeEnum Enum with underlying type: string
 type PutRepositoryRefDetailsRefTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	PutRepositoryRefDetailsRefTypeTag    PutRepositoryRefDetailsRefTypeEnum = "TAG"
 )
 
-var mappingPutRepositoryRefDetailsRefType = map[string]PutRepositoryRefDetailsRefTypeEnum{
+var mappingPutRepositoryRefDetailsRefTypeEnum = map[string]PutRepositoryRefDetailsRefTypeEnum{
 	"BRANCH": PutRepositoryRefDetailsRefTypeBranch,
 	"TAG":    PutRepositoryRefDetailsRefTypeTag,
 }
@@ -82,8 +96,16 @@ var mappingPutRepositoryRefDetailsRefType = map[string]PutRepositoryRefDetailsRe
 // GetPutRepositoryRefDetailsRefTypeEnumValues Enumerates the set of values for PutRepositoryRefDetailsRefTypeEnum
 func GetPutRepositoryRefDetailsRefTypeEnumValues() []PutRepositoryRefDetailsRefTypeEnum {
 	values := make([]PutRepositoryRefDetailsRefTypeEnum, 0)
-	for _, v := range mappingPutRepositoryRefDetailsRefType {
+	for _, v := range mappingPutRepositoryRefDetailsRefTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPutRepositoryRefDetailsRefTypeEnumStringValues Enumerates the set of values in String for PutRepositoryRefDetailsRefTypeEnum
+func GetPutRepositoryRefDetailsRefTypeEnumStringValues() []string {
+	return []string{
+		"BRANCH",
+		"TAG",
+	}
 }

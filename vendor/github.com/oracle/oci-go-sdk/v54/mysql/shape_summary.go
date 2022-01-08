@@ -10,7 +10,9 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ShapeSummary The shape of the DB System. The shape determines resources to allocate
@@ -36,6 +38,24 @@ func (m ShapeSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ShapeSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.IsSupportedFor {
+		if _, ok := mappingShapeSummaryIsSupportedForEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsSupportedFor: %s. Supported values are: %s.", val, strings.Join(GetShapeSummaryIsSupportedForEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ShapeSummaryIsSupportedForEnum Enum with underlying type: string
 type ShapeSummaryIsSupportedForEnum string
 
@@ -46,7 +66,7 @@ const (
 	ShapeSummaryIsSupportedForHeatwavecluster  ShapeSummaryIsSupportedForEnum = "HEATWAVECLUSTER"
 )
 
-var mappingShapeSummaryIsSupportedFor = map[string]ShapeSummaryIsSupportedForEnum{
+var mappingShapeSummaryIsSupportedForEnum = map[string]ShapeSummaryIsSupportedForEnum{
 	"DBSYSTEM":         ShapeSummaryIsSupportedForDbsystem,
 	"ANALYTICSCLUSTER": ShapeSummaryIsSupportedForAnalyticscluster,
 	"HEATWAVECLUSTER":  ShapeSummaryIsSupportedForHeatwavecluster,
@@ -55,8 +75,17 @@ var mappingShapeSummaryIsSupportedFor = map[string]ShapeSummaryIsSupportedForEnu
 // GetShapeSummaryIsSupportedForEnumValues Enumerates the set of values for ShapeSummaryIsSupportedForEnum
 func GetShapeSummaryIsSupportedForEnumValues() []ShapeSummaryIsSupportedForEnum {
 	values := make([]ShapeSummaryIsSupportedForEnum, 0)
-	for _, v := range mappingShapeSummaryIsSupportedFor {
+	for _, v := range mappingShapeSummaryIsSupportedForEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetShapeSummaryIsSupportedForEnumStringValues Enumerates the set of values in String for ShapeSummaryIsSupportedForEnum
+func GetShapeSummaryIsSupportedForEnumStringValues() []string {
+	return []string{
+		"DBSYSTEM",
+		"ANALYTICSCLUSTER",
+		"HEATWAVECLUSTER",
+	}
 }

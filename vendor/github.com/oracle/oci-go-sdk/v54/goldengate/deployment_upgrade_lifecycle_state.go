@@ -23,7 +23,7 @@ const (
 	DeploymentUpgradeLifecycleStateNeedsAttention DeploymentUpgradeLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
-var mappingDeploymentUpgradeLifecycleState = map[string]DeploymentUpgradeLifecycleStateEnum{
+var mappingDeploymentUpgradeLifecycleStateEnum = map[string]DeploymentUpgradeLifecycleStateEnum{
 	"WAITING":         DeploymentUpgradeLifecycleStateWaiting,
 	"IN_PROGRESS":     DeploymentUpgradeLifecycleStateInProgress,
 	"FAILED":          DeploymentUpgradeLifecycleStateFailed,
@@ -36,8 +36,21 @@ var mappingDeploymentUpgradeLifecycleState = map[string]DeploymentUpgradeLifecyc
 // GetDeploymentUpgradeLifecycleStateEnumValues Enumerates the set of values for DeploymentUpgradeLifecycleStateEnum
 func GetDeploymentUpgradeLifecycleStateEnumValues() []DeploymentUpgradeLifecycleStateEnum {
 	values := make([]DeploymentUpgradeLifecycleStateEnum, 0)
-	for _, v := range mappingDeploymentUpgradeLifecycleState {
+	for _, v := range mappingDeploymentUpgradeLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeploymentUpgradeLifecycleStateEnumStringValues Enumerates the set of values in String for DeploymentUpgradeLifecycleStateEnum
+func GetDeploymentUpgradeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"WAITING",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+		"NEEDS_ATTENTION",
+	}
 }

@@ -12,49 +12,66 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// SqlTuningAdvisorTaskSummary The summary for a SQL Tuning Advisor task.
+// SqlTuningAdvisorTaskSummary The summary of a SQL Tuning Advisor task.
 type SqlTuningAdvisorTaskSummary struct {
 
-	// Unique identifier of the task. It is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The unique identifier of the SQL Tuning Advisor task. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SqlTuningAdvisorTaskId *int64 `mandatory:"true" json:"sqlTuningAdvisorTaskId"`
 
-	// The instance id of the task. It is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The instance ID of the SQL Tuning Advisor task. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	InstanceId *int `mandatory:"false" json:"instanceId"`
 
-	// The name of the task.
+	// The name of the SQL Tuning Advisor task.
 	Name *string `mandatory:"false" json:"name"`
 
-	// The description of the task.
+	// The description of the SQL Tuning Advisor task.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The owner of the task.
+	// The owner of the SQL Tuning Advisor task.
 	Owner *string `mandatory:"false" json:"owner"`
 
-	// Creation date of the task.
+	// The Creation date of the SQL Tuning Advisor task.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The status of the task.
+	// The status of the SQL Tuning Advisor task.
 	TaskStatus SqlTuningTaskStatusTypesEnum `mandatory:"false" json:"taskStatus,omitempty"`
 
-	// Days to expire the task. If the value equals -1 then the task has no expiration time (UNLIMITED).
+	// The number of days left before the task expires. If the value equals -1, then the task has no expiration time (UNLIMITED).
 	DaysToExpire *int `mandatory:"false" json:"daysToExpire"`
 
-	// Start timestamp of task execution.
+	// The start time of the task execution.
 	TimeExecutionStarted *common.SDKTime `mandatory:"false" json:"timeExecutionStarted"`
 
-	// End timestamp of task execution.
+	// The end time of the task execution.
 	TimeExecutionEnded *common.SDKTime `mandatory:"false" json:"timeExecutionEnded"`
 
-	// The total number of SQL statements related to the SQL tuning advisor task.
+	// The total number of SQL statements related to the SQL Tuning Advisor task.
 	TotalSqlStatements *int `mandatory:"false" json:"totalSqlStatements"`
 
-	// Number of recommendations produced.
+	// The number of recommendations provided for the SQL Tuning Advisor task.
 	RecommendationCount *int `mandatory:"false" json:"recommendationCount"`
 }
 
 func (m SqlTuningAdvisorTaskSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningAdvisorTaskSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSqlTuningTaskStatusTypesEnum[string(m.TaskStatus)]; !ok && m.TaskStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskStatus: %s. Supported values are: %s.", m.TaskStatus, strings.Join(GetSqlTuningTaskStatusTypesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

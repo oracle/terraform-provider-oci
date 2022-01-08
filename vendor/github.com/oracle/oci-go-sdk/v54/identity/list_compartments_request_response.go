@@ -5,15 +5,13 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListCompartmentsRequest wrapper for the ListCompartments operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListCompartments.go.html to see an example of how to use ListCompartmentsRequest.
 type ListCompartmentsRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
@@ -39,6 +37,9 @@ type ListCompartmentsRequest struct {
 	// and all compartments and subcompartments in the tenancy are
 	// returned depending on the the setting of `accessLevel`.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// This parameter is required to retrieve securityZoneId associated with the compartment.
+	VerboseLevel ListCompartmentsVerboseLevelEnum `mandatory:"false" contributesTo:"query" name:"verboseLevel" omitEmpty:"true"`
 
 	// A filter to only return resources that match the given name exactly.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
@@ -75,6 +76,10 @@ func (request ListCompartmentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListCompartmentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -88,6 +93,32 @@ func (request ListCompartmentsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListCompartmentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListCompartmentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListCompartmentsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListCompartmentsAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCompartmentsVerboseLevelEnum[string(request.VerboseLevel)]; !ok && request.VerboseLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VerboseLevel: %s. Supported values are: %s.", request.VerboseLevel, strings.Join(GetListCompartmentsVerboseLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCompartmentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCompartmentsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCompartmentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCompartmentsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCompartmentLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetCompartmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListCompartmentsResponse wrapper for the ListCompartments operation
@@ -127,7 +158,7 @@ const (
 	ListCompartmentsAccessLevelAccessible ListCompartmentsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListCompartmentsAccessLevel = map[string]ListCompartmentsAccessLevelEnum{
+var mappingListCompartmentsAccessLevelEnum = map[string]ListCompartmentsAccessLevelEnum{
 	"ANY":        ListCompartmentsAccessLevelAny,
 	"ACCESSIBLE": ListCompartmentsAccessLevelAccessible,
 }
@@ -135,10 +166,46 @@ var mappingListCompartmentsAccessLevel = map[string]ListCompartmentsAccessLevelE
 // GetListCompartmentsAccessLevelEnumValues Enumerates the set of values for ListCompartmentsAccessLevelEnum
 func GetListCompartmentsAccessLevelEnumValues() []ListCompartmentsAccessLevelEnum {
 	values := make([]ListCompartmentsAccessLevelEnum, 0)
-	for _, v := range mappingListCompartmentsAccessLevel {
+	for _, v := range mappingListCompartmentsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCompartmentsAccessLevelEnumStringValues Enumerates the set of values in String for ListCompartmentsAccessLevelEnum
+func GetListCompartmentsAccessLevelEnumStringValues() []string {
+	return []string{
+		"ANY",
+		"ACCESSIBLE",
+	}
+}
+
+// ListCompartmentsVerboseLevelEnum Enum with underlying type: string
+type ListCompartmentsVerboseLevelEnum string
+
+// Set of constants representing the allowable values for ListCompartmentsVerboseLevelEnum
+const (
+	ListCompartmentsVerboseLevelSecurityzone ListCompartmentsVerboseLevelEnum = "securityZone"
+)
+
+var mappingListCompartmentsVerboseLevelEnum = map[string]ListCompartmentsVerboseLevelEnum{
+	"securityZone": ListCompartmentsVerboseLevelSecurityzone,
+}
+
+// GetListCompartmentsVerboseLevelEnumValues Enumerates the set of values for ListCompartmentsVerboseLevelEnum
+func GetListCompartmentsVerboseLevelEnumValues() []ListCompartmentsVerboseLevelEnum {
+	values := make([]ListCompartmentsVerboseLevelEnum, 0)
+	for _, v := range mappingListCompartmentsVerboseLevelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListCompartmentsVerboseLevelEnumStringValues Enumerates the set of values in String for ListCompartmentsVerboseLevelEnum
+func GetListCompartmentsVerboseLevelEnumStringValues() []string {
+	return []string{
+		"securityZone",
+	}
 }
 
 // ListCompartmentsSortByEnum Enum with underlying type: string
@@ -150,7 +217,7 @@ const (
 	ListCompartmentsSortByName        ListCompartmentsSortByEnum = "NAME"
 )
 
-var mappingListCompartmentsSortBy = map[string]ListCompartmentsSortByEnum{
+var mappingListCompartmentsSortByEnum = map[string]ListCompartmentsSortByEnum{
 	"TIMECREATED": ListCompartmentsSortByTimecreated,
 	"NAME":        ListCompartmentsSortByName,
 }
@@ -158,10 +225,18 @@ var mappingListCompartmentsSortBy = map[string]ListCompartmentsSortByEnum{
 // GetListCompartmentsSortByEnumValues Enumerates the set of values for ListCompartmentsSortByEnum
 func GetListCompartmentsSortByEnumValues() []ListCompartmentsSortByEnum {
 	values := make([]ListCompartmentsSortByEnum, 0)
-	for _, v := range mappingListCompartmentsSortBy {
+	for _, v := range mappingListCompartmentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCompartmentsSortByEnumStringValues Enumerates the set of values in String for ListCompartmentsSortByEnum
+func GetListCompartmentsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListCompartmentsSortOrderEnum Enum with underlying type: string
@@ -173,7 +248,7 @@ const (
 	ListCompartmentsSortOrderDesc ListCompartmentsSortOrderEnum = "DESC"
 )
 
-var mappingListCompartmentsSortOrder = map[string]ListCompartmentsSortOrderEnum{
+var mappingListCompartmentsSortOrderEnum = map[string]ListCompartmentsSortOrderEnum{
 	"ASC":  ListCompartmentsSortOrderAsc,
 	"DESC": ListCompartmentsSortOrderDesc,
 }
@@ -181,8 +256,16 @@ var mappingListCompartmentsSortOrder = map[string]ListCompartmentsSortOrderEnum{
 // GetListCompartmentsSortOrderEnumValues Enumerates the set of values for ListCompartmentsSortOrderEnum
 func GetListCompartmentsSortOrderEnumValues() []ListCompartmentsSortOrderEnum {
 	values := make([]ListCompartmentsSortOrderEnum, 0)
-	for _, v := range mappingListCompartmentsSortOrder {
+	for _, v := range mappingListCompartmentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCompartmentsSortOrderEnumStringValues Enumerates the set of values in String for ListCompartmentsSortOrderEnum
+func GetListCompartmentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TypedNamePatternRule The typed name rule for field projection.
@@ -103,6 +105,24 @@ func (m TypedNamePatternRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TypedNamePatternRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTypedNamePatternRuleMatchingStrategyEnum[string(m.MatchingStrategy)]; !ok && m.MatchingStrategy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchingStrategy: %s. Supported values are: %s.", m.MatchingStrategy, strings.Join(GetTypedNamePatternRuleMatchingStrategyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTypedNamePatternRuleRuleTypeEnum[string(m.RuleType)]; !ok && m.RuleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuleType: %s. Supported values are: %s.", m.RuleType, strings.Join(GetTypedNamePatternRuleRuleTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m TypedNamePatternRule) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeTypedNamePatternRule TypedNamePatternRule
@@ -127,7 +147,7 @@ const (
 	TypedNamePatternRuleMatchingStrategyNameOnly   TypedNamePatternRuleMatchingStrategyEnum = "NAME_ONLY"
 )
 
-var mappingTypedNamePatternRuleMatchingStrategy = map[string]TypedNamePatternRuleMatchingStrategyEnum{
+var mappingTypedNamePatternRuleMatchingStrategyEnum = map[string]TypedNamePatternRuleMatchingStrategyEnum{
 	"NAME_OR_TAGS": TypedNamePatternRuleMatchingStrategyNameOrTags,
 	"TAGS_ONLY":    TypedNamePatternRuleMatchingStrategyTagsOnly,
 	"NAME_ONLY":    TypedNamePatternRuleMatchingStrategyNameOnly,
@@ -136,10 +156,19 @@ var mappingTypedNamePatternRuleMatchingStrategy = map[string]TypedNamePatternRul
 // GetTypedNamePatternRuleMatchingStrategyEnumValues Enumerates the set of values for TypedNamePatternRuleMatchingStrategyEnum
 func GetTypedNamePatternRuleMatchingStrategyEnumValues() []TypedNamePatternRuleMatchingStrategyEnum {
 	values := make([]TypedNamePatternRuleMatchingStrategyEnum, 0)
-	for _, v := range mappingTypedNamePatternRuleMatchingStrategy {
+	for _, v := range mappingTypedNamePatternRuleMatchingStrategyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTypedNamePatternRuleMatchingStrategyEnumStringValues Enumerates the set of values in String for TypedNamePatternRuleMatchingStrategyEnum
+func GetTypedNamePatternRuleMatchingStrategyEnumStringValues() []string {
+	return []string{
+		"NAME_OR_TAGS",
+		"TAGS_ONLY",
+		"NAME_ONLY",
+	}
 }
 
 // TypedNamePatternRuleRuleTypeEnum Enum with underlying type: string
@@ -151,7 +180,7 @@ const (
 	TypedNamePatternRuleRuleTypeExclude TypedNamePatternRuleRuleTypeEnum = "EXCLUDE"
 )
 
-var mappingTypedNamePatternRuleRuleType = map[string]TypedNamePatternRuleRuleTypeEnum{
+var mappingTypedNamePatternRuleRuleTypeEnum = map[string]TypedNamePatternRuleRuleTypeEnum{
 	"INCLUDE": TypedNamePatternRuleRuleTypeInclude,
 	"EXCLUDE": TypedNamePatternRuleRuleTypeExclude,
 }
@@ -159,8 +188,16 @@ var mappingTypedNamePatternRuleRuleType = map[string]TypedNamePatternRuleRuleTyp
 // GetTypedNamePatternRuleRuleTypeEnumValues Enumerates the set of values for TypedNamePatternRuleRuleTypeEnum
 func GetTypedNamePatternRuleRuleTypeEnumValues() []TypedNamePatternRuleRuleTypeEnum {
 	values := make([]TypedNamePatternRuleRuleTypeEnum, 0)
-	for _, v := range mappingTypedNamePatternRuleRuleType {
+	for _, v := range mappingTypedNamePatternRuleRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTypedNamePatternRuleRuleTypeEnumStringValues Enumerates the set of values in String for TypedNamePatternRuleRuleTypeEnum
+func GetTypedNamePatternRuleRuleTypeEnumStringValues() []string {
+	return []string{
+		"INCLUDE",
+		"EXCLUDE",
+	}
 }

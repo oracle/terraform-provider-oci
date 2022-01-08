@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AbstractDataOperationConfig The information about the data operation.
@@ -65,6 +67,18 @@ func (m abstractdataoperationconfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m abstractdataoperationconfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AbstractDataOperationConfigModelTypeEnum Enum with underlying type: string
 type AbstractDataOperationConfigModelTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	AbstractDataOperationConfigModelTypeWriteOperationConfig AbstractDataOperationConfigModelTypeEnum = "WRITE_OPERATION_CONFIG"
 )
 
-var mappingAbstractDataOperationConfigModelType = map[string]AbstractDataOperationConfigModelTypeEnum{
+var mappingAbstractDataOperationConfigModelTypeEnum = map[string]AbstractDataOperationConfigModelTypeEnum{
 	"READ_OPERATION_CONFIG":  AbstractDataOperationConfigModelTypeReadOperationConfig,
 	"WRITE_OPERATION_CONFIG": AbstractDataOperationConfigModelTypeWriteOperationConfig,
 }
@@ -82,8 +96,16 @@ var mappingAbstractDataOperationConfigModelType = map[string]AbstractDataOperati
 // GetAbstractDataOperationConfigModelTypeEnumValues Enumerates the set of values for AbstractDataOperationConfigModelTypeEnum
 func GetAbstractDataOperationConfigModelTypeEnumValues() []AbstractDataOperationConfigModelTypeEnum {
 	values := make([]AbstractDataOperationConfigModelTypeEnum, 0)
-	for _, v := range mappingAbstractDataOperationConfigModelType {
+	for _, v := range mappingAbstractDataOperationConfigModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAbstractDataOperationConfigModelTypeEnumStringValues Enumerates the set of values in String for AbstractDataOperationConfigModelTypeEnum
+func GetAbstractDataOperationConfigModelTypeEnumStringValues() []string {
+	return []string{
+		"READ_OPERATION_CONFIG",
+		"WRITE_OPERATION_CONFIG",
+	}
 }

@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // KeyStoreTypeDetails Key store type details.
@@ -61,6 +63,18 @@ func (m keystoretypedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m keystoretypedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // KeyStoreTypeDetailsTypeEnum Enum with underlying type: string
 type KeyStoreTypeDetailsTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	KeyStoreTypeDetailsTypeOracleKeyVault KeyStoreTypeDetailsTypeEnum = "ORACLE_KEY_VAULT"
 )
 
-var mappingKeyStoreTypeDetailsType = map[string]KeyStoreTypeDetailsTypeEnum{
+var mappingKeyStoreTypeDetailsTypeEnum = map[string]KeyStoreTypeDetailsTypeEnum{
 	"ORACLE_KEY_VAULT": KeyStoreTypeDetailsTypeOracleKeyVault,
 }
 
 // GetKeyStoreTypeDetailsTypeEnumValues Enumerates the set of values for KeyStoreTypeDetailsTypeEnum
 func GetKeyStoreTypeDetailsTypeEnumValues() []KeyStoreTypeDetailsTypeEnum {
 	values := make([]KeyStoreTypeDetailsTypeEnum, 0)
-	for _, v := range mappingKeyStoreTypeDetailsType {
+	for _, v := range mappingKeyStoreTypeDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyStoreTypeDetailsTypeEnumStringValues Enumerates the set of values in String for KeyStoreTypeDetailsTypeEnum
+func GetKeyStoreTypeDetailsTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_KEY_VAULT",
+	}
 }

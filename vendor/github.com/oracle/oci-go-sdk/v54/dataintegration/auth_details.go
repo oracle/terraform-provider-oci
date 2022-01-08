@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AuthDetails Authentication type to be used for Generic REST invocation.
@@ -32,6 +34,21 @@ func (m AuthDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AuthDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAuthDetailsModelTypeEnum[string(m.ModelType)]; !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetAuthDetailsModelTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AuthDetailsModelTypeEnum Enum with underlying type: string
 type AuthDetailsModelTypeEnum string
 
@@ -41,7 +58,7 @@ const (
 	AuthDetailsModelTypeResourcePrincipalAuthDetails AuthDetailsModelTypeEnum = "RESOURCE_PRINCIPAL_AUTH_DETAILS"
 )
 
-var mappingAuthDetailsModelType = map[string]AuthDetailsModelTypeEnum{
+var mappingAuthDetailsModelTypeEnum = map[string]AuthDetailsModelTypeEnum{
 	"NO_AUTH_DETAILS":                 AuthDetailsModelTypeNoAuthDetails,
 	"RESOURCE_PRINCIPAL_AUTH_DETAILS": AuthDetailsModelTypeResourcePrincipalAuthDetails,
 }
@@ -49,8 +66,16 @@ var mappingAuthDetailsModelType = map[string]AuthDetailsModelTypeEnum{
 // GetAuthDetailsModelTypeEnumValues Enumerates the set of values for AuthDetailsModelTypeEnum
 func GetAuthDetailsModelTypeEnumValues() []AuthDetailsModelTypeEnum {
 	values := make([]AuthDetailsModelTypeEnum, 0)
-	for _, v := range mappingAuthDetailsModelType {
+	for _, v := range mappingAuthDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAuthDetailsModelTypeEnumStringValues Enumerates the set of values in String for AuthDetailsModelTypeEnum
+func GetAuthDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"NO_AUTH_DETAILS",
+		"RESOURCE_PRINCIPAL_AUTH_DETAILS",
+	}
 }

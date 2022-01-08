@@ -5,15 +5,13 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListResolversRequest wrapper for the ListResolvers operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListResolvers.go.html to see an example of how to use ListResolversRequest.
 type ListResolversRequest struct {
 
 	// The OCID of the compartment the resource belongs to.
@@ -60,6 +58,10 @@ func (request ListResolversRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListResolversRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,29 @@ func (request ListResolversRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListResolversRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListResolversRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListResolversSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListResolversSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResolversSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListResolversSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingResolverSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetResolverSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResolversScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListResolversScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListResolversResponse wrapper for the ListResolvers operation
@@ -112,7 +137,7 @@ const (
 	ListResolversSortOrderDesc ListResolversSortOrderEnum = "DESC"
 )
 
-var mappingListResolversSortOrder = map[string]ListResolversSortOrderEnum{
+var mappingListResolversSortOrderEnum = map[string]ListResolversSortOrderEnum{
 	"ASC":  ListResolversSortOrderAsc,
 	"DESC": ListResolversSortOrderDesc,
 }
@@ -120,10 +145,18 @@ var mappingListResolversSortOrder = map[string]ListResolversSortOrderEnum{
 // GetListResolversSortOrderEnumValues Enumerates the set of values for ListResolversSortOrderEnum
 func GetListResolversSortOrderEnumValues() []ListResolversSortOrderEnum {
 	values := make([]ListResolversSortOrderEnum, 0)
-	for _, v := range mappingListResolversSortOrder {
+	for _, v := range mappingListResolversSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResolversSortOrderEnumStringValues Enumerates the set of values in String for ListResolversSortOrderEnum
+func GetListResolversSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListResolversSortByEnum Enum with underlying type: string
@@ -135,7 +168,7 @@ const (
 	ListResolversSortByTimecreated ListResolversSortByEnum = "timeCreated"
 )
 
-var mappingListResolversSortBy = map[string]ListResolversSortByEnum{
+var mappingListResolversSortByEnum = map[string]ListResolversSortByEnum{
 	"displayName": ListResolversSortByDisplayname,
 	"timeCreated": ListResolversSortByTimecreated,
 }
@@ -143,10 +176,18 @@ var mappingListResolversSortBy = map[string]ListResolversSortByEnum{
 // GetListResolversSortByEnumValues Enumerates the set of values for ListResolversSortByEnum
 func GetListResolversSortByEnumValues() []ListResolversSortByEnum {
 	values := make([]ListResolversSortByEnum, 0)
-	for _, v := range mappingListResolversSortBy {
+	for _, v := range mappingListResolversSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResolversSortByEnumStringValues Enumerates the set of values in String for ListResolversSortByEnum
+func GetListResolversSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"timeCreated",
+	}
 }
 
 // ListResolversScopeEnum Enum with underlying type: string
@@ -158,7 +199,7 @@ const (
 	ListResolversScopePrivate ListResolversScopeEnum = "PRIVATE"
 )
 
-var mappingListResolversScope = map[string]ListResolversScopeEnum{
+var mappingListResolversScopeEnum = map[string]ListResolversScopeEnum{
 	"GLOBAL":  ListResolversScopeGlobal,
 	"PRIVATE": ListResolversScopePrivate,
 }
@@ -166,8 +207,16 @@ var mappingListResolversScope = map[string]ListResolversScopeEnum{
 // GetListResolversScopeEnumValues Enumerates the set of values for ListResolversScopeEnum
 func GetListResolversScopeEnumValues() []ListResolversScopeEnum {
 	values := make([]ListResolversScopeEnum, 0)
-	for _, v := range mappingListResolversScope {
+	for _, v := range mappingListResolversScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResolversScopeEnumStringValues Enumerates the set of values in String for ListResolversScopeEnum
+func GetListResolversScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

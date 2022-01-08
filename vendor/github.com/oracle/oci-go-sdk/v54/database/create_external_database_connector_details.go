@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateExternalDatabaseConnectorDetails Details for creating an external database connector resource.
@@ -106,6 +108,18 @@ func (m createexternaldatabaseconnectordetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createexternaldatabaseconnectordetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateExternalDatabaseConnectorDetailsConnectorTypeEnum Enum with underlying type: string
 type CreateExternalDatabaseConnectorDetailsConnectorTypeEnum string
 
@@ -114,15 +128,22 @@ const (
 	CreateExternalDatabaseConnectorDetailsConnectorTypeMacs CreateExternalDatabaseConnectorDetailsConnectorTypeEnum = "MACS"
 )
 
-var mappingCreateExternalDatabaseConnectorDetailsConnectorType = map[string]CreateExternalDatabaseConnectorDetailsConnectorTypeEnum{
+var mappingCreateExternalDatabaseConnectorDetailsConnectorTypeEnum = map[string]CreateExternalDatabaseConnectorDetailsConnectorTypeEnum{
 	"MACS": CreateExternalDatabaseConnectorDetailsConnectorTypeMacs,
 }
 
 // GetCreateExternalDatabaseConnectorDetailsConnectorTypeEnumValues Enumerates the set of values for CreateExternalDatabaseConnectorDetailsConnectorTypeEnum
 func GetCreateExternalDatabaseConnectorDetailsConnectorTypeEnumValues() []CreateExternalDatabaseConnectorDetailsConnectorTypeEnum {
 	values := make([]CreateExternalDatabaseConnectorDetailsConnectorTypeEnum, 0)
-	for _, v := range mappingCreateExternalDatabaseConnectorDetailsConnectorType {
+	for _, v := range mappingCreateExternalDatabaseConnectorDetailsConnectorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateExternalDatabaseConnectorDetailsConnectorTypeEnumStringValues Enumerates the set of values in String for CreateExternalDatabaseConnectorDetailsConnectorTypeEnum
+func GetCreateExternalDatabaseConnectorDetailsConnectorTypeEnumStringValues() []string {
+	return []string{
+		"MACS",
+	}
 }

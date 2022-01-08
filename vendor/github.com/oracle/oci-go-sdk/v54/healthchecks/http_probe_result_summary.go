@@ -12,7 +12,9 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // HttpProbeResultSummary The results returned by running an HTTP probe.  All times and durations are
@@ -120,6 +122,24 @@ func (m HttpProbeResultSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m HttpProbeResultSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingHttpProbeResultSummaryErrorCategoryEnum[string(m.ErrorCategory)]; !ok && m.ErrorCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ErrorCategory: %s. Supported values are: %s.", m.ErrorCategory, strings.Join(GetHttpProbeResultSummaryErrorCategoryEnumStringValues(), ",")))
+	}
+	if _, ok := mappingHttpProbeProtocolEnum[string(m.Protocol)]; !ok && m.Protocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetHttpProbeProtocolEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HttpProbeResultSummaryErrorCategoryEnum Enum with underlying type: string
 type HttpProbeResultSummaryErrorCategoryEnum string
 
@@ -132,7 +152,7 @@ const (
 	HttpProbeResultSummaryErrorCategorySystem    HttpProbeResultSummaryErrorCategoryEnum = "SYSTEM"
 )
 
-var mappingHttpProbeResultSummaryErrorCategory = map[string]HttpProbeResultSummaryErrorCategoryEnum{
+var mappingHttpProbeResultSummaryErrorCategoryEnum = map[string]HttpProbeResultSummaryErrorCategoryEnum{
 	"NONE":      HttpProbeResultSummaryErrorCategoryNone,
 	"DNS":       HttpProbeResultSummaryErrorCategoryDns,
 	"TRANSPORT": HttpProbeResultSummaryErrorCategoryTransport,
@@ -143,10 +163,21 @@ var mappingHttpProbeResultSummaryErrorCategory = map[string]HttpProbeResultSumma
 // GetHttpProbeResultSummaryErrorCategoryEnumValues Enumerates the set of values for HttpProbeResultSummaryErrorCategoryEnum
 func GetHttpProbeResultSummaryErrorCategoryEnumValues() []HttpProbeResultSummaryErrorCategoryEnum {
 	values := make([]HttpProbeResultSummaryErrorCategoryEnum, 0)
-	for _, v := range mappingHttpProbeResultSummaryErrorCategory {
+	for _, v := range mappingHttpProbeResultSummaryErrorCategoryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHttpProbeResultSummaryErrorCategoryEnumStringValues Enumerates the set of values in String for HttpProbeResultSummaryErrorCategoryEnum
+func GetHttpProbeResultSummaryErrorCategoryEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"DNS",
+		"TRANSPORT",
+		"NETWORK",
+		"SYSTEM",
+	}
 }
 
 // HttpProbeResultSummaryProtocolEnum is an alias to type: HttpProbeProtocolEnum

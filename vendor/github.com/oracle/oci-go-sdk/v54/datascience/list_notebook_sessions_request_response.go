@@ -5,15 +5,13 @@
 package datascience
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListNotebookSessionsRequest wrapper for the ListNotebookSessions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListNotebookSessions.go.html to see an example of how to use ListNotebookSessionsRequest.
 type ListNotebookSessionsRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -71,6 +69,10 @@ func (request ListNotebookSessionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListNotebookSessionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -84,6 +86,26 @@ func (request ListNotebookSessionsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListNotebookSessionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListNotebookSessionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListNotebookSessionsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListNotebookSessionsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNotebookSessionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNotebookSessionsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNotebookSessionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNotebookSessionsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListNotebookSessionsResponse wrapper for the ListNotebookSessions operation
@@ -129,7 +151,7 @@ const (
 	ListNotebookSessionsLifecycleStateUpdating ListNotebookSessionsLifecycleStateEnum = "UPDATING"
 )
 
-var mappingListNotebookSessionsLifecycleState = map[string]ListNotebookSessionsLifecycleStateEnum{
+var mappingListNotebookSessionsLifecycleStateEnum = map[string]ListNotebookSessionsLifecycleStateEnum{
 	"CREATING": ListNotebookSessionsLifecycleStateCreating,
 	"ACTIVE":   ListNotebookSessionsLifecycleStateActive,
 	"DELETING": ListNotebookSessionsLifecycleStateDeleting,
@@ -142,10 +164,23 @@ var mappingListNotebookSessionsLifecycleState = map[string]ListNotebookSessionsL
 // GetListNotebookSessionsLifecycleStateEnumValues Enumerates the set of values for ListNotebookSessionsLifecycleStateEnum
 func GetListNotebookSessionsLifecycleStateEnumValues() []ListNotebookSessionsLifecycleStateEnum {
 	values := make([]ListNotebookSessionsLifecycleStateEnum, 0)
-	for _, v := range mappingListNotebookSessionsLifecycleState {
+	for _, v := range mappingListNotebookSessionsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNotebookSessionsLifecycleStateEnumStringValues Enumerates the set of values in String for ListNotebookSessionsLifecycleStateEnum
+func GetListNotebookSessionsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"INACTIVE",
+		"UPDATING",
+	}
 }
 
 // ListNotebookSessionsSortOrderEnum Enum with underlying type: string
@@ -157,7 +192,7 @@ const (
 	ListNotebookSessionsSortOrderDesc ListNotebookSessionsSortOrderEnum = "DESC"
 )
 
-var mappingListNotebookSessionsSortOrder = map[string]ListNotebookSessionsSortOrderEnum{
+var mappingListNotebookSessionsSortOrderEnum = map[string]ListNotebookSessionsSortOrderEnum{
 	"ASC":  ListNotebookSessionsSortOrderAsc,
 	"DESC": ListNotebookSessionsSortOrderDesc,
 }
@@ -165,10 +200,18 @@ var mappingListNotebookSessionsSortOrder = map[string]ListNotebookSessionsSortOr
 // GetListNotebookSessionsSortOrderEnumValues Enumerates the set of values for ListNotebookSessionsSortOrderEnum
 func GetListNotebookSessionsSortOrderEnumValues() []ListNotebookSessionsSortOrderEnum {
 	values := make([]ListNotebookSessionsSortOrderEnum, 0)
-	for _, v := range mappingListNotebookSessionsSortOrder {
+	for _, v := range mappingListNotebookSessionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNotebookSessionsSortOrderEnumStringValues Enumerates the set of values in String for ListNotebookSessionsSortOrderEnum
+func GetListNotebookSessionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListNotebookSessionsSortByEnum Enum with underlying type: string
@@ -180,7 +223,7 @@ const (
 	ListNotebookSessionsSortByDisplayname ListNotebookSessionsSortByEnum = "displayName"
 )
 
-var mappingListNotebookSessionsSortBy = map[string]ListNotebookSessionsSortByEnum{
+var mappingListNotebookSessionsSortByEnum = map[string]ListNotebookSessionsSortByEnum{
 	"timeCreated": ListNotebookSessionsSortByTimecreated,
 	"displayName": ListNotebookSessionsSortByDisplayname,
 }
@@ -188,8 +231,16 @@ var mappingListNotebookSessionsSortBy = map[string]ListNotebookSessionsSortByEnu
 // GetListNotebookSessionsSortByEnumValues Enumerates the set of values for ListNotebookSessionsSortByEnum
 func GetListNotebookSessionsSortByEnumValues() []ListNotebookSessionsSortByEnum {
 	values := make([]ListNotebookSessionsSortByEnum, 0)
-	for _, v := range mappingListNotebookSessionsSortBy {
+	for _, v := range mappingListNotebookSessionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNotebookSessionsSortByEnumStringValues Enumerates the set of values in String for ListNotebookSessionsSortByEnum
+func GetListNotebookSessionsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListConfigWorkRequestsRequest wrapper for the ListConfigWorkRequests operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListConfigWorkRequests.go.html to see an example of how to use ListConfigWorkRequestsRequest.
 type ListConfigWorkRequestsRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -50,6 +48,10 @@ func (request ListConfigWorkRequestsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListConfigWorkRequestsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +65,23 @@ func (request ListConfigWorkRequestsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListConfigWorkRequestsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListConfigWorkRequestsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListConfigWorkRequestsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConfigWorkRequestsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListConfigWorkRequestsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListConfigWorkRequestsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListConfigWorkRequestsResponse wrapper for the ListConfigWorkRequests operation
@@ -106,7 +125,7 @@ const (
 	ListConfigWorkRequestsSortOrderDesc ListConfigWorkRequestsSortOrderEnum = "DESC"
 )
 
-var mappingListConfigWorkRequestsSortOrder = map[string]ListConfigWorkRequestsSortOrderEnum{
+var mappingListConfigWorkRequestsSortOrderEnum = map[string]ListConfigWorkRequestsSortOrderEnum{
 	"ASC":  ListConfigWorkRequestsSortOrderAsc,
 	"DESC": ListConfigWorkRequestsSortOrderDesc,
 }
@@ -114,10 +133,18 @@ var mappingListConfigWorkRequestsSortOrder = map[string]ListConfigWorkRequestsSo
 // GetListConfigWorkRequestsSortOrderEnumValues Enumerates the set of values for ListConfigWorkRequestsSortOrderEnum
 func GetListConfigWorkRequestsSortOrderEnumValues() []ListConfigWorkRequestsSortOrderEnum {
 	values := make([]ListConfigWorkRequestsSortOrderEnum, 0)
-	for _, v := range mappingListConfigWorkRequestsSortOrder {
+	for _, v := range mappingListConfigWorkRequestsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConfigWorkRequestsSortOrderEnumStringValues Enumerates the set of values in String for ListConfigWorkRequestsSortOrderEnum
+func GetListConfigWorkRequestsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListConfigWorkRequestsSortByEnum Enum with underlying type: string
@@ -128,15 +155,22 @@ const (
 	ListConfigWorkRequestsSortByTimeaccepted ListConfigWorkRequestsSortByEnum = "timeAccepted"
 )
 
-var mappingListConfigWorkRequestsSortBy = map[string]ListConfigWorkRequestsSortByEnum{
+var mappingListConfigWorkRequestsSortByEnum = map[string]ListConfigWorkRequestsSortByEnum{
 	"timeAccepted": ListConfigWorkRequestsSortByTimeaccepted,
 }
 
 // GetListConfigWorkRequestsSortByEnumValues Enumerates the set of values for ListConfigWorkRequestsSortByEnum
 func GetListConfigWorkRequestsSortByEnumValues() []ListConfigWorkRequestsSortByEnum {
 	values := make([]ListConfigWorkRequestsSortByEnum, 0)
-	for _, v := range mappingListConfigWorkRequestsSortBy {
+	for _, v := range mappingListConfigWorkRequestsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConfigWorkRequestsSortByEnumStringValues Enumerates the set of values in String for ListConfigWorkRequestsSortByEnum
+func GetListConfigWorkRequestsSortByEnumStringValues() []string {
+	return []string{
+		"timeAccepted",
+	}
 }

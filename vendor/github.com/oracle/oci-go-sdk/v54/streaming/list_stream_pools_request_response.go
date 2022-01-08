@@ -5,15 +5,13 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListStreamPoolsRequest wrapper for the ListStreamPools operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ListStreamPools.go.html to see an example of how to use ListStreamPoolsRequest.
 type ListStreamPoolsRequest struct {
 
 	// The OCID of the compartment.
@@ -56,6 +54,10 @@ func (request ListStreamPoolsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListStreamPoolsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,26 @@ func (request ListStreamPoolsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListStreamPoolsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListStreamPoolsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListStreamPoolsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListStreamPoolsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListStreamPoolsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListStreamPoolsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingStreamPoolSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetStreamPoolSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListStreamPoolsResponse wrapper for the ListStreamPools operation
@@ -109,7 +131,7 @@ const (
 	ListStreamPoolsSortByTimecreated ListStreamPoolsSortByEnum = "TIMECREATED"
 )
 
-var mappingListStreamPoolsSortBy = map[string]ListStreamPoolsSortByEnum{
+var mappingListStreamPoolsSortByEnum = map[string]ListStreamPoolsSortByEnum{
 	"NAME":        ListStreamPoolsSortByName,
 	"TIMECREATED": ListStreamPoolsSortByTimecreated,
 }
@@ -117,10 +139,18 @@ var mappingListStreamPoolsSortBy = map[string]ListStreamPoolsSortByEnum{
 // GetListStreamPoolsSortByEnumValues Enumerates the set of values for ListStreamPoolsSortByEnum
 func GetListStreamPoolsSortByEnumValues() []ListStreamPoolsSortByEnum {
 	values := make([]ListStreamPoolsSortByEnum, 0)
-	for _, v := range mappingListStreamPoolsSortBy {
+	for _, v := range mappingListStreamPoolsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStreamPoolsSortByEnumStringValues Enumerates the set of values in String for ListStreamPoolsSortByEnum
+func GetListStreamPoolsSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }
 
 // ListStreamPoolsSortOrderEnum Enum with underlying type: string
@@ -132,7 +162,7 @@ const (
 	ListStreamPoolsSortOrderDesc ListStreamPoolsSortOrderEnum = "DESC"
 )
 
-var mappingListStreamPoolsSortOrder = map[string]ListStreamPoolsSortOrderEnum{
+var mappingListStreamPoolsSortOrderEnum = map[string]ListStreamPoolsSortOrderEnum{
 	"ASC":  ListStreamPoolsSortOrderAsc,
 	"DESC": ListStreamPoolsSortOrderDesc,
 }
@@ -140,8 +170,16 @@ var mappingListStreamPoolsSortOrder = map[string]ListStreamPoolsSortOrderEnum{
 // GetListStreamPoolsSortOrderEnumValues Enumerates the set of values for ListStreamPoolsSortOrderEnum
 func GetListStreamPoolsSortOrderEnumValues() []ListStreamPoolsSortOrderEnum {
 	values := make([]ListStreamPoolsSortOrderEnum, 0)
-	for _, v := range mappingListStreamPoolsSortOrder {
+	for _, v := range mappingListStreamPoolsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStreamPoolsSortOrderEnumStringValues Enumerates the set of values in String for ListStreamPoolsSortOrderEnum
+func GetListStreamPoolsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

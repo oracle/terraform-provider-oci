@@ -85,10 +85,6 @@ func (client *DataIntegrationClient) ConfigurationProvider() *common.Configurati
 }
 
 // ChangeCompartment Moves a workspace to a specified compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ChangeCompartment.go.html to see an example of how to use ChangeCompartment API.
 func (client DataIntegrationClient) ChangeCompartment(ctx context.Context, request ChangeCompartmentRequest) (response ChangeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,10 +141,6 @@ func (client DataIntegrationClient) changeCompartment(ctx context.Context, reque
 }
 
 // CreateApplication Creates an application.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateApplication.go.html to see an example of how to use CreateApplication API.
 func (client DataIntegrationClient) CreateApplication(ctx context.Context, request CreateApplicationRequest) (response CreateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -205,10 +197,6 @@ func (client DataIntegrationClient) createApplication(ctx context.Context, reque
 }
 
 // CreateConnection Creates a connection under an existing data asset.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateConnection.go.html to see an example of how to use CreateConnection API.
 func (client DataIntegrationClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -265,10 +253,6 @@ func (client DataIntegrationClient) createConnection(ctx context.Context, reques
 }
 
 // CreateConnectionValidation Creates a connection validation.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateConnectionValidation.go.html to see an example of how to use CreateConnectionValidation API.
 func (client DataIntegrationClient) CreateConnectionValidation(ctx context.Context, request CreateConnectionValidationRequest) (response CreateConnectionValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -325,10 +309,6 @@ func (client DataIntegrationClient) createConnectionValidation(ctx context.Conte
 }
 
 // CreateDataAsset Creates a data asset with default connection.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateDataAsset.go.html to see an example of how to use CreateDataAsset API.
 func (client DataIntegrationClient) CreateDataAsset(ctx context.Context, request CreateDataAssetRequest) (response CreateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -385,10 +365,6 @@ func (client DataIntegrationClient) createDataAsset(ctx context.Context, request
 }
 
 // CreateDataFlow Creates a new data flow in a project or folder ready for performing data integrations.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateDataFlow.go.html to see an example of how to use CreateDataFlow API.
 func (client DataIntegrationClient) CreateDataFlow(ctx context.Context, request CreateDataFlowRequest) (response CreateDataFlowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -445,10 +421,6 @@ func (client DataIntegrationClient) createDataFlow(ctx context.Context, request 
 }
 
 // CreateDataFlowValidation Accepts the data flow definition in the request payload and creates a data flow validation.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateDataFlowValidation.go.html to see an example of how to use CreateDataFlowValidation API.
 func (client DataIntegrationClient) CreateDataFlowValidation(ctx context.Context, request CreateDataFlowValidationRequest) (response CreateDataFlowValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -505,10 +477,6 @@ func (client DataIntegrationClient) createDataFlowValidation(ctx context.Context
 }
 
 // CreateEntityShape Creates the data entity shape using the shape from the data asset.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateEntityShape.go.html to see an example of how to use CreateEntityShape API.
 func (client DataIntegrationClient) CreateEntityShape(ctx context.Context, request CreateEntityShapeRequest) (response CreateEntityShapeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -565,10 +533,6 @@ func (client DataIntegrationClient) createEntityShape(ctx context.Context, reque
 }
 
 // CreateExternalPublication Publish a DataFlow in a OCI DataFlow application.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateExternalPublication.go.html to see an example of how to use CreateExternalPublication API.
 func (client DataIntegrationClient) CreateExternalPublication(ctx context.Context, request CreateExternalPublicationRequest) (response CreateExternalPublicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -625,10 +589,6 @@ func (client DataIntegrationClient) createExternalPublication(ctx context.Contex
 }
 
 // CreateExternalPublicationValidation Validates a specific task.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateExternalPublicationValidation.go.html to see an example of how to use CreateExternalPublicationValidation API.
 func (client DataIntegrationClient) CreateExternalPublicationValidation(ctx context.Context, request CreateExternalPublicationValidationRequest) (response CreateExternalPublicationValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -686,10 +646,6 @@ func (client DataIntegrationClient) createExternalPublicationValidation(ctx cont
 
 // CreateFolder Creates a folder in a project or in another folder, limited to two levels of folders. |
 // Folders are used to organize your design-time resources, such as tasks or data flows.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateFolder.go.html to see an example of how to use CreateFolder API.
 func (client DataIntegrationClient) CreateFolder(ctx context.Context, request CreateFolderRequest) (response CreateFolderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -747,10 +703,6 @@ func (client DataIntegrationClient) createFolder(ctx context.Context, request co
 
 // CreateFunctionLibrary Creates a function library in a project or in another function library, limited to two levels of function libraries. |
 // FunctionLibraries are used to organize your design-time resources, such as tasks or data flows.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateFunctionLibrary.go.html to see an example of how to use CreateFunctionLibrary API.
 func (client DataIntegrationClient) CreateFunctionLibrary(ctx context.Context, request CreateFunctionLibraryRequest) (response CreateFunctionLibraryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -807,10 +759,6 @@ func (client DataIntegrationClient) createFunctionLibrary(ctx context.Context, r
 }
 
 // CreatePatch Creates a patch in an application.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreatePatch.go.html to see an example of how to use CreatePatch API.
 func (client DataIntegrationClient) CreatePatch(ctx context.Context, request CreatePatchRequest) (response CreatePatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -867,10 +815,6 @@ func (client DataIntegrationClient) createPatch(ctx context.Context, request com
 }
 
 // CreatePipeline Creates a new pipeline in a project or folder ready for performing task orchestration.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreatePipeline.go.html to see an example of how to use CreatePipeline API.
 func (client DataIntegrationClient) CreatePipeline(ctx context.Context, request CreatePipelineRequest) (response CreatePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -927,10 +871,6 @@ func (client DataIntegrationClient) createPipeline(ctx context.Context, request 
 }
 
 // CreatePipelineValidation Accepts the data flow definition in the request payload and creates a pipeline validation.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreatePipelineValidation.go.html to see an example of how to use CreatePipelineValidation API.
 func (client DataIntegrationClient) CreatePipelineValidation(ctx context.Context, request CreatePipelineValidationRequest) (response CreatePipelineValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -987,10 +927,6 @@ func (client DataIntegrationClient) createPipelineValidation(ctx context.Context
 }
 
 // CreateProject Creates a project. Projects are organizational constructs within a workspace that you use to organize your design-time resources, such as tasks or data flows. Projects can be organized into folders.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateProject.go.html to see an example of how to use CreateProject API.
 func (client DataIntegrationClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1047,10 +983,6 @@ func (client DataIntegrationClient) createProject(ctx context.Context, request c
 }
 
 // CreateSchedule Endpoint to create a new schedule
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateSchedule.go.html to see an example of how to use CreateSchedule API.
 func (client DataIntegrationClient) CreateSchedule(ctx context.Context, request CreateScheduleRequest) (response CreateScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1107,10 +1039,6 @@ func (client DataIntegrationClient) createSchedule(ctx context.Context, request 
 }
 
 // CreateTask Creates a new task ready for performing data integrations. There are specialized types of tasks that include data loader and integration tasks.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateTask.go.html to see an example of how to use CreateTask API.
 func (client DataIntegrationClient) CreateTask(ctx context.Context, request CreateTaskRequest) (response CreateTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1167,10 +1095,6 @@ func (client DataIntegrationClient) createTask(ctx context.Context, request comm
 }
 
 // CreateTaskRun Creates a data integration task run for the specified task.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateTaskRun.go.html to see an example of how to use CreateTaskRun API.
 func (client DataIntegrationClient) CreateTaskRun(ctx context.Context, request CreateTaskRunRequest) (response CreateTaskRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1227,10 +1151,6 @@ func (client DataIntegrationClient) createTaskRun(ctx context.Context, request c
 }
 
 // CreateTaskSchedule Endpoint to be used create TaskSchedule.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateTaskSchedule.go.html to see an example of how to use CreateTaskSchedule API.
 func (client DataIntegrationClient) CreateTaskSchedule(ctx context.Context, request CreateTaskScheduleRequest) (response CreateTaskScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1287,10 +1207,6 @@ func (client DataIntegrationClient) createTaskSchedule(ctx context.Context, requ
 }
 
 // CreateTaskValidation Validates a specific task.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateTaskValidation.go.html to see an example of how to use CreateTaskValidation API.
 func (client DataIntegrationClient) CreateTaskValidation(ctx context.Context, request CreateTaskValidationRequest) (response CreateTaskValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1347,10 +1263,6 @@ func (client DataIntegrationClient) createTaskValidation(ctx context.Context, re
 }
 
 // CreateUserDefinedFunction Creates a new UserDefinedFunction in a function library ready for performing data integrations.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateUserDefinedFunction.go.html to see an example of how to use CreateUserDefinedFunction API.
 func (client DataIntegrationClient) CreateUserDefinedFunction(ctx context.Context, request CreateUserDefinedFunctionRequest) (response CreateUserDefinedFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1407,10 +1319,6 @@ func (client DataIntegrationClient) createUserDefinedFunction(ctx context.Contex
 }
 
 // CreateUserDefinedFunctionValidation Accepts the UserDefinedFunction definition in the request payload and creates a UserDefinedFunction validation.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateUserDefinedFunctionValidation.go.html to see an example of how to use CreateUserDefinedFunctionValidation API.
 func (client DataIntegrationClient) CreateUserDefinedFunctionValidation(ctx context.Context, request CreateUserDefinedFunctionValidationRequest) (response CreateUserDefinedFunctionValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1467,10 +1375,6 @@ func (client DataIntegrationClient) createUserDefinedFunctionValidation(ctx cont
 }
 
 // CreateWorkspace Creates a new Data Integration workspace ready for performing data integration tasks. To retrieve the OCID for the new workspace, use the opc-work-request-id returned by this API and call the GetWorkRequest API.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateWorkspace.go.html to see an example of how to use CreateWorkspace API.
 func (client DataIntegrationClient) CreateWorkspace(ctx context.Context, request CreateWorkspaceRequest) (response CreateWorkspaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1527,10 +1431,6 @@ func (client DataIntegrationClient) createWorkspace(ctx context.Context, request
 }
 
 // DeleteApplication Removes an application using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteApplication.go.html to see an example of how to use DeleteApplication API.
 func (client DataIntegrationClient) DeleteApplication(ctx context.Context, request DeleteApplicationRequest) (response DeleteApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1582,10 +1482,6 @@ func (client DataIntegrationClient) deleteApplication(ctx context.Context, reque
 }
 
 // DeleteConnection Removes a connection using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteConnection.go.html to see an example of how to use DeleteConnection API.
 func (client DataIntegrationClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1637,10 +1533,6 @@ func (client DataIntegrationClient) deleteConnection(ctx context.Context, reques
 }
 
 // DeleteConnectionValidation Deletes a connection validation.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteConnectionValidation.go.html to see an example of how to use DeleteConnectionValidation API.
 func (client DataIntegrationClient) DeleteConnectionValidation(ctx context.Context, request DeleteConnectionValidationRequest) (response DeleteConnectionValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1692,10 +1584,6 @@ func (client DataIntegrationClient) deleteConnectionValidation(ctx context.Conte
 }
 
 // DeleteDataAsset Removes a data asset using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDataAsset.go.html to see an example of how to use DeleteDataAsset API.
 func (client DataIntegrationClient) DeleteDataAsset(ctx context.Context, request DeleteDataAssetRequest) (response DeleteDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1747,10 +1635,6 @@ func (client DataIntegrationClient) deleteDataAsset(ctx context.Context, request
 }
 
 // DeleteDataFlow Removes a data flow from a project or folder using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDataFlow.go.html to see an example of how to use DeleteDataFlow API.
 func (client DataIntegrationClient) DeleteDataFlow(ctx context.Context, request DeleteDataFlowRequest) (response DeleteDataFlowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1802,10 +1686,6 @@ func (client DataIntegrationClient) deleteDataFlow(ctx context.Context, request 
 }
 
 // DeleteDataFlowValidation Removes a data flow validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDataFlowValidation.go.html to see an example of how to use DeleteDataFlowValidation API.
 func (client DataIntegrationClient) DeleteDataFlowValidation(ctx context.Context, request DeleteDataFlowValidationRequest) (response DeleteDataFlowValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1857,10 +1737,6 @@ func (client DataIntegrationClient) deleteDataFlowValidation(ctx context.Context
 }
 
 // DeleteExternalPublication Removes a published object using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteExternalPublication.go.html to see an example of how to use DeleteExternalPublication API.
 func (client DataIntegrationClient) DeleteExternalPublication(ctx context.Context, request DeleteExternalPublicationRequest) (response DeleteExternalPublicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1912,10 +1788,6 @@ func (client DataIntegrationClient) deleteExternalPublication(ctx context.Contex
 }
 
 // DeleteExternalPublicationValidation Removes a task validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteExternalPublicationValidation.go.html to see an example of how to use DeleteExternalPublicationValidation API.
 func (client DataIntegrationClient) DeleteExternalPublicationValidation(ctx context.Context, request DeleteExternalPublicationValidationRequest) (response DeleteExternalPublicationValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1967,10 +1839,6 @@ func (client DataIntegrationClient) deleteExternalPublicationValidation(ctx cont
 }
 
 // DeleteFolder Removes a folder from a project using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteFolder.go.html to see an example of how to use DeleteFolder API.
 func (client DataIntegrationClient) DeleteFolder(ctx context.Context, request DeleteFolderRequest) (response DeleteFolderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2022,10 +1890,6 @@ func (client DataIntegrationClient) deleteFolder(ctx context.Context, request co
 }
 
 // DeleteFunctionLibrary Removes a Function Library from a project using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteFunctionLibrary.go.html to see an example of how to use DeleteFunctionLibrary API.
 func (client DataIntegrationClient) DeleteFunctionLibrary(ctx context.Context, request DeleteFunctionLibraryRequest) (response DeleteFunctionLibraryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2077,10 +1941,6 @@ func (client DataIntegrationClient) deleteFunctionLibrary(ctx context.Context, r
 }
 
 // DeletePatch Removes a patch using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeletePatch.go.html to see an example of how to use DeletePatch API.
 func (client DataIntegrationClient) DeletePatch(ctx context.Context, request DeletePatchRequest) (response DeletePatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2132,10 +1992,6 @@ func (client DataIntegrationClient) deletePatch(ctx context.Context, request com
 }
 
 // DeletePipeline Removes a pipeline from a project or folder using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeletePipeline.go.html to see an example of how to use DeletePipeline API.
 func (client DataIntegrationClient) DeletePipeline(ctx context.Context, request DeletePipelineRequest) (response DeletePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2187,10 +2043,6 @@ func (client DataIntegrationClient) deletePipeline(ctx context.Context, request 
 }
 
 // DeletePipelineValidation Removes a pipeline validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeletePipelineValidation.go.html to see an example of how to use DeletePipelineValidation API.
 func (client DataIntegrationClient) DeletePipelineValidation(ctx context.Context, request DeletePipelineValidationRequest) (response DeletePipelineValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2242,10 +2094,6 @@ func (client DataIntegrationClient) deletePipelineValidation(ctx context.Context
 }
 
 // DeleteProject Removes a project from the workspace using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteProject.go.html to see an example of how to use DeleteProject API.
 func (client DataIntegrationClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2297,10 +2145,6 @@ func (client DataIntegrationClient) deleteProject(ctx context.Context, request c
 }
 
 // DeleteSchedule Endpoint to delete schedule.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteSchedule.go.html to see an example of how to use DeleteSchedule API.
 func (client DataIntegrationClient) DeleteSchedule(ctx context.Context, request DeleteScheduleRequest) (response DeleteScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2352,10 +2196,6 @@ func (client DataIntegrationClient) deleteSchedule(ctx context.Context, request 
 }
 
 // DeleteTask Removes a task using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteTask.go.html to see an example of how to use DeleteTask API.
 func (client DataIntegrationClient) DeleteTask(ctx context.Context, request DeleteTaskRequest) (response DeleteTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2407,10 +2247,6 @@ func (client DataIntegrationClient) deleteTask(ctx context.Context, request comm
 }
 
 // DeleteTaskRun Deletes a task run using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteTaskRun.go.html to see an example of how to use DeleteTaskRun API.
 func (client DataIntegrationClient) DeleteTaskRun(ctx context.Context, request DeleteTaskRunRequest) (response DeleteTaskRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2462,10 +2298,6 @@ func (client DataIntegrationClient) deleteTaskRun(ctx context.Context, request c
 }
 
 // DeleteTaskSchedule Endpoint to delete TaskSchedule.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteTaskSchedule.go.html to see an example of how to use DeleteTaskSchedule API.
 func (client DataIntegrationClient) DeleteTaskSchedule(ctx context.Context, request DeleteTaskScheduleRequest) (response DeleteTaskScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2517,10 +2349,6 @@ func (client DataIntegrationClient) deleteTaskSchedule(ctx context.Context, requ
 }
 
 // DeleteTaskValidation Removes a task validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteTaskValidation.go.html to see an example of how to use DeleteTaskValidation API.
 func (client DataIntegrationClient) DeleteTaskValidation(ctx context.Context, request DeleteTaskValidationRequest) (response DeleteTaskValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2572,10 +2400,6 @@ func (client DataIntegrationClient) deleteTaskValidation(ctx context.Context, re
 }
 
 // DeleteUserDefinedFunction Removes a UserDefinedFunction from a function library using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteUserDefinedFunction.go.html to see an example of how to use DeleteUserDefinedFunction API.
 func (client DataIntegrationClient) DeleteUserDefinedFunction(ctx context.Context, request DeleteUserDefinedFunctionRequest) (response DeleteUserDefinedFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2627,10 +2451,6 @@ func (client DataIntegrationClient) deleteUserDefinedFunction(ctx context.Contex
 }
 
 // DeleteUserDefinedFunctionValidation Removes a UserDefinedFunction validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteUserDefinedFunctionValidation.go.html to see an example of how to use DeleteUserDefinedFunctionValidation API.
 func (client DataIntegrationClient) DeleteUserDefinedFunctionValidation(ctx context.Context, request DeleteUserDefinedFunctionValidationRequest) (response DeleteUserDefinedFunctionValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2682,10 +2502,6 @@ func (client DataIntegrationClient) deleteUserDefinedFunctionValidation(ctx cont
 }
 
 // DeleteWorkspace Deletes a Data Integration workspace resource using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteWorkspace.go.html to see an example of how to use DeleteWorkspace API.
 func (client DataIntegrationClient) DeleteWorkspace(ctx context.Context, request DeleteWorkspaceRequest) (response DeleteWorkspaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2737,10 +2553,6 @@ func (client DataIntegrationClient) deleteWorkspace(ctx context.Context, request
 }
 
 // GetApplication Retrieves an application using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetApplication.go.html to see an example of how to use GetApplication API.
 func (client DataIntegrationClient) GetApplication(ctx context.Context, request GetApplicationRequest) (response GetApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2792,10 +2604,6 @@ func (client DataIntegrationClient) getApplication(ctx context.Context, request 
 }
 
 // GetConnection Retrieves the connection details using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetConnection.go.html to see an example of how to use GetConnection API.
 func (client DataIntegrationClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2847,10 +2655,6 @@ func (client DataIntegrationClient) getConnection(ctx context.Context, request c
 }
 
 // GetConnectionValidation Retrieves a connection validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetConnectionValidation.go.html to see an example of how to use GetConnectionValidation API.
 func (client DataIntegrationClient) GetConnectionValidation(ctx context.Context, request GetConnectionValidationRequest) (response GetConnectionValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2903,10 +2707,6 @@ func (client DataIntegrationClient) getConnectionValidation(ctx context.Context,
 
 // GetCountStatistic Retrieves statistics on a workspace. It returns an object with an array of property values, such as the number of projects, |
 //        applications, data assets, and so on.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetCountStatistic.go.html to see an example of how to use GetCountStatistic API.
 func (client DataIntegrationClient) GetCountStatistic(ctx context.Context, request GetCountStatisticRequest) (response GetCountStatisticResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2958,10 +2758,6 @@ func (client DataIntegrationClient) getCountStatistic(ctx context.Context, reque
 }
 
 // GetDataAsset Retrieves details of a data asset using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetDataAsset.go.html to see an example of how to use GetDataAsset API.
 func (client DataIntegrationClient) GetDataAsset(ctx context.Context, request GetDataAssetRequest) (response GetDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3013,10 +2809,6 @@ func (client DataIntegrationClient) getDataAsset(ctx context.Context, request co
 }
 
 // GetDataEntity Retrieves the data entity details with the given name from live schema.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetDataEntity.go.html to see an example of how to use GetDataEntity API.
 func (client DataIntegrationClient) GetDataEntity(ctx context.Context, request GetDataEntityRequest) (response GetDataEntityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3068,10 +2860,6 @@ func (client DataIntegrationClient) getDataEntity(ctx context.Context, request c
 }
 
 // GetDataFlow Retrieves a data flow using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetDataFlow.go.html to see an example of how to use GetDataFlow API.
 func (client DataIntegrationClient) GetDataFlow(ctx context.Context, request GetDataFlowRequest) (response GetDataFlowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3123,10 +2911,6 @@ func (client DataIntegrationClient) getDataFlow(ctx context.Context, request com
 }
 
 // GetDataFlowValidation Retrieves a data flow validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetDataFlowValidation.go.html to see an example of how to use GetDataFlowValidation API.
 func (client DataIntegrationClient) GetDataFlowValidation(ctx context.Context, request GetDataFlowValidationRequest) (response GetDataFlowValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3178,10 +2962,6 @@ func (client DataIntegrationClient) getDataFlowValidation(ctx context.Context, r
 }
 
 // GetDependentObject Retrieves the details of a dependent object from an application.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetDependentObject.go.html to see an example of how to use GetDependentObject API.
 func (client DataIntegrationClient) GetDependentObject(ctx context.Context, request GetDependentObjectRequest) (response GetDependentObjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3233,10 +3013,6 @@ func (client DataIntegrationClient) getDependentObject(ctx context.Context, requ
 }
 
 // GetExternalPublication Retrieves a publshed object in an task using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetExternalPublication.go.html to see an example of how to use GetExternalPublication API.
 func (client DataIntegrationClient) GetExternalPublication(ctx context.Context, request GetExternalPublicationRequest) (response GetExternalPublicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3288,10 +3064,6 @@ func (client DataIntegrationClient) getExternalPublication(ctx context.Context, 
 }
 
 // GetExternalPublicationValidation Retrieves an external publication validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetExternalPublicationValidation.go.html to see an example of how to use GetExternalPublicationValidation API.
 func (client DataIntegrationClient) GetExternalPublicationValidation(ctx context.Context, request GetExternalPublicationValidationRequest) (response GetExternalPublicationValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3343,10 +3115,6 @@ func (client DataIntegrationClient) getExternalPublicationValidation(ctx context
 }
 
 // GetFolder Retrieves a folder using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetFolder.go.html to see an example of how to use GetFolder API.
 func (client DataIntegrationClient) GetFolder(ctx context.Context, request GetFolderRequest) (response GetFolderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3398,10 +3166,6 @@ func (client DataIntegrationClient) getFolder(ctx context.Context, request commo
 }
 
 // GetFunctionLibrary Retrieves a Function Library using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetFunctionLibrary.go.html to see an example of how to use GetFunctionLibrary API.
 func (client DataIntegrationClient) GetFunctionLibrary(ctx context.Context, request GetFunctionLibraryRequest) (response GetFunctionLibraryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3453,10 +3217,6 @@ func (client DataIntegrationClient) getFunctionLibrary(ctx context.Context, requ
 }
 
 // GetPatch Retrieves a patch in an application using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetPatch.go.html to see an example of how to use GetPatch API.
 func (client DataIntegrationClient) GetPatch(ctx context.Context, request GetPatchRequest) (response GetPatchResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3508,10 +3268,6 @@ func (client DataIntegrationClient) getPatch(ctx context.Context, request common
 }
 
 // GetPipeline Retrieves a pipeline using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetPipeline.go.html to see an example of how to use GetPipeline API.
 func (client DataIntegrationClient) GetPipeline(ctx context.Context, request GetPipelineRequest) (response GetPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3563,10 +3319,6 @@ func (client DataIntegrationClient) getPipeline(ctx context.Context, request com
 }
 
 // GetPipelineValidation Retrieves a pipeline validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetPipelineValidation.go.html to see an example of how to use GetPipelineValidation API.
 func (client DataIntegrationClient) GetPipelineValidation(ctx context.Context, request GetPipelineValidationRequest) (response GetPipelineValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3618,10 +3370,6 @@ func (client DataIntegrationClient) getPipelineValidation(ctx context.Context, r
 }
 
 // GetProject Retrieves a project using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetProject.go.html to see an example of how to use GetProject API.
 func (client DataIntegrationClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3673,10 +3421,6 @@ func (client DataIntegrationClient) getProject(ctx context.Context, request comm
 }
 
 // GetPublishedObject Retrieves the details of a published object from an application.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetPublishedObject.go.html to see an example of how to use GetPublishedObject API.
 func (client DataIntegrationClient) GetPublishedObject(ctx context.Context, request GetPublishedObjectRequest) (response GetPublishedObjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3728,10 +3472,6 @@ func (client DataIntegrationClient) getPublishedObject(ctx context.Context, requ
 }
 
 // GetReference Retrieves a reference in an application.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetReference.go.html to see an example of how to use GetReference API.
 func (client DataIntegrationClient) GetReference(ctx context.Context, request GetReferenceRequest) (response GetReferenceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3783,10 +3523,6 @@ func (client DataIntegrationClient) getReference(ctx context.Context, request co
 }
 
 // GetSchedule Retrieves schedule by schedule key
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetSchedule.go.html to see an example of how to use GetSchedule API.
 func (client DataIntegrationClient) GetSchedule(ctx context.Context, request GetScheduleRequest) (response GetScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3838,10 +3574,6 @@ func (client DataIntegrationClient) getSchedule(ctx context.Context, request com
 }
 
 // GetSchema Retrieves a schema that can be accessed using the specified connection.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetSchema.go.html to see an example of how to use GetSchema API.
 func (client DataIntegrationClient) GetSchema(ctx context.Context, request GetSchemaRequest) (response GetSchemaResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3893,10 +3625,6 @@ func (client DataIntegrationClient) getSchema(ctx context.Context, request commo
 }
 
 // GetTask Retrieves a task using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTask.go.html to see an example of how to use GetTask API.
 func (client DataIntegrationClient) GetTask(ctx context.Context, request GetTaskRequest) (response GetTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3948,10 +3676,6 @@ func (client DataIntegrationClient) getTask(ctx context.Context, request common.
 }
 
 // GetTaskRun Retrieves a task run using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTaskRun.go.html to see an example of how to use GetTaskRun API.
 func (client DataIntegrationClient) GetTaskRun(ctx context.Context, request GetTaskRunRequest) (response GetTaskRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4003,10 +3727,6 @@ func (client DataIntegrationClient) getTaskRun(ctx context.Context, request comm
 }
 
 // GetTaskSchedule Endpoint used to get taskSchedule by its key
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTaskSchedule.go.html to see an example of how to use GetTaskSchedule API.
 func (client DataIntegrationClient) GetTaskSchedule(ctx context.Context, request GetTaskScheduleRequest) (response GetTaskScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4058,10 +3778,6 @@ func (client DataIntegrationClient) getTaskSchedule(ctx context.Context, request
 }
 
 // GetTaskValidation Retrieves a task validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTaskValidation.go.html to see an example of how to use GetTaskValidation API.
 func (client DataIntegrationClient) GetTaskValidation(ctx context.Context, request GetTaskValidationRequest) (response GetTaskValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4113,10 +3829,6 @@ func (client DataIntegrationClient) getTaskValidation(ctx context.Context, reque
 }
 
 // GetUserDefinedFunction Retrieves a UserDefinedFunction using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetUserDefinedFunction.go.html to see an example of how to use GetUserDefinedFunction API.
 func (client DataIntegrationClient) GetUserDefinedFunction(ctx context.Context, request GetUserDefinedFunctionRequest) (response GetUserDefinedFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4168,10 +3880,6 @@ func (client DataIntegrationClient) getUserDefinedFunction(ctx context.Context, 
 }
 
 // GetUserDefinedFunctionValidation Retrieves a UserDefinedFunction validation using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetUserDefinedFunctionValidation.go.html to see an example of how to use GetUserDefinedFunctionValidation API.
 func (client DataIntegrationClient) GetUserDefinedFunctionValidation(ctx context.Context, request GetUserDefinedFunctionValidationRequest) (response GetUserDefinedFunctionValidationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4223,10 +3931,6 @@ func (client DataIntegrationClient) getUserDefinedFunctionValidation(ctx context
 }
 
 // GetWorkRequest Retrieves the status of the work request with the given ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client DataIntegrationClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4278,10 +3982,6 @@ func (client DataIntegrationClient) getWorkRequest(ctx context.Context, request 
 }
 
 // GetWorkspace Retrieves a Data Integration workspace using the specified identifier.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetWorkspace.go.html to see an example of how to use GetWorkspace API.
 func (client DataIntegrationClient) GetWorkspace(ctx context.Context, request GetWorkspaceRequest) (response GetWorkspaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4333,10 +4033,6 @@ func (client DataIntegrationClient) getWorkspace(ctx context.Context, request co
 }
 
 // ListApplications Retrieves a list of applications and provides options to filter the list.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListApplications.go.html to see an example of how to use ListApplications API.
 func (client DataIntegrationClient) ListApplications(ctx context.Context, request ListApplicationsRequest) (response ListApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4388,10 +4084,6 @@ func (client DataIntegrationClient) listApplications(ctx context.Context, reques
 }
 
 // ListConnectionValidations Retrieves a list of connection validations within the specified workspace.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListConnectionValidations.go.html to see an example of how to use ListConnectionValidations API.
 func (client DataIntegrationClient) ListConnectionValidations(ctx context.Context, request ListConnectionValidationsRequest) (response ListConnectionValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4443,10 +4135,6 @@ func (client DataIntegrationClient) listConnectionValidations(ctx context.Contex
 }
 
 // ListConnections Retrieves a list of all connections.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListConnections.go.html to see an example of how to use ListConnections API.
 func (client DataIntegrationClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4498,10 +4186,6 @@ func (client DataIntegrationClient) listConnections(ctx context.Context, request
 }
 
 // ListDataAssets Retrieves a list of all data asset summaries.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDataAssets.go.html to see an example of how to use ListDataAssets API.
 func (client DataIntegrationClient) ListDataAssets(ctx context.Context, request ListDataAssetsRequest) (response ListDataAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4553,10 +4237,6 @@ func (client DataIntegrationClient) listDataAssets(ctx context.Context, request 
 }
 
 // ListDataEntities Lists a summary of data entities from the data asset using the specified connection.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDataEntities.go.html to see an example of how to use ListDataEntities API.
 func (client DataIntegrationClient) ListDataEntities(ctx context.Context, request ListDataEntitiesRequest) (response ListDataEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4608,10 +4288,6 @@ func (client DataIntegrationClient) listDataEntities(ctx context.Context, reques
 }
 
 // ListDataFlowValidations Retrieves a list of data flow validations within the specified workspace.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDataFlowValidations.go.html to see an example of how to use ListDataFlowValidations API.
 func (client DataIntegrationClient) ListDataFlowValidations(ctx context.Context, request ListDataFlowValidationsRequest) (response ListDataFlowValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4663,10 +4339,6 @@ func (client DataIntegrationClient) listDataFlowValidations(ctx context.Context,
 }
 
 // ListDataFlows Retrieves a list of data flows in a project or folder.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDataFlows.go.html to see an example of how to use ListDataFlows API.
 func (client DataIntegrationClient) ListDataFlows(ctx context.Context, request ListDataFlowsRequest) (response ListDataFlowsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4718,10 +4390,6 @@ func (client DataIntegrationClient) listDataFlows(ctx context.Context, request c
 }
 
 // ListDependentObjects Retrieves a list of all dependent objects for a specific application.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDependentObjects.go.html to see an example of how to use ListDependentObjects API.
 func (client DataIntegrationClient) ListDependentObjects(ctx context.Context, request ListDependentObjectsRequest) (response ListDependentObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4773,10 +4441,6 @@ func (client DataIntegrationClient) listDependentObjects(ctx context.Context, re
 }
 
 // ListExternalPublicationValidations Retrieves a lists of external publication validations in a workspace and provides options to filter the list.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListExternalPublicationValidations.go.html to see an example of how to use ListExternalPublicationValidations API.
 func (client DataIntegrationClient) ListExternalPublicationValidations(ctx context.Context, request ListExternalPublicationValidationsRequest) (response ListExternalPublicationValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4828,10 +4492,6 @@ func (client DataIntegrationClient) listExternalPublicationValidations(ctx conte
 }
 
 // ListExternalPublications Retrieves a list of external publications in an application and provides options to filter the list.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListExternalPublications.go.html to see an example of how to use ListExternalPublications API.
 func (client DataIntegrationClient) ListExternalPublications(ctx context.Context, request ListExternalPublicationsRequest) (response ListExternalPublicationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4883,10 +4543,6 @@ func (client DataIntegrationClient) listExternalPublications(ctx context.Context
 }
 
 // ListFolders Retrieves a list of folders in a project and provides options to filter the list.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListFolders.go.html to see an example of how to use ListFolders API.
 func (client DataIntegrationClient) ListFolders(ctx context.Context, request ListFoldersRequest) (response ListFoldersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4938,10 +4594,6 @@ func (client DataIntegrationClient) listFolders(ctx context.Context, request com
 }
 
 // ListFunctionLibraries Retrieves a list of function libraries in a project and provides options to filter the list.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListFunctionLibraries.go.html to see an example of how to use ListFunctionLibraries API.
 func (client DataIntegrationClient) ListFunctionLibraries(ctx context.Context, request ListFunctionLibrariesRequest) (response ListFunctionLibrariesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4993,10 +4645,6 @@ func (client DataIntegrationClient) listFunctionLibraries(ctx context.Context, r
 }
 
 // ListPatchChanges Retrieves a list of patches in an application and provides options to filter the list.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListPatchChanges.go.html to see an example of how to use ListPatchChanges API.
 func (client DataIntegrationClient) ListPatchChanges(ctx context.Context, request ListPatchChangesRequest) (response ListPatchChangesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5048,10 +4696,6 @@ func (client DataIntegrationClient) listPatchChanges(ctx context.Context, reques
 }
 
 // ListPatches Retrieves a list of patches in an application and provides options to filter the list. For listing changes based on a period and logical objects changed, see ListPatchChanges API.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListPatches.go.html to see an example of how to use ListPatches API.
 func (client DataIntegrationClient) ListPatches(ctx context.Context, request ListPatchesRequest) (response ListPatchesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5103,10 +4747,6 @@ func (client DataIntegrationClient) listPatches(ctx context.Context, request com
 }
 
 // ListPipelineValidations Retrieves a list of pipeline validations within the specified workspace.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListPipelineValidations.go.html to see an example of how to use ListPipelineValidations API.
 func (client DataIntegrationClient) ListPipelineValidations(ctx context.Context, request ListPipelineValidationsRequest) (response ListPipelineValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5158,10 +4798,6 @@ func (client DataIntegrationClient) listPipelineValidations(ctx context.Context,
 }
 
 // ListPipelines Retrieves a list of pipelines in a project or folder from within a workspace, the query parameter specifies the project or folder.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListPipelines.go.html to see an example of how to use ListPipelines API.
 func (client DataIntegrationClient) ListPipelines(ctx context.Context, request ListPipelinesRequest) (response ListPipelinesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5213,10 +4849,6 @@ func (client DataIntegrationClient) listPipelines(ctx context.Context, request c
 }
 
 // ListProjects Retrieves a lists of projects in a workspace and provides options to filter the list.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListProjects.go.html to see an example of how to use ListProjects API.
 func (client DataIntegrationClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5268,10 +4900,6 @@ func (client DataIntegrationClient) listProjects(ctx context.Context, request co
 }
 
 // ListPublishedObjects Retrieves a list of all the published objects for a specified application.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListPublishedObjects.go.html to see an example of how to use ListPublishedObjects API.
 func (client DataIntegrationClient) ListPublishedObjects(ctx context.Context, request ListPublishedObjectsRequest) (response ListPublishedObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5323,10 +4951,6 @@ func (client DataIntegrationClient) listPublishedObjects(ctx context.Context, re
 }
 
 // ListReferences Retrieves a list of references in an application. Reference objects are created when dataflows and tasks use objects, such as data assets and connections.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListReferences.go.html to see an example of how to use ListReferences API.
 func (client DataIntegrationClient) ListReferences(ctx context.Context, request ListReferencesRequest) (response ListReferencesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5378,10 +5002,6 @@ func (client DataIntegrationClient) listReferences(ctx context.Context, request 
 }
 
 // ListSchedules Use this endpoint to list schedules.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListSchedules.go.html to see an example of how to use ListSchedules API.
 func (client DataIntegrationClient) ListSchedules(ctx context.Context, request ListSchedulesRequest) (response ListSchedulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5433,10 +5053,6 @@ func (client DataIntegrationClient) listSchedules(ctx context.Context, request c
 }
 
 // ListSchemas Retrieves a list of all the schemas that can be accessed using the specified connection.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListSchemas.go.html to see an example of how to use ListSchemas API.
 func (client DataIntegrationClient) ListSchemas(ctx context.Context, request ListSchemasRequest) (response ListSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5488,10 +5104,6 @@ func (client DataIntegrationClient) listSchemas(ctx context.Context, request com
 }
 
 // ListTaskRunLogs Gets log entries for task runs using its key.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListTaskRunLogs.go.html to see an example of how to use ListTaskRunLogs API.
 func (client DataIntegrationClient) ListTaskRunLogs(ctx context.Context, request ListTaskRunLogsRequest) (response ListTaskRunLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5543,10 +5155,6 @@ func (client DataIntegrationClient) listTaskRunLogs(ctx context.Context, request
 }
 
 // ListTaskRuns Retrieves a list of task runs and provides options to filter the list.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListTaskRuns.go.html to see an example of how to use ListTaskRuns API.
 func (client DataIntegrationClient) ListTaskRuns(ctx context.Context, request ListTaskRunsRequest) (response ListTaskRunsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5598,10 +5206,6 @@ func (client DataIntegrationClient) listTaskRuns(ctx context.Context, request co
 }
 
 // ListTaskSchedules This endpoint can be used to get the list of all the TaskSchedule objects.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListTaskSchedules.go.html to see an example of how to use ListTaskSchedules API.
 func (client DataIntegrationClient) ListTaskSchedules(ctx context.Context, request ListTaskSchedulesRequest) (response ListTaskSchedulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5653,10 +5257,6 @@ func (client DataIntegrationClient) listTaskSchedules(ctx context.Context, reque
 }
 
 // ListTaskValidations Retrieves a list of task validations within the specified workspace.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListTaskValidations.go.html to see an example of how to use ListTaskValidations API.
 func (client DataIntegrationClient) ListTaskValidations(ctx context.Context, request ListTaskValidationsRequest) (response ListTaskValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5708,10 +5308,6 @@ func (client DataIntegrationClient) listTaskValidations(ctx context.Context, req
 }
 
 // ListTasks Retrieves a list of all tasks in a specified project or folder.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListTasks.go.html to see an example of how to use ListTasks API.
 func (client DataIntegrationClient) ListTasks(ctx context.Context, request ListTasksRequest) (response ListTasksResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5763,10 +5359,6 @@ func (client DataIntegrationClient) listTasks(ctx context.Context, request commo
 }
 
 // ListUserDefinedFunctionValidations Retrieves a list of UserDefinedFunctionvalidations within the specified workspace.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListUserDefinedFunctionValidations.go.html to see an example of how to use ListUserDefinedFunctionValidations API.
 func (client DataIntegrationClient) ListUserDefinedFunctionValidations(ctx context.Context, request ListUserDefinedFunctionValidationsRequest) (response ListUserDefinedFunctionValidationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5818,10 +5410,6 @@ func (client DataIntegrationClient) listUserDefinedFunctionValidations(ctx conte
 }
 
 // ListUserDefinedFunctions Retrieves a list of UserDefinedFunctions in a function library.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListUserDefinedFunctions.go.html to see an example of how to use ListUserDefinedFunctions API.
 func (client DataIntegrationClient) ListUserDefinedFunctions(ctx context.Context, request ListUserDefinedFunctionsRequest) (response ListUserDefinedFunctionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5873,10 +5461,6 @@ func (client DataIntegrationClient) listUserDefinedFunctions(ctx context.Context
 }
 
 // ListWorkRequestErrors Retrieves a paginated list of errors for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client DataIntegrationClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5928,10 +5512,6 @@ func (client DataIntegrationClient) listWorkRequestErrors(ctx context.Context, r
 }
 
 // ListWorkRequestLogs Retrieves a paginated list of logs for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client DataIntegrationClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5983,10 +5563,6 @@ func (client DataIntegrationClient) listWorkRequestLogs(ctx context.Context, req
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client DataIntegrationClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6038,10 +5614,6 @@ func (client DataIntegrationClient) listWorkRequests(ctx context.Context, reques
 }
 
 // ListWorkspaces Retrieves a list of Data Integration workspaces.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListWorkspaces.go.html to see an example of how to use ListWorkspaces API.
 func (client DataIntegrationClient) ListWorkspaces(ctx context.Context, request ListWorkspacesRequest) (response ListWorkspacesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6093,10 +5665,6 @@ func (client DataIntegrationClient) listWorkspaces(ctx context.Context, request 
 }
 
 // StartWorkspace Starts a workspace.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/StartWorkspace.go.html to see an example of how to use StartWorkspace API.
 func (client DataIntegrationClient) StartWorkspace(ctx context.Context, request StartWorkspaceRequest) (response StartWorkspaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6153,10 +5721,6 @@ func (client DataIntegrationClient) startWorkspace(ctx context.Context, request 
 }
 
 // StopWorkspace Stops a workspace.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/StopWorkspace.go.html to see an example of how to use StopWorkspace API.
 func (client DataIntegrationClient) StopWorkspace(ctx context.Context, request StopWorkspaceRequest) (response StopWorkspaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6213,10 +5777,6 @@ func (client DataIntegrationClient) stopWorkspace(ctx context.Context, request c
 }
 
 // UpdateApplication Updates an application.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateApplication.go.html to see an example of how to use UpdateApplication API.
 func (client DataIntegrationClient) UpdateApplication(ctx context.Context, request UpdateApplicationRequest) (response UpdateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6268,10 +5828,6 @@ func (client DataIntegrationClient) updateApplication(ctx context.Context, reque
 }
 
 // UpdateConnection Updates a connection under a data asset.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateConnection.go.html to see an example of how to use UpdateConnection API.
 func (client DataIntegrationClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6323,10 +5879,6 @@ func (client DataIntegrationClient) updateConnection(ctx context.Context, reques
 }
 
 // UpdateDataAsset Updates a specific data asset with default connection.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateDataAsset.go.html to see an example of how to use UpdateDataAsset API.
 func (client DataIntegrationClient) UpdateDataAsset(ctx context.Context, request UpdateDataAssetRequest) (response UpdateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6378,10 +5930,6 @@ func (client DataIntegrationClient) updateDataAsset(ctx context.Context, request
 }
 
 // UpdateDataFlow Updates a specific data flow.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateDataFlow.go.html to see an example of how to use UpdateDataFlow API.
 func (client DataIntegrationClient) UpdateDataFlow(ctx context.Context, request UpdateDataFlowRequest) (response UpdateDataFlowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6433,10 +5981,6 @@ func (client DataIntegrationClient) updateDataFlow(ctx context.Context, request 
 }
 
 // UpdateExternalPublication Updates the external publication object.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateExternalPublication.go.html to see an example of how to use UpdateExternalPublication API.
 func (client DataIntegrationClient) UpdateExternalPublication(ctx context.Context, request UpdateExternalPublicationRequest) (response UpdateExternalPublicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6488,10 +6032,6 @@ func (client DataIntegrationClient) updateExternalPublication(ctx context.Contex
 }
 
 // UpdateFolder Updates a specific folder.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateFolder.go.html to see an example of how to use UpdateFolder API.
 func (client DataIntegrationClient) UpdateFolder(ctx context.Context, request UpdateFolderRequest) (response UpdateFolderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6543,10 +6083,6 @@ func (client DataIntegrationClient) updateFolder(ctx context.Context, request co
 }
 
 // UpdateFunctionLibrary Updates a specific Function Library.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateFunctionLibrary.go.html to see an example of how to use UpdateFunctionLibrary API.
 func (client DataIntegrationClient) UpdateFunctionLibrary(ctx context.Context, request UpdateFunctionLibraryRequest) (response UpdateFunctionLibraryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6598,10 +6134,6 @@ func (client DataIntegrationClient) updateFunctionLibrary(ctx context.Context, r
 }
 
 // UpdatePipeline Updates a specific pipeline.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdatePipeline.go.html to see an example of how to use UpdatePipeline API.
 func (client DataIntegrationClient) UpdatePipeline(ctx context.Context, request UpdatePipelineRequest) (response UpdatePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6653,10 +6185,6 @@ func (client DataIntegrationClient) updatePipeline(ctx context.Context, request 
 }
 
 // UpdateProject Updates a specific project.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateProject.go.html to see an example of how to use UpdateProject API.
 func (client DataIntegrationClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6708,10 +6236,6 @@ func (client DataIntegrationClient) updateProject(ctx context.Context, request c
 }
 
 // UpdateReference Updates the application references. For example, to map a data asset to a different target object.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateReference.go.html to see an example of how to use UpdateReference API.
 func (client DataIntegrationClient) UpdateReference(ctx context.Context, request UpdateReferenceRequest) (response UpdateReferenceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6768,10 +6292,6 @@ func (client DataIntegrationClient) updateReference(ctx context.Context, request
 }
 
 // UpdateSchedule Endpoint used to update the schedule
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateSchedule.go.html to see an example of how to use UpdateSchedule API.
 func (client DataIntegrationClient) UpdateSchedule(ctx context.Context, request UpdateScheduleRequest) (response UpdateScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6823,10 +6343,6 @@ func (client DataIntegrationClient) updateSchedule(ctx context.Context, request 
 }
 
 // UpdateTask Updates a specific task. For example, you can update the task description or move the task to a different folder by changing the `aggregatorKey` to a different folder in the registry.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateTask.go.html to see an example of how to use UpdateTask API.
 func (client DataIntegrationClient) UpdateTask(ctx context.Context, request UpdateTaskRequest) (response UpdateTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6878,10 +6394,6 @@ func (client DataIntegrationClient) updateTask(ctx context.Context, request comm
 }
 
 // UpdateTaskRun Updates the status of the task run. For example, aborts a task run.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateTaskRun.go.html to see an example of how to use UpdateTaskRun API.
 func (client DataIntegrationClient) UpdateTaskRun(ctx context.Context, request UpdateTaskRunRequest) (response UpdateTaskRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6933,10 +6445,6 @@ func (client DataIntegrationClient) updateTaskRun(ctx context.Context, request c
 }
 
 // UpdateTaskSchedule Endpoint used to update the TaskSchedule
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateTaskSchedule.go.html to see an example of how to use UpdateTaskSchedule API.
 func (client DataIntegrationClient) UpdateTaskSchedule(ctx context.Context, request UpdateTaskScheduleRequest) (response UpdateTaskScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6988,10 +6496,6 @@ func (client DataIntegrationClient) updateTaskSchedule(ctx context.Context, requ
 }
 
 // UpdateUserDefinedFunction Updates a specific UserDefinedFunction.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateUserDefinedFunction.go.html to see an example of how to use UpdateUserDefinedFunction API.
 func (client DataIntegrationClient) UpdateUserDefinedFunction(ctx context.Context, request UpdateUserDefinedFunctionRequest) (response UpdateUserDefinedFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7043,10 +6547,6 @@ func (client DataIntegrationClient) updateUserDefinedFunction(ctx context.Contex
 }
 
 // UpdateWorkspace Updates the specified Data Integration workspace.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateWorkspace.go.html to see an example of how to use UpdateWorkspace API.
 func (client DataIntegrationClient) UpdateWorkspace(ctx context.Context, request UpdateWorkspaceRequest) (response UpdateWorkspaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

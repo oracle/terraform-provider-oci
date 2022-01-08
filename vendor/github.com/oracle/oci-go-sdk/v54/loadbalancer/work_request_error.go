@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WorkRequestError An object returned in the event of a work request error.
@@ -26,6 +28,21 @@ func (m WorkRequestError) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestError) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestErrorErrorCodeEnum[string(m.ErrorCode)]; !ok && m.ErrorCode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ErrorCode: %s. Supported values are: %s.", m.ErrorCode, strings.Join(GetWorkRequestErrorErrorCodeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestErrorErrorCodeEnum Enum with underlying type: string
 type WorkRequestErrorErrorCodeEnum string
 
@@ -35,7 +52,7 @@ const (
 	WorkRequestErrorErrorCodeInternalError WorkRequestErrorErrorCodeEnum = "INTERNAL_ERROR"
 )
 
-var mappingWorkRequestErrorErrorCode = map[string]WorkRequestErrorErrorCodeEnum{
+var mappingWorkRequestErrorErrorCodeEnum = map[string]WorkRequestErrorErrorCodeEnum{
 	"BAD_INPUT":      WorkRequestErrorErrorCodeBadInput,
 	"INTERNAL_ERROR": WorkRequestErrorErrorCodeInternalError,
 }
@@ -43,8 +60,16 @@ var mappingWorkRequestErrorErrorCode = map[string]WorkRequestErrorErrorCodeEnum{
 // GetWorkRequestErrorErrorCodeEnumValues Enumerates the set of values for WorkRequestErrorErrorCodeEnum
 func GetWorkRequestErrorErrorCodeEnumValues() []WorkRequestErrorErrorCodeEnum {
 	values := make([]WorkRequestErrorErrorCodeEnum, 0)
-	for _, v := range mappingWorkRequestErrorErrorCode {
+	for _, v := range mappingWorkRequestErrorErrorCodeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestErrorErrorCodeEnumStringValues Enumerates the set of values in String for WorkRequestErrorErrorCodeEnum
+func GetWorkRequestErrorErrorCodeEnumStringValues() []string {
+	return []string{
+		"BAD_INPUT",
+		"INTERNAL_ERROR",
+	}
 }

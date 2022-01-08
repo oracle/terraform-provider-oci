@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceConfigurationInstanceSourceViaImageDetails The representation of InstanceConfigurationInstanceSourceViaImageDetails
@@ -27,10 +29,25 @@ type InstanceConfigurationInstanceSourceViaImageDetails struct {
 
 	// The OCID of the image used to boot the instance.
 	ImageId *string `mandatory:"false" json:"imageId"`
+
+	// The OCID of the Key Management key to assign as the master encryption key for the boot volume.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m InstanceConfigurationInstanceSourceViaImageDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceConfigurationInstanceSourceViaImageDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

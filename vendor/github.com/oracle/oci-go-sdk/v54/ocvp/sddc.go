@@ -11,7 +11,9 @@
 package ocvp
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Sddc An Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm) software-defined data center (SDDC) contains the resources required for a
@@ -188,6 +190,10 @@ type Sddc struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The initial compute shape of the SDDC's ESXi hosts.
+	// ListSupportedHostShapes.
+	InitialHostShapeName *string `mandatory:"true" json:"initialHostShapeName"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -298,14 +304,38 @@ type Sddc struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeHcxLicenseStatusUpdated *common.SDKTime `mandatory:"false" json:"timeHcxLicenseStatusUpdated"`
 
+	// Indicates whether this SDDC is designated as non-production.
+	IsNonProduction *bool `mandatory:"false" json:"isNonProduction"`
+
 	// The date and time the SDDC was updated, in the format defined by
 	// RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// The current state of the SDDC.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The initial OCPU count of the SDDC's ESXi hosts.
+	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
 }
 
 func (m Sddc) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Sddc) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSkuEnum[string(m.InitialSku)]; !ok && m.InitialSku != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitialSku: %s. Supported values are: %s.", m.InitialSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLifecycleStatesEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // PartitionConfig The information about partition configuration.
@@ -61,6 +63,18 @@ func (m partitionconfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m partitionconfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PartitionConfigModelTypeEnum Enum with underlying type: string
 type PartitionConfigModelTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	PartitionConfigModelTypeKeyrangepartitionconfig PartitionConfigModelTypeEnum = "KEYRANGEPARTITIONCONFIG"
 )
 
-var mappingPartitionConfigModelType = map[string]PartitionConfigModelTypeEnum{
+var mappingPartitionConfigModelTypeEnum = map[string]PartitionConfigModelTypeEnum{
 	"KEYRANGEPARTITIONCONFIG": PartitionConfigModelTypeKeyrangepartitionconfig,
 }
 
 // GetPartitionConfigModelTypeEnumValues Enumerates the set of values for PartitionConfigModelTypeEnum
 func GetPartitionConfigModelTypeEnumValues() []PartitionConfigModelTypeEnum {
 	values := make([]PartitionConfigModelTypeEnum, 0)
-	for _, v := range mappingPartitionConfigModelType {
+	for _, v := range mappingPartitionConfigModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPartitionConfigModelTypeEnumStringValues Enumerates the set of values in String for PartitionConfigModelTypeEnum
+func GetPartitionConfigModelTypeEnumStringValues() []string {
+	return []string{
+		"KEYRANGEPARTITIONCONFIG",
+	}
 }

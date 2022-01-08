@@ -983,12 +983,6 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 			}
 		}
 
-		// some legacy code constructing RetryPolicy instances directly may not have set DeterminePolicyToUse.
-		// In that case, just assume that it doesn't handle eventual consistency.
-		if policy.DeterminePolicyToUse == nil {
-			policy.DeterminePolicyToUse = returnSamePolicy
-		}
-
 		// this determines which policy to use, when the eventual consistency window ends, and what the backoff
 		// scaling factor should be
 		policyToUse, endOfWindowTime, backoffScalingFactor := policy.DeterminePolicyToUse(policy)
@@ -1019,7 +1013,6 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 				retrierChannel <- retrierResult{response, err}
 				return
 			}
-
 			// if the request body type is stream, requested retry but doesn't resettable, throw error and stop retrying
 			if isBinaryRequest && !isSeekable {
 				retrierChannel <- retrierResult{response, NonSeekableRequestRetryFailure{err}}

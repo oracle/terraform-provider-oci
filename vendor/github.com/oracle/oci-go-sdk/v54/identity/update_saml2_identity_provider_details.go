@@ -4,14 +4,16 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateSaml2IdentityProviderDetails The representation of UpdateSaml2IdentityProviderDetails
@@ -41,6 +43,21 @@ type UpdateSaml2IdentityProviderDetails struct {
 	// Extra name value pairs associated with this identity provider.
 	// Example: `{"clientId": "app_sf3kdjf3"}`
 	FreeformAttributes map[string]string `mandatory:"false" json:"freeformAttributes"`
+
+	// When set to true, the service provider expects the SAML assertion to be encrypted by the identity provider,
+	// using the service provider's encryption key. In this case, the service provider is Oracle Cloud
+	// Infrastructure Authentication service.
+	EncryptAssertion *bool `mandatory:"false" json:"encryptAssertion"`
+
+	// If set to true, when the user is redirected to the identity provider, the identity provider forces the
+	// user to provide credentials and re-authenticate, even if there is an active login session.
+	ForceAuthentication *bool `mandatory:"false" json:"forceAuthentication"`
+
+	// Authentication contexts requested when sending a SAML request to the identity provider. There could be one or
+	// more requested contexts. Usually identity provider uses the one that has the highest authentication strength.
+	// Example: `["urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport",
+	// "urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient"]`
+	AuthnContextClassRefs []string `mandatory:"false" json:"authnContextClassRefs"`
 }
 
 //GetDescription returns Description
@@ -60,6 +77,18 @@ func (m UpdateSaml2IdentityProviderDetails) GetDefinedTags() map[string]map[stri
 
 func (m UpdateSaml2IdentityProviderDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateSaml2IdentityProviderDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

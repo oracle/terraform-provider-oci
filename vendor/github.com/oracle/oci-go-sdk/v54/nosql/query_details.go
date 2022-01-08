@@ -13,7 +13,9 @@
 package nosql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // QueryDetails All the information surrounding a query, including the query statement,
@@ -47,6 +49,21 @@ func (m QueryDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m QueryDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingQueryDetailsConsistencyEnum[string(m.Consistency)]; !ok && m.Consistency != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Consistency: %s. Supported values are: %s.", m.Consistency, strings.Join(GetQueryDetailsConsistencyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // QueryDetailsConsistencyEnum Enum with underlying type: string
 type QueryDetailsConsistencyEnum string
 
@@ -56,7 +73,7 @@ const (
 	QueryDetailsConsistencyAbsolute QueryDetailsConsistencyEnum = "ABSOLUTE"
 )
 
-var mappingQueryDetailsConsistency = map[string]QueryDetailsConsistencyEnum{
+var mappingQueryDetailsConsistencyEnum = map[string]QueryDetailsConsistencyEnum{
 	"EVENTUAL": QueryDetailsConsistencyEventual,
 	"ABSOLUTE": QueryDetailsConsistencyAbsolute,
 }
@@ -64,8 +81,16 @@ var mappingQueryDetailsConsistency = map[string]QueryDetailsConsistencyEnum{
 // GetQueryDetailsConsistencyEnumValues Enumerates the set of values for QueryDetailsConsistencyEnum
 func GetQueryDetailsConsistencyEnumValues() []QueryDetailsConsistencyEnum {
 	values := make([]QueryDetailsConsistencyEnum, 0)
-	for _, v := range mappingQueryDetailsConsistency {
+	for _, v := range mappingQueryDetailsConsistencyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetQueryDetailsConsistencyEnumStringValues Enumerates the set of values in String for QueryDetailsConsistencyEnum
+func GetQueryDetailsConsistencyEnumStringValues() []string {
+	return []string{
+		"EVENTUAL",
+		"ABSOLUTE",
+	}
 }

@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListAttributesRequest wrapper for the ListAttributes operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListAttributes.go.html to see an example of how to use ListAttributesRequest.
 type ListAttributesRequest struct {
 
 	// Unique catalog identifier.
@@ -113,6 +111,10 @@ func (request ListAttributesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAttributesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -126,6 +128,32 @@ func (request ListAttributesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAttributesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAttributesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAttributesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListAttributesLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListAttributesFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListAttributesFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListAttributesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAttributesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAttributesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAttributesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAttributesResponse wrapper for the ListAttributes operation
@@ -169,7 +197,7 @@ const (
 	ListAttributesLifecycleStateMoving   ListAttributesLifecycleStateEnum = "MOVING"
 )
 
-var mappingListAttributesLifecycleState = map[string]ListAttributesLifecycleStateEnum{
+var mappingListAttributesLifecycleStateEnum = map[string]ListAttributesLifecycleStateEnum{
 	"CREATING": ListAttributesLifecycleStateCreating,
 	"ACTIVE":   ListAttributesLifecycleStateActive,
 	"INACTIVE": ListAttributesLifecycleStateInactive,
@@ -183,10 +211,24 @@ var mappingListAttributesLifecycleState = map[string]ListAttributesLifecycleStat
 // GetListAttributesLifecycleStateEnumValues Enumerates the set of values for ListAttributesLifecycleStateEnum
 func GetListAttributesLifecycleStateEnumValues() []ListAttributesLifecycleStateEnum {
 	values := make([]ListAttributesLifecycleStateEnum, 0)
-	for _, v := range mappingListAttributesLifecycleState {
+	for _, v := range mappingListAttributesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAttributesLifecycleStateEnumStringValues Enumerates the set of values in String for ListAttributesLifecycleStateEnum
+func GetListAttributesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListAttributesFieldsEnum Enum with underlying type: string
@@ -218,7 +260,7 @@ const (
 	ListAttributesFieldsTypekey                    ListAttributesFieldsEnum = "typeKey"
 )
 
-var mappingListAttributesFields = map[string]ListAttributesFieldsEnum{
+var mappingListAttributesFieldsEnum = map[string]ListAttributesFieldsEnum{
 	"key":                        ListAttributesFieldsKey,
 	"displayName":                ListAttributesFieldsDisplayname,
 	"description":                ListAttributesFieldsDescription,
@@ -246,10 +288,38 @@ var mappingListAttributesFields = map[string]ListAttributesFieldsEnum{
 // GetListAttributesFieldsEnumValues Enumerates the set of values for ListAttributesFieldsEnum
 func GetListAttributesFieldsEnumValues() []ListAttributesFieldsEnum {
 	values := make([]ListAttributesFieldsEnum, 0)
-	for _, v := range mappingListAttributesFields {
+	for _, v := range mappingListAttributesFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAttributesFieldsEnumStringValues Enumerates the set of values in String for ListAttributesFieldsEnum
+func GetListAttributesFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"entityKey",
+		"lifecycleState",
+		"timeCreated",
+		"externalDataType",
+		"externalKey",
+		"length",
+		"precision",
+		"scale",
+		"isNullable",
+		"uri",
+		"path",
+		"minCollectionCount",
+		"maxCollectionCount",
+		"datatypeEntityKey",
+		"externalDatatypeEntityKey",
+		"parentAttributeKey",
+		"externalParentAttributeKey",
+		"position",
+		"typeKey",
+	}
 }
 
 // ListAttributesSortByEnum Enum with underlying type: string
@@ -262,7 +332,7 @@ const (
 	ListAttributesSortByPosition    ListAttributesSortByEnum = "POSITION"
 )
 
-var mappingListAttributesSortBy = map[string]ListAttributesSortByEnum{
+var mappingListAttributesSortByEnum = map[string]ListAttributesSortByEnum{
 	"TIMECREATED": ListAttributesSortByTimecreated,
 	"DISPLAYNAME": ListAttributesSortByDisplayname,
 	"POSITION":    ListAttributesSortByPosition,
@@ -271,10 +341,19 @@ var mappingListAttributesSortBy = map[string]ListAttributesSortByEnum{
 // GetListAttributesSortByEnumValues Enumerates the set of values for ListAttributesSortByEnum
 func GetListAttributesSortByEnumValues() []ListAttributesSortByEnum {
 	values := make([]ListAttributesSortByEnum, 0)
-	for _, v := range mappingListAttributesSortBy {
+	for _, v := range mappingListAttributesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAttributesSortByEnumStringValues Enumerates the set of values in String for ListAttributesSortByEnum
+func GetListAttributesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+		"POSITION",
+	}
 }
 
 // ListAttributesSortOrderEnum Enum with underlying type: string
@@ -286,7 +365,7 @@ const (
 	ListAttributesSortOrderDesc ListAttributesSortOrderEnum = "DESC"
 )
 
-var mappingListAttributesSortOrder = map[string]ListAttributesSortOrderEnum{
+var mappingListAttributesSortOrderEnum = map[string]ListAttributesSortOrderEnum{
 	"ASC":  ListAttributesSortOrderAsc,
 	"DESC": ListAttributesSortOrderDesc,
 }
@@ -294,8 +373,16 @@ var mappingListAttributesSortOrder = map[string]ListAttributesSortOrderEnum{
 // GetListAttributesSortOrderEnumValues Enumerates the set of values for ListAttributesSortOrderEnum
 func GetListAttributesSortOrderEnumValues() []ListAttributesSortOrderEnum {
 	values := make([]ListAttributesSortOrderEnum, 0)
-	for _, v := range mappingListAttributesSortOrder {
+	for _, v := range mappingListAttributesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAttributesSortOrderEnumStringValues Enumerates the set of values in String for ListAttributesSortOrderEnum
+func GetListAttributesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

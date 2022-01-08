@@ -11,7 +11,9 @@
 package apmcontrolplane
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DataKeySummary Summary of Data Key.
@@ -29,4 +31,19 @@ type DataKeySummary struct {
 
 func (m DataKeySummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataKeySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataKeyTypesEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetDataKeyTypesEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

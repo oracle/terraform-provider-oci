@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListStorageWorkRequestErrorsRequest wrapper for the ListStorageWorkRequestErrors operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListStorageWorkRequestErrors.go.html to see an example of how to use ListStorageWorkRequestErrorsRequest.
 type ListStorageWorkRequestErrorsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -52,6 +50,10 @@ func (request ListStorageWorkRequestErrorsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListStorageWorkRequestErrorsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +67,23 @@ func (request ListStorageWorkRequestErrorsRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListStorageWorkRequestErrorsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListStorageWorkRequestErrorsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListStorageWorkRequestErrorsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListStorageWorkRequestErrorsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListStorageWorkRequestErrorsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListStorageWorkRequestErrorsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListStorageWorkRequestErrorsResponse wrapper for the ListStorageWorkRequestErrors operation
@@ -108,7 +127,7 @@ const (
 	ListStorageWorkRequestErrorsSortOrderDesc ListStorageWorkRequestErrorsSortOrderEnum = "DESC"
 )
 
-var mappingListStorageWorkRequestErrorsSortOrder = map[string]ListStorageWorkRequestErrorsSortOrderEnum{
+var mappingListStorageWorkRequestErrorsSortOrderEnum = map[string]ListStorageWorkRequestErrorsSortOrderEnum{
 	"ASC":  ListStorageWorkRequestErrorsSortOrderAsc,
 	"DESC": ListStorageWorkRequestErrorsSortOrderDesc,
 }
@@ -116,10 +135,18 @@ var mappingListStorageWorkRequestErrorsSortOrder = map[string]ListStorageWorkReq
 // GetListStorageWorkRequestErrorsSortOrderEnumValues Enumerates the set of values for ListStorageWorkRequestErrorsSortOrderEnum
 func GetListStorageWorkRequestErrorsSortOrderEnumValues() []ListStorageWorkRequestErrorsSortOrderEnum {
 	values := make([]ListStorageWorkRequestErrorsSortOrderEnum, 0)
-	for _, v := range mappingListStorageWorkRequestErrorsSortOrder {
+	for _, v := range mappingListStorageWorkRequestErrorsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStorageWorkRequestErrorsSortOrderEnumStringValues Enumerates the set of values in String for ListStorageWorkRequestErrorsSortOrderEnum
+func GetListStorageWorkRequestErrorsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListStorageWorkRequestErrorsSortByEnum Enum with underlying type: string
@@ -130,15 +157,22 @@ const (
 	ListStorageWorkRequestErrorsSortByTimecreated ListStorageWorkRequestErrorsSortByEnum = "timeCreated"
 )
 
-var mappingListStorageWorkRequestErrorsSortBy = map[string]ListStorageWorkRequestErrorsSortByEnum{
+var mappingListStorageWorkRequestErrorsSortByEnum = map[string]ListStorageWorkRequestErrorsSortByEnum{
 	"timeCreated": ListStorageWorkRequestErrorsSortByTimecreated,
 }
 
 // GetListStorageWorkRequestErrorsSortByEnumValues Enumerates the set of values for ListStorageWorkRequestErrorsSortByEnum
 func GetListStorageWorkRequestErrorsSortByEnumValues() []ListStorageWorkRequestErrorsSortByEnum {
 	values := make([]ListStorageWorkRequestErrorsSortByEnum, 0)
-	for _, v := range mappingListStorageWorkRequestErrorsSortBy {
+	for _, v := range mappingListStorageWorkRequestErrorsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStorageWorkRequestErrorsSortByEnumStringValues Enumerates the set of values in String for ListStorageWorkRequestErrorsSortByEnum
+func GetListStorageWorkRequestErrorsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+	}
 }

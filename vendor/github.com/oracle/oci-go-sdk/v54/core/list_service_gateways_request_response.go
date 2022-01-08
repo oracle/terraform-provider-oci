@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListServiceGatewaysRequest wrapper for the ListServiceGateways operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListServiceGateways.go.html to see an example of how to use ListServiceGatewaysRequest.
 type ListServiceGatewaysRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -66,6 +64,10 @@ func (request ListServiceGatewaysRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListServiceGatewaysRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +81,26 @@ func (request ListServiceGatewaysRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListServiceGatewaysRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListServiceGatewaysRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListServiceGatewaysSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListServiceGatewaysSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListServiceGatewaysSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListServiceGatewaysSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingServiceGatewayLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetServiceGatewayLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListServiceGatewaysResponse wrapper for the ListServiceGateways operation
@@ -118,7 +140,7 @@ const (
 	ListServiceGatewaysSortByDisplayname ListServiceGatewaysSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListServiceGatewaysSortBy = map[string]ListServiceGatewaysSortByEnum{
+var mappingListServiceGatewaysSortByEnum = map[string]ListServiceGatewaysSortByEnum{
 	"TIMECREATED": ListServiceGatewaysSortByTimecreated,
 	"DISPLAYNAME": ListServiceGatewaysSortByDisplayname,
 }
@@ -126,10 +148,18 @@ var mappingListServiceGatewaysSortBy = map[string]ListServiceGatewaysSortByEnum{
 // GetListServiceGatewaysSortByEnumValues Enumerates the set of values for ListServiceGatewaysSortByEnum
 func GetListServiceGatewaysSortByEnumValues() []ListServiceGatewaysSortByEnum {
 	values := make([]ListServiceGatewaysSortByEnum, 0)
-	for _, v := range mappingListServiceGatewaysSortBy {
+	for _, v := range mappingListServiceGatewaysSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServiceGatewaysSortByEnumStringValues Enumerates the set of values in String for ListServiceGatewaysSortByEnum
+func GetListServiceGatewaysSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListServiceGatewaysSortOrderEnum Enum with underlying type: string
@@ -141,7 +171,7 @@ const (
 	ListServiceGatewaysSortOrderDesc ListServiceGatewaysSortOrderEnum = "DESC"
 )
 
-var mappingListServiceGatewaysSortOrder = map[string]ListServiceGatewaysSortOrderEnum{
+var mappingListServiceGatewaysSortOrderEnum = map[string]ListServiceGatewaysSortOrderEnum{
 	"ASC":  ListServiceGatewaysSortOrderAsc,
 	"DESC": ListServiceGatewaysSortOrderDesc,
 }
@@ -149,8 +179,16 @@ var mappingListServiceGatewaysSortOrder = map[string]ListServiceGatewaysSortOrde
 // GetListServiceGatewaysSortOrderEnumValues Enumerates the set of values for ListServiceGatewaysSortOrderEnum
 func GetListServiceGatewaysSortOrderEnumValues() []ListServiceGatewaysSortOrderEnum {
 	values := make([]ListServiceGatewaysSortOrderEnum, 0)
-	for _, v := range mappingListServiceGatewaysSortOrder {
+	for _, v := range mappingListServiceGatewaysSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServiceGatewaysSortOrderEnumStringValues Enumerates the set of values in String for ListServiceGatewaysSortOrderEnum
+func GetListServiceGatewaysSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

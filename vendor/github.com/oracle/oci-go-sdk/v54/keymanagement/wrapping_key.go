@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WrappingKey The representation of WrappingKey
@@ -42,6 +44,21 @@ func (m WrappingKey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WrappingKey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWrappingKeyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetWrappingKeyLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WrappingKeyLifecycleStateEnum Enum with underlying type: string
 type WrappingKeyLifecycleStateEnum string
 
@@ -62,7 +79,7 @@ const (
 	WrappingKeyLifecycleStateRestoring          WrappingKeyLifecycleStateEnum = "RESTORING"
 )
 
-var mappingWrappingKeyLifecycleState = map[string]WrappingKeyLifecycleStateEnum{
+var mappingWrappingKeyLifecycleStateEnum = map[string]WrappingKeyLifecycleStateEnum{
 	"CREATING":            WrappingKeyLifecycleStateCreating,
 	"ENABLING":            WrappingKeyLifecycleStateEnabling,
 	"ENABLED":             WrappingKeyLifecycleStateEnabled,
@@ -81,8 +98,27 @@ var mappingWrappingKeyLifecycleState = map[string]WrappingKeyLifecycleStateEnum{
 // GetWrappingKeyLifecycleStateEnumValues Enumerates the set of values for WrappingKeyLifecycleStateEnum
 func GetWrappingKeyLifecycleStateEnumValues() []WrappingKeyLifecycleStateEnum {
 	values := make([]WrappingKeyLifecycleStateEnum, 0)
-	for _, v := range mappingWrappingKeyLifecycleState {
+	for _, v := range mappingWrappingKeyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWrappingKeyLifecycleStateEnumStringValues Enumerates the set of values in String for WrappingKeyLifecycleStateEnum
+func GetWrappingKeyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"DISABLED",
+		"DELETING",
+		"DELETED",
+		"PENDING_DELETION",
+		"SCHEDULING_DELETION",
+		"CANCELLING_DELETION",
+		"UPDATING",
+		"BACKUP_IN_PROGRESS",
+		"RESTORING",
+	}
 }

@@ -24,7 +24,7 @@ const (
 	WorkRequestResourceActionTypeFailed     WorkRequestResourceActionTypeEnum = "FAILED"
 )
 
-var mappingWorkRequestResourceActionType = map[string]WorkRequestResourceActionTypeEnum{
+var mappingWorkRequestResourceActionTypeEnum = map[string]WorkRequestResourceActionTypeEnum{
 	"CREATED":     WorkRequestResourceActionTypeCreated,
 	"UPDATED":     WorkRequestResourceActionTypeUpdated,
 	"DELETED":     WorkRequestResourceActionTypeDeleted,
@@ -36,8 +36,20 @@ var mappingWorkRequestResourceActionType = map[string]WorkRequestResourceActionT
 // GetWorkRequestResourceActionTypeEnumValues Enumerates the set of values for WorkRequestResourceActionTypeEnum
 func GetWorkRequestResourceActionTypeEnumValues() []WorkRequestResourceActionTypeEnum {
 	values := make([]WorkRequestResourceActionTypeEnum, 0)
-	for _, v := range mappingWorkRequestResourceActionType {
+	for _, v := range mappingWorkRequestResourceActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceActionTypeEnumStringValues Enumerates the set of values in String for WorkRequestResourceActionTypeEnum
+func GetWorkRequestResourceActionTypeEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"UPDATED",
+		"DELETED",
+		"IN_PROGRESS",
+		"RELATED",
+		"FAILED",
+	}
 }

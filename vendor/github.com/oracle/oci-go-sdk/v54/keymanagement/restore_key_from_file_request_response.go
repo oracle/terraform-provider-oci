@@ -5,16 +5,14 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // RestoreKeyFromFileRequest wrapper for the RestoreKeyFromFile operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreKeyFromFile.go.html to see an example of how to use RestoreKeyFromFileRequest.
 type RestoreKeyFromFileRequest struct {
 
 	// The content length of the body.
@@ -81,6 +79,17 @@ func (request RestoreKeyFromFileRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request RestoreKeyFromFileRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request RestoreKeyFromFileRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // RestoreKeyFromFileResponse wrapper for the RestoreKeyFromFile operation

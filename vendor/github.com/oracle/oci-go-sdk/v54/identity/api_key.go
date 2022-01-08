@@ -4,13 +4,15 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ApiKey A PEM-format RSA credential for securing requests to the Oracle Cloud Infrastructure REST API. Also known
@@ -51,6 +53,21 @@ func (m ApiKey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ApiKey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingApiKeyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetApiKeyLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ApiKeyLifecycleStateEnum Enum with underlying type: string
 type ApiKeyLifecycleStateEnum string
 
@@ -63,7 +80,7 @@ const (
 	ApiKeyLifecycleStateDeleted  ApiKeyLifecycleStateEnum = "DELETED"
 )
 
-var mappingApiKeyLifecycleState = map[string]ApiKeyLifecycleStateEnum{
+var mappingApiKeyLifecycleStateEnum = map[string]ApiKeyLifecycleStateEnum{
 	"CREATING": ApiKeyLifecycleStateCreating,
 	"ACTIVE":   ApiKeyLifecycleStateActive,
 	"INACTIVE": ApiKeyLifecycleStateInactive,
@@ -74,8 +91,19 @@ var mappingApiKeyLifecycleState = map[string]ApiKeyLifecycleStateEnum{
 // GetApiKeyLifecycleStateEnumValues Enumerates the set of values for ApiKeyLifecycleStateEnum
 func GetApiKeyLifecycleStateEnumValues() []ApiKeyLifecycleStateEnum {
 	values := make([]ApiKeyLifecycleStateEnum, 0)
-	for _, v := range mappingApiKeyLifecycleState {
+	for _, v := range mappingApiKeyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApiKeyLifecycleStateEnumStringValues Enumerates the set of values in String for ApiKeyLifecycleStateEnum
+func GetApiKeyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

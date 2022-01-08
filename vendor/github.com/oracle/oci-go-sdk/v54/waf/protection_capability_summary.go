@@ -11,7 +11,9 @@
 package waf
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ProtectionCapabilitySummary A summary of available OCI-managed protection capabilities in WebAppFirewallPolicy.
@@ -62,6 +64,21 @@ func (m ProtectionCapabilitySummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ProtectionCapabilitySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingProtectionCapabilitySummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetProtectionCapabilitySummaryTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ProtectionCapabilitySummaryTypeEnum Enum with underlying type: string
 type ProtectionCapabilitySummaryTypeEnum string
 
@@ -71,7 +88,7 @@ const (
 	ProtectionCapabilitySummaryTypeResponseProtectionCapability ProtectionCapabilitySummaryTypeEnum = "RESPONSE_PROTECTION_CAPABILITY"
 )
 
-var mappingProtectionCapabilitySummaryType = map[string]ProtectionCapabilitySummaryTypeEnum{
+var mappingProtectionCapabilitySummaryTypeEnum = map[string]ProtectionCapabilitySummaryTypeEnum{
 	"REQUEST_PROTECTION_CAPABILITY":  ProtectionCapabilitySummaryTypeRequestProtectionCapability,
 	"RESPONSE_PROTECTION_CAPABILITY": ProtectionCapabilitySummaryTypeResponseProtectionCapability,
 }
@@ -79,8 +96,16 @@ var mappingProtectionCapabilitySummaryType = map[string]ProtectionCapabilitySumm
 // GetProtectionCapabilitySummaryTypeEnumValues Enumerates the set of values for ProtectionCapabilitySummaryTypeEnum
 func GetProtectionCapabilitySummaryTypeEnumValues() []ProtectionCapabilitySummaryTypeEnum {
 	values := make([]ProtectionCapabilitySummaryTypeEnum, 0)
-	for _, v := range mappingProtectionCapabilitySummaryType {
+	for _, v := range mappingProtectionCapabilitySummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProtectionCapabilitySummaryTypeEnumStringValues Enumerates the set of values in String for ProtectionCapabilitySummaryTypeEnum
+func GetProtectionCapabilitySummaryTypeEnumStringValues() []string {
+	return []string{
+		"REQUEST_PROTECTION_CAPABILITY",
+		"RESPONSE_PROTECTION_CAPABILITY",
+	}
 }

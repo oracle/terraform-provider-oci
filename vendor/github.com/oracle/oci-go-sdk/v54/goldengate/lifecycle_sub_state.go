@@ -23,7 +23,7 @@ const (
 	LifecycleSubStateBackupInProgress LifecycleSubStateEnum = "BACKUP_IN_PROGRESS"
 )
 
-var mappingLifecycleSubState = map[string]LifecycleSubStateEnum{
+var mappingLifecycleSubStateEnum = map[string]LifecycleSubStateEnum{
 	"RECOVERING":         LifecycleSubStateRecovering,
 	"STARTING":           LifecycleSubStateStarting,
 	"STOPPING":           LifecycleSubStateStopping,
@@ -36,8 +36,21 @@ var mappingLifecycleSubState = map[string]LifecycleSubStateEnum{
 // GetLifecycleSubStateEnumValues Enumerates the set of values for LifecycleSubStateEnum
 func GetLifecycleSubStateEnumValues() []LifecycleSubStateEnum {
 	values := make([]LifecycleSubStateEnum, 0)
-	for _, v := range mappingLifecycleSubState {
+	for _, v := range mappingLifecycleSubStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLifecycleSubStateEnumStringValues Enumerates the set of values in String for LifecycleSubStateEnum
+func GetLifecycleSubStateEnumStringValues() []string {
+	return []string{
+		"RECOVERING",
+		"STARTING",
+		"STOPPING",
+		"MOVING",
+		"UPGRADING",
+		"RESTORING",
+		"BACKUP_IN_PROGRESS",
+	}
 }

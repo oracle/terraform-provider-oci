@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutonomousVmCluster Details of the Autonomous VM cluster.
@@ -55,6 +57,26 @@ type AutonomousVmCluster struct {
 	// The numnber of CPU cores available.
 	AvailableCpus *int `mandatory:"false" json:"availableCpus"`
 
+	// The total number of Autonomous Container Databases that can be created.
+	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
+
+	// The amount of memory (in GBs) enabled per each OCPU core.
+	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// The number of OCPU cores enabled per VM cluster node.
+	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
+
+	// The data disk group size allocated for Autonomous Databases, in TBs.
+	AutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"autonomousDataStorageSizeInTBs"`
+
+	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last maintenance run.
+	LastMaintenanceRunId *string `mandatory:"false" json:"lastMaintenanceRunId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the next maintenance run.
+	NextMaintenanceRunId *string `mandatory:"false" json:"nextMaintenanceRunId"`
+
 	// The memory allocated in GBs.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 
@@ -64,10 +86,10 @@ type AutonomousVmCluster struct {
 	// The total data storage allocated in TBs
 	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
 
-	// The total data storage allocated in GBs
+	// The total data storage allocated in GBs.
 	DataStorageSizeInGBs *float64 `mandatory:"false" json:"dataStorageSizeInGBs"`
 
-	// The data storage available in TBs
+	// **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases data storage available, in TBs.
 	AvailableDataStorageSizeInTBs *float64 `mandatory:"false" json:"availableDataStorageSizeInTBs"`
 
 	// The Oracle license model that applies to the Autonomous VM cluster. The default is LICENSE_INCLUDED.
@@ -81,10 +103,37 @@ type AutonomousVmCluster struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// CPU cores that are not released to available pool after an Autonomous Database is terminated (Requires Autonomous Container Database restart).
+	ReclaimableCpus *int `mandatory:"false" json:"reclaimableCpus"`
+
+	// The number of Autonomous Container Databases that can be created with the currently available local storage.
+	AvailableContainerDatabases *int `mandatory:"false" json:"availableContainerDatabases"`
+
+	// The data disk group size available for Autonomous Databases, in TBs.
+	AvailableAutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"availableAutonomousDataStorageSizeInTBs"`
 }
 
 func (m AutonomousVmCluster) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousVmCluster) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousVmClusterLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousVmClusterLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAutonomousVmClusterLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetAutonomousVmClusterLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // AutonomousVmClusterLifecycleStateEnum Enum with underlying type: string
@@ -101,7 +150,7 @@ const (
 	AutonomousVmClusterLifecycleStateMaintenanceInProgress AutonomousVmClusterLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingAutonomousVmClusterLifecycleState = map[string]AutonomousVmClusterLifecycleStateEnum{
+var mappingAutonomousVmClusterLifecycleStateEnum = map[string]AutonomousVmClusterLifecycleStateEnum{
 	"PROVISIONING":            AutonomousVmClusterLifecycleStateProvisioning,
 	"AVAILABLE":               AutonomousVmClusterLifecycleStateAvailable,
 	"UPDATING":                AutonomousVmClusterLifecycleStateUpdating,
@@ -114,10 +163,23 @@ var mappingAutonomousVmClusterLifecycleState = map[string]AutonomousVmClusterLif
 // GetAutonomousVmClusterLifecycleStateEnumValues Enumerates the set of values for AutonomousVmClusterLifecycleStateEnum
 func GetAutonomousVmClusterLifecycleStateEnumValues() []AutonomousVmClusterLifecycleStateEnum {
 	values := make([]AutonomousVmClusterLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousVmClusterLifecycleState {
+	for _, v := range mappingAutonomousVmClusterLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousVmClusterLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousVmClusterLifecycleStateEnum
+func GetAutonomousVmClusterLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }
 
 // AutonomousVmClusterLicenseModelEnum Enum with underlying type: string
@@ -129,7 +191,7 @@ const (
 	AutonomousVmClusterLicenseModelBringYourOwnLicense AutonomousVmClusterLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingAutonomousVmClusterLicenseModel = map[string]AutonomousVmClusterLicenseModelEnum{
+var mappingAutonomousVmClusterLicenseModelEnum = map[string]AutonomousVmClusterLicenseModelEnum{
 	"LICENSE_INCLUDED":       AutonomousVmClusterLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": AutonomousVmClusterLicenseModelBringYourOwnLicense,
 }
@@ -137,8 +199,16 @@ var mappingAutonomousVmClusterLicenseModel = map[string]AutonomousVmClusterLicen
 // GetAutonomousVmClusterLicenseModelEnumValues Enumerates the set of values for AutonomousVmClusterLicenseModelEnum
 func GetAutonomousVmClusterLicenseModelEnumValues() []AutonomousVmClusterLicenseModelEnum {
 	values := make([]AutonomousVmClusterLicenseModelEnum, 0)
-	for _, v := range mappingAutonomousVmClusterLicenseModel {
+	for _, v := range mappingAutonomousVmClusterLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousVmClusterLicenseModelEnumStringValues Enumerates the set of values in String for AutonomousVmClusterLicenseModelEnum
+func GetAutonomousVmClusterLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

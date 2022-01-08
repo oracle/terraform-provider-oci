@@ -5,15 +5,13 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // HeadObjectRequest wrapper for the HeadObject operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/HeadObject.go.html to see an example of how to use HeadObjectRequest.
 type HeadObjectRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -69,6 +67,10 @@ func (request HeadObjectRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request HeadObjectRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +84,17 @@ func (request HeadObjectRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request HeadObjectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request HeadObjectRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // HeadObjectResponse wrapper for the HeadObject operation
@@ -138,6 +151,9 @@ type HeadObjectResponse struct {
 	// The storage tier that the object is stored in.
 	StorageTier HeadObjectStorageTierEnum `presentIn:"header" name:"storage-tier"`
 
+	// Query state of an object. This field is set only for objects in Query tier.
+	QueryState HeadObjectQueryStateEnum `presentIn:"header" name:"query-state"`
+
 	// Archival state of an object. This field is set only for objects in Archive tier.
 	ArchivalState HeadObjectArchivalStateEnum `presentIn:"header" name:"archival-state"`
 
@@ -171,21 +187,67 @@ const (
 	HeadObjectStorageTierStandard         HeadObjectStorageTierEnum = "Standard"
 	HeadObjectStorageTierInfrequentaccess HeadObjectStorageTierEnum = "InfrequentAccess"
 	HeadObjectStorageTierArchive          HeadObjectStorageTierEnum = "Archive"
+	HeadObjectStorageTierQuery            HeadObjectStorageTierEnum = "Query"
 )
 
-var mappingHeadObjectStorageTier = map[string]HeadObjectStorageTierEnum{
+var mappingHeadObjectStorageTierEnum = map[string]HeadObjectStorageTierEnum{
 	"Standard":         HeadObjectStorageTierStandard,
 	"InfrequentAccess": HeadObjectStorageTierInfrequentaccess,
 	"Archive":          HeadObjectStorageTierArchive,
+	"Query":            HeadObjectStorageTierQuery,
 }
 
 // GetHeadObjectStorageTierEnumValues Enumerates the set of values for HeadObjectStorageTierEnum
 func GetHeadObjectStorageTierEnumValues() []HeadObjectStorageTierEnum {
 	values := make([]HeadObjectStorageTierEnum, 0)
-	for _, v := range mappingHeadObjectStorageTier {
+	for _, v := range mappingHeadObjectStorageTierEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHeadObjectStorageTierEnumStringValues Enumerates the set of values in String for HeadObjectStorageTierEnum
+func GetHeadObjectStorageTierEnumStringValues() []string {
+	return []string{
+		"Standard",
+		"InfrequentAccess",
+		"Archive",
+		"Query",
+	}
+}
+
+// HeadObjectQueryStateEnum Enum with underlying type: string
+type HeadObjectQueryStateEnum string
+
+// Set of constants representing the allowable values for HeadObjectQueryStateEnum
+const (
+	HeadObjectQueryStateNotqueryable      HeadObjectQueryStateEnum = "NotQueryable"
+	HeadObjectQueryStateMovingtoquerytier HeadObjectQueryStateEnum = "MovingToQueryTier"
+	HeadObjectQueryStateQueryable         HeadObjectQueryStateEnum = "Queryable"
+)
+
+var mappingHeadObjectQueryStateEnum = map[string]HeadObjectQueryStateEnum{
+	"NotQueryable":      HeadObjectQueryStateNotqueryable,
+	"MovingToQueryTier": HeadObjectQueryStateMovingtoquerytier,
+	"Queryable":         HeadObjectQueryStateQueryable,
+}
+
+// GetHeadObjectQueryStateEnumValues Enumerates the set of values for HeadObjectQueryStateEnum
+func GetHeadObjectQueryStateEnumValues() []HeadObjectQueryStateEnum {
+	values := make([]HeadObjectQueryStateEnum, 0)
+	for _, v := range mappingHeadObjectQueryStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetHeadObjectQueryStateEnumStringValues Enumerates the set of values in String for HeadObjectQueryStateEnum
+func GetHeadObjectQueryStateEnumStringValues() []string {
+	return []string{
+		"NotQueryable",
+		"MovingToQueryTier",
+		"Queryable",
+	}
 }
 
 // HeadObjectArchivalStateEnum Enum with underlying type: string
@@ -198,7 +260,7 @@ const (
 	HeadObjectArchivalStateRestored  HeadObjectArchivalStateEnum = "Restored"
 )
 
-var mappingHeadObjectArchivalState = map[string]HeadObjectArchivalStateEnum{
+var mappingHeadObjectArchivalStateEnum = map[string]HeadObjectArchivalStateEnum{
 	"Archived":  HeadObjectArchivalStateArchived,
 	"Restoring": HeadObjectArchivalStateRestoring,
 	"Restored":  HeadObjectArchivalStateRestored,
@@ -207,8 +269,17 @@ var mappingHeadObjectArchivalState = map[string]HeadObjectArchivalStateEnum{
 // GetHeadObjectArchivalStateEnumValues Enumerates the set of values for HeadObjectArchivalStateEnum
 func GetHeadObjectArchivalStateEnumValues() []HeadObjectArchivalStateEnum {
 	values := make([]HeadObjectArchivalStateEnum, 0)
-	for _, v := range mappingHeadObjectArchivalState {
+	for _, v := range mappingHeadObjectArchivalStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHeadObjectArchivalStateEnumStringValues Enumerates the set of values in String for HeadObjectArchivalStateEnum
+func GetHeadObjectArchivalStateEnumStringValues() []string {
+	return []string{
+		"Archived",
+		"Restoring",
+		"Restored",
+	}
 }

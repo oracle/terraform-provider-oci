@@ -12,7 +12,9 @@ package dns
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Resolver An OCI DNS resolver. If the resolver has an attached VCN, the VCN will attempt to answer queries based on the
@@ -81,6 +83,21 @@ type Resolver struct {
 
 func (m Resolver) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Resolver) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingResolverLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetResolverLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -179,7 +196,7 @@ const (
 	ResolverLifecycleStateUpdating ResolverLifecycleStateEnum = "UPDATING"
 )
 
-var mappingResolverLifecycleState = map[string]ResolverLifecycleStateEnum{
+var mappingResolverLifecycleStateEnum = map[string]ResolverLifecycleStateEnum{
 	"ACTIVE":   ResolverLifecycleStateActive,
 	"CREATING": ResolverLifecycleStateCreating,
 	"DELETED":  ResolverLifecycleStateDeleted,
@@ -191,8 +208,20 @@ var mappingResolverLifecycleState = map[string]ResolverLifecycleStateEnum{
 // GetResolverLifecycleStateEnumValues Enumerates the set of values for ResolverLifecycleStateEnum
 func GetResolverLifecycleStateEnumValues() []ResolverLifecycleStateEnum {
 	values := make([]ResolverLifecycleStateEnum, 0)
-	for _, v := range mappingResolverLifecycleState {
+	for _, v := range mappingResolverLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResolverLifecycleStateEnumStringValues Enumerates the set of values in String for ResolverLifecycleStateEnum
+func GetResolverLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"UPDATING",
+	}
 }

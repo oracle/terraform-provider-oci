@@ -5,16 +5,14 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // GetObjectRequest wrapper for the GetObject operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetObject.go.html to see an example of how to use GetObjectRequest.
 type GetObjectRequest struct {
 
 	// The Object Storage namespace used for the request.
@@ -92,6 +90,10 @@ func (request GetObjectRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetObjectRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -105,6 +107,17 @@ func (request GetObjectRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetObjectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetObjectRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetObjectResponse wrapper for the GetObject operation
@@ -167,6 +180,9 @@ type GetObjectResponse struct {
 	// The storage tier that the object is stored in.
 	StorageTier GetObjectStorageTierEnum `presentIn:"header" name:"storage-tier"`
 
+	// Query state of an object. This field is set only for objects in Query tier.
+	QueryState GetObjectQueryStateEnum `presentIn:"header" name:"query-state"`
+
 	// Archival state of an object. This field is set only for objects in Archive tier.
 	ArchivalState GetObjectArchivalStateEnum `presentIn:"header" name:"archival-state"`
 
@@ -204,21 +220,67 @@ const (
 	GetObjectStorageTierStandard         GetObjectStorageTierEnum = "Standard"
 	GetObjectStorageTierInfrequentaccess GetObjectStorageTierEnum = "InfrequentAccess"
 	GetObjectStorageTierArchive          GetObjectStorageTierEnum = "Archive"
+	GetObjectStorageTierQuery            GetObjectStorageTierEnum = "Query"
 )
 
-var mappingGetObjectStorageTier = map[string]GetObjectStorageTierEnum{
+var mappingGetObjectStorageTierEnum = map[string]GetObjectStorageTierEnum{
 	"Standard":         GetObjectStorageTierStandard,
 	"InfrequentAccess": GetObjectStorageTierInfrequentaccess,
 	"Archive":          GetObjectStorageTierArchive,
+	"Query":            GetObjectStorageTierQuery,
 }
 
 // GetGetObjectStorageTierEnumValues Enumerates the set of values for GetObjectStorageTierEnum
 func GetGetObjectStorageTierEnumValues() []GetObjectStorageTierEnum {
 	values := make([]GetObjectStorageTierEnum, 0)
-	for _, v := range mappingGetObjectStorageTier {
+	for _, v := range mappingGetObjectStorageTierEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetObjectStorageTierEnumStringValues Enumerates the set of values in String for GetObjectStorageTierEnum
+func GetGetObjectStorageTierEnumStringValues() []string {
+	return []string{
+		"Standard",
+		"InfrequentAccess",
+		"Archive",
+		"Query",
+	}
+}
+
+// GetObjectQueryStateEnum Enum with underlying type: string
+type GetObjectQueryStateEnum string
+
+// Set of constants representing the allowable values for GetObjectQueryStateEnum
+const (
+	GetObjectQueryStateNotqueryable      GetObjectQueryStateEnum = "NotQueryable"
+	GetObjectQueryStateMovingtoquerytier GetObjectQueryStateEnum = "MovingToQueryTier"
+	GetObjectQueryStateQueryable         GetObjectQueryStateEnum = "Queryable"
+)
+
+var mappingGetObjectQueryStateEnum = map[string]GetObjectQueryStateEnum{
+	"NotQueryable":      GetObjectQueryStateNotqueryable,
+	"MovingToQueryTier": GetObjectQueryStateMovingtoquerytier,
+	"Queryable":         GetObjectQueryStateQueryable,
+}
+
+// GetGetObjectQueryStateEnumValues Enumerates the set of values for GetObjectQueryStateEnum
+func GetGetObjectQueryStateEnumValues() []GetObjectQueryStateEnum {
+	values := make([]GetObjectQueryStateEnum, 0)
+	for _, v := range mappingGetObjectQueryStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetObjectQueryStateEnumStringValues Enumerates the set of values in String for GetObjectQueryStateEnum
+func GetGetObjectQueryStateEnumStringValues() []string {
+	return []string{
+		"NotQueryable",
+		"MovingToQueryTier",
+		"Queryable",
+	}
 }
 
 // GetObjectArchivalStateEnum Enum with underlying type: string
@@ -231,7 +293,7 @@ const (
 	GetObjectArchivalStateRestored  GetObjectArchivalStateEnum = "Restored"
 )
 
-var mappingGetObjectArchivalState = map[string]GetObjectArchivalStateEnum{
+var mappingGetObjectArchivalStateEnum = map[string]GetObjectArchivalStateEnum{
 	"Archived":  GetObjectArchivalStateArchived,
 	"Restoring": GetObjectArchivalStateRestoring,
 	"Restored":  GetObjectArchivalStateRestored,
@@ -240,8 +302,17 @@ var mappingGetObjectArchivalState = map[string]GetObjectArchivalStateEnum{
 // GetGetObjectArchivalStateEnumValues Enumerates the set of values for GetObjectArchivalStateEnum
 func GetGetObjectArchivalStateEnumValues() []GetObjectArchivalStateEnum {
 	values := make([]GetObjectArchivalStateEnum, 0)
-	for _, v := range mappingGetObjectArchivalState {
+	for _, v := range mappingGetObjectArchivalStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetObjectArchivalStateEnumStringValues Enumerates the set of values in String for GetObjectArchivalStateEnum
+func GetGetObjectArchivalStateEnumStringValues() []string {
+	return []string{
+		"Archived",
+		"Restoring",
+		"Restored",
+	}
 }

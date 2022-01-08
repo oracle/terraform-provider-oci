@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListDatabasesRequest wrapper for the ListDatabases operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDatabases.go.html to see an example of how to use ListDatabasesRequest.
 type ListDatabasesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -59,6 +57,10 @@ func (request ListDatabasesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDatabasesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +74,26 @@ func (request ListDatabasesRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDatabasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDatabasesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDatabasesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDatabasesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabasesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatabasesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDatabasesResponse wrapper for the ListDatabases operation
@@ -112,7 +134,7 @@ const (
 	ListDatabasesSortByTimecreated ListDatabasesSortByEnum = "TIMECREATED"
 )
 
-var mappingListDatabasesSortBy = map[string]ListDatabasesSortByEnum{
+var mappingListDatabasesSortByEnum = map[string]ListDatabasesSortByEnum{
 	"DBNAME":      ListDatabasesSortByDbname,
 	"TIMECREATED": ListDatabasesSortByTimecreated,
 }
@@ -120,10 +142,18 @@ var mappingListDatabasesSortBy = map[string]ListDatabasesSortByEnum{
 // GetListDatabasesSortByEnumValues Enumerates the set of values for ListDatabasesSortByEnum
 func GetListDatabasesSortByEnumValues() []ListDatabasesSortByEnum {
 	values := make([]ListDatabasesSortByEnum, 0)
-	for _, v := range mappingListDatabasesSortBy {
+	for _, v := range mappingListDatabasesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabasesSortByEnumStringValues Enumerates the set of values in String for ListDatabasesSortByEnum
+func GetListDatabasesSortByEnumStringValues() []string {
+	return []string{
+		"DBNAME",
+		"TIMECREATED",
+	}
 }
 
 // ListDatabasesSortOrderEnum Enum with underlying type: string
@@ -135,7 +165,7 @@ const (
 	ListDatabasesSortOrderDesc ListDatabasesSortOrderEnum = "DESC"
 )
 
-var mappingListDatabasesSortOrder = map[string]ListDatabasesSortOrderEnum{
+var mappingListDatabasesSortOrderEnum = map[string]ListDatabasesSortOrderEnum{
 	"ASC":  ListDatabasesSortOrderAsc,
 	"DESC": ListDatabasesSortOrderDesc,
 }
@@ -143,8 +173,16 @@ var mappingListDatabasesSortOrder = map[string]ListDatabasesSortOrderEnum{
 // GetListDatabasesSortOrderEnumValues Enumerates the set of values for ListDatabasesSortOrderEnum
 func GetListDatabasesSortOrderEnumValues() []ListDatabasesSortOrderEnum {
 	values := make([]ListDatabasesSortOrderEnum, 0)
-	for _, v := range mappingListDatabasesSortOrder {
+	for _, v := range mappingListDatabasesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabasesSortOrderEnumStringValues Enumerates the set of values in String for ListDatabasesSortOrderEnum
+func GetListDatabasesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

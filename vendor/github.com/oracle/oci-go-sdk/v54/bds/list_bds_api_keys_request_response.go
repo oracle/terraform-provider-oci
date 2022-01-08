@@ -5,15 +5,13 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListBdsApiKeysRequest wrapper for the ListBdsApiKeys operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsApiKeys.go.html to see an example of how to use ListBdsApiKeysRequest.
 type ListBdsApiKeysRequest struct {
 
 	// The OCID of the cluster.
@@ -55,6 +53,10 @@ func (request ListBdsApiKeysRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBdsApiKeysRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +70,26 @@ func (request ListBdsApiKeysRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBdsApiKeysRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBdsApiKeysRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBdsApiKeyLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBdsApiKeyLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBdsApiKeysSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBdsApiKeysSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBdsApiKeysSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBdsApiKeysSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBdsApiKeysResponse wrapper for the ListBdsApiKeys operation
@@ -107,7 +129,7 @@ const (
 	ListBdsApiKeysSortByDisplayname ListBdsApiKeysSortByEnum = "displayName"
 )
 
-var mappingListBdsApiKeysSortBy = map[string]ListBdsApiKeysSortByEnum{
+var mappingListBdsApiKeysSortByEnum = map[string]ListBdsApiKeysSortByEnum{
 	"timeCreated": ListBdsApiKeysSortByTimecreated,
 	"displayName": ListBdsApiKeysSortByDisplayname,
 }
@@ -115,10 +137,18 @@ var mappingListBdsApiKeysSortBy = map[string]ListBdsApiKeysSortByEnum{
 // GetListBdsApiKeysSortByEnumValues Enumerates the set of values for ListBdsApiKeysSortByEnum
 func GetListBdsApiKeysSortByEnumValues() []ListBdsApiKeysSortByEnum {
 	values := make([]ListBdsApiKeysSortByEnum, 0)
-	for _, v := range mappingListBdsApiKeysSortBy {
+	for _, v := range mappingListBdsApiKeysSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBdsApiKeysSortByEnumStringValues Enumerates the set of values in String for ListBdsApiKeysSortByEnum
+func GetListBdsApiKeysSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListBdsApiKeysSortOrderEnum Enum with underlying type: string
@@ -130,7 +160,7 @@ const (
 	ListBdsApiKeysSortOrderDesc ListBdsApiKeysSortOrderEnum = "DESC"
 )
 
-var mappingListBdsApiKeysSortOrder = map[string]ListBdsApiKeysSortOrderEnum{
+var mappingListBdsApiKeysSortOrderEnum = map[string]ListBdsApiKeysSortOrderEnum{
 	"ASC":  ListBdsApiKeysSortOrderAsc,
 	"DESC": ListBdsApiKeysSortOrderDesc,
 }
@@ -138,8 +168,16 @@ var mappingListBdsApiKeysSortOrder = map[string]ListBdsApiKeysSortOrderEnum{
 // GetListBdsApiKeysSortOrderEnumValues Enumerates the set of values for ListBdsApiKeysSortOrderEnum
 func GetListBdsApiKeysSortOrderEnumValues() []ListBdsApiKeysSortOrderEnum {
 	values := make([]ListBdsApiKeysSortOrderEnum, 0)
-	for _, v := range mappingListBdsApiKeysSortOrder {
+	for _, v := range mappingListBdsApiKeysSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBdsApiKeysSortOrderEnumStringValues Enumerates the set of values in String for ListBdsApiKeysSortOrderEnum
+func GetListBdsApiKeysSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

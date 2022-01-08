@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ScheduledTaskSummary Summary information about a scheduled task.
@@ -68,6 +70,33 @@ func (m ScheduledTaskSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ScheduledTaskSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTaskTypeEnum[string(m.TaskType)]; !ok && m.TaskType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskType: %s. Supported values are: %s.", m.TaskType, strings.Join(GetTaskTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScheduledTaskLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetScheduledTaskLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingScheduledTaskSummaryTaskStatusEnum[string(m.TaskStatus)]; !ok && m.TaskStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskStatus: %s. Supported values are: %s.", m.TaskStatus, strings.Join(GetScheduledTaskSummaryTaskStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScheduledTaskPauseReasonEnum[string(m.PauseReason)]; !ok && m.PauseReason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PauseReason: %s. Supported values are: %s.", m.PauseReason, strings.Join(GetScheduledTaskPauseReasonEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScheduledTaskSummaryLastExecutionStatusEnum[string(m.LastExecutionStatus)]; !ok && m.LastExecutionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastExecutionStatus: %s. Supported values are: %s.", m.LastExecutionStatus, strings.Join(GetScheduledTaskSummaryLastExecutionStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ScheduledTaskSummaryTaskStatusEnum Enum with underlying type: string
 type ScheduledTaskSummaryTaskStatusEnum string
 
@@ -79,7 +108,7 @@ const (
 	ScheduledTaskSummaryTaskStatusBlocked   ScheduledTaskSummaryTaskStatusEnum = "BLOCKED"
 )
 
-var mappingScheduledTaskSummaryTaskStatus = map[string]ScheduledTaskSummaryTaskStatusEnum{
+var mappingScheduledTaskSummaryTaskStatusEnum = map[string]ScheduledTaskSummaryTaskStatusEnum{
 	"READY":     ScheduledTaskSummaryTaskStatusReady,
 	"PAUSED":    ScheduledTaskSummaryTaskStatusPaused,
 	"COMPLETED": ScheduledTaskSummaryTaskStatusCompleted,
@@ -89,10 +118,20 @@ var mappingScheduledTaskSummaryTaskStatus = map[string]ScheduledTaskSummaryTaskS
 // GetScheduledTaskSummaryTaskStatusEnumValues Enumerates the set of values for ScheduledTaskSummaryTaskStatusEnum
 func GetScheduledTaskSummaryTaskStatusEnumValues() []ScheduledTaskSummaryTaskStatusEnum {
 	values := make([]ScheduledTaskSummaryTaskStatusEnum, 0)
-	for _, v := range mappingScheduledTaskSummaryTaskStatus {
+	for _, v := range mappingScheduledTaskSummaryTaskStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScheduledTaskSummaryTaskStatusEnumStringValues Enumerates the set of values in String for ScheduledTaskSummaryTaskStatusEnum
+func GetScheduledTaskSummaryTaskStatusEnumStringValues() []string {
+	return []string{
+		"READY",
+		"PAUSED",
+		"COMPLETED",
+		"BLOCKED",
+	}
 }
 
 // ScheduledTaskSummaryLastExecutionStatusEnum Enum with underlying type: string
@@ -104,7 +143,7 @@ const (
 	ScheduledTaskSummaryLastExecutionStatusSucceeded ScheduledTaskSummaryLastExecutionStatusEnum = "SUCCEEDED"
 )
 
-var mappingScheduledTaskSummaryLastExecutionStatus = map[string]ScheduledTaskSummaryLastExecutionStatusEnum{
+var mappingScheduledTaskSummaryLastExecutionStatusEnum = map[string]ScheduledTaskSummaryLastExecutionStatusEnum{
 	"FAILED":    ScheduledTaskSummaryLastExecutionStatusFailed,
 	"SUCCEEDED": ScheduledTaskSummaryLastExecutionStatusSucceeded,
 }
@@ -112,8 +151,16 @@ var mappingScheduledTaskSummaryLastExecutionStatus = map[string]ScheduledTaskSum
 // GetScheduledTaskSummaryLastExecutionStatusEnumValues Enumerates the set of values for ScheduledTaskSummaryLastExecutionStatusEnum
 func GetScheduledTaskSummaryLastExecutionStatusEnumValues() []ScheduledTaskSummaryLastExecutionStatusEnum {
 	values := make([]ScheduledTaskSummaryLastExecutionStatusEnum, 0)
-	for _, v := range mappingScheduledTaskSummaryLastExecutionStatus {
+	for _, v := range mappingScheduledTaskSummaryLastExecutionStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScheduledTaskSummaryLastExecutionStatusEnumStringValues Enumerates the set of values in String for ScheduledTaskSummaryLastExecutionStatusEnum
+func GetScheduledTaskSummaryLastExecutionStatusEnumStringValues() []string {
+	return []string{
+		"FAILED",
+		"SUCCEEDED",
+	}
 }

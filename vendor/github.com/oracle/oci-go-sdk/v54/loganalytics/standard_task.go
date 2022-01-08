@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // StandardTask Log analytics scheduled task resource.
@@ -161,6 +163,33 @@ func (m StandardTask) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m StandardTask) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingStandardTaskLastExecutionStatusEnum[string(m.LastExecutionStatus)]; !ok && m.LastExecutionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastExecutionStatus: %s. Supported values are: %s.", m.LastExecutionStatus, strings.Join(GetStandardTaskLastExecutionStatusEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingTaskTypeEnum[string(m.TaskType)]; !ok && m.TaskType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskType: %s. Supported values are: %s.", m.TaskType, strings.Join(GetTaskTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScheduledTaskTaskStatusEnum[string(m.TaskStatus)]; !ok && m.TaskStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskStatus: %s. Supported values are: %s.", m.TaskStatus, strings.Join(GetScheduledTaskTaskStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScheduledTaskPauseReasonEnum[string(m.PauseReason)]; !ok && m.PauseReason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PauseReason: %s. Supported values are: %s.", m.PauseReason, strings.Join(GetScheduledTaskPauseReasonEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScheduledTaskLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetScheduledTaskLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m StandardTask) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeStandardTask StandardTask
@@ -270,7 +299,7 @@ const (
 	StandardTaskLastExecutionStatusSucceeded StandardTaskLastExecutionStatusEnum = "SUCCEEDED"
 )
 
-var mappingStandardTaskLastExecutionStatus = map[string]StandardTaskLastExecutionStatusEnum{
+var mappingStandardTaskLastExecutionStatusEnum = map[string]StandardTaskLastExecutionStatusEnum{
 	"FAILED":    StandardTaskLastExecutionStatusFailed,
 	"SUCCEEDED": StandardTaskLastExecutionStatusSucceeded,
 }
@@ -278,8 +307,16 @@ var mappingStandardTaskLastExecutionStatus = map[string]StandardTaskLastExecutio
 // GetStandardTaskLastExecutionStatusEnumValues Enumerates the set of values for StandardTaskLastExecutionStatusEnum
 func GetStandardTaskLastExecutionStatusEnumValues() []StandardTaskLastExecutionStatusEnum {
 	values := make([]StandardTaskLastExecutionStatusEnum, 0)
-	for _, v := range mappingStandardTaskLastExecutionStatus {
+	for _, v := range mappingStandardTaskLastExecutionStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStandardTaskLastExecutionStatusEnumStringValues Enumerates the set of values in String for StandardTaskLastExecutionStatusEnum
+func GetStandardTaskLastExecutionStatusEnumStringValues() []string {
+	return []string{
+		"FAILED",
+		"SUCCEEDED",
+	}
 }

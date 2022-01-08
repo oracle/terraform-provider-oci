@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TopologyEntityRelationship Defines the relationship between Virtual Network topology entities.
@@ -93,6 +95,18 @@ func (m topologyentityrelationship) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m topologyentityrelationship) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TopologyEntityRelationshipTypeEnum Enum with underlying type: string
 type TopologyEntityRelationshipTypeEnum string
 
@@ -103,7 +117,7 @@ const (
 	TopologyEntityRelationshipTypeRoutesTo       TopologyEntityRelationshipTypeEnum = "ROUTES_TO"
 )
 
-var mappingTopologyEntityRelationshipType = map[string]TopologyEntityRelationshipTypeEnum{
+var mappingTopologyEntityRelationshipTypeEnum = map[string]TopologyEntityRelationshipTypeEnum{
 	"CONTAINS":        TopologyEntityRelationshipTypeContains,
 	"ASSOCIATED_WITH": TopologyEntityRelationshipTypeAssociatedWith,
 	"ROUTES_TO":       TopologyEntityRelationshipTypeRoutesTo,
@@ -112,8 +126,17 @@ var mappingTopologyEntityRelationshipType = map[string]TopologyEntityRelationshi
 // GetTopologyEntityRelationshipTypeEnumValues Enumerates the set of values for TopologyEntityRelationshipTypeEnum
 func GetTopologyEntityRelationshipTypeEnumValues() []TopologyEntityRelationshipTypeEnum {
 	values := make([]TopologyEntityRelationshipTypeEnum, 0)
-	for _, v := range mappingTopologyEntityRelationshipType {
+	for _, v := range mappingTopologyEntityRelationshipTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTopologyEntityRelationshipTypeEnumStringValues Enumerates the set of values in String for TopologyEntityRelationshipTypeEnum
+func GetTopologyEntityRelationshipTypeEnumStringValues() []string {
+	return []string{
+		"CONTAINS",
+		"ASSOCIATED_WITH",
+		"ROUTES_TO",
+	}
 }

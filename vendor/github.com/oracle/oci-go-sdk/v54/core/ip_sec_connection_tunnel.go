@@ -14,11 +14,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// IpSecConnectionTunnel Information about a single tunnel in an IPSec connection. This object does not include the tunnel's
-// shared secret (pre-shared key). That is in the
+// IpSecConnectionTunnel Information about a single IPSec tunnel in an IPSec connection. This object does not include the tunnel's
+// shared secret (pre-shared key), which is found in the
 // IPSecConnectionTunnelSharedSecret object.
 type IpSecConnectionTunnel struct {
 
@@ -31,11 +33,11 @@ type IpSecConnectionTunnel struct {
 	// The tunnel's lifecycle state.
 	LifecycleState IpSecConnectionTunnelLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The IP address of Oracle's VPN headend.
+	// The IP address of the Oracle VPN headend for the connection.
 	// Example: `203.0.113.21`
 	VpnIp *string `mandatory:"false" json:"vpnIp"`
 
-	// The IP address of the CPE's VPN headend.
+	// The IP address of the CPE device's VPN headend.
 	// Example: `203.0.113.22`
 	CpeIp *string `mandatory:"false" json:"cpeIp"`
 
@@ -53,27 +55,36 @@ type IpSecConnectionTunnel struct {
 
 	EncryptionDomainConfig *EncryptionDomainConfig `mandatory:"false" json:"encryptionDomainConfig"`
 
-	// The type of routing used for this tunnel (either BGP dynamic routing or static routing).
+	// The type of routing used for this tunnel (BGP dynamic routing, static routing, or policy-based routing).
 	Routing IpSecConnectionTunnelRoutingEnum `mandatory:"false" json:"routing,omitempty"`
 
-	// The date and time the IPSec connection tunnel was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the IPSec tunnel was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// When the status of the tunnel last changed, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// When the status of the IPSec tunnel last changed, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeStatusUpdated *common.SDKTime `mandatory:"false" json:"timeStatusUpdated"`
 
-	// Indicates whether Oracle can either initiate the tunnel or respond, or respond only.
+	// Indicates whether Oracle can only respond to a request to start an IPSec tunnel from the CPE device, or both respond to and initiate requests.
 	OracleCanInitiate IpSecConnectionTunnelOracleCanInitiateEnum `mandatory:"false" json:"oracleCanInitiate,omitempty"`
 
-	// Whether NAT-T Enabled on the tunnel
+	// By default (the `AUTO` setting), IKE sends packets with a source and destination port set to 500,
+	// and when it detects that the port used to forward packets has changed (most likely because a NAT device
+	// is between the CPE device and the Oracle VPN headend) it will try to negotiate the use of NAT-T.
+	// The `ENABLED` option sets the IKE protocol to use port 4500 instead of 500 and forces encapsulating traffic with the ESP protocol inside UDP packets.
+	// The `DISABLED` option directs IKE to completely refuse to negotiate NAT-T
+	// even if it senses there may be a NAT device in use.
+	//
+	// .
 	NatTranslationEnabled IpSecConnectionTunnelNatTranslationEnabledEnum `mandatory:"false" json:"natTranslationEnabled,omitempty"`
 
-	// dpd mode
+	// Dead peer detection (DPD) mode set on the Oracle side of the connection.
+	// This mode sets whether Oracle can only respond to a request from the CPE device to start DPD,
+	// or both respond to and initiate requests.
 	DpdMode IpSecConnectionTunnelDpdModeEnum `mandatory:"false" json:"dpdMode,omitempty"`
 
-	// Dead peer detection (DPD) timeout in seconds.
+	// DPD timeout in seconds.
 	DpdTimeoutInSec *int `mandatory:"false" json:"dpdTimeoutInSec"`
 
 	PhaseOneDetails *TunnelPhaseOneDetails `mandatory:"false" json:"phaseOneDetails"`
@@ -83,6 +94,39 @@ type IpSecConnectionTunnel struct {
 
 func (m IpSecConnectionTunnel) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IpSecConnectionTunnel) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIpSecConnectionTunnelLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetIpSecConnectionTunnelLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingIpSecConnectionTunnelStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetIpSecConnectionTunnelStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIpSecConnectionTunnelIkeVersionEnum[string(m.IkeVersion)]; !ok && m.IkeVersion != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IkeVersion: %s. Supported values are: %s.", m.IkeVersion, strings.Join(GetIpSecConnectionTunnelIkeVersionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIpSecConnectionTunnelRoutingEnum[string(m.Routing)]; !ok && m.Routing != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Routing: %s. Supported values are: %s.", m.Routing, strings.Join(GetIpSecConnectionTunnelRoutingEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIpSecConnectionTunnelOracleCanInitiateEnum[string(m.OracleCanInitiate)]; !ok && m.OracleCanInitiate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OracleCanInitiate: %s. Supported values are: %s.", m.OracleCanInitiate, strings.Join(GetIpSecConnectionTunnelOracleCanInitiateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIpSecConnectionTunnelNatTranslationEnabledEnum[string(m.NatTranslationEnabled)]; !ok && m.NatTranslationEnabled != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NatTranslationEnabled: %s. Supported values are: %s.", m.NatTranslationEnabled, strings.Join(GetIpSecConnectionTunnelNatTranslationEnabledEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIpSecConnectionTunnelDpdModeEnum[string(m.DpdMode)]; !ok && m.DpdMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DpdMode: %s. Supported values are: %s.", m.DpdMode, strings.Join(GetIpSecConnectionTunnelDpdModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // IpSecConnectionTunnelStatusEnum Enum with underlying type: string
@@ -96,7 +140,7 @@ const (
 	IpSecConnectionTunnelStatusPartialUp          IpSecConnectionTunnelStatusEnum = "PARTIAL_UP"
 )
 
-var mappingIpSecConnectionTunnelStatus = map[string]IpSecConnectionTunnelStatusEnum{
+var mappingIpSecConnectionTunnelStatusEnum = map[string]IpSecConnectionTunnelStatusEnum{
 	"UP":                   IpSecConnectionTunnelStatusUp,
 	"DOWN":                 IpSecConnectionTunnelStatusDown,
 	"DOWN_FOR_MAINTENANCE": IpSecConnectionTunnelStatusDownForMaintenance,
@@ -106,10 +150,20 @@ var mappingIpSecConnectionTunnelStatus = map[string]IpSecConnectionTunnelStatusE
 // GetIpSecConnectionTunnelStatusEnumValues Enumerates the set of values for IpSecConnectionTunnelStatusEnum
 func GetIpSecConnectionTunnelStatusEnumValues() []IpSecConnectionTunnelStatusEnum {
 	values := make([]IpSecConnectionTunnelStatusEnum, 0)
-	for _, v := range mappingIpSecConnectionTunnelStatus {
+	for _, v := range mappingIpSecConnectionTunnelStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpSecConnectionTunnelStatusEnumStringValues Enumerates the set of values in String for IpSecConnectionTunnelStatusEnum
+func GetIpSecConnectionTunnelStatusEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+		"DOWN_FOR_MAINTENANCE",
+		"PARTIAL_UP",
+	}
 }
 
 // IpSecConnectionTunnelIkeVersionEnum Enum with underlying type: string
@@ -121,7 +175,7 @@ const (
 	IpSecConnectionTunnelIkeVersionV2 IpSecConnectionTunnelIkeVersionEnum = "V2"
 )
 
-var mappingIpSecConnectionTunnelIkeVersion = map[string]IpSecConnectionTunnelIkeVersionEnum{
+var mappingIpSecConnectionTunnelIkeVersionEnum = map[string]IpSecConnectionTunnelIkeVersionEnum{
 	"V1": IpSecConnectionTunnelIkeVersionV1,
 	"V2": IpSecConnectionTunnelIkeVersionV2,
 }
@@ -129,10 +183,18 @@ var mappingIpSecConnectionTunnelIkeVersion = map[string]IpSecConnectionTunnelIke
 // GetIpSecConnectionTunnelIkeVersionEnumValues Enumerates the set of values for IpSecConnectionTunnelIkeVersionEnum
 func GetIpSecConnectionTunnelIkeVersionEnumValues() []IpSecConnectionTunnelIkeVersionEnum {
 	values := make([]IpSecConnectionTunnelIkeVersionEnum, 0)
-	for _, v := range mappingIpSecConnectionTunnelIkeVersion {
+	for _, v := range mappingIpSecConnectionTunnelIkeVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpSecConnectionTunnelIkeVersionEnumStringValues Enumerates the set of values in String for IpSecConnectionTunnelIkeVersionEnum
+func GetIpSecConnectionTunnelIkeVersionEnumStringValues() []string {
+	return []string{
+		"V1",
+		"V2",
+	}
 }
 
 // IpSecConnectionTunnelLifecycleStateEnum Enum with underlying type: string
@@ -146,7 +208,7 @@ const (
 	IpSecConnectionTunnelLifecycleStateTerminated   IpSecConnectionTunnelLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingIpSecConnectionTunnelLifecycleState = map[string]IpSecConnectionTunnelLifecycleStateEnum{
+var mappingIpSecConnectionTunnelLifecycleStateEnum = map[string]IpSecConnectionTunnelLifecycleStateEnum{
 	"PROVISIONING": IpSecConnectionTunnelLifecycleStateProvisioning,
 	"AVAILABLE":    IpSecConnectionTunnelLifecycleStateAvailable,
 	"TERMINATING":  IpSecConnectionTunnelLifecycleStateTerminating,
@@ -156,10 +218,20 @@ var mappingIpSecConnectionTunnelLifecycleState = map[string]IpSecConnectionTunne
 // GetIpSecConnectionTunnelLifecycleStateEnumValues Enumerates the set of values for IpSecConnectionTunnelLifecycleStateEnum
 func GetIpSecConnectionTunnelLifecycleStateEnumValues() []IpSecConnectionTunnelLifecycleStateEnum {
 	values := make([]IpSecConnectionTunnelLifecycleStateEnum, 0)
-	for _, v := range mappingIpSecConnectionTunnelLifecycleState {
+	for _, v := range mappingIpSecConnectionTunnelLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpSecConnectionTunnelLifecycleStateEnumStringValues Enumerates the set of values in String for IpSecConnectionTunnelLifecycleStateEnum
+func GetIpSecConnectionTunnelLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }
 
 // IpSecConnectionTunnelRoutingEnum Enum with underlying type: string
@@ -172,7 +244,7 @@ const (
 	IpSecConnectionTunnelRoutingPolicy IpSecConnectionTunnelRoutingEnum = "POLICY"
 )
 
-var mappingIpSecConnectionTunnelRouting = map[string]IpSecConnectionTunnelRoutingEnum{
+var mappingIpSecConnectionTunnelRoutingEnum = map[string]IpSecConnectionTunnelRoutingEnum{
 	"BGP":    IpSecConnectionTunnelRoutingBgp,
 	"STATIC": IpSecConnectionTunnelRoutingStatic,
 	"POLICY": IpSecConnectionTunnelRoutingPolicy,
@@ -181,10 +253,19 @@ var mappingIpSecConnectionTunnelRouting = map[string]IpSecConnectionTunnelRoutin
 // GetIpSecConnectionTunnelRoutingEnumValues Enumerates the set of values for IpSecConnectionTunnelRoutingEnum
 func GetIpSecConnectionTunnelRoutingEnumValues() []IpSecConnectionTunnelRoutingEnum {
 	values := make([]IpSecConnectionTunnelRoutingEnum, 0)
-	for _, v := range mappingIpSecConnectionTunnelRouting {
+	for _, v := range mappingIpSecConnectionTunnelRoutingEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpSecConnectionTunnelRoutingEnumStringValues Enumerates the set of values in String for IpSecConnectionTunnelRoutingEnum
+func GetIpSecConnectionTunnelRoutingEnumStringValues() []string {
+	return []string{
+		"BGP",
+		"STATIC",
+		"POLICY",
+	}
 }
 
 // IpSecConnectionTunnelOracleCanInitiateEnum Enum with underlying type: string
@@ -196,7 +277,7 @@ const (
 	IpSecConnectionTunnelOracleCanInitiateResponderOnly        IpSecConnectionTunnelOracleCanInitiateEnum = "RESPONDER_ONLY"
 )
 
-var mappingIpSecConnectionTunnelOracleCanInitiate = map[string]IpSecConnectionTunnelOracleCanInitiateEnum{
+var mappingIpSecConnectionTunnelOracleCanInitiateEnum = map[string]IpSecConnectionTunnelOracleCanInitiateEnum{
 	"INITIATOR_OR_RESPONDER": IpSecConnectionTunnelOracleCanInitiateInitiatorOrResponder,
 	"RESPONDER_ONLY":         IpSecConnectionTunnelOracleCanInitiateResponderOnly,
 }
@@ -204,10 +285,18 @@ var mappingIpSecConnectionTunnelOracleCanInitiate = map[string]IpSecConnectionTu
 // GetIpSecConnectionTunnelOracleCanInitiateEnumValues Enumerates the set of values for IpSecConnectionTunnelOracleCanInitiateEnum
 func GetIpSecConnectionTunnelOracleCanInitiateEnumValues() []IpSecConnectionTunnelOracleCanInitiateEnum {
 	values := make([]IpSecConnectionTunnelOracleCanInitiateEnum, 0)
-	for _, v := range mappingIpSecConnectionTunnelOracleCanInitiate {
+	for _, v := range mappingIpSecConnectionTunnelOracleCanInitiateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpSecConnectionTunnelOracleCanInitiateEnumStringValues Enumerates the set of values in String for IpSecConnectionTunnelOracleCanInitiateEnum
+func GetIpSecConnectionTunnelOracleCanInitiateEnumStringValues() []string {
+	return []string{
+		"INITIATOR_OR_RESPONDER",
+		"RESPONDER_ONLY",
+	}
 }
 
 // IpSecConnectionTunnelNatTranslationEnabledEnum Enum with underlying type: string
@@ -220,7 +309,7 @@ const (
 	IpSecConnectionTunnelNatTranslationEnabledAuto     IpSecConnectionTunnelNatTranslationEnabledEnum = "AUTO"
 )
 
-var mappingIpSecConnectionTunnelNatTranslationEnabled = map[string]IpSecConnectionTunnelNatTranslationEnabledEnum{
+var mappingIpSecConnectionTunnelNatTranslationEnabledEnum = map[string]IpSecConnectionTunnelNatTranslationEnabledEnum{
 	"ENABLED":  IpSecConnectionTunnelNatTranslationEnabledEnabled,
 	"DISABLED": IpSecConnectionTunnelNatTranslationEnabledDisabled,
 	"AUTO":     IpSecConnectionTunnelNatTranslationEnabledAuto,
@@ -229,10 +318,19 @@ var mappingIpSecConnectionTunnelNatTranslationEnabled = map[string]IpSecConnecti
 // GetIpSecConnectionTunnelNatTranslationEnabledEnumValues Enumerates the set of values for IpSecConnectionTunnelNatTranslationEnabledEnum
 func GetIpSecConnectionTunnelNatTranslationEnabledEnumValues() []IpSecConnectionTunnelNatTranslationEnabledEnum {
 	values := make([]IpSecConnectionTunnelNatTranslationEnabledEnum, 0)
-	for _, v := range mappingIpSecConnectionTunnelNatTranslationEnabled {
+	for _, v := range mappingIpSecConnectionTunnelNatTranslationEnabledEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpSecConnectionTunnelNatTranslationEnabledEnumStringValues Enumerates the set of values in String for IpSecConnectionTunnelNatTranslationEnabledEnum
+func GetIpSecConnectionTunnelNatTranslationEnabledEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+		"AUTO",
+	}
 }
 
 // IpSecConnectionTunnelDpdModeEnum Enum with underlying type: string
@@ -244,7 +342,7 @@ const (
 	IpSecConnectionTunnelDpdModeRespondOnly        IpSecConnectionTunnelDpdModeEnum = "RESPOND_ONLY"
 )
 
-var mappingIpSecConnectionTunnelDpdMode = map[string]IpSecConnectionTunnelDpdModeEnum{
+var mappingIpSecConnectionTunnelDpdModeEnum = map[string]IpSecConnectionTunnelDpdModeEnum{
 	"INITIATE_AND_RESPOND": IpSecConnectionTunnelDpdModeInitiateAndRespond,
 	"RESPOND_ONLY":         IpSecConnectionTunnelDpdModeRespondOnly,
 }
@@ -252,8 +350,16 @@ var mappingIpSecConnectionTunnelDpdMode = map[string]IpSecConnectionTunnelDpdMod
 // GetIpSecConnectionTunnelDpdModeEnumValues Enumerates the set of values for IpSecConnectionTunnelDpdModeEnum
 func GetIpSecConnectionTunnelDpdModeEnumValues() []IpSecConnectionTunnelDpdModeEnum {
 	values := make([]IpSecConnectionTunnelDpdModeEnum, 0)
-	for _, v := range mappingIpSecConnectionTunnelDpdMode {
+	for _, v := range mappingIpSecConnectionTunnelDpdModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpSecConnectionTunnelDpdModeEnumStringValues Enumerates the set of values in String for IpSecConnectionTunnelDpdModeEnum
+func GetIpSecConnectionTunnelDpdModeEnumStringValues() []string {
+	return []string{
+		"INITIATE_AND_RESPOND",
+		"RESPOND_ONLY",
+	}
 }

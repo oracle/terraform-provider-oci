@@ -318,8 +318,8 @@ github.com/oracle/oci-go-sdk/v54/oce
 github.com/oracle/oci-go-sdk/v54/ocvp
 github.com/oracle/oci-go-sdk/v54/oda
 github.com/oracle/oci-go-sdk/v54/ons
+github.com/oracle/oci-go-sdk/v54/operationsinsights
 github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol
-github.com/oracle/oci-go-sdk/v54/opsi
 github.com/oracle/oci-go-sdk/v54/optimizer
 github.com/oracle/oci-go-sdk/v54/osmanagement
 github.com/oracle/oci-go-sdk/v54/resourcemanager

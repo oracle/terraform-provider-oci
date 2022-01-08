@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateBootVolumeDetails The representation of CreateBootVolumeDetails
@@ -61,18 +63,35 @@ type CreateBootVolumeDetails struct {
 	// Allowed values:
 	//   * `10`: Represents Balanced option.
 	//   * `20`: Represents Higher Performance option.
+	// For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
-	// Specifies whether the auto-tune performance is enabled for this boot volume.
+	// Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated.
+	// Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
 
 	// The list of boot volume replicas to be enabled for this boot volume
 	// in the specified destination availability domains.
 	BootVolumeReplicas []BootVolumeReplicaDetails `mandatory:"false" json:"bootVolumeReplicas"`
+
+	// The list of autotune policies to be enabled for this volume.
+	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
 }
 
 func (m CreateBootVolumeDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateBootVolumeDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -88,6 +107,7 @@ func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		VpusPerGB          *int64                            `json:"vpusPerGB"`
 		IsAutoTuneEnabled  *bool                             `json:"isAutoTuneEnabled"`
 		BootVolumeReplicas []BootVolumeReplicaDetails        `json:"bootVolumeReplicas"`
+		AutotunePolicies   []autotunepolicy                  `json:"autotunePolicies"`
 		CompartmentId      *string                           `json:"compartmentId"`
 		SourceDetails      bootvolumesourcedetails           `json:"sourceDetails"`
 	}{}
@@ -118,6 +138,19 @@ func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	m.BootVolumeReplicas = make([]BootVolumeReplicaDetails, len(model.BootVolumeReplicas))
 	for i, n := range model.BootVolumeReplicas {
 		m.BootVolumeReplicas[i] = n
+	}
+
+	m.AutotunePolicies = make([]AutotunePolicy, len(model.AutotunePolicies))
+	for i, n := range model.AutotunePolicies {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.AutotunePolicies[i] = nn.(AutotunePolicy)
+		} else {
+			m.AutotunePolicies[i] = nil
+		}
 	}
 
 	m.CompartmentId = model.CompartmentId

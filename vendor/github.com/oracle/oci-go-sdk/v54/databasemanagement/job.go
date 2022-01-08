@@ -13,7 +13,9 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Job The details of the job.
@@ -221,6 +223,27 @@ func (m job) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m job) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJobScheduleTypeEnum[string(m.ScheduleType)]; !ok && m.ScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduleType: %s. Supported values are: %s.", m.ScheduleType, strings.Join(GetJobScheduleTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingJobLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetJobLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDatabaseSubTypeEnum[string(m.DatabaseSubType)]; !ok && m.DatabaseSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseSubType: %s. Supported values are: %s.", m.DatabaseSubType, strings.Join(GetDatabaseSubTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // JobScheduleTypeEnum Enum with underlying type: string
 type JobScheduleTypeEnum string
 
@@ -230,7 +253,7 @@ const (
 	JobScheduleTypeLater     JobScheduleTypeEnum = "LATER"
 )
 
-var mappingJobScheduleType = map[string]JobScheduleTypeEnum{
+var mappingJobScheduleTypeEnum = map[string]JobScheduleTypeEnum{
 	"IMMEDIATE": JobScheduleTypeImmediate,
 	"LATER":     JobScheduleTypeLater,
 }
@@ -238,10 +261,18 @@ var mappingJobScheduleType = map[string]JobScheduleTypeEnum{
 // GetJobScheduleTypeEnumValues Enumerates the set of values for JobScheduleTypeEnum
 func GetJobScheduleTypeEnumValues() []JobScheduleTypeEnum {
 	values := make([]JobScheduleTypeEnum, 0)
-	for _, v := range mappingJobScheduleType {
+	for _, v := range mappingJobScheduleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobScheduleTypeEnumStringValues Enumerates the set of values in String for JobScheduleTypeEnum
+func GetJobScheduleTypeEnumStringValues() []string {
+	return []string{
+		"IMMEDIATE",
+		"LATER",
+	}
 }
 
 // JobLifecycleStateEnum Enum with underlying type: string
@@ -253,7 +284,7 @@ const (
 	JobLifecycleStateInactive JobLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingJobLifecycleState = map[string]JobLifecycleStateEnum{
+var mappingJobLifecycleStateEnum = map[string]JobLifecycleStateEnum{
 	"ACTIVE":   JobLifecycleStateActive,
 	"INACTIVE": JobLifecycleStateInactive,
 }
@@ -261,8 +292,16 @@ var mappingJobLifecycleState = map[string]JobLifecycleStateEnum{
 // GetJobLifecycleStateEnumValues Enumerates the set of values for JobLifecycleStateEnum
 func GetJobLifecycleStateEnumValues() []JobLifecycleStateEnum {
 	values := make([]JobLifecycleStateEnum, 0)
-	for _, v := range mappingJobLifecycleState {
+	for _, v := range mappingJobLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobLifecycleStateEnumStringValues Enumerates the set of values in String for JobLifecycleStateEnum
+func GetJobLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }

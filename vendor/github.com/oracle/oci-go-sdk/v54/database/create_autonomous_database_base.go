@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateAutonomousDatabaseBase Details to create an Oracle Autonomous Database.
@@ -74,17 +76,17 @@ type CreateAutonomousDatabaseBase interface {
 
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
-	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
-	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the
+	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum
 
-	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI).
+	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	GetIsPreviewVersionWithServiceTermsAccepted() *bool
 
 	// Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`.
 	GetIsAutoScalingEnabled() *bool
 
-	// True if the database is on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).
+	// True if the database is on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	GetIsDedicated() *bool
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -98,7 +100,7 @@ type CreateAutonomousDatabaseBase interface {
 	// This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
 	GetIsAccessControlEnabled() *bool
 
-	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) and on Exadata Cloud@Customer.
+	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer.
 	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
 	// For shared Exadata infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
 	// Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs.
@@ -113,7 +115,7 @@ type CreateAutonomousDatabaseBase interface {
 	// It's value would be `FALSE` if Autonomous Database is Data Guard enabled and Access Control is enabled and if the Autonomous Database uses different IP access control list (ACL) for standby compared to primary.
 	GetArePrimaryWhitelistedIpsUsed() *bool
 
-	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) and on Exadata Cloud@Customer.
+	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer.
 	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
 	// For shared Exadata infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
 	// Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs.
@@ -123,7 +125,8 @@ type CreateAutonomousDatabaseBase interface {
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	GetStandbyWhitelistedIps() []string
 
-	// Indicates whether the Autonomous Database has Data Guard enabled.
+	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to
+	// Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	GetIsDataGuardEnabled() *bool
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
@@ -166,8 +169,14 @@ type CreateAutonomousDatabaseBase interface {
 	// follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
 	GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
 
+	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.
+	GetIsOracleServiceGatewayAllowed() *bool
+
 	// list of scheduled operations
 	GetScheduledOperations() []ScheduledOperationDetails
+
+	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
+	GetIsAutoScalingForStorageEnabled() *bool
 }
 
 type createautonomousdatabasebase struct {
@@ -203,7 +212,9 @@ type createautonomousdatabasebase struct {
 	CustomerContacts                         []CustomerContact                                                 `mandatory:"false" json:"customerContacts"`
 	IsMtlsConnectionRequired                 *bool                                                             `mandatory:"false" json:"isMtlsConnectionRequired"`
 	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
+	IsOracleServiceGatewayAllowed            *bool                                                             `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
 	ScheduledOperations                      []ScheduledOperationDetails                                       `mandatory:"false" json:"scheduledOperations"`
+	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 	Source                                   string                                                            `json:"source"`
 }
 
@@ -249,7 +260,9 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.CustomerContacts = s.Model.CustomerContacts
 	m.IsMtlsConnectionRequired = s.Model.IsMtlsConnectionRequired
 	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
+	m.IsOracleServiceGatewayAllowed = s.Model.IsOracleServiceGatewayAllowed
 	m.ScheduledOperations = s.Model.ScheduledOperations
+	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
 	m.Source = s.Model.Source
 
 	return err
@@ -264,6 +277,10 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.Source {
+	case "CLONE_TO_VIRTUAL":
+		mm := CreateVirtualAutonomousDatabaseCloneDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATABASE":
 		mm := CreateAutonomousDatabaseCloneDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -448,13 +465,44 @@ func (m createautonomousdatabasebase) GetAutonomousMaintenanceScheduleType() Cre
 	return m.AutonomousMaintenanceScheduleType
 }
 
+//GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
+func (m createautonomousdatabasebase) GetIsOracleServiceGatewayAllowed() *bool {
+	return m.IsOracleServiceGatewayAllowed
+}
+
 //GetScheduledOperations returns ScheduledOperations
 func (m createautonomousdatabasebase) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
 }
 
+//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+func (m createautonomousdatabasebase) GetIsAutoScalingForStorageEnabled() *bool {
+	return m.IsAutoScalingForStorageEnabled
+}
+
 func (m createautonomousdatabasebase) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createautonomousdatabasebase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateAutonomousDatabaseBaseDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum[string(m.AutonomousMaintenanceScheduleType)]; !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateAutonomousDatabaseBaseDbWorkloadEnum Enum with underlying type: string
@@ -468,7 +516,7 @@ const (
 	CreateAutonomousDatabaseBaseDbWorkloadApex CreateAutonomousDatabaseBaseDbWorkloadEnum = "APEX"
 )
 
-var mappingCreateAutonomousDatabaseBaseDbWorkload = map[string]CreateAutonomousDatabaseBaseDbWorkloadEnum{
+var mappingCreateAutonomousDatabaseBaseDbWorkloadEnum = map[string]CreateAutonomousDatabaseBaseDbWorkloadEnum{
 	"OLTP": CreateAutonomousDatabaseBaseDbWorkloadOltp,
 	"DW":   CreateAutonomousDatabaseBaseDbWorkloadDw,
 	"AJD":  CreateAutonomousDatabaseBaseDbWorkloadAjd,
@@ -478,10 +526,20 @@ var mappingCreateAutonomousDatabaseBaseDbWorkload = map[string]CreateAutonomousD
 // GetCreateAutonomousDatabaseBaseDbWorkloadEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseDbWorkloadEnum
 func GetCreateAutonomousDatabaseBaseDbWorkloadEnumValues() []CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	values := make([]CreateAutonomousDatabaseBaseDbWorkloadEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseBaseDbWorkload {
+	for _, v := range mappingCreateAutonomousDatabaseBaseDbWorkloadEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseDbWorkloadEnum
+func GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DW",
+		"AJD",
+		"APEX",
+	}
 }
 
 // CreateAutonomousDatabaseBaseLicenseModelEnum Enum with underlying type: string
@@ -493,7 +551,7 @@ const (
 	CreateAutonomousDatabaseBaseLicenseModelBringYourOwnLicense CreateAutonomousDatabaseBaseLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingCreateAutonomousDatabaseBaseLicenseModel = map[string]CreateAutonomousDatabaseBaseLicenseModelEnum{
+var mappingCreateAutonomousDatabaseBaseLicenseModelEnum = map[string]CreateAutonomousDatabaseBaseLicenseModelEnum{
 	"LICENSE_INCLUDED":       CreateAutonomousDatabaseBaseLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": CreateAutonomousDatabaseBaseLicenseModelBringYourOwnLicense,
 }
@@ -501,10 +559,18 @@ var mappingCreateAutonomousDatabaseBaseLicenseModel = map[string]CreateAutonomou
 // GetCreateAutonomousDatabaseBaseLicenseModelEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseLicenseModelEnum
 func GetCreateAutonomousDatabaseBaseLicenseModelEnumValues() []CreateAutonomousDatabaseBaseLicenseModelEnum {
 	values := make([]CreateAutonomousDatabaseBaseLicenseModelEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseBaseLicenseModel {
+	for _, v := range mappingCreateAutonomousDatabaseBaseLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseLicenseModelEnum
+func GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }
 
 // CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum Enum with underlying type: string
@@ -516,7 +582,7 @@ const (
 	CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeRegular CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum = "REGULAR"
 )
 
-var mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleType = map[string]CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum{
+var mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum = map[string]CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum{
 	"EARLY":   CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEarly,
 	"REGULAR": CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeRegular,
 }
@@ -524,10 +590,18 @@ var mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleType = map[s
 // GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
 func GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumValues() []CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	values := make([]CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleType {
+	for _, v := range mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
+func GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues() []string {
+	return []string{
+		"EARLY",
+		"REGULAR",
+	}
 }
 
 // CreateAutonomousDatabaseBaseSourceEnum Enum with underlying type: string
@@ -540,23 +614,38 @@ const (
 	CreateAutonomousDatabaseBaseSourceBackupFromId         CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_ID"
 	CreateAutonomousDatabaseBaseSourceBackupFromTimestamp  CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_TIMESTAMP"
 	CreateAutonomousDatabaseBaseSourceCloneToRefreshable   CreateAutonomousDatabaseBaseSourceEnum = "CLONE_TO_REFRESHABLE"
+	CreateAutonomousDatabaseBaseSourceCloneToVirtual       CreateAutonomousDatabaseBaseSourceEnum = "CLONE_TO_VIRTUAL"
 	CreateAutonomousDatabaseBaseSourceCrossRegionDataguard CreateAutonomousDatabaseBaseSourceEnum = "CROSS_REGION_DATAGUARD"
 )
 
-var mappingCreateAutonomousDatabaseBaseSource = map[string]CreateAutonomousDatabaseBaseSourceEnum{
+var mappingCreateAutonomousDatabaseBaseSourceEnum = map[string]CreateAutonomousDatabaseBaseSourceEnum{
 	"NONE":                   CreateAutonomousDatabaseBaseSourceNone,
 	"DATABASE":               CreateAutonomousDatabaseBaseSourceDatabase,
 	"BACKUP_FROM_ID":         CreateAutonomousDatabaseBaseSourceBackupFromId,
 	"BACKUP_FROM_TIMESTAMP":  CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
 	"CLONE_TO_REFRESHABLE":   CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
+	"CLONE_TO_VIRTUAL":       CreateAutonomousDatabaseBaseSourceCloneToVirtual,
 	"CROSS_REGION_DATAGUARD": CreateAutonomousDatabaseBaseSourceCrossRegionDataguard,
 }
 
 // GetCreateAutonomousDatabaseBaseSourceEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseSourceEnum
 func GetCreateAutonomousDatabaseBaseSourceEnumValues() []CreateAutonomousDatabaseBaseSourceEnum {
 	values := make([]CreateAutonomousDatabaseBaseSourceEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseBaseSource {
+	for _, v := range mappingCreateAutonomousDatabaseBaseSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseBaseSourceEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseSourceEnum
+func GetCreateAutonomousDatabaseBaseSourceEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"DATABASE",
+		"BACKUP_FROM_ID",
+		"BACKUP_FROM_TIMESTAMP",
+		"CLONE_TO_REFRESHABLE",
+		"CLONE_TO_VIRTUAL",
+		"CROSS_REGION_DATAGUARD",
+	}
 }

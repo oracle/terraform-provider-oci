@@ -5,15 +5,13 @@
 package networkloadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListListenersRequest wrapper for the ListListeners operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListListeners.go.html to see an example of how to use ListListenersRequest.
 type ListListenersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
@@ -57,6 +55,10 @@ func (request ListListenersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListListenersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,23 @@ func (request ListListenersRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListListenersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListListenersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListListenersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListListenersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListListenersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListListenersSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListListenersResponse wrapper for the ListListeners operation
@@ -109,7 +128,7 @@ const (
 	ListListenersSortOrderDesc ListListenersSortOrderEnum = "DESC"
 )
 
-var mappingListListenersSortOrder = map[string]ListListenersSortOrderEnum{
+var mappingListListenersSortOrderEnum = map[string]ListListenersSortOrderEnum{
 	"ASC":  ListListenersSortOrderAsc,
 	"DESC": ListListenersSortOrderDesc,
 }
@@ -117,10 +136,18 @@ var mappingListListenersSortOrder = map[string]ListListenersSortOrderEnum{
 // GetListListenersSortOrderEnumValues Enumerates the set of values for ListListenersSortOrderEnum
 func GetListListenersSortOrderEnumValues() []ListListenersSortOrderEnum {
 	values := make([]ListListenersSortOrderEnum, 0)
-	for _, v := range mappingListListenersSortOrder {
+	for _, v := range mappingListListenersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListListenersSortOrderEnumStringValues Enumerates the set of values in String for ListListenersSortOrderEnum
+func GetListListenersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListListenersSortByEnum Enum with underlying type: string
@@ -132,7 +159,7 @@ const (
 	ListListenersSortByDisplayname ListListenersSortByEnum = "displayName"
 )
 
-var mappingListListenersSortBy = map[string]ListListenersSortByEnum{
+var mappingListListenersSortByEnum = map[string]ListListenersSortByEnum{
 	"timeCreated": ListListenersSortByTimecreated,
 	"displayName": ListListenersSortByDisplayname,
 }
@@ -140,8 +167,16 @@ var mappingListListenersSortBy = map[string]ListListenersSortByEnum{
 // GetListListenersSortByEnumValues Enumerates the set of values for ListListenersSortByEnum
 func GetListListenersSortByEnumValues() []ListListenersSortByEnum {
 	values := make([]ListListenersSortByEnum, 0)
-	for _, v := range mappingListListenersSortBy {
+	for _, v := range mappingListListenersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListListenersSortByEnumStringValues Enumerates the set of values in String for ListListenersSortByEnum
+func GetListListenersSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

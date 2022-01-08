@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListImagesRequest wrapper for the ListImages operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListImages.go.html to see an example of how to use ListImagesRequest.
 type ListImagesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -77,6 +75,10 @@ func (request ListImagesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListImagesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -90,6 +92,26 @@ func (request ListImagesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListImagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListImagesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListImagesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListImagesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListImagesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListImagesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingImageLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetImageLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListImagesResponse wrapper for the ListImages operation
@@ -129,7 +151,7 @@ const (
 	ListImagesSortByDisplayname ListImagesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListImagesSortBy = map[string]ListImagesSortByEnum{
+var mappingListImagesSortByEnum = map[string]ListImagesSortByEnum{
 	"TIMECREATED": ListImagesSortByTimecreated,
 	"DISPLAYNAME": ListImagesSortByDisplayname,
 }
@@ -137,10 +159,18 @@ var mappingListImagesSortBy = map[string]ListImagesSortByEnum{
 // GetListImagesSortByEnumValues Enumerates the set of values for ListImagesSortByEnum
 func GetListImagesSortByEnumValues() []ListImagesSortByEnum {
 	values := make([]ListImagesSortByEnum, 0)
-	for _, v := range mappingListImagesSortBy {
+	for _, v := range mappingListImagesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListImagesSortByEnumStringValues Enumerates the set of values in String for ListImagesSortByEnum
+func GetListImagesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListImagesSortOrderEnum Enum with underlying type: string
@@ -152,7 +182,7 @@ const (
 	ListImagesSortOrderDesc ListImagesSortOrderEnum = "DESC"
 )
 
-var mappingListImagesSortOrder = map[string]ListImagesSortOrderEnum{
+var mappingListImagesSortOrderEnum = map[string]ListImagesSortOrderEnum{
 	"ASC":  ListImagesSortOrderAsc,
 	"DESC": ListImagesSortOrderDesc,
 }
@@ -160,8 +190,16 @@ var mappingListImagesSortOrder = map[string]ListImagesSortOrderEnum{
 // GetListImagesSortOrderEnumValues Enumerates the set of values for ListImagesSortOrderEnum
 func GetListImagesSortOrderEnumValues() []ListImagesSortOrderEnum {
 	values := make([]ListImagesSortOrderEnum, 0)
-	for _, v := range mappingListImagesSortOrder {
+	for _, v := range mappingListImagesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListImagesSortOrderEnumStringValues Enumerates the set of values in String for ListImagesSortOrderEnum
+func GetListImagesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

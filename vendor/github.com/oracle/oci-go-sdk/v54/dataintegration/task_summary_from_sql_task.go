@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TaskSummaryFromSqlTask The information about the SQL task.
@@ -146,6 +148,21 @@ func (m TaskSummaryFromSqlTask) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TaskSummaryFromSqlTask) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTaskSummaryFromSqlTaskSqlScriptTypeEnum[string(m.SqlScriptType)]; !ok && m.SqlScriptType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SqlScriptType: %s. Supported values are: %s.", m.SqlScriptType, strings.Join(GetTaskSummaryFromSqlTaskSqlScriptTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m TaskSummaryFromSqlTask) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeTaskSummaryFromSqlTask TaskSummaryFromSqlTask
@@ -169,7 +186,7 @@ const (
 	TaskSummaryFromSqlTaskSqlScriptTypeSqlCode         TaskSummaryFromSqlTaskSqlScriptTypeEnum = "SQL_CODE"
 )
 
-var mappingTaskSummaryFromSqlTaskSqlScriptType = map[string]TaskSummaryFromSqlTaskSqlScriptTypeEnum{
+var mappingTaskSummaryFromSqlTaskSqlScriptTypeEnum = map[string]TaskSummaryFromSqlTaskSqlScriptTypeEnum{
 	"STORED_PROCEDURE": TaskSummaryFromSqlTaskSqlScriptTypeStoredProcedure,
 	"SQL_CODE":         TaskSummaryFromSqlTaskSqlScriptTypeSqlCode,
 }
@@ -177,8 +194,16 @@ var mappingTaskSummaryFromSqlTaskSqlScriptType = map[string]TaskSummaryFromSqlTa
 // GetTaskSummaryFromSqlTaskSqlScriptTypeEnumValues Enumerates the set of values for TaskSummaryFromSqlTaskSqlScriptTypeEnum
 func GetTaskSummaryFromSqlTaskSqlScriptTypeEnumValues() []TaskSummaryFromSqlTaskSqlScriptTypeEnum {
 	values := make([]TaskSummaryFromSqlTaskSqlScriptTypeEnum, 0)
-	for _, v := range mappingTaskSummaryFromSqlTaskSqlScriptType {
+	for _, v := range mappingTaskSummaryFromSqlTaskSqlScriptTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskSummaryFromSqlTaskSqlScriptTypeEnumStringValues Enumerates the set of values in String for TaskSummaryFromSqlTaskSqlScriptTypeEnum
+func GetTaskSummaryFromSqlTaskSqlScriptTypeEnumStringValues() []string {
+	return []string{
+		"STORED_PROCEDURE",
+		"SQL_CODE",
+	}
 }

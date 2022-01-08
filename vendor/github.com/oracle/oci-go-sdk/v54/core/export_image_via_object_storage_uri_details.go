@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExportImageViaObjectStorageUriDetails The representation of ExportImageViaObjectStorageUriDetails
@@ -45,6 +47,21 @@ func (m ExportImageViaObjectStorageUriDetails) GetExportFormat() ExportImageDeta
 
 func (m ExportImageViaObjectStorageUriDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExportImageViaObjectStorageUriDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingExportImageDetailsExportFormatEnum[string(m.ExportFormat)]; !ok && m.ExportFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExportFormat: %s. Supported values are: %s.", m.ExportFormat, strings.Join(GetExportImageDetailsExportFormatEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

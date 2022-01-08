@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Cloud Guard APIs
+// Cloud Guard API
 //
-// A description of the Cloud Guard APIs
+// Use the Cloud Guard API to automate processes that you would otherwise perform through the Cloud Guard Console.
+// **Note:** You can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
 package cloudguard
@@ -19,7 +20,7 @@ const (
 	ResponderExecutionModesAll       ResponderExecutionModesEnum = "ALL"
 )
 
-var mappingResponderExecutionModes = map[string]ResponderExecutionModesEnum{
+var mappingResponderExecutionModesEnum = map[string]ResponderExecutionModesEnum{
 	"MANUAL":    ResponderExecutionModesManual,
 	"AUTOMATED": ResponderExecutionModesAutomated,
 	"ALL":       ResponderExecutionModesAll,
@@ -28,8 +29,17 @@ var mappingResponderExecutionModes = map[string]ResponderExecutionModesEnum{
 // GetResponderExecutionModesEnumValues Enumerates the set of values for ResponderExecutionModesEnum
 func GetResponderExecutionModesEnumValues() []ResponderExecutionModesEnum {
 	values := make([]ResponderExecutionModesEnum, 0)
-	for _, v := range mappingResponderExecutionModes {
+	for _, v := range mappingResponderExecutionModesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResponderExecutionModesEnumStringValues Enumerates the set of values in String for ResponderExecutionModesEnum
+func GetResponderExecutionModesEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTOMATED",
+		"ALL",
+	}
 }

@@ -13,7 +13,9 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateJobDetails The details required to create a job.
@@ -161,4 +163,22 @@ func (m createjobdetails) GetScheduleDetails() *JobScheduleDetails {
 
 func (m createjobdetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createjobdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJobScheduleTypeEnum[string(m.ScheduleType)]; !ok && m.ScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduleType: %s. Supported values are: %s.", m.ScheduleType, strings.Join(GetJobScheduleTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDatabaseSubTypeEnum[string(m.DatabaseSubType)]; !ok && m.DatabaseSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseSubType: %s. Supported values are: %s.", m.DatabaseSubType, strings.Join(GetDatabaseSubTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

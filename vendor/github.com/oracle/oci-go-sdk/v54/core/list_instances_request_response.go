@@ -5,15 +5,13 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListInstancesRequest wrapper for the ListInstances operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstances.go.html to see an example of how to use ListInstancesRequest.
 type ListInstancesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -25,6 +23,11 @@ type ListInstancesRequest struct {
 
 	// The OCID of the compute capacity reservation.
 	CapacityReservationId *string `mandatory:"false" contributesTo:"query" name:"capacityReservationId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute cluster.
+	// A compute cluster is a remote direct memory access (RDMA) network group.
+	// For more information, see Compute Clusters (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm).
+	ComputeClusterId *string `mandatory:"false" contributesTo:"query" name:"computeClusterId"`
 
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
@@ -73,6 +76,10 @@ func (request ListInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -86,6 +93,26 @@ func (request ListInstancesRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListInstancesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInstanceLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListInstancesResponse wrapper for the ListInstances operation
@@ -125,7 +152,7 @@ const (
 	ListInstancesSortByDisplayname ListInstancesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListInstancesSortBy = map[string]ListInstancesSortByEnum{
+var mappingListInstancesSortByEnum = map[string]ListInstancesSortByEnum{
 	"TIMECREATED": ListInstancesSortByTimecreated,
 	"DISPLAYNAME": ListInstancesSortByDisplayname,
 }
@@ -133,10 +160,18 @@ var mappingListInstancesSortBy = map[string]ListInstancesSortByEnum{
 // GetListInstancesSortByEnumValues Enumerates the set of values for ListInstancesSortByEnum
 func GetListInstancesSortByEnumValues() []ListInstancesSortByEnum {
 	values := make([]ListInstancesSortByEnum, 0)
-	for _, v := range mappingListInstancesSortBy {
+	for _, v := range mappingListInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstancesSortByEnumStringValues Enumerates the set of values in String for ListInstancesSortByEnum
+func GetListInstancesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListInstancesSortOrderEnum Enum with underlying type: string
@@ -148,7 +183,7 @@ const (
 	ListInstancesSortOrderDesc ListInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListInstancesSortOrder = map[string]ListInstancesSortOrderEnum{
+var mappingListInstancesSortOrderEnum = map[string]ListInstancesSortOrderEnum{
 	"ASC":  ListInstancesSortOrderAsc,
 	"DESC": ListInstancesSortOrderDesc,
 }
@@ -156,8 +191,16 @@ var mappingListInstancesSortOrder = map[string]ListInstancesSortOrderEnum{
 // GetListInstancesSortOrderEnumValues Enumerates the set of values for ListInstancesSortOrderEnum
 func GetListInstancesSortOrderEnumValues() []ListInstancesSortOrderEnum {
 	values := make([]ListInstancesSortOrderEnum, 0)
-	for _, v := range mappingListInstancesSortOrder {
+	for _, v := range mappingListInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListInstancesSortOrderEnum
+func GetListInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

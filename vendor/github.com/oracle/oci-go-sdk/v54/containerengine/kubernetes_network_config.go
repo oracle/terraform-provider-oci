@@ -12,19 +12,33 @@
 package containerengine
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // KubernetesNetworkConfig The properties that define the network configuration for Kubernetes.
 type KubernetesNetworkConfig struct {
 
-	// The CIDR block for Kubernetes pods.
+	// The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
 	PodsCidr *string `mandatory:"false" json:"podsCidr"`
 
-	// The CIDR block for Kubernetes services.
+	// The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
 	ServicesCidr *string `mandatory:"false" json:"servicesCidr"`
 }
 
 func (m KubernetesNetworkConfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m KubernetesNetworkConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

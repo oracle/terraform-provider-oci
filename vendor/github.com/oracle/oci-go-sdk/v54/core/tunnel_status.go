@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TunnelStatus Deprecated. For tunnel information, instead see IPSecConnectionTunnel.
@@ -40,6 +42,21 @@ func (m TunnelStatus) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TunnelStatus) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTunnelStatusLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTunnelStatusLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TunnelStatusLifecycleStateEnum Enum with underlying type: string
 type TunnelStatusLifecycleStateEnum string
 
@@ -51,7 +68,7 @@ const (
 	TunnelStatusLifecycleStatePartialUp          TunnelStatusLifecycleStateEnum = "PARTIAL_UP"
 )
 
-var mappingTunnelStatusLifecycleState = map[string]TunnelStatusLifecycleStateEnum{
+var mappingTunnelStatusLifecycleStateEnum = map[string]TunnelStatusLifecycleStateEnum{
 	"UP":                   TunnelStatusLifecycleStateUp,
 	"DOWN":                 TunnelStatusLifecycleStateDown,
 	"DOWN_FOR_MAINTENANCE": TunnelStatusLifecycleStateDownForMaintenance,
@@ -61,8 +78,18 @@ var mappingTunnelStatusLifecycleState = map[string]TunnelStatusLifecycleStateEnu
 // GetTunnelStatusLifecycleStateEnumValues Enumerates the set of values for TunnelStatusLifecycleStateEnum
 func GetTunnelStatusLifecycleStateEnumValues() []TunnelStatusLifecycleStateEnum {
 	values := make([]TunnelStatusLifecycleStateEnum, 0)
-	for _, v := range mappingTunnelStatusLifecycleState {
+	for _, v := range mappingTunnelStatusLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTunnelStatusLifecycleStateEnumStringValues Enumerates the set of values in String for TunnelStatusLifecycleStateEnum
+func GetTunnelStatusLifecycleStateEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+		"DOWN_FOR_MAINTENANCE",
+		"PARTIAL_UP",
+	}
 }

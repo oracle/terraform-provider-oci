@@ -12,7 +12,9 @@ package dns
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ResolverEndpoint An OCI DNS resolver endpoint.
@@ -170,6 +172,21 @@ func (m resolverendpoint) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m resolverendpoint) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingResolverEndpointLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetResolverEndpointLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ResolverEndpointLifecycleStateEnum Enum with underlying type: string
 type ResolverEndpointLifecycleStateEnum string
 
@@ -183,7 +200,7 @@ const (
 	ResolverEndpointLifecycleStateUpdating ResolverEndpointLifecycleStateEnum = "UPDATING"
 )
 
-var mappingResolverEndpointLifecycleState = map[string]ResolverEndpointLifecycleStateEnum{
+var mappingResolverEndpointLifecycleStateEnum = map[string]ResolverEndpointLifecycleStateEnum{
 	"ACTIVE":   ResolverEndpointLifecycleStateActive,
 	"CREATING": ResolverEndpointLifecycleStateCreating,
 	"DELETED":  ResolverEndpointLifecycleStateDeleted,
@@ -195,10 +212,22 @@ var mappingResolverEndpointLifecycleState = map[string]ResolverEndpointLifecycle
 // GetResolverEndpointLifecycleStateEnumValues Enumerates the set of values for ResolverEndpointLifecycleStateEnum
 func GetResolverEndpointLifecycleStateEnumValues() []ResolverEndpointLifecycleStateEnum {
 	values := make([]ResolverEndpointLifecycleStateEnum, 0)
-	for _, v := range mappingResolverEndpointLifecycleState {
+	for _, v := range mappingResolverEndpointLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResolverEndpointLifecycleStateEnumStringValues Enumerates the set of values in String for ResolverEndpointLifecycleStateEnum
+func GetResolverEndpointLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"UPDATING",
+	}
 }
 
 // ResolverEndpointEndpointTypeEnum Enum with underlying type: string
@@ -209,15 +238,22 @@ const (
 	ResolverEndpointEndpointTypeVnic ResolverEndpointEndpointTypeEnum = "VNIC"
 )
 
-var mappingResolverEndpointEndpointType = map[string]ResolverEndpointEndpointTypeEnum{
+var mappingResolverEndpointEndpointTypeEnum = map[string]ResolverEndpointEndpointTypeEnum{
 	"VNIC": ResolverEndpointEndpointTypeVnic,
 }
 
 // GetResolverEndpointEndpointTypeEnumValues Enumerates the set of values for ResolverEndpointEndpointTypeEnum
 func GetResolverEndpointEndpointTypeEnumValues() []ResolverEndpointEndpointTypeEnum {
 	values := make([]ResolverEndpointEndpointTypeEnum, 0)
-	for _, v := range mappingResolverEndpointEndpointType {
+	for _, v := range mappingResolverEndpointEndpointTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResolverEndpointEndpointTypeEnumStringValues Enumerates the set of values in String for ResolverEndpointEndpointTypeEnum
+func GetResolverEndpointEndpointTypeEnumStringValues() []string {
+	return []string{
+		"VNIC",
+	}
 }

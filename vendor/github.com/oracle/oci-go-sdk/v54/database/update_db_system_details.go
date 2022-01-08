@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateDbSystemDetails Describes the parameters for updating the DB system.
@@ -27,6 +29,9 @@ type UpdateDbSystemDetails struct {
 
 	// The size, in gigabytes, to scale the attached storage up to for this virtual machine DB system. This value must be greater than current storage size. Note that the resulting total storage size attached will be greater than the amount requested to allow for REDO/RECO space and software volume. Applies only to virtual machine DB systems.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
+
+	// The size, in gigabytes, to scale the attached RECO storage up to for this virtual machine DB system. This value must be greater than current storage size. Note that the resulting total storage size attached will be greater than the amount requested to allow for the software volume. Applies only to virtual machine DB systems.
+	RecoStorageSizeInGBs *int `mandatory:"false" json:"recoStorageSizeInGBs"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -60,6 +65,21 @@ func (m UpdateDbSystemDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateDbSystemDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateDbSystemDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateDbSystemDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateDbSystemDetailsLicenseModelEnum Enum with underlying type: string
 type UpdateDbSystemDetailsLicenseModelEnum string
 
@@ -69,7 +89,7 @@ const (
 	UpdateDbSystemDetailsLicenseModelBringYourOwnLicense UpdateDbSystemDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingUpdateDbSystemDetailsLicenseModel = map[string]UpdateDbSystemDetailsLicenseModelEnum{
+var mappingUpdateDbSystemDetailsLicenseModelEnum = map[string]UpdateDbSystemDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       UpdateDbSystemDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": UpdateDbSystemDetailsLicenseModelBringYourOwnLicense,
 }
@@ -77,8 +97,16 @@ var mappingUpdateDbSystemDetailsLicenseModel = map[string]UpdateDbSystemDetailsL
 // GetUpdateDbSystemDetailsLicenseModelEnumValues Enumerates the set of values for UpdateDbSystemDetailsLicenseModelEnum
 func GetUpdateDbSystemDetailsLicenseModelEnumValues() []UpdateDbSystemDetailsLicenseModelEnum {
 	values := make([]UpdateDbSystemDetailsLicenseModelEnum, 0)
-	for _, v := range mappingUpdateDbSystemDetailsLicenseModel {
+	for _, v := range mappingUpdateDbSystemDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateDbSystemDetailsLicenseModelEnumStringValues Enumerates the set of values in String for UpdateDbSystemDetailsLicenseModelEnum
+func GetUpdateDbSystemDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

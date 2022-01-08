@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // OperationsInsightsConfig The configuration of Operations Insights for the external database
@@ -28,6 +30,21 @@ func (m OperationsInsightsConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OperationsInsightsConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingOperationsInsightsConfigOperationsInsightsStatusEnum[string(m.OperationsInsightsStatus)]; !ok && m.OperationsInsightsStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationsInsightsStatus: %s. Supported values are: %s.", m.OperationsInsightsStatus, strings.Join(GetOperationsInsightsConfigOperationsInsightsStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // OperationsInsightsConfigOperationsInsightsStatusEnum Enum with underlying type: string
 type OperationsInsightsConfigOperationsInsightsStatusEnum string
 
@@ -41,7 +58,7 @@ const (
 	OperationsInsightsConfigOperationsInsightsStatusFailedDisabling OperationsInsightsConfigOperationsInsightsStatusEnum = "FAILED_DISABLING"
 )
 
-var mappingOperationsInsightsConfigOperationsInsightsStatus = map[string]OperationsInsightsConfigOperationsInsightsStatusEnum{
+var mappingOperationsInsightsConfigOperationsInsightsStatusEnum = map[string]OperationsInsightsConfigOperationsInsightsStatusEnum{
 	"ENABLING":         OperationsInsightsConfigOperationsInsightsStatusEnabling,
 	"ENABLED":          OperationsInsightsConfigOperationsInsightsStatusEnabled,
 	"DISABLING":        OperationsInsightsConfigOperationsInsightsStatusDisabling,
@@ -53,8 +70,20 @@ var mappingOperationsInsightsConfigOperationsInsightsStatus = map[string]Operati
 // GetOperationsInsightsConfigOperationsInsightsStatusEnumValues Enumerates the set of values for OperationsInsightsConfigOperationsInsightsStatusEnum
 func GetOperationsInsightsConfigOperationsInsightsStatusEnumValues() []OperationsInsightsConfigOperationsInsightsStatusEnum {
 	values := make([]OperationsInsightsConfigOperationsInsightsStatusEnum, 0)
-	for _, v := range mappingOperationsInsightsConfigOperationsInsightsStatus {
+	for _, v := range mappingOperationsInsightsConfigOperationsInsightsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationsInsightsConfigOperationsInsightsStatusEnumStringValues Enumerates the set of values in String for OperationsInsightsConfigOperationsInsightsStatusEnum
+func GetOperationsInsightsConfigOperationsInsightsStatusEnumStringValues() []string {
+	return []string{
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"NOT_ENABLED",
+		"FAILED_ENABLING",
+		"FAILED_DISABLING",
+	}
 }

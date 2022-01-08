@@ -5,15 +5,13 @@
 package artifacts
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListGenericArtifactsRequest wrapper for the ListGenericArtifacts operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ListGenericArtifacts.go.html to see an example of how to use ListGenericArtifactsRequest.
 type ListGenericArtifactsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -80,6 +78,10 @@ func (request ListGenericArtifactsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListGenericArtifactsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -93,6 +95,23 @@ func (request ListGenericArtifactsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListGenericArtifactsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListGenericArtifactsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListGenericArtifactsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListGenericArtifactsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListGenericArtifactsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListGenericArtifactsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListGenericArtifactsResponse wrapper for the ListGenericArtifacts operation
@@ -132,7 +151,7 @@ const (
 	ListGenericArtifactsSortByDisplayname ListGenericArtifactsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListGenericArtifactsSortBy = map[string]ListGenericArtifactsSortByEnum{
+var mappingListGenericArtifactsSortByEnum = map[string]ListGenericArtifactsSortByEnum{
 	"TIMECREATED": ListGenericArtifactsSortByTimecreated,
 	"DISPLAYNAME": ListGenericArtifactsSortByDisplayname,
 }
@@ -140,10 +159,18 @@ var mappingListGenericArtifactsSortBy = map[string]ListGenericArtifactsSortByEnu
 // GetListGenericArtifactsSortByEnumValues Enumerates the set of values for ListGenericArtifactsSortByEnum
 func GetListGenericArtifactsSortByEnumValues() []ListGenericArtifactsSortByEnum {
 	values := make([]ListGenericArtifactsSortByEnum, 0)
-	for _, v := range mappingListGenericArtifactsSortBy {
+	for _, v := range mappingListGenericArtifactsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListGenericArtifactsSortByEnumStringValues Enumerates the set of values in String for ListGenericArtifactsSortByEnum
+func GetListGenericArtifactsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListGenericArtifactsSortOrderEnum Enum with underlying type: string
@@ -155,7 +182,7 @@ const (
 	ListGenericArtifactsSortOrderDesc ListGenericArtifactsSortOrderEnum = "DESC"
 )
 
-var mappingListGenericArtifactsSortOrder = map[string]ListGenericArtifactsSortOrderEnum{
+var mappingListGenericArtifactsSortOrderEnum = map[string]ListGenericArtifactsSortOrderEnum{
 	"ASC":  ListGenericArtifactsSortOrderAsc,
 	"DESC": ListGenericArtifactsSortOrderDesc,
 }
@@ -163,8 +190,16 @@ var mappingListGenericArtifactsSortOrder = map[string]ListGenericArtifactsSortOr
 // GetListGenericArtifactsSortOrderEnumValues Enumerates the set of values for ListGenericArtifactsSortOrderEnum
 func GetListGenericArtifactsSortOrderEnumValues() []ListGenericArtifactsSortOrderEnum {
 	values := make([]ListGenericArtifactsSortOrderEnum, 0)
-	for _, v := range mappingListGenericArtifactsSortOrder {
+	for _, v := range mappingListGenericArtifactsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListGenericArtifactsSortOrderEnumStringValues Enumerates the set of values in String for ListGenericArtifactsSortOrderEnum
+func GetListGenericArtifactsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

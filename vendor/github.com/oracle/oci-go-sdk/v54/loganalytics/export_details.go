@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExportDetails Input arguments for running a query synchronosly and streaming the results as soon as they become available.
@@ -62,6 +64,24 @@ func (m ExportDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExportDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSubSystemNameEnum[string(m.SubSystem)]; !ok && m.SubSystem != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubSystem: %s. Supported values are: %s.", m.SubSystem, strings.Join(GetSubSystemNameEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingExportDetailsOutputFormatEnum[string(m.OutputFormat)]; !ok && m.OutputFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OutputFormat: %s. Supported values are: %s.", m.OutputFormat, strings.Join(GetExportDetailsOutputFormatEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExportDetailsOutputFormatEnum Enum with underlying type: string
 type ExportDetailsOutputFormatEnum string
 
@@ -71,7 +91,7 @@ const (
 	ExportDetailsOutputFormatJson ExportDetailsOutputFormatEnum = "JSON"
 )
 
-var mappingExportDetailsOutputFormat = map[string]ExportDetailsOutputFormatEnum{
+var mappingExportDetailsOutputFormatEnum = map[string]ExportDetailsOutputFormatEnum{
 	"CSV":  ExportDetailsOutputFormatCsv,
 	"JSON": ExportDetailsOutputFormatJson,
 }
@@ -79,8 +99,16 @@ var mappingExportDetailsOutputFormat = map[string]ExportDetailsOutputFormatEnum{
 // GetExportDetailsOutputFormatEnumValues Enumerates the set of values for ExportDetailsOutputFormatEnum
 func GetExportDetailsOutputFormatEnumValues() []ExportDetailsOutputFormatEnum {
 	values := make([]ExportDetailsOutputFormatEnum, 0)
-	for _, v := range mappingExportDetailsOutputFormat {
+	for _, v := range mappingExportDetailsOutputFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExportDetailsOutputFormatEnumStringValues Enumerates the set of values in String for ExportDetailsOutputFormatEnum
+func GetExportDetailsOutputFormatEnumStringValues() []string {
+	return []string{
+		"CSV",
+		"JSON",
+	}
 }

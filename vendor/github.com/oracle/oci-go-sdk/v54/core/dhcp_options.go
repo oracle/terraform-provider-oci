@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DhcpOptions A set of DHCP options. Used by the VCN to automatically provide configuration
@@ -70,6 +72,24 @@ type DhcpOptions struct {
 
 func (m DhcpOptions) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DhcpOptions) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDhcpOptionsLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDhcpOptionsLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDhcpOptionsDomainNameTypeEnum[string(m.DomainNameType)]; !ok && m.DomainNameType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DomainNameType: %s. Supported values are: %s.", m.DomainNameType, strings.Join(GetDhcpOptionsDomainNameTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -137,7 +157,7 @@ const (
 	DhcpOptionsLifecycleStateTerminated   DhcpOptionsLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingDhcpOptionsLifecycleState = map[string]DhcpOptionsLifecycleStateEnum{
+var mappingDhcpOptionsLifecycleStateEnum = map[string]DhcpOptionsLifecycleStateEnum{
 	"PROVISIONING": DhcpOptionsLifecycleStateProvisioning,
 	"AVAILABLE":    DhcpOptionsLifecycleStateAvailable,
 	"TERMINATING":  DhcpOptionsLifecycleStateTerminating,
@@ -147,10 +167,20 @@ var mappingDhcpOptionsLifecycleState = map[string]DhcpOptionsLifecycleStateEnum{
 // GetDhcpOptionsLifecycleStateEnumValues Enumerates the set of values for DhcpOptionsLifecycleStateEnum
 func GetDhcpOptionsLifecycleStateEnumValues() []DhcpOptionsLifecycleStateEnum {
 	values := make([]DhcpOptionsLifecycleStateEnum, 0)
-	for _, v := range mappingDhcpOptionsLifecycleState {
+	for _, v := range mappingDhcpOptionsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDhcpOptionsLifecycleStateEnumStringValues Enumerates the set of values in String for DhcpOptionsLifecycleStateEnum
+func GetDhcpOptionsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }
 
 // DhcpOptionsDomainNameTypeEnum Enum with underlying type: string
@@ -163,7 +193,7 @@ const (
 	DhcpOptionsDomainNameTypeCustomDomain DhcpOptionsDomainNameTypeEnum = "CUSTOM_DOMAIN"
 )
 
-var mappingDhcpOptionsDomainNameType = map[string]DhcpOptionsDomainNameTypeEnum{
+var mappingDhcpOptionsDomainNameTypeEnum = map[string]DhcpOptionsDomainNameTypeEnum{
 	"SUBNET_DOMAIN": DhcpOptionsDomainNameTypeSubnetDomain,
 	"VCN_DOMAIN":    DhcpOptionsDomainNameTypeVcnDomain,
 	"CUSTOM_DOMAIN": DhcpOptionsDomainNameTypeCustomDomain,
@@ -172,8 +202,17 @@ var mappingDhcpOptionsDomainNameType = map[string]DhcpOptionsDomainNameTypeEnum{
 // GetDhcpOptionsDomainNameTypeEnumValues Enumerates the set of values for DhcpOptionsDomainNameTypeEnum
 func GetDhcpOptionsDomainNameTypeEnumValues() []DhcpOptionsDomainNameTypeEnum {
 	values := make([]DhcpOptionsDomainNameTypeEnum, 0)
-	for _, v := range mappingDhcpOptionsDomainNameType {
+	for _, v := range mappingDhcpOptionsDomainNameTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDhcpOptionsDomainNameTypeEnumStringValues Enumerates the set of values in String for DhcpOptionsDomainNameTypeEnum
+func GetDhcpOptionsDomainNameTypeEnumStringValues() []string {
+	return []string{
+		"SUBNET_DOMAIN",
+		"VCN_DOMAIN",
+		"CUSTOM_DOMAIN",
+	}
 }

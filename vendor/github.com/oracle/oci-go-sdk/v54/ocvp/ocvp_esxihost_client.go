@@ -90,10 +90,6 @@ func (client *EsxiHostClient) ConfigurationProvider() *common.ConfigurationProvi
 // by the ESXi host.
 // Use the WorkRequest operations to track the
 // creation of the ESXi host.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CreateEsxiHost.go.html to see an example of how to use CreateEsxiHost API.
 // A default retry strategy applies to this operation CreateEsxiHost()
 func (client EsxiHostClient) CreateEsxiHost(ctx context.Context, request CreateEsxiHostRequest) (response CreateEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -161,10 +157,6 @@ func (client EsxiHostClient) createEsxiHost(ctx context.Context, request common.
 // least 3 ESXi hosts.
 // Use the WorkRequest operations to track the
 // deletion of the ESXi host.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteEsxiHost.go.html to see an example of how to use DeleteEsxiHost API.
 // A default retry strategy applies to this operation DeleteEsxiHost()
 func (client EsxiHostClient) DeleteEsxiHost(ctx context.Context, request DeleteEsxiHostRequest) (response DeleteEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -217,10 +209,6 @@ func (client EsxiHostClient) deleteEsxiHost(ctx context.Context, request common.
 }
 
 // GetEsxiHost Gets the specified ESXi host's information.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetEsxiHost.go.html to see an example of how to use GetEsxiHost API.
 // A default retry strategy applies to this operation GetEsxiHost()
 func (client EsxiHostClient) GetEsxiHost(ctx context.Context, request GetEsxiHostRequest) (response GetEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -280,10 +268,6 @@ func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCI
 // the Compute instance (`computeInstanceId`). When filtering the list of
 // ESXi hosts, you can specify the OCID of the Compute instance, not the
 // ESXi host OCID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListEsxiHosts.go.html to see an example of how to use ListEsxiHosts API.
 // A default retry strategy applies to this operation ListEsxiHosts()
 func (client EsxiHostClient) ListEsxiHosts(ctx context.Context, request ListEsxiHostsRequest) (response ListEsxiHostsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -336,10 +320,6 @@ func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.O
 }
 
 // UpdateEsxiHost Updates the specified ESXi host.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpdateEsxiHost.go.html to see an example of how to use UpdateEsxiHost API.
 // A default retry strategy applies to this operation UpdateEsxiHost()
 func (client EsxiHostClient) UpdateEsxiHost(ctx context.Context, request UpdateEsxiHostRequest) (response UpdateEsxiHostResponse, err error) {
 	var ociResponse common.OCIResponse

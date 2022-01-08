@@ -5,15 +5,13 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListRecommendationsRequest wrapper for the ListRecommendations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListRecommendations.go.html to see an example of how to use ListRecommendationsRequest.
 type ListRecommendationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
@@ -43,6 +41,10 @@ func (request ListRecommendationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRecommendationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +58,20 @@ func (request ListRecommendationsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRecommendationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRecommendationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRecommendationsRecommendedActionEnum[string(request.RecommendedAction)]; !ok && request.RecommendedAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecommendedAction: %s. Supported values are: %s.", request.RecommendedAction, strings.Join(GetListRecommendationsRecommendedActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRecommendationsResponse wrapper for the ListRecommendations operation
@@ -95,7 +111,7 @@ const (
 	ListRecommendationsRecommendedActionBlock  ListRecommendationsRecommendedActionEnum = "BLOCK"
 )
 
-var mappingListRecommendationsRecommendedAction = map[string]ListRecommendationsRecommendedActionEnum{
+var mappingListRecommendationsRecommendedActionEnum = map[string]ListRecommendationsRecommendedActionEnum{
 	"DETECT": ListRecommendationsRecommendedActionDetect,
 	"BLOCK":  ListRecommendationsRecommendedActionBlock,
 }
@@ -103,8 +119,16 @@ var mappingListRecommendationsRecommendedAction = map[string]ListRecommendations
 // GetListRecommendationsRecommendedActionEnumValues Enumerates the set of values for ListRecommendationsRecommendedActionEnum
 func GetListRecommendationsRecommendedActionEnumValues() []ListRecommendationsRecommendedActionEnum {
 	values := make([]ListRecommendationsRecommendedActionEnum, 0)
-	for _, v := range mappingListRecommendationsRecommendedAction {
+	for _, v := range mappingListRecommendationsRecommendedActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRecommendationsRecommendedActionEnumStringValues Enumerates the set of values in String for ListRecommendationsRecommendedActionEnum
+func GetListRecommendationsRecommendedActionEnumStringValues() []string {
+	return []string{
+		"DETECT",
+		"BLOCK",
+	}
 }

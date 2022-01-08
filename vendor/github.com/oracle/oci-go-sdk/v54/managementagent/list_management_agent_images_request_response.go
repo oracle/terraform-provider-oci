@@ -5,15 +5,13 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListManagementAgentImagesRequest wrapper for the ListManagementAgentImages operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentImages.go.html to see an example of how to use ListManagementAgentImagesRequest.
 type ListManagementAgentImagesRequest struct {
 
 	// The OCID of the compartment to which a request will be scoped.
@@ -62,6 +60,10 @@ func (request ListManagementAgentImagesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListManagementAgentImagesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +77,29 @@ func (request ListManagementAgentImagesRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListManagementAgentImagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListManagementAgentImagesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListManagementAgentImagesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagementAgentImagesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentImagesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagementAgentImagesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentImagesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListManagementAgentImagesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentImagesInstallTypeEnum[string(request.InstallType)]; !ok && request.InstallType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstallType: %s. Supported values are: %s.", request.InstallType, strings.Join(GetListManagementAgentImagesInstallTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListManagementAgentImagesResponse wrapper for the ListManagementAgentImages operation
@@ -114,7 +139,7 @@ const (
 	ListManagementAgentImagesSortOrderDesc ListManagementAgentImagesSortOrderEnum = "DESC"
 )
 
-var mappingListManagementAgentImagesSortOrder = map[string]ListManagementAgentImagesSortOrderEnum{
+var mappingListManagementAgentImagesSortOrderEnum = map[string]ListManagementAgentImagesSortOrderEnum{
 	"ASC":  ListManagementAgentImagesSortOrderAsc,
 	"DESC": ListManagementAgentImagesSortOrderDesc,
 }
@@ -122,10 +147,18 @@ var mappingListManagementAgentImagesSortOrder = map[string]ListManagementAgentIm
 // GetListManagementAgentImagesSortOrderEnumValues Enumerates the set of values for ListManagementAgentImagesSortOrderEnum
 func GetListManagementAgentImagesSortOrderEnumValues() []ListManagementAgentImagesSortOrderEnum {
 	values := make([]ListManagementAgentImagesSortOrderEnum, 0)
-	for _, v := range mappingListManagementAgentImagesSortOrder {
+	for _, v := range mappingListManagementAgentImagesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentImagesSortOrderEnumStringValues Enumerates the set of values in String for ListManagementAgentImagesSortOrderEnum
+func GetListManagementAgentImagesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListManagementAgentImagesSortByEnum Enum with underlying type: string
@@ -137,7 +170,7 @@ const (
 	ListManagementAgentImagesSortByVersion      ListManagementAgentImagesSortByEnum = "version"
 )
 
-var mappingListManagementAgentImagesSortBy = map[string]ListManagementAgentImagesSortByEnum{
+var mappingListManagementAgentImagesSortByEnum = map[string]ListManagementAgentImagesSortByEnum{
 	"platformType": ListManagementAgentImagesSortByPlatformtype,
 	"version":      ListManagementAgentImagesSortByVersion,
 }
@@ -145,10 +178,18 @@ var mappingListManagementAgentImagesSortBy = map[string]ListManagementAgentImage
 // GetListManagementAgentImagesSortByEnumValues Enumerates the set of values for ListManagementAgentImagesSortByEnum
 func GetListManagementAgentImagesSortByEnumValues() []ListManagementAgentImagesSortByEnum {
 	values := make([]ListManagementAgentImagesSortByEnum, 0)
-	for _, v := range mappingListManagementAgentImagesSortBy {
+	for _, v := range mappingListManagementAgentImagesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentImagesSortByEnumStringValues Enumerates the set of values in String for ListManagementAgentImagesSortByEnum
+func GetListManagementAgentImagesSortByEnumStringValues() []string {
+	return []string{
+		"platformType",
+		"version",
+	}
 }
 
 // ListManagementAgentImagesLifecycleStateEnum Enum with underlying type: string
@@ -166,7 +207,7 @@ const (
 	ListManagementAgentImagesLifecycleStateFailed     ListManagementAgentImagesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListManagementAgentImagesLifecycleState = map[string]ListManagementAgentImagesLifecycleStateEnum{
+var mappingListManagementAgentImagesLifecycleStateEnum = map[string]ListManagementAgentImagesLifecycleStateEnum{
 	"CREATING":   ListManagementAgentImagesLifecycleStateCreating,
 	"UPDATING":   ListManagementAgentImagesLifecycleStateUpdating,
 	"ACTIVE":     ListManagementAgentImagesLifecycleStateActive,
@@ -180,10 +221,24 @@ var mappingListManagementAgentImagesLifecycleState = map[string]ListManagementAg
 // GetListManagementAgentImagesLifecycleStateEnumValues Enumerates the set of values for ListManagementAgentImagesLifecycleStateEnum
 func GetListManagementAgentImagesLifecycleStateEnumValues() []ListManagementAgentImagesLifecycleStateEnum {
 	values := make([]ListManagementAgentImagesLifecycleStateEnum, 0)
-	for _, v := range mappingListManagementAgentImagesLifecycleState {
+	for _, v := range mappingListManagementAgentImagesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentImagesLifecycleStateEnumStringValues Enumerates the set of values in String for ListManagementAgentImagesLifecycleStateEnum
+func GetListManagementAgentImagesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"TERMINATED",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListManagementAgentImagesInstallTypeEnum Enum with underlying type: string
@@ -195,7 +250,7 @@ const (
 	ListManagementAgentImagesInstallTypeGateway ListManagementAgentImagesInstallTypeEnum = "GATEWAY"
 )
 
-var mappingListManagementAgentImagesInstallType = map[string]ListManagementAgentImagesInstallTypeEnum{
+var mappingListManagementAgentImagesInstallTypeEnum = map[string]ListManagementAgentImagesInstallTypeEnum{
 	"AGENT":   ListManagementAgentImagesInstallTypeAgent,
 	"GATEWAY": ListManagementAgentImagesInstallTypeGateway,
 }
@@ -203,8 +258,16 @@ var mappingListManagementAgentImagesInstallType = map[string]ListManagementAgent
 // GetListManagementAgentImagesInstallTypeEnumValues Enumerates the set of values for ListManagementAgentImagesInstallTypeEnum
 func GetListManagementAgentImagesInstallTypeEnumValues() []ListManagementAgentImagesInstallTypeEnum {
 	values := make([]ListManagementAgentImagesInstallTypeEnum, 0)
-	for _, v := range mappingListManagementAgentImagesInstallType {
+	for _, v := range mappingListManagementAgentImagesInstallTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentImagesInstallTypeEnumStringValues Enumerates the set of values in String for ListManagementAgentImagesInstallTypeEnum
+func GetListManagementAgentImagesInstallTypeEnumStringValues() []string {
+	return []string{
+		"AGENT",
+		"GATEWAY",
+	}
 }

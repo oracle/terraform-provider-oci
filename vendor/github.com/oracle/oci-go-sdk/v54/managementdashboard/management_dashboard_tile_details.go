@@ -11,7 +11,9 @@
 package managementdashboard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ManagementDashboardTileDetails Properties of the dashboard tile representing a saved search.
@@ -59,6 +61,21 @@ func (m ManagementDashboardTileDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ManagementDashboardTileDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingManagementDashboardTileDetailsStateEnum[string(m.State)]; !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetManagementDashboardTileDetailsStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ManagementDashboardTileDetailsStateEnum Enum with underlying type: string
 type ManagementDashboardTileDetailsStateEnum string
 
@@ -69,7 +86,7 @@ const (
 	ManagementDashboardTileDetailsStateDefault      ManagementDashboardTileDetailsStateEnum = "DEFAULT"
 )
 
-var mappingManagementDashboardTileDetailsState = map[string]ManagementDashboardTileDetailsStateEnum{
+var mappingManagementDashboardTileDetailsStateEnum = map[string]ManagementDashboardTileDetailsStateEnum{
 	"DELETED":      ManagementDashboardTileDetailsStateDeleted,
 	"UNAUTHORIZED": ManagementDashboardTileDetailsStateUnauthorized,
 	"DEFAULT":      ManagementDashboardTileDetailsStateDefault,
@@ -78,8 +95,17 @@ var mappingManagementDashboardTileDetailsState = map[string]ManagementDashboardT
 // GetManagementDashboardTileDetailsStateEnumValues Enumerates the set of values for ManagementDashboardTileDetailsStateEnum
 func GetManagementDashboardTileDetailsStateEnumValues() []ManagementDashboardTileDetailsStateEnum {
 	values := make([]ManagementDashboardTileDetailsStateEnum, 0)
-	for _, v := range mappingManagementDashboardTileDetailsState {
+	for _, v := range mappingManagementDashboardTileDetailsStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetManagementDashboardTileDetailsStateEnumStringValues Enumerates the set of values in String for ManagementDashboardTileDetailsStateEnum
+func GetManagementDashboardTileDetailsStateEnumStringValues() []string {
+	return []string{
+		"DELETED",
+		"UNAUTHORIZED",
+		"DEFAULT",
+	}
 }

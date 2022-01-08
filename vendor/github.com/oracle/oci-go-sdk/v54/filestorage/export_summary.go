@@ -4,13 +4,16 @@
 
 // File Storage API
 //
-// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
+// Use the File Storage service API to manage file systems, mount targets, and snapshots.
+// For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ExportSummary Summary information for an export.
@@ -37,10 +40,35 @@ type ExportSummary struct {
 	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The export is modified to include a boolean to use ID mapping for Unix Groups rather than the group list provided within an NFS Request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable or cannot be used to determine a list of secondary groups then the data path uses an empty secondary group list for authorization. If the number of groups exceeds the current limit of 256 groups the list retrieved from LDAP is truncated to the first 256 groups read.
+	IsIdmapGroupsForSysAuth *bool `mandatory:"false" json:"isIdmapGroupsForSysAuth"`
+
+	// Export can be created in 'ENABLED' or 'DISABLED' mode.
+	// Attempt to mount the filesystem will fail if the export is in 'DISABLED' mode.
+	ExportMode ExportSummaryExportModeEnum `mandatory:"false" json:"exportMode,omitempty"`
 }
 
 func (m ExportSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExportSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExportSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExportSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingExportSummaryExportModeEnum[string(m.ExportMode)]; !ok && m.ExportMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExportMode: %s. Supported values are: %s.", m.ExportMode, strings.Join(GetExportSummaryExportModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ExportSummaryLifecycleStateEnum Enum with underlying type: string
@@ -54,7 +82,7 @@ const (
 	ExportSummaryLifecycleStateDeleted  ExportSummaryLifecycleStateEnum = "DELETED"
 )
 
-var mappingExportSummaryLifecycleState = map[string]ExportSummaryLifecycleStateEnum{
+var mappingExportSummaryLifecycleStateEnum = map[string]ExportSummaryLifecycleStateEnum{
 	"CREATING": ExportSummaryLifecycleStateCreating,
 	"ACTIVE":   ExportSummaryLifecycleStateActive,
 	"DELETING": ExportSummaryLifecycleStateDeleting,
@@ -64,8 +92,49 @@ var mappingExportSummaryLifecycleState = map[string]ExportSummaryLifecycleStateE
 // GetExportSummaryLifecycleStateEnumValues Enumerates the set of values for ExportSummaryLifecycleStateEnum
 func GetExportSummaryLifecycleStateEnumValues() []ExportSummaryLifecycleStateEnum {
 	values := make([]ExportSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingExportSummaryLifecycleState {
+	for _, v := range mappingExportSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExportSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ExportSummaryLifecycleStateEnum
+func GetExportSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
+}
+
+// ExportSummaryExportModeEnum Enum with underlying type: string
+type ExportSummaryExportModeEnum string
+
+// Set of constants representing the allowable values for ExportSummaryExportModeEnum
+const (
+	ExportSummaryExportModeEnabled  ExportSummaryExportModeEnum = "ENABLED"
+	ExportSummaryExportModeDisabled ExportSummaryExportModeEnum = "DISABLED"
+)
+
+var mappingExportSummaryExportModeEnum = map[string]ExportSummaryExportModeEnum{
+	"ENABLED":  ExportSummaryExportModeEnabled,
+	"DISABLED": ExportSummaryExportModeDisabled,
+}
+
+// GetExportSummaryExportModeEnumValues Enumerates the set of values for ExportSummaryExportModeEnum
+func GetExportSummaryExportModeEnumValues() []ExportSummaryExportModeEnum {
+	values := make([]ExportSummaryExportModeEnum, 0)
+	for _, v := range mappingExportSummaryExportModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExportSummaryExportModeEnumStringValues Enumerates the set of values in String for ExportSummaryExportModeEnum
+func GetExportSummaryExportModeEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }

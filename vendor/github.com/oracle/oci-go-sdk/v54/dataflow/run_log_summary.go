@@ -10,7 +10,9 @@
 package dataflow
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RunLogSummary A summary of a log associated with a particular run.
@@ -40,6 +42,24 @@ func (m RunLogSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RunLogSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRunLogSummarySourceEnum[string(m.Source)]; !ok && m.Source != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Source: %s. Supported values are: %s.", m.Source, strings.Join(GetRunLogSummarySourceEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRunLogSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetRunLogSummaryTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RunLogSummarySourceEnum Enum with underlying type: string
 type RunLogSummarySourceEnum string
 
@@ -50,7 +70,7 @@ const (
 	RunLogSummarySourceExecutor    RunLogSummarySourceEnum = "EXECUTOR"
 )
 
-var mappingRunLogSummarySource = map[string]RunLogSummarySourceEnum{
+var mappingRunLogSummarySourceEnum = map[string]RunLogSummarySourceEnum{
 	"APPLICATION": RunLogSummarySourceApplication,
 	"DRIVER":      RunLogSummarySourceDriver,
 	"EXECUTOR":    RunLogSummarySourceExecutor,
@@ -59,10 +79,19 @@ var mappingRunLogSummarySource = map[string]RunLogSummarySourceEnum{
 // GetRunLogSummarySourceEnumValues Enumerates the set of values for RunLogSummarySourceEnum
 func GetRunLogSummarySourceEnumValues() []RunLogSummarySourceEnum {
 	values := make([]RunLogSummarySourceEnum, 0)
-	for _, v := range mappingRunLogSummarySource {
+	for _, v := range mappingRunLogSummarySourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRunLogSummarySourceEnumStringValues Enumerates the set of values in String for RunLogSummarySourceEnum
+func GetRunLogSummarySourceEnumStringValues() []string {
+	return []string{
+		"APPLICATION",
+		"DRIVER",
+		"EXECUTOR",
+	}
 }
 
 // RunLogSummaryTypeEnum Enum with underlying type: string
@@ -74,7 +103,7 @@ const (
 	RunLogSummaryTypeStdout RunLogSummaryTypeEnum = "STDOUT"
 )
 
-var mappingRunLogSummaryType = map[string]RunLogSummaryTypeEnum{
+var mappingRunLogSummaryTypeEnum = map[string]RunLogSummaryTypeEnum{
 	"STDERR": RunLogSummaryTypeStderr,
 	"STDOUT": RunLogSummaryTypeStdout,
 }
@@ -82,8 +111,16 @@ var mappingRunLogSummaryType = map[string]RunLogSummaryTypeEnum{
 // GetRunLogSummaryTypeEnumValues Enumerates the set of values for RunLogSummaryTypeEnum
 func GetRunLogSummaryTypeEnumValues() []RunLogSummaryTypeEnum {
 	values := make([]RunLogSummaryTypeEnum, 0)
-	for _, v := range mappingRunLogSummaryType {
+	for _, v := range mappingRunLogSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRunLogSummaryTypeEnumStringValues Enumerates the set of values in String for RunLogSummaryTypeEnum
+func GetRunLogSummaryTypeEnumStringValues() []string {
+	return []string{
+		"STDERR",
+		"STDOUT",
+	}
 }

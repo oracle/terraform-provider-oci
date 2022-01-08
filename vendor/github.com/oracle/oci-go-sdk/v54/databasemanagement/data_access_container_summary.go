@@ -12,16 +12,30 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// DataAccessContainerSummary Summary of ContainerDataAccess user
+// DataAccessContainerSummary A summary of the ContainerDataAccess user.
 type DataAccessContainerSummary struct {
 
-	// The name of a container included in this attribute if it does not apply to all containers.
+	// The name of the container included in the attribute.
 	Name *string `mandatory:"false" json:"name"`
 }
 
 func (m DataAccessContainerSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataAccessContainerSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

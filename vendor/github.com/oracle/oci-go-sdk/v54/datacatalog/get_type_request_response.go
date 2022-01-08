@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetTypeRequest wrapper for the GetType operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetType.go.html to see an example of how to use GetTypeRequest.
 type GetTypeRequest struct {
 
 	// Unique catalog identifier.
@@ -40,6 +38,10 @@ func (request GetTypeRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetTypeRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -53,6 +55,23 @@ func (request GetTypeRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetTypeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetTypeRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetTypeFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetTypeFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetTypeResponse wrapper for the GetType operation
@@ -100,7 +119,7 @@ const (
 	GetTypeFieldsUri              GetTypeFieldsEnum = "uri"
 )
 
-var mappingGetTypeFields = map[string]GetTypeFieldsEnum{
+var mappingGetTypeFieldsEnum = map[string]GetTypeFieldsEnum{
 	"key":              GetTypeFieldsKey,
 	"description":      GetTypeFieldsDescription,
 	"name":             GetTypeFieldsName,
@@ -118,8 +137,26 @@ var mappingGetTypeFields = map[string]GetTypeFieldsEnum{
 // GetGetTypeFieldsEnumValues Enumerates the set of values for GetTypeFieldsEnum
 func GetGetTypeFieldsEnumValues() []GetTypeFieldsEnum {
 	values := make([]GetTypeFieldsEnum, 0)
-	for _, v := range mappingGetTypeFields {
+	for _, v := range mappingGetTypeFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetTypeFieldsEnumStringValues Enumerates the set of values in String for GetTypeFieldsEnum
+func GetGetTypeFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"description",
+		"name",
+		"catalogId",
+		"properties",
+		"isInternal",
+		"isTag",
+		"isApproved",
+		"typeCategory",
+		"externalTypeName",
+		"lifecycleState",
+		"uri",
+	}
 }

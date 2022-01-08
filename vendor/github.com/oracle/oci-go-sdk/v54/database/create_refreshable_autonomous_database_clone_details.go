@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateRefreshableAutonomousDatabaseCloneDetails Details to create an Oracle Autonomous Database refreshable clone.
@@ -63,13 +65,13 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI).
+	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	IsPreviewVersionWithServiceTermsAccepted *bool `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
 
 	// Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
-	// True if the database is on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).
+	// True if the database is on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -83,7 +85,7 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
 	IsAccessControlEnabled *bool `mandatory:"false" json:"isAccessControlEnabled"`
 
-	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) and on Exadata Cloud@Customer.
+	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer.
 	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
 	// For shared Exadata infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
 	// Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs.
@@ -98,7 +100,7 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// It's value would be `FALSE` if Autonomous Database is Data Guard enabled and Access Control is enabled and if the Autonomous Database uses different IP access control list (ACL) for standby compared to primary.
 	ArePrimaryWhitelistedIpsUsed *bool `mandatory:"false" json:"arePrimaryWhitelistedIpsUsed"`
 
-	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) and on Exadata Cloud@Customer.
+	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer.
 	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
 	// For shared Exadata infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
 	// Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs.
@@ -108,7 +110,8 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	StandbyWhitelistedIps []string `mandatory:"false" json:"standbyWhitelistedIps"`
 
-	// Indicates whether the Autonomous Database has Data Guard enabled.
+	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to
+	// Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
@@ -147,11 +150,32 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// Indicates whether the Autonomous Database requires mTLS connections.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
+	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.
+	IsOracleServiceGatewayAllowed *bool `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
+
 	// list of scheduled operations
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
 
+	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
+	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
+
+	// The frequency at which the data is refreshed for a refreshable clone after auto-refresh is enabled. The minimum is 1 minute. The maximum is 1 day. The date and time that auto-refresh is enabled is controlled by the `timeOfAutoRefreshStart` parameter.
+	AutoRefreshFrequencyInSeconds *int `mandatory:"false" json:"autoRefreshFrequencyInSeconds"`
+
+	// The amount of time, in seconds, that the data of the refreshable clone lags the data of the primary database at the point of refresh. The minimum is 1 minute. The maximum is 7 days. The lag time increases after refreshing until the next data refresh happens.
+	AutoRefreshPointInSeconds *int `mandatory:"false" json:"autoRefreshPointInSeconds"`
+
+	// The the date and time that auto-refreshing will begin for an Autonomous Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the `autoRefreshFrequencyInSeconds` parameter.
+	TimeOfAutoRefreshStart *common.SDKTime `mandatory:"false" json:"timeOfAutoRefreshStart"`
+
 	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 	RefreshableMode CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
+
+	// The auto-refresh policy for the Autonomous Database refreshable clone. You can specify continuous refreshing or a custom refresh schedule.
+	AutoRefreshPolicy CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum `mandatory:"false" json:"autoRefreshPolicy,omitempty"`
+
+	// The `DATABASE OPEN` mode. You can open the database in `READ_ONLY` or `READ_WRITE` mode.
+	OpenMode CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
 
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
@@ -162,8 +186,8 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
-	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
-	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the
+	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database
@@ -326,13 +350,53 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetAutonomousMaintenanc
 	return m.AutonomousMaintenanceScheduleType
 }
 
+//GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsOracleServiceGatewayAllowed() *bool {
+	return m.IsOracleServiceGatewayAllowed
+}
+
 //GetScheduledOperations returns ScheduledOperations
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
 }
 
+//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsAutoScalingForStorageEnabled() *bool {
+	return m.IsAutoScalingForStorageEnabled
+}
+
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum[string(m.RefreshableMode)]; !ok && m.RefreshableMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableMode: %s. Supported values are: %s.", m.RefreshableMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum[string(m.AutoRefreshPolicy)]; !ok && m.AutoRefreshPolicy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoRefreshPolicy: %s. Supported values are: %s.", m.AutoRefreshPolicy, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum[string(m.OpenMode)]; !ok && m.OpenMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCreateAutonomousDatabaseBaseDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum[string(m.AutonomousMaintenanceScheduleType)]; !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -358,7 +422,7 @@ const (
 	CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual    CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum = "MANUAL"
 )
 
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableMode = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum{
+var mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum{
 	"AUTOMATIC": CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeAutomatic,
 	"MANUAL":    CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual,
 }
@@ -366,8 +430,78 @@ var mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableMode = map[
 // GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum
 func GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum {
 	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum, 0)
-	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableMode {
+	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum
+func GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues() []string {
+	return []string{
+		"AUTOMATIC",
+		"MANUAL",
+	}
+}
+
+// CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum Enum with underlying type: string
+type CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum string
+
+// Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum
+const (
+	CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyContinuous CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum = "CONTINUOUS"
+	CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyCustom     CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum = "CUSTOM"
+)
+
+var mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum{
+	"CONTINUOUS": CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyContinuous,
+	"CUSTOM":     CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyCustom,
+}
+
+// GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum
+func GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum {
+	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum, 0)
+	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum
+func GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues() []string {
+	return []string{
+		"CONTINUOUS",
+		"CUSTOM",
+	}
+}
+
+// CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum Enum with underlying type: string
+type CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum string
+
+// Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
+const (
+	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_ONLY"
+	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_WRITE"
+)
+
+var mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum{
+	"READ_ONLY":  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly,
+	"READ_WRITE": CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite,
+}
+
+// GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
+func GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum {
+	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum, 0)
+	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
+func GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues() []string {
+	return []string{
+		"READ_ONLY",
+		"READ_WRITE",
+	}
 }

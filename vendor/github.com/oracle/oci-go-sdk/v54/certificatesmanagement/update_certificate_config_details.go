@@ -11,7 +11,9 @@ package certificatesmanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UpdateCertificateConfigDetails The details of the contents of the certificate and certificate metadata.
@@ -91,6 +93,21 @@ func (m updatecertificateconfigdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m updatecertificateconfigdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateCertificateConfigDetailsStageEnum[string(m.Stage)]; !ok && m.Stage != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Stage: %s. Supported values are: %s.", m.Stage, strings.Join(GetUpdateCertificateConfigDetailsStageEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateCertificateConfigDetailsStageEnum Enum with underlying type: string
 type UpdateCertificateConfigDetailsStageEnum string
 
@@ -100,7 +117,7 @@ const (
 	UpdateCertificateConfigDetailsStagePending UpdateCertificateConfigDetailsStageEnum = "PENDING"
 )
 
-var mappingUpdateCertificateConfigDetailsStage = map[string]UpdateCertificateConfigDetailsStageEnum{
+var mappingUpdateCertificateConfigDetailsStageEnum = map[string]UpdateCertificateConfigDetailsStageEnum{
 	"CURRENT": UpdateCertificateConfigDetailsStageCurrent,
 	"PENDING": UpdateCertificateConfigDetailsStagePending,
 }
@@ -108,8 +125,16 @@ var mappingUpdateCertificateConfigDetailsStage = map[string]UpdateCertificateCon
 // GetUpdateCertificateConfigDetailsStageEnumValues Enumerates the set of values for UpdateCertificateConfigDetailsStageEnum
 func GetUpdateCertificateConfigDetailsStageEnumValues() []UpdateCertificateConfigDetailsStageEnum {
 	values := make([]UpdateCertificateConfigDetailsStageEnum, 0)
-	for _, v := range mappingUpdateCertificateConfigDetailsStage {
+	for _, v := range mappingUpdateCertificateConfigDetailsStageEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateCertificateConfigDetailsStageEnumStringValues Enumerates the set of values in String for UpdateCertificateConfigDetailsStageEnum
+func GetUpdateCertificateConfigDetailsStageEnumStringValues() []string {
+	return []string{
+		"CURRENT",
+		"PENDING",
+	}
 }

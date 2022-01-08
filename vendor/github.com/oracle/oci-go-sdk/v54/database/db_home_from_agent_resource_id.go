@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DbHomeFromAgentResourceId The representation of DbHomeFromAgentResourceId
@@ -72,6 +74,21 @@ func (m DbHomeFromAgentResourceId) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbHomeFromAgentResourceId) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDbHomeFromAgentResourceIdLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbHomeFromAgentResourceIdLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DbHomeFromAgentResourceIdLifecycleStateEnum Enum with underlying type: string
 type DbHomeFromAgentResourceIdLifecycleStateEnum string
 
@@ -85,7 +102,7 @@ const (
 	DbHomeFromAgentResourceIdLifecycleStateFailed       DbHomeFromAgentResourceIdLifecycleStateEnum = "FAILED"
 )
 
-var mappingDbHomeFromAgentResourceIdLifecycleState = map[string]DbHomeFromAgentResourceIdLifecycleStateEnum{
+var mappingDbHomeFromAgentResourceIdLifecycleStateEnum = map[string]DbHomeFromAgentResourceIdLifecycleStateEnum{
 	"PROVISIONING": DbHomeFromAgentResourceIdLifecycleStateProvisioning,
 	"AVAILABLE":    DbHomeFromAgentResourceIdLifecycleStateAvailable,
 	"UPDATING":     DbHomeFromAgentResourceIdLifecycleStateUpdating,
@@ -97,8 +114,20 @@ var mappingDbHomeFromAgentResourceIdLifecycleState = map[string]DbHomeFromAgentR
 // GetDbHomeFromAgentResourceIdLifecycleStateEnumValues Enumerates the set of values for DbHomeFromAgentResourceIdLifecycleStateEnum
 func GetDbHomeFromAgentResourceIdLifecycleStateEnumValues() []DbHomeFromAgentResourceIdLifecycleStateEnum {
 	values := make([]DbHomeFromAgentResourceIdLifecycleStateEnum, 0)
-	for _, v := range mappingDbHomeFromAgentResourceIdLifecycleState {
+	for _, v := range mappingDbHomeFromAgentResourceIdLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbHomeFromAgentResourceIdLifecycleStateEnumStringValues Enumerates the set of values in String for DbHomeFromAgentResourceIdLifecycleStateEnum
+func GetDbHomeFromAgentResourceIdLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }

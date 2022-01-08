@@ -5,15 +5,13 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListWaasPoliciesRequest wrapper for the ListWaasPolicies operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWaasPolicies.go.html to see an example of how to use ListWaasPoliciesRequest.
 type ListWaasPoliciesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This number is generated when the compartment is created.
@@ -61,6 +59,10 @@ func (request ListWaasPoliciesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWaasPoliciesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +76,29 @@ func (request ListWaasPoliciesRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWaasPoliciesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWaasPoliciesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListWaasPoliciesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWaasPoliciesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWaasPoliciesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWaasPoliciesSortOrderEnumStringValues(), ",")))
+	}
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingLifecycleStatesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWaasPoliciesResponse wrapper for the ListWaasPolicies operation
@@ -111,7 +136,7 @@ const (
 	ListWaasPoliciesSortByTimecreated ListWaasPoliciesSortByEnum = "timeCreated"
 )
 
-var mappingListWaasPoliciesSortBy = map[string]ListWaasPoliciesSortByEnum{
+var mappingListWaasPoliciesSortByEnum = map[string]ListWaasPoliciesSortByEnum{
 	"id":          ListWaasPoliciesSortById,
 	"displayName": ListWaasPoliciesSortByDisplayname,
 	"timeCreated": ListWaasPoliciesSortByTimecreated,
@@ -120,10 +145,19 @@ var mappingListWaasPoliciesSortBy = map[string]ListWaasPoliciesSortByEnum{
 // GetListWaasPoliciesSortByEnumValues Enumerates the set of values for ListWaasPoliciesSortByEnum
 func GetListWaasPoliciesSortByEnumValues() []ListWaasPoliciesSortByEnum {
 	values := make([]ListWaasPoliciesSortByEnum, 0)
-	for _, v := range mappingListWaasPoliciesSortBy {
+	for _, v := range mappingListWaasPoliciesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWaasPoliciesSortByEnumStringValues Enumerates the set of values in String for ListWaasPoliciesSortByEnum
+func GetListWaasPoliciesSortByEnumStringValues() []string {
+	return []string{
+		"id",
+		"displayName",
+		"timeCreated",
+	}
 }
 
 // ListWaasPoliciesSortOrderEnum Enum with underlying type: string
@@ -135,7 +169,7 @@ const (
 	ListWaasPoliciesSortOrderDesc ListWaasPoliciesSortOrderEnum = "DESC"
 )
 
-var mappingListWaasPoliciesSortOrder = map[string]ListWaasPoliciesSortOrderEnum{
+var mappingListWaasPoliciesSortOrderEnum = map[string]ListWaasPoliciesSortOrderEnum{
 	"ASC":  ListWaasPoliciesSortOrderAsc,
 	"DESC": ListWaasPoliciesSortOrderDesc,
 }
@@ -143,8 +177,16 @@ var mappingListWaasPoliciesSortOrder = map[string]ListWaasPoliciesSortOrderEnum{
 // GetListWaasPoliciesSortOrderEnumValues Enumerates the set of values for ListWaasPoliciesSortOrderEnum
 func GetListWaasPoliciesSortOrderEnumValues() []ListWaasPoliciesSortOrderEnum {
 	values := make([]ListWaasPoliciesSortOrderEnum, 0)
-	for _, v := range mappingListWaasPoliciesSortOrder {
+	for _, v := range mappingListWaasPoliciesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWaasPoliciesSortOrderEnumStringValues Enumerates the set of values in String for ListWaasPoliciesSortOrderEnum
+func GetListWaasPoliciesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

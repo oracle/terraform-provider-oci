@@ -5,15 +5,13 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListProtectionRulesRequest wrapper for the ListProtectionRules operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListProtectionRules.go.html to see an example of how to use ListProtectionRulesRequest.
 type ListProtectionRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
@@ -46,6 +44,10 @@ func (request ListProtectionRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListProtectionRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +61,23 @@ func (request ListProtectionRulesRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListProtectionRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListProtectionRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Action {
+		if _, ok := mappingListProtectionRulesActionEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", val, strings.Join(GetListProtectionRulesActionEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListProtectionRulesResponse wrapper for the ListProtectionRules operation
@@ -99,7 +118,7 @@ const (
 	ListProtectionRulesActionBlock  ListProtectionRulesActionEnum = "BLOCK"
 )
 
-var mappingListProtectionRulesAction = map[string]ListProtectionRulesActionEnum{
+var mappingListProtectionRulesActionEnum = map[string]ListProtectionRulesActionEnum{
 	"OFF":    ListProtectionRulesActionOff,
 	"DETECT": ListProtectionRulesActionDetect,
 	"BLOCK":  ListProtectionRulesActionBlock,
@@ -108,8 +127,17 @@ var mappingListProtectionRulesAction = map[string]ListProtectionRulesActionEnum{
 // GetListProtectionRulesActionEnumValues Enumerates the set of values for ListProtectionRulesActionEnum
 func GetListProtectionRulesActionEnumValues() []ListProtectionRulesActionEnum {
 	values := make([]ListProtectionRulesActionEnum, 0)
-	for _, v := range mappingListProtectionRulesAction {
+	for _, v := range mappingListProtectionRulesActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProtectionRulesActionEnumStringValues Enumerates the set of values in String for ListProtectionRulesActionEnum
+func GetListProtectionRulesActionEnumStringValues() []string {
+	return []string{
+		"OFF",
+		"DETECT",
+		"BLOCK",
+	}
 }

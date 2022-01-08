@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // GenerateAutonomousDatabaseWalletDetails Details to create and download an Oracle Autonomous Database wallet.
@@ -31,6 +33,21 @@ func (m GenerateAutonomousDatabaseWalletDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m GenerateAutonomousDatabaseWalletDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingGenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum[string(m.GenerateType)]; !ok && m.GenerateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GenerateType: %s. Supported values are: %s.", m.GenerateType, strings.Join(GetGenerateAutonomousDatabaseWalletDetailsGenerateTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum Enum with underlying type: string
 type GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum string
 
@@ -40,7 +57,7 @@ const (
 	GenerateAutonomousDatabaseWalletDetailsGenerateTypeSingle GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum = "SINGLE"
 )
 
-var mappingGenerateAutonomousDatabaseWalletDetailsGenerateType = map[string]GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum{
+var mappingGenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum = map[string]GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum{
 	"ALL":    GenerateAutonomousDatabaseWalletDetailsGenerateTypeAll,
 	"SINGLE": GenerateAutonomousDatabaseWalletDetailsGenerateTypeSingle,
 }
@@ -48,8 +65,16 @@ var mappingGenerateAutonomousDatabaseWalletDetailsGenerateType = map[string]Gene
 // GetGenerateAutonomousDatabaseWalletDetailsGenerateTypeEnumValues Enumerates the set of values for GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum
 func GetGenerateAutonomousDatabaseWalletDetailsGenerateTypeEnumValues() []GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum {
 	values := make([]GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum, 0)
-	for _, v := range mappingGenerateAutonomousDatabaseWalletDetailsGenerateType {
+	for _, v := range mappingGenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGenerateAutonomousDatabaseWalletDetailsGenerateTypeEnumStringValues Enumerates the set of values in String for GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum
+func GetGenerateAutonomousDatabaseWalletDetailsGenerateTypeEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"SINGLE",
+	}
 }

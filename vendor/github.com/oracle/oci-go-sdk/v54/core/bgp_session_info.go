@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BgpSessionInfo Information for establishing a BGP session for the IPSec tunnel.
@@ -82,6 +84,24 @@ func (m BgpSessionInfo) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BgpSessionInfo) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBgpSessionInfoBgpStateEnum[string(m.BgpState)]; !ok && m.BgpState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpState: %s. Supported values are: %s.", m.BgpState, strings.Join(GetBgpSessionInfoBgpStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBgpSessionInfoBgpIpv6StateEnum[string(m.BgpIpv6State)]; !ok && m.BgpIpv6State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpIpv6State: %s. Supported values are: %s.", m.BgpIpv6State, strings.Join(GetBgpSessionInfoBgpIpv6StateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BgpSessionInfoBgpStateEnum Enum with underlying type: string
 type BgpSessionInfoBgpStateEnum string
 
@@ -91,7 +111,7 @@ const (
 	BgpSessionInfoBgpStateDown BgpSessionInfoBgpStateEnum = "DOWN"
 )
 
-var mappingBgpSessionInfoBgpState = map[string]BgpSessionInfoBgpStateEnum{
+var mappingBgpSessionInfoBgpStateEnum = map[string]BgpSessionInfoBgpStateEnum{
 	"UP":   BgpSessionInfoBgpStateUp,
 	"DOWN": BgpSessionInfoBgpStateDown,
 }
@@ -99,10 +119,18 @@ var mappingBgpSessionInfoBgpState = map[string]BgpSessionInfoBgpStateEnum{
 // GetBgpSessionInfoBgpStateEnumValues Enumerates the set of values for BgpSessionInfoBgpStateEnum
 func GetBgpSessionInfoBgpStateEnumValues() []BgpSessionInfoBgpStateEnum {
 	values := make([]BgpSessionInfoBgpStateEnum, 0)
-	for _, v := range mappingBgpSessionInfoBgpState {
+	for _, v := range mappingBgpSessionInfoBgpStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBgpSessionInfoBgpStateEnumStringValues Enumerates the set of values in String for BgpSessionInfoBgpStateEnum
+func GetBgpSessionInfoBgpStateEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+	}
 }
 
 // BgpSessionInfoBgpIpv6StateEnum Enum with underlying type: string
@@ -114,7 +142,7 @@ const (
 	BgpSessionInfoBgpIpv6StateDown BgpSessionInfoBgpIpv6StateEnum = "DOWN"
 )
 
-var mappingBgpSessionInfoBgpIpv6State = map[string]BgpSessionInfoBgpIpv6StateEnum{
+var mappingBgpSessionInfoBgpIpv6StateEnum = map[string]BgpSessionInfoBgpIpv6StateEnum{
 	"UP":   BgpSessionInfoBgpIpv6StateUp,
 	"DOWN": BgpSessionInfoBgpIpv6StateDown,
 }
@@ -122,8 +150,16 @@ var mappingBgpSessionInfoBgpIpv6State = map[string]BgpSessionInfoBgpIpv6StateEnu
 // GetBgpSessionInfoBgpIpv6StateEnumValues Enumerates the set of values for BgpSessionInfoBgpIpv6StateEnum
 func GetBgpSessionInfoBgpIpv6StateEnumValues() []BgpSessionInfoBgpIpv6StateEnum {
 	values := make([]BgpSessionInfoBgpIpv6StateEnum, 0)
-	for _, v := range mappingBgpSessionInfoBgpIpv6State {
+	for _, v := range mappingBgpSessionInfoBgpIpv6StateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBgpSessionInfoBgpIpv6StateEnumStringValues Enumerates the set of values in String for BgpSessionInfoBgpIpv6StateEnum
+func GetBgpSessionInfoBgpIpv6StateEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+	}
 }

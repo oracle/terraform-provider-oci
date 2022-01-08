@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -85,10 +85,6 @@ func (client *AccountClient) ConfigurationProvider() *common.ConfigurationProvid
 }
 
 // GetLaunchEligibility Returns Tenant eligibility and other information for launching a PIC image
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetLaunchEligibility.go.html to see an example of how to use GetLaunchEligibility API.
 func (client AccountClient) GetLaunchEligibility(ctx context.Context, request GetLaunchEligibilityRequest) (response GetLaunchEligibilityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -140,10 +136,6 @@ func (client AccountClient) getLaunchEligibility(ctx context.Context, request co
 }
 
 // GetThirdPartyPaidListingEligibility Returns eligibility details of the tenancy to see and launch third party paid listings
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetThirdPartyPaidListingEligibility.go.html to see an example of how to use GetThirdPartyPaidListingEligibility API.
 func (client AccountClient) GetThirdPartyPaidListingEligibility(ctx context.Context, request GetThirdPartyPaidListingEligibilityRequest) (response GetThirdPartyPaidListingEligibilityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

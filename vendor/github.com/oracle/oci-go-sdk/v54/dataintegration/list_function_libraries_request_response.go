@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListFunctionLibrariesRequest wrapper for the ListFunctionLibraries operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListFunctionLibraries.go.html to see an example of how to use ListFunctionLibrariesRequest.
 type ListFunctionLibrariesRequest struct {
 
 	// The workspace ID.
@@ -60,6 +58,10 @@ func (request ListFunctionLibrariesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListFunctionLibrariesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +75,23 @@ func (request ListFunctionLibrariesRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListFunctionLibrariesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListFunctionLibrariesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListFunctionLibrariesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFunctionLibrariesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFunctionLibrariesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListFunctionLibrariesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListFunctionLibrariesResponse wrapper for the ListFunctionLibraries operation
@@ -116,7 +135,7 @@ const (
 	ListFunctionLibrariesSortOrderDesc ListFunctionLibrariesSortOrderEnum = "DESC"
 )
 
-var mappingListFunctionLibrariesSortOrder = map[string]ListFunctionLibrariesSortOrderEnum{
+var mappingListFunctionLibrariesSortOrderEnum = map[string]ListFunctionLibrariesSortOrderEnum{
 	"ASC":  ListFunctionLibrariesSortOrderAsc,
 	"DESC": ListFunctionLibrariesSortOrderDesc,
 }
@@ -124,10 +143,18 @@ var mappingListFunctionLibrariesSortOrder = map[string]ListFunctionLibrariesSort
 // GetListFunctionLibrariesSortOrderEnumValues Enumerates the set of values for ListFunctionLibrariesSortOrderEnum
 func GetListFunctionLibrariesSortOrderEnumValues() []ListFunctionLibrariesSortOrderEnum {
 	values := make([]ListFunctionLibrariesSortOrderEnum, 0)
-	for _, v := range mappingListFunctionLibrariesSortOrder {
+	for _, v := range mappingListFunctionLibrariesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFunctionLibrariesSortOrderEnumStringValues Enumerates the set of values in String for ListFunctionLibrariesSortOrderEnum
+func GetListFunctionLibrariesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListFunctionLibrariesSortByEnum Enum with underlying type: string
@@ -139,7 +166,7 @@ const (
 	ListFunctionLibrariesSortByDisplayName ListFunctionLibrariesSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListFunctionLibrariesSortBy = map[string]ListFunctionLibrariesSortByEnum{
+var mappingListFunctionLibrariesSortByEnum = map[string]ListFunctionLibrariesSortByEnum{
 	"TIME_CREATED": ListFunctionLibrariesSortByTimeCreated,
 	"DISPLAY_NAME": ListFunctionLibrariesSortByDisplayName,
 }
@@ -147,8 +174,16 @@ var mappingListFunctionLibrariesSortBy = map[string]ListFunctionLibrariesSortByE
 // GetListFunctionLibrariesSortByEnumValues Enumerates the set of values for ListFunctionLibrariesSortByEnum
 func GetListFunctionLibrariesSortByEnumValues() []ListFunctionLibrariesSortByEnum {
 	values := make([]ListFunctionLibrariesSortByEnum, 0)
-	for _, v := range mappingListFunctionLibrariesSortBy {
+	for _, v := range mappingListFunctionLibrariesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFunctionLibrariesSortByEnumStringValues Enumerates the set of values in String for ListFunctionLibrariesSortByEnum
+func GetListFunctionLibrariesSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

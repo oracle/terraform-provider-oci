@@ -12,7 +12,9 @@
 package monitoring
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AlarmHistoryEntry An alarm history entry indicating a description of the entry and the time that the entry occurred.
@@ -36,4 +38,16 @@ type AlarmHistoryEntry struct {
 
 func (m AlarmHistoryEntry) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AlarmHistoryEntry) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

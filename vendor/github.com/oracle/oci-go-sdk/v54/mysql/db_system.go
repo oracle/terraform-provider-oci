@@ -11,7 +11,9 @@ package mysql
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // DbSystem A DB System is the core logical unit of MySQL Database Service.
@@ -39,6 +41,8 @@ type DbSystem struct {
 	LifecycleState DbSystemLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	Maintenance *MaintenanceDetails `mandatory:"true" json:"maintenance"`
+
+	DeletionPolicy *DeletionPolicyDetails `mandatory:"true" json:"deletionPolicy"`
 
 	// The date and time the DB System was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
@@ -128,10 +132,32 @@ type DbSystem struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
+	// and whether to enable or disable syncing of the Binary Logs.
+	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`
 }
 
 func (m DbSystem) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbSystem) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDbSystemLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbSystemLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCrashRecoveryStatusEnum[string(m.CrashRecovery)]; !ok && m.CrashRecovery != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CrashRecovery: %s. Supported values are: %s.", m.CrashRecovery, strings.Join(GetCrashRecoveryStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -159,6 +185,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
 		FreeformTags               map[string]string                 `json:"freeformTags"`
 		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		CrashRecovery              CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		Id                         *string                           `json:"id"`
 		DisplayName                *string                           `json:"displayName"`
 		CompartmentId              *string                           `json:"compartmentId"`
@@ -167,6 +194,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		DataStorageSizeInGBs       *int                              `json:"dataStorageSizeInGBs"`
 		LifecycleState             DbSystemLifecycleStateEnum        `json:"lifecycleState"`
 		Maintenance                *MaintenanceDetails               `json:"maintenance"`
+		DeletionPolicy             *DeletionPolicyDetails            `json:"deletionPolicy"`
 		TimeCreated                *common.SDKTime                   `json:"timeCreated"`
 		TimeUpdated                *common.SDKTime                   `json:"timeUpdated"`
 	}{}
@@ -234,6 +262,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
+	m.CrashRecovery = model.CrashRecovery
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName
@@ -249,6 +279,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleState = model.LifecycleState
 
 	m.Maintenance = model.Maintenance
+
+	m.DeletionPolicy = model.DeletionPolicy
 
 	m.TimeCreated = model.TimeCreated
 
@@ -271,7 +303,7 @@ const (
 	DbSystemLifecycleStateFailed   DbSystemLifecycleStateEnum = "FAILED"
 )
 
-var mappingDbSystemLifecycleState = map[string]DbSystemLifecycleStateEnum{
+var mappingDbSystemLifecycleStateEnum = map[string]DbSystemLifecycleStateEnum{
 	"CREATING": DbSystemLifecycleStateCreating,
 	"ACTIVE":   DbSystemLifecycleStateActive,
 	"INACTIVE": DbSystemLifecycleStateInactive,
@@ -284,8 +316,21 @@ var mappingDbSystemLifecycleState = map[string]DbSystemLifecycleStateEnum{
 // GetDbSystemLifecycleStateEnumValues Enumerates the set of values for DbSystemLifecycleStateEnum
 func GetDbSystemLifecycleStateEnumValues() []DbSystemLifecycleStateEnum {
 	values := make([]DbSystemLifecycleStateEnum, 0)
-	for _, v := range mappingDbSystemLifecycleState {
+	for _, v := range mappingDbSystemLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemLifecycleStateEnumStringValues Enumerates the set of values in String for DbSystemLifecycleStateEnum
+func GetDbSystemLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

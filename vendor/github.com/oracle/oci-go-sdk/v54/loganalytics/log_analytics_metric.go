@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LogAnalyticsMetric LogAnalyticsMetric
@@ -86,6 +88,24 @@ func (m LogAnalyticsMetric) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsMetric) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsMetricMetricTypeEnum[string(m.MetricType)]; !ok && m.MetricType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MetricType: %s. Supported values are: %s.", m.MetricType, strings.Join(GetLogAnalyticsMetricMetricTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLogAnalyticsMetricOperatorEnum[string(m.Operator)]; !ok && m.Operator != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operator: %s. Supported values are: %s.", m.Operator, strings.Join(GetLogAnalyticsMetricOperatorEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsMetricMetricTypeEnum Enum with underlying type: string
 type LogAnalyticsMetricMetricTypeEnum string
 
@@ -99,7 +119,7 @@ const (
 	LogAnalyticsMetricMetricTypeAverageDistribution LogAnalyticsMetricMetricTypeEnum = "AVERAGE_DISTRIBUTION"
 )
 
-var mappingLogAnalyticsMetricMetricType = map[string]LogAnalyticsMetricMetricTypeEnum{
+var mappingLogAnalyticsMetricMetricTypeEnum = map[string]LogAnalyticsMetricMetricTypeEnum{
 	"COUNT":                LogAnalyticsMetricMetricTypeCount,
 	"SUM":                  LogAnalyticsMetricMetricTypeSum,
 	"AVERAGE":              LogAnalyticsMetricMetricTypeAverage,
@@ -111,10 +131,22 @@ var mappingLogAnalyticsMetricMetricType = map[string]LogAnalyticsMetricMetricTyp
 // GetLogAnalyticsMetricMetricTypeEnumValues Enumerates the set of values for LogAnalyticsMetricMetricTypeEnum
 func GetLogAnalyticsMetricMetricTypeEnumValues() []LogAnalyticsMetricMetricTypeEnum {
 	values := make([]LogAnalyticsMetricMetricTypeEnum, 0)
-	for _, v := range mappingLogAnalyticsMetricMetricType {
+	for _, v := range mappingLogAnalyticsMetricMetricTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsMetricMetricTypeEnumStringValues Enumerates the set of values in String for LogAnalyticsMetricMetricTypeEnum
+func GetLogAnalyticsMetricMetricTypeEnumStringValues() []string {
+	return []string{
+		"COUNT",
+		"SUM",
+		"AVERAGE",
+		"COUNT_DISTRIBUTION",
+		"SUM_DISTRIBUTION",
+		"AVERAGE_DISTRIBUTION",
+	}
 }
 
 // LogAnalyticsMetricOperatorEnum Enum with underlying type: string
@@ -128,7 +160,7 @@ const (
 	LogAnalyticsMetricOperatorNotNull            LogAnalyticsMetricOperatorEnum = "NOT_NULL"
 )
 
-var mappingLogAnalyticsMetricOperator = map[string]LogAnalyticsMetricOperatorEnum{
+var mappingLogAnalyticsMetricOperatorEnum = map[string]LogAnalyticsMetricOperatorEnum{
 	"CONTAINS_IGNORE_CASE": LogAnalyticsMetricOperatorContainsIgnoreCase,
 	"IN_IGNORE_CASE":       LogAnalyticsMetricOperatorInIgnoreCase,
 	"EQUAL_IGNORE_CASE":    LogAnalyticsMetricOperatorEqualIgnoreCase,
@@ -138,8 +170,18 @@ var mappingLogAnalyticsMetricOperator = map[string]LogAnalyticsMetricOperatorEnu
 // GetLogAnalyticsMetricOperatorEnumValues Enumerates the set of values for LogAnalyticsMetricOperatorEnum
 func GetLogAnalyticsMetricOperatorEnumValues() []LogAnalyticsMetricOperatorEnum {
 	values := make([]LogAnalyticsMetricOperatorEnum, 0)
-	for _, v := range mappingLogAnalyticsMetricOperator {
+	for _, v := range mappingLogAnalyticsMetricOperatorEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsMetricOperatorEnumStringValues Enumerates the set of values in String for LogAnalyticsMetricOperatorEnum
+func GetLogAnalyticsMetricOperatorEnumStringValues() []string {
+	return []string{
+		"CONTAINS_IGNORE_CASE",
+		"IN_IGNORE_CASE",
+		"EQUAL_IGNORE_CASE",
+		"NOT_NULL",
+	}
 }

@@ -5,15 +5,13 @@
 package blockchain
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListOsnsRequest wrapper for the ListOsns operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/ListOsns.go.html to see an example of how to use ListOsnsRequest.
 type ListOsnsRequest struct {
 
 	// Unique service identifier.
@@ -57,6 +55,10 @@ func (request ListOsnsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListOsnsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +72,23 @@ func (request ListOsnsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListOsnsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListOsnsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListOsnsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOsnsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOsnsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListOsnsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListOsnsResponse wrapper for the ListOsns operation
@@ -109,7 +128,7 @@ const (
 	ListOsnsSortOrderDesc ListOsnsSortOrderEnum = "DESC"
 )
 
-var mappingListOsnsSortOrder = map[string]ListOsnsSortOrderEnum{
+var mappingListOsnsSortOrderEnum = map[string]ListOsnsSortOrderEnum{
 	"ASC":  ListOsnsSortOrderAsc,
 	"DESC": ListOsnsSortOrderDesc,
 }
@@ -117,10 +136,18 @@ var mappingListOsnsSortOrder = map[string]ListOsnsSortOrderEnum{
 // GetListOsnsSortOrderEnumValues Enumerates the set of values for ListOsnsSortOrderEnum
 func GetListOsnsSortOrderEnumValues() []ListOsnsSortOrderEnum {
 	values := make([]ListOsnsSortOrderEnum, 0)
-	for _, v := range mappingListOsnsSortOrder {
+	for _, v := range mappingListOsnsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOsnsSortOrderEnumStringValues Enumerates the set of values in String for ListOsnsSortOrderEnum
+func GetListOsnsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListOsnsSortByEnum Enum with underlying type: string
@@ -132,7 +159,7 @@ const (
 	ListOsnsSortByDisplayname ListOsnsSortByEnum = "displayName"
 )
 
-var mappingListOsnsSortBy = map[string]ListOsnsSortByEnum{
+var mappingListOsnsSortByEnum = map[string]ListOsnsSortByEnum{
 	"timeCreated": ListOsnsSortByTimecreated,
 	"displayName": ListOsnsSortByDisplayname,
 }
@@ -140,8 +167,16 @@ var mappingListOsnsSortBy = map[string]ListOsnsSortByEnum{
 // GetListOsnsSortByEnumValues Enumerates the set of values for ListOsnsSortByEnum
 func GetListOsnsSortByEnumValues() []ListOsnsSortByEnum {
 	values := make([]ListOsnsSortByEnum, 0)
-	for _, v := range mappingListOsnsSortBy {
+	for _, v := range mappingListOsnsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOsnsSortByEnumStringValues Enumerates the set of values in String for ListOsnsSortByEnum
+func GetListOsnsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

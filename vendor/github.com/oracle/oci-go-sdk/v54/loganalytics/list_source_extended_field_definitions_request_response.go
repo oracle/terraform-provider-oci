@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListSourceExtendedFieldDefinitionsRequest wrapper for the ListSourceExtendedFieldDefinitions operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceExtendedFieldDefinitions.go.html to see an example of how to use ListSourceExtendedFieldDefinitionsRequest.
 type ListSourceExtendedFieldDefinitionsRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -49,6 +47,10 @@ func (request ListSourceExtendedFieldDefinitionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSourceExtendedFieldDefinitionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +64,23 @@ func (request ListSourceExtendedFieldDefinitionsRequest) BinaryRequestBody() (*c
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSourceExtendedFieldDefinitionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSourceExtendedFieldDefinitionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSourceExtendedFieldDefinitionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSourceExtendedFieldDefinitionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSourceExtendedFieldDefinitionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSourceExtendedFieldDefinitionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSourceExtendedFieldDefinitionsResponse wrapper for the ListSourceExtendedFieldDefinitions operation
@@ -105,7 +124,7 @@ const (
 	ListSourceExtendedFieldDefinitionsSortByRegularexpression ListSourceExtendedFieldDefinitionsSortByEnum = "regularExpression"
 )
 
-var mappingListSourceExtendedFieldDefinitionsSortBy = map[string]ListSourceExtendedFieldDefinitionsSortByEnum{
+var mappingListSourceExtendedFieldDefinitionsSortByEnum = map[string]ListSourceExtendedFieldDefinitionsSortByEnum{
 	"baseFieldName":     ListSourceExtendedFieldDefinitionsSortByBasefieldname,
 	"regularExpression": ListSourceExtendedFieldDefinitionsSortByRegularexpression,
 }
@@ -113,10 +132,18 @@ var mappingListSourceExtendedFieldDefinitionsSortBy = map[string]ListSourceExten
 // GetListSourceExtendedFieldDefinitionsSortByEnumValues Enumerates the set of values for ListSourceExtendedFieldDefinitionsSortByEnum
 func GetListSourceExtendedFieldDefinitionsSortByEnumValues() []ListSourceExtendedFieldDefinitionsSortByEnum {
 	values := make([]ListSourceExtendedFieldDefinitionsSortByEnum, 0)
-	for _, v := range mappingListSourceExtendedFieldDefinitionsSortBy {
+	for _, v := range mappingListSourceExtendedFieldDefinitionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceExtendedFieldDefinitionsSortByEnumStringValues Enumerates the set of values in String for ListSourceExtendedFieldDefinitionsSortByEnum
+func GetListSourceExtendedFieldDefinitionsSortByEnumStringValues() []string {
+	return []string{
+		"baseFieldName",
+		"regularExpression",
+	}
 }
 
 // ListSourceExtendedFieldDefinitionsSortOrderEnum Enum with underlying type: string
@@ -128,7 +155,7 @@ const (
 	ListSourceExtendedFieldDefinitionsSortOrderDesc ListSourceExtendedFieldDefinitionsSortOrderEnum = "DESC"
 )
 
-var mappingListSourceExtendedFieldDefinitionsSortOrder = map[string]ListSourceExtendedFieldDefinitionsSortOrderEnum{
+var mappingListSourceExtendedFieldDefinitionsSortOrderEnum = map[string]ListSourceExtendedFieldDefinitionsSortOrderEnum{
 	"ASC":  ListSourceExtendedFieldDefinitionsSortOrderAsc,
 	"DESC": ListSourceExtendedFieldDefinitionsSortOrderDesc,
 }
@@ -136,8 +163,16 @@ var mappingListSourceExtendedFieldDefinitionsSortOrder = map[string]ListSourceEx
 // GetListSourceExtendedFieldDefinitionsSortOrderEnumValues Enumerates the set of values for ListSourceExtendedFieldDefinitionsSortOrderEnum
 func GetListSourceExtendedFieldDefinitionsSortOrderEnumValues() []ListSourceExtendedFieldDefinitionsSortOrderEnum {
 	values := make([]ListSourceExtendedFieldDefinitionsSortOrderEnum, 0)
-	for _, v := range mappingListSourceExtendedFieldDefinitionsSortOrder {
+	for _, v := range mappingListSourceExtendedFieldDefinitionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceExtendedFieldDefinitionsSortOrderEnumStringValues Enumerates the set of values in String for ListSourceExtendedFieldDefinitionsSortOrderEnum
+func GetListSourceExtendedFieldDefinitionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

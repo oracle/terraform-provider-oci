@@ -5,15 +5,13 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListFieldsRequest wrapper for the ListFields operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListFields.go.html to see an example of how to use ListFieldsRequest.
 type ListFieldsRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -79,6 +77,10 @@ func (request ListFieldsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListFieldsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -92,6 +94,26 @@ func (request ListFieldsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListFieldsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListFieldsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListFieldsParserTypeEnum[string(request.ParserType)]; !ok && request.ParserType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ParserType: %s. Supported values are: %s.", request.ParserType, strings.Join(GetListFieldsParserTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFieldsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFieldsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFieldsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListFieldsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListFieldsResponse wrapper for the ListFields operation
@@ -139,7 +161,7 @@ const (
 	ListFieldsParserTypeDelimited ListFieldsParserTypeEnum = "DELIMITED"
 )
 
-var mappingListFieldsParserType = map[string]ListFieldsParserTypeEnum{
+var mappingListFieldsParserTypeEnum = map[string]ListFieldsParserTypeEnum{
 	"ALL":       ListFieldsParserTypeAll,
 	"REGEX":     ListFieldsParserTypeRegex,
 	"XML":       ListFieldsParserTypeXml,
@@ -151,10 +173,22 @@ var mappingListFieldsParserType = map[string]ListFieldsParserTypeEnum{
 // GetListFieldsParserTypeEnumValues Enumerates the set of values for ListFieldsParserTypeEnum
 func GetListFieldsParserTypeEnumValues() []ListFieldsParserTypeEnum {
 	values := make([]ListFieldsParserTypeEnum, 0)
-	for _, v := range mappingListFieldsParserType {
+	for _, v := range mappingListFieldsParserTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFieldsParserTypeEnumStringValues Enumerates the set of values in String for ListFieldsParserTypeEnum
+func GetListFieldsParserTypeEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"REGEX",
+		"XML",
+		"JSON",
+		"ODL",
+		"DELIMITED",
+	}
 }
 
 // ListFieldsSortOrderEnum Enum with underlying type: string
@@ -166,7 +200,7 @@ const (
 	ListFieldsSortOrderDesc ListFieldsSortOrderEnum = "DESC"
 )
 
-var mappingListFieldsSortOrder = map[string]ListFieldsSortOrderEnum{
+var mappingListFieldsSortOrderEnum = map[string]ListFieldsSortOrderEnum{
 	"ASC":  ListFieldsSortOrderAsc,
 	"DESC": ListFieldsSortOrderDesc,
 }
@@ -174,10 +208,18 @@ var mappingListFieldsSortOrder = map[string]ListFieldsSortOrderEnum{
 // GetListFieldsSortOrderEnumValues Enumerates the set of values for ListFieldsSortOrderEnum
 func GetListFieldsSortOrderEnumValues() []ListFieldsSortOrderEnum {
 	values := make([]ListFieldsSortOrderEnum, 0)
-	for _, v := range mappingListFieldsSortOrder {
+	for _, v := range mappingListFieldsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFieldsSortOrderEnumStringValues Enumerates the set of values in String for ListFieldsSortOrderEnum
+func GetListFieldsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListFieldsSortByEnum Enum with underlying type: string
@@ -189,7 +231,7 @@ const (
 	ListFieldsSortByDatatype ListFieldsSortByEnum = "dataType"
 )
 
-var mappingListFieldsSortBy = map[string]ListFieldsSortByEnum{
+var mappingListFieldsSortByEnum = map[string]ListFieldsSortByEnum{
 	"name":     ListFieldsSortByName,
 	"dataType": ListFieldsSortByDatatype,
 }
@@ -197,8 +239,16 @@ var mappingListFieldsSortBy = map[string]ListFieldsSortByEnum{
 // GetListFieldsSortByEnumValues Enumerates the set of values for ListFieldsSortByEnum
 func GetListFieldsSortByEnumValues() []ListFieldsSortByEnum {
 	values := make([]ListFieldsSortByEnum, 0)
-	for _, v := range mappingListFieldsSortBy {
+	for _, v := range mappingListFieldsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFieldsSortByEnumStringValues Enumerates the set of values in String for ListFieldsSortByEnum
+func GetListFieldsSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"dataType",
+	}
 }

@@ -11,7 +11,9 @@
 package events
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // Rule The configuration details of an Events rule. For more information, see
@@ -84,6 +86,21 @@ func (m Rule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Rule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRuleLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRuleLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RuleLifecycleStateEnum Enum with underlying type: string
 type RuleLifecycleStateEnum string
 
@@ -98,7 +115,7 @@ const (
 	RuleLifecycleStateFailed   RuleLifecycleStateEnum = "FAILED"
 )
 
-var mappingRuleLifecycleState = map[string]RuleLifecycleStateEnum{
+var mappingRuleLifecycleStateEnum = map[string]RuleLifecycleStateEnum{
 	"CREATING": RuleLifecycleStateCreating,
 	"ACTIVE":   RuleLifecycleStateActive,
 	"INACTIVE": RuleLifecycleStateInactive,
@@ -111,8 +128,21 @@ var mappingRuleLifecycleState = map[string]RuleLifecycleStateEnum{
 // GetRuleLifecycleStateEnumValues Enumerates the set of values for RuleLifecycleStateEnum
 func GetRuleLifecycleStateEnumValues() []RuleLifecycleStateEnum {
 	values := make([]RuleLifecycleStateEnum, 0)
-	for _, v := range mappingRuleLifecycleState {
+	for _, v := range mappingRuleLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRuleLifecycleStateEnumStringValues Enumerates the set of values in String for RuleLifecycleStateEnum
+func GetRuleLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

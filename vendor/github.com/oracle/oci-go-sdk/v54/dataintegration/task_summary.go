@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TaskSummary The task summary object type contains the audit summary information and the definition of the task summary object.
@@ -227,6 +229,18 @@ func (m tasksummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m tasksummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TaskSummaryModelTypeEnum Enum with underlying type: string
 type TaskSummaryModelTypeEnum string
 
@@ -240,7 +254,7 @@ const (
 	TaskSummaryModelTypeRestTask        TaskSummaryModelTypeEnum = "REST_TASK"
 )
 
-var mappingTaskSummaryModelType = map[string]TaskSummaryModelTypeEnum{
+var mappingTaskSummaryModelTypeEnum = map[string]TaskSummaryModelTypeEnum{
 	"INTEGRATION_TASK":  TaskSummaryModelTypeIntegrationTask,
 	"DATA_LOADER_TASK":  TaskSummaryModelTypeDataLoaderTask,
 	"PIPELINE_TASK":     TaskSummaryModelTypePipelineTask,
@@ -252,8 +266,20 @@ var mappingTaskSummaryModelType = map[string]TaskSummaryModelTypeEnum{
 // GetTaskSummaryModelTypeEnumValues Enumerates the set of values for TaskSummaryModelTypeEnum
 func GetTaskSummaryModelTypeEnumValues() []TaskSummaryModelTypeEnum {
 	values := make([]TaskSummaryModelTypeEnum, 0)
-	for _, v := range mappingTaskSummaryModelType {
+	for _, v := range mappingTaskSummaryModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskSummaryModelTypeEnumStringValues Enumerates the set of values in String for TaskSummaryModelTypeEnum
+func GetTaskSummaryModelTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }

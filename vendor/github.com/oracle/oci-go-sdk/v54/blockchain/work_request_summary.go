@@ -10,7 +10,9 @@
 package blockchain
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // WorkRequestSummary A description of workrequest status
@@ -53,6 +55,24 @@ func (m WorkRequestSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestSummaryOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetWorkRequestSummaryOperationTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingWorkRequestStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestSummaryOperationTypeEnum Enum with underlying type: string
 type WorkRequestSummaryOperationTypeEnum string
 
@@ -69,7 +89,7 @@ const (
 	WorkRequestSummaryOperationTypeScaleStorage      WorkRequestSummaryOperationTypeEnum = "SCALE_STORAGE"
 )
 
-var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperationTypeEnum{
+var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
 	"CREATE_PLATFORM":    WorkRequestSummaryOperationTypeCreatePlatform,
 	"UPDATE_PLATFORM":    WorkRequestSummaryOperationTypeUpdatePlatform,
 	"UPGRADE_PLATFORM":   WorkRequestSummaryOperationTypeUpgradePlatform,
@@ -84,8 +104,23 @@ var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperat
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
 func GetWorkRequestSummaryOperationTypeEnumValues() []WorkRequestSummaryOperationTypeEnum {
 	values := make([]WorkRequestSummaryOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestSummaryOperationType {
+	for _, v := range mappingWorkRequestSummaryOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestSummaryOperationTypeEnumStringValues Enumerates the set of values in String for WorkRequestSummaryOperationTypeEnum
+func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_PLATFORM",
+		"UPDATE_PLATFORM",
+		"UPGRADE_PLATFORM",
+		"DELETE_PLATFORM",
+		"SCALE_PLATFORM",
+		"START_PLATFORM",
+		"STOP_PLATFORM",
+		"CUSTOMIZE_PLATFORM",
+		"SCALE_STORAGE",
+	}
 }

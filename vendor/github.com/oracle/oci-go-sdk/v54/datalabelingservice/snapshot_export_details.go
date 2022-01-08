@@ -2,16 +2,18 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// DataLabelingService API
+// Data Labeling Management API
 //
-// A description of the DataLabelingService API
+// Use Data Labeling Management API to create, list, edit & delete datasets.
 //
 
 package datalabelingservice
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // SnapshotExportDetails Specifies where to output the export.
@@ -61,6 +63,18 @@ func (m snapshotexportdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m snapshotexportdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SnapshotExportDetailsExportTypeEnum Enum with underlying type: string
 type SnapshotExportDetailsExportTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	SnapshotExportDetailsExportTypeObjectStorage SnapshotExportDetailsExportTypeEnum = "OBJECT_STORAGE"
 )
 
-var mappingSnapshotExportDetailsExportType = map[string]SnapshotExportDetailsExportTypeEnum{
+var mappingSnapshotExportDetailsExportTypeEnum = map[string]SnapshotExportDetailsExportTypeEnum{
 	"OBJECT_STORAGE": SnapshotExportDetailsExportTypeObjectStorage,
 }
 
 // GetSnapshotExportDetailsExportTypeEnumValues Enumerates the set of values for SnapshotExportDetailsExportTypeEnum
 func GetSnapshotExportDetailsExportTypeEnumValues() []SnapshotExportDetailsExportTypeEnum {
 	values := make([]SnapshotExportDetailsExportTypeEnum, 0)
-	for _, v := range mappingSnapshotExportDetailsExportType {
+	for _, v := range mappingSnapshotExportDetailsExportTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSnapshotExportDetailsExportTypeEnumStringValues Enumerates the set of values in String for SnapshotExportDetailsExportTypeEnum
+func GetSnapshotExportDetailsExportTypeEnumStringValues() []string {
+	return []string{
+		"OBJECT_STORAGE",
+	}
 }

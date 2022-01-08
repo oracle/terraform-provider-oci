@@ -5,15 +5,13 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListWorkspacesRequest wrapper for the ListWorkspaces operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListWorkspaces.go.html to see an example of how to use ListWorkspacesRequest.
 type ListWorkspacesRequest struct {
 
 	// The OCID of the compartment containing the resources you want to list.
@@ -54,6 +52,10 @@ func (request ListWorkspacesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWorkspacesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +69,26 @@ func (request ListWorkspacesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWorkspacesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWorkspacesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkspaceLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetWorkspaceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWorkspacesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkspacesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWorkspacesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWorkspacesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWorkspacesResponse wrapper for the ListWorkspaces operation
@@ -104,7 +126,7 @@ const (
 	ListWorkspacesSortOrderDesc ListWorkspacesSortOrderEnum = "DESC"
 )
 
-var mappingListWorkspacesSortOrder = map[string]ListWorkspacesSortOrderEnum{
+var mappingListWorkspacesSortOrderEnum = map[string]ListWorkspacesSortOrderEnum{
 	"ASC":  ListWorkspacesSortOrderAsc,
 	"DESC": ListWorkspacesSortOrderDesc,
 }
@@ -112,10 +134,18 @@ var mappingListWorkspacesSortOrder = map[string]ListWorkspacesSortOrderEnum{
 // GetListWorkspacesSortOrderEnumValues Enumerates the set of values for ListWorkspacesSortOrderEnum
 func GetListWorkspacesSortOrderEnumValues() []ListWorkspacesSortOrderEnum {
 	values := make([]ListWorkspacesSortOrderEnum, 0)
-	for _, v := range mappingListWorkspacesSortOrder {
+	for _, v := range mappingListWorkspacesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWorkspacesSortOrderEnumStringValues Enumerates the set of values in String for ListWorkspacesSortOrderEnum
+func GetListWorkspacesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListWorkspacesSortByEnum Enum with underlying type: string
@@ -127,7 +157,7 @@ const (
 	ListWorkspacesSortByDisplayName ListWorkspacesSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListWorkspacesSortBy = map[string]ListWorkspacesSortByEnum{
+var mappingListWorkspacesSortByEnum = map[string]ListWorkspacesSortByEnum{
 	"TIME_CREATED": ListWorkspacesSortByTimeCreated,
 	"DISPLAY_NAME": ListWorkspacesSortByDisplayName,
 }
@@ -135,8 +165,16 @@ var mappingListWorkspacesSortBy = map[string]ListWorkspacesSortByEnum{
 // GetListWorkspacesSortByEnumValues Enumerates the set of values for ListWorkspacesSortByEnum
 func GetListWorkspacesSortByEnumValues() []ListWorkspacesSortByEnum {
 	values := make([]ListWorkspacesSortByEnum, 0)
-	for _, v := range mappingListWorkspacesSortBy {
+	for _, v := range mappingListWorkspacesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWorkspacesSortByEnumStringValues Enumerates the set of values in String for ListWorkspacesSortByEnum
+func GetListWorkspacesSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

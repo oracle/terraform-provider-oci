@@ -14,30 +14,47 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// TunnelRouteSummary The routes advertised to the Customer and the routes received from the Customer
+// TunnelRouteSummary A summary of the routes advertised to and received from the on-premises network.
 type TunnelRouteSummary struct {
 
-	// BGP Network Layer Reachability Information
+	// The BGP network layer reachability information.
 	Prefix *string `mandatory:"false" json:"prefix"`
 
-	// The age of the route
+	// The age of the route.
 	Age *int64 `mandatory:"false" json:"age"`
 
-	// Is this the best route
+	// Indicates this is the best route.
 	IsBestPath *bool `mandatory:"false" json:"isBestPath"`
 
-	// List of ASNs in AS Path
+	// A list of ASNs in AS_Path.
 	AsPath []int `mandatory:"false" json:"asPath"`
 
-	// Route advertiser
+	// The source of the route advertisement.
 	Advertiser TunnelRouteSummaryAdvertiserEnum `mandatory:"false" json:"advertiser,omitempty"`
 }
 
 func (m TunnelRouteSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TunnelRouteSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTunnelRouteSummaryAdvertiserEnum[string(m.Advertiser)]; !ok && m.Advertiser != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Advertiser: %s. Supported values are: %s.", m.Advertiser, strings.Join(GetTunnelRouteSummaryAdvertiserEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // TunnelRouteSummaryAdvertiserEnum Enum with underlying type: string
@@ -49,7 +66,7 @@ const (
 	TunnelRouteSummaryAdvertiserOracle   TunnelRouteSummaryAdvertiserEnum = "ORACLE"
 )
 
-var mappingTunnelRouteSummaryAdvertiser = map[string]TunnelRouteSummaryAdvertiserEnum{
+var mappingTunnelRouteSummaryAdvertiserEnum = map[string]TunnelRouteSummaryAdvertiserEnum{
 	"CUSTOMER": TunnelRouteSummaryAdvertiserCustomer,
 	"ORACLE":   TunnelRouteSummaryAdvertiserOracle,
 }
@@ -57,8 +74,16 @@ var mappingTunnelRouteSummaryAdvertiser = map[string]TunnelRouteSummaryAdvertise
 // GetTunnelRouteSummaryAdvertiserEnumValues Enumerates the set of values for TunnelRouteSummaryAdvertiserEnum
 func GetTunnelRouteSummaryAdvertiserEnumValues() []TunnelRouteSummaryAdvertiserEnum {
 	values := make([]TunnelRouteSummaryAdvertiserEnum, 0)
-	for _, v := range mappingTunnelRouteSummaryAdvertiser {
+	for _, v := range mappingTunnelRouteSummaryAdvertiserEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTunnelRouteSummaryAdvertiserEnumStringValues Enumerates the set of values in String for TunnelRouteSummaryAdvertiserEnum
+func GetTunnelRouteSummaryAdvertiserEnumStringValues() []string {
+	return []string{
+		"CUSTOMER",
+		"ORACLE",
+	}
 }

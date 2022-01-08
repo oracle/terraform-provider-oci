@@ -87,10 +87,6 @@ func (client *OperatorControlClient) ConfigurationProvider() *common.Configurati
 }
 
 // ChangeOperatorControlCompartment Moves the Operator Control resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlCompartment.go.html to see an example of how to use ChangeOperatorControlCompartment API.
 func (client OperatorControlClient) ChangeOperatorControlCompartment(ctx context.Context, request ChangeOperatorControlCompartmentRequest) (response ChangeOperatorControlCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -147,10 +143,6 @@ func (client OperatorControlClient) changeOperatorControlCompartment(ctx context
 }
 
 // CreateOperatorControl Creates an Operator Control.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControl.go.html to see an example of how to use CreateOperatorControl API.
 func (client OperatorControlClient) CreateOperatorControl(ctx context.Context, request CreateOperatorControlRequest) (response CreateOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -211,10 +203,6 @@ func (client OperatorControlClient) createOperatorControl(ctx context.Context, r
 // resource is marked as DELETED following a successful deletion. However, it is not completely deleted from the system. This is to ensure auditing information for the accesses
 // done under the Operator Control is preserved for future needs. The system purges the deleted Operator Control only when all of the audit data associated with the
 // Operator Control are also deleted. Therefore, you cannot reuse the name of the deleted Operator Control until the system purges the Operator Control.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/DeleteOperatorControl.go.html to see an example of how to use DeleteOperatorControl API.
 func (client OperatorControlClient) DeleteOperatorControl(ctx context.Context, request DeleteOperatorControlRequest) (response DeleteOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -266,10 +254,6 @@ func (client OperatorControlClient) deleteOperatorControl(ctx context.Context, r
 }
 
 // GetOperatorControl Gets the Operator Control associated with the specified Operator Control ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorControl.go.html to see an example of how to use GetOperatorControl API.
 func (client OperatorControlClient) GetOperatorControl(ctx context.Context, request GetOperatorControlRequest) (response GetOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -321,10 +305,6 @@ func (client OperatorControlClient) getOperatorControl(ctx context.Context, requ
 }
 
 // ListOperatorControls Lists the operator controls in the compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControls.go.html to see an example of how to use ListOperatorControls API.
 func (client OperatorControlClient) ListOperatorControls(ctx context.Context, request ListOperatorControlsRequest) (response ListOperatorControlsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -376,10 +356,6 @@ func (client OperatorControlClient) listOperatorControls(ctx context.Context, re
 }
 
 // UpdateOperatorControl Modifies the existing OperatorControl for a given operator control id except the operator control id.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControl.go.html to see an example of how to use UpdateOperatorControl API.
 func (client OperatorControlClient) UpdateOperatorControl(ctx context.Context, request UpdateOperatorControlRequest) (response UpdateOperatorControlResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

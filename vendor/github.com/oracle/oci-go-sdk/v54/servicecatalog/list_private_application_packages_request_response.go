@@ -5,15 +5,13 @@
 package servicecatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListPrivateApplicationPackagesRequest wrapper for the ListPrivateApplicationPackages operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListPrivateApplicationPackages.go.html to see an example of how to use ListPrivateApplicationPackagesRequest.
 type ListPrivateApplicationPackagesRequest struct {
 
 	// The unique identifier for the private application.
@@ -59,6 +57,10 @@ func (request ListPrivateApplicationPackagesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPrivateApplicationPackagesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +74,29 @@ func (request ListPrivateApplicationPackagesRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPrivateApplicationPackagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPrivateApplicationPackagesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.PackageType {
+		if _, ok := mappingPackageTypeEnumEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", val, strings.Join(GetPackageTypeEnumEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListPrivateApplicationPackagesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPrivateApplicationPackagesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPrivateApplicationPackagesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPrivateApplicationPackagesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPrivateApplicationPackagesResponse wrapper for the ListPrivateApplicationPackages operation
@@ -111,7 +136,7 @@ const (
 	ListPrivateApplicationPackagesSortByVersion     ListPrivateApplicationPackagesSortByEnum = "VERSION"
 )
 
-var mappingListPrivateApplicationPackagesSortBy = map[string]ListPrivateApplicationPackagesSortByEnum{
+var mappingListPrivateApplicationPackagesSortByEnum = map[string]ListPrivateApplicationPackagesSortByEnum{
 	"TIMECREATED": ListPrivateApplicationPackagesSortByTimecreated,
 	"VERSION":     ListPrivateApplicationPackagesSortByVersion,
 }
@@ -119,10 +144,18 @@ var mappingListPrivateApplicationPackagesSortBy = map[string]ListPrivateApplicat
 // GetListPrivateApplicationPackagesSortByEnumValues Enumerates the set of values for ListPrivateApplicationPackagesSortByEnum
 func GetListPrivateApplicationPackagesSortByEnumValues() []ListPrivateApplicationPackagesSortByEnum {
 	values := make([]ListPrivateApplicationPackagesSortByEnum, 0)
-	for _, v := range mappingListPrivateApplicationPackagesSortBy {
+	for _, v := range mappingListPrivateApplicationPackagesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPrivateApplicationPackagesSortByEnumStringValues Enumerates the set of values in String for ListPrivateApplicationPackagesSortByEnum
+func GetListPrivateApplicationPackagesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"VERSION",
+	}
 }
 
 // ListPrivateApplicationPackagesSortOrderEnum Enum with underlying type: string
@@ -134,7 +167,7 @@ const (
 	ListPrivateApplicationPackagesSortOrderDesc ListPrivateApplicationPackagesSortOrderEnum = "DESC"
 )
 
-var mappingListPrivateApplicationPackagesSortOrder = map[string]ListPrivateApplicationPackagesSortOrderEnum{
+var mappingListPrivateApplicationPackagesSortOrderEnum = map[string]ListPrivateApplicationPackagesSortOrderEnum{
 	"ASC":  ListPrivateApplicationPackagesSortOrderAsc,
 	"DESC": ListPrivateApplicationPackagesSortOrderDesc,
 }
@@ -142,8 +175,16 @@ var mappingListPrivateApplicationPackagesSortOrder = map[string]ListPrivateAppli
 // GetListPrivateApplicationPackagesSortOrderEnumValues Enumerates the set of values for ListPrivateApplicationPackagesSortOrderEnum
 func GetListPrivateApplicationPackagesSortOrderEnumValues() []ListPrivateApplicationPackagesSortOrderEnum {
 	values := make([]ListPrivateApplicationPackagesSortOrderEnum, 0)
-	for _, v := range mappingListPrivateApplicationPackagesSortOrder {
+	for _, v := range mappingListPrivateApplicationPackagesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPrivateApplicationPackagesSortOrderEnumStringValues Enumerates the set of values in String for ListPrivateApplicationPackagesSortOrderEnum
+func GetListPrivateApplicationPackagesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -85,10 +85,6 @@ func (client *ManagementAgentClient) ConfigurationProvider() *common.Configurati
 }
 
 // CreateManagementAgentInstallKey User creates a new install key as part of this API.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/CreateManagementAgentInstallKey.go.html to see an example of how to use CreateManagementAgentInstallKey API.
 func (client ManagementAgentClient) CreateManagementAgentInstallKey(ctx context.Context, request CreateManagementAgentInstallKeyRequest) (response CreateManagementAgentInstallKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,10 +141,6 @@ func (client ManagementAgentClient) createManagementAgentInstallKey(ctx context.
 }
 
 // DeleteManagementAgent Deletes a Management Agent resource by identifier
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/DeleteManagementAgent.go.html to see an example of how to use DeleteManagementAgent API.
 func (client ManagementAgentClient) DeleteManagementAgent(ctx context.Context, request DeleteManagementAgentRequest) (response DeleteManagementAgentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -200,10 +192,6 @@ func (client ManagementAgentClient) deleteManagementAgent(ctx context.Context, r
 }
 
 // DeleteManagementAgentInstallKey Deletes a Management Agent install Key resource by identifier
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/DeleteManagementAgentInstallKey.go.html to see an example of how to use DeleteManagementAgentInstallKey API.
 func (client ManagementAgentClient) DeleteManagementAgentInstallKey(ctx context.Context, request DeleteManagementAgentInstallKeyRequest) (response DeleteManagementAgentInstallKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -255,10 +243,6 @@ func (client ManagementAgentClient) deleteManagementAgentInstallKey(ctx context.
 }
 
 // DeleteWorkRequest Cancel the work request with the given ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/DeleteWorkRequest.go.html to see an example of how to use DeleteWorkRequest API.
 func (client ManagementAgentClient) DeleteWorkRequest(ctx context.Context, request DeleteWorkRequestRequest) (response DeleteWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -310,10 +294,6 @@ func (client ManagementAgentClient) deleteWorkRequest(ctx context.Context, reque
 }
 
 // DeployPlugins Deploys Plugins to a given list of agentIds.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/DeployPlugins.go.html to see an example of how to use DeployPlugins API.
 func (client ManagementAgentClient) DeployPlugins(ctx context.Context, request DeployPluginsRequest) (response DeployPluginsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -371,10 +351,6 @@ func (client ManagementAgentClient) deployPlugins(ctx context.Context, request c
 
 // GetAutoUpgradableConfig Get the AutoUpgradable configuration for all agents in a tenancy.
 // The supplied compartmentId must be a tenancy root.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/GetAutoUpgradableConfig.go.html to see an example of how to use GetAutoUpgradableConfig API.
 func (client ManagementAgentClient) GetAutoUpgradableConfig(ctx context.Context, request GetAutoUpgradableConfigRequest) (response GetAutoUpgradableConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -426,10 +402,6 @@ func (client ManagementAgentClient) getAutoUpgradableConfig(ctx context.Context,
 }
 
 // GetManagementAgent Gets complete details of the inventory of a given agent id
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/GetManagementAgent.go.html to see an example of how to use GetManagementAgent API.
 func (client ManagementAgentClient) GetManagementAgent(ctx context.Context, request GetManagementAgentRequest) (response GetManagementAgentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -481,10 +453,6 @@ func (client ManagementAgentClient) getManagementAgent(ctx context.Context, requ
 }
 
 // GetManagementAgentInstallKey Gets complete details of the Agent install Key for a given key id
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/GetManagementAgentInstallKey.go.html to see an example of how to use GetManagementAgentInstallKey API.
 func (client ManagementAgentClient) GetManagementAgentInstallKey(ctx context.Context, request GetManagementAgentInstallKeyRequest) (response GetManagementAgentInstallKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -536,10 +504,6 @@ func (client ManagementAgentClient) getManagementAgentInstallKey(ctx context.Con
 }
 
 // GetManagementAgentInstallKeyContent Returns a file with Management Agent install Key in it
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/GetManagementAgentInstallKeyContent.go.html to see an example of how to use GetManagementAgentInstallKeyContent API.
 func (client ManagementAgentClient) GetManagementAgentInstallKeyContent(ctx context.Context, request GetManagementAgentInstallKeyContentRequest) (response GetManagementAgentInstallKeyContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -590,10 +554,6 @@ func (client ManagementAgentClient) getManagementAgentInstallKeyContent(ctx cont
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client ManagementAgentClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -645,10 +605,6 @@ func (client ManagementAgentClient) getWorkRequest(ctx context.Context, request 
 }
 
 // ListAvailabilityHistories Lists the availability history records of Management Agent
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListAvailabilityHistories.go.html to see an example of how to use ListAvailabilityHistories API.
 func (client ManagementAgentClient) ListAvailabilityHistories(ctx context.Context, request ListAvailabilityHistoriesRequest) (response ListAvailabilityHistoriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -700,10 +656,6 @@ func (client ManagementAgentClient) listAvailabilityHistories(ctx context.Contex
 }
 
 // ListManagementAgentImages Get supported agent image information
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentImages.go.html to see an example of how to use ListManagementAgentImages API.
 func (client ManagementAgentClient) ListManagementAgentImages(ctx context.Context, request ListManagementAgentImagesRequest) (response ListManagementAgentImagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -760,10 +712,6 @@ func (client ManagementAgentClient) listManagementAgentImages(ctx context.Contex
 }
 
 // ListManagementAgentInstallKeys Returns a list of Management Agent installed Keys.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentInstallKeys.go.html to see an example of how to use ListManagementAgentInstallKeys API.
 func (client ManagementAgentClient) ListManagementAgentInstallKeys(ctx context.Context, request ListManagementAgentInstallKeysRequest) (response ListManagementAgentInstallKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -815,10 +763,6 @@ func (client ManagementAgentClient) listManagementAgentInstallKeys(ctx context.C
 }
 
 // ListManagementAgentPlugins Returns a list of managementAgentPlugins.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentPlugins.go.html to see an example of how to use ListManagementAgentPlugins API.
 func (client ManagementAgentClient) ListManagementAgentPlugins(ctx context.Context, request ListManagementAgentPluginsRequest) (response ListManagementAgentPluginsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -870,10 +814,6 @@ func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Conte
 }
 
 // ListManagementAgents Returns a list of Management Agent.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgents.go.html to see an example of how to use ListManagementAgents API.
 func (client ManagementAgentClient) ListManagementAgents(ctx context.Context, request ListManagementAgentsRequest) (response ListManagementAgentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -925,10 +865,6 @@ func (client ManagementAgentClient) listManagementAgents(ctx context.Context, re
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client ManagementAgentClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -980,10 +916,6 @@ func (client ManagementAgentClient) listWorkRequestErrors(ctx context.Context, r
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client ManagementAgentClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1035,10 +967,6 @@ func (client ManagementAgentClient) listWorkRequestLogs(ctx context.Context, req
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client ManagementAgentClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1091,10 +1019,6 @@ func (client ManagementAgentClient) listWorkRequests(ctx context.Context, reques
 
 // SetAutoUpgradableConfig Sets the AutoUpgradable configuration for all agents in a tenancy.
 // The supplied compartmentId must be a tenancy root.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/SetAutoUpgradableConfig.go.html to see an example of how to use SetAutoUpgradableConfig API.
 func (client ManagementAgentClient) SetAutoUpgradableConfig(ctx context.Context, request SetAutoUpgradableConfigRequest) (response SetAutoUpgradableConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1152,10 +1076,6 @@ func (client ManagementAgentClient) setAutoUpgradableConfig(ctx context.Context,
 
 // SummarizeManagementAgentCounts Gets count of the inventory of agents for a given compartment id, group by, and isPluginDeployed parameters.
 // Supported groupBy parameters: availabilityStatus, platformType, version
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/SummarizeManagementAgentCounts.go.html to see an example of how to use SummarizeManagementAgentCounts API.
 func (client ManagementAgentClient) SummarizeManagementAgentCounts(ctx context.Context, request SummarizeManagementAgentCountsRequest) (response SummarizeManagementAgentCountsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1208,10 +1128,6 @@ func (client ManagementAgentClient) summarizeManagementAgentCounts(ctx context.C
 
 // SummarizeManagementAgentPluginCounts Gets count of the inventory of management agent plugins for a given compartment id and group by parameter.
 // Supported groupBy parameter: pluginName
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/SummarizeManagementAgentPluginCounts.go.html to see an example of how to use SummarizeManagementAgentPluginCounts API.
 func (client ManagementAgentClient) SummarizeManagementAgentPluginCounts(ctx context.Context, request SummarizeManagementAgentPluginCountsRequest) (response SummarizeManagementAgentPluginCountsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1263,10 +1179,6 @@ func (client ManagementAgentClient) summarizeManagementAgentPluginCounts(ctx con
 }
 
 // UpdateManagementAgent API to update the console managed properties of the Management Agent.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/UpdateManagementAgent.go.html to see an example of how to use UpdateManagementAgent API.
 func (client ManagementAgentClient) UpdateManagementAgent(ctx context.Context, request UpdateManagementAgentRequest) (response UpdateManagementAgentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1323,10 +1235,6 @@ func (client ManagementAgentClient) updateManagementAgent(ctx context.Context, r
 }
 
 // UpdateManagementAgentInstallKey API to update the modifiable properties of the Management Agent install key.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/UpdateManagementAgentInstallKey.go.html to see an example of how to use UpdateManagementAgentInstallKey API.
 func (client ManagementAgentClient) UpdateManagementAgentInstallKey(ctx context.Context, request UpdateManagementAgentInstallKeyRequest) (response UpdateManagementAgentInstallKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

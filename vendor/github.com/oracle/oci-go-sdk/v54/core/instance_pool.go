@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstancePool An instance pool is a set of instances within the same region that are managed as a group.
@@ -62,10 +64,37 @@ type InstancePool struct {
 
 	// The load balancers attached to the instance pool.
 	LoadBalancers []InstancePoolLoadBalancerAttachment `mandatory:"false" json:"loadBalancers"`
+
+	// The last date and time the instance pool state was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	//         Example: `2016-08-25T21:10:29.600Z`
+	TimeStateUpdated *common.SDKTime `mandatory:"false" json:"timeStateUpdated"`
+
+	// A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format.
+	// The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format
+	InstanceDisplayNameFormatter *string `mandatory:"false" json:"instanceDisplayNameFormatter"`
+
+	// A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format.
+	// The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format
+	InstanceHostnameFormatter *string `mandatory:"false" json:"instanceHostnameFormatter"`
 }
 
 func (m InstancePool) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstancePool) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstancePoolLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstancePoolLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // InstancePoolLifecycleStateEnum Enum with underlying type: string
@@ -83,7 +112,7 @@ const (
 	InstancePoolLifecycleStateRunning      InstancePoolLifecycleStateEnum = "RUNNING"
 )
 
-var mappingInstancePoolLifecycleState = map[string]InstancePoolLifecycleStateEnum{
+var mappingInstancePoolLifecycleStateEnum = map[string]InstancePoolLifecycleStateEnum{
 	"PROVISIONING": InstancePoolLifecycleStateProvisioning,
 	"SCALING":      InstancePoolLifecycleStateScaling,
 	"STARTING":     InstancePoolLifecycleStateStarting,
@@ -97,8 +126,22 @@ var mappingInstancePoolLifecycleState = map[string]InstancePoolLifecycleStateEnu
 // GetInstancePoolLifecycleStateEnumValues Enumerates the set of values for InstancePoolLifecycleStateEnum
 func GetInstancePoolLifecycleStateEnumValues() []InstancePoolLifecycleStateEnum {
 	values := make([]InstancePoolLifecycleStateEnum, 0)
-	for _, v := range mappingInstancePoolLifecycleState {
+	for _, v := range mappingInstancePoolLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstancePoolLifecycleStateEnumStringValues Enumerates the set of values in String for InstancePoolLifecycleStateEnum
+func GetInstancePoolLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"SCALING",
+		"STARTING",
+		"STOPPING",
+		"TERMINATING",
+		"STOPPED",
+		"TERMINATED",
+		"RUNNING",
+	}
 }

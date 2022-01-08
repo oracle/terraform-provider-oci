@@ -10,7 +10,9 @@
 package certificatesmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // RevocationStatus The current revocation status of the entity.
@@ -26,4 +28,19 @@ type RevocationStatus struct {
 
 func (m RevocationStatus) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RevocationStatus) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRevocationReasonEnum[string(m.RevocationReason)]; !ok && m.RevocationReason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RevocationReason: %s. Supported values are: %s.", m.RevocationReason, strings.Join(GetRevocationReasonEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

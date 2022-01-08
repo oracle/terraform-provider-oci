@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateDhcpDetails The representation of CreateDhcpDetails
@@ -50,6 +52,21 @@ type CreateDhcpDetails struct {
 
 func (m CreateDhcpDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDhcpDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateDhcpDetailsDomainNameTypeEnum[string(m.DomainNameType)]; !ok && m.DomainNameType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DomainNameType: %s. Supported values are: %s.", m.DomainNameType, strings.Join(GetCreateDhcpDetailsDomainNameTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -107,7 +124,7 @@ const (
 	CreateDhcpDetailsDomainNameTypeCustomDomain CreateDhcpDetailsDomainNameTypeEnum = "CUSTOM_DOMAIN"
 )
 
-var mappingCreateDhcpDetailsDomainNameType = map[string]CreateDhcpDetailsDomainNameTypeEnum{
+var mappingCreateDhcpDetailsDomainNameTypeEnum = map[string]CreateDhcpDetailsDomainNameTypeEnum{
 	"SUBNET_DOMAIN": CreateDhcpDetailsDomainNameTypeSubnetDomain,
 	"VCN_DOMAIN":    CreateDhcpDetailsDomainNameTypeVcnDomain,
 	"CUSTOM_DOMAIN": CreateDhcpDetailsDomainNameTypeCustomDomain,
@@ -116,8 +133,17 @@ var mappingCreateDhcpDetailsDomainNameType = map[string]CreateDhcpDetailsDomainN
 // GetCreateDhcpDetailsDomainNameTypeEnumValues Enumerates the set of values for CreateDhcpDetailsDomainNameTypeEnum
 func GetCreateDhcpDetailsDomainNameTypeEnumValues() []CreateDhcpDetailsDomainNameTypeEnum {
 	values := make([]CreateDhcpDetailsDomainNameTypeEnum, 0)
-	for _, v := range mappingCreateDhcpDetailsDomainNameType {
+	for _, v := range mappingCreateDhcpDetailsDomainNameTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDhcpDetailsDomainNameTypeEnumStringValues Enumerates the set of values in String for CreateDhcpDetailsDomainNameTypeEnum
+func GetCreateDhcpDetailsDomainNameTypeEnumStringValues() []string {
+	return []string{
+		"SUBNET_DOMAIN",
+		"VCN_DOMAIN",
+		"CUSTOM_DOMAIN",
+	}
 }

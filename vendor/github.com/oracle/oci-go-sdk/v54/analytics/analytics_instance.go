@@ -11,7 +11,9 @@ package analytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AnalyticsInstance Analytics Instance metadata.
@@ -68,6 +70,9 @@ type AnalyticsInstance struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the OCI Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// The date and time the instance was last updated (in the format defined by RFC3339).
 	// This timestamp represents updates made through this API. External events do not
 	// influence it.
@@ -76,6 +81,27 @@ type AnalyticsInstance struct {
 
 func (m AnalyticsInstance) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AnalyticsInstance) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAnalyticsInstanceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAnalyticsInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingFeatureSetEnum[string(m.FeatureSet)]; !ok && m.FeatureSet != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeatureSet: %s. Supported values are: %s.", m.FeatureSet, strings.Join(GetFeatureSetEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingLicenseTypeEnum[string(m.LicenseType)]; !ok && m.LicenseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -89,6 +115,7 @@ func (m *AnalyticsInstance) UnmarshalJSON(data []byte) (e error) {
 		ServiceUrl             *string                             `json:"serviceUrl"`
 		DefinedTags            map[string]map[string]interface{}   `json:"definedTags"`
 		FreeformTags           map[string]string                   `json:"freeformTags"`
+		KmsKeyId               *string                             `json:"kmsKeyId"`
 		TimeUpdated            *common.SDKTime                     `json:"timeUpdated"`
 		Id                     *string                             `json:"id"`
 		Name                   *string                             `json:"name"`
@@ -120,6 +147,8 @@ func (m *AnalyticsInstance) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.KmsKeyId = model.KmsKeyId
 
 	m.TimeUpdated = model.TimeUpdated
 

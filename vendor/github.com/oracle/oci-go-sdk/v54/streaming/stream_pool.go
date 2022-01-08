@@ -10,7 +10,9 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // StreamPool The details of a stream pool.
@@ -64,6 +66,21 @@ func (m StreamPool) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m StreamPool) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingStreamPoolLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetStreamPoolLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // StreamPoolLifecycleStateEnum Enum with underlying type: string
 type StreamPoolLifecycleStateEnum string
 
@@ -77,7 +94,7 @@ const (
 	StreamPoolLifecycleStateUpdating StreamPoolLifecycleStateEnum = "UPDATING"
 )
 
-var mappingStreamPoolLifecycleState = map[string]StreamPoolLifecycleStateEnum{
+var mappingStreamPoolLifecycleStateEnum = map[string]StreamPoolLifecycleStateEnum{
 	"CREATING": StreamPoolLifecycleStateCreating,
 	"ACTIVE":   StreamPoolLifecycleStateActive,
 	"DELETING": StreamPoolLifecycleStateDeleting,
@@ -89,8 +106,20 @@ var mappingStreamPoolLifecycleState = map[string]StreamPoolLifecycleStateEnum{
 // GetStreamPoolLifecycleStateEnumValues Enumerates the set of values for StreamPoolLifecycleStateEnum
 func GetStreamPoolLifecycleStateEnumValues() []StreamPoolLifecycleStateEnum {
 	values := make([]StreamPoolLifecycleStateEnum, 0)
-	for _, v := range mappingStreamPoolLifecycleState {
+	for _, v := range mappingStreamPoolLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStreamPoolLifecycleStateEnumStringValues Enumerates the set of values in String for StreamPoolLifecycleStateEnum
+func GetStreamPoolLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"UPDATING",
+	}
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AbstractFormatAttribute The abstract format attribute.
@@ -83,6 +85,18 @@ func (m abstractformatattribute) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m abstractformatattribute) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AbstractFormatAttributeModelTypeEnum Enum with underlying type: string
 type AbstractFormatAttributeModelTypeEnum string
 
@@ -93,7 +107,7 @@ const (
 	AbstractFormatAttributeModelTypeAvroFormat AbstractFormatAttributeModelTypeEnum = "AVRO_FORMAT"
 )
 
-var mappingAbstractFormatAttributeModelType = map[string]AbstractFormatAttributeModelTypeEnum{
+var mappingAbstractFormatAttributeModelTypeEnum = map[string]AbstractFormatAttributeModelTypeEnum{
 	"JSON_FORMAT": AbstractFormatAttributeModelTypeJsonFormat,
 	"CSV_FORMAT":  AbstractFormatAttributeModelTypeCsvFormat,
 	"AVRO_FORMAT": AbstractFormatAttributeModelTypeAvroFormat,
@@ -102,8 +116,17 @@ var mappingAbstractFormatAttributeModelType = map[string]AbstractFormatAttribute
 // GetAbstractFormatAttributeModelTypeEnumValues Enumerates the set of values for AbstractFormatAttributeModelTypeEnum
 func GetAbstractFormatAttributeModelTypeEnumValues() []AbstractFormatAttributeModelTypeEnum {
 	values := make([]AbstractFormatAttributeModelTypeEnum, 0)
-	for _, v := range mappingAbstractFormatAttributeModelType {
+	for _, v := range mappingAbstractFormatAttributeModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAbstractFormatAttributeModelTypeEnumStringValues Enumerates the set of values in String for AbstractFormatAttributeModelTypeEnum
+func GetAbstractFormatAttributeModelTypeEnumStringValues() []string {
+	return []string{
+		"JSON_FORMAT",
+		"CSV_FORMAT",
+		"AVRO_FORMAT",
+	}
 }

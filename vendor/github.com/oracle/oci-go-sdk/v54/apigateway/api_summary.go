@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ApiSummary A summary of the API.
@@ -57,6 +59,21 @@ type ApiSummary struct {
 	// Status of each feature available from the API.
 	ValidationResults []ApiValidationResult `mandatory:"false" json:"validationResults"`
 
+	// Version of the API as defined in the OAS Info block
+	Version *string `mandatory:"false" json:"version"`
+
+	// Title of the API as defined in the OAS Info block
+	Title *string `mandatory:"false" json:"title"`
+
+	// Title provided in OAS extension x-oci-apigateway-catalog.titleSlug
+	TitleSlug *string `mandatory:"false" json:"titleSlug"`
+
+	// Version provided in OAS extension x-oci-apigateway-catalog.versionSlug
+	VersionSlug *string `mandatory:"false" json:"versionSlug"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of API revision
+	RevisionId *string `mandatory:"false" json:"revisionId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see
 	// Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -74,6 +91,21 @@ func (m ApiSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ApiSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingApiSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetApiSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ApiSummaryLifecycleStateEnum Enum with underlying type: string
 type ApiSummaryLifecycleStateEnum string
 
@@ -87,7 +119,7 @@ const (
 	ApiSummaryLifecycleStateFailed   ApiSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingApiSummaryLifecycleState = map[string]ApiSummaryLifecycleStateEnum{
+var mappingApiSummaryLifecycleStateEnum = map[string]ApiSummaryLifecycleStateEnum{
 	"CREATING": ApiSummaryLifecycleStateCreating,
 	"ACTIVE":   ApiSummaryLifecycleStateActive,
 	"UPDATING": ApiSummaryLifecycleStateUpdating,
@@ -99,8 +131,20 @@ var mappingApiSummaryLifecycleState = map[string]ApiSummaryLifecycleStateEnum{
 // GetApiSummaryLifecycleStateEnumValues Enumerates the set of values for ApiSummaryLifecycleStateEnum
 func GetApiSummaryLifecycleStateEnumValues() []ApiSummaryLifecycleStateEnum {
 	values := make([]ApiSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingApiSummaryLifecycleState {
+	for _, v := range mappingApiSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApiSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ApiSummaryLifecycleStateEnum
+func GetApiSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

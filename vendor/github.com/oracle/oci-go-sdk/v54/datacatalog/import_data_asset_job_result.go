@@ -11,7 +11,9 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ImportDataAssetJobResult Information about a data asset import operation.
@@ -35,4 +37,19 @@ type ImportDataAssetJobResult struct {
 
 func (m ImportDataAssetJobResult) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ImportDataAssetJobResult) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingJobExecutionStateEnum[string(m.ImportJobExecutionStatus)]; !ok && m.ImportJobExecutionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ImportJobExecutionStatus: %s. Supported values are: %s.", m.ImportJobExecutionStatus, strings.Join(GetJobExecutionStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

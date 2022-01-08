@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // ReferenceSummary This is the reference summary information.
@@ -51,6 +53,21 @@ func (m ReferenceSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ReferenceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingReferenceSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetReferenceSummaryTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ReferenceSummaryTypeEnum Enum with underlying type: string
 type ReferenceSummaryTypeEnum string
 
@@ -64,7 +81,7 @@ const (
 	ReferenceSummaryTypeGenericJdbcDataAsset         ReferenceSummaryTypeEnum = "GENERIC_JDBC_DATA_ASSET"
 )
 
-var mappingReferenceSummaryType = map[string]ReferenceSummaryTypeEnum{
+var mappingReferenceSummaryTypeEnum = map[string]ReferenceSummaryTypeEnum{
 	"ORACLE_DATA_ASSET":                ReferenceSummaryTypeOracleDataAsset,
 	"ORACLE_OBJECT_STORAGE_DATA_ASSET": ReferenceSummaryTypeOracleObjectStorageDataAsset,
 	"ORACLE_ATP_DATA_ASSET":            ReferenceSummaryTypeOracleAtpDataAsset,
@@ -76,8 +93,20 @@ var mappingReferenceSummaryType = map[string]ReferenceSummaryTypeEnum{
 // GetReferenceSummaryTypeEnumValues Enumerates the set of values for ReferenceSummaryTypeEnum
 func GetReferenceSummaryTypeEnumValues() []ReferenceSummaryTypeEnum {
 	values := make([]ReferenceSummaryTypeEnum, 0)
-	for _, v := range mappingReferenceSummaryType {
+	for _, v := range mappingReferenceSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetReferenceSummaryTypeEnumStringValues Enumerates the set of values in String for ReferenceSummaryTypeEnum
+func GetReferenceSummaryTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_DATA_ASSET",
+		"ORACLE_OBJECT_STORAGE_DATA_ASSET",
+		"ORACLE_ATP_DATA_ASSET",
+		"ORACLE_ADWC_DATA_ASSET",
+		"MYSQL_DATA_ASSET",
+		"GENERIC_JDBC_DATA_ASSET",
+	}
 }

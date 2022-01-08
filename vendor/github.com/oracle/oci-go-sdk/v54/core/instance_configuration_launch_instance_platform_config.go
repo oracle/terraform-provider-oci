@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceConfigurationLaunchInstancePlatformConfig The platform configuration requested for the instance.
@@ -34,6 +36,9 @@ type InstanceConfigurationLaunchInstancePlatformConfig interface {
 
 	// Whether the Measured Boot feature is enabled on the instance.
 	GetIsMeasuredBootEnabled() *bool
+
+	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
+	GetIsMemoryEncryptionEnabled() *bool
 }
 
 type instanceconfigurationlaunchinstanceplatformconfig struct {
@@ -41,6 +46,7 @@ type instanceconfigurationlaunchinstanceplatformconfig struct {
 	IsSecureBootEnabled            *bool  `mandatory:"false" json:"isSecureBootEnabled"`
 	IsTrustedPlatformModuleEnabled *bool  `mandatory:"false" json:"isTrustedPlatformModuleEnabled"`
 	IsMeasuredBootEnabled          *bool  `mandatory:"false" json:"isMeasuredBootEnabled"`
+	IsMemoryEncryptionEnabled      *bool  `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 	Type                           string `json:"type"`
 }
 
@@ -58,6 +64,7 @@ func (m *instanceconfigurationlaunchinstanceplatformconfig) UnmarshalJSON(data [
 	m.IsSecureBootEnabled = s.Model.IsSecureBootEnabled
 	m.IsTrustedPlatformModuleEnabled = s.Model.IsTrustedPlatformModuleEnabled
 	m.IsMeasuredBootEnabled = s.Model.IsMeasuredBootEnabled
+	m.IsMemoryEncryptionEnabled = s.Model.IsMemoryEncryptionEnabled
 	m.Type = s.Model.Type
 
 	return err
@@ -112,8 +119,25 @@ func (m instanceconfigurationlaunchinstanceplatformconfig) GetIsMeasuredBootEnab
 	return m.IsMeasuredBootEnabled
 }
 
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+func (m instanceconfigurationlaunchinstanceplatformconfig) GetIsMemoryEncryptionEnabled() *bool {
+	return m.IsMemoryEncryptionEnabled
+}
+
 func (m instanceconfigurationlaunchinstanceplatformconfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m instanceconfigurationlaunchinstanceplatformconfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // InstanceConfigurationLaunchInstancePlatformConfigTypeEnum Enum with underlying type: string
@@ -128,7 +152,7 @@ const (
 	InstanceConfigurationLaunchInstancePlatformConfigTypeIntelVm        InstanceConfigurationLaunchInstancePlatformConfigTypeEnum = "INTEL_VM"
 )
 
-var mappingInstanceConfigurationLaunchInstancePlatformConfigType = map[string]InstanceConfigurationLaunchInstancePlatformConfigTypeEnum{
+var mappingInstanceConfigurationLaunchInstancePlatformConfigTypeEnum = map[string]InstanceConfigurationLaunchInstancePlatformConfigTypeEnum{
 	"AMD_MILAN_BM":     InstanceConfigurationLaunchInstancePlatformConfigTypeAmdMilanBm,
 	"AMD_ROME_BM":      InstanceConfigurationLaunchInstancePlatformConfigTypeAmdRomeBm,
 	"INTEL_SKYLAKE_BM": InstanceConfigurationLaunchInstancePlatformConfigTypeIntelSkylakeBm,
@@ -139,8 +163,19 @@ var mappingInstanceConfigurationLaunchInstancePlatformConfigType = map[string]In
 // GetInstanceConfigurationLaunchInstancePlatformConfigTypeEnumValues Enumerates the set of values for InstanceConfigurationLaunchInstancePlatformConfigTypeEnum
 func GetInstanceConfigurationLaunchInstancePlatformConfigTypeEnumValues() []InstanceConfigurationLaunchInstancePlatformConfigTypeEnum {
 	values := make([]InstanceConfigurationLaunchInstancePlatformConfigTypeEnum, 0)
-	for _, v := range mappingInstanceConfigurationLaunchInstancePlatformConfigType {
+	for _, v := range mappingInstanceConfigurationLaunchInstancePlatformConfigTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceConfigurationLaunchInstancePlatformConfigTypeEnumStringValues Enumerates the set of values in String for InstanceConfigurationLaunchInstancePlatformConfigTypeEnum
+func GetInstanceConfigurationLaunchInstancePlatformConfigTypeEnumStringValues() []string {
+	return []string{
+		"AMD_MILAN_BM",
+		"AMD_ROME_BM",
+		"INTEL_SKYLAKE_BM",
+		"AMD_VM",
+		"INTEL_VM",
+	}
 }

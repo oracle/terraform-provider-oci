@@ -5,15 +5,13 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetExadataInfrastructureRequest wrapper for the GetExadataInfrastructure operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExadataInfrastructure.go.html to see an example of how to use GetExadataInfrastructureRequest.
 type GetExadataInfrastructureRequest struct {
 
 	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -21,6 +19,9 @@ type GetExadataInfrastructureRequest struct {
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// If provided, the specified fields will be excluded in the response.
+	ExcludedFields []GetExadataInfrastructureExcludedFieldsEnum `contributesTo:"query" name:"excludedFields" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -34,6 +35,10 @@ func (request GetExadataInfrastructureRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetExadataInfrastructureRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -47,6 +52,23 @@ func (request GetExadataInfrastructureRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetExadataInfrastructureRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetExadataInfrastructureRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.ExcludedFields {
+		if _, ok := mappingGetExadataInfrastructureExcludedFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExcludedFields: %s. Supported values are: %s.", val, strings.Join(GetGetExadataInfrastructureExcludedFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetExadataInfrastructureResponse wrapper for the GetExadataInfrastructure operation
@@ -73,4 +95,32 @@ func (response GetExadataInfrastructureResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetExadataInfrastructureResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetExadataInfrastructureExcludedFieldsEnum Enum with underlying type: string
+type GetExadataInfrastructureExcludedFieldsEnum string
+
+// Set of constants representing the allowable values for GetExadataInfrastructureExcludedFieldsEnum
+const (
+	GetExadataInfrastructureExcludedFieldsMultirackconfigurationfile GetExadataInfrastructureExcludedFieldsEnum = "multiRackConfigurationFile"
+)
+
+var mappingGetExadataInfrastructureExcludedFieldsEnum = map[string]GetExadataInfrastructureExcludedFieldsEnum{
+	"multiRackConfigurationFile": GetExadataInfrastructureExcludedFieldsMultirackconfigurationfile,
+}
+
+// GetGetExadataInfrastructureExcludedFieldsEnumValues Enumerates the set of values for GetExadataInfrastructureExcludedFieldsEnum
+func GetGetExadataInfrastructureExcludedFieldsEnumValues() []GetExadataInfrastructureExcludedFieldsEnum {
+	values := make([]GetExadataInfrastructureExcludedFieldsEnum, 0)
+	for _, v := range mappingGetExadataInfrastructureExcludedFieldsEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetExadataInfrastructureExcludedFieldsEnumStringValues Enumerates the set of values in String for GetExadataInfrastructureExcludedFieldsEnum
+func GetGetExadataInfrastructureExcludedFieldsEnumStringValues() []string {
+	return []string{
+		"multiRackConfigurationFile",
+	}
 }

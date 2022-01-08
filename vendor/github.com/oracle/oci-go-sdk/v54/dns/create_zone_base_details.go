@@ -12,7 +12,9 @@ package dns
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CreateZoneBaseDetails The body for either defining a new zone or migrating a zone from migrationSource. This is determined by the migrationSource discriminator.
@@ -114,6 +116,18 @@ func (m createzonebasedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createzonebasedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateZoneBaseDetailsMigrationSourceEnum Enum with underlying type: string
 type CreateZoneBaseDetailsMigrationSourceEnum string
 
@@ -123,7 +137,7 @@ const (
 	CreateZoneBaseDetailsMigrationSourceDynect CreateZoneBaseDetailsMigrationSourceEnum = "DYNECT"
 )
 
-var mappingCreateZoneBaseDetailsMigrationSource = map[string]CreateZoneBaseDetailsMigrationSourceEnum{
+var mappingCreateZoneBaseDetailsMigrationSourceEnum = map[string]CreateZoneBaseDetailsMigrationSourceEnum{
 	"NONE":   CreateZoneBaseDetailsMigrationSourceNone,
 	"DYNECT": CreateZoneBaseDetailsMigrationSourceDynect,
 }
@@ -131,8 +145,16 @@ var mappingCreateZoneBaseDetailsMigrationSource = map[string]CreateZoneBaseDetai
 // GetCreateZoneBaseDetailsMigrationSourceEnumValues Enumerates the set of values for CreateZoneBaseDetailsMigrationSourceEnum
 func GetCreateZoneBaseDetailsMigrationSourceEnumValues() []CreateZoneBaseDetailsMigrationSourceEnum {
 	values := make([]CreateZoneBaseDetailsMigrationSourceEnum, 0)
-	for _, v := range mappingCreateZoneBaseDetailsMigrationSource {
+	for _, v := range mappingCreateZoneBaseDetailsMigrationSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateZoneBaseDetailsMigrationSourceEnumStringValues Enumerates the set of values in String for CreateZoneBaseDetailsMigrationSourceEnum
+func GetCreateZoneBaseDetailsMigrationSourceEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"DYNECT",
+	}
 }

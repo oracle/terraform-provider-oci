@@ -85,10 +85,6 @@ func (client *DatabaseMigrationClient) ConfigurationProvider() *common.Configura
 }
 
 // AbortJob Aborts a Migration Job (either Evaluation or Migration).
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/AbortJob.go.html to see an example of how to use AbortJob API.
 func (client DatabaseMigrationClient) AbortJob(ctx context.Context, request AbortJobRequest) (response AbortJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,10 +141,6 @@ func (client DatabaseMigrationClient) abortJob(ctx context.Context, request comm
 }
 
 // ChangeAgentCompartment Used to configure an ODMS Agent Compartment ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ChangeAgentCompartment.go.html to see an example of how to use ChangeAgentCompartment API.
 func (client DatabaseMigrationClient) ChangeAgentCompartment(ctx context.Context, request ChangeAgentCompartmentRequest) (response ChangeAgentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -205,10 +197,6 @@ func (client DatabaseMigrationClient) changeAgentCompartment(ctx context.Context
 }
 
 // ChangeConnectionCompartment Used to change the Database Connection compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ChangeConnectionCompartment.go.html to see an example of how to use ChangeConnectionCompartment API.
 func (client DatabaseMigrationClient) ChangeConnectionCompartment(ctx context.Context, request ChangeConnectionCompartmentRequest) (response ChangeConnectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -265,10 +253,6 @@ func (client DatabaseMigrationClient) changeConnectionCompartment(ctx context.Co
 }
 
 // ChangeMigrationCompartment Used to change the Migration compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ChangeMigrationCompartment.go.html to see an example of how to use ChangeMigrationCompartment API.
 func (client DatabaseMigrationClient) ChangeMigrationCompartment(ctx context.Context, request ChangeMigrationCompartmentRequest) (response ChangeMigrationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -325,10 +309,6 @@ func (client DatabaseMigrationClient) changeMigrationCompartment(ctx context.Con
 }
 
 // CloneMigration Clone a configuration from an existing Migration.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/CloneMigration.go.html to see an example of how to use CloneMigration API.
 func (client DatabaseMigrationClient) CloneMigration(ctx context.Context, request CloneMigrationRequest) (response CloneMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -384,12 +364,64 @@ func (client DatabaseMigrationClient) cloneMigration(ctx context.Context, reques
 	return response, err
 }
 
+// CreateAgent Used to register an on-premises ODMS Agent with the Database Migration service.
+func (client DatabaseMigrationClient) CreateAgent(ctx context.Context, request CreateAgentRequest) (response CreateAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAgentResponse")
+	}
+	return
+}
+
+// createAgent implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) createAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/agents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateConnection Create a Database Connection resource that contains the details to connect to either a Source or Target Database
 // in the migration.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/CreateConnection.go.html to see an example of how to use CreateConnection API.
 func (client DatabaseMigrationClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -448,10 +480,6 @@ func (client DatabaseMigrationClient) createConnection(ctx context.Context, requ
 // CreateMigration Create a Migration resource that contains all the details to perform the
 // database migration operation, such as source and destination database
 // details, credentials, etc.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/CreateMigration.go.html to see an example of how to use CreateMigration API.
 func (client DatabaseMigrationClient) CreateMigration(ctx context.Context, request CreateMigrationRequest) (response CreateMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -508,10 +536,6 @@ func (client DatabaseMigrationClient) createMigration(ctx context.Context, reque
 }
 
 // DeleteAgent Delete the ODMS Agent represented by the specified ODMS Agent ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteAgent.go.html to see an example of how to use DeleteAgent API.
 func (client DatabaseMigrationClient) DeleteAgent(ctx context.Context, request DeleteAgentRequest) (response DeleteAgentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -563,10 +587,6 @@ func (client DatabaseMigrationClient) deleteAgent(ctx context.Context, request c
 }
 
 // DeleteConnection Deletes the Database Connection represented by the specified connection ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteConnection.go.html to see an example of how to use DeleteConnection API.
 func (client DatabaseMigrationClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -618,10 +638,6 @@ func (client DatabaseMigrationClient) deleteConnection(ctx context.Context, requ
 }
 
 // DeleteJob Deletes the migration job represented by the given job ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteJob.go.html to see an example of how to use DeleteJob API.
 func (client DatabaseMigrationClient) DeleteJob(ctx context.Context, request DeleteJobRequest) (response DeleteJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -673,10 +689,6 @@ func (client DatabaseMigrationClient) deleteJob(ctx context.Context, request com
 }
 
 // DeleteMigration Deletes the Migration represented by the specified migration ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteMigration.go.html to see an example of how to use DeleteMigration API.
 func (client DatabaseMigrationClient) DeleteMigration(ctx context.Context, request DeleteMigrationRequest) (response DeleteMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -728,10 +740,6 @@ func (client DatabaseMigrationClient) deleteMigration(ctx context.Context, reque
 }
 
 // EvaluateMigration Start Validate Migration job.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/EvaluateMigration.go.html to see an example of how to use EvaluateMigration API.
 func (client DatabaseMigrationClient) EvaluateMigration(ctx context.Context, request EvaluateMigrationRequest) (response EvaluateMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -787,11 +795,63 @@ func (client DatabaseMigrationClient) evaluateMigration(ctx context.Context, req
 	return response, err
 }
 
+// GetActionGenerateToken Used to generate token for an ODMS Agent ID.
+func (client DatabaseMigrationClient) GetActionGenerateToken(ctx context.Context, request GetActionGenerateTokenRequest) (response GetActionGenerateTokenResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getActionGenerateToken, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetActionGenerateTokenResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetActionGenerateTokenResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetActionGenerateTokenResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetActionGenerateTokenResponse")
+	}
+	return
+}
+
+// getActionGenerateToken implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) getActionGenerateToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/agents/{agentId}/actions/generateToken", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetActionGenerateTokenResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAdvisorReport Get the Pre-Migration Advisor report details
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetAdvisorReport.go.html to see an example of how to use GetAdvisorReport API.
 func (client DatabaseMigrationClient) GetAdvisorReport(ctx context.Context, request GetAdvisorReportRequest) (response GetAdvisorReportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -843,10 +903,6 @@ func (client DatabaseMigrationClient) getAdvisorReport(ctx context.Context, requ
 }
 
 // GetAgent Display the ODMS Agent configuration.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetAgent.go.html to see an example of how to use GetAgent API.
 func (client DatabaseMigrationClient) GetAgent(ctx context.Context, request GetAgentRequest) (response GetAgentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -898,10 +954,6 @@ func (client DatabaseMigrationClient) getAgent(ctx context.Context, request comm
 }
 
 // GetConnection Display Database Connection details.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetConnection.go.html to see an example of how to use GetConnection API.
 func (client DatabaseMigrationClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -953,10 +1005,6 @@ func (client DatabaseMigrationClient) getConnection(ctx context.Context, request
 }
 
 // GetJob Get a migration job.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetJob.go.html to see an example of how to use GetJob API.
 func (client DatabaseMigrationClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1008,10 +1056,6 @@ func (client DatabaseMigrationClient) getJob(ctx context.Context, request common
 }
 
 // GetJobOutputContent Get the migration Job Output content as a String.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetJobOutputContent.go.html to see an example of how to use GetJobOutputContent API.
 func (client DatabaseMigrationClient) GetJobOutputContent(ctx context.Context, request GetJobOutputContentRequest) (response GetJobOutputContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1062,10 +1106,6 @@ func (client DatabaseMigrationClient) getJobOutputContent(ctx context.Context, r
 }
 
 // GetMigration Display Migration details.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetMigration.go.html to see an example of how to use GetMigration API.
 func (client DatabaseMigrationClient) GetMigration(ctx context.Context, request GetMigrationRequest) (response GetMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1117,10 +1157,6 @@ func (client DatabaseMigrationClient) getMigration(ctx context.Context, request 
 }
 
 // GetWorkRequest Gets the details of a work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client DatabaseMigrationClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1172,10 +1208,6 @@ func (client DatabaseMigrationClient) getWorkRequest(ctx context.Context, reques
 }
 
 // ListAgentImages Get details of the ODMS Agent Images available to install on-premises.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListAgentImages.go.html to see an example of how to use ListAgentImages API.
 func (client DatabaseMigrationClient) ListAgentImages(ctx context.Context, request ListAgentImagesRequest) (response ListAgentImagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1227,10 +1259,6 @@ func (client DatabaseMigrationClient) listAgentImages(ctx context.Context, reque
 }
 
 // ListAgents Display the name of all the existing ODMS Agents in the server.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListAgents.go.html to see an example of how to use ListAgents API.
 func (client DatabaseMigrationClient) ListAgents(ctx context.Context, request ListAgentsRequest) (response ListAgentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1282,10 +1310,6 @@ func (client DatabaseMigrationClient) listAgents(ctx context.Context, request co
 }
 
 // ListConnections List all Database Connections.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListConnections.go.html to see an example of how to use ListConnections API.
 func (client DatabaseMigrationClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1337,10 +1361,6 @@ func (client DatabaseMigrationClient) listConnections(ctx context.Context, reque
 }
 
 // ListJobOutputs List the Job Outputs
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListJobOutputs.go.html to see an example of how to use ListJobOutputs API.
 func (client DatabaseMigrationClient) ListJobOutputs(ctx context.Context, request ListJobOutputsRequest) (response ListJobOutputsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1393,10 +1413,6 @@ func (client DatabaseMigrationClient) listJobOutputs(ctx context.Context, reques
 
 // ListJobs List all the names of the Migration jobs associated to the specified
 // migration site.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListJobs.go.html to see an example of how to use ListJobs API.
 func (client DatabaseMigrationClient) ListJobs(ctx context.Context, request ListJobsRequest) (response ListJobsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1448,10 +1464,6 @@ func (client DatabaseMigrationClient) listJobs(ctx context.Context, request comm
 }
 
 // ListMigrationObjectTypes Display sample object types to exclude or include for a Migration.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrationObjectTypes.go.html to see an example of how to use ListMigrationObjectTypes API.
 func (client DatabaseMigrationClient) ListMigrationObjectTypes(ctx context.Context, request ListMigrationObjectTypesRequest) (response ListMigrationObjectTypesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1503,10 +1515,6 @@ func (client DatabaseMigrationClient) listMigrationObjectTypes(ctx context.Conte
 }
 
 // ListMigrations List all Migrations.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrations.go.html to see an example of how to use ListMigrations API.
 func (client DatabaseMigrationClient) ListMigrations(ctx context.Context, request ListMigrationsRequest) (response ListMigrationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1558,10 +1566,6 @@ func (client DatabaseMigrationClient) listMigrations(ctx context.Context, reques
 }
 
 // ListWorkRequestErrors Gets the errors for a work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client DatabaseMigrationClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1613,10 +1617,6 @@ func (client DatabaseMigrationClient) listWorkRequestErrors(ctx context.Context,
 }
 
 // ListWorkRequestLogs Gets the logs for a work request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client DatabaseMigrationClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1668,10 +1668,6 @@ func (client DatabaseMigrationClient) listWorkRequestLogs(ctx context.Context, r
 }
 
 // ListWorkRequests Lists the work requests in a compartment or for a specified resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client DatabaseMigrationClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1722,11 +1718,63 @@ func (client DatabaseMigrationClient) listWorkRequests(ctx context.Context, requ
 	return response, err
 }
 
+// RegisterHeartbeat Register heartbeat call from ODMS Agent
+func (client DatabaseMigrationClient) RegisterHeartbeat(ctx context.Context, request RegisterHeartbeatRequest) (response RegisterHeartbeatResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.registerHeartbeat, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RegisterHeartbeatResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RegisterHeartbeatResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RegisterHeartbeatResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RegisterHeartbeatResponse")
+	}
+	return
+}
+
+// registerHeartbeat implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) registerHeartbeat(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/agents/{agentId}/actions/registerHeartbeat", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RegisterHeartbeatResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ResumeJob Resume a migration Job.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ResumeJob.go.html to see an example of how to use ResumeJob API.
 func (client DatabaseMigrationClient) ResumeJob(ctx context.Context, request ResumeJobRequest) (response ResumeJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1783,10 +1831,6 @@ func (client DatabaseMigrationClient) resumeJob(ctx context.Context, request com
 }
 
 // RetrieveSupportedPhases Display Migration Phases for a specified migration.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/RetrieveSupportedPhases.go.html to see an example of how to use RetrieveSupportedPhases API.
 func (client DatabaseMigrationClient) RetrieveSupportedPhases(ctx context.Context, request RetrieveSupportedPhasesRequest) (response RetrieveSupportedPhasesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1838,10 +1882,6 @@ func (client DatabaseMigrationClient) retrieveSupportedPhases(ctx context.Contex
 }
 
 // StartMigration Start Migration job.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/StartMigration.go.html to see an example of how to use StartMigration API.
 func (client DatabaseMigrationClient) StartMigration(ctx context.Context, request StartMigrationRequest) (response StartMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1898,10 +1938,6 @@ func (client DatabaseMigrationClient) startMigration(ctx context.Context, reques
 }
 
 // UpdateAgent Modifies the ODMS Agent represented by the given ODMS Agent ID.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateAgent.go.html to see an example of how to use UpdateAgent API.
 func (client DatabaseMigrationClient) UpdateAgent(ctx context.Context, request UpdateAgentRequest) (response UpdateAgentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1958,10 +1994,6 @@ func (client DatabaseMigrationClient) updateAgent(ctx context.Context, request c
 }
 
 // UpdateConnection Update Database Connection resource details.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateConnection.go.html to see an example of how to use UpdateConnection API.
 func (client DatabaseMigrationClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2013,10 +2045,6 @@ func (client DatabaseMigrationClient) updateConnection(ctx context.Context, requ
 }
 
 // UpdateJob Update Migration Job resource details.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateJob.go.html to see an example of how to use UpdateJob API.
 func (client DatabaseMigrationClient) UpdateJob(ctx context.Context, request UpdateJobRequest) (response UpdateJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2068,10 +2096,6 @@ func (client DatabaseMigrationClient) updateJob(ctx context.Context, request com
 }
 
 // UpdateMigration Update Migration resource details.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateMigration.go.html to see an example of how to use UpdateMigration API.
 func (client DatabaseMigrationClient) UpdateMigration(ctx context.Context, request UpdateMigrationRequest) (response UpdateMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2110,6 +2134,62 @@ func (client DatabaseMigrationClient) updateMigration(ctx context.Context, reque
 	}
 
 	var response UpdateMigrationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ValidateAgent Used to complete initial ODMS Agent setup.
+func (client DatabaseMigrationClient) ValidateAgent(ctx context.Context, request ValidateAgentRequest) (response ValidateAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.validateAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateAgentResponse")
+	}
+	return
+}
+
+// validateAgent implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) validateAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/agents/{agentId}/actions/validate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateAgentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

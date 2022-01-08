@@ -5,15 +5,13 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListLogsRequest wrapper for the ListLogs operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListLogs.go.html to see an example of how to use ListLogsRequest.
 type ListLogsRequest struct {
 
 	// OCID of a log group to work with.
@@ -28,7 +26,7 @@ type ListLogsRequest struct {
 	// Log object resource.
 	SourceResource *string `mandatory:"false" contributesTo:"query" name:"sourceResource"`
 
-	// Resource name
+	// Resource name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Lifecycle state of the log object
@@ -64,6 +62,10 @@ func (request ListLogsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLogsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -77,6 +79,29 @@ func (request ListLogsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLogsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLogsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLogsLogTypeEnum[string(request.LogType)]; !ok && request.LogType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogType: %s. Supported values are: %s.", request.LogType, strings.Join(GetListLogsLogTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListLogsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLogsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLogsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLogsResponse wrapper for the ListLogs operation
@@ -121,7 +146,7 @@ const (
 	ListLogsLogTypeService ListLogsLogTypeEnum = "SERVICE"
 )
 
-var mappingListLogsLogType = map[string]ListLogsLogTypeEnum{
+var mappingListLogsLogTypeEnum = map[string]ListLogsLogTypeEnum{
 	"CUSTOM":  ListLogsLogTypeCustom,
 	"SERVICE": ListLogsLogTypeService,
 }
@@ -129,10 +154,18 @@ var mappingListLogsLogType = map[string]ListLogsLogTypeEnum{
 // GetListLogsLogTypeEnumValues Enumerates the set of values for ListLogsLogTypeEnum
 func GetListLogsLogTypeEnumValues() []ListLogsLogTypeEnum {
 	values := make([]ListLogsLogTypeEnum, 0)
-	for _, v := range mappingListLogsLogType {
+	for _, v := range mappingListLogsLogTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogsLogTypeEnumStringValues Enumerates the set of values in String for ListLogsLogTypeEnum
+func GetListLogsLogTypeEnumStringValues() []string {
+	return []string{
+		"CUSTOM",
+		"SERVICE",
+	}
 }
 
 // ListLogsLifecycleStateEnum Enum with underlying type: string
@@ -148,7 +181,7 @@ const (
 	ListLogsLifecycleStateFailed   ListLogsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListLogsLifecycleState = map[string]ListLogsLifecycleStateEnum{
+var mappingListLogsLifecycleStateEnum = map[string]ListLogsLifecycleStateEnum{
 	"CREATING": ListLogsLifecycleStateCreating,
 	"ACTIVE":   ListLogsLifecycleStateActive,
 	"UPDATING": ListLogsLifecycleStateUpdating,
@@ -160,10 +193,22 @@ var mappingListLogsLifecycleState = map[string]ListLogsLifecycleStateEnum{
 // GetListLogsLifecycleStateEnumValues Enumerates the set of values for ListLogsLifecycleStateEnum
 func GetListLogsLifecycleStateEnumValues() []ListLogsLifecycleStateEnum {
 	values := make([]ListLogsLifecycleStateEnum, 0)
-	for _, v := range mappingListLogsLifecycleState {
+	for _, v := range mappingListLogsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogsLifecycleStateEnumStringValues Enumerates the set of values in String for ListLogsLifecycleStateEnum
+func GetListLogsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"INACTIVE",
+		"DELETING",
+		"FAILED",
+	}
 }
 
 // ListLogsSortByEnum Enum with underlying type: string
@@ -175,7 +220,7 @@ const (
 	ListLogsSortByDisplayname ListLogsSortByEnum = "displayName"
 )
 
-var mappingListLogsSortBy = map[string]ListLogsSortByEnum{
+var mappingListLogsSortByEnum = map[string]ListLogsSortByEnum{
 	"timeCreated": ListLogsSortByTimecreated,
 	"displayName": ListLogsSortByDisplayname,
 }
@@ -183,10 +228,18 @@ var mappingListLogsSortBy = map[string]ListLogsSortByEnum{
 // GetListLogsSortByEnumValues Enumerates the set of values for ListLogsSortByEnum
 func GetListLogsSortByEnumValues() []ListLogsSortByEnum {
 	values := make([]ListLogsSortByEnum, 0)
-	for _, v := range mappingListLogsSortBy {
+	for _, v := range mappingListLogsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogsSortByEnumStringValues Enumerates the set of values in String for ListLogsSortByEnum
+func GetListLogsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListLogsSortOrderEnum Enum with underlying type: string
@@ -198,7 +251,7 @@ const (
 	ListLogsSortOrderDesc ListLogsSortOrderEnum = "DESC"
 )
 
-var mappingListLogsSortOrder = map[string]ListLogsSortOrderEnum{
+var mappingListLogsSortOrderEnum = map[string]ListLogsSortOrderEnum{
 	"ASC":  ListLogsSortOrderAsc,
 	"DESC": ListLogsSortOrderDesc,
 }
@@ -206,8 +259,16 @@ var mappingListLogsSortOrder = map[string]ListLogsSortOrderEnum{
 // GetListLogsSortOrderEnumValues Enumerates the set of values for ListLogsSortOrderEnum
 func GetListLogsSortOrderEnumValues() []ListLogsSortOrderEnum {
 	values := make([]ListLogsSortOrderEnum, 0)
-	for _, v := range mappingListLogsSortOrder {
+	for _, v := range mappingListLogsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogsSortOrderEnumStringValues Enumerates the set of values in String for ListLogsSortOrderEnum
+func GetListLogsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

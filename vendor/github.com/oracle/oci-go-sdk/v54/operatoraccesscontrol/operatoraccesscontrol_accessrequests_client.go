@@ -87,10 +87,6 @@ func (client *AccessRequestsClient) ConfigurationProvider() *common.Configuratio
 }
 
 // ApproveAccessRequest Approves an access request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ApproveAccessRequest.go.html to see an example of how to use ApproveAccessRequest API.
 func (client AccessRequestsClient) ApproveAccessRequest(ctx context.Context, request ApproveAccessRequestRequest) (response ApproveAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -147,10 +143,6 @@ func (client AccessRequestsClient) approveAccessRequest(ctx context.Context, req
 }
 
 // GetAccessRequest Gets details of an access request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetAccessRequest.go.html to see an example of how to use GetAccessRequest API.
 func (client AccessRequestsClient) GetAccessRequest(ctx context.Context, request GetAccessRequestRequest) (response GetAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -202,10 +194,6 @@ func (client AccessRequestsClient) getAccessRequest(ctx context.Context, request
 }
 
 // ListAccessRequestHistories Returns a history of all status associated with the accessRequestId.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListAccessRequestHistories.go.html to see an example of how to use ListAccessRequestHistories API.
 func (client AccessRequestsClient) ListAccessRequestHistories(ctx context.Context, request ListAccessRequestHistoriesRequest) (response ListAccessRequestHistoriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -257,10 +245,6 @@ func (client AccessRequestsClient) listAccessRequestHistories(ctx context.Contex
 }
 
 // ListAccessRequests Lists all access requests in the compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListAccessRequests.go.html to see an example of how to use ListAccessRequests API.
 func (client AccessRequestsClient) ListAccessRequests(ctx context.Context, request ListAccessRequestsRequest) (response ListAccessRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -312,10 +296,6 @@ func (client AccessRequestsClient) listAccessRequests(ctx context.Context, reque
 }
 
 // RejectAccessRequest Rejects an access request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/RejectAccessRequest.go.html to see an example of how to use RejectAccessRequest API.
 func (client AccessRequestsClient) RejectAccessRequest(ctx context.Context, request RejectAccessRequestRequest) (response RejectAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -372,10 +352,6 @@ func (client AccessRequestsClient) rejectAccessRequest(ctx context.Context, requ
 }
 
 // ReviewAccessRequest Reviews the access request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ReviewAccessRequest.go.html to see an example of how to use ReviewAccessRequest API.
 func (client AccessRequestsClient) ReviewAccessRequest(ctx context.Context, request ReviewAccessRequestRequest) (response ReviewAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -432,10 +408,6 @@ func (client AccessRequestsClient) reviewAccessRequest(ctx context.Context, requ
 }
 
 // RevokeAccessRequest Revokes an already approved access request.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/RevokeAccessRequest.go.html to see an example of how to use RevokeAccessRequest API.
 func (client AccessRequestsClient) RevokeAccessRequest(ctx context.Context, request RevokeAccessRequestRequest) (response RevokeAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

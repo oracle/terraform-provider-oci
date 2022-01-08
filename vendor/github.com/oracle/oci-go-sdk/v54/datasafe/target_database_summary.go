@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TargetDatabaseSummary Summary of a Data Safe target database.
@@ -40,6 +42,9 @@ type TargetDatabaseSummary struct {
 	// The description of the target database in Data Safe.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The OCIDs of associated resources like Database, Data Safe private endpoint etc.
+	AssociatedResourceIds []string `mandatory:"false" json:"associatedResourceIds"`
+
 	// Details about the current state of the target database in Data Safe.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -54,4 +59,25 @@ type TargetDatabaseSummary struct {
 
 func (m TargetDatabaseSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TargetDatabaseSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInfrastructureTypeEnum[string(m.InfrastructureType)]; !ok && m.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetInfrastructureTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseTypeEnum[string(m.DatabaseType)]; !ok && m.DatabaseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetDatabaseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

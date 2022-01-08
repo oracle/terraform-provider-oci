@@ -14,22 +14,36 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
-// DefaultPhaseTwoParameters Phase Two Parameters
+// DefaultPhaseTwoParameters Default phase two parameters.
 type DefaultPhaseTwoParameters struct {
 
-	// Default Phase Two Encryption Algorithms
+	// Default phase two encryption algorithms.
 	DefaultEncryptionAlgorithms []string `mandatory:"false" json:"defaultEncryptionAlgorithms"`
 
-	// Default Phase Two Authentication Algorithms
+	// Default phase two authentication algorithms.
 	DefaultAuthenticationAlgorithms []string `mandatory:"false" json:"defaultAuthenticationAlgorithms"`
 
-	// Default PFS DH Group
+	// Default perfect forward secrecy Diffie-Hellman groups.
 	DefaultPfsDhGroup *string `mandatory:"false" json:"defaultPfsDhGroup"`
 }
 
 func (m DefaultPhaseTwoParameters) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DefaultPhaseTwoParameters) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -13,7 +13,9 @@ package sch
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // TaskDetails An object that represents a task within the flow defined by the service connector.
@@ -72,6 +74,18 @@ func (m taskdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m taskdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TaskDetailsKindEnum Enum with underlying type: string
 type TaskDetailsKindEnum string
 
@@ -81,7 +95,7 @@ const (
 	TaskDetailsKindLogrule  TaskDetailsKindEnum = "logRule"
 )
 
-var mappingTaskDetailsKind = map[string]TaskDetailsKindEnum{
+var mappingTaskDetailsKindEnum = map[string]TaskDetailsKindEnum{
 	"function": TaskDetailsKindFunction,
 	"logRule":  TaskDetailsKindLogrule,
 }
@@ -89,8 +103,16 @@ var mappingTaskDetailsKind = map[string]TaskDetailsKindEnum{
 // GetTaskDetailsKindEnumValues Enumerates the set of values for TaskDetailsKindEnum
 func GetTaskDetailsKindEnumValues() []TaskDetailsKindEnum {
 	values := make([]TaskDetailsKindEnum, 0)
-	for _, v := range mappingTaskDetailsKind {
+	for _, v := range mappingTaskDetailsKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskDetailsKindEnumStringValues Enumerates the set of values in String for TaskDetailsKindEnum
+func GetTaskDetailsKindEnumStringValues() []string {
+	return []string{
+		"function",
+		"logRule",
+	}
 }

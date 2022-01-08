@@ -10,12 +10,14 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutonomousDatabaseConnectionStrings Connection strings to connect to an Oracle Autonomous Database.
 // Example output for connection strings. See DatabaseConnectionStringProfile for additional details:
-// 		"connectionStrings": {
+//     	"connectionStrings": {
 //         "allConnectionStrings": {
 //           "HIGH": "adb.region.oraclecloud.com:1522/unique_id_databasename_high.adwc.oraclecloud.com",
 //           "LOW": "adb.region.oraclecloud.com:1522/unique_id_databasename_low.adwc.oraclecloud.com",
@@ -82,4 +84,16 @@ type AutonomousDatabaseConnectionStrings struct {
 
 func (m AutonomousDatabaseConnectionStrings) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDatabaseConnectionStrings) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

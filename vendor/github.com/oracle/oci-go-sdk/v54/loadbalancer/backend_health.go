@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // BackendHealth The health status of the specified backend server as reported by the primary and standby load balancers.
@@ -32,6 +34,21 @@ func (m BackendHealth) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BackendHealth) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBackendHealthStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetBackendHealthStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BackendHealthStatusEnum Enum with underlying type: string
 type BackendHealthStatusEnum string
 
@@ -43,7 +60,7 @@ const (
 	BackendHealthStatusUnknown  BackendHealthStatusEnum = "UNKNOWN"
 )
 
-var mappingBackendHealthStatus = map[string]BackendHealthStatusEnum{
+var mappingBackendHealthStatusEnum = map[string]BackendHealthStatusEnum{
 	"OK":       BackendHealthStatusOk,
 	"WARNING":  BackendHealthStatusWarning,
 	"CRITICAL": BackendHealthStatusCritical,
@@ -53,8 +70,18 @@ var mappingBackendHealthStatus = map[string]BackendHealthStatusEnum{
 // GetBackendHealthStatusEnumValues Enumerates the set of values for BackendHealthStatusEnum
 func GetBackendHealthStatusEnumValues() []BackendHealthStatusEnum {
 	values := make([]BackendHealthStatusEnum, 0)
-	for _, v := range mappingBackendHealthStatus {
+	for _, v := range mappingBackendHealthStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackendHealthStatusEnumStringValues Enumerates the set of values in String for BackendHealthStatusEnum
+func GetBackendHealthStatusEnumStringValues() []string {
+	return []string{
+		"OK",
+		"WARNING",
+		"CRITICAL",
+		"UNKNOWN",
+	}
 }

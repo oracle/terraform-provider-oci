@@ -5,15 +5,13 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // GetDataAssetRequest wrapper for the GetDataAsset operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetDataAsset.go.html to see an example of how to use GetDataAssetRequest.
 type GetDataAssetRequest struct {
 
 	// Unique catalog identifier.
@@ -40,6 +38,10 @@ func (request GetDataAssetRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetDataAssetRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -53,6 +55,23 @@ func (request GetDataAssetRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetDataAssetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetDataAssetRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetDataAssetFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetDataAssetFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetDataAssetResponse wrapper for the GetDataAsset operation
@@ -101,7 +120,7 @@ const (
 	GetDataAssetFieldsProperties     GetDataAssetFieldsEnum = "properties"
 )
 
-var mappingGetDataAssetFields = map[string]GetDataAssetFieldsEnum{
+var mappingGetDataAssetFieldsEnum = map[string]GetDataAssetFieldsEnum{
 	"key":            GetDataAssetFieldsKey,
 	"displayName":    GetDataAssetFieldsDisplayname,
 	"description":    GetDataAssetFieldsDescription,
@@ -120,8 +139,27 @@ var mappingGetDataAssetFields = map[string]GetDataAssetFieldsEnum{
 // GetGetDataAssetFieldsEnumValues Enumerates the set of values for GetDataAssetFieldsEnum
 func GetGetDataAssetFieldsEnumValues() []GetDataAssetFieldsEnum {
 	values := make([]GetDataAssetFieldsEnum, 0)
-	for _, v := range mappingGetDataAssetFields {
+	for _, v := range mappingGetDataAssetFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetDataAssetFieldsEnumStringValues Enumerates the set of values in String for GetDataAssetFieldsEnum
+func GetGetDataAssetFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"catalogId",
+		"externalKey",
+		"typeKey",
+		"lifecycleState",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"uri",
+		"properties",
+	}
 }

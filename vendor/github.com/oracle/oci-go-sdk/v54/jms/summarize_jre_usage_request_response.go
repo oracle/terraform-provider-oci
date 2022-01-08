@@ -5,15 +5,13 @@
 package jms
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeJreUsageRequest wrapper for the SummarizeJreUsage operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeJreUsage.go.html to see an example of how to use SummarizeJreUsageRequest.
 type SummarizeJreUsageRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
@@ -83,6 +81,10 @@ func (request SummarizeJreUsageRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeJreUsageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -96,6 +98,38 @@ func (request SummarizeJreUsageRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeJreUsageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeJreUsageRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingSummarizeJreUsageFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetSummarizeJreUsageFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeJreUsageSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeJreUsageSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeJreUsageSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeJreUsageSortByEnumStringValues(), ",")))
+	}
+	for _, val := range request.OsFamily {
+		if _, ok := mappingOsFamilyEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeJreUsageJreSecurityStatusEnum[string(request.JreSecurityStatus)]; !ok && request.JreSecurityStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JreSecurityStatus: %s. Supported values are: %s.", request.JreSecurityStatus, strings.Join(GetSummarizeJreUsageJreSecurityStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeJreUsageResponse wrapper for the SummarizeJreUsage operation
@@ -135,7 +169,7 @@ const (
 	SummarizeJreUsageSortOrderDesc SummarizeJreUsageSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeJreUsageSortOrder = map[string]SummarizeJreUsageSortOrderEnum{
+var mappingSummarizeJreUsageSortOrderEnum = map[string]SummarizeJreUsageSortOrderEnum{
 	"ASC":  SummarizeJreUsageSortOrderAsc,
 	"DESC": SummarizeJreUsageSortOrderDesc,
 }
@@ -143,10 +177,18 @@ var mappingSummarizeJreUsageSortOrder = map[string]SummarizeJreUsageSortOrderEnu
 // GetSummarizeJreUsageSortOrderEnumValues Enumerates the set of values for SummarizeJreUsageSortOrderEnum
 func GetSummarizeJreUsageSortOrderEnumValues() []SummarizeJreUsageSortOrderEnum {
 	values := make([]SummarizeJreUsageSortOrderEnum, 0)
-	for _, v := range mappingSummarizeJreUsageSortOrder {
+	for _, v := range mappingSummarizeJreUsageSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeJreUsageSortOrderEnumStringValues Enumerates the set of values in String for SummarizeJreUsageSortOrderEnum
+func GetSummarizeJreUsageSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeJreUsageSortByEnum Enum with underlying type: string
@@ -166,7 +208,7 @@ const (
 	SummarizeJreUsageSortBySecuritystatus                  SummarizeJreUsageSortByEnum = "securityStatus"
 )
 
-var mappingSummarizeJreUsageSortBy = map[string]SummarizeJreUsageSortByEnum{
+var mappingSummarizeJreUsageSortByEnum = map[string]SummarizeJreUsageSortByEnum{
 	"distribution":                    SummarizeJreUsageSortByDistribution,
 	"timeFirstSeen":                   SummarizeJreUsageSortByTimefirstseen,
 	"timeLastSeen":                    SummarizeJreUsageSortByTimelastseen,
@@ -182,10 +224,26 @@ var mappingSummarizeJreUsageSortBy = map[string]SummarizeJreUsageSortByEnum{
 // GetSummarizeJreUsageSortByEnumValues Enumerates the set of values for SummarizeJreUsageSortByEnum
 func GetSummarizeJreUsageSortByEnumValues() []SummarizeJreUsageSortByEnum {
 	values := make([]SummarizeJreUsageSortByEnum, 0)
-	for _, v := range mappingSummarizeJreUsageSortBy {
+	for _, v := range mappingSummarizeJreUsageSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeJreUsageSortByEnumStringValues Enumerates the set of values in String for SummarizeJreUsageSortByEnum
+func GetSummarizeJreUsageSortByEnumStringValues() []string {
+	return []string{
+		"distribution",
+		"timeFirstSeen",
+		"timeLastSeen",
+		"vendor",
+		"version",
+		"approximateInstallationCount",
+		"approximateApplicationCount",
+		"approximateManagedInstanceCount",
+		"osName",
+		"securityStatus",
+	}
 }
 
 // SummarizeJreUsageJreSecurityStatusEnum Enum with underlying type: string
@@ -199,7 +257,7 @@ const (
 	SummarizeJreUsageJreSecurityStatusUpgradeRequired SummarizeJreUsageJreSecurityStatusEnum = "UPGRADE_REQUIRED"
 )
 
-var mappingSummarizeJreUsageJreSecurityStatus = map[string]SummarizeJreUsageJreSecurityStatusEnum{
+var mappingSummarizeJreUsageJreSecurityStatusEnum = map[string]SummarizeJreUsageJreSecurityStatusEnum{
 	"UNKNOWN":          SummarizeJreUsageJreSecurityStatusUnknown,
 	"UP_TO_DATE":       SummarizeJreUsageJreSecurityStatusUpToDate,
 	"UPDATE_REQUIRED":  SummarizeJreUsageJreSecurityStatusUpdateRequired,
@@ -209,8 +267,18 @@ var mappingSummarizeJreUsageJreSecurityStatus = map[string]SummarizeJreUsageJreS
 // GetSummarizeJreUsageJreSecurityStatusEnumValues Enumerates the set of values for SummarizeJreUsageJreSecurityStatusEnum
 func GetSummarizeJreUsageJreSecurityStatusEnumValues() []SummarizeJreUsageJreSecurityStatusEnum {
 	values := make([]SummarizeJreUsageJreSecurityStatusEnum, 0)
-	for _, v := range mappingSummarizeJreUsageJreSecurityStatus {
+	for _, v := range mappingSummarizeJreUsageJreSecurityStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeJreUsageJreSecurityStatusEnumStringValues Enumerates the set of values in String for SummarizeJreUsageJreSecurityStatusEnum
+func GetSummarizeJreUsageJreSecurityStatusEnumStringValues() []string {
+	return []string{
+		"UNKNOWN",
+		"UP_TO_DATE",
+		"UPDATE_REQUIRED",
+		"UPGRADE_REQUIRED",
+	}
 }

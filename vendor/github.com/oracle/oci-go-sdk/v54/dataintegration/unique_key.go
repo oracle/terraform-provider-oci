@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // UniqueKey The unqique key object.
@@ -124,6 +126,18 @@ func (m uniquekey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m uniquekey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UniqueKeyModelTypeEnum Enum with underlying type: string
 type UniqueKeyModelTypeEnum string
 
@@ -133,7 +147,7 @@ const (
 	UniqueKeyModelTypeUniqueKey  UniqueKeyModelTypeEnum = "UNIQUE_KEY"
 )
 
-var mappingUniqueKeyModelType = map[string]UniqueKeyModelTypeEnum{
+var mappingUniqueKeyModelTypeEnum = map[string]UniqueKeyModelTypeEnum{
 	"PRIMARY_KEY": UniqueKeyModelTypePrimaryKey,
 	"UNIQUE_KEY":  UniqueKeyModelTypeUniqueKey,
 }
@@ -141,8 +155,16 @@ var mappingUniqueKeyModelType = map[string]UniqueKeyModelTypeEnum{
 // GetUniqueKeyModelTypeEnumValues Enumerates the set of values for UniqueKeyModelTypeEnum
 func GetUniqueKeyModelTypeEnumValues() []UniqueKeyModelTypeEnum {
 	values := make([]UniqueKeyModelTypeEnum, 0)
-	for _, v := range mappingUniqueKeyModelType {
+	for _, v := range mappingUniqueKeyModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUniqueKeyModelTypeEnumStringValues Enumerates the set of values in String for UniqueKeyModelTypeEnum
+func GetUniqueKeyModelTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY_KEY",
+		"UNIQUE_KEY",
+	}
 }

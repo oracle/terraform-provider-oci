@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // AutonomousDatabaseSummary An Oracle Autonomous Database.
@@ -33,11 +35,11 @@ type AutonomousDatabaseSummary struct {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
-	// The quantity of data in the database, in terabytes.
-	DataStorageSizeInTBs *int `mandatory:"true" json:"dataStorageSizeInTBs"`
-
 	// Information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Additional details about the status of the database, such as the progress of a backup or restore operation. UNPUBLISHED "HIDDEN" FIELD. This field is being added to unblock console functionality but will not be published in the SDK or documentation. It will be present in responses, so deprecating will require coordination to ensure we do not break customers if they begin relying on this field. Please see https://confluence.oci.oraclecorp.com/pages/viewpage.action?pageId=58769459 for details regarding the motivation of this field and the longer term plan.
+	AdditionalDatabaseStatus []string `mandatory:"false" json:"additionalDatabaseStatus"`
 
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
@@ -77,13 +79,22 @@ type AutonomousDatabaseSummary struct {
 	// **Note:** This parameter cannot be used with the `cpuCoreCount` parameter.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
+	// An array of CPU values that an Autonomous Database can be scaled to.
+	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
+
+	// The quantity of data in the database, in terabytes.
+	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
+
+	// The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
+	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
 	// The quantity of data in the database, in gigabytes.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// The infrastructure type this resource belongs to.
 	InfrastructureType AutonomousDatabaseSummaryInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
 
-	// True if the database uses dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).
+	// True if the database uses dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -105,8 +116,8 @@ type AutonomousDatabaseSummary struct {
 
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
-	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
-	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the
+	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel AutonomousDatabaseSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The amount of storage that has been used, in terabytes.
@@ -166,7 +177,7 @@ type AutonomousDatabaseSummary struct {
 	// This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
 	IsAccessControlEnabled *bool `mandatory:"false" json:"isAccessControlEnabled"`
 
-	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) and on Exadata Cloud@Customer.
+	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer.
 	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
 	// For shared Exadata infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
 	// Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs.
@@ -181,7 +192,7 @@ type AutonomousDatabaseSummary struct {
 	// It's value would be `FALSE` if Autonomous Database is Data Guard enabled and Access Control is enabled and if the Autonomous Database uses different IP access control list (ACL) for standby compared to primary.
 	ArePrimaryWhitelistedIpsUsed *bool `mandatory:"false" json:"arePrimaryWhitelistedIpsUsed"`
 
-	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) and on Exadata Cloud@Customer.
+	// The client IP access control list (ACL). This feature is available for autonomous databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer.
 	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
 	// For shared Exadata infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
 	// Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs.
@@ -239,13 +250,17 @@ type AutonomousDatabaseSummary struct {
 	// The Autonomous Database permission level. Restricted mode allows access only to admin users.
 	PermissionLevel AutonomousDatabaseSummaryPermissionLevelEnum `mandatory:"false" json:"permissionLevel,omitempty"`
 
+	// Indicates whether the Autonomous Database is a virtual clone.
+	IsVirtualClone *bool `mandatory:"false" json:"isVirtualClone"`
+
 	// The timestamp of the last switchover operation for the Autonomous Database.
 	TimeOfLastSwitchover *common.SDKTime `mandatory:"false" json:"timeOfLastSwitchover"`
 
 	// The timestamp of the last failover operation.
 	TimeOfLastFailover *common.SDKTime `mandatory:"false" json:"timeOfLastFailover"`
 
-	// Indicates whether the Autonomous Database has Data Guard enabled.
+	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to
+	// Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
 
 	// Indicates the number of seconds of data loss for a Data Guard failover.
@@ -265,7 +280,19 @@ type AutonomousDatabaseSummary struct {
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 
-	// The list of regions that support the creation of Autonomous Data Guard standby database.
+	// The auto-refresh policy for the Autonomous Database refreshable clone. You can specify continuous refreshing or a custom refresh schedule.
+	AutoRefreshPolicy AutonomousDatabaseSummaryAutoRefreshPolicyEnum `mandatory:"false" json:"autoRefreshPolicy,omitempty"`
+
+	// The frequency at which the data is refreshed for a refreshable clone after auto-refresh is enabled. The minimum is 1 minute. The maximum is 1 day. The date and time that auto-refresh is enabled is controlled by the `timeOfAutoRefreshStart` parameter.
+	AutoRefreshFrequencyInSeconds *int `mandatory:"false" json:"autoRefreshFrequencyInSeconds"`
+
+	// The amount of time, in seconds, that the data of the refreshable clone lags the data of the primary database at the point of refresh. The minimum is 1 minute. The maximum is 7 days. The lag time increases after refreshing until the next data refresh happens.
+	AutoRefreshPointInSeconds *int `mandatory:"false" json:"autoRefreshPointInSeconds"`
+
+	// The the date and time that auto-refreshing will begin for an Autonomous Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the `autoRefreshFrequencyInSeconds` parameter.
+	TimeOfAutoRefreshStart *common.SDKTime `mandatory:"false" json:"timeOfAutoRefreshStart"`
+
+	// The list of regions that support the creation of an Autonomous Database clone or an Autonomous Data Guard standby database.
 	SupportedRegionsToCloneTo []string `mandatory:"false" json:"supportedRegionsToCloneTo"`
 
 	// Customer Contacts.
@@ -274,7 +301,7 @@ type AutonomousDatabaseSummary struct {
 	// The date and time that Autonomous Data Guard was enabled for an Autonomous Database where the standby was provisioned in the same region as the primary database.
 	TimeLocalDataGuardEnabled *common.SDKTime `mandatory:"false" json:"timeLocalDataGuardEnabled"`
 
-	// The Autonomous Data Guard region type of the Autonomous Database. For Autonomous Databases on shared Exadata infrastructure, Data Guard associations have designated primary and standby regions, and these region types do not change when the database changes roles. The standby regions in Data Guard associations can be the same region designated as the primary region, or they can be remote regions. Certain database administrative operations may be available only in the primary region of the Data Guard association, and cannot be performed when the database using the "primary" role is operating in a remote Data Guard standby region.```
+	// The Autonomous Data Guard region type of the Autonomous Database. For Autonomous Databases on shared Exadata infrastructure, Data Guard associations have designated primary and standby regions, and these region types do not change when the database changes roles. The standby regions in Data Guard associations can be the same region designated as the primary region, or they can be remote regions. Certain database administrative operations may be available only in the primary region of the Data Guard association, and cannot be performed when the database using the "primary" role is operating in a remote Data Guard standby region.
 	DataguardRegionType AutonomousDatabaseSummaryDataguardRegionTypeEnum `mandatory:"false" json:"dataguardRegionType,omitempty"`
 
 	// The date and time the Autonomous Data Guard role was switched for the Autonomous Database. For databases that have standbys in both the primary Data Guard region and a remote Data Guard standby region, this is the latest timestamp of either the database using the "primary" role in the primary Data Guard region, or database located in the remote Data Guard standby region.
@@ -286,16 +313,92 @@ type AutonomousDatabaseSummary struct {
 	// Indicates whether the Autonomous Database requires mTLS connections.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
+	// Indicates if the refreshable clone can be reconnected to its source database.
+	IsReconnectCloneEnabled *bool `mandatory:"false" json:"isReconnectCloneEnabled"`
+
+	// The time and date as an RFC3339 formatted string, e.g., 2022-01-01T12:00:00.000Z, to set the limit for a refreshable clone to be reconnected to its source database.
+	TimeUntilReconnectCloneEnabled *common.SDKTime `mandatory:"false" json:"timeUntilReconnectCloneEnabled"`
+
 	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database
 	// follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
 	AutonomousMaintenanceScheduleType AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 
+	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.
+	IsOracleServiceGatewayAllowed *bool `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
+
 	// list of scheduled operations
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
+
+	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
+	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
+
+	// The amount of storage currently allocated for the database tables and billed for, rounded up. When auto-scaling is not enabled, this value is equal to the `dataStorageSizeInTBs` value. You can compare this value to the `actualUsedDataStorageSizeInTBs` value to determine if a manual shrink operation is appropriate for your allocated storage.
+	// **Note:** Auto-scaling does not automatically decrease allocated storage when data is deleted from the database.
+	AllocatedStorageSizeInTBs *float64 `mandatory:"false" json:"allocatedStorageSizeInTBs"`
+
+	// The current amount of storage in use for user and system data, in terabytes (TB).
+	ActualUsedDataStorageSizeInTBs *float64 `mandatory:"false" json:"actualUsedDataStorageSizeInTBs"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDatabaseSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousDatabaseSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAutonomousDatabaseSummaryInfrastructureTypeEnum[string(m.InfrastructureType)]; !ok && m.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetAutonomousDatabaseSummaryInfrastructureTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetAutonomousDatabaseSummaryLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetAutonomousDatabaseSummaryDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryDataSafeStatusEnum[string(m.DataSafeStatus)]; !ok && m.DataSafeStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSafeStatus: %s. Supported values are: %s.", m.DataSafeStatus, strings.Join(GetAutonomousDatabaseSummaryDataSafeStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryOperationsInsightsStatusEnum[string(m.OperationsInsightsStatus)]; !ok && m.OperationsInsightsStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationsInsightsStatus: %s. Supported values are: %s.", m.OperationsInsightsStatus, strings.Join(GetAutonomousDatabaseSummaryOperationsInsightsStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryDatabaseManagementStatusEnum[string(m.DatabaseManagementStatus)]; !ok && m.DatabaseManagementStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseManagementStatus: %s. Supported values are: %s.", m.DatabaseManagementStatus, strings.Join(GetAutonomousDatabaseSummaryDatabaseManagementStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryOpenModeEnum[string(m.OpenMode)]; !ok && m.OpenMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetAutonomousDatabaseSummaryOpenModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryRefreshableStatusEnum[string(m.RefreshableStatus)]; !ok && m.RefreshableStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableStatus: %s. Supported values are: %s.", m.RefreshableStatus, strings.Join(GetAutonomousDatabaseSummaryRefreshableStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryRefreshableModeEnum[string(m.RefreshableMode)]; !ok && m.RefreshableMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableMode: %s. Supported values are: %s.", m.RefreshableMode, strings.Join(GetAutonomousDatabaseSummaryRefreshableModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryPermissionLevelEnum[string(m.PermissionLevel)]; !ok && m.PermissionLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PermissionLevel: %s. Supported values are: %s.", m.PermissionLevel, strings.Join(GetAutonomousDatabaseSummaryPermissionLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetAutonomousDatabaseSummaryRoleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryAutoRefreshPolicyEnum[string(m.AutoRefreshPolicy)]; !ok && m.AutoRefreshPolicy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoRefreshPolicy: %s. Supported values are: %s.", m.AutoRefreshPolicy, strings.Join(GetAutonomousDatabaseSummaryAutoRefreshPolicyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryDataguardRegionTypeEnum[string(m.DataguardRegionType)]; !ok && m.DataguardRegionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataguardRegionType: %s. Supported values are: %s.", m.DataguardRegionType, strings.Join(GetAutonomousDatabaseSummaryDataguardRegionTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum[string(m.AutonomousMaintenanceScheduleType)]; !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // AutonomousDatabaseSummaryLifecycleStateEnum Enum with underlying type: string
@@ -325,7 +428,7 @@ const (
 	AutonomousDatabaseSummaryLifecycleStateInaccessible            AutonomousDatabaseSummaryLifecycleStateEnum = "INACCESSIBLE"
 )
 
-var mappingAutonomousDatabaseSummaryLifecycleState = map[string]AutonomousDatabaseSummaryLifecycleStateEnum{
+var mappingAutonomousDatabaseSummaryLifecycleStateEnum = map[string]AutonomousDatabaseSummaryLifecycleStateEnum{
 	"PROVISIONING":              AutonomousDatabaseSummaryLifecycleStateProvisioning,
 	"AVAILABLE":                 AutonomousDatabaseSummaryLifecycleStateAvailable,
 	"STOPPING":                  AutonomousDatabaseSummaryLifecycleStateStopping,
@@ -351,10 +454,36 @@ var mappingAutonomousDatabaseSummaryLifecycleState = map[string]AutonomousDataba
 // GetAutonomousDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseSummaryLifecycleStateEnum
 func GetAutonomousDatabaseSummaryLifecycleStateEnumValues() []AutonomousDatabaseSummaryLifecycleStateEnum {
 	values := make([]AutonomousDatabaseSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryLifecycleState {
+	for _, v := range mappingAutonomousDatabaseSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryLifecycleStateEnum
+func GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"STOPPING",
+		"STOPPED",
+		"STARTING",
+		"TERMINATING",
+		"TERMINATED",
+		"UNAVAILABLE",
+		"RESTORE_IN_PROGRESS",
+		"RESTORE_FAILED",
+		"BACKUP_IN_PROGRESS",
+		"SCALE_IN_PROGRESS",
+		"AVAILABLE_NEEDS_ATTENTION",
+		"UPDATING",
+		"MAINTENANCE_IN_PROGRESS",
+		"RESTARTING",
+		"RECREATING",
+		"ROLE_CHANGE_IN_PROGRESS",
+		"UPGRADING",
+		"INACCESSIBLE",
+	}
 }
 
 // AutonomousDatabaseSummaryInfrastructureTypeEnum Enum with underlying type: string
@@ -366,7 +495,7 @@ const (
 	AutonomousDatabaseSummaryInfrastructureTypeCloudAtCustomer AutonomousDatabaseSummaryInfrastructureTypeEnum = "CLOUD_AT_CUSTOMER"
 )
 
-var mappingAutonomousDatabaseSummaryInfrastructureType = map[string]AutonomousDatabaseSummaryInfrastructureTypeEnum{
+var mappingAutonomousDatabaseSummaryInfrastructureTypeEnum = map[string]AutonomousDatabaseSummaryInfrastructureTypeEnum{
 	"CLOUD":             AutonomousDatabaseSummaryInfrastructureTypeCloud,
 	"CLOUD_AT_CUSTOMER": AutonomousDatabaseSummaryInfrastructureTypeCloudAtCustomer,
 }
@@ -374,10 +503,18 @@ var mappingAutonomousDatabaseSummaryInfrastructureType = map[string]AutonomousDa
 // GetAutonomousDatabaseSummaryInfrastructureTypeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryInfrastructureTypeEnum
 func GetAutonomousDatabaseSummaryInfrastructureTypeEnumValues() []AutonomousDatabaseSummaryInfrastructureTypeEnum {
 	values := make([]AutonomousDatabaseSummaryInfrastructureTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryInfrastructureType {
+	for _, v := range mappingAutonomousDatabaseSummaryInfrastructureTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryInfrastructureTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryInfrastructureTypeEnum
+func GetAutonomousDatabaseSummaryInfrastructureTypeEnumStringValues() []string {
+	return []string{
+		"CLOUD",
+		"CLOUD_AT_CUSTOMER",
+	}
 }
 
 // AutonomousDatabaseSummaryLicenseModelEnum Enum with underlying type: string
@@ -389,7 +526,7 @@ const (
 	AutonomousDatabaseSummaryLicenseModelBringYourOwnLicense AutonomousDatabaseSummaryLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingAutonomousDatabaseSummaryLicenseModel = map[string]AutonomousDatabaseSummaryLicenseModelEnum{
+var mappingAutonomousDatabaseSummaryLicenseModelEnum = map[string]AutonomousDatabaseSummaryLicenseModelEnum{
 	"LICENSE_INCLUDED":       AutonomousDatabaseSummaryLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": AutonomousDatabaseSummaryLicenseModelBringYourOwnLicense,
 }
@@ -397,10 +534,18 @@ var mappingAutonomousDatabaseSummaryLicenseModel = map[string]AutonomousDatabase
 // GetAutonomousDatabaseSummaryLicenseModelEnumValues Enumerates the set of values for AutonomousDatabaseSummaryLicenseModelEnum
 func GetAutonomousDatabaseSummaryLicenseModelEnumValues() []AutonomousDatabaseSummaryLicenseModelEnum {
 	values := make([]AutonomousDatabaseSummaryLicenseModelEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryLicenseModel {
+	for _, v := range mappingAutonomousDatabaseSummaryLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryLicenseModelEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryLicenseModelEnum
+func GetAutonomousDatabaseSummaryLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }
 
 // AutonomousDatabaseSummaryDbWorkloadEnum Enum with underlying type: string
@@ -414,7 +559,7 @@ const (
 	AutonomousDatabaseSummaryDbWorkloadApex AutonomousDatabaseSummaryDbWorkloadEnum = "APEX"
 )
 
-var mappingAutonomousDatabaseSummaryDbWorkload = map[string]AutonomousDatabaseSummaryDbWorkloadEnum{
+var mappingAutonomousDatabaseSummaryDbWorkloadEnum = map[string]AutonomousDatabaseSummaryDbWorkloadEnum{
 	"OLTP": AutonomousDatabaseSummaryDbWorkloadOltp,
 	"DW":   AutonomousDatabaseSummaryDbWorkloadDw,
 	"AJD":  AutonomousDatabaseSummaryDbWorkloadAjd,
@@ -424,10 +569,20 @@ var mappingAutonomousDatabaseSummaryDbWorkload = map[string]AutonomousDatabaseSu
 // GetAutonomousDatabaseSummaryDbWorkloadEnumValues Enumerates the set of values for AutonomousDatabaseSummaryDbWorkloadEnum
 func GetAutonomousDatabaseSummaryDbWorkloadEnumValues() []AutonomousDatabaseSummaryDbWorkloadEnum {
 	values := make([]AutonomousDatabaseSummaryDbWorkloadEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryDbWorkload {
+	for _, v := range mappingAutonomousDatabaseSummaryDbWorkloadEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryDbWorkloadEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryDbWorkloadEnum
+func GetAutonomousDatabaseSummaryDbWorkloadEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DW",
+		"AJD",
+		"APEX",
+	}
 }
 
 // AutonomousDatabaseSummaryDataSafeStatusEnum Enum with underlying type: string
@@ -442,7 +597,7 @@ const (
 	AutonomousDatabaseSummaryDataSafeStatusFailed        AutonomousDatabaseSummaryDataSafeStatusEnum = "FAILED"
 )
 
-var mappingAutonomousDatabaseSummaryDataSafeStatus = map[string]AutonomousDatabaseSummaryDataSafeStatusEnum{
+var mappingAutonomousDatabaseSummaryDataSafeStatusEnum = map[string]AutonomousDatabaseSummaryDataSafeStatusEnum{
 	"REGISTERING":    AutonomousDatabaseSummaryDataSafeStatusRegistering,
 	"REGISTERED":     AutonomousDatabaseSummaryDataSafeStatusRegistered,
 	"DEREGISTERING":  AutonomousDatabaseSummaryDataSafeStatusDeregistering,
@@ -453,10 +608,21 @@ var mappingAutonomousDatabaseSummaryDataSafeStatus = map[string]AutonomousDataba
 // GetAutonomousDatabaseSummaryDataSafeStatusEnumValues Enumerates the set of values for AutonomousDatabaseSummaryDataSafeStatusEnum
 func GetAutonomousDatabaseSummaryDataSafeStatusEnumValues() []AutonomousDatabaseSummaryDataSafeStatusEnum {
 	values := make([]AutonomousDatabaseSummaryDataSafeStatusEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryDataSafeStatus {
+	for _, v := range mappingAutonomousDatabaseSummaryDataSafeStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryDataSafeStatusEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryDataSafeStatusEnum
+func GetAutonomousDatabaseSummaryDataSafeStatusEnumStringValues() []string {
+	return []string{
+		"REGISTERING",
+		"REGISTERED",
+		"DEREGISTERING",
+		"NOT_REGISTERED",
+		"FAILED",
+	}
 }
 
 // AutonomousDatabaseSummaryOperationsInsightsStatusEnum Enum with underlying type: string
@@ -472,7 +638,7 @@ const (
 	AutonomousDatabaseSummaryOperationsInsightsStatusFailedDisabling AutonomousDatabaseSummaryOperationsInsightsStatusEnum = "FAILED_DISABLING"
 )
 
-var mappingAutonomousDatabaseSummaryOperationsInsightsStatus = map[string]AutonomousDatabaseSummaryOperationsInsightsStatusEnum{
+var mappingAutonomousDatabaseSummaryOperationsInsightsStatusEnum = map[string]AutonomousDatabaseSummaryOperationsInsightsStatusEnum{
 	"ENABLING":         AutonomousDatabaseSummaryOperationsInsightsStatusEnabling,
 	"ENABLED":          AutonomousDatabaseSummaryOperationsInsightsStatusEnabled,
 	"DISABLING":        AutonomousDatabaseSummaryOperationsInsightsStatusDisabling,
@@ -484,10 +650,22 @@ var mappingAutonomousDatabaseSummaryOperationsInsightsStatus = map[string]Autono
 // GetAutonomousDatabaseSummaryOperationsInsightsStatusEnumValues Enumerates the set of values for AutonomousDatabaseSummaryOperationsInsightsStatusEnum
 func GetAutonomousDatabaseSummaryOperationsInsightsStatusEnumValues() []AutonomousDatabaseSummaryOperationsInsightsStatusEnum {
 	values := make([]AutonomousDatabaseSummaryOperationsInsightsStatusEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryOperationsInsightsStatus {
+	for _, v := range mappingAutonomousDatabaseSummaryOperationsInsightsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryOperationsInsightsStatusEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryOperationsInsightsStatusEnum
+func GetAutonomousDatabaseSummaryOperationsInsightsStatusEnumStringValues() []string {
+	return []string{
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"NOT_ENABLED",
+		"FAILED_ENABLING",
+		"FAILED_DISABLING",
+	}
 }
 
 // AutonomousDatabaseSummaryDatabaseManagementStatusEnum Enum with underlying type: string
@@ -503,7 +681,7 @@ const (
 	AutonomousDatabaseSummaryDatabaseManagementStatusFailedDisabling AutonomousDatabaseSummaryDatabaseManagementStatusEnum = "FAILED_DISABLING"
 )
 
-var mappingAutonomousDatabaseSummaryDatabaseManagementStatus = map[string]AutonomousDatabaseSummaryDatabaseManagementStatusEnum{
+var mappingAutonomousDatabaseSummaryDatabaseManagementStatusEnum = map[string]AutonomousDatabaseSummaryDatabaseManagementStatusEnum{
 	"ENABLING":         AutonomousDatabaseSummaryDatabaseManagementStatusEnabling,
 	"ENABLED":          AutonomousDatabaseSummaryDatabaseManagementStatusEnabled,
 	"DISABLING":        AutonomousDatabaseSummaryDatabaseManagementStatusDisabling,
@@ -515,10 +693,22 @@ var mappingAutonomousDatabaseSummaryDatabaseManagementStatus = map[string]Autono
 // GetAutonomousDatabaseSummaryDatabaseManagementStatusEnumValues Enumerates the set of values for AutonomousDatabaseSummaryDatabaseManagementStatusEnum
 func GetAutonomousDatabaseSummaryDatabaseManagementStatusEnumValues() []AutonomousDatabaseSummaryDatabaseManagementStatusEnum {
 	values := make([]AutonomousDatabaseSummaryDatabaseManagementStatusEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryDatabaseManagementStatus {
+	for _, v := range mappingAutonomousDatabaseSummaryDatabaseManagementStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryDatabaseManagementStatusEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryDatabaseManagementStatusEnum
+func GetAutonomousDatabaseSummaryDatabaseManagementStatusEnumStringValues() []string {
+	return []string{
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"NOT_ENABLED",
+		"FAILED_ENABLING",
+		"FAILED_DISABLING",
+	}
 }
 
 // AutonomousDatabaseSummaryOpenModeEnum Enum with underlying type: string
@@ -530,7 +720,7 @@ const (
 	AutonomousDatabaseSummaryOpenModeWrite AutonomousDatabaseSummaryOpenModeEnum = "READ_WRITE"
 )
 
-var mappingAutonomousDatabaseSummaryOpenMode = map[string]AutonomousDatabaseSummaryOpenModeEnum{
+var mappingAutonomousDatabaseSummaryOpenModeEnum = map[string]AutonomousDatabaseSummaryOpenModeEnum{
 	"READ_ONLY":  AutonomousDatabaseSummaryOpenModeOnly,
 	"READ_WRITE": AutonomousDatabaseSummaryOpenModeWrite,
 }
@@ -538,10 +728,18 @@ var mappingAutonomousDatabaseSummaryOpenMode = map[string]AutonomousDatabaseSumm
 // GetAutonomousDatabaseSummaryOpenModeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryOpenModeEnum
 func GetAutonomousDatabaseSummaryOpenModeEnumValues() []AutonomousDatabaseSummaryOpenModeEnum {
 	values := make([]AutonomousDatabaseSummaryOpenModeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryOpenMode {
+	for _, v := range mappingAutonomousDatabaseSummaryOpenModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryOpenModeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryOpenModeEnum
+func GetAutonomousDatabaseSummaryOpenModeEnumStringValues() []string {
+	return []string{
+		"READ_ONLY",
+		"READ_WRITE",
+	}
 }
 
 // AutonomousDatabaseSummaryRefreshableStatusEnum Enum with underlying type: string
@@ -553,7 +751,7 @@ const (
 	AutonomousDatabaseSummaryRefreshableStatusNotRefreshing AutonomousDatabaseSummaryRefreshableStatusEnum = "NOT_REFRESHING"
 )
 
-var mappingAutonomousDatabaseSummaryRefreshableStatus = map[string]AutonomousDatabaseSummaryRefreshableStatusEnum{
+var mappingAutonomousDatabaseSummaryRefreshableStatusEnum = map[string]AutonomousDatabaseSummaryRefreshableStatusEnum{
 	"REFRESHING":     AutonomousDatabaseSummaryRefreshableStatusRefreshing,
 	"NOT_REFRESHING": AutonomousDatabaseSummaryRefreshableStatusNotRefreshing,
 }
@@ -561,10 +759,18 @@ var mappingAutonomousDatabaseSummaryRefreshableStatus = map[string]AutonomousDat
 // GetAutonomousDatabaseSummaryRefreshableStatusEnumValues Enumerates the set of values for AutonomousDatabaseSummaryRefreshableStatusEnum
 func GetAutonomousDatabaseSummaryRefreshableStatusEnumValues() []AutonomousDatabaseSummaryRefreshableStatusEnum {
 	values := make([]AutonomousDatabaseSummaryRefreshableStatusEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryRefreshableStatus {
+	for _, v := range mappingAutonomousDatabaseSummaryRefreshableStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryRefreshableStatusEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryRefreshableStatusEnum
+func GetAutonomousDatabaseSummaryRefreshableStatusEnumStringValues() []string {
+	return []string{
+		"REFRESHING",
+		"NOT_REFRESHING",
+	}
 }
 
 // AutonomousDatabaseSummaryRefreshableModeEnum Enum with underlying type: string
@@ -576,7 +782,7 @@ const (
 	AutonomousDatabaseSummaryRefreshableModeManual    AutonomousDatabaseSummaryRefreshableModeEnum = "MANUAL"
 )
 
-var mappingAutonomousDatabaseSummaryRefreshableMode = map[string]AutonomousDatabaseSummaryRefreshableModeEnum{
+var mappingAutonomousDatabaseSummaryRefreshableModeEnum = map[string]AutonomousDatabaseSummaryRefreshableModeEnum{
 	"AUTOMATIC": AutonomousDatabaseSummaryRefreshableModeAutomatic,
 	"MANUAL":    AutonomousDatabaseSummaryRefreshableModeManual,
 }
@@ -584,10 +790,18 @@ var mappingAutonomousDatabaseSummaryRefreshableMode = map[string]AutonomousDatab
 // GetAutonomousDatabaseSummaryRefreshableModeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryRefreshableModeEnum
 func GetAutonomousDatabaseSummaryRefreshableModeEnumValues() []AutonomousDatabaseSummaryRefreshableModeEnum {
 	values := make([]AutonomousDatabaseSummaryRefreshableModeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryRefreshableMode {
+	for _, v := range mappingAutonomousDatabaseSummaryRefreshableModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryRefreshableModeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryRefreshableModeEnum
+func GetAutonomousDatabaseSummaryRefreshableModeEnumStringValues() []string {
+	return []string{
+		"AUTOMATIC",
+		"MANUAL",
+	}
 }
 
 // AutonomousDatabaseSummaryPermissionLevelEnum Enum with underlying type: string
@@ -599,7 +813,7 @@ const (
 	AutonomousDatabaseSummaryPermissionLevelUnrestricted AutonomousDatabaseSummaryPermissionLevelEnum = "UNRESTRICTED"
 )
 
-var mappingAutonomousDatabaseSummaryPermissionLevel = map[string]AutonomousDatabaseSummaryPermissionLevelEnum{
+var mappingAutonomousDatabaseSummaryPermissionLevelEnum = map[string]AutonomousDatabaseSummaryPermissionLevelEnum{
 	"RESTRICTED":   AutonomousDatabaseSummaryPermissionLevelRestricted,
 	"UNRESTRICTED": AutonomousDatabaseSummaryPermissionLevelUnrestricted,
 }
@@ -607,10 +821,18 @@ var mappingAutonomousDatabaseSummaryPermissionLevel = map[string]AutonomousDatab
 // GetAutonomousDatabaseSummaryPermissionLevelEnumValues Enumerates the set of values for AutonomousDatabaseSummaryPermissionLevelEnum
 func GetAutonomousDatabaseSummaryPermissionLevelEnumValues() []AutonomousDatabaseSummaryPermissionLevelEnum {
 	values := make([]AutonomousDatabaseSummaryPermissionLevelEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryPermissionLevel {
+	for _, v := range mappingAutonomousDatabaseSummaryPermissionLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryPermissionLevelEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryPermissionLevelEnum
+func GetAutonomousDatabaseSummaryPermissionLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"UNRESTRICTED",
+	}
 }
 
 // AutonomousDatabaseSummaryRoleEnum Enum with underlying type: string
@@ -623,7 +845,7 @@ const (
 	AutonomousDatabaseSummaryRoleDisabledStandby AutonomousDatabaseSummaryRoleEnum = "DISABLED_STANDBY"
 )
 
-var mappingAutonomousDatabaseSummaryRole = map[string]AutonomousDatabaseSummaryRoleEnum{
+var mappingAutonomousDatabaseSummaryRoleEnum = map[string]AutonomousDatabaseSummaryRoleEnum{
 	"PRIMARY":          AutonomousDatabaseSummaryRolePrimary,
 	"STANDBY":          AutonomousDatabaseSummaryRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseSummaryRoleDisabledStandby,
@@ -632,10 +854,50 @@ var mappingAutonomousDatabaseSummaryRole = map[string]AutonomousDatabaseSummaryR
 // GetAutonomousDatabaseSummaryRoleEnumValues Enumerates the set of values for AutonomousDatabaseSummaryRoleEnum
 func GetAutonomousDatabaseSummaryRoleEnumValues() []AutonomousDatabaseSummaryRoleEnum {
 	values := make([]AutonomousDatabaseSummaryRoleEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryRole {
+	for _, v := range mappingAutonomousDatabaseSummaryRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryRoleEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryRoleEnum
+func GetAutonomousDatabaseSummaryRoleEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"STANDBY",
+		"DISABLED_STANDBY",
+	}
+}
+
+// AutonomousDatabaseSummaryAutoRefreshPolicyEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryAutoRefreshPolicyEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryAutoRefreshPolicyEnum
+const (
+	AutonomousDatabaseSummaryAutoRefreshPolicyContinuous AutonomousDatabaseSummaryAutoRefreshPolicyEnum = "CONTINUOUS"
+	AutonomousDatabaseSummaryAutoRefreshPolicyCustom     AutonomousDatabaseSummaryAutoRefreshPolicyEnum = "CUSTOM"
+)
+
+var mappingAutonomousDatabaseSummaryAutoRefreshPolicyEnum = map[string]AutonomousDatabaseSummaryAutoRefreshPolicyEnum{
+	"CONTINUOUS": AutonomousDatabaseSummaryAutoRefreshPolicyContinuous,
+	"CUSTOM":     AutonomousDatabaseSummaryAutoRefreshPolicyCustom,
+}
+
+// GetAutonomousDatabaseSummaryAutoRefreshPolicyEnumValues Enumerates the set of values for AutonomousDatabaseSummaryAutoRefreshPolicyEnum
+func GetAutonomousDatabaseSummaryAutoRefreshPolicyEnumValues() []AutonomousDatabaseSummaryAutoRefreshPolicyEnum {
+	values := make([]AutonomousDatabaseSummaryAutoRefreshPolicyEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryAutoRefreshPolicyEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseSummaryAutoRefreshPolicyEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryAutoRefreshPolicyEnum
+func GetAutonomousDatabaseSummaryAutoRefreshPolicyEnumStringValues() []string {
+	return []string{
+		"CONTINUOUS",
+		"CUSTOM",
+	}
 }
 
 // AutonomousDatabaseSummaryDataguardRegionTypeEnum Enum with underlying type: string
@@ -647,7 +909,7 @@ const (
 	AutonomousDatabaseSummaryDataguardRegionTypeRemoteStandbyDgRegion AutonomousDatabaseSummaryDataguardRegionTypeEnum = "REMOTE_STANDBY_DG_REGION"
 )
 
-var mappingAutonomousDatabaseSummaryDataguardRegionType = map[string]AutonomousDatabaseSummaryDataguardRegionTypeEnum{
+var mappingAutonomousDatabaseSummaryDataguardRegionTypeEnum = map[string]AutonomousDatabaseSummaryDataguardRegionTypeEnum{
 	"PRIMARY_DG_REGION":        AutonomousDatabaseSummaryDataguardRegionTypePrimaryDgRegion,
 	"REMOTE_STANDBY_DG_REGION": AutonomousDatabaseSummaryDataguardRegionTypeRemoteStandbyDgRegion,
 }
@@ -655,10 +917,18 @@ var mappingAutonomousDatabaseSummaryDataguardRegionType = map[string]AutonomousD
 // GetAutonomousDatabaseSummaryDataguardRegionTypeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryDataguardRegionTypeEnum
 func GetAutonomousDatabaseSummaryDataguardRegionTypeEnumValues() []AutonomousDatabaseSummaryDataguardRegionTypeEnum {
 	values := make([]AutonomousDatabaseSummaryDataguardRegionTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryDataguardRegionType {
+	for _, v := range mappingAutonomousDatabaseSummaryDataguardRegionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryDataguardRegionTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryDataguardRegionTypeEnum
+func GetAutonomousDatabaseSummaryDataguardRegionTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY_DG_REGION",
+		"REMOTE_STANDBY_DG_REGION",
+	}
 }
 
 // AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum Enum with underlying type: string
@@ -670,7 +940,7 @@ const (
 	AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeRegular AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum = "REGULAR"
 )
 
-var mappingAutonomousDatabaseSummaryAutonomousMaintenanceScheduleType = map[string]AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum{
+var mappingAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum = map[string]AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum{
 	"EARLY":   AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEarly,
 	"REGULAR": AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeRegular,
 }
@@ -678,8 +948,16 @@ var mappingAutonomousDatabaseSummaryAutonomousMaintenanceScheduleType = map[stri
 // GetAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum
 func GetAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnumValues() []AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum {
 	values := make([]AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseSummaryAutonomousMaintenanceScheduleType {
+	for _, v := range mappingAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum
+func GetAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnumStringValues() []string {
+	return []string{
+		"EARLY",
+		"REGULAR",
+	}
 }

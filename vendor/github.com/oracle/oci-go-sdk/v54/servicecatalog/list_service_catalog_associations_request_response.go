@@ -5,15 +5,13 @@
 package servicecatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	"net/http"
+	"strings"
 )
 
 // ListServiceCatalogAssociationsRequest wrapper for the ListServiceCatalogAssociations operation
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListServiceCatalogAssociations.go.html to see an example of how to use ListServiceCatalogAssociationsRequest.
 type ListServiceCatalogAssociationsRequest struct {
 
 	// The unique identifier for the service catalog association.
@@ -56,6 +54,10 @@ func (request ListServiceCatalogAssociationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListServiceCatalogAssociationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +71,23 @@ func (request ListServiceCatalogAssociationsRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListServiceCatalogAssociationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListServiceCatalogAssociationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListServiceCatalogAssociationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListServiceCatalogAssociationsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListServiceCatalogAssociationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListServiceCatalogAssociationsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListServiceCatalogAssociationsResponse wrapper for the ListServiceCatalogAssociations operation
@@ -108,7 +127,7 @@ const (
 	ListServiceCatalogAssociationsSortOrderDesc ListServiceCatalogAssociationsSortOrderEnum = "DESC"
 )
 
-var mappingListServiceCatalogAssociationsSortOrder = map[string]ListServiceCatalogAssociationsSortOrderEnum{
+var mappingListServiceCatalogAssociationsSortOrderEnum = map[string]ListServiceCatalogAssociationsSortOrderEnum{
 	"ASC":  ListServiceCatalogAssociationsSortOrderAsc,
 	"DESC": ListServiceCatalogAssociationsSortOrderDesc,
 }
@@ -116,10 +135,18 @@ var mappingListServiceCatalogAssociationsSortOrder = map[string]ListServiceCatal
 // GetListServiceCatalogAssociationsSortOrderEnumValues Enumerates the set of values for ListServiceCatalogAssociationsSortOrderEnum
 func GetListServiceCatalogAssociationsSortOrderEnumValues() []ListServiceCatalogAssociationsSortOrderEnum {
 	values := make([]ListServiceCatalogAssociationsSortOrderEnum, 0)
-	for _, v := range mappingListServiceCatalogAssociationsSortOrder {
+	for _, v := range mappingListServiceCatalogAssociationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServiceCatalogAssociationsSortOrderEnumStringValues Enumerates the set of values in String for ListServiceCatalogAssociationsSortOrderEnum
+func GetListServiceCatalogAssociationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListServiceCatalogAssociationsSortByEnum Enum with underlying type: string
@@ -130,15 +157,22 @@ const (
 	ListServiceCatalogAssociationsSortByTimecreated ListServiceCatalogAssociationsSortByEnum = "TIMECREATED"
 )
 
-var mappingListServiceCatalogAssociationsSortBy = map[string]ListServiceCatalogAssociationsSortByEnum{
+var mappingListServiceCatalogAssociationsSortByEnum = map[string]ListServiceCatalogAssociationsSortByEnum{
 	"TIMECREATED": ListServiceCatalogAssociationsSortByTimecreated,
 }
 
 // GetListServiceCatalogAssociationsSortByEnumValues Enumerates the set of values for ListServiceCatalogAssociationsSortByEnum
 func GetListServiceCatalogAssociationsSortByEnumValues() []ListServiceCatalogAssociationsSortByEnum {
 	values := make([]ListServiceCatalogAssociationsSortByEnum, 0)
-	for _, v := range mappingListServiceCatalogAssociationsSortBy {
+	for _, v := range mappingListServiceCatalogAssociationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServiceCatalogAssociationsSortByEnumStringValues Enumerates the set of values in String for ListServiceCatalogAssociationsSortByEnum
+func GetListServiceCatalogAssociationsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+	}
 }

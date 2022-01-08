@@ -4,20 +4,22 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, and policies.
+// APIs for managing users, groups, compartments, policies, and identity domains.
 //
 
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // CustomerSecretKey A `CustomerSecretKey` is an Oracle-provided key for using the Object Storage Service's
 // Amazon S3 compatible API (https://docs.cloud.oracle.com/Content/Object/Tasks/s3compatibleapi.htm). The key consists of a
 // secret key/access key pair. A user can have up to two secret keys at a time.
 // **Note:** The secret key is always an Oracle-generated string; you can't change it to a string of your choice.
-// For more information, see Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcredentials.htm).
+// For more information, see Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/access/managing-user-credentials.htm).
 type CustomerSecretKey struct {
 
 	// The secret key.
@@ -53,6 +55,21 @@ func (m CustomerSecretKey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CustomerSecretKey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCustomerSecretKeyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCustomerSecretKeyLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CustomerSecretKeyLifecycleStateEnum Enum with underlying type: string
 type CustomerSecretKeyLifecycleStateEnum string
 
@@ -65,7 +82,7 @@ const (
 	CustomerSecretKeyLifecycleStateDeleted  CustomerSecretKeyLifecycleStateEnum = "DELETED"
 )
 
-var mappingCustomerSecretKeyLifecycleState = map[string]CustomerSecretKeyLifecycleStateEnum{
+var mappingCustomerSecretKeyLifecycleStateEnum = map[string]CustomerSecretKeyLifecycleStateEnum{
 	"CREATING": CustomerSecretKeyLifecycleStateCreating,
 	"ACTIVE":   CustomerSecretKeyLifecycleStateActive,
 	"INACTIVE": CustomerSecretKeyLifecycleStateInactive,
@@ -76,8 +93,19 @@ var mappingCustomerSecretKeyLifecycleState = map[string]CustomerSecretKeyLifecyc
 // GetCustomerSecretKeyLifecycleStateEnumValues Enumerates the set of values for CustomerSecretKeyLifecycleStateEnum
 func GetCustomerSecretKeyLifecycleStateEnumValues() []CustomerSecretKeyLifecycleStateEnum {
 	values := make([]CustomerSecretKeyLifecycleStateEnum, 0)
-	for _, v := range mappingCustomerSecretKeyLifecycleState {
+	for _, v := range mappingCustomerSecretKeyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCustomerSecretKeyLifecycleStateEnumStringValues Enumerates the set of values in String for CustomerSecretKeyLifecycleStateEnum
+func GetCustomerSecretKeyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

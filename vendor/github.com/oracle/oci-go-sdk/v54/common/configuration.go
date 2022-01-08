@@ -31,7 +31,7 @@ const (
 // AuthConfig is used for getting auth related paras in config file
 type AuthConfig struct {
 	AuthType AuthenticationType
-	// IsFromConfigFile is used to point out if the authConfig is from configuration file
+	// IsFromConfigFile is used to point out the if the AuthConfig is from configuration file
 	IsFromConfigFile bool
 	OboToken         *string
 }
@@ -77,7 +77,7 @@ type rawConfigurationProvider struct {
 	privateKeyPassphrase *string
 }
 
-// NewRawConfigurationProvider will create a ConfigurationProvider with the arguments of the function
+// NewRawConfigurationProvider will create a rawConfigurationProvider
 func NewRawConfigurationProvider(tenancy, user, region, fingerprint, privateKey string, privateKeyPassphrase *string) ConfigurationProvider {
 	return rawConfigurationProvider{tenancy, user, region, fingerprint, privateKey, privateKeyPassphrase}
 }
@@ -131,7 +131,8 @@ func (p rawConfigurationProvider) Region() (string, error) {
 }
 
 func (p rawConfigurationProvider) AuthType() (AuthConfig, error) {
-	return AuthConfig{UnknownAuthenticationType, false, nil}, nil
+	return AuthConfig{UnknownAuthenticationType, false, nil},
+		fmt.Errorf("unsupported, keep the interface")
 }
 
 // environmentConfigurationProvider reads configuration from environment variables
@@ -538,7 +539,6 @@ func (p fileConfigurationProvider) AuthType() (AuthConfig, error) {
 				return AuthConfig{InstancePrincipalDelegationToken, true, &delegationToken}, nil
 			}
 			return AuthConfig{UnknownAuthenticationType, true, nil}, err
-
 		}
 		// normal instance principle
 		return AuthConfig{InstancePrincipal, true, nil}, nil

@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // VcnDrgAttachmentNetworkUpdateDetails Specifies the update details for the VCN attachment.
@@ -26,10 +28,29 @@ type VcnDrgAttachmentNetworkUpdateDetails struct {
 	//   * Transit Routing: Access to Multiple VCNs in Same Region (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
 	//   * Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
+	// Indicates whether the VCN CIDR(s) or the individual Subnet CIDR(s) are imported from the attachment.
+	// Routes from the VCN Ingress Route Table are always imported.
+	VcnRouteType VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum `mandatory:"false" json:"vcnRouteType,omitempty"`
 }
 
 func (m VcnDrgAttachmentNetworkUpdateDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VcnDrgAttachmentNetworkUpdateDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum[string(m.VcnRouteType)]; !ok && m.VcnRouteType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VcnRouteType: %s. Supported values are: %s.", m.VcnRouteType, strings.Join(GetVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

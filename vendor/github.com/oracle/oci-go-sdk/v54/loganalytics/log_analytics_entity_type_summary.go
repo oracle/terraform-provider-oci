@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // LogAnalyticsEntityTypeSummary Summary of a log analytics entity type.
@@ -45,6 +47,27 @@ func (m LogAnalyticsEntityTypeSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsEntityTypeSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingEntityCloudTypeEnum[string(m.CloudType)]; !ok && m.CloudType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloudType: %s. Supported values are: %s.", m.CloudType, strings.Join(GetEntityCloudTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingEntityLifecycleStatesEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetEntityLifecycleStatesEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum[string(m.ManagementAgentEligibilityStatus)]; !ok && m.ManagementAgentEligibilityStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementAgentEligibilityStatus: %s. Supported values are: %s.", m.ManagementAgentEligibilityStatus, strings.Join(GetLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum Enum with underlying type: string
 type LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum string
 
@@ -55,7 +78,7 @@ const (
 	LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusUnknown    LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum = "UNKNOWN"
 )
 
-var mappingLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatus = map[string]LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum{
+var mappingLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum = map[string]LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum{
 	"ELIGIBLE":   LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEligible,
 	"INELIGIBLE": LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusIneligible,
 	"UNKNOWN":    LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusUnknown,
@@ -64,8 +87,17 @@ var mappingLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatus = map[s
 // GetLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnumValues Enumerates the set of values for LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum
 func GetLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnumValues() []LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum {
 	values := make([]LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum, 0)
-	for _, v := range mappingLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatus {
+	for _, v := range mappingLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnumStringValues Enumerates the set of values in String for LogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnum
+func GetLogAnalyticsEntityTypeSummaryManagementAgentEligibilityStatusEnumStringValues() []string {
+	return []string{
+		"ELIGIBLE",
+		"INELIGIBLE",
+		"UNKNOWN",
+	}
 }

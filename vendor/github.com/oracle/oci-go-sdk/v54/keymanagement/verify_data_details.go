@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // VerifyDataDetails The representation of VerifyDataDetails
@@ -46,6 +48,24 @@ func (m VerifyDataDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VerifyDataDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVerifyDataDetailsSigningAlgorithmEnum[string(m.SigningAlgorithm)]; !ok && m.SigningAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SigningAlgorithm: %s. Supported values are: %s.", m.SigningAlgorithm, strings.Join(GetVerifyDataDetailsSigningAlgorithmEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingVerifyDataDetailsMessageTypeEnum[string(m.MessageType)]; !ok && m.MessageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MessageType: %s. Supported values are: %s.", m.MessageType, strings.Join(GetVerifyDataDetailsMessageTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VerifyDataDetailsMessageTypeEnum Enum with underlying type: string
 type VerifyDataDetailsMessageTypeEnum string
 
@@ -55,7 +75,7 @@ const (
 	VerifyDataDetailsMessageTypeDigest VerifyDataDetailsMessageTypeEnum = "DIGEST"
 )
 
-var mappingVerifyDataDetailsMessageType = map[string]VerifyDataDetailsMessageTypeEnum{
+var mappingVerifyDataDetailsMessageTypeEnum = map[string]VerifyDataDetailsMessageTypeEnum{
 	"RAW":    VerifyDataDetailsMessageTypeRaw,
 	"DIGEST": VerifyDataDetailsMessageTypeDigest,
 }
@@ -63,10 +83,18 @@ var mappingVerifyDataDetailsMessageType = map[string]VerifyDataDetailsMessageTyp
 // GetVerifyDataDetailsMessageTypeEnumValues Enumerates the set of values for VerifyDataDetailsMessageTypeEnum
 func GetVerifyDataDetailsMessageTypeEnumValues() []VerifyDataDetailsMessageTypeEnum {
 	values := make([]VerifyDataDetailsMessageTypeEnum, 0)
-	for _, v := range mappingVerifyDataDetailsMessageType {
+	for _, v := range mappingVerifyDataDetailsMessageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVerifyDataDetailsMessageTypeEnumStringValues Enumerates the set of values in String for VerifyDataDetailsMessageTypeEnum
+func GetVerifyDataDetailsMessageTypeEnumStringValues() []string {
+	return []string{
+		"RAW",
+		"DIGEST",
+	}
 }
 
 // VerifyDataDetailsSigningAlgorithmEnum Enum with underlying type: string
@@ -87,7 +115,7 @@ const (
 	VerifyDataDetailsSigningAlgorithmEcdsaSha512       VerifyDataDetailsSigningAlgorithmEnum = "ECDSA_SHA_512"
 )
 
-var mappingVerifyDataDetailsSigningAlgorithm = map[string]VerifyDataDetailsSigningAlgorithmEnum{
+var mappingVerifyDataDetailsSigningAlgorithmEnum = map[string]VerifyDataDetailsSigningAlgorithmEnum{
 	"SHA_224_RSA_PKCS_PSS":   VerifyDataDetailsSigningAlgorithmSha224RsaPkcsPss,
 	"SHA_256_RSA_PKCS_PSS":   VerifyDataDetailsSigningAlgorithmSha256RsaPkcsPss,
 	"SHA_384_RSA_PKCS_PSS":   VerifyDataDetailsSigningAlgorithmSha384RsaPkcsPss,
@@ -104,8 +132,25 @@ var mappingVerifyDataDetailsSigningAlgorithm = map[string]VerifyDataDetailsSigni
 // GetVerifyDataDetailsSigningAlgorithmEnumValues Enumerates the set of values for VerifyDataDetailsSigningAlgorithmEnum
 func GetVerifyDataDetailsSigningAlgorithmEnumValues() []VerifyDataDetailsSigningAlgorithmEnum {
 	values := make([]VerifyDataDetailsSigningAlgorithmEnum, 0)
-	for _, v := range mappingVerifyDataDetailsSigningAlgorithm {
+	for _, v := range mappingVerifyDataDetailsSigningAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVerifyDataDetailsSigningAlgorithmEnumStringValues Enumerates the set of values in String for VerifyDataDetailsSigningAlgorithmEnum
+func GetVerifyDataDetailsSigningAlgorithmEnumStringValues() []string {
+	return []string{
+		"SHA_224_RSA_PKCS_PSS",
+		"SHA_256_RSA_PKCS_PSS",
+		"SHA_384_RSA_PKCS_PSS",
+		"SHA_512_RSA_PKCS_PSS",
+		"SHA_224_RSA_PKCS1_V1_5",
+		"SHA_256_RSA_PKCS1_V1_5",
+		"SHA_384_RSA_PKCS1_V1_5",
+		"SHA_512_RSA_PKCS1_V1_5",
+		"ECDSA_SHA_256",
+		"ECDSA_SHA_384",
+		"ECDSA_SHA_512",
+	}
 }

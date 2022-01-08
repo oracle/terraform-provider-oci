@@ -12,7 +12,9 @@ package computeinstanceagent
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // InstanceAgentCommandExecutionOutputViaTextDetails The execution output from a command when returned in plain text.
@@ -43,6 +45,18 @@ func (m InstanceAgentCommandExecutionOutputViaTextDetails) GetMessage() *string 
 
 func (m InstanceAgentCommandExecutionOutputViaTextDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceAgentCommandExecutionOutputViaTextDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

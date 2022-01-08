@@ -11,7 +11,9 @@
 package ocvp
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v54/common"
+	"strings"
 )
 
 // EsxiHostSummary A summary of the ESXi host.
@@ -40,6 +42,10 @@ type EsxiHostSummary struct {
 
 	// The availability domain of the ESXi host.
 	ComputeAvailabilityDomain *string `mandatory:"true" json:"computeAvailabilityDomain"`
+
+	// The compute shape name of the ESXi host.
+	// ListSupportedHostShapes.
+	HostShapeName *string `mandatory:"true" json:"hostShapeName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -88,8 +94,32 @@ type EsxiHostSummary struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2021-07-25T21:10:29.600Z`
 	GracePeriodEndDate *common.SDKTime `mandatory:"false" json:"gracePeriodEndDate"`
+
+	// The OCPU count of the ESXi host.
+	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`
 }
 
 func (m EsxiHostSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EsxiHostSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSkuEnum[string(m.CurrentSku)]; !ok && m.CurrentSku != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurrentSku: %s. Supported values are: %s.", m.CurrentSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSkuEnum[string(m.NextSku)]; !ok && m.NextSku != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextSku: %s. Supported values are: %s.", m.NextSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingLifecycleStatesEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
