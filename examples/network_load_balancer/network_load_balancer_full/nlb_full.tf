@@ -229,6 +229,23 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes2" {
   }
 }
 
+resource "oci_network_load_balancer_backend_set" "nlb-bes3" {
+  name                     = "nlb-bes3"
+  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
+  policy                   = "THREE_TUPLE"
+
+  health_checker {
+    port                = "443"
+    protocol            = "HTTPS"
+    url_path            = "/testPath"
+    return_code         = 200
+    response_body_regex = "^(?i)(true)$"
+    timeout_in_millis   = 10000
+    interval_in_millis  = 10000
+    retries             = 3
+  }
+}
+
 resource "oci_network_load_balancer_listener" "nlb-listener1" {
   network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
   name                        = "tcp_listener"
@@ -243,6 +260,14 @@ resource "oci_network_load_balancer_listener" "nlb-listener2" {
   default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes2.name
   port                        = 80
   protocol                    = "UDP"
+}
+
+resource "oci_network_load_balancer_listener" "nlb-listener3" {
+  network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
+  name                        = "tcp_and_udp_listener"
+  default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes3.name
+  port                        = 80
+  protocol                    = "TCP_AND_UDP"
 }
 
 resource "oci_network_load_balancer_backend" "nlb-be1" {

@@ -27,7 +27,7 @@ data "oci_network_load_balancer_backend_health" "test_backend_health" {
 
 The following arguments are supported:
 
-* `backend_name` - (Required) The name of the backend server for which to retrieve the health status, specified as <ip>:<port> or as <ip> <OCID>:<port>.  Example: `10.0.0.3:8080` or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:8080` 
+* `backend_name` - (Required) The name of the backend server to retrieve health status for. If the backend was created with an explicitly specified name, that name should be used here. If the backend was created without explicitly specifying the name, but was created using ipAddress, this is specified as <ipAddress>:<port>. If the backend was created without explicitly specifying the name, but was created using targetId, this is specified as <targetId>:<port>.  Example: `10.0.0.3:8080` or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:8080` 
 * `backend_set_name` - (Required) The name of the backend set associated with the backend server for which to retrieve the health status.  Example: `example_backend_set` 
 * `network_load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
 
