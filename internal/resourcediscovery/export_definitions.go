@@ -2038,6 +2038,16 @@ var exportIdentityDbCredentialHints = &TerraformResourceHints{
 	},
 }
 
+var exportIdentityImportStandardTagsManagementHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_import_standard_tags_management",
+	resourceAbbreviation: "import_standard_tags_management",
+}
+
+var exportIdentityDataPlaneGenerateScopedAccessTokenHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_data_plane_generate_scoped_access_token",
+	resourceAbbreviation: "generate_scoped_access_token",
+}
+
 var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_integration_integration_instance",
 	datasourceClass:        "oci_integration_integration_instances",

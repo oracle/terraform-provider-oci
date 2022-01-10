@@ -35,7 +35,7 @@ output "groups" {
  */
 
 variable "dynamic_group_defined_tags_value" {
-  default = "value"
+  default = "test_value"
 }
 
 variable "dynamic_group_freeform_tags" {

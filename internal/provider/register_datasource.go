@@ -242,6 +242,7 @@ func init() {
 	RegisterDatasource("oci_identity_domains", tf_identity.IdentityDomainsDataSource())
 	RegisterDatasource("oci_identity_ui_password", tf_identity.IdentityUiPasswordDataSource())
 	RegisterDatasource("oci_identity_fault_domains", tf_identity.IdentityFaultDomainsDataSource())
+	RegisterDatasource("oci_identity_tag_standard_tag_namespace_template", tf_identity.IdentityTagStandardTagNamespaceTemplateDataSource())
 	RegisterDatasource("oci_audit_configuration", tf_audit.AuditConfigurationDataSource())
 	RegisterDatasource("oci_audit_events", tf_audit.AuditAuditEventsDataSource())
 

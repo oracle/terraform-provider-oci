@@ -566,6 +566,7 @@ identity
 * oci\_identity\_network\_source
 * oci\_identity\_domain
 * oci\_identity\_db\_credential
+* oci\_identity\_import\_standard\_tags\_management
 
 identity_data_plane
     
