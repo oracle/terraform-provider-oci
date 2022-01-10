@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -42,7 +43,7 @@ func TestIdentityTagStandardTagNamespaceTemplateResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_standard_tag_namespace_templates", "test_tag_standard_tag_namespace_template", acctest.Required, acctest.Create, tagStandardTagNamespaceTemplateDataSourceRepresentation) +
-				 TagStandardTagNamespaceTemplateResourceConfig,
+				TagStandardTagNamespaceTemplateResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
