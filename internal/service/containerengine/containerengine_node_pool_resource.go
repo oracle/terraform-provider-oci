@@ -734,9 +734,14 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 		}
 	}
 
-	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
-	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
+	// The workrequest may have failed, check for errors if identifier is not found.
+	if identifier == nil {
 		return nil, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+	}
+
+	// The workrequest may have failed, check for errors if work failed or got cancelled
+	if response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
+		return identifier, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
