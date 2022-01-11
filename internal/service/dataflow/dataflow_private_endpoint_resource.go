@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v55/dataflow"
 )
 
 func DataflowPrivateEndpointResource() *schema.Resource {

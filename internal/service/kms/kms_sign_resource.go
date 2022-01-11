@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v55/keymanagement"
 )
 
 func KmsSignResource() *schema.Resource {

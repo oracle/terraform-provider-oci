@@ -18,8 +18,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v55/datalabelingservice"
 )
 
 func DataLabelingServiceDatasetResource() *schema.Resource {

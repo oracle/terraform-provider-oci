@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_core "github.com/oracle/oci-go-sdk/v55/core"
 )
 
 // This applies the differences between the regular schema and the one

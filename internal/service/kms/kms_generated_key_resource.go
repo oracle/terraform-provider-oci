@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v55/keymanagement"
 )
 
 func KmsGeneratedKeyResource() *schema.Resource {

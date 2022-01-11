@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_core "github.com/oracle/oci-go-sdk/v55/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

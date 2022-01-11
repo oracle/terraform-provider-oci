@@ -13,14 +13,14 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/oracle/oci-go-sdk/v54/common"
+	"github.com/oracle/oci-go-sdk/v55/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v55/dns"
 )
 
 var (

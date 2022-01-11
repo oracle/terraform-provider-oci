@@ -14,7 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v55/osmanagement"
 )
 
 func OsmanagementManagedInstanceManagementResource() *schema.Resource {

@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v55/mysql"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
 )
 
 func init() {

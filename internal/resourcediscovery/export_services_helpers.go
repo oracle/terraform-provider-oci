@@ -9,17 +9,17 @@ import (
 	"strings"
 	"time"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v55/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
 
 	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
 
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v55/networkloadbalancer"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
+	oci_identity "github.com/oracle/oci-go-sdk/v55/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v55/loadbalancer"
 
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
