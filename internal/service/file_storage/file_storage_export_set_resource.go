@@ -14,7 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v55/filestorage"
 )
 
 func FileStorageExportSetResource() *schema.Resource {

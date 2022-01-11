@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v54/usageapi"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v55/usageapi"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
 )
 
 func init() {

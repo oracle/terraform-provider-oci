@@ -15,12 +15,12 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v55/certificatesmanagement"
 )
 
 func CertificatesManagementCertificateResource() *schema.Resource {

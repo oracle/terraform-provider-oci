@@ -15,8 +15,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
-	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_core "github.com/oracle/oci-go-sdk/v55/core"
 )
 
 func CoreLocalPeeringGatewayResource() *schema.Resource {

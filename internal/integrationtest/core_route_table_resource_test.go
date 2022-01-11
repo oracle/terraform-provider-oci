@@ -14,7 +14,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/oracle/oci-go-sdk/v54/core"
+	"github.com/oracle/oci-go-sdk/v55/core"
 )
 
 var (
