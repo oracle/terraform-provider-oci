@@ -12,8 +12,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v54/operationsinsights"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v55/operationsinsights"
 )
 
 func OpsiAwrHubAwrSnapshotsDataSource() *schema.Resource {

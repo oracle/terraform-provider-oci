@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v54/database"
+	oci_database "github.com/oracle/oci-go-sdk/v55/database"
 )
 
 func DatabaseKeyStoreResource() *schema.Resource {

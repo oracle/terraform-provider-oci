@@ -19,7 +19,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_auto_scaling "github.com/oracle/oci-go-sdk/v54/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/v55/autoscaling"
 )
 
 func AutoScalingAutoScalingConfigurationResource() *schema.Resource {

@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_opsi "github.com/oracle/oci-go-sdk/v54/operationsinsights"
+	oci_opsi "github.com/oracle/oci-go-sdk/v55/operationsinsights"
 )
 
 func OpsiEnterpriseManagerBridgeDataSource() *schema.Resource {
