@@ -45,12 +45,9 @@ import (
 
 func init() {
 	exportApmConfigConfigHints.getIdFn = getApmConfigConfigId
-	exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
-	exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
-	exportBdsBdsInstanceApiKeyHints.getIdFn = getBdsBdsInstanceApiKeyId
-	exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
 	exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
 	exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
+	exportApmSyntheticsDedicatedVantagePointHints.getIdFn = getApmSyntheticsDedicatedVantagePointId
 	exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 	exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
@@ -71,6 +68,7 @@ func init() {
 	exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
 	exportDnsRrsetHints.getIdFn = getDnsRrsetId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
+	exportIdentityAuthenticationPolicyHints.getIdFn = getIdentityAuthenticationPolicyId
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
 	exportIdentityCustomerSecretKeyHints.getIdFn = getIdentityCustomerSecretKeyId
 	exportIdentityIdpGroupMappingHints.getIdFn = getIdentityIdpGroupMappingId
@@ -101,7 +99,6 @@ func init() {
 	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
 	exportOspGatewaySubscriptionHints.getIdFn = getOspGatewaySubscriptionId
 	exportUsageProxySubscriptionRedeemableUserHints.getIdFn = getUsageProxySubscriptionRedeemableUserId
-	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
@@ -112,11 +109,7 @@ func getApmConfigConfigId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find configId for ApmConfig Config")
 	}
-	apmDomainId, ok := resource.sourceAttributes["apm_domain_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find apmDomainId for ApmConfig Config")
-	}
-	return apm_config.GetConfigCompositeId(configId, apmDomainId), nil
+	return apm_config.GetConfigCompositeId(configId), nil
 }
 
 func getApmSyntheticsScriptId(resource *OCIResource) (string, error) {
@@ -125,11 +118,7 @@ func getApmSyntheticsScriptId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find scriptId for ApmSynthetics Script")
 	}
-	apmDomainId, ok := resource.sourceAttributes["apm_domain_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find apmDomainId for ApmSynthetics Script")
-	}
-	return tf_apm_synthetics.GetScriptCompositeId(scriptId, apmDomainId), nil
+	return apm_synthetics.GetScriptCompositeId(scriptId), nil
 }
 
 func getApmSyntheticsMonitorId(resource *OCIResource) (string, error) {
@@ -138,11 +127,16 @@ func getApmSyntheticsMonitorId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find monitorId for ApmSynthetics Monitor")
 	}
-	apmDomainId, ok := resource.sourceAttributes["apm_domain_id"].(string)
+	return apm_synthetics.GetMonitorCompositeId(monitorId), nil
+}
+
+func getApmSyntheticsDedicatedVantagePointId(resource *OCIResource) (string, error) {
+
+	dedicatedVantagePointId, ok := resource.sourceAttributes["id"].(string)
 	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find apmDomainId for ApmSynthetics Monitor")
+		return "", fmt.Errorf("[ERROR] unable to find dedicatedVantagePointId for ApmSynthetics DedicatedVantagePoint")
 	}
-	return tf_apm_synthetics.GetMonitorCompositeId(monitorId, apmDomainId), nil
+	return apm_synthetics.GetDedicatedVantagePointCompositeId(dedicatedVantagePointId), nil
 }
 
 func getArtifactsContainerRepositoryId(resource *OCIResource) (string, error) {
@@ -151,41 +145,32 @@ func getArtifactsContainerRepositoryId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find repositoryId for Artifacts ContainerRepository")
 	}
-	return repositoryId, nil
-
+	return artifacts.GetContainerRepositoryCompositeId(repositoryId), nil
 }
 
 func getArtifactsContainerImageSignatureId(resource *OCIResource) (string, error) {
 
-	imageSignatureId, ok := resource.sourceAttributes["id"].(string)
+	imageSignatureId, ok := resource.sourceAttributes["image_signature_id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find imageSignatureId for Artifacts ContainerImageSignature")
 	}
-	return imageSignatureId, nil
+	return artifacts.GetContainerImageSignatureCompositeId(imageSignatureId), nil
 }
 
-func getArtifactsRepositoryId(resource *OCIResource) (string, error) {
-	repositoryId, ok := resource.sourceAttributes["id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find repositoryId for Artifacts Respository")
-	}
-	return repositoryId, nil
-}
+func getBdsAutoScalingConfigurationId(resource *OCIResource) (string, error) {
 
-func getBdsBdsInstanceApiKeyId(resource *OCIResource) (string, error) {
-
-	apiKeyId, ok := resource.sourceAttributes["id"].(string)
+	autoScalingConfigurationId, ok := resource.sourceAttributes["id"].(string)
 	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find apiKeyId for Bds BdsInstanceApiKey")
+		return "", fmt.Errorf("[ERROR] unable to find autoScalingConfigurationId for Bds AutoScalingConfiguration")
 	}
 	bdsInstanceId := resource.parent.id
-	return bds.GetBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId), nil
+	return bds.GetAutoScalingConfigurationCompositeId(autoScalingConfigurationId, bdsInstanceId), nil
 }
 
 func getBlockchainPeerId(resource *OCIResource) (string, error) {
 
 	blockchainPlatformId := resource.parent.id
-	peerId, ok := resource.sourceAttributes["peer_key"].(string)
+	peerId, ok := resource.sourceAttributes["id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find peerId for Blockchain Peer")
 	}
@@ -195,7 +180,7 @@ func getBlockchainPeerId(resource *OCIResource) (string, error) {
 func getBlockchainOsnId(resource *OCIResource) (string, error) {
 
 	blockchainPlatformId := resource.parent.id
-	osnId, ok := resource.sourceAttributes["osn_key"].(string)
+	osnId, ok := resource.sourceAttributes["id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find osnId for Blockchain Osn")
 	}
@@ -215,28 +200,25 @@ func getBudgetAlertRuleId(resource *OCIResource) (string, error) {
 func getCoreInstancePoolInstanceId(resource *OCIResource) (string, error) {
 
 	instancePoolId := resource.parent.id
-	instanceId := resource.sourceAttributes["instance_id"].(string)
-	return tf_core.GetInstancePoolInstanceCompositeId(instancePoolId, instanceId), nil
+	return core.GetInstancePoolInstanceCompositeId(instancePoolId), nil
 }
 
 func getCoreNetworkSecurityGroupSecurityRuleId(resource *OCIResource) (string, error) {
 
-	networkSecurityGroupId := resource.parent.id
-	securityRuleId, ok := resource.sourceAttributes["id"].(string)
+	networkSecurityGroupId, ok := resource.sourceAttributes["network_security_group_id"].(string)
 	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find id for Core NetworkSecurityGroupSecurityRule")
+		return "", fmt.Errorf("[ERROR] unable to find networkSecurityGroupId for Core NetworkSecurityGroupSecurityRule")
 	}
-	return tf_core.GetNetworkSecurityGroupSecurityRuleCompositeId(networkSecurityGroupId, securityRuleId), nil
+	return core.GetNetworkSecurityGroupSecurityRuleCompositeId(networkSecurityGroupId), nil
 }
 
 func getCoreDrgRouteTableRouteRuleId(resource *OCIResource) (string, error) {
 
-	drgRouteTableId := resource.parent.id
-	drgRouteRuleId, ok := resource.sourceAttributes["id"].(string)
+	drgRouteTableId, ok := resource.sourceAttributes["drg_route_table_id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find drgRouteTableId for Core DrgRouteTableRouteRule")
 	}
-	return tf_core.GetDrgRouteTableRouteRuleCompositeId(drgRouteTableId, drgRouteRuleId), nil
+	return core.GetDrgRouteTableRouteRuleCompositeId(drgRouteTableId), nil
 }
 
 func getDataConnectivityRegistryConnectionId(resource *OCIResource) (string, error) {
@@ -316,26 +298,26 @@ func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find vmClusterNetworkId for Database VmClusterNetwork")
 	}
-	return tf_database.GetVmClusterNetworkCompositeId(exadataInfrastructureId, vmClusterNetworkId), nil
+	return database.GetVmClusterNetworkCompositeId(exadataInfrastructureId, vmClusterNetworkId), nil
 }
 
 func getDatacatalogDataAssetId(resource *OCIResource) (string, error) {
 
 	catalogId := resource.parent.id
-	dataAssetKey, ok := resource.sourceAttributes["key"].(string)
+	dataAssetKey, ok := resource.sourceAttributes["data_asset_key"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find dataAssetKey for Datacatalog DataAsset")
 	}
-	return tf_datacatalog.GetDataAssetCompositeId(catalogId, dataAssetKey), nil
+	return datacatalog.GetDataAssetCompositeId(catalogId, dataAssetKey), nil
 }
 
 func getDatacatalogConnectionId(resource *OCIResource) (string, error) {
 
-	catalogId, ok := resource.parent.sourceAttributes["catalog_id"].(string)
+	catalogId, ok := resource.sourceAttributes["catalog_id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find catalogId for Datacatalog Connection")
 	}
-	connectionKey, ok := resource.sourceAttributes["key"].(string)
+	connectionKey, ok := resource.sourceAttributes["connection_key"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find connectionKey for Datacatalog Connection")
 	}
@@ -343,13 +325,13 @@ func getDatacatalogConnectionId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find dataAssetKey for Datacatalog Connection")
 	}
-	return tf_datacatalog.GetConnectionCompositeId(catalogId, connectionKey, dataAssetKey), nil
+	return datacatalog.GetConnectionCompositeId(catalogId, connectionKey, dataAssetKey), nil
 }
 
 func getDatascienceModelProvenanceId(resource *OCIResource) (string, error) {
 
 	modelId := resource.parent.id
-	return tf_datascience.GetModelProvenanceCompositeId(modelId), nil
+	return datascience.GetModelProvenanceCompositeId(modelId), nil
 }
 
 func getDevopsRepositoryRefId(resource *OCIResource) (string, error) {
@@ -372,16 +354,11 @@ func getDnsRrsetId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find rtype for Dns Rrset")
 	}
-	zoneNameOrId := resource.parent.id
-	return getRrsetCompositeId(domain, rtype, zoneNameOrId), nil
-}
-
-func getRrsetCompositeId(domain string, rtype string, zoneNameOrId string) string {
-	domain = url.PathEscape(domain)
-	rtype = url.PathEscape(rtype)
-	zoneNameOrId = url.PathEscape(zoneNameOrId)
-	compositeId := "zoneNameOrId/" + zoneNameOrId + "/domain/" + domain + "/rtype/" + rtype
-	return compositeId
+	zoneNameOrId, ok := resource.sourceAttributes["zone_name_or_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find zoneNameOrId for Dns Rrset")
+	}
+	return dns.GetRrsetCompositeId(domain, rtype, zoneNameOrId), nil
 }
 
 func getIdentityApiKeyId(resource *OCIResource) (string, error) {
@@ -391,7 +368,7 @@ func getIdentityApiKeyId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find fingerprint for Identity ApiKey")
 	}
 	userId := resource.parent.id
-	return tf_identity.GetApiKeyCompositeId(fingerprint, userId), nil
+	return identity.GetApiKeyCompositeId(fingerprint, userId), nil
 }
 
 func getIdentityAuthenticationPolicyId(resource *OCIResource) (string, error) {
@@ -400,7 +377,7 @@ func getIdentityAuthenticationPolicyId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find compartmentId for Identity AuthenticationPolicy")
 	}
-	return tf_identity.GetAuthenticationPolicyCompositeId(compartmentId), nil
+	return identity.GetAuthenticationPolicyCompositeId(compartmentId), nil
 }
 
 func getIdentityAuthTokenId(resource *OCIResource) (string, error) {
@@ -410,7 +387,7 @@ func getIdentityAuthTokenId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find authTokenId for Identity AuthToken")
 	}
 	userId := resource.parent.id
-	return tf_identity.GetAuthTokenCompositeId(authTokenId, userId), nil
+	return identity.GetAuthTokenCompositeId(authTokenId, userId), nil
 }
 
 func getIdentityCustomerSecretKeyId(resource *OCIResource) (string, error) {
@@ -420,7 +397,7 @@ func getIdentityCustomerSecretKeyId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find customerSecretKeyId for Identity CustomerSecretKey")
 	}
 	userId := resource.parent.id
-	return tf_identity.GetCustomerSecretKeyCompositeId(customerSecretKeyId, userId), nil
+	return identity.GetCustomerSecretKeyCompositeId(customerSecretKeyId, userId), nil
 }
 
 func getIdentityIdpGroupMappingId(resource *OCIResource) (string, error) {
@@ -430,7 +407,7 @@ func getIdentityIdpGroupMappingId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find mappingId for Identity IdpGroupMapping")
 	}
-	return tf_identity.GetIdpGroupMappingCompositeId(identityProviderId, mappingId), nil
+	return identity.GetIdpGroupMappingCompositeId(identityProviderId, mappingId), nil
 }
 
 func getIdentitySmtpCredentialId(resource *OCIResource) (string, error) {
@@ -440,7 +417,7 @@ func getIdentitySmtpCredentialId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find smtpCredentialId for Identity SmtpCredential")
 	}
 	userId := resource.parent.id
-	return tf_identity.GetSmtpCredentialCompositeId(smtpCredentialId, userId), nil
+	return identity.GetSmtpCredentialCompositeId(smtpCredentialId, userId), nil
 }
 
 func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
@@ -450,53 +427,36 @@ func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find swiftPasswordId for Identity SwiftPassword")
 	}
 	userId := resource.parent.id
-	return tf_identity.GetSwiftPasswordCompositeId(swiftPasswordId, userId), nil
+	return identity.GetSwiftPasswordCompositeId(swiftPasswordId, userId), nil
 }
 
 func getIdentityDbCredentialId(resource *OCIResource) (string, error) {
 
-	dbCredentialId, ok := resource.sourceAttributes["id"].(string)
+	tagName, ok := resource.sourceAttributes["name"].(string)
 	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find dbCredentialId for Identity DbCredential")
+		return "", fmt.Errorf("[ERROR] unable to find tagName for Identity Tag")
 	}
 	userId := resource.parent.id
 	return tf_identity.GetDbCredentialCompositeId(dbCredentialId, userId), nil
 }
 
 func getKmsKeyId(resource *OCIResource) (string, error) {
-	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
+
+	keyId, ok := resource.sourceAttributes["id"].(string)
 	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find management_endpoint for Index id")
+		return "", fmt.Errorf("[ERROR] unable to find keyId for Kms Key")
 	}
-	var keyId string
-	// observed that Id is not always available in sourceAttributes - refer export_compartment.go->findResourcesGeneric() to visualize below docs
-	// resource.sourceAttributes has the id in the cases where getKmsKeyId is called with LIST data source response, because list SetData() sets the Id, but this is only done temporarily to populate compositeID
-	// When getKmsKeyId is called for resource, resource.sourceAttributes is not set yet,(so far we used LIST response to get composite Id) but we can get the real ocid after Read because Id was set in the method kms_key_resource.go->readKmsKey()
-	switch resource.rawResource.(type) {
-	case *schema.ResourceData:
-		// 	rawResource from resource read response
-		var resourceSchema *schema.ResourceData = resource.rawResource.(*schema.ResourceData)
-		keyId = resourceSchema.Id()
-	case map[string]interface{}:
-		// 	rawResource from LIST data source read response
-		var resourceMap map[string]interface{} = resource.rawResource.(map[string]interface{})
-		keyId = resourceMap["id"].(string)
-	}
-	return tf_kms.GetCompositeKeyId(managementEndpoint, keyId), nil
+	return kms.GetKeyCompositeId(keyId), nil
 }
 
 func getKmsKeyVersionId(resource *OCIResource) (string, error) {
 
-	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find management_endpoint for Kms KeyVersion")
-	}
-	keyId := resource.parent.sourceAttributes["id"].(string)
-	keyVersionId, ok := resource.sourceAttributes["key_version_id"].(string)
+	keyId := resource.parent.id
+	keyVersionId, ok := resource.sourceAttributes["id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find keyVersionId for Kms KeyVersion")
 	}
-	return tf_kms.GetCompositeKeyVersionId(managementEndpoint, keyId, keyVersionId), nil
+	return kms.GetKeyVersionCompositeId(keyId, keyVersionId), nil
 }
 
 func getLoadBalancerBackendId(resource *OCIResource) (string, error) {
@@ -513,7 +473,7 @@ func getLoadBalancerBackendId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find loadBalancerId for LoadBalancer Backend")
 	}
-	return tf_load_balancer.GetBackendCompositeId(backendName, backendsetName, loadBalancerId), nil
+	return load_balancer.GetBackendCompositeId(backendName, backendsetName, loadBalancerId), nil
 }
 
 func getLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
@@ -523,7 +483,7 @@ func getLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find backendSetName for LoadBalancer BackendSet")
 	}
 	loadBalancerId := resource.parent.id
-	return tf_load_balancer.GetBackendSetCompositeId(backendSetName, loadBalancerId), nil
+	return load_balancer.GetBackendSetCompositeId(backendSetName, loadBalancerId), nil
 }
 
 func getLoadBalancerCertificateId(resource *OCIResource) (string, error) {
@@ -533,7 +493,7 @@ func getLoadBalancerCertificateId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find certificateName for LoadBalancer Certificate")
 	}
 	loadBalancerId := resource.parent.id
-	return tf_load_balancer.GetCertificateCompositeId(certificateName, loadBalancerId), nil
+	return load_balancer.GetCertificateCompositeId(certificateName, loadBalancerId), nil
 }
 
 func getLoadBalancerHostnameId(resource *OCIResource) (string, error) {
@@ -543,7 +503,7 @@ func getLoadBalancerHostnameId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find name for LoadBalancer Hostname")
 	}
-	return tf_load_balancer.GetHostnameCompositeId(loadBalancerId, name), nil
+	return load_balancer.GetHostnameCompositeId(loadBalancerId, name), nil
 }
 
 func getLoadBalancerListenerId(resource *OCIResource) (string, error) {
@@ -556,7 +516,7 @@ func getLoadBalancerListenerId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find loadBalancerId for LoadBalancer Listener")
 	}
-	return tf_load_balancer.GetListenerCompositeId(listenerName, loadBalancerId), nil
+	return load_balancer.GetListenerCompositeId(listenerName, loadBalancerId), nil
 }
 
 func getLoadBalancerPathRouteSetId(resource *OCIResource) (string, error) {
@@ -566,17 +526,17 @@ func getLoadBalancerPathRouteSetId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find pathRouteSetName for LoadBalancer PathRouteSet")
 	}
-	return tf_load_balancer.GetPathRouteSetCompositeId(loadBalancerId, pathRouteSetName), nil
+	return load_balancer.GetPathRouteSetCompositeId(loadBalancerId, pathRouteSetName), nil
 }
 
 func getLoadBalancerLoadBalancerRoutingPolicyId(resource *OCIResource) (string, error) {
 
 	loadBalancerId := resource.parent.id
-	routingPolicyName, ok := resource.sourceAttributes["name"].(string)
+	routingPolicyName, ok := resource.sourceAttributes["routing_policy_name"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find routingPolicyName for LoadBalancer LoadBalancerRoutingPolicy")
 	}
-	return tf_load_balancer.GetLoadBalancerRoutingPolicyCompositeId(loadBalancerId, routingPolicyName), nil
+	return load_balancer.GetLoadBalancerRoutingPolicyCompositeId(loadBalancerId, routingPolicyName), nil
 }
 
 func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {
@@ -586,7 +546,7 @@ func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find name for LoadBalancer RuleSet")
 	}
-	return tf_load_balancer.GetRuleSetCompositeId(loadBalancerId, name), nil
+	return load_balancer.GetRuleSetCompositeId(loadBalancerId, name), nil
 }
 
 func getLogAnalyticsLogAnalyticsObjectCollectionRuleId(resource *OCIResource) (string, error) {
@@ -599,7 +559,7 @@ func getLogAnalyticsLogAnalyticsObjectCollectionRuleId(resource *OCIResource) (s
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find namespace for LogAnalytics LogAnalyticsObjectCollectionRule")
 	}
-	return tf_log_analytics.GetLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId, namespace), nil
+	return log_analytics.GetLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId, namespace), nil
 }
 
 func getLogAnalyticsNamespaceScheduledTaskId(resource *OCIResource) (string, error) {
@@ -612,7 +572,7 @@ func getLogAnalyticsNamespaceScheduledTaskId(resource *OCIResource) (string, err
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find scheduledTaskId for LogAnalytics NamespaceScheduledTask")
 	}
-	return tf_log_analytics.GetNamespaceScheduledTaskCompositeId(namespace, scheduledTaskId), nil
+	return log_analytics.GetNamespaceScheduledTaskCompositeId(namespace, scheduledTaskId), nil
 }
 
 func getLoggingLogId(resource *OCIResource) (string, error) {
@@ -622,7 +582,25 @@ func getLoggingLogId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find logId for Logging Log")
 	}
-	return tf_logging.GetLogCompositeId(logGroupId, logId), nil
+	return logging.GetLogCompositeId(logGroupId, logId), nil
+}
+
+func getMysqlMysqlBackupId(resource *OCIResource) (string, error) {
+
+	backupId, ok := resource.sourceAttributes["backup_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find backupId for Mysql MysqlBackup")
+	}
+	return mysql.GetMysqlBackupCompositeId(backupId), nil
+}
+
+func getMysqlMysqlDbSystemId(resource *OCIResource) (string, error) {
+
+	dbSystemId, ok := resource.sourceAttributes["db_system_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find dbSystemId for Mysql MysqlDbSystem")
+	}
+	return mysql.GetMysqlDbSystemCompositeId(dbSystemId), nil
 }
 
 func getNetworkLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
@@ -632,20 +610,18 @@ func getNetworkLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find backendSetName for NetworkLoadBalancer BackendSet")
 	}
 	networkLoadBalancerId := resource.parent.id
-	return network_load_balancer.GetNlbBackendSetCompositeId(backendSetName, networkLoadBalancerId), nil
+	return network_load_balancer.GetBackendSetCompositeId(backendSetName, networkLoadBalancerId), nil
 }
 
 func getNetworkLoadBalancerBackendId(resource *OCIResource) (string, error) {
+
 	backendName, ok := resource.sourceAttributes["name"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find backendName for NetworkLoadBalancer Backend")
 	}
-	backendsetName, ok := resource.parent.sourceAttributes["name"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find backendSetName for NetworkLoadBalancer Backend")
-	}
-	networkLoadBalancerId := resource.parent.parent.id
-	return network_load_balancer.GetNlbBackendCompositeId(backendName, backendsetName, networkLoadBalancerId), nil
+	backendSetName := resource.parent.id
+	networkLoadBalancerId := resource.parent.id
+	return network_load_balancer.GetBackendCompositeId(backendName, backendSetName, networkLoadBalancerId), nil
 }
 
 func getNetworkLoadBalancerListenerId(resource *OCIResource) (string, error) {
@@ -654,8 +630,8 @@ func getNetworkLoadBalancerListenerId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find listenerName for NetworkLoadBalancer Listener")
 	}
-	networkLoadBalancerId := resource.parent.parent.id
-	return network_load_balancer.GetNlbListenerCompositeId(listenerName, networkLoadBalancerId), nil
+	networkLoadBalancerId := resource.parent.id
+	return network_load_balancer.GetListenerCompositeId(listenerName, networkLoadBalancerId), nil
 }
 
 func getNosqlIndexId(resource *OCIResource) (string, error) {
@@ -664,14 +640,16 @@ func getNosqlIndexId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find indexName for Nosql Index")
 	}
-	tableNameOrId := resource.parent.id
-
-	return tf_nosql.GetIndexCompositeId(indexName, tableNameOrId), nil
+	tableNameOrId, ok := resource.sourceAttributes["table_name_or_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find tableNameOrId for Nosql Index")
+	}
+	return nosql.GetIndexCompositeId(indexName, tableNameOrId), nil
 }
 
 func getObjectStorageBucketId(resource *OCIResource) (string, error) {
 
-	bucket, ok := resource.sourceAttributes["name"].(string)
+	bucket, ok := resource.sourceAttributes["bucket"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find bucket for ObjectStorage Bucket")
 	}
@@ -679,7 +657,7 @@ func getObjectStorageBucketId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find namespace for ObjectStorage Bucket")
 	}
-	return tf_objectstorage.GetBucketCompositeId(bucket, namespace), nil
+	return object_storage.GetBucketCompositeId(bucket, namespace), nil
 }
 
 func getObjectStorageObjectLifecyclePolicyId(resource *OCIResource) (string, error) {
@@ -692,33 +670,33 @@ func getObjectStorageObjectLifecyclePolicyId(resource *OCIResource) (string, err
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find namespace for ObjectStorage ObjectLifecyclePolicy")
 	}
-	return tf_objectstorage.GetObjectLifecyclePolicyCompositeId(bucket, namespace), nil
+	return object_storage.GetObjectLifecyclePolicyCompositeId(bucket, namespace), nil
 }
 
 func getObjectStorageObjectId(resource *OCIResource) (string, error) {
 
-	bucket, ok := resource.parent.sourceAttributes["name"].(string)
+	bucket, ok := resource.sourceAttributes["bucket"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find bucket for ObjectStorage Object")
 	}
-	namespace, ok := resource.parent.sourceAttributes["namespace"].(string)
+	namespace, ok := resource.sourceAttributes["namespace"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find namespace for ObjectStorage Object")
 	}
-	object, ok := resource.sourceAttributes["name"].(string)
+	object, ok := resource.sourceAttributes["object"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find object for ObjectStorage Object")
 	}
-	return tf_objectstorage.GetObjectCompositeId(bucket, namespace, object), nil
+	return object_storage.GetObjectCompositeId(bucket, namespace, object), nil
 }
 
 func getObjectStoragePreauthenticatedRequestId(resource *OCIResource) (string, error) {
 
-	bucket, ok := resource.parent.sourceAttributes["name"].(string)
+	bucket, ok := resource.sourceAttributes["bucket"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find bucket for ObjectStorage PreauthenticatedRequest")
 	}
-	namespace, ok := resource.parent.sourceAttributes["namespace"].(string)
+	namespace, ok := resource.sourceAttributes["namespace"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find namespace for ObjectStorage PreauthenticatedRequest")
 	}
@@ -726,24 +704,24 @@ func getObjectStoragePreauthenticatedRequestId(resource *OCIResource) (string, e
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find parId for ObjectStorage PreauthenticatedRequest")
 	}
-	return tf_objectstorage.GetPreauthenticatedRequestCompositeId(bucket, namespace, parId), nil
+	return object_storage.GetPreauthenticatedRequestCompositeId(bucket, namespace, parId), nil
 }
 
 func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) {
 
-	bucket, ok := resource.parent.sourceAttributes["name"].(string)
+	bucket, ok := resource.sourceAttributes["bucket"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find bucket for ObjectStorage ReplicationPolicy")
 	}
-	namespace, ok := resource.parent.sourceAttributes["namespace"].(string)
+	namespace, ok := resource.sourceAttributes["namespace"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find namespace for ObjectStorage ReplicationPolicy")
 	}
-	replicationId, ok := resource.sourceAttributes["id"].(string)
+	replicationId, ok := resource.sourceAttributes["replication_id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find replicationId for ObjectStorage ReplicationPolicy")
 	}
-	return tf_objectstorage.GetReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
+	return object_storage.GetReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
 }
 
 func getOspGatewaySubscriptionId(resource *OCIResource) (string, error) {
@@ -758,17 +736,5 @@ func getOspGatewaySubscriptionId(resource *OCIResource) (string, error) {
 func getUsageProxySubscriptionRedeemableUserId(resource *OCIResource) (string, error) {
 
 	subscriptionId := resource.parent.id
-	tenancyId, ok := resource.parent.sourceAttributes["tenancy_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find bucket for ObjectStorage ReplicationPolicy")
-	}
-	return tf_usage_proxy.GetSubscriptionRedeemableUserCompositeId(subscriptionId, tenancyId), nil
-}
-
-func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
-	id, ok := resource.sourceAttributes["topic_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find topic id for ons notification topic")
-	}
-	return id, nil
+	return usage_proxy.GetSubscriptionRedeemableUserCompositeId(subscriptionId), nil
 }

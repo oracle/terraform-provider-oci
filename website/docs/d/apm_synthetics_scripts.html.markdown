@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `apm_domain_id` - (Required) The APM domain ID the request is intended for. 
 * `content_type` - (Optional) A filter to return only resources that match the content type given.
-* `display_name` - (Optional) A filter to return only resources that match the entire display name given.
+* `display_name` - (Optional) A filter to return only the resources that match the entire display name.
 
 
 ## Attributes Reference
@@ -66,5 +66,5 @@ The following attributes are exported:
 		* `param_value` - Value of the parameter.
 * `time_created` - The time the resource was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `time_updated` - The time the resource was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
-* `time_uploaded` - The time when the script was uploaded.
+* `time_uploaded` - The time the script was uploaded.
 
