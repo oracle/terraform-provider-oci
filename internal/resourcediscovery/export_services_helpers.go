@@ -9,6 +9,8 @@ import (
 	"strings"
 	"time"
 
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v55/loganalytics"
+
 	oci_dns "github.com/oracle/oci-go-sdk/v55/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
@@ -20,9 +22,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v55/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v55/loadbalancer"
+	oci_objectstorage "github.com/oracle/oci-go-sdk/v55/objectstorage"
 
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
 	tf_network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
@@ -876,14 +880,13 @@ func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformR
 	return results, nil
 }
 
-/*
 func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
 	// List on LogAnalyticsObjectCollectionRules requires namespaceName path parameter.
 	// Getting namespace from ObjectStorage.GetNamespace API before calling ListLogAnalyticsObjectCollectionRules API.
 	results := []*OCIResource{}
 
 	namespaceRequest := oci_objectstorage.GetNamespaceRequest{}
-	namespaceResponse, err := ctx.clients.objectStorageClient().GetNamespace(context.Background(), namespaceRequest)
+	namespaceResponse, err := ctx.clients.ObjectStorageClient().GetNamespace(context.Background(), namespaceRequest)
 	if err != nil {
 		return results, err
 	}
@@ -894,7 +897,7 @@ func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta
 	request.CompartmentId = ctx.CompartmentId
 	request.LifecycleState = oci_log_analytics.ListLogAnalyticsObjectCollectionRulesLifecycleStateActive
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "log_analytics")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "log_analytics")
 
 	response, err := ctx.clients.LogAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
 	if err != nil {
@@ -917,7 +920,7 @@ func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta
 		logAnalyticsObjectCollectionRuleResource := resourcesMap[tfMeta.resourceClass]
 
 		d := logAnalyticsObjectCollectionRuleResource.TestResourceData()
-		d.SetId(getLogAnalyticsObjectCollectionRuleCompositeId(*logAnalyticsObjectCollectionRule.Id, *namespace))
+		d.SetId(tf_log_analytics.GetLogAnalyticsObjectCollectionRuleCompositeId(*logAnalyticsObjectCollectionRule.Id, *namespace))
 
 		if err := logAnalyticsObjectCollectionRuleResource.Read(d, ctx.clients); err != nil {
 			rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
@@ -947,7 +950,6 @@ func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta
 	return results, nil
 
 }
-*/
 
 func processLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 
