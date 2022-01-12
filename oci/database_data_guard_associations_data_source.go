@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v54/database"
+	oci_database "github.com/oracle/oci-go-sdk/v55/database"
 )
 
 func init() {
@@ -104,6 +104,10 @@ func (s *DatabaseDataGuardAssociationsDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			dataGuardAssociation["id"] = *r.Id
+		}
+
+		if r.IsActiveDataGuardEnabled != nil {
+			dataGuardAssociation["is_active_data_guard_enabled"] = *r.IsActiveDataGuardEnabled
 		}
 
 		if r.LifecycleDetails != nil {

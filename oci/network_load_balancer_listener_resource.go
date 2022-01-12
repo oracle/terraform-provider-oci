@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v55/networkloadbalancer"
 )
 
 func init() {
@@ -59,6 +59,11 @@ func NetworkLoadBalancerListenerResource() *schema.Resource {
 			},
 
 			// Optional
+			"ip_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 		},
@@ -115,6 +120,10 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Create() error {
 	if defaultBackendSetName, ok := s.D.GetOkExists("default_backend_set_name"); ok {
 		tmp := defaultBackendSetName.(string)
 		request.DefaultBackendSetName = &tmp
+	}
+
+	if ipVersion, ok := s.D.GetOkExists("ip_version"); ok {
+		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -304,6 +313,10 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 		request.DefaultBackendSetName = &tmp
 	}
 
+	if ipVersion, ok := s.D.GetOkExists("ip_version"); ok {
+		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
+	}
+
 	if listenerName, ok := s.D.GetOkExists("name"); ok {
 		tmp := listenerName.(string)
 		request.ListenerName = &tmp
@@ -375,6 +388,8 @@ func (s *NetworkLoadBalancerListenerResourceCrud) SetData() error {
 		s.D.Set("default_backend_set_name", *s.Res.DefaultBackendSetName)
 	}
 
+	s.D.Set("ip_version", s.Res.IpVersion)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -414,6 +429,8 @@ func NlbListenerSummaryToMap(obj oci_network_load_balancer.ListenerSummary) map[
 	if obj.DefaultBackendSetName != nil {
 		result["default_backend_set_name"] = string(*obj.DefaultBackendSetName)
 	}
+
+	result["ip_version"] = string(obj.IpVersion)
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)

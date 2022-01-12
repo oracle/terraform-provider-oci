@@ -326,6 +326,7 @@ bds
     
 * oci\_bds\_bds\_instance
 * oci\_bds\_auto\_scaling\_configuration
+* oci\_bds\_bds\_instance\_api\_key
 
 blockchain
     
@@ -565,6 +566,7 @@ identity
 * oci\_identity\_network\_source
 * oci\_identity\_domain
 * oci\_identity\_db\_credential
+* oci\_identity\_import\_standard\_tags\_management
 
 identity_data_plane
     

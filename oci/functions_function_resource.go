@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/customdiff"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v55/functions"
 )
 
 func init() {

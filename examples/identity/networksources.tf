@@ -1,6 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 variable "compartment_id" {
+
 }
 
 variable "network_source_defined_tags_value" {

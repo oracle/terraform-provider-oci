@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v55/optimizer"
 )
 
 func init() {

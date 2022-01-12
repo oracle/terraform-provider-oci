@@ -24,13 +24,13 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v54/core"
-	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
-	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
-	oci_objectstorage "github.com/oracle/oci-go-sdk/v54/objectstorage"
+	oci_core "github.com/oracle/oci-go-sdk/v55/core"
+	oci_dns "github.com/oracle/oci-go-sdk/v55/dns"
+	oci_identity "github.com/oracle/oci-go-sdk/v55/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v55/loadbalancer"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v55/loganalytics"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v55/networkloadbalancer"
+	oci_objectstorage "github.com/oracle/oci-go-sdk/v55/objectstorage"
 )
 
 var isInitDone bool
@@ -841,6 +841,7 @@ func init() {
 
 	exportCertificatesManagementCertificateAuthorityHints.processDiscoveredResourcesFn = processCertificateAuthorities
 	exportCertificatesManagementCertificateHints.processDiscoveredResourcesFn = processCertificates
+	exportBdsBdsInstanceApiKeyHints.processDiscoveredResourcesFn = processBdsInstanceApiKeys
 }
 
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
@@ -2160,6 +2161,15 @@ func processCertificates(ctx *resourceDiscoveryContext, resources []*OCIResource
 		resource.sourceAttributes["certificate_config"] = []interface{}{certificateConfigMap}
 	}
 
+	return resources, nil
+}
+
+func processBdsInstanceApiKeys(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		apiKeyId := resource.id
+		bdsInstanceId := resource.sourceAttributes["bds_instance_id"].(string)
+		resource.importId = getBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId)
+	}
 	return resources, nil
 }
 

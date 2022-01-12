@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v55/networkloadbalancer"
 )
 
 func init() {
@@ -100,6 +100,8 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
+
+	s.D.Set("nlb_ip_version", s.Res.NlbIpVersion)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

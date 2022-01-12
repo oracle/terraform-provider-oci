@@ -26,6 +26,7 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 	is_preserve_source_destination = var.network_load_balancer_is_preserve_source_destination
 	is_private = var.network_load_balancer_is_private
 	network_security_group_ids = var.network_load_balancer_network_security_group_ids
+	nlb_ip_version = var.network_load_balancer_nlb_ip_version
 	reserved_ips {
 
 		#Optional
@@ -60,6 +61,7 @@ The following arguments are supported:
 	*  The network security rules of other resources can reference the network security groups associated with the network load balancer to ensure access.
 
 	Example: ["ocid1.nsg.oc1.phx.unique_ID"] 
+* `nlb_ip_version` - (Optional) (Updatable) IP version associated with the NLB.
 * `reserved_ips` - (Optional) An array of reserved Ips. 
 	* `id` - (Optional) OCID of the reserved public IP address created with the virtual cloud network.
 
@@ -87,6 +89,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer.
 * `ip_addresses` - An array of IP addresses. 
 	* `ip_address` - An IP address.  Example: `192.168.0.3` 
+	* `ip_version` - IP version associated with this IP address.
 	* `is_public` - Whether the IP address is public or private.
 
 		If "true", then the IP address is public and accessible from the internet.
@@ -122,6 +125,7 @@ The following attributes are exported:
 	*  The network security rules of other resources can reference the network security groups associated with the network load balancer to ensure access.
 
 	Example: ["ocid1.nsg.oc1.phx.unique_ID"] 
+* `nlb_ip_version` - IP version associated with the NLB.
 * `state` - The current state of the network load balancer.
 * `subnet_id` - The subnet in which the network load balancer is spawned [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)."
 * `system_tags` - Key-value pair representing system tags' keys and values scoped to a namespace. Example: `{"bar-key": "value"}` 

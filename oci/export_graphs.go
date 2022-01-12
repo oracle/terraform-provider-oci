@@ -183,6 +183,14 @@ var bdsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportBdsBdsInstanceHints},
 	},
+	"oci_bds_bds_instance": {
+		{
+			TerraformResourceHints: exportBdsBdsInstanceApiKeyHints,
+			datasourceQueryParams: map[string]string{
+				"bds_instance_id": "id",
+			},
+		},
+	},
 }
 
 var blockchainResourceGraph = TerraformResourceGraph{

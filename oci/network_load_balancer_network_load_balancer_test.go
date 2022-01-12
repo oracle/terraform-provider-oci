@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v54/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
+	"github.com/oracle/oci-go-sdk/v55/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v55/networkloadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -33,7 +33,7 @@ var (
 	networkLoadBalancerDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
-		"state":          Representation{RepType: Optional, Create: `Active`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, networkLoadBalancerDataSourceFilterRepresentation}}
 	networkLoadBalancerDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
@@ -48,9 +48,23 @@ var (
 		"freeform_tags":                  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_preserve_source_destination": Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"is_private":                     Representation{RepType: Optional, Create: `false`},
+		"nlb_ip_version":                 Representation{RepType: Optional, Create: `IPV4`, Update: `IPV4_AND_IPV6`},
 		"network_security_group_ids":     Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"reserved_ips":                   RepresentationGroup{Optional, networkLoadBalancerReservedIpsRepresentation},
 	}
+
+	networkLoadBalancerRepresentationIpv6 = map[string]interface{}{
+		"compartment_id":                 Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"subnet_id":                      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":                   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_preserve_source_destination": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_private":                     Representation{RepType: Optional, Create: `false`},
+		"nlb_ip_version":                 Representation{RepType: Optional, Create: `IPV4_AND_IPV6`},
+		"network_security_group_ids":     Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+	}
+
 	networkLoadBalancerReservedIpsRepresentation = map[string]interface{}{
 		"id": Representation{RepType: Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
@@ -58,8 +72,13 @@ var (
 	NetworkLoadBalancerReservedIpDependencies = GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation)
 
 	NetworkLoadBalancerResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"ipv6cidr_block": Representation{RepType: Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
+		})) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
+		})) +
+		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
 
@@ -83,6 +102,43 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckNetworkLoadBalancerNetworkLoadBalancerDestroy, []resource.TestStep{
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
+				GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", Optional, Create, networkLoadBalancerRepresentationIpv6),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(resourceName, "nlb_ip_version", "IPV4_AND_IPV6"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_addresses.0.ip_address"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies,
+		},
+
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies +
@@ -103,6 +159,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies,
 		},
+
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
@@ -114,6 +171,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(resourceName, "nlb_ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_addresses.0.ip_address"),
@@ -149,6 +207,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(resourceName, "nlb_ip_version", "IPV4"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_addresses.0.ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_addresses.0.reserved_ip.0.id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -175,11 +234,12 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "true"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "nlb_ip_version", "IPV4_AND_IPV6"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -207,11 +267,11 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "true"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -236,7 +296,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "network_load_balancer_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "network_load_balancer_collection.0.items.#", "1"),
@@ -254,10 +314,11 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.0.is_public", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.0.is_public", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_preserve_source_destination", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nlb_ip_version", "IPV4_AND_IPV6"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

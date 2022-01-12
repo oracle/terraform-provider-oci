@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v54/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v54/datascience"
+	"github.com/oracle/oci-go-sdk/v55/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v55/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -77,7 +77,6 @@ var (
 
 // issue-routing-tag: datascience/default
 func TestDatascienceJobRunResource_basic(t *testing.T) {
-	t.Skip("Skip this test until service fixes it")
 	httpreplay.SetScenario("TestDatascienceJobRunResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -205,7 +204,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "job_runs.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "job_runs.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "job_runs.0.created_by"),
-					resource.TestCheckResourceAttr(datasourceName, "job_runs.0.defined_tags.%", "3"),
+					resource.TestCheckResourceAttrSet(datasourceName, "job_runs.0.defined_tags.%"),
 					resource.TestCheckResourceAttr(datasourceName, "job_runs.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "job_runs.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "job_runs.0.id"),

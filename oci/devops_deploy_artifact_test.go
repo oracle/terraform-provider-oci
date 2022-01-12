@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v54/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
+	"github.com/oracle/oci-go-sdk/v55/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v55/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -51,6 +51,7 @@ var (
 		"description":                Representation{RepType: Optional, Create: `description`, Update: `description2`},
 		"display_name":               Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                  RepresentationGroup{Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
 	base64_encode                                    = "YXBpVmVyc2lvbjogYmF0Y2gvdjEKa2luZDogSm9iCm1ldGFkYXRhOgogIGdlbmVyYXRlTmFtZTogaGVsbG93b3JsZAogIGxhYmVsczoKICAgIGFwcDogaGVsbG93b3JsZApzcGVjOgogIHR0bFNlY29uZHNBZnRlckZpbmlzaGVkOiAxMjAKICB0ZW1wbGF0ZToKICAgIHNwZWM6CiAgICAgIGNvbnRhaW5lcnM6CiAgICAgICAgLSBuYW1lOiBoZWxsb3dvcmxkCiAgICAgICAgICBpbWFnZTogcGh4Lm9jaXIuaW8vYXgwMjJ3dmdtanBxL2hlbGxvd29ybGQtb2tlLXZlcmlmaWVyOmxhdGVzdAogICAgICAgICAgY29tbWFuZDoKICAgICAgICAgICAgLSAiL2Jpbi9iYXNoIgogICAgICAgICAgICAtICItYyIKICAgICAgICAgICAgLSAic2xlZXAgMjsgZWNobyBIZWxsbyBXb3JsZDsiCiAgICAgIHJlc3RhcnRQb2xpY3k6IE5ldmVy"
 	base64_encode_update                             = "a2luZDogTmFtZXNwYWNlCmFwaVZlcnNpb246IHYxCm1ldGFkYXRhOgogIG5hbWU6IGhlbGxvd29ybGQtZGVtbwotLS0KYXBpVmVyc2lvbjogYXBwcy92MQpraW5kOiBEZXBsb3ltZW50Cm1ldGFkYXRhOgogIG5hbWU6IGhlbGxvd29ybGQtZGVwbG95bWVudAogIG5hbWVzcGFjZTogaGVsbG93b3JsZC1kZW1vCnNwZWM6CiAgc2VsZWN0b3I6CiAgICBtYXRjaExhYmVsczoKICAgICAgYXBwOiBoZWxsb3dvcmxkCiAgcmVwbGljYXM6IDMKICB0ZW1wbGF0ZToKICAgIG1ldGFkYXRhOgogICAgICBsYWJlbHM6CiAgICAgICAgYXBwOiBoZWxsb3dvcmxkCiAgICBzcGVjOgogICAgICBjb250YWluZXJzOgogICAgICAgIC0gbmFtZTogaGVsbG93b3JsZAogICAgICAgICAgIyBlbnRlciB0aGUgcGF0aCB0byB5b3VyIGltYWdlLCBiZSBzdXJlIHRvIGluY2x1ZGUgdGhlIGNvcnJlY3QgcmVnaW9uIHByZWZpeAogICAgICAgICAgaW1hZ2U6IGlhZC5vY2lyLmlvL2F4MDIyd3ZnbWpwcS9oZWxsb3dvcmxkOnYxCiAgICAgICAgICBwb3J0czoKICAgICAgICAgICAgLSBjb250YWluZXJQb3J0OiA4ODg4CiAgICAgICAgICAgICAgcHJvdG9jb2w6IFRDUAoKLS0tCmFwaVZlcnNpb246IHYxCmtpbmQ6IFNlcnZpY2UKbWV0YWRhdGE6CiAgbmFtZTogaGVsbG93b3JsZC1zZXJ2aWNlCiAgbmFtZXNwYWNlOiBoZWxsb3dvcmxkLWRlbW8KICBhbm5vdGF0aW9uczoKICAgIHNlcnZpY2UuYmV0YS5rdWJlcm5ldGVzLmlvL29jaS1sb2FkLWJhbGFuY2VyLXNoYXBlOiAiMTBNYnBzIgpzcGVjOgogIHR5cGU6IExvYWRCYWxhbmNlcgogIHBvcnRzOgogICAgLSBwb3J0OiA4MDgwCiAgICAgIHByb3RvY29sOiBUQ1AKICAgICAgdGFyZ2V0UG9ydDogODg4OAogIHNlbGVjdG9yOgogICAgYXBwOiBoZWxsb3dvcmxk"
@@ -122,6 +123,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -151,6 +153,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -197,6 +200,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

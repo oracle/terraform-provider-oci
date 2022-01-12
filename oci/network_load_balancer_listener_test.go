@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v54/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
+	"github.com/oracle/oci-go-sdk/v55/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v55/networkloadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -37,6 +37,7 @@ var (
 		"network_load_balancer_id": Representation{RepType: Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 		"port":                     Representation{RepType: Required, Create: `10`, Update: `11`},
 		"protocol":                 Representation{RepType: Required, Create: `UDP`, Update: `TCP`},
+		"ip_version":               Representation{RepType: Optional, Create: `IPV4`},
 	}
 
 	NlbListenerResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
@@ -60,6 +61,9 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_network_load_balancer_listener.test_listener"
 
 	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ListenerResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Create, nlbListenerRepresentation), "networkloadbalancer", "listener", t)
 
 	ResourceTest(t, testAccCheckNetworkLoadBalancerListenerDestroy, []resource.TestStep{
 		// verify Create
@@ -68,6 +72,30 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies,
+		},
+
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
+				GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Create, nlbListenerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "port", "10"),
@@ -91,6 +119,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Update, nlbListenerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "port", "11"),
@@ -126,6 +155,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "TCP"),

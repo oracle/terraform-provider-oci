@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v55/networkloadbalancer"
 )
 
 func init() {
@@ -87,6 +87,8 @@ func (s *NetworkLoadBalancerBackendSetDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("health_checker", nil)
 	}
+
+	s.D.Set("ip_version", s.Res.IpVersion)
 
 	if s.Res.IsPreserveSource != nil {
 		s.D.Set("is_preserve_source", *s.Res.IsPreserveSource)

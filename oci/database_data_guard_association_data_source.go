@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v54/database"
+	oci_database "github.com/oracle/oci-go-sdk/v55/database"
 )
 
 func init() {
@@ -82,6 +82,10 @@ func (s *DatabaseDataGuardAssociationDataSourceCrud) SetData() error {
 
 	if s.Res.ApplyRate != nil {
 		s.D.Set("apply_rate", *s.Res.ApplyRate)
+	}
+
+	if s.Res.IsActiveDataGuardEnabled != nil {
+		s.D.Set("is_active_data_guard_enabled", *s.Res.IsActiveDataGuardEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {

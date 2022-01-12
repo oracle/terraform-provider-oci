@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v54/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
+	"github.com/oracle/oci-go-sdk/v55/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v55/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -38,7 +38,7 @@ var (
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"id":             Representation{RepType: Optional, Create: `${oci_devops_project.test_project.id}`},
 		"name":           Representation{RepType: Optional, Create: devopsProjectName},
-		"state":          Representation{RepType: Optional, Create: `Active`},
+		"state":          Representation{RepType: Optional, Create: oci_devops.ProjectLifecycleStateActive},
 		"filter":         RepresentationGroup{Required, devopsProjectDataSourceFilterRepresentation}}
 	devopsProjectDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
@@ -125,6 +125,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", devopsProjectName),
 				resource.TestCheckResourceAttr(resourceName, "notification_config.#", "1"),
@@ -153,6 +154,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", devopsProjectName),
 				resource.TestCheckResourceAttr(resourceName, "notification_config.#", "1"),
@@ -176,6 +178,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "name"),
 				resource.TestCheckResourceAttr(resourceName, "notification_config.#", "1"),
@@ -200,7 +203,6 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", devopsProjectName),
-				resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
 
 				resource.TestCheckResourceAttr(datasourceName, "project_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "project_collection.0.items.#", "1"),
@@ -217,6 +219,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", devopsProjectName),
 				resource.TestCheckResourceAttr(singularDatasourceName, "notification_config.#", "1"),

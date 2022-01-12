@@ -14,9 +14,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v54/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
-	"github.com/oracle/oci-go-sdk/v54/objectstorage"
+	"github.com/oracle/oci-go-sdk/v55/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v55/datacatalog"
+	"github.com/oracle/oci-go-sdk/v55/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

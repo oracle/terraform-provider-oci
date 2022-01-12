@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oracle/oci-go-sdk/v54/common"
+	"github.com/oracle/oci-go-sdk/v55/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v55/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -93,6 +93,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -121,6 +122,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),

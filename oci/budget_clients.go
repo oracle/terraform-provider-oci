@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v55/budget"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
 )
 
 func init() {

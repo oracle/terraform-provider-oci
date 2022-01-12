@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v54/identitydataplane"
+	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v55/identitydataplane"
 )
 
 func init() {

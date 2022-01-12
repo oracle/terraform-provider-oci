@@ -14,8 +14,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
-	oci_database "github.com/oracle/oci-go-sdk/v54/database"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_database "github.com/oracle/oci-go-sdk/v55/database"
 )
 
 func init() {
@@ -107,6 +107,11 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"is_active_data_guard_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
@@ -332,6 +337,11 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Update() error {
 		request.DatabaseId = &tmp
 	}
 
+	if isActiveDataGuardEnabled, ok := s.D.GetOkExists("is_active_data_guard_enabled"); ok {
+		tmp := isActiveDataGuardEnabled.(bool)
+		request.IsActiveDataGuardEnabled = &tmp
+	}
+
 	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 		request.ProtectionMode = oci_database.UpdateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
 	}
@@ -375,6 +385,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) SetData() error {
 
 	if s.Res.DatabaseId != nil {
 		s.D.Set("database_id", *s.Res.DatabaseId)
+	}
+
+	if s.Res.IsActiveDataGuardEnabled != nil {
+		s.D.Set("is_active_data_guard_enabled", *s.Res.IsActiveDataGuardEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -446,6 +460,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := databaseSoftwareImageId.(string)
 			details.DatabaseSoftwareImageId = &tmp
 		}
+		if isActiveDataGuardEnabled, ok := s.D.GetOkExists("is_active_data_guard_enabled"); ok {
+			tmp := isActiveDataGuardEnabled.(bool)
+			details.IsActiveDataGuardEnabled = &tmp
+		}
 		if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
 			tmp := peerDbUniqueName.(string)
 			details.PeerDbUniqueName = &tmp
@@ -482,6 +500,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
 			tmp := databaseSoftwareImageId.(string)
 			details.DatabaseSoftwareImageId = &tmp
+		}
+		if isActiveDataGuardEnabled, ok := s.D.GetOkExists("is_active_data_guard_enabled"); ok {
+			tmp := isActiveDataGuardEnabled.(bool)
+			details.IsActiveDataGuardEnabled = &tmp
 		}
 		if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
 			tmp := peerDbUniqueName.(string)
@@ -557,6 +579,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
 			tmp := databaseSoftwareImageId.(string)
 			details.DatabaseSoftwareImageId = &tmp
+		}
+		if isActiveDataGuardEnabled, ok := s.D.GetOkExists("is_active_data_guard_enabled"); ok {
+			tmp := isActiveDataGuardEnabled.(bool)
+			details.IsActiveDataGuardEnabled = &tmp
 		}
 		if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
 			tmp := peerDbUniqueName.(string)

@@ -14,8 +14,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
-	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_core "github.com/oracle/oci-go-sdk/v55/core"
 )
 
 func init() {
