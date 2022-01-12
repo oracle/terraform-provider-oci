@@ -36,6 +36,7 @@ import (
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/osp_gateway"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 )
 
@@ -89,6 +90,7 @@ func init() {
 	exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
 	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
 	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
+	exportOspGatewaySubscriptionHints.getIdFn = getOspGatewaySubscriptionId
 	exportUsageProxySubscriptionRedeemableUserHints.getIdFn = getUsageProxySubscriptionRedeemableUserId
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 }
@@ -673,6 +675,15 @@ func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) 
 		return "", fmt.Errorf("[ERROR] unable to find replicationId for ObjectStorage ReplicationPolicy")
 	}
 	return tf_objectstorage.GetReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
+}
+
+func getOspGatewaySubscriptionId(resource *OCIResource) (string, error) {
+
+	subscriptionId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find subscriptionId for OspGateway Subscription")
+	}
+	return osp_gateway.GetSubscriptionCompositeId(subscriptionId), nil
 }
 
 func getUsageProxySubscriptionRedeemableUserId(resource *OCIResource) (string, error) {

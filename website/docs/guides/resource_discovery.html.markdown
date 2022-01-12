@@ -173,6 +173,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `opsi` - Discovers opsi resources within the specified compartment
     * `optimizer` - Discovers optimizer resources across the entire tenancy
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
+    * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
@@ -713,6 +714,10 @@ osmanagement
 * oci\_osmanagement\_managed\_instance
 * oci\_osmanagement\_managed\_instance\_group
 * oci\_osmanagement\_software\_source
+
+osp_gateway
+    
+* oci\_osp\_gateway\_subscription
 
 sch
     
