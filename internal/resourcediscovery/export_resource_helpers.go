@@ -778,9 +778,11 @@ func init() {
 	}
 	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = processDatabases
 	exportDatabaseExadataInfrastructureHints.processDiscoveredResourcesFn = processDatabaseExadataInfrastructures
-	//exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]interface{}{
-	//	"artifact_content_length": "0",
-	//}
+
+	exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]interface{}{
+		"artifact_content_length": "0",
+	}
+
 	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
 	exportIdentityAvailabilityDomainHints.alwaysExportable = true
 	exportIdentityAvailabilityDomainHints.processDiscoveredResourcesFn = processAvailabilityDomains
@@ -803,9 +805,9 @@ func init() {
 	exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
 
 	exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
-	//
-	//exportFileStorageMountTargetHints.requireResourceRefresh = true
-	//
+
+	exportFileStorageMountTargetHints.requireResourceRefresh = true
+
 	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
 	exportKmsKeyVersionHints.processDiscoveredResourcesFn = processKmsKeyVersion
 
@@ -815,19 +817,19 @@ func init() {
 	exportMysqlMysqlBackupHints.requireResourceRefresh = true
 	exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
 	exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem
-	//
-	//// Custom overrides for generating composite Network Load Balancer IDs within the resource discovery framework
-	//exportNetworkLoadBalancerBackendHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackends
-	//exportNetworkLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackendSets
-	//exportNetworkLoadBalancerListenerHints.findResourcesOverrideFn = findNetworkLoadBalancerListeners
-	//exportNetworkLoadBalancerListenerHints.processDiscoveredResourcesFn = processNetworkLoadBalancerListeners
+
+	// Custom overrides for generating composite Network Load Balancer IDs within the resource discovery framework
+	exportNetworkLoadBalancerBackendHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackends
+	exportNetworkLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackendSets
+	exportNetworkLoadBalancerListenerHints.findResourcesOverrideFn = findNetworkLoadBalancerListeners
+	exportNetworkLoadBalancerListenerHints.processDiscoveredResourcesFn = processNetworkLoadBalancerListeners
 
 	exportCoreDrgRouteTableRouteRuleHints.datasourceClass = "oci_core_drg_route_table_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.datasourceItemsAttr = "drg_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.processDiscoveredResourcesFn = processDrgRouteTableRouteRules
 
-	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.findResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
-	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.processDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
+	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.findResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
+	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.processDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
 
 	exportCertificatesManagementCertificateAuthorityHints.processDiscoveredResourcesFn = processCertificateAuthorities
 	exportCertificatesManagementCertificateHints.processDiscoveredResourcesFn = processCertificates
