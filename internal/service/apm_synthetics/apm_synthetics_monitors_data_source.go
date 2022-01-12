@@ -39,6 +39,10 @@ func ApmSyntheticsMonitorsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"vantage_point": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"monitor_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -106,6 +110,11 @@ func (s *ApmSyntheticsMonitorsDataSourceCrud) Get() error {
 
 	if status, ok := s.D.GetOkExists("status"); ok {
 		request.Status = oci_apm_synthetics.ListMonitorsStatusEnum(status.(string))
+	}
+
+	if vantagePoint, ok := s.D.GetOkExists("vantage_point"); ok {
+		tmp := vantagePoint.(string)
+		request.VantagePoint = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm_synthetics")

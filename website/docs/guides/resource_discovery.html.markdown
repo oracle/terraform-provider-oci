@@ -319,6 +319,7 @@ apm_synthetics
     
 * oci\_apm\_synthetics\_script
 * oci\_apm\_synthetics\_monitor
+* oci\_apm\_synthetics\_dedicated\_vantage\_point
 
 artifacts
     
