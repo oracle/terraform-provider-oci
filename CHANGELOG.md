@@ -1,4 +1,4 @@
-## 4.59.0 (Unreleased)
+## 4.59.0 (January 12, 2022)
 
 ### Added
 - Support for allow customer to choose Dataguard type
