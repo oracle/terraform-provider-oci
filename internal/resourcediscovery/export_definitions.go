@@ -2732,6 +2732,14 @@ var exportOsmanagementSoftwareSourceHints = &TerraformResourceHints{
 	},
 }
 
+var exportOspGatewaySubscriptionHints = &TerraformResourceHints{
+	resourceClass:          "oci_osp_gateway_subscription",
+	datasourceClass:        "oci_osp_gateway_subscriptions",
+	datasourceItemsAttr:    "subscription_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "subscription",
+}
+
 var exportSchServiceConnectorHints = &TerraformResourceHints{
 	resourceClass:          "oci_sch_service_connector",
 	datasourceClass:        "oci_sch_service_connectors",
