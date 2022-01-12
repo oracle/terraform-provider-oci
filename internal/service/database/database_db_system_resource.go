@@ -782,6 +782,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 			"reco_storage_size_in_gb": {
 				Type:     schema.TypeInt,
 				Computed: true,
+				Optional: true,
 			},
 			"scan_dns_name": {
 				Type:     schema.TypeString,
@@ -1057,6 +1058,11 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if recoStorageSizeInGBs, ok := s.D.GetOkExists("reco_storage_size_in_gb"); ok && s.D.HasChange("reco_storage_size_in_gb") {
+		tmp := recoStorageSizeInGBs.(int)
+		request.RecoStorageSizeInGBs = &tmp
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
