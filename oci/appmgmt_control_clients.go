@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_appmgmt_control "github.com/oracle/oci-go-sdk/v54/appmgmtcontrol"
+	oci_appmgmt_control "github.com/oracle/oci-go-sdk/v55/appmgmtcontrol"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_common "github.com/oracle/oci-go-sdk/v55/common"
 )
 
 func init() {

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v55/datalabelingservice"
 )
 
 func init() {
