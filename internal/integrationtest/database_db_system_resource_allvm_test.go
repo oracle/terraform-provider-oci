@@ -444,6 +444,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
 					hostname = "myOracleDB" // this will be lowercased server side
 					data_storage_size_in_gb = "512"
+					reco_storage_size_in_gb = "512"
 					license_model = "LICENSE_INCLUDED"
 					node_count = "1"
 					fault_domains = ["FAULT-DOMAIN-1"]
@@ -528,10 +529,10 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "512"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "reco_storage_size_in_gb", "512"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_percentage", "80"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "reco_storage_size_in_gb", "256"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "listener_port", "1521"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.display_name", "-tf-db-home"),
