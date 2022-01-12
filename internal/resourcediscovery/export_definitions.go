@@ -290,6 +290,15 @@ var exportApmSyntheticsMonitorHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+var exportApmSyntheticsDedicatedVantagePointHints = &TerraformResourceHints{
+	resourceClass:          "oci_apm_synthetics_dedicated_vantage_point",
+	datasourceClass:        "oci_apm_synthetics_dedicated_vantage_points",
+	datasourceItemsAttr:    "dedicated_vantage_point_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "dedicated_vantage_point",
+	requireResourceRefresh: true,
+}
+
 var exportArtifactsContainerConfigurationHints = &TerraformResourceHints{
 	resourceClass:        "oci_artifacts_container_configuration",
 	datasourceClass:      "oci_artifacts_container_configuration",

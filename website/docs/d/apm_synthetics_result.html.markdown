@@ -34,8 +34,8 @@ The following arguments are supported:
 * `apm_domain_id` - (Required) The APM domain ID the request is intended for. 
 * `execution_time` - (Required) The time the object was posted. 
 * `monitor_id` - (Required) The OCID of the monitor.
-* `result_content_type` - (Required) The result content type zip or raw. 
-* `result_type` - (Required) The result type har, screenshot, log or network. 
+* `result_content_type` - (Required) The result content type: zip or raw. 
+* `result_type` - (Required) The result type: har, screenshot, log, or network. 
 * `vantage_point` - (Required) The vantagePoint name. 
 
 
@@ -52,5 +52,5 @@ The following attributes are exported:
 	* `string_content` - Data content in string format. Example: HAR. 
 	* `timestamp` - The time when the data was generated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
 * `result_type` - Type of result. Example: HAR, Screenshot, Log or Network. 
-* `vantage_point` - The name of the vantage point.
+* `vantage_point` - The name of the public or dedicated vantage point.
 
