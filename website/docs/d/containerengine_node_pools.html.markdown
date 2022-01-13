@@ -53,6 +53,8 @@ The following attributes are exported:
 * `kubernetes_version` - The version of Kubernetes running on the nodes in the node pool.
 * `name` - The name of the node pool.
 * `node_config_details` - The configuration of nodes in the node pool.
+	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
+	* `kms_key_id` - The OCID of the Key Management Service key assigned to the boot volume.
 	* `nsg_ids` - The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 	* `placement_configs` - The placement configurations for the node pool. Provide one placement configuration for each availability domain in which you intend to launch a node.
 

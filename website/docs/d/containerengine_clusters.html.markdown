@@ -80,8 +80,8 @@ The following attributes are exported:
 	* `admission_controller_options` - Configurable cluster admission controllers
 		* `is_pod_security_policy_enabled` - Whether or not to enable the Pod Security Policy admission controller.
 	* `kubernetes_network_config` - Network configuration for Kubernetes.
-		* `pods_cidr` - The CIDR block for Kubernetes pods.
-		* `services_cidr` - The CIDR block for Kubernetes services.
+		* `pods_cidr` - The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
+		* `services_cidr` - The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
 	* `service_lb_subnet_ids` - The OCIDs of the subnets used for Kubernetes services load balancers.
 * `state` - The state of the cluster masters.
 * `vcn_id` - The OCID of the virtual cloud network (VCN) in which the cluster exists.
