@@ -208,7 +208,6 @@ func init() {
 	RegisterResource("oci_identity_user", tf_identity.IdentityUserResource())
 	RegisterResource("oci_identity_customer_secret_key", tf_identity.IdentityCustomerSecretKeyResource())
 	RegisterResource("oci_identity_import_standard_tags_management", tf_identity.IdentityImportStandardTagsManagementResource())
-	RegisterDatasource("oci_identity_tag_standard_tag_namespace_templates", tf_identity.IdentityTagStandardTagNamespaceTemplatesDataSource())
 	RegisterResource("oci_audit_configuration", tf_audit.AuditConfigurationResource())
 
 	// identity data plane
