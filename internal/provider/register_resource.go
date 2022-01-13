@@ -276,6 +276,7 @@ func init() {
 	RegisterResource("oci_database_db_home", tf_database.DatabaseDbHomeResource())
 	RegisterResource("oci_database_db_node_console_connection", tf_database.DatabaseDbNodeConsoleConnectionResource())
 	RegisterResource("oci_database_db_system", tf_database.DatabaseDbSystemResource())
+	RegisterResource("oci_database_db_systems_upgrade", tf_database.DatabaseDbSystemsUpgradeResource())
 	RegisterResource("oci_database_exadata_infrastructure", tf_database.DatabaseExadataInfrastructureResource())
 	RegisterResource("oci_database_exadata_infrastructure", tf_database.DatabaseExadataInfrastructureResource())
 	RegisterResource("oci_database_exadata_infrastructure_storage", tf_database.DatabaseExadataInfrastructureStorageResource())
