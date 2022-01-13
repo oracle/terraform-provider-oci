@@ -559,6 +559,8 @@ func init() {
 	RegisterDatasource("oci_database_vm_cluster_update_history_entry", tf_database.DatabaseVmClusterUpdateHistoryEntryDataSource())
 	RegisterDatasource("oci_database_vm_cluster_updates", tf_database.DatabaseVmClusterUpdatesDataSource())
 	RegisterDatasource("oci_database_vm_clusters", tf_database.DatabaseVmClustersDataSource())
+	RegisterDatasource("oci_database_db_systems_upgrade_history_entries", tf_database.DatabaseDbSystemsUpgradeHistoryEntriesDataSource())
+	RegisterDatasource("oci_database_db_systems_upgrade_history_entry", tf_database.DatabaseDbSystemsUpgradeHistoryEntryDataSource())
 	// database_management service
 	RegisterDatasource("oci_database_management_db_management_private_endpoint", tf_database_management.DatabaseManagementDbManagementPrivateEndpointDataSource())
 	RegisterDatasource("oci_database_management_db_management_private_endpoint_associated_database", tf_database_management.DatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseDataSource())
