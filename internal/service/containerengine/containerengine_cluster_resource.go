@@ -59,6 +59,13 @@ func ContainerengineClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"endpoint_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -90,6 +97,12 @@ func ContainerengineClusterResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"image_policy_config": {
 				Type:     schema.TypeList,
@@ -227,6 +240,64 @@ func ContainerengineClusterResource() *schema.Resource {
 								},
 							},
 						},
+						"persistent_volume_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"defined_tags": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+										Elem:             schema.TypeString,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"service_lb_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"defined_tags": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+										Elem:             schema.TypeString,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"service_lb_subnet_ids": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -336,6 +407,11 @@ func ContainerengineClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 		},
 	}
 }
@@ -416,6 +492,14 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if endpointConfig, ok := s.D.GetOkExists("endpoint_config"); ok {
 		if tmpList := endpointConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "endpoint_config", 0)
@@ -425,6 +509,10 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 			}
 			request.EndpointConfig = &tmp
 		}
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if imagePolicyConfig, ok := s.D.GetOkExists("image_policy_config"); ok {
@@ -675,6 +763,18 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 	request := oci_containerengine.UpdateClusterRequest{}
 	request.ClusterId = &clusterID
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
 	if imagePolicyConfig, ok := s.D.GetOkExists("image_policy_config"); ok {
 		if tmpList := imagePolicyConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "image_policy_config", 0)
@@ -787,6 +887,10 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.EndpointConfig != nil {
 		s.D.Set("endpoint_config", []interface{}{ClusterEndpointConfigToMap(s.Res.EndpointConfig, false)})
 	} else {
@@ -798,6 +902,8 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 	} else {
 		s.D.Set("endpoints", nil)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.ImagePolicyConfig != nil {
 		s.D.Set("image_policy_config", []interface{}{ImagePolicyConfigToMap(s.Res.ImagePolicyConfig)})
@@ -834,6 +940,10 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.VcnId != nil {
 		s.D.Set("vcn_id", *s.Res.VcnId)
@@ -929,6 +1039,28 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 		}
 	}
 
+	if persistentVolumeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "persistent_volume_config")); ok {
+		if tmpList := persistentVolumeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "persistent_volume_config"), 0)
+			tmp, err := s.mapToPersistentVolumeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert persistent_volume_config, encountered error: %v", err)
+			}
+			result.PersistentVolumeConfig = &tmp
+		}
+	}
+
+	if serviceLbConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_lb_config")); ok {
+		if tmpList := serviceLbConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "service_lb_config"), 0)
+			tmp, err := s.mapToServiceLbConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert service_lb_config, encountered error: %v", err)
+			}
+			result.ServiceLbConfig = &tmp
+		}
+	}
+
 	if serviceLbSubnetIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_lb_subnet_ids")); ok {
 		interfaces := serviceLbSubnetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -958,6 +1090,14 @@ func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) ma
 
 	if obj.KubernetesNetworkConfig != nil {
 		result["kubernetes_network_config"] = []interface{}{KubernetesNetworkConfigToMap(obj.KubernetesNetworkConfig)}
+	}
+
+	if obj.PersistentVolumeConfig != nil {
+		result["persistent_volume_config"] = []interface{}{PersistentVolumeConfigDetailsToMap(obj.PersistentVolumeConfig)}
+	}
+
+	if obj.ServiceLbConfig != nil {
+		result["service_lb_config"] = []interface{}{ServiceLbConfigDetailsToMap(obj.ServiceLbConfig)}
 	}
 
 	result["service_lb_subnet_ids"] = obj.ServiceLbSubnetIds
@@ -1260,6 +1400,66 @@ func KubernetesNetworkConfigToMap(obj *oci_containerengine.KubernetesNetworkConf
 	return result
 }
 
+func (s *ContainerengineClusterResourceCrud) mapToPersistentVolumeConfigDetails(fieldKeyFormat string) (oci_containerengine.PersistentVolumeConfigDetails, error) {
+	result := oci_containerengine.PersistentVolumeConfigDetails{}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
+func PersistentVolumeConfigDetailsToMap(obj *oci_containerengine.PersistentVolumeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	return result
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToServiceLbConfigDetails(fieldKeyFormat string) (oci_containerengine.ServiceLbConfigDetails, error) {
+	result := oci_containerengine.ServiceLbConfigDetails{}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
+func ServiceLbConfigDetailsToMap(obj *oci_containerengine.ServiceLbConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	return result
+}
+
 func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fieldKeyFormat string) (oci_containerengine.UpdateClusterOptionsDetails, error) {
 	result := oci_containerengine.UpdateClusterOptionsDetails{}
 
@@ -1271,6 +1471,28 @@ func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fi
 				return result, fmt.Errorf("unable to convert admission_controller_options, encountered error: %v", err)
 			}
 			result.AdmissionControllerOptions = &tmp
+		}
+	}
+
+	if persistentVolumeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "persistent_volume_config")); ok {
+		if tmpList := persistentVolumeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "persistent_volume_config"), 0)
+			tmp, err := s.mapToPersistentVolumeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert persistent_volume_config, encountered error: %v", err)
+			}
+			result.PersistentVolumeConfig = &tmp
+		}
+	}
+
+	if serviceLbConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_lb_config")); ok {
+		if tmpList := serviceLbConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "service_lb_config"), 0)
+			tmp, err := s.mapToServiceLbConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert service_lb_config, encountered error: %v", err)
+			}
+			result.ServiceLbConfig = &tmp
 		}
 	}
 

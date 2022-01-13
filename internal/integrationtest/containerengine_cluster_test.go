@@ -44,10 +44,13 @@ var (
 		"kubernetes_version":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`, Update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
 		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"vcn_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"endpoint_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterEndpointConfigRepresentation},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"image_policy_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterImagePolicyConfigRepresentation},
 		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"options":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsRepresentation},
-		"image_policy_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterImagePolicyConfigRepresentation},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSystemTagsChangesRep},
 	}
 	clusterEndpointConfigRepresentation = map[string]interface{}{
 		"is_public_ip_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
@@ -62,6 +65,8 @@ var (
 		"add_ons":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsAddOnsRepresentation},
 		"admission_controller_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsAdmissionControllerOptionsRepresentation},
 		"kubernetes_network_config":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsKubernetesNetworkConfigRepresentation},
+		"persistent_volume_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsPersistentVolumeConfigRepresentation},
+		"service_lb_config":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterOptionsServiceLbConfigRepresentation},
 		"service_lb_subnet_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
 	}
 	clusterImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
@@ -78,6 +83,18 @@ var (
 		"pods_cidr":     acctest.Representation{RepType: acctest.Optional, Create: `10.1.0.0/16`},
 		"services_cidr": acctest.Representation{RepType: acctest.Optional, Create: `10.2.0.0/16`},
 	}
+	clusterOptionsPersistentVolumeConfigRepresentation = map[string]interface{}{
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
+	clusterOptionsServiceLbConfigRepresentation = map[string]interface{}{
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
+
+	ignoreSystemTagsChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
+	}
 
 	ClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster1`}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.21.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
@@ -88,6 +105,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
+		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
 )
 
@@ -141,6 +159,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -155,6 +174,10 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_subnet_ids.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -176,6 +199,10 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Update, clusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.key_details.#", "1"),
@@ -195,6 +222,10 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_subnet_ids.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -225,6 +256,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoint_config.0.is_public_ip_enabled", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.endpoint_config.0.subnet_id"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoints.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.0.is_policy_enabled", "true"),
@@ -242,6 +274,10 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.persistent_volume_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.persistent_volume_config.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_subnet_ids.#", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.vcn_id"),
