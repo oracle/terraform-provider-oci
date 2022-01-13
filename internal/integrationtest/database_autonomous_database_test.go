@@ -549,6 +549,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_preview"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_reconnect_clone_enabled"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_refreshable_clone"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.kms_key_id"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
