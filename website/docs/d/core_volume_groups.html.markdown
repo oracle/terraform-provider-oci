@@ -58,11 +58,23 @@ The following attributes are exported:
 * `size_in_gbs` - The aggregate size of the volume group in GBs.
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
 * `source_details` - Specifies the source for a volume group.
+<<<<<<< ours
+	* `type` - The type can be one of these values: `volumeGroupBackupId`, `volumeGroupId`, `volumeGroupReplicaId`, `volumeIds`
+	* `volume_group_backup_id` - The OCID of the volume group backup to restore from.
+	* `volume_group_id` - The OCID of the volume group to clone from.
+	* `volume_group_replica_id` - The OCID of the volume group replica.
+	* `volume_ids` - OCIDs for the volumes in this volume group.
+=======
 	* `type` - The type can be one of these values: `volumeGroupBackupId`, `volumeGroupId`, `volumeIds`
 	* `volume_group_backup_id` - The OCID of the volume group backup to restore from, if the type is `volumeGroupBackup` 
 	* `volume_group_id` - The OCID of the volume group to clone from, if the type is `volumeGroup`
 	* `volume_ids` - OCIDs for the volumes in this volume group, if the type is `volumeIds`
+>>>>>>> theirs
 * `state` - The current state of a volume group.
 * `time_created` - The date and time the volume group was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `volume_group_replicas` - The list of volume group replicas of this volume group.
+	* `availability_domain` - The availability domain of the boot volume replica replica.  Example: `Uocm:PHX-AD-1` 
+	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `volume_group_replica_id` - The volume group replica's Oracle ID (OCID).
 * `volume_ids` - OCIDs for the volumes in this volume group.
 

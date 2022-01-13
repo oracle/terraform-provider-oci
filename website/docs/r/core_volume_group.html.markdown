@@ -29,8 +29,18 @@ resource "oci_core_volume_group" "test_volume_group" {
 	compartment_id = var.compartment_id
 	source_details {
 		#Required
+<<<<<<< ours
+		type = var.volume_group_source_details_type
+
+		#Optional
+		volume_group_backup_id = oci_core_volume_group_backup.test_volume_group_backup.id
+		volume_group_id = oci_core_volume_group.test_volume_group.id
+		volume_group_replica_id = oci_core_volume_group_replica.test_volume_group_replica.id
+		volume_ids = var.volume_group_source_details_volume_ids
+=======
 		type = "volumeIds"
 		volume_ids = [var.volume_group_source_id]
+>>>>>>> theirs
 	}
 
 	#Optional
@@ -38,6 +48,13 @@ resource "oci_core_volume_group" "test_volume_group" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.volume_group_display_name
 	freeform_tags = {"Department"= "Finance"}
+	volume_group_replicas {
+		#Required
+		availability_domain = var.volume_group_volume_group_replicas_availability_domain
+
+		#Optional
+		display_name = var.volume_group_volume_group_replicas_display_name
+	}
 }
 ```
 
@@ -52,10 +69,14 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `source_details` - (Required) Specifies the source for a volume group.
-	* `type` - (Required) The type can be one of these values: `volumeGroupBackupId`, `volumeGroupId`, `volumeIds`
+	* `type` - (Required) The type can be one of these values: `volumeGroupBackupId`, `volumeGroupId`, `volumeGroupReplicaId`, `volumeIds`
 	* `volume_group_backup_id` - (Required when type=volumeGroupBackupId) The OCID of the volume group backup to restore from.
 	* `volume_group_id` - (Required when type=volumeGroupId) The OCID of the volume group to clone from.
+	* `volume_group_replica_id` - (Required when type=volumeGroupReplicaId) The OCID of the volume group replica.
 	* `volume_ids` - (Required when type=volumeIds) OCIDs for the volumes in this volume group.
+* `volume_group_replicas` - (Optional) (Updatable) The list of volume group replicas that this volume group will be enabled to have in the specified destination availability domains. 
+	* `availability_domain` - (Required) (Updatable) The availability domain of the volume group replica.  Example: `Uocm:PHX-AD-1` 
+	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 
 
 ** IMPORTANT **
@@ -75,12 +96,17 @@ The following attributes are exported:
 * `size_in_gbs` - The aggregate size of the volume group in GBs.
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
 * `source_details` - Specifies the source for a volume group.
-	* `type` - The type can be one of these values: `volumeGroupBackupId`, `volumeGroupId`, `volumeIds`
+	* `type` - The type can be one of these values: `volumeGroupBackupId`, `volumeGroupId`, `volumeGroupReplicaId`, `volumeIds`
 	* `volume_group_backup_id` - The OCID of the volume group backup to restore from.
 	* `volume_group_id` - The OCID of the volume group to clone from.
+	* `volume_group_replica_id` - The OCID of the volume group replica.
 	* `volume_ids` - OCIDs for the volumes in this volume group.
 * `state` - The current state of a volume group.
 * `time_created` - The date and time the volume group was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `volume_group_replicas` - The list of volume group replicas of this volume group.
+	* `availability_domain` - The availability domain of the boot volume replica replica.  Example: `Uocm:PHX-AD-1` 
+	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `volume_group_replica_id` - The volume group replica's Oracle ID (OCID).
 * `volume_ids` - OCIDs for the volumes in this volume group.
 
 ## Timeouts

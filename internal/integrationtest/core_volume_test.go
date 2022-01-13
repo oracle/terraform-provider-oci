@@ -61,7 +61,7 @@ var (
 		"vpus_per_gb":         acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `20`},
 	}
 	volumeBlockVolumeReplicasRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `NyKp:US-ASHBURN-AD-1`},
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `KvuH:US-ASHBURN-AD-1`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
 	volumeSourceDetailsRepresentation = map[string]interface{}{

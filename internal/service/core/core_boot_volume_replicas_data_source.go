@@ -95,6 +95,10 @@ func CoreBootVolumeReplicasDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"volume_group_replica_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -213,6 +217,10 @@ func (s *CoreBootVolumeReplicasDataSourceCrud) SetData() error {
 
 		if r.TimeLastSynced != nil {
 			bootVolumeReplica["time_last_synced"] = r.TimeLastSynced.String()
+		}
+
+		if r.VolumeGroupReplicaId != nil {
+			bootVolumeReplica["volume_group_replica_id"] = *r.VolumeGroupReplicaId
 		}
 
 		resources = append(resources, bootVolumeReplica)

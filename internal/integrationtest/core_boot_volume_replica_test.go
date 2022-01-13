@@ -8,12 +8,13 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -36,7 +37,7 @@ var (
 		"boot_volume_replicas_deletion": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	dependenceBootVolumeReplicasRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `NyKp:US-ASHBURN-AD-1`},
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `KvuH:US-ASHBURN-AD-1`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
 	BootVolumeReplicaResourceConfig = BootVolumeResourceDependencies

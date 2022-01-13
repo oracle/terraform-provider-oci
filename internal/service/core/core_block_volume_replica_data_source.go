@@ -65,6 +65,10 @@ func CoreBlockVolumeReplicaDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"volume_group_replica_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -147,6 +151,10 @@ func (s *CoreBlockVolumeReplicaDataSourceCrud) SetData() error {
 
 	if s.Res.TimeLastSynced != nil {
 		s.D.Set("time_last_synced", s.Res.TimeLastSynced.String())
+	}
+
+	if s.Res.VolumeGroupReplicaId != nil {
+		s.D.Set("volume_group_replica_id", *s.Res.VolumeGroupReplicaId)
 	}
 
 	return nil
