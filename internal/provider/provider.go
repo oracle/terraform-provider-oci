@@ -583,6 +583,8 @@ func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 
 	simulateDb, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("simulate_db", "false"))
 
+	simulateDbForDbSystemUpgrade, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("simulate_db_db_system_upgrade", "false"))
+
 	requestSigner := oci_common.DefaultRequestSigner(configProvider)
 	var oboTokenProvider OboTokenProvider
 	oboTokenProvider = emptyOboTokenProvider{}
@@ -621,6 +623,13 @@ func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 					r.Header.Set(globalvar.RequestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
 				}
 			}
+
+			if simulateDbForDbSystemUpgrade {
+				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems")) {
+					r.Header.Set(globalvar.RequestHeaderOpcHostSerial, "FAKEHOSTSERIALFAKEOL6")
+				}
+			}
+
 			return nil
 		}
 
