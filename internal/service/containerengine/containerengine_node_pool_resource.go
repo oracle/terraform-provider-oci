@@ -130,6 +130,16 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_pv_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
@@ -941,6 +951,16 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateNodePoolNodeConfigDetails, error) {
 	result := oci_containerengine.CreateNodePoolNodeConfigDetails{}
 
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+		tmp := isPvEncryptionInTransitEnabled.(bool)
+		result.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -983,6 +1003,14 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 
 func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.IsPvEncryptionInTransitEnabled != nil {
+		result["is_pv_encryption_in_transit_enabled"] = bool(*obj.IsPvEncryptionInTransitEnabled)
+	}
+
+	if obj.KmsKeyId != nil {
+		result["kms_key_id"] = string(*obj.KmsKeyId)
+	}
 
 	nsgIds := []interface{}{}
 	for _, item := range obj.NsgIds {
