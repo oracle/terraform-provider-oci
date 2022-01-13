@@ -332,6 +332,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_reconnect_clone_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_refreshable_clone": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -567,6 +571,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_until_reconnect_clone_enabled": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"used_data_storage_size_in_tbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -785,6 +793,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["is_preview"] = *r.IsPreview
 		}
 
+		if r.IsReconnectCloneEnabled != nil {
+			autonomousDatabasesClone["is_reconnect_clone_enabled"] = *r.IsReconnectCloneEnabled
+		}
+
 		if r.IsRefreshableClone != nil {
 			autonomousDatabasesClone["is_refreshable_clone"] = *r.IsRefreshableClone
 		}
@@ -917,6 +929,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
 			autonomousDatabasesClone["time_reclamation_of_free_autonomous_database"] = r.TimeReclamationOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeUntilReconnectCloneEnabled != nil {
+			autonomousDatabasesClone["time_until_reconnect_clone_enabled"] = r.TimeUntilReconnectCloneEnabled.String()
 		}
 
 		if r.UsedDataStorageSizeInTBs != nil {

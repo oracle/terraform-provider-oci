@@ -286,6 +286,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_preview"] = *r.IsPreview
 		}
 
+		if r.IsReconnectCloneEnabled != nil {
+			autonomousDatabase["is_reconnect_clone_enabled"] = *r.IsReconnectCloneEnabled
+		}
+
 		if r.IsRefreshableClone != nil {
 			autonomousDatabase["is_refreshable_clone"] = *r.IsRefreshableClone
 		}
@@ -422,6 +426,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
 			autonomousDatabase["time_reclamation_of_free_autonomous_database"] = r.TimeReclamationOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeUntilReconnectCloneEnabled != nil {
+			autonomousDatabase["time_until_reconnect_clone_enabled"] = r.TimeUntilReconnectCloneEnabled.String()
 		}
 
 		if r.UsedDataStorageSizeInTBs != nil {
