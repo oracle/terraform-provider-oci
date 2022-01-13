@@ -184,6 +184,7 @@ func init() {
 
 	// identity service
 	RegisterDatasource("oci_identity_smtp_credentials", tf_identity.IdentitySmtpCredentialsDataSource())
+	RegisterDatasource("oci_identity_tag_standard_tag_namespace_templates", tf_identity.IdentityTagStandardTagNamespaceTemplatesDataSource())
 	RegisterDatasource("oci_health_checks_http_monitor", tf_health_checks.HealthChecksHttpMonitorDataSource())
 	RegisterDatasource("oci_health_checks_ping_monitors", tf_health_checks.HealthChecksPingMonitorsDataSource())
 	RegisterDatasource("oci_health_checks_vantage_points", tf_health_checks.HealthChecksVantagePointsDataSource())
