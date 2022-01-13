@@ -10,6 +10,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -17,11 +23,6 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/v55/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -79,6 +80,7 @@ var (
 	}
 	` +
 		AvailabilityDomainConfig +
+		utils.VolumeBackupPolicyDependency +
 		VolumeBackupPolicyRequiredOnlyResource
 	VolumeGroupRequiredOnlyResourceDependencies = AvailabilityDomainConfig + SourceVolumeListDependency
 	VolumeGroupAsDependency                     = acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create, volumeGroupRepresentation) + SourceVolumeListDependency

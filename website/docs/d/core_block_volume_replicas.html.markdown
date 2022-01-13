@@ -58,4 +58,9 @@ The following attributes are exported:
 * `state` - The current state of a block volume replica.
 * `time_created` - The date and time the block volume replica was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 * `time_last_synced` - The date and time the block volume replica was last synced from the source block volume. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
+<<<<<<< ours
+* `total_data_transferred_in_gbs` - The total size of the data transferred from the source block volume to the block volume replica, in GBs. 
+* `volume_group_replica_id` - The OCID of the volume group replica. 
+=======
+>>>>>>> theirs
 

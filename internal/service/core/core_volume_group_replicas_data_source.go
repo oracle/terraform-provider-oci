@@ -7,16 +7,16 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v55/core"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
-func CoreBlockVolumeReplicasDataSource() *schema.Resource {
+func CoreVolumeGroupReplicasDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreBlockVolumeReplicas,
+		Read: readCoreVolumeGroupReplicas,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -35,7 +35,7 @@ func CoreBlockVolumeReplicasDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"block_volume_replicas": {
+			"volume_group_replicas": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -46,10 +46,6 @@ func CoreBlockVolumeReplicasDataSource() *schema.Resource {
 
 						// Computed
 						"availability_domain": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"block_volume_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -75,6 +71,23 @@ func CoreBlockVolumeReplicasDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"member_replicas": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"volume_replica_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"size_in_gbs": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -91,7 +104,7 @@ func CoreBlockVolumeReplicasDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"volume_group_replica_id": {
+						"volume_group_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -102,26 +115,26 @@ func CoreBlockVolumeReplicasDataSource() *schema.Resource {
 	}
 }
 
-func readCoreBlockVolumeReplicas(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreBlockVolumeReplicasDataSourceCrud{}
+func readCoreVolumeGroupReplicas(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupReplicasDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockstorageClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type CoreBlockVolumeReplicasDataSourceCrud struct {
+type CoreVolumeGroupReplicasDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
-	Res    *oci_core.ListBlockVolumeReplicasResponse
+	Res    *oci_core.ListVolumeGroupReplicasResponse
 }
 
-func (s *CoreBlockVolumeReplicasDataSourceCrud) VoidState() {
+func (s *CoreVolumeGroupReplicasDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreBlockVolumeReplicasDataSourceCrud) Get() error {
-	request := oci_core.ListBlockVolumeReplicasRequest{}
+func (s *CoreVolumeGroupReplicasDataSourceCrud) Get() error {
+	request := oci_core.ListVolumeGroupReplicasRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
@@ -139,12 +152,12 @@ func (s *CoreBlockVolumeReplicasDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_core.BlockVolumeReplicaLifecycleStateEnum(state.(string))
+		request.LifecycleState = oci_core.VolumeGroupReplicaLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListBlockVolumeReplicas(context.Background(), request)
+	response, err := s.Client.ListVolumeGroupReplicas(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -153,7 +166,7 @@ func (s *CoreBlockVolumeReplicasDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBlockVolumeReplicas(context.Background(), request)
+		listResponse, err := s.Client.ListVolumeGroupReplicas(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -165,64 +178,66 @@ func (s *CoreBlockVolumeReplicasDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreBlockVolumeReplicasDataSourceCrud) SetData() error {
+func (s *CoreVolumeGroupReplicasDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("CoreBlockVolumeReplicasDataSource-", CoreBlockVolumeReplicasDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("CoreVolumeGroupReplicasDataSource-", CoreVolumeGroupReplicasDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		blockVolumeReplica := map[string]interface{}{
+		volumeGroupReplica := map[string]interface{}{
 			"availability_domain": *r.AvailabilityDomain,
 			"compartment_id":      *r.CompartmentId,
 		}
 
-		if r.BlockVolumeId != nil {
-			blockVolumeReplica["block_volume_id"] = *r.BlockVolumeId
-		}
-
 		if r.DefinedTags != nil {
-			blockVolumeReplica["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+			volumeGroupReplica["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
 		if r.DisplayName != nil {
-			blockVolumeReplica["display_name"] = *r.DisplayName
+			volumeGroupReplica["display_name"] = *r.DisplayName
 		}
 
-		blockVolumeReplica["freeform_tags"] = r.FreeformTags
+		volumeGroupReplica["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
-			blockVolumeReplica["id"] = *r.Id
+			volumeGroupReplica["id"] = *r.Id
 		}
+
+		memberReplicas := []interface{}{}
+		for _, item := range r.MemberReplicas {
+			memberReplicas = append(memberReplicas, MemberReplicaToMap(item))
+		}
+		volumeGroupReplica["member_replicas"] = memberReplicas
 
 		if r.SizeInGBs != nil {
-			blockVolumeReplica["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
+			volumeGroupReplica["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
 		}
 
-		blockVolumeReplica["state"] = r.LifecycleState
+		volumeGroupReplica["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
-			blockVolumeReplica["time_created"] = r.TimeCreated.String()
+			volumeGroupReplica["time_created"] = r.TimeCreated.String()
 		}
 
 		if r.TimeLastSynced != nil {
-			blockVolumeReplica["time_last_synced"] = r.TimeLastSynced.String()
+			volumeGroupReplica["time_last_synced"] = r.TimeLastSynced.String()
 		}
 
-		if r.VolumeGroupReplicaId != nil {
-			blockVolumeReplica["volume_group_replica_id"] = *r.VolumeGroupReplicaId
+		if r.VolumeGroupId != nil {
+			volumeGroupReplica["volume_group_id"] = *r.VolumeGroupId
 		}
 
-		resources = append(resources, blockVolumeReplica)
+		resources = append(resources, volumeGroupReplica)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, CoreBlockVolumeReplicasDataSource().Schema["block_volume_replicas"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, CoreVolumeGroupReplicasDataSource().Schema["volume_group_replicas"].Elem.(*schema.Resource).Schema)
 	}
 
-	if err := s.D.Set("block_volume_replicas", resources); err != nil {
+	if err := s.D.Set("volume_group_replicas", resources); err != nil {
 		return err
 	}
 

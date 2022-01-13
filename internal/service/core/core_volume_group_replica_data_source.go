@@ -7,27 +7,23 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v55/core"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
-func CoreBootVolumeReplicaDataSource() *schema.Resource {
+func CoreVolumeGroupReplicaDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularCoreBootVolumeReplica,
+		Read: readSingularCoreVolumeGroupReplica,
 		Schema: map[string]*schema.Schema{
-			"boot_volume_replica_id": {
+			"volume_group_replica_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
 			// Computed
 			"availability_domain": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"boot_volume_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -49,9 +45,22 @@ func CoreBootVolumeReplicaDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"image_id": {
-				Type:     schema.TypeString,
+			"member_replicas": {
+				Type:     schema.TypeList,
 				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"volume_replica_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"size_in_gbs": {
 				Type:     schema.TypeString,
@@ -69,7 +78,7 @@ func CoreBootVolumeReplicaDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"volume_group_replica_id": {
+			"volume_group_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -77,35 +86,35 @@ func CoreBootVolumeReplicaDataSource() *schema.Resource {
 	}
 }
 
-func readSingularCoreBootVolumeReplica(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreBootVolumeReplicaDataSourceCrud{}
+func readSingularCoreVolumeGroupReplica(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupReplicaDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockstorageClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type CoreBootVolumeReplicaDataSourceCrud struct {
+type CoreVolumeGroupReplicaDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
-	Res    *oci_core.GetBootVolumeReplicaResponse
+	Res    *oci_core.GetVolumeGroupReplicaResponse
 }
 
-func (s *CoreBootVolumeReplicaDataSourceCrud) VoidState() {
+func (s *CoreVolumeGroupReplicaDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreBootVolumeReplicaDataSourceCrud) Get() error {
-	request := oci_core.GetBootVolumeReplicaRequest{}
+func (s *CoreVolumeGroupReplicaDataSourceCrud) Get() error {
+	request := oci_core.GetVolumeGroupReplicaRequest{}
 
-	if bootVolumeReplicaId, ok := s.D.GetOkExists("boot_volume_replica_id"); ok {
-		tmp := bootVolumeReplicaId.(string)
-		request.BootVolumeReplicaId = &tmp
+	if volumeGroupReplicaId, ok := s.D.GetOkExists("volume_group_replica_id"); ok {
+		tmp := volumeGroupReplicaId.(string)
+		request.VolumeGroupReplicaId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetBootVolumeReplica(context.Background(), request)
+	response, err := s.Client.GetVolumeGroupReplica(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -114,7 +123,7 @@ func (s *CoreBootVolumeReplicaDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreBootVolumeReplicaDataSourceCrud) SetData() error {
+func (s *CoreVolumeGroupReplicaDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -123,10 +132,6 @@ func (s *CoreBootVolumeReplicaDataSourceCrud) SetData() error {
 
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
-	}
-
-	if s.Res.BootVolumeId != nil {
-		s.D.Set("boot_volume_id", *s.Res.BootVolumeId)
 	}
 
 	if s.Res.CompartmentId != nil {
@@ -143,9 +148,11 @@ func (s *CoreBootVolumeReplicaDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.ImageId != nil {
-		s.D.Set("image_id", *s.Res.ImageId)
+	memberReplicas := []interface{}{}
+	for _, item := range s.Res.MemberReplicas {
+		memberReplicas = append(memberReplicas, MemberReplicaToMap(item))
 	}
+	s.D.Set("member_replicas", memberReplicas)
 
 	if s.Res.SizeInGBs != nil {
 		s.D.Set("size_in_gbs", strconv.FormatInt(*s.Res.SizeInGBs, 10))
@@ -161,9 +168,19 @@ func (s *CoreBootVolumeReplicaDataSourceCrud) SetData() error {
 		s.D.Set("time_last_synced", s.Res.TimeLastSynced.String())
 	}
 
-	if s.Res.VolumeGroupReplicaId != nil {
-		s.D.Set("volume_group_replica_id", *s.Res.VolumeGroupReplicaId)
+	if s.Res.VolumeGroupId != nil {
+		s.D.Set("volume_group_id", *s.Res.VolumeGroupId)
 	}
 
 	return nil
+}
+
+func MemberReplicaToMap(obj oci_core.MemberReplica) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.VolumeReplicaId != nil {
+		result["volume_replica_id"] = string(*obj.VolumeReplicaId)
+	}
+
+	return result
 }

@@ -10,12 +10,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	oci_core "github.com/oracle/oci-go-sdk/v55/core"
 )
@@ -59,6 +59,7 @@ func CoreVolumeGroupResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"volumeGroupBackupId",
 								"volumeGroupId",
+								"volumeGroupReplicaId",
 								"volumeIds",
 							}, true),
 						},
@@ -70,6 +71,11 @@ func CoreVolumeGroupResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"volume_group_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"volume_group_replica_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							ForceNew: true,
@@ -90,8 +96,15 @@ func CoreVolumeGroupResource() *schema.Resource {
 					},
 				},
 			},
-
 			// Optional
+			"volume_group_replicas_deletion": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"preserve_volume_replica": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"backup_policy_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -115,6 +128,34 @@ func CoreVolumeGroupResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"volume_group_replicas": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"availability_domain": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+						},
+
+						// Optional
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"volume_group_replica_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 
 			// Computed
@@ -152,7 +193,7 @@ func CoreVolumeGroupResource() *schema.Resource {
 func createCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).BlockstorageClient()
+	sync.Client = m.(*tf_client.OracleClients).BlockstorageClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -160,7 +201,7 @@ func createCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
 func readCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).BlockstorageClient()
+	sync.Client = m.(*tf_client.OracleClients).BlockstorageClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -168,7 +209,7 @@ func readCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
 func updateCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).BlockstorageClient()
+	sync.Client = m.(*tf_client.OracleClients).BlockstorageClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -176,7 +217,7 @@ func updateCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
 func deleteCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).BlockstorageClient()
+	sync.Client = m.(*tf_client.OracleClients).BlockstorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)
@@ -263,6 +304,23 @@ func (s *CoreVolumeGroupResourceCrud) Create() error {
 		}
 	}
 
+	if volumeGroupReplicas, ok := s.D.GetOkExists("volume_group_replicas"); ok {
+		interfaces := volumeGroupReplicas.([]interface{})
+		tmp := make([]oci_core.VolumeGroupReplicaDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "volume_group_replicas", stateDataIndex)
+			converted, err := s.mapToVolumeGroupReplicaDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("volume_group_replicas") {
+			request.VolumeGroupReplicas = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVolumeGroup(context.Background(), request)
@@ -271,6 +329,7 @@ func (s *CoreVolumeGroupResourceCrud) Create() error {
 	}
 
 	s.Res = &response.VolumeGroup
+
 	return nil
 }
 
@@ -320,19 +379,51 @@ func (s *CoreVolumeGroupResourceCrud) Update() error {
 		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if preserveVolumeReplica, ok := s.D.GetOkExists("preserve_volume_replica"); ok {
+		tmp := preserveVolumeReplica.(bool)
+		request.PreserveVolumeReplica = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.VolumeGroupId = &tmp
 
-	if volumeIds, ok := s.D.GetOkExists("volume_ids"); ok {
-		interfaces := volumeIds.([]interface{})
-		tmp := make([]string, len(interfaces))
+	if volumeGroupReplicas, ok := s.D.GetOkExists("volume_group_replicas"); ok {
+		interfaces := volumeGroupReplicas.([]interface{})
+		tmp := make([]oci_core.VolumeGroupReplicaDetails, len(interfaces))
 		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "volume_group_replicas", stateDataIndex)
+			converted, err := s.mapToVolumeGroupReplicaDetails(fieldKeyFormat)
+			if err != nil {
+				return err
 			}
+			tmp[i] = converted
 		}
-		if len(tmp) != 0 || s.D.HasChange("volume_ids") {
-			request.VolumeIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("volume_group_replicas") {
+			request.VolumeGroupReplicas = tmp
+		}
+	}
+
+	disableReplication := false
+	if volumeGroupReplicasDeletion, ok := s.D.GetOkExists("volume_group_replicas_deletion"); ok {
+		disableReplication = volumeGroupReplicasDeletion.(bool)
+		if disableReplication == true {
+			request.VolumeGroupReplicas = []oci_core.VolumeGroupReplicaDetails{}
+		}
+	}
+
+	if !disableReplication {
+		if volumeIds, ok := s.D.GetOkExists("volume_ids"); ok {
+			interfaces := volumeIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("volume_ids") {
+				request.VolumeIds = tmp
+			}
 		}
 	}
 
@@ -406,9 +497,49 @@ func (s *CoreVolumeGroupResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	volumeGroupReplicas := []interface{}{}
+	for _, item := range s.Res.VolumeGroupReplicas {
+		volumeGroupReplicas = append(volumeGroupReplicas, VolumeGroupReplicaInfoToMap(item))
+	}
+	s.D.Set("volume_group_replicas", volumeGroupReplicas)
+
 	s.D.Set("volume_ids", s.Res.VolumeIds)
 
 	return nil
+}
+
+func (s *CoreVolumeGroupResourceCrud) mapToVolumeGroupReplicaDetails(fieldKeyFormat string) (oci_core.VolumeGroupReplicaDetails, error) {
+	result := oci_core.VolumeGroupReplicaDetails{}
+
+	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+		tmp := availabilityDomain.(string)
+		result.AvailabilityDomain = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	return result, nil
+}
+
+func VolumeGroupReplicaInfoToMap(obj oci_core.VolumeGroupReplicaInfo) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.VolumeGroupReplicaId != nil {
+		result["volume_group_replica_id"] = string(*obj.VolumeGroupReplicaId)
+	}
+
+	return result
 }
 
 func (s *CoreVolumeGroupResourceCrud) mapToVolumeGroupSourceDetails(fieldKeyFormat string) (oci_core.VolumeGroupSourceDetails, error) {
@@ -434,6 +565,13 @@ func (s *CoreVolumeGroupResourceCrud) mapToVolumeGroupSourceDetails(fieldKeyForm
 		if volumeGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_group_id")); ok {
 			tmp := volumeGroupId.(string)
 			details.VolumeGroupId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("volumeGroupReplicaId"):
+		details := oci_core.VolumeGroupSourceFromVolumeGroupReplicaDetails{}
+		if volumeGroupReplicaId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_group_replica_id")); ok {
+			tmp := volumeGroupReplicaId.(string)
+			details.VolumeGroupReplicaId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("volumeIds"):
@@ -472,6 +610,12 @@ func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails, datas
 
 		if v.VolumeGroupId != nil {
 			result["volume_group_id"] = string(*v.VolumeGroupId)
+		}
+	case oci_core.VolumeGroupSourceFromVolumeGroupReplicaDetails:
+		result["type"] = "volumeGroupReplicaId"
+
+		if v.VolumeGroupReplicaId != nil {
+			result["volume_group_replica_id"] = string(*v.VolumeGroupReplicaId)
 		}
 	case oci_core.VolumeGroupSourceFromVolumesDetails:
 		result["type"] = "volumeIds"

@@ -166,6 +166,12 @@ func (s *CoreVolumeGroupsDataSourceCrud) SetData() error {
 			volumeGroup["time_created"] = r.TimeCreated.String()
 		}
 
+		volumeGroupReplicas := []interface{}{}
+		for _, item := range r.VolumeGroupReplicas {
+			volumeGroupReplicas = append(volumeGroupReplicas, VolumeGroupReplicaInfoToMap(item))
+		}
+		volumeGroup["volume_group_replicas"] = volumeGroupReplicas
+
 		volumeGroup["volume_ids"] = r.VolumeIds
 
 		resources = append(resources, volumeGroup)
