@@ -42,6 +42,9 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// in the Oracle Data Guard documentation.
 	ProtectionMode CreateAutonomousContainerDatabaseDetailsProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
 
+	// Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association
+	IsAutomaticFailoverEnabled *bool `mandatory:"false" json:"isAutomaticFailoverEnabled"`
+
 	// The OCID of the peer cloud Autonomous VM Cluster.
 	PeerCloudAutonomousVmClusterId *string `mandatory:"false" json:"peerCloudAutonomousVmClusterId"`
 

@@ -232,5 +232,11 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "af-johannesburg-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "mct", 
+        "realmDomainComponent": "oraclecloud9.com", 
+        "regionIdentifier": "me-dcc-muscat-1", 
+        "realmKey": "oc9"
     }
 ]
