@@ -172,6 +172,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 						},
 
 						// Optional
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"days_of_week": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -200,6 +205,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -222,6 +232,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"weeks_of_month": {
 							Type:     schema.TypeList,
@@ -271,6 +286,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"db_server_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -300,6 +319,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_server_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -820,6 +843,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
 	}
 
+	if s.Res.DbServerVersion != nil {
+		s.D.Set("db_server_version", *s.Res.DbServerVersion)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -886,6 +913,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.StorageCount != nil {
 		s.D.Set("storage_count", *s.Res.StorageCount)
+	}
+
+	if s.Res.StorageServerVersion != nil {
+		s.D.Set("storage_server_version", *s.Res.StorageServerVersion)
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -977,6 +1008,10 @@ func ExadataInfrastructureContactToMap(obj oci_database.ExadataInfrastructureCon
 func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {
 	result := oci_database.MaintenanceWindow{}
 
+	if customActionTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_action_timeout_in_mins")); ok {
+		tmp := customActionTimeoutInMins.(int)
+		result.CustomActionTimeoutInMins = &tmp
+	}
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 		if result.Preference == oci_database.MaintenanceWindowPreferenceNoPreference {
@@ -1014,6 +1049,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(field
 		}
 	}
 
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		result.LeadTimeInWeeks = &tmp
@@ -1036,6 +1076,14 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(field
 		}
 	}
 
+	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
+		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
+	}
+
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
+	}
+
 	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
 		interfaces := weeksOfMonth.([]interface{})
 		tmp := make([]int, len(interfaces))
@@ -1055,6 +1103,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToMaintenanceWindow(field
 func ExadataInfrastructureMaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.CustomActionTimeoutInMins != nil {
+		result["custom_action_timeout_in_mins"] = int(*obj.CustomActionTimeoutInMins)
+	}
+
 	daysOfWeek := []interface{}{}
 	for _, item := range obj.DaysOfWeek {
 		daysOfWeek = append(daysOfWeek, ExadataInfrastructureDayOfWeekToMap(item))
@@ -1062,6 +1114,10 @@ func ExadataInfrastructureMaintenanceWindowToMap(obj *oci_database.MaintenanceWi
 	result["days_of_week"] = daysOfWeek
 
 	result["hours_of_day"] = obj.HoursOfDay
+
+	if obj.IsCustomActionTimeoutEnabled != nil {
+		result["is_custom_action_timeout_enabled"] = bool(*obj.IsCustomActionTimeoutEnabled)
+	}
 
 	if obj.LeadTimeInWeeks != nil {
 		result["lead_time_in_weeks"] = int(*obj.LeadTimeInWeeks)
@@ -1072,6 +1128,8 @@ func ExadataInfrastructureMaintenanceWindowToMap(obj *oci_database.MaintenanceWi
 		months = append(months, ExadataInfrastructureMonthToMap(item))
 	}
 	result["months"] = months
+
+	result["patching_mode"] = string(obj.PatchingMode)
 
 	result["preference"] = string(obj.Preference)
 

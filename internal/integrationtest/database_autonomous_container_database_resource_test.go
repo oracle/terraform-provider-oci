@@ -271,6 +271,8 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 
 // issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
+	t.Skip("Skip this test as AEI and its api no longer exists.")
+
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabase_rotateDatabase")
 	defer httpreplay.SaveScenario()
 
