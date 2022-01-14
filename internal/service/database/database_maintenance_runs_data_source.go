@@ -27,6 +27,10 @@ func DatabaseMaintenanceRunsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"maintenance_subtype": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"maintenance_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -81,6 +85,10 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if maintenanceSubtype, ok := s.D.GetOkExists("maintenance_subtype"); ok {
+		request.MaintenanceSubtype = oci_database.MaintenanceRunSummaryMaintenanceSubtypeEnum(maintenanceSubtype.(string))
 	}
 
 	if maintenanceType, ok := s.D.GetOkExists("maintenance_type"); ok {
