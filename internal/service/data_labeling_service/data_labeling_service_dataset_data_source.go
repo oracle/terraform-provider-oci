@@ -120,6 +120,10 @@ func (s *DataLabelingServiceDatasetDataSourceCrud) SetData() error {
 		s.D.Set("label_set", nil)
 	}
 
+	if s.Res.LabelingInstructions != nil {
+		s.D.Set("labeling_instructions", *s.Res.LabelingInstructions)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

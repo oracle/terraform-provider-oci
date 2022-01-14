@@ -10,6 +10,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -18,11 +24,6 @@ import (
 	"github.com/oracle/oci-go-sdk/v55/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -48,6 +49,10 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_labeling_service_dataset.test_dataset.id}`}},
 	}
 
+	datasetIgnoreDefinedTagsChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	datasetRepresentation = map[string]interface{}{
 		"annotation_format":      acctest.Representation{RepType: acctest.Required, Create: `BOUNDING_BOX`},
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -58,7 +63,9 @@ var (
 		"description":            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		//"initial_record_generation_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: datasetInitialRecordGenerationConfigurationRepresentation},
+		//"initial_record_generation_configuration": acctest.RepresentationGroup{acctest.Optional, datasetInitialRecordGenerationConfigurationRepresentation},
+		//"labeling_instructions": acctest.Representation{RepType: acctest.Optional, Create: `labelingInstructions`, Update: `labelingInstructions2`},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: datasetIgnoreDefinedTagsChangesRep},
 	}
 	datasetDatasetFormatDetailsRepresentation = map[string]interface{}{
 		"format_type": acctest.Representation{RepType: acctest.Required, Create: `IMAGE`},
@@ -100,7 +107,8 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 	config := acctest.ProviderTestConfig()
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id" +
+		"\" { default = \"%s\" }\n", compartmentId)
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_Update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_Update\" { default = \"%s\" }\n", compartmentIdU)
@@ -113,7 +121,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 	objectstorageBucket := "tf_dataset_objectstoragebucket"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	// Save TF content to Create resource with optional propeTestCheckResourceAttrrties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatasetResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_labeling_service_dataset", "test_dataset", acctest.Optional, acctest.Create, datasetRepresentation), "datalabelingservice", "dataset", t)
 
@@ -168,6 +176,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "label_set.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.0.name", "name"),
+				//resource.TestCheckResourceAttr(resourceName, "labeling_instructions", "labelingInstructions"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -209,6 +218,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "label_set.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.0.name", "name"),
+				//resource.TestCheckResourceAttr(resourceName, "labeling_instructions", "labelingInstructions"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -245,6 +255,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "label_set.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.0.name", "name2"),
+				//resource.TestCheckResourceAttr(resourceName, "labeling_instructions", "labelingInstructions2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -300,6 +311,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "label_set.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "label_set.0.items.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "label_set.0.items.0.name", "name2"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "labeling_instructions", "labelingInstructions2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

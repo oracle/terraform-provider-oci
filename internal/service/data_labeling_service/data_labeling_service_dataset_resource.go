@@ -179,6 +179,11 @@ func DataLabelingServiceDatasetResource() *schema.Resource {
 					},
 				},
 			},
+			"labeling_instructions": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -347,6 +352,11 @@ func (s *DataLabelingServiceDatasetResourceCrud) Create() error {
 			}
 			request.LabelSet = &tmp
 		}
+	}
+
+	if labelingInstructions, ok := s.D.GetOkExists("labeling_instructions"); ok {
+		tmp := labelingInstructions.(string)
+		request.LabelingInstructions = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
@@ -547,6 +557,11 @@ func (s *DataLabelingServiceDatasetResourceCrud) Update() error {
 		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if labelingInstructions, ok := s.D.GetOkExists("labeling_instructions"); ok {
+		tmp := labelingInstructions.(string)
+		request.LabelingInstructions = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
 
 	response, err := s.Client.UpdateDataset(context.Background(), request)
@@ -631,6 +646,10 @@ func (s *DataLabelingServiceDatasetResourceCrud) SetData() error {
 		s.D.Set("label_set", []interface{}{LabelSetToMap(s.Res.LabelSet)})
 	} else {
 		s.D.Set("label_set", nil)
+	}
+
+	if s.Res.LabelingInstructions != nil {
+		s.D.Set("labeling_instructions", *s.Res.LabelingInstructions)
 	}
 
 	if s.Res.LifecycleDetails != nil {
