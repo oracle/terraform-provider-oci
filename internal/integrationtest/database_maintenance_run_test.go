@@ -29,6 +29,22 @@ var (
 		"maintenance_run_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_maintenance_run.test_maintenance_run.id}`},
 	}
 
+	maintenanceRunDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"availability_domain":  acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"maintenance_subtype":  acctest.Representation{RepType: acctest.Optional, Create: `QUARTERLY`},
+		"maintenance_type":     acctest.Representation{RepType: acctest.Optional, Create: `PLANNED`},
+		"state":                acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"target_resource_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_target_resource.test_target_resource.id}`},
+		"target_resource_type": acctest.Representation{RepType: acctest.Optional, Create: `AUTONOMOUS_EXADATA_INFRASTRUCTURE`},
+		"filter":               acctest.RepresentationGroup{RepType: acctest.Required, Group: maintenanceRunDataSourceFilterRepresentation},
+	}
+
+	maintenanceRunDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_maintenance_run.test_maintenance_run.id}`}},
+	}
+
 	mrTimeScheduledCreate = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
 	mrTimeScheduledUpdate = time.Now().UTC().AddDate(0, 0, 10).Truncate(time.Millisecond)
 
@@ -67,6 +83,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_maintenance_run.test_maintenance_run"
+	datasourceName := "data.oci_database_maintenance_run.test_maintenance_runs"
 	singularDatasourceName := "data.oci_database_maintenance_run.test_maintenance_run"
 
 	var resId, resId2 string
@@ -198,6 +215,41 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.time_ended"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_runs.0.time_scheduled", "timeScheduled2"),
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.time_started"),
+			),
+		},
+
+		// verify datasources
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_maintenance_runs", "test_maintenance_runs", acctest.Optional, acctest.Update, maintenanceRunDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, DatabaseMaintenanceRunRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_subtype", "QUARTERLY"),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_type", "PLANNED"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(datasourceName, "target_resource_type", "AUTONOMOUS_EXADATA_INFRASTRUCTURE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_runs.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.description"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.maintenance_subtype"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.maintenance_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.patch_failure_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.patch_id"),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_runs.0.patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.peer_maintenance_run_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.target_resource_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.target_resource_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.time_ended"),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_runs.0.time_scheduled", "timeScheduled2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_runs.0.time_started"),
 			),
 		},
 
