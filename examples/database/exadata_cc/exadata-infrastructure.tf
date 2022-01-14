@@ -92,6 +92,12 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
     }
 
     weeks_of_month = ["2"]
+
+    patching_mode = "ROLLING"
+
+    is_custom_action_timeout_enabled = true
+
+    custom_action_timeout_in_mins = 30
   }
   
 }

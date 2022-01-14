@@ -106,6 +106,11 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 						},
 
 						// Optional
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"days_of_week": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -134,6 +139,11 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -156,6 +166,11 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"weeks_of_month": {
 							Type:     schema.TypeList,
@@ -206,6 +221,10 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"days_of_week": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -232,6 +251,10 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -252,6 +275,10 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 									},
 								},
 							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"preference": {
 							Type:     schema.TypeString,
@@ -697,6 +724,11 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 		}
 	}
 
+	if customActionTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_action_timeout_in_mins")); ok {
+		tmp := customActionTimeoutInMins.(int)
+		result.CustomActionTimeoutInMins = &tmp
+	}
+
 	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
 		interfaces := daysOfWeek.([]interface{})
 		tmp := make([]oci_database.DayOfWeek, len(interfaces))
@@ -727,6 +759,11 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 		}
 	}
 
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		if tmp > 0 {
@@ -751,6 +788,14 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 		}
 	}
 
+	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
+		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
+	}
+
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
+	}
+
 	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
 		interfaces := weeksOfMonth.([]interface{})
 		tmp := make([]int, len(interfaces))
@@ -770,6 +815,10 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.CustomActionTimeoutInMins != nil {
+		result["custom_action_timeout_in_mins"] = int(*obj.CustomActionTimeoutInMins)
+	}
+
 	daysOfWeek := []interface{}{}
 	for _, item := range obj.DaysOfWeek {
 		daysOfWeek = append(daysOfWeek, DayOfWeekToMap(item))
@@ -777,6 +826,10 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 	result["days_of_week"] = daysOfWeek
 
 	result["hours_of_day"] = obj.HoursOfDay
+
+	if obj.IsCustomActionTimeoutEnabled != nil {
+		result["is_custom_action_timeout_enabled"] = bool(*obj.IsCustomActionTimeoutEnabled)
+	}
 
 	if obj.LeadTimeInWeeks != nil {
 		result["lead_time_in_weeks"] = int(*obj.LeadTimeInWeeks)
@@ -787,6 +840,8 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 		months = append(months, MonthToMap(item))
 	}
 	result["months"] = months
+
+	result["patching_mode"] = string(obj.PatchingMode)
 
 	result["preference"] = string(obj.Preference)
 

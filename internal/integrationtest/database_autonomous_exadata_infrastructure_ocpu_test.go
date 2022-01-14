@@ -28,6 +28,8 @@ var (
 
 // issue-routing-tag: database/default
 func TestDatabaseAutonomousExadataInfrastructureOcpuResource_basic(t *testing.T) {
+	t.Skip("Skip this test as AEI and its api no longer exists.")
+
 	httpreplay.SetScenario("TestDatabaseAutonomousExadataInfrastructureOcpuResource_basic")
 	defer httpreplay.SaveScenario()
 
