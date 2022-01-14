@@ -77,6 +77,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"waf":                    wafResourceGraph,
 	"streaming":              streamingResourceGraph,
 	"tagging":                taggingResourceGraph,
+	"visual_builder":         visualBuilderResourceGraph,
 	//"vulnerability_scanning": vulnerabilityScanningResourceGraph,
 	//"waas":                   waasResourceGraph,
 	//"waf":                    wafResourceGraph,
@@ -1085,6 +1086,12 @@ var streamingResourceGraph = TerraformResourceGraph{
 
 var usageProxyResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {},
+}
+
+var visualBuilderResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportVisualBuilderVbInstanceHints},
+	},
 }
 
 var vulnerabilityScanningResourceGraph = TerraformResourceGraph{
