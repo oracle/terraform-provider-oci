@@ -22,7 +22,6 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	kubernetes_version = var.node_pool_kubernetes_version
 	name = var.node_pool_name
 	node_shape = var.node_pool_node_shape
-	subnet_ids = var.node_pool_subnet_ids
 
 	#Optional
 	initial_node_labels {
@@ -37,6 +36,9 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 			#Required
 			availability_domain = var.node_pool_node_config_details_placement_configs_availability_domain
 			subnet_id = oci_core_subnet.test_subnet.id
+
+			#Optional
+			capacity_reservation_id = oci_containerengine_capacity_reservation.test_capacity_reservation.id
 		}
 		size = var.node_pool_node_config_details_size
 
@@ -63,6 +65,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	}
 	quantity_per_subnet = var.node_pool_quantity_per_subnet
 	ssh_public_key = var.node_pool_ssh_public_key
+	subnet_ids = var.node_pool_subnet_ids
 }
 ```
 
@@ -85,9 +88,9 @@ The following arguments are supported:
 
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - (Required) (Updatable) The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
+		* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
 		* `subnet_id` - (Required) (Updatable) The OCID of the subnet in which to place nodes.
 	* `size` - (Required) (Updatable) The number of nodes that should be in the node pool. 
-* `node_image_id` - (Optional) Deprecated. Use `node_source_details` instead. The OCID of the image running on the nodes in the node pool. Cannot be used when `node_image_name` is specified.
 * `node_image_name` - (Optional) Deprecated. Use `nodeSourceDetails` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_metadata` - (Optional) (Updatable) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - (Required) (Updatable) The name of the node shape of the nodes in the node pool.
@@ -126,6 +129,7 @@ The following attributes are exported:
 
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
+		* `capacity_reservation_id` - The OCID of the compute capacity reservation in which to place the compute instance.
 		* `subnet_id` - The OCID of the subnet in which to place nodes.
 	* `size` - The number of nodes in the node pool. 
 * `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 

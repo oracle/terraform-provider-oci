@@ -119,6 +119,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 									},
 
 									// Optional
+									"capacity_reservation_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -1203,6 +1208,11 @@ func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPlacementConfigDetail
 		result.AvailabilityDomain = &tmp
 	}
 
+	if capacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_id")); ok {
+		tmp := capacityReservationId.(string)
+		result.CapacityReservationId = &tmp
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -1216,6 +1226,10 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.CapacityReservationId != nil {
+		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
 	}
 
 	if obj.SubnetId != nil {
@@ -1306,6 +1320,9 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 	m := v.(map[string]interface{})
 	if availabilityDomain, ok := m["availability_domain"]; ok && availabilityDomain != "" {
 		buf.WriteString(fmt.Sprintf("%v-", availabilityDomain))
+	}
+	if capacityReservationId, ok := m["capacity_reservation_id"]; ok && capacityReservationId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", capacityReservationId))
 	}
 	if subnetId, ok := m["subnet_id"]; ok && subnetId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", subnetId))
