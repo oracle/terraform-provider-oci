@@ -71,6 +71,9 @@ type BlockVolumeReplica struct {
 
 	// The total size of the data transferred from the source block volume to the block volume replica, in GBs.
 	TotalDataTransferredInGBs *int64 `mandatory:"false" json:"totalDataTransferredInGBs"`
+
+	// The OCID of the volume group replica.
+	VolumeGroupReplicaId *string `mandatory:"false" json:"volumeGroupReplicaId"`
 }
 
 func (m BlockVolumeReplica) String() string {

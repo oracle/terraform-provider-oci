@@ -56,6 +56,9 @@ type AutonomousDatabaseDataguardAssociation struct {
 	// Example: `180 Mb per second`
 	ApplyRate *string `mandatory:"false" json:"applyRate"`
 
+	// Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association
+	IsAutomaticFailoverEnabled *bool `mandatory:"false" json:"isAutomaticFailoverEnabled"`
+
 	// The approximate number of seconds of redo data not yet available on the standby Autonomous Container Database,
 	// as computed by the reporting database.
 	// Example: `7 seconds`

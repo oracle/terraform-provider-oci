@@ -36,6 +36,10 @@ type UpdateVolumeGroupDetails struct {
 
 	// OCIDs for the volumes in this volume group.
 	VolumeIds []string `mandatory:"false" json:"volumeIds"`
+
+	// The list of volume group replicas that this volume group will be updated to have
+	// in the specified destination availability domains.
+	VolumeGroupReplicas []VolumeGroupReplicaDetails `mandatory:"false" json:"volumeGroupReplicas"`
 }
 
 func (m UpdateVolumeGroupDetails) String() string {

@@ -74,6 +74,9 @@ type BootVolumeReplica struct {
 
 	// The total size of the data transferred from the source boot volume to the boot volume replica, in GBs.
 	TotalDataTransferredInGBs *int64 `mandatory:"false" json:"totalDataTransferredInGBs"`
+
+	// The OCID of the volume group replica.
+	VolumeGroupReplicaId *string `mandatory:"false" json:"volumeGroupReplicaId"`
 }
 
 func (m BootVolumeReplica) String() string {

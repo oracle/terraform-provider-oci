@@ -2,24 +2,25 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package datalabelingservice
+package core
 
 import (
 	"github.com/oracle/oci-go-sdk/v55/common"
 	"net/http"
 )
 
-// GetDatasetRequest wrapper for the GetDataset operation
+// GetVolumeGroupReplicaRequest wrapper for the GetVolumeGroupReplica operation
 //
 // See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/GetDataset.go.html to see an example of how to use GetDatasetRequest.
-type GetDatasetRequest struct {
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVolumeGroupReplica.go.html to see an example of how to use GetVolumeGroupReplicaRequest.
+type GetVolumeGroupReplicaRequest struct {
 
-	// Unique Dataset OCID
-	DatasetId *string `mandatory:"true" contributesTo:"path" name:"datasetId"`
+	// The OCID of the volume replica group.
+	VolumeGroupReplicaId *string `mandatory:"true" contributesTo:"path" name:"volumeGroupReplicaId"`
 
-	// The client request ID for tracing.
+	// Unique Oracle-assigned identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -27,50 +28,50 @@ type GetDatasetRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetDatasetRequest) String() string {
+func (request GetVolumeGroupReplicaRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetDatasetRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetVolumeGroupReplicaRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetDatasetRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetVolumeGroupReplicaRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDatasetRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetVolumeGroupReplicaRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// GetDatasetResponse wrapper for the GetDataset operation
-type GetDatasetResponse struct {
+// GetVolumeGroupReplicaResponse wrapper for the GetVolumeGroupReplica operation
+type GetVolumeGroupReplicaResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The Dataset instance
-	Dataset `presentIn:"body"`
+	// The VolumeGroupReplica instance
+	VolumeGroupReplica `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// A unique Oracle-assigned identifier for the request. If you need to contact
+	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response GetDatasetResponse) String() string {
+func (response GetVolumeGroupReplicaResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetDatasetResponse) HTTPResponse() *http.Response {
+func (response GetVolumeGroupReplicaResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

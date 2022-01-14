@@ -67,6 +67,9 @@ type VolumeGroup struct {
 	// Specifies whether the newly created cloned volume group's data has finished copying
 	// from the source volume group or backup.
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
+
+	// The list of volume group replicas of this volume group.
+	VolumeGroupReplicas []VolumeGroupReplicaInfo `mandatory:"false" json:"volumeGroupReplicas"`
 }
 
 func (m VolumeGroup) String() string {
@@ -76,19 +79,20 @@ func (m VolumeGroup) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		SizeInGBs          *int64                            `json:"sizeInGBs"`
-		SourceDetails      volumegroupsourcedetails          `json:"sourceDetails"`
-		IsHydrated         *bool                             `json:"isHydrated"`
-		AvailabilityDomain *string                           `json:"availabilityDomain"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		DisplayName        *string                           `json:"displayName"`
-		Id                 *string                           `json:"id"`
-		LifecycleState     VolumeGroupLifecycleStateEnum     `json:"lifecycleState"`
-		SizeInMBs          *int64                            `json:"sizeInMBs"`
-		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
-		VolumeIds          []string                          `json:"volumeIds"`
+		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags        map[string]string                 `json:"freeformTags"`
+		SizeInGBs           *int64                            `json:"sizeInGBs"`
+		SourceDetails       volumegroupsourcedetails          `json:"sourceDetails"`
+		IsHydrated          *bool                             `json:"isHydrated"`
+		VolumeGroupReplicas []VolumeGroupReplicaInfo          `json:"volumeGroupReplicas"`
+		AvailabilityDomain  *string                           `json:"availabilityDomain"`
+		CompartmentId       *string                           `json:"compartmentId"`
+		DisplayName         *string                           `json:"displayName"`
+		Id                  *string                           `json:"id"`
+		LifecycleState      VolumeGroupLifecycleStateEnum     `json:"lifecycleState"`
+		SizeInMBs           *int64                            `json:"sizeInMBs"`
+		TimeCreated         *common.SDKTime                   `json:"timeCreated"`
+		VolumeIds           []string                          `json:"volumeIds"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -113,6 +117,11 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.IsHydrated = model.IsHydrated
+
+	m.VolumeGroupReplicas = make([]VolumeGroupReplicaInfo, len(model.VolumeGroupReplicas))
+	for i, n := range model.VolumeGroupReplicas {
+		m.VolumeGroupReplicas[i] = n
+	}
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

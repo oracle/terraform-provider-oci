@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// DataLabelingService API
+// Data Labeling Management API
 //
-// A description of the DataLabelingService API
+// Use Data Labeling Management API to create, list, edit & delete datasets.
 //
 
 package datalabelingservice
@@ -59,16 +59,19 @@ type Dataset struct {
 
 	InitialRecordGenerationConfiguration *InitialRecordGenerationConfiguration `mandatory:"false" json:"initialRecordGenerationConfiguration"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
+	// The labeling instructions for human labelers in rich text format
+	LabelingInstructions *string `mandatory:"false" json:"labelingInstructions"`
+
+	// A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only.
+	// For example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// The defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	// The usage of system tag keys. These predefined keys are scoped to namespaces.
+	// For example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
@@ -83,6 +86,7 @@ func (m *Dataset) UnmarshalJSON(data []byte) (e error) {
 		Description                          *string                               `json:"description"`
 		LifecycleDetails                     *string                               `json:"lifecycleDetails"`
 		InitialRecordGenerationConfiguration *InitialRecordGenerationConfiguration `json:"initialRecordGenerationConfiguration"`
+		LabelingInstructions                 *string                               `json:"labelingInstructions"`
 		FreeformTags                         map[string]string                     `json:"freeformTags"`
 		DefinedTags                          map[string]map[string]interface{}     `json:"definedTags"`
 		SystemTags                           map[string]map[string]interface{}     `json:"systemTags"`
@@ -109,6 +113,8 @@ func (m *Dataset) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.InitialRecordGenerationConfiguration = model.InitialRecordGenerationConfiguration
+
+	m.LabelingInstructions = model.LabelingInstructions
 
 	m.FreeformTags = model.FreeformTags
 

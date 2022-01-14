@@ -24,6 +24,12 @@ type UpdateNodePoolNodeConfigDetails struct {
 	// The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The OCID of the Key Management Service key assigned to the boot volume.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
+	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+
 	// The placement configurations for the node pool. Provide one placement
 	// configuration for each availability domain in which you intend to launch a node.
 	// To use the node pool with a regional subnet, provide a placement configuration for

@@ -18,10 +18,10 @@ import (
 // KubernetesNetworkConfig The properties that define the network configuration for Kubernetes.
 type KubernetesNetworkConfig struct {
 
-	// The CIDR block for Kubernetes pods.
+	// The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
 	PodsCidr *string `mandatory:"false" json:"podsCidr"`
 
-	// The CIDR block for Kubernetes services.
+	// The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
 	ServicesCidr *string `mandatory:"false" json:"servicesCidr"`
 }
 
