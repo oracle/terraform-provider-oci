@@ -26,6 +26,8 @@ var (
 
 // issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousExadataInfrastructureShapeResource_basic(t *testing.T) {
+	t.Skip("Skip this test as AEI and its api no longer exists.")
+
 	httpreplay.SetScenario("TestDatabaseAutonomousExadataInfrastructureShapeResource_basic")
 	defer httpreplay.SaveScenario()
 

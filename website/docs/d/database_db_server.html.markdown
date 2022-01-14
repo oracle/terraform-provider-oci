@@ -39,6 +39,11 @@ The following attributes are exported:
 * `cpu_core_count` - The number of CPU cores enabled on the Db server.
 * `db_node_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db nodes associated with the Db server. 
 * `db_node_storage_size_in_gbs` - The allocated local node storage in GBs on the Db server.
+* `db_server_patching_details` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
+	* `estimated_patch_duration` - Estimated time, in minutes, to patch one database server.
+	* `patching_status` - The status of the patching operation.
+	* `time_patching_ended` - The time when the patching operation ended.
+	* `time_patching_started` - The time when the patching operation started.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Db server. The name does not need to be unique.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.

@@ -136,6 +136,18 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.CurrentCustomActionTimeoutInMins != nil {
+			maintenanceRun["current_custom_action_timeout_in_mins"] = *r.CurrentCustomActionTimeoutInMins
+		}
+
+		if r.CurrentPatchingComponent != nil {
+			maintenanceRun["current_patching_component"] = *r.CurrentPatchingComponent
+		}
+
+		if r.CustomActionTimeoutInMins != nil {
+			maintenanceRun["custom_action_timeout_in_mins"] = *r.CustomActionTimeoutInMins
+		}
+
 		if r.Description != nil {
 			maintenanceRun["description"] = *r.Description
 		}
@@ -144,8 +156,22 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 			maintenanceRun["display_name"] = *r.DisplayName
 		}
 
+		if r.EstimatedComponentPatchingStartTime != nil {
+			maintenanceRun["estimated_component_patching_start_time"] = r.EstimatedComponentPatchingStartTime.String()
+		}
+
+		if r.EstimatedPatchingTime != nil {
+			maintenanceRun["estimated_patching_time"] = []interface{}{EstimatedPatchingTimeToMap(r.EstimatedPatchingTime)}
+		} else {
+			maintenanceRun["estimated_patching_time"] = nil
+		}
+
 		if r.Id != nil {
 			maintenanceRun["id"] = *r.Id
+		}
+
+		if r.IsCustomActionTimeoutEnabled != nil {
+			maintenanceRun["is_custom_action_timeout_enabled"] = *r.IsCustomActionTimeoutEnabled
 		}
 
 		if r.LifecycleDetails != nil {
@@ -164,7 +190,17 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 			maintenanceRun["patch_id"] = *r.PatchId
 		}
 
+		if r.PatchingEndTime != nil {
+			maintenanceRun["patching_end_time"] = r.PatchingEndTime.String()
+		}
+
 		maintenanceRun["patching_mode"] = r.PatchingMode
+
+		if r.PatchingStartTime != nil {
+			maintenanceRun["patching_start_time"] = r.PatchingStartTime.String()
+		}
+
+		maintenanceRun["patching_status"] = r.PatchingStatus
 
 		if r.PeerMaintenanceRunId != nil {
 			maintenanceRun["peer_maintenance_run_id"] = *r.PeerMaintenanceRunId
@@ -172,11 +208,19 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 
 		maintenanceRun["state"] = r.LifecycleState
 
+		if r.TargetDbServerVersion != nil {
+			maintenanceRun["target_db_server_version"] = *r.TargetDbServerVersion
+		}
+
 		if r.TargetResourceId != nil {
 			maintenanceRun["target_resource_id"] = *r.TargetResourceId
 		}
 
 		maintenanceRun["target_resource_type"] = r.TargetResourceType
+
+		if r.TargetStorageServerVersion != nil {
+			maintenanceRun["target_storage_server_version"] = *r.TargetStorageServerVersion
+		}
 
 		if r.TimeEnded != nil {
 			maintenanceRun["time_ended"] = r.TimeEnded.String()
