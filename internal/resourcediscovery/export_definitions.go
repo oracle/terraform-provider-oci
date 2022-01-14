@@ -37,6 +37,7 @@ import (
 	oci_opsi "github.com/oracle/oci-go-sdk/v55/operationsinsights"
 	oci_sch "github.com/oracle/oci-go-sdk/v55/sch"
 	oci_streaming "github.com/oracle/oci-go-sdk/v55/streaming"
+	oci_visual_builder "github.com/oracle/oci-go-sdk/v55/visualbuilder"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v55/vulnerabilityscanning"
 	oci_waas "github.com/oracle/oci-go-sdk/v55/waas"
 	oci_waf "github.com/oracle/oci-go-sdk/v55/waf"
@@ -2769,6 +2770,18 @@ var exportUsageProxySubscriptionRedeemableUserHints = &TerraformResourceHints{
 	datasourceItemsAttr:    "redeemable_user_collection",
 	isDatasourceCollection: true,
 	resourceAbbreviation:   "subscription_redeemable_user",
+}
+
+var exportVisualBuilderVbInstanceHints = &TerraformResourceHints{
+	resourceClass:          "oci_visual_builder_vb_instance",
+	datasourceClass:        "oci_visual_builder_vb_instances",
+	datasourceItemsAttr:    "vb_instance_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "vb_instance",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_visual_builder.VbInstanceLifecycleStateActive),
+	},
 }
 
 var exportVulnerabilityScanningHostScanRecipeHints = &TerraformResourceHints{
