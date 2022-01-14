@@ -502,7 +502,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 
 		// Wait until it finishes
 		hostInsightId, err := hostInsightWaitForWorkRequest(workId, "opsi",
-			oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
 		}

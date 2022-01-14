@@ -54,8 +54,8 @@ var (
 	emHostInsightRepresentation = map[string]interface{}{
 		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"enterprise_manager_bridge_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.enterprise_manager_bridge_id}`},
-		"enterprise_manager_entity_identifier": acctest.Representation{RepType: acctest.Required, Create: `${var.enterprise_manager_entity_id}`},
-		"enterprise_manager_identifier":        acctest.Representation{RepType: acctest.Required, Create: `${var.enterprise_manager_id}`},
+		"enterprise_manager_entity_identifier": acctest.Representation{RepType: acctest.Required, Create: `${var.em_host_enterprise_manager_entity_id}`},
+		"enterprise_manager_identifier":        acctest.Representation{RepType: acctest.Required, Create: `${var.em_host_enterprise_manager_id}`},
 		"entity_source":                        acctest.Representation{RepType: acctest.Required, Create: `EM_MANAGED_EXTERNAL_HOST`, Update: `EM_MANAGED_EXTERNAL_HOST`},
 		"status":                               acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -86,11 +86,11 @@ func TestOpsiEmHostInsightResource_basic(t *testing.T) {
 	emBridgeId := utils.GetEnvSettingWithBlankDefault("enterprise_manager_bridge_ocid")
 	emBridgeIdVariableStr := fmt.Sprintf("variable \"enterprise_manager_bridge_id\" { default = \"%s\" }\n", emBridgeId)
 
-	enterpriseManagerId := utils.GetEnvSettingWithBlankDefault("enterprise_manager_id")
-	enterpriseManagerIdVariableStr := fmt.Sprintf("variable \"enterprise_manager_id\" { default = \"%s\" }\n", enterpriseManagerId)
+	enterpriseManagerId := utils.GetEnvSettingWithBlankDefault("em_host_enterprise_manager_id")
+	enterpriseManagerIdVariableStr := fmt.Sprintf("variable \"em_host_enterprise_manager_id\" { default = \"%s\" }\n", enterpriseManagerId)
 
-	enterpriseManagerEntityId := utils.GetEnvSettingWithBlankDefault("enterprise_manager_entity_id")
-	enterpriseManagerEntityIdVariableStr := fmt.Sprintf("variable \"enterprise_manager_entity_id\" { default = \"%s\" }\n", enterpriseManagerEntityId)
+	enterpriseManagerEntityId := utils.GetEnvSettingWithBlankDefault("em_host_enterprise_manager_entity_id")
+	enterpriseManagerEntityIdVariableStr := fmt.Sprintf("variable \"em_host_enterprise_manager_entity_id\" { default = \"%s\" }\n", enterpriseManagerEntityId)
 
 	resourceName := "oci_opsi_host_insight.test_host_insight"
 	datasourceName := "data.oci_opsi_host_insights.test_host_insights"

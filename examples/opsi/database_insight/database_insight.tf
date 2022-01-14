@@ -48,7 +48,7 @@ variable "database_insight_entity_source" {
 }
 
 variable "database_insight_fields" {
-  default = ["databaseName", "databaseType", "compartmentId", "databaseDisplayName", "freeformTags", "definedTags", "systemTags"]
+  default = ["databaseName", "databaseType", "compartmentId", "databaseDisplayName", "freeformTags", "definedTags"]
 }
 
 variable "database_insight_freeform_tags" {
