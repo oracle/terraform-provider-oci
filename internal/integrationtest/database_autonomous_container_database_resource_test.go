@@ -79,9 +79,6 @@ var (
 
 // issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
-	// sshaagar: Commenting AEI test as not needed post migration.
-	// DISALLOWED_API.launchAutonomousExadataInfrastructure
-	t.Skip("Skipping Test for TeamCity")
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabase_basic")
 	defer httpreplay.SaveScenario()
 
@@ -186,7 +183,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", acctest.Optional, acctest.Create, ACDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies,
+				compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies + ExaccAcdResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -225,7 +222,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, autonomousContainerDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies,
+				compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies + ExaccAcdResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
@@ -256,7 +253,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies + ExaccAcdResourceConfig,
 		},
 		// verify resource import
 		{

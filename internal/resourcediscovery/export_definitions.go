@@ -1031,6 +1031,16 @@ var exportDatabaseAutonomousContainerDatabaseHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatabaseAutonomousContainerDatabaseDataguardAssociationHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_autonomous_container_database_dataguard_association",
+	datasourceClass:      "oci_database_autonomous_container_database_dataguard_associations",
+	datasourceItemsAttr:  "autonomous_container_database_dataguard_associations",
+	resourceAbbreviation: "autonomous_container_database_dataguard_association",
+	discoverableLifecycleStates: []string{
+		string(oci_database.AutonomousContainerDatabaseDataguardAssociationLifecycleStateAvailable),
+	},
+}
+
 var exportDatabaseAutonomousDatabaseHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_autonomous_database",
 	datasourceClass:      "oci_database_autonomous_databases",

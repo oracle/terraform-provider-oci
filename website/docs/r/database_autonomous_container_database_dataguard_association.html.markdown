@@ -1,24 +1,28 @@
 ---
 subcategory: "Database"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_container_database_dataguard_associations"
-sidebar_current: "docs-oci-datasource-database-autonomous_container_database_dataguard_associations"
+page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_container_database_dataguard_association"
+sidebar_current: "docs-oci-resource-database-autonomous_container_database_dataguard_association"
 description: |-
-  Provides the list of Autonomous Container Database Dataguard Associations in Oracle Cloud Infrastructure Database service
+  Provides the Autonomous Container Database Dataguard Association resource in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_autonomous_container_database_dataguard_associations
-This data source provides the list of Autonomous Container Database Dataguard Associations in Oracle Cloud Infrastructure Database service.
+# oci_database_autonomous_container_database_dataguard_association
+This resource provides the Autonomous Container Database Dataguard Association resource in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the Autonomous Container Databases with Autonomous Data Guard-enabled associated with the specified Autonomous Container Database.
+Update Autonomous Data Guard association.
 
 
 ## Example Usage
 
 ```hcl
-data "oci_database_autonomous_container_database_dataguard_associations" "test_autonomous_container_database_dataguard_associations" {
+resource "oci_database_autonomous_container_database_dataguard_association" "test_autonomous_container_database_dataguard_association" {
 	#Required
+	autonomous_container_database_dataguard_association_id = oci_database_autonomous_container_database_dataguard_association.test_autonomous_container_database_dataguard_association.id
 	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+
+	#Optional
+	is_automatic_failover_enabled = var.autonomous_container_database_dataguard_association_is_automatic_failover_enabled
 }
 ```
 
@@ -26,16 +30,15 @@ data "oci_database_autonomous_container_database_dataguard_associations" "test_a
 
 The following arguments are supported:
 
+* `autonomous_container_database_dataguard_association_id` - (Required) The Autonomous Container Database-Autonomous Data Guard association [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `autonomous_container_database_id` - (Required) The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `is_automatic_failover_enabled` - (Optional) (Updatable) Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
 
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
 ## Attributes Reference
-
-The following attributes are exported:
-
-* `autonomous_container_database_dataguard_associations` - The list of autonomous_container_database_dataguard_associations.
-
-### AutonomousContainerDatabaseDataguardAssociation Reference
 
 The following attributes are exported:
 
@@ -56,4 +59,20 @@ The following attributes are exported:
 * `time_last_role_changed` - The date and time when the last role change action happened.
 * `time_last_synced` - The date and time of the last update to the apply lag, apply rate, and transport lag values.
 * `transport_lag` - The approximate number of seconds of redo data not yet available on the standby Autonomous Container Database, as computed by the reporting database.  Example: `7 seconds` 
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Autonomous Container Database Dataguard Association
+	* `update` - (Defaults to 20 minutes), when updating the Autonomous Container Database Dataguard Association
+	* `delete` - (Defaults to 20 minutes), when destroying the Autonomous Container Database Dataguard Association
+
+
+## Import
+
+AutonomousContainerDatabaseDataguardAssociations can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_database_autonomous_container_database_dataguard_association.test_autonomous_container_database_dataguard_association "autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}" 
+```
 
