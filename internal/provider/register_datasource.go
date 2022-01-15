@@ -71,6 +71,7 @@ import (
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
+	tf_visual_builder "github.com/terraform-providers/terraform-provider-oci/internal/service/visual_builder"
 	tf_vulnerability_scanning "github.com/terraform-providers/terraform-provider-oci/internal/service/vulnerability_scanning"
 	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
 	tf_waf "github.com/terraform-providers/terraform-provider-oci/internal/service/waf"
@@ -1038,4 +1039,6 @@ func init() {
 	RegisterDatasource("oci_bastion_session", tf_bastion.BastionSessionDataSource())
 	RegisterDatasource("oci_bastion_sessions", tf_bastion.BastionSessionsDataSource())
 
+	//visual builder
+	RegisterResource("oci_visual_builder_vb_instance", tf_visual_builder.VisualBuilderVbInstanceDataSource())
 }

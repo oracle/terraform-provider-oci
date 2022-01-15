@@ -6,11 +6,12 @@ package visual_builder
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-	"strings"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -601,7 +602,7 @@ func (s *VisualBuilderVbInstanceResourceCrud) SetData() error {
 	}
 
 	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -717,7 +718,7 @@ func VbInstanceSummaryToMap(obj oci_visual_builder.VbInstanceSummary) map[string
 	}
 
 	if obj.SystemTags != nil {
-		result["system_tags"] = systemTagsToMap(obj.SystemTags)
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
 	if obj.TimeCreated != nil {
