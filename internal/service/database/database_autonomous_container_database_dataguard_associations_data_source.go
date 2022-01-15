@@ -25,79 +25,7 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSource() *schem
 			"autonomous_container_database_dataguard_associations": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"apply_lag": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"apply_rate": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"autonomous_container_database_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"lifecycle_details": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"peer_autonomous_container_database_dataguard_association_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"peer_autonomous_container_database_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"peer_lifecycle_state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"peer_role": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"protection_mode": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"role": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_last_role_changed": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_last_synced": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"transport_lag": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
+				Elem:     tfresource.GetDataSourceItemSchema(DatabaseAutonomousContainerDatabaseDataguardAssociationResource()),
 			},
 		},
 	}
@@ -175,6 +103,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud)
 
 		if r.Id != nil {
 			autonomousContainerDatabaseDataguardAssociation["id"] = *r.Id
+		}
+
+		if r.IsAutomaticFailoverEnabled != nil {
+			autonomousContainerDatabaseDataguardAssociation["is_automatic_failover_enabled"] = *r.IsAutomaticFailoverEnabled
 		}
 
 		if r.LifecycleDetails != nil {

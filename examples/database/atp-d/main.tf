@@ -11,7 +11,7 @@ provider "oci" {
 
 resource "oci_database_autonomous_container_database" "test_autonomous_container_database" {
   #Required
-  autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
+  cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   display_name                         = "example-container-database"
   patch_model                          = "RELEASE_UPDATES"
 
@@ -85,7 +85,7 @@ data "oci_database_autonomous_container_databases" "test_autonomous_container_da
   compartment_id = var.compartment_ocid
 
   #Optional
-  autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
+  cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   availability_domain                  = data.oci_identity_availability_domain.ad.name
   display_name                         = "example-container-database"
   state                                = "AVAILABLE"
@@ -99,15 +99,6 @@ data "oci_database_autonomous_databases" "autonomous_databases" {
   autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
   display_name                     = oci_database_autonomous_database.test_autonomous_database.display_name
   db_workload                      = "OLTP"
-}
-
-data "oci_database_autonomous_exadata_infrastructure_ocpu" "test_autonomous_exadata_infrastructure_ocpu" {
-  #Required
-  autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
-}
-
-output "autonomous_database_consumed_cpu" {
-  value = data.oci_database_autonomous_exadata_infrastructure_ocpu.test_autonomous_exadata_infrastructure_ocpu.consumed_cpu
 }
 
 output "autonomous_database_admin_password" {

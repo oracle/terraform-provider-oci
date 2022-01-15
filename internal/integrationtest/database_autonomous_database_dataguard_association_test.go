@@ -63,6 +63,7 @@ func TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic(t *testing
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.autonomous_database_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.is_automatic_failover_enabled"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.peer_autonomous_database_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.peer_autonomous_database_life_cycle_state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.peer_role"),

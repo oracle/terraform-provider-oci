@@ -424,6 +424,7 @@ data_safe
 database
     
 * oci\_database\_autonomous\_container\_database
+* oci\_database\_autonomous\_container\_database\_dataguard\_association
 * oci\_database\_autonomous\_database
 * oci\_database\_autonomous\_exadata\_infrastructure
 * oci\_database\_autonomous\_vm\_cluster

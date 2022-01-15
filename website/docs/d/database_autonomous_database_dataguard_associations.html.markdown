@@ -43,6 +43,7 @@ The following attributes are exported:
 * `apply_rate` - The rate at which redo logs are synced between the associated databases.  Example: `180 Mb per second` 
 * `autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database that has a relationship with the peer Autonomous Database. 
 * `id` - The OCID of the Autonomous Dataguard created for Autonomous Container Database where given Autonomous Database resides in.
+* `is_automatic_failover_enabled` - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
 * `lifecycle_details` - Additional information about the current lifecycleState, if available. 
 * `peer_autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Autonomous Database. 
 * `peer_autonomous_database_life_cycle_state` - The current state of Autonomous Data Guard.

@@ -146,6 +146,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_automatic_failover_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"key_store_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -319,6 +325,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"peer_autonomous_exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"peer_cloud_autonomous_vm_cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -684,6 +696,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isAutomaticFailoverEnabled, ok := s.D.GetOkExists("is_automatic_failover_enabled"); ok {
+		tmp := isAutomaticFailoverEnabled.(bool)
+		request.IsAutomaticFailoverEnabled = &tmp
+	}
+
 	if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
 		tmp := keyStoreId.(string)
 		request.KeyStoreId = &tmp
@@ -733,6 +750,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if peerAutonomousExadataInfrastructureId, ok := s.D.GetOkExists("peer_autonomous_exadata_infrastructure_id"); ok {
 		tmp := peerAutonomousExadataInfrastructureId.(string)
 		request.PeerAutonomousExadataInfrastructureId = &tmp
+	}
+
+	if peerCloudAutonomousVmClusterId, ok := s.D.GetOkExists("peer_cloud_autonomous_vm_cluster_id"); ok {
+		tmp := peerCloudAutonomousVmClusterId.(string)
+		request.PeerCloudAutonomousVmClusterId = &tmp
 	}
 
 	if peerAutonomousVmClusterId, ok := s.D.GetOkExists("peer_autonomous_vm_cluster_id"); ok {

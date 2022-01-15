@@ -55,6 +55,7 @@ func init() {
 	exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
 	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
+	exportDatabaseAutonomousContainerDatabaseDataguardAssociationHints.getIdFn = getDatabaseAutonomousContainerDatabaseDataguardAssociationId
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
 	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
@@ -235,6 +236,16 @@ func getCoreDrgRouteTableRouteRuleId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find drgRouteTableId for Core DrgRouteTableRouteRule")
 	}
 	return tf_core.GetDrgRouteTableRouteRuleCompositeId(drgRouteTableId, drgRouteRuleId), nil
+}
+
+func getDatabaseAutonomousContainerDatabaseDataguardAssociationId(resource *OCIResource) (string, error) {
+
+	autonomousContainerDatabaseDataguardAssociationId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find autonomousContainerDatabaseDataguardAssociationId for Database AutonomousContainerDatabaseDataguardAssociation")
+	}
+	autonomousContainerDatabaseId := resource.parent.id
+	return tf_database.GetAutonomousContainerDatabaseDataguardAssociationCompositeId(autonomousContainerDatabaseDataguardAssociationId, autonomousContainerDatabaseId), nil
 }
 
 func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
