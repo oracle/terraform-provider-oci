@@ -107,7 +107,7 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 	config := acctest.ProviderTestConfig()
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id" +
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id"+
 		"\" { default = \"%s\" }\n", compartmentId)
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_Update", compartmentId)

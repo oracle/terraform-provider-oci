@@ -6,11 +6,12 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -58,7 +59,7 @@ var (
 		// Not supported yet
 		// "alternate_custom_endpoints": RepresentationGroup{Optional, vbInstanceAlternateCustomEndpointsRepresentation},
 		"consumption_model":         acctest.Representation{RepType: acctest.Optional, Create: `UCM`},
-		"custom_endpoint":           acctest.RepresentationGroup{acctest.Optional, vbInstanceCustomEndpointRepresentation},
+		"custom_endpoint":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: vbInstanceCustomEndpointRepresentation},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"idcs_open_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
