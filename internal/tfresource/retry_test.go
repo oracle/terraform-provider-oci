@@ -11,6 +11,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -265,7 +267,6 @@ func TestUnitRetryKMSThrottling(t *testing.T) {
 	retryLoop(t, &r)
 }
 
-/*
 // issue-routing-tag: terraform/default
 func TestUnitRetrySubnet409Conflict(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
@@ -276,8 +277,8 @@ func TestUnitRetrySubnet409Conflict(t *testing.T) {
 	ConfiguredRetryDuration = nil
 
 	var subnetOptionals []interface{} = make([]interface{}, 2)
-	subnetOptionals[0] = subnetService
-	subnetOptionals[1] = deleteResource
+	subnetOptionals[0] = globalvar.SubnetService
+	subnetOptionals[1] = globalvar.DeleteResource
 
 	r := retryTestInput{
 		serviceName:              coreService,
@@ -301,8 +302,8 @@ func TestUnitRetrySubnet409OtherErrorMessage(t *testing.T) {
 	ConfiguredRetryDuration = nil
 
 	var subnetOptionals []interface{} = make([]interface{}, 2)
-	subnetOptionals[0] = subnetService
-	subnetOptionals[1] = deleteResource
+	subnetOptionals[0] = globalvar.SubnetService
+	subnetOptionals[1] = globalvar.DeleteResource
 
 	r := retryTestInput{
 		serviceName:              coreService,
@@ -314,7 +315,7 @@ func TestUnitRetrySubnet409OtherErrorMessage(t *testing.T) {
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)
-}*/
+}
 
 // issue-routing-tag: terraform/default
 func TestUnitRetryDatabase(t *testing.T) {
@@ -396,7 +397,6 @@ func TestUnitRetryObjectStorage(t *testing.T) {
 	retryLoop(t, &r)
 }
 
-/*
 // issue-routing-tag: terraform/default
 func TestUnitRetryDbHomeWith404Error(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
@@ -413,7 +413,7 @@ func TestUnitRetryDbHomeWith404Error(t *testing.T) {
 		responseError:            fmt.Errorf("NotAuthorizedOrNotFound"),
 		expectedRetryTimeSeconds: 0,
 		jitterMode:               true,
-		optionals:                []interface{}{getDbHomeRetryDurationFunction(20 * time.Second)},
+		optionals:                []interface{}{GetDbHomeRetryDurationFunction(20 * time.Second)},
 	}
 	retryLoop(t, &r)
 }
@@ -432,9 +432,9 @@ func TestUnitRetryDbHomeWithConflictingStateError(t *testing.T) {
 		httpResponseStatusCode:   409,
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("The existing Db System with ID blahblahblah has a conflicting state of UPDATING."),
-		expectedRetryTimeSeconds: 20,
+		expectedRetryTimeSeconds: 30,
 		jitterMode:               true,
-		optionals:                []interface{}{getDbHomeRetryDurationFunction(20 * time.Second)},
+		optionals:                []interface{}{GetDbHomeRetryDurationFunction(20 * time.Second)},
 	}
 	retryLoop(t, &r)
 }
@@ -455,8 +455,7 @@ func TestUnitRetryDbHomeWithInvalidatedRetryTokenError(t *testing.T) {
 		responseError:            fmt.Errorf("InvalidatedRetryToken"),
 		expectedRetryTimeSeconds: 0,
 		jitterMode:               true,
-		optionals:                []interface{}{getDbHomeRetryDurationFunction(20 * time.Second)},
+		optionals:                []interface{}{GetDbHomeRetryDurationFunction(20 * time.Second)},
 	}
 	retryLoop(t, &r)
 }
-*/

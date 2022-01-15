@@ -4,6 +4,8 @@
 package tfresource
 
 import (
+	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
 	"testing"
@@ -725,7 +727,6 @@ func TestUnitGetValue_MultiLevelMap(t *testing.T) {
 	}
 }
 
-/*
 // issue-routing-tag: terraform/default
 func TestUnitGetPathElements_EmptyFilterName(t *testing.T) {
 	if _, error := getFieldPathElements(CoreInstanceResource().Schema, ""); error == nil {
@@ -790,4 +791,324 @@ func TestUnitNestedMap(t *testing.T) {
 		t.Errorf("unexpected number of values returned in map")
 	}
 }
-*/
+
+// This is for unit test input only
+func CoreInstanceResource() *schema.Resource {
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Schema: map[string]*schema.Schema{
+			// Required
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"shape": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+
+			// Optional
+			"async": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"create_vnic_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"assign_private_dns_record": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							ForceNew: true,
+						},
+						"assign_public_ip": {
+							// Change type from boolean to string because TF doesn't handle default
+							// values for boolean nested objects correctly.
+							Type:     schema.TypeString,
+							Optional: true,
+							Default:  "true",
+							ValidateFunc: func(v interface{}, k string) ([]string, []error) {
+								// Verify that we can parse the string value as a bool value.
+								var es []error
+								if _, err := strconv.ParseBool(v.(string)); err != nil {
+									es = append(es, fmt.Errorf("%s: cannot parse 'assign_public_ip' as bool: %v", k, err))
+								}
+								return nil, es
+							},
+						},
+						"defined_tags": {
+							Type:             schema.TypeMap,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: DefinedTagsDiffSuppressFunction,
+							Elem:             schema.TypeString,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"private_ip": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"skip_source_dest_check": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"vlan_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+
+			"agent_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"are_all_plugins_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_management_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_monitoring_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"plugins_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"desired_state": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"availability_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_live_migration_preferred": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"recovery_action": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"capacity_reservation_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"dedicated_vm_host_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"instance_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"are_legacy_imds_endpoints_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"ipxe_script": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_pv_encryption_in_transit_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"launch_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"boot_volume_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"firmware": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_consistent_volume_naming_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_pv_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"network_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"remote_data_volume_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"metadata": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Elem:     schema.TypeString,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_maintenance_reboot_due": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			// Legacy custom computed convenience values
+			"public_ip": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"private_ip": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			// Computed
+			// Add this computed boot_volume_id field even though it's not part of the API specs. This will make it easier to
+			// discover the attached boot volume's ID; to preserve it for reattachment.
+			"boot_volume_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
+	}
+}
