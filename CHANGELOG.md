@@ -1,3 +1,17 @@
+## 4.60.0 (Unreleased)
+
+### Added
+- Autonomous Data Guard v2-Observer Support
+- Support for Visual Builder Runtime
+- Support for - OCI - Data Labeling Service
+- Support For - Cross Region Volume Group Replication
+- Support Scale Storage separately for DATA and RECO for VMDB
+- Support for ADBS refreshable clone reconnect
+- Support for container engine boot volume encryption
+- Support For - Standard Tags
+- Support for allow customer to choose Dataguard type
+- Support for - DevOps Project Service - fixed defined tags assertion test case fix
+
 ## 4.59.0 (Unreleased)
 
 ### Added
