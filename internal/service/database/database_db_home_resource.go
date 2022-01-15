@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"strconv"
 	"strings"
 	"time"
 
@@ -451,7 +450,7 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 
 	// Special override to ensure that CreateDbHome retries for the duration of the Terraform configured Create timeout
 	// The underlying db system or vm cluster may be in an updating state. So keep retrying the CreateDbHome.
-	createDbHomeRetryDurationFn := getDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutCreate))
+	createDbHomeRetryDurationFn := tfresource.GetDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutCreate))
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database", createDbHomeRetryDurationFn)
 
@@ -616,7 +615,7 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 
 	// Special override to ensure that DeleteDbHome retries for the duration of the Terraform configured Create timeout
 	// The underlying db system or vm cluster may be in an updating state. So keep retrying it.
-	deleteDbHomeRetryDurationFn := getDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
+	deleteDbHomeRetryDurationFn := tfresource.GetDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database", deleteDbHomeRetryDurationFn)
 
 	dbErr := s.deleteNestedDB()
@@ -1403,31 +1402,4 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat st
 	}
 
 	return result, nil
-}
-
-func getDbHomeRetryDurationFunction(retryTimeout time.Duration) expectedRetryDurationFn {
-	return func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration {
-		defaultRetryTime := tfresource.GetDefaultExpectedRetryDuration(response, disableNotFoundRetries)
-		if response.Response == nil || response.Response.HTTPResponse() == nil {
-			return defaultRetryTime
-		}
-		e := response.Error
-		switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
-		case 409:
-			if isDisable409Retry, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
-				log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
-				return 0
-			}
-			if e := response.Error; e != nil {
-				if strings.Contains(e.Error(), "IncorrectState") {
-					defaultRetryTime = retryTimeout
-				} else if strings.Contains(e.Error(), "InvalidatedRetryToken") {
-					defaultRetryTime = 0
-				} else {
-					defaultRetryTime = tfresource.LongRetryTime
-				}
-			}
-		}
-		return defaultRetryTime
-	}
 }
