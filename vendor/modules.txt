@@ -330,6 +330,7 @@ github.com/oracle/oci-go-sdk/v55/streaming
 github.com/oracle/oci-go-sdk/v55/usage
 github.com/oracle/oci-go-sdk/v55/usageapi
 github.com/oracle/oci-go-sdk/v55/vault
+github.com/oracle/oci-go-sdk/v55/visualbuilder
 github.com/oracle/oci-go-sdk/v55/vulnerabilityscanning
 github.com/oracle/oci-go-sdk/v55/waas
 github.com/oracle/oci-go-sdk/v55/waf
