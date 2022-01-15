@@ -14,10 +14,10 @@ import (
 // DeleteConfigRequest wrapper for the DeleteConfig operation
 type DeleteConfigRequest struct {
 
-	// The APM Domain Id the request is intended for.
+	// The APM Domain ID the request is intended for.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
-	// The OCID of the ConfiguredItem.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item.
 	ConfigId *string `mandatory:"true" contributesTo:"path" name:"configId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

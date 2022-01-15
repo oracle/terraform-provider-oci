@@ -812,13 +812,15 @@ type TablespaceIndexCompressForEnum string
 
 // Set of constants representing the allowable values for TablespaceIndexCompressForEnum
 const (
-	TablespaceIndexCompressForLow  TablespaceIndexCompressForEnum = "ADVANCED_LOW"
-	TablespaceIndexCompressForHigh TablespaceIndexCompressForEnum = "ADVANCED_HIGH"
+	TablespaceIndexCompressForAdvancedLow  TablespaceIndexCompressForEnum = "ADVANCED_LOW"
+	TablespaceIndexCompressForAdvancedHigh TablespaceIndexCompressForEnum = "ADVANCED_HIGH"
+	TablespaceIndexCompressForNone         TablespaceIndexCompressForEnum = "NONE"
 )
 
 var mappingTablespaceIndexCompressForEnum = map[string]TablespaceIndexCompressForEnum{
-	"ADVANCED_LOW":  TablespaceIndexCompressForLow,
-	"ADVANCED_HIGH": TablespaceIndexCompressForHigh,
+	"ADVANCED_LOW":  TablespaceIndexCompressForAdvancedLow,
+	"ADVANCED_HIGH": TablespaceIndexCompressForAdvancedHigh,
+	"NONE":          TablespaceIndexCompressForNone,
 }
 
 // GetTablespaceIndexCompressForEnumValues Enumerates the set of values for TablespaceIndexCompressForEnum
@@ -835,6 +837,7 @@ func GetTablespaceIndexCompressForEnumStringValues() []string {
 	return []string{
 		"ADVANCED_LOW",
 		"ADVANCED_HIGH",
+		"NONE",
 	}
 }
 

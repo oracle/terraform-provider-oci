@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Apm Configuration API
+// Application Performance Monitoring Configuration API
 //
-// An API for the APM Configuration service. Use this API to query and set APM configuration.
+// Use the Application Performance Monitoring Configuration API to query and set Application Performance Monitoring
+// configuration. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmconfig
@@ -16,8 +17,8 @@ import (
 	"strings"
 )
 
-// CreateConfigDetails The request body used to create new Configuration entities. It must specify the configuration type of the item to
-// create, as well as the actual data to populate the item with.
+// CreateConfigDetails The request body used to create new configuration items. It must specify the configuration type of the item,
+// as well as the actual data to populate the item with.
 type CreateConfigDetails interface {
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

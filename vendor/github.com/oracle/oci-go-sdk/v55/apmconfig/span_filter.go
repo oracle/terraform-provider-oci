@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Apm Configuration API
+// Application Performance Monitoring Configuration API
 //
-// An API for the APM Configuration service. Use this API to query and set APM configuration.
+// Use the Application Performance Monitoring Configuration API to query and set Application Performance Monitoring
+// configuration. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmconfig
@@ -16,10 +17,10 @@ import (
 	"strings"
 )
 
-// SpanFilter A span filter is a named setting that specifies filter criteria to match a subset of the spans.
+// SpanFilter A named setting that specifies the filter criteria to match a subset of the spans.
 type SpanFilter struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID will be generated
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	Id *string `mandatory:"false" json:"id"`
 
@@ -41,13 +42,13 @@ type SpanFilter struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The name by which this filter can be displayed in the UI.
+	// The name by which the span filter is displayed to the end user.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The string that defines the Span Filter expression.
 	FilterText *string `mandatory:"false" json:"filterText"`
 
-	// An optional string that describes what the filter is intended or used for.
+	// An optional string that describes what the span filter is intended or used for.
 	Description *string `mandatory:"false" json:"description"`
 }
 

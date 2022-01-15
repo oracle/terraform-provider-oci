@@ -14,13 +14,13 @@ import (
 // UpdateConfigRequest wrapper for the UpdateConfig operation
 type UpdateConfigRequest struct {
 
-	// The APM Domain Id the request is intended for.
+	// The APM Domain ID the request is intended for.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
-	// The OCID of the ConfiguredItem.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item.
 	ConfigId *string `mandatory:"true" contributesTo:"path" name:"configId"`
 
-	// The data to be updated.
+	// The configuration details to be updated.
 	UpdateConfigDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -34,8 +34,8 @@ type UpdateConfigRequest struct {
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Indicates that this request is a dry-run.
-	// If set to "true", nothing will be modified, only the validation will be performed.
+	// Indicates that the request is a dry run, if set to "true". A dry run request does not modify the
+	// configuration item details and is used only to perform validation on the submitted data.
 	OpcDryRun *string `mandatory:"false" contributesTo:"header" name:"opc-dry-run"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -10,6 +10,7 @@
 package functions
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v55/common"
 	"strings"
@@ -40,6 +41,8 @@ type UpdateFunctionDetails struct {
 	// Timeout for executions of the function. Value in seconds.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
+	ProvisionedConcurrencyConfig FunctionProvisionedConcurrencyConfig `mandatory:"false" json:"provisionedConcurrencyConfig"`
+
 	TraceConfig *FunctionTraceConfig `mandatory:"false" json:"traceConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -66,4 +69,52 @@ func (m UpdateFunctionDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Image                        *string                              `json:"image"`
+		ImageDigest                  *string                              `json:"imageDigest"`
+		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
+		Config                       map[string]string                    `json:"config"`
+		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
+		ProvisionedConcurrencyConfig functionprovisionedconcurrencyconfig `json:"provisionedConcurrencyConfig"`
+		TraceConfig                  *FunctionTraceConfig                 `json:"traceConfig"`
+		FreeformTags                 map[string]string                    `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{}    `json:"definedTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Image = model.Image
+
+	m.ImageDigest = model.ImageDigest
+
+	m.MemoryInMBs = model.MemoryInMBs
+
+	m.Config = model.Config
+
+	m.TimeoutInSeconds = model.TimeoutInSeconds
+
+	nn, e = model.ProvisionedConcurrencyConfig.UnmarshalPolymorphicJSON(model.ProvisionedConcurrencyConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ProvisionedConcurrencyConfig = nn.(FunctionProvisionedConcurrencyConfig)
+	} else {
+		m.ProvisionedConcurrencyConfig = nil
+	}
+
+	m.TraceConfig = model.TraceConfig
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }

@@ -79,6 +79,13 @@ type CrossConnect struct {
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	MacsecProperties *MacsecProperties `mandatory:"false" json:"macsecProperties"`
+
+	// The FastConnect device that terminates the physical connection.
+	OciPhysicalDeviceName *string `mandatory:"false" json:"ociPhysicalDeviceName"`
+
+	// The FastConnect device that terminates the logical connection.
+	// This device might be different than the device that terminates the physical connection.
+	OciLogicalDeviceName *string `mandatory:"false" json:"ociLogicalDeviceName"`
 }
 
 func (m CrossConnect) String() string {

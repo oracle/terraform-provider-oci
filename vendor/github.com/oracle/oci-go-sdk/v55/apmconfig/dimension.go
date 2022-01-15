@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Apm Configuration API
+// Application Performance Monitoring Configuration API
 //
-// An API for the APM Configuration service. Use this API to query and set APM configuration.
+// Use the Application Performance Monitoring Configuration API to query and set Application Performance Monitoring
+// configuration. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmconfig
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// Dimension A dimension is a label that can be used to describe or group metrics.
+// Dimension A dimension is a label that is used to describe or group metrics.
 type Dimension struct {
 
-	// The dimension name
+	// The name of the dimension.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The source to populate the dimension. Must be NULL at the moment.
+	// The source to populate the dimension. This must not be specified.
 	ValueSource *string `mandatory:"false" json:"valueSource"`
 }
 

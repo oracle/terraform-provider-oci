@@ -14,35 +14,34 @@ import (
 // ListConfigsRequest wrapper for the ListConfigs operation
 type ListConfigsRequest struct {
 
-	// The APM Domain Id the request is intended for.
+	// The APM Domain ID the request is intended for.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to match only configuration items of the given type.
+	// A filter to match configuration items of a given type.
 	// Supported values are SPAN_FILTER, METRIC_GROUP, and APDEX.
 	ConfigType *string `mandatory:"false" contributesTo:"query" name:"configType"`
 
-	// A filter to return only resources that match the entire display name given.
+	// A filter to return resources that match the given display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// For list pagination. The maximum number of results per page, or items to return in a paginated
-	// "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// The maximum number of results per page, or items to return in a paginated "List" call. For information on
+	// how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). The displayName sort order
-	// is case sensitive.
+	// is case-sensitive.
 	SortOrder ListConfigsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. You can provide one sort by (`sortBy`). Default order for displayName, timeCreated and
-	// timeUpdated is ascending. The displayName sort by is case sensitive.
+	// The field to sort by. You can provide one "sortBy" value. The default order for displayName, timeCreated
+	// and timeUpdated is ascending. The displayName sort by is case-sensitive.
 	SortBy ListConfigsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

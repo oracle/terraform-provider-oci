@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Apm Configuration API
+// Application Performance Monitoring Configuration API
 //
-// An API for the APM Configuration service. Use this API to query and set APM configuration.
+// Use the Application Performance Monitoring Configuration API to query and set Application Performance Monitoring
+// configuration. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmconfig
@@ -17,10 +18,10 @@ import (
 )
 
 // ApdexRules The set of Apdex rules to be used in Apdex computation. In the current version, only one rule set can exist in the
-// configuration. This may change in the future.
+// configuration.
 type ApdexRules struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID will be generated
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	Id *string `mandatory:"false" json:"id"`
 
@@ -42,7 +43,7 @@ type ApdexRules struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The name by which this rule set can be displayed to the user.
+	// The name by which the rule set is displayed to the end user.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	Rules []Apdex `mandatory:"false" json:"rules"`

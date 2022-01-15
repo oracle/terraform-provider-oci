@@ -85,6 +85,9 @@ type CrossConnectMappingDetails struct {
 
 	// The state of the Ipv6 BGP session.
 	Ipv6BgpStatus CrossConnectMappingDetailsIpv6BgpStatusEnum `mandatory:"false" json:"ipv6BgpStatus,omitempty"`
+
+	// The FastConnect device that terminates the logical connection.
+	OciLogicalDeviceName *string `mandatory:"false" json:"ociLogicalDeviceName"`
 }
 
 func (m CrossConnectMappingDetails) String() string {
