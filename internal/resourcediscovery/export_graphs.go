@@ -454,6 +454,14 @@ var databaseResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabasePluggableDatabaseHints},
 		{TerraformResourceHints: exportDatabaseCloudAutonomousVmClusterHints},
 	},
+	"oci_database_autonomous_container_database": {
+		{
+			TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseDataguardAssociationHints,
+			datasourceQueryParams: map[string]string{
+				"autonomous_container_database_id": "id",
+			},
+		},
+	},
 	"oci_database_db_home": {
 		{
 			TerraformResourceHints: exportDatabaseDatabaseHints,

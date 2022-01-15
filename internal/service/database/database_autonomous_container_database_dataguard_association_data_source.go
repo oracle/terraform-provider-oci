@@ -14,76 +14,16 @@ import (
 )
 
 func DatabaseAutonomousContainerDatabaseDataguardAssociationDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseAutonomousContainerDatabaseDataguardAssociation,
-		Schema: map[string]*schema.Schema{
-			"autonomous_container_database_dataguard_association_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"autonomous_container_database_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"apply_lag": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"apply_rate": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_autonomous_container_database_dataguard_association_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_autonomous_container_database_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_lifecycle_state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_role": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"protection_mode": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"role": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_last_role_changed": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_last_synced": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"transport_lag": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["autonomous_container_database_dataguard_association_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["autonomous_container_database_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return tfresource.GetSingularDataSourceItemSchema(DatabaseAutonomousContainerDatabaseDataguardAssociationResource(), fieldMap, readSingularDatabaseAutonomousContainerDatabaseDataguardAssociation)
 }
 
 func readSingularDatabaseAutonomousContainerDatabaseDataguardAssociation(d *schema.ResourceData, m interface{}) error {
@@ -141,6 +81,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud) 
 
 	if s.Res.ApplyRate != nil {
 		s.D.Set("apply_rate", *s.Res.ApplyRate)
+	}
+
+	if s.Res.IsAutomaticFailoverEnabled != nil {
+		s.D.Set("is_automatic_failover_enabled", *s.Res.IsAutomaticFailoverEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {

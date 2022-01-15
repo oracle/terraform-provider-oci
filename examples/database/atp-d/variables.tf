@@ -41,3 +41,14 @@ variable "autonomous_container_database_backup_config_recovery_window_in_days" {
   default = 10
 }
 
+variable "cloud_exadata_infrastructure_shape" {
+  default = "Exadata.X8M"
+}
+
+variable "cloud_exadata_infrastructure_compute_count" {
+  default = "2"
+}
+
+variable "cloud_exadata_infrastructure_storage_count" {
+  default = "3"
+}

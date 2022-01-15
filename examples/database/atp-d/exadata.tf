@@ -51,45 +51,25 @@ resource "oci_core_subnet" "exadata_subnet" {
   dns_label           = "subnetexadata"
 }
 
-resource "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exadata_infrastructure" {
+resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure" {
+  #Required
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
-  display_name        = "TestExadata11"
-  domain              = var.autonomous_exadata_infrastructure_domain
-  freeform_tags       = var.autonomous_database_freeform_tags
-  license_model       = "LICENSE_INCLUDED"
+  display_name        = "TFATPD"
+  shape               = var.cloud_exadata_infrastructure_shape
 
-  maintenance_window_details {
-    preference = "CUSTOM_PREFERENCE"
+  #Optional
+  compute_count = var.cloud_exadata_infrastructure_compute_count
+  storage_count = var.cloud_exadata_infrastructure_storage_count
+}
 
-    days_of_week {
-      name = "MONDAY"
-    }
-
-    hours_of_day = ["4"]
-
-    months {
-      name = "JANUARY"
-    }
-
-    months {
-      name = "APRIL"
-    }
-
-    months {
-      name = "JULY"
-    }
-
-    months {
-      name = "OCTOBER"
-    }
-
-    weeks_of_month = ["2"]
-  }
-
-  nsg_ids   = [oci_core_network_security_group.test_network_security_group.id]
-  shape     = "Exadata.X8M"
-  subnet_id = oci_core_subnet.exadata_subnet.id
+resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster" {
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+  compartment_id                  = var.compartment_ocid
+  display_name                    = "TestCloudAutonomousVmCluster"
+  freeform_tags                   = var.autonomous_database_freeform_tags
+  license_model                   = "LICENSE_INCLUDED"
+  subnet_id                       = oci_core_subnet.exadata_subnet.id
 }
 
 resource "oci_core_network_security_group" "test_network_security_group" {
@@ -98,18 +78,6 @@ resource "oci_core_network_security_group" "test_network_security_group" {
   vcn_id         = oci_core_vcn.test_vcn.id
 }
 
-data "oci_database_autonomous_exadata_infrastructures" "test_autonomous_exadata_infrastructures" {
-  availability_domain = data.oci_identity_availability_domain.ad.name
-  compartment_id      = var.compartment_ocid
-  display_name        = "TestExadata"
-  state               = "AVAILABLE"
+data "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster" {
+  cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 }
-
-data "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exadata_infrastructure" {
-  autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
-}
-
-output "test_autonomous_exadata_infrastructures" {
-  value = [data.oci_database_autonomous_exadata_infrastructures.test_autonomous_exadata_infrastructures.autonomous_exadata_infrastructures]
-}
-

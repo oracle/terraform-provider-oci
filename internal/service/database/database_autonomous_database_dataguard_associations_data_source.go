@@ -48,6 +48,10 @@ func DatabaseAutonomousDatabaseDataguardAssociationsDataSource() *schema.Resourc
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_automatic_failover_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"lifecycle_details": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -171,6 +175,10 @@ func (s *DatabaseAutonomousDatabaseDataguardAssociationsDataSourceCrud) SetData(
 
 		if r.Id != nil {
 			autonomousDatabaseDataguardAssociation["id"] = *r.Id
+		}
+
+		if r.IsAutomaticFailoverEnabled != nil {
+			autonomousDatabaseDataguardAssociation["is_automatic_failover_enabled"] = *r.IsAutomaticFailoverEnabled
 		}
 
 		if r.LifecycleDetails != nil {
