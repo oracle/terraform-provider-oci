@@ -214,6 +214,8 @@ func (s *DataflowInvokeRunsDataSourceCrud) SetData() error {
 			invokeRun["total_ocpu"] = *r.TotalOCpu
 		}
 
+		invokeRun["type"] = r.Type
+
 		resources = append(resources, invokeRun)
 	}
 

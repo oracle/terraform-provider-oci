@@ -158,6 +158,8 @@ func (s *DataflowApplicationDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	s.D.Set("type", s.Res.Type)
+
 	if s.Res.WarehouseBucketUri != nil {
 		s.D.Set("warehouse_bucket_uri", *s.Res.WarehouseBucketUri)
 	}
