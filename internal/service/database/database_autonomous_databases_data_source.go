@@ -384,6 +384,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["subnet_id"] = *r.SubnetId
 		}
 
+		autonomousDatabase["supported_regions_to_clone_to"] = r.SupportedRegionsToCloneTo
+
 		if r.SystemTags != nil {
 			autonomousDatabase["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
 		}
