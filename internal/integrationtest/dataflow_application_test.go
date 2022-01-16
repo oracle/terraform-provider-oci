@@ -64,6 +64,7 @@ var (
 		"metastore_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
 		"parameters":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: applicationParametersRepresentation},
 		"private_endpoint_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
+		"type":                 acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
 		"warehouse_bucket_uri": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
 	}
 	applicationParametersRepresentation = map[string]interface{}{
@@ -169,6 +170,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "BATCH"),
 				resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 
 				func(s *terraform.State) (err error) {
@@ -215,6 +217,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "BATCH"),
 				resource.TestCheckResourceAttrSet(resourceName, "warehouse_bucket_uri"),
 
 				func(s *terraform.State) (err error) {
@@ -259,6 +262,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "BATCH"),
 				resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 				resource.TestCheckResourceAttr(resourceName, "class_name", classNameUpdated),
 
@@ -294,6 +298,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_updated"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.type", "BATCH"),
 			),
 		},
 		// verify singular datasource
@@ -330,6 +335,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "BATCH"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", warehouseBucketUri),
 			),
 		},

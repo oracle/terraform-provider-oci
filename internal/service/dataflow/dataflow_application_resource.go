@@ -144,6 +144,12 @@ func DataflowApplicationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"warehouse_bucket_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -360,6 +366,10 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 	if sparkVersion, ok := s.D.GetOkExists("spark_version"); ok {
 		tmp := sparkVersion.(string)
 		request.SparkVersion = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_dataflow.ApplicationTypeEnum(type_.(string))
 	}
 
 	if warehouseBucketUri, ok := s.D.GetOkExists("warehouse_bucket_uri"); ok {
@@ -645,6 +655,8 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
+	s.D.Set("type", s.Res.Type)
 
 	if s.Res.WarehouseBucketUri != nil {
 		s.D.Set("warehouse_bucket_uri", *s.Res.WarehouseBucketUri)
