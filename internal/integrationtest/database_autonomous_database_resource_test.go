@@ -17,6 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	oci_common "github.com/oracle/oci-go-sdk/v56/common"
 	oci_database "github.com/oracle/oci-go-sdk/v56/database"
@@ -208,6 +209,8 @@ var (
 	ExaccADBDatabaseResourceDependencies = ACDatabaseResourceConfig
 
 	ExaccADBWithDataguardResourceDependencies = ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig
+
+	PrimarySourceId string
 )
 
 // issue-routing-tag: database/dbaas-adb
@@ -3270,6 +3273,90 @@ func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 					}
 					return err
 				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: database/dbaas-adb
+func TestResourceDatabaseAutonomousDatabaseResource_CrossRegionClone(t *testing.T) {
+	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_CrossRegionClone")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database_cross_region_clone"
+
+	sourceRegion := utils.GetEnvSettingWithBlankDefault("source_region")
+
+	if sourceRegion == "" {
+		t.Skip("Skipping TestResourceDatabaseAutonomousDatabaseResource_CrossRegionClone test because there is no source region specified")
+	}
+
+	var err error
+	PrimarySourceId, err = createAdbInRegion(acctest.GetTestClients(&schema.ResourceData{}), sourceRegion)
+	if err != nil {
+		log.Printf("[WARN] failed to createAdbInRegion with the error %v", err)
+	}
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		// Create dependencies
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
+		},
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_cross_region_clone", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						"clone_type":   acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+						"source":       acctest.Representation{RepType: acctest.Required, Create: `DATABASE`},
+						"db_name":      acctest.Representation{RepType: acctest.Required, Create: `crsRegClone12`},
+						"source_id":    acctest.Representation{RepType: acctest.Required, Create: PrimarySourceId},
+						"display_name": acctest.Representation{RepType: acctest.Required, Create: `example_cross_region_clone_source`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", "crsRegClone12"),
+				resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
+				resource.TestCheckResourceAttr(resourceName, "source_id", PrimarySourceId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_cross_region_clone_source"),
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_cross_region_clone", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						"clone_type":   acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+						"source":       acctest.Representation{RepType: acctest.Required, Create: `DATABASE`},
+						"db_name":      acctest.Representation{RepType: acctest.Required, Create: `crsRegClone13`},
+						"source_id":    acctest.Representation{RepType: acctest.Required, Create: PrimarySourceId},
+						"display_name": acctest.Representation{RepType: acctest.Required, Create: `example_cross_region_clone_source`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
 			),
 		},
 	})
