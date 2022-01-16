@@ -195,6 +195,8 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 		s.D.Set("total_ocpu", *s.Res.TotalOCpu)
 	}
 
+	s.D.Set("type", s.Res.Type)
+
 	if s.Res.WarehouseBucketUri != nil {
 		s.D.Set("warehouse_bucket_uri", *s.Res.WarehouseBucketUri)
 	}

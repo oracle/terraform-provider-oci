@@ -44,6 +44,7 @@ resource "oci_dataflow_application" "test_application" {
 		value = var.application_parameters_value
 	}
 	private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
+	type = var.application_type
 	warehouse_bucket_uri = var.application_warehouse_bucket_uri
 }
 ```
@@ -74,6 +75,7 @@ The following arguments are supported:
 	* `value` - (Required) (Updatable) The value of the parameter. It must be a string of 0 or more characters of any kind. Examples: "" (empty string), "10", "mydata.xml", "${x}" 
 * `private_endpoint_id` - (Optional) (Updatable) The OCID of a private endpoint. 
 * `spark_version` - (Required) (Updatable) The Spark version utilized to run the application. 
+* `type` - (Optional) The Spark application processing type. 
 * `warehouse_bucket_uri` - (Optional) (Updatable) An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 
 
@@ -112,6 +114,7 @@ The following attributes are exported:
 * `state` - The current state of this application. 
 * `time_created` - The date and time a application was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
 * `time_updated` - The date and time a application was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
+* `type` - The Spark application processing type. 
 * `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 
 ## Timeouts

@@ -59,6 +59,8 @@ var (
 		"metastore_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
 		"num_executors":        acctest.Representation{RepType: acctest.Optional, Create: `1`},
 		"parameters":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: invokeRunParametersRepresentation},
+		"spark_version":        acctest.Representation{RepType: acctest.Optional, Create: `sparkVersion`},
+		"type":                 acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
 		"warehouse_bucket_uri": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
 	}
 	invokeRunParametersRepresentation = map[string]interface{}{
@@ -153,6 +155,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "BATCH"),
 				resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 				resource.TestCheckResourceAttr(resourceName, "metastore_id", metastoreId),
 
@@ -199,6 +202,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "BATCH"),
 				resource.TestCheckResourceAttrSet(resourceName, "warehouse_bucket_uri"),
 
 				func(s *terraform.State) (err error) {
@@ -237,6 +241,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "BATCH"),
 				resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 
 				func(s *terraform.State) (err error) {
@@ -275,6 +280,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "runs.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "runs.0.time_updated"),
 				resource.TestCheckResourceAttrSet(datasourceName, "runs.0.total_ocpu"),
+				resource.TestCheckResourceAttr(datasourceName, "runs.0.type", "BATCH"),
 			),
 		},
 		// verify singular datasource
@@ -316,6 +322,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_ocpu"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "BATCH"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", warehouseBucketUri),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metastore_id", metastoreId),
 			),

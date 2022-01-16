@@ -167,6 +167,8 @@ func (s *DataflowApplicationsDataSourceCrud) SetData() error {
 			application["time_updated"] = r.TimeUpdated.String()
 		}
 
+		application["type"] = r.Type
+
 		resources = append(resources, application)
 	}
 
