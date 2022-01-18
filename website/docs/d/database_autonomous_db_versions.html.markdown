@@ -48,7 +48,7 @@ The following attributes are exported:
 	* AJD - indicates an Autonomous JSON Database
 	* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type. 
 * `details` - A URL that points to a detailed description of the Autonomous Database version.
-* `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
+* `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html). 
 * `is_default_for_free` - True if this version of the Oracle Database software's default is free.
 * `is_default_for_paid` - True if this version of the Oracle Database software's default is paid.
 * `is_free_tier_enabled` - True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases.

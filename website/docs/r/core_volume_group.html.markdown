@@ -29,18 +29,8 @@ resource "oci_core_volume_group" "test_volume_group" {
 	compartment_id = var.compartment_id
 	source_details {
 		#Required
-<<<<<<< ours
-		type = var.volume_group_source_details_type
-
-		#Optional
-		volume_group_backup_id = oci_core_volume_group_backup.test_volume_group_backup.id
-		volume_group_id = oci_core_volume_group.test_volume_group.id
-		volume_group_replica_id = oci_core_volume_group_replica.test_volume_group_replica.id
-		volume_ids = var.volume_group_source_details_volume_ids
-=======
 		type = "volumeIds"
 		volume_ids = [var.volume_group_source_id]
->>>>>>> theirs
 	}
 
 	#Optional

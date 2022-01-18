@@ -10,7 +10,7 @@ description: |-
 # oci_database_autonomous_vm_cluster
 This resource provides the Autonomous Vm Cluster resource in Oracle Cloud Infrastructure Database service.
 
-Creates an Autonomous VM cluster for Exadata Cloud@Customer.
+Creates an Autonomous VM cluster for Exadata Cloud@Customer. To create an Autonomous VM Cluster in the Oracle cloud, see [CreateCloudAutonomousVmCluster](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudAutonomousVmCluster/CreateCloudAutonomousVmCluster).
 
 
 ## Example Usage
