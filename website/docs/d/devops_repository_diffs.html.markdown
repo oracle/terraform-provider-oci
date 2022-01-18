@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_devops_repository_diffs
 This data source provides the list of Repository Diffs in Oracle Cloud Infrastructure Devops service.
 
-Compares two revisions and lists the differences. Supports comparison between two refs or commits.
+Compares two revisions and lists the differences. Supports comparison between two references or commits.
 
 
 ## Example Usage
@@ -31,10 +31,10 @@ data "oci_devops_repository_diffs" "test_repository_diffs" {
 
 The following arguments are supported:
 
-* `base_version` - (Required) The commit or ref name to compare changes against
-* `is_comparison_from_merge_base` - (Optional) boolean for whether to use merge base or most recent revision
-* `repository_id` - (Required) unique Repository identifier.
-* `target_version` - (Required) The commit or ref name where changes are coming from
+* `base_version` - (Required) The commit or reference name to compare changes against.
+* `is_comparison_from_merge_base` - (Optional) Boolean value to indicate whether to use merge base or most recent revision.
+* `repository_id` - (Required) Unique repository identifier.
+* `target_version` - (Required) The commit or reference name where changes are coming from.
 
 
 ## Attributes Reference
@@ -51,10 +51,10 @@ The following attributes are exported:
 * `changes` - List of changed section in the file.
 	* `base_line` - Line number in base version where changes begin.
 	* `base_span` - Number of lines chunk spans in base version.
-	* `diff_sections` - List of DiffSection.
+	* `diff_sections` - List of difference section.
 		* `lines` - The lines within changed section.
 			* `base_line` - The number of a line in the base version.
-			* `conflict_marker` - Indicates whether a line in a conflicted section of the diff is from the base version, the target version, or if its just a marker indicating the beginning, middle, or end of a conflicted section.
+			* `conflict_marker` - Indicates whether a line in a conflicted section of the difference is from the base version, the target version, or if its just a marker indicating the beginning, middle, or end of a conflicted section.
 			* `line_content` - The contents of a line.
 			* `target_line` - The number of a line in the target version.
 		* `type` - Type of change.
@@ -62,8 +62,8 @@ The following attributes are exported:
 	* `target_span` - Number of lines chunk spans in target version.
 * `is_binary` - Indicates whether the file is binary.
 * `is_large` - Indicates whether the file is large.
-* `new_id` - The ID of the changed object on the targetVersion.
-* `new_path` - The path on the targetVersion to the changed object.
-* `old_id` - The ID of the changed object on the baseVersion.
-* `old_path` - The path on the baseVersion to the changed object.
+* `new_id` - The ID of the changed object on the target version.
+* `new_path` - The path on the target version to the changed object.
+* `old_id` - The ID of the changed object on the base version.
+* `old_path` - The path on the base version to the changed object.
 

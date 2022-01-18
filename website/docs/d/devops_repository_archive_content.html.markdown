@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_devops_repository_archive_content
 This data source provides details about a specific Repository Archive Content resource in Oracle Cloud Infrastructure Devops service.
 
-Return the archived repository information
+Returns the archived repository information.
 
 
 ## Example Usage
@@ -30,9 +30,9 @@ data "oci_devops_repository_archive_content" "test_repository_archive_content" {
 
 The following arguments are supported:
 
-* `format` - (Optional) The archive format query parm for download repo endpoint.
-* `ref_name` - (Optional) A filter to return only resources that match the given Ref name.
-* `repository_id` - (Required) unique Repository identifier.
+* `format` - (Optional) The archive format query parameter for downloading repository endpoint.
+* `ref_name` - (Optional) A filter to return only resources that match the given reference name.
+* `repository_id` - (Required) Unique repository identifier.
 
 
 ## Attributes Reference

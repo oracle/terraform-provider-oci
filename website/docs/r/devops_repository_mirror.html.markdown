@@ -10,7 +10,7 @@ description: |-
 # oci_devops_repository_mirror
 This resource provides the Repository Mirror resource in Oracle Cloud Infrastructure Devops service.
 
-Synchronize a mirrored repository to the latest version from external providers
+Synchronize a mirrored repository to the latest version from external providers.
 
 
 ## Example Usage
@@ -26,7 +26,7 @@ resource "oci_devops_repository_mirror" "test_repository_mirror" {
 
 The following arguments are supported:
 
-* `repository_id` - (Required) unique Repository identifier.
+* `repository_id` - (Required) Unique repository identifier.
 
 
 ** IMPORTANT **
