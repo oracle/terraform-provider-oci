@@ -69,6 +69,11 @@ func NosqlTableResource() *schema.Resource {
 						},
 
 						// Optional
+						"capacity_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -722,6 +727,10 @@ func SchemaToMap(obj *oci_nosql.Schema) map[string]interface{} {
 func (s *NosqlTableResourceCrud) mapToTableLimits(fieldKeyFormat string) (oci_nosql.TableLimits, error) {
 	result := oci_nosql.TableLimits{}
 
+	if capacityMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_mode")); ok {
+		result.CapacityMode = oci_nosql.TableLimitsCapacityModeEnum(capacityMode.(string))
+	}
+
 	if maxReadUnits, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_read_units")); ok {
 		tmp := maxReadUnits.(int)
 		result.MaxReadUnits = &tmp
@@ -742,6 +751,8 @@ func (s *NosqlTableResourceCrud) mapToTableLimits(fieldKeyFormat string) (oci_no
 
 func TableLimitsToMap(obj *oci_nosql.TableLimits) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["capacity_mode"] = string(obj.CapacityMode)
 
 	if obj.MaxReadUnits != nil {
 		result["max_read_units"] = int(*obj.MaxReadUnits)

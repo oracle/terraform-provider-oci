@@ -25,6 +25,9 @@ resource "oci_nosql_table" "test_table" {
 		max_read_units = var.table_table_limits_max_read_units
 		max_storage_in_gbs = var.table_table_limits_max_storage_in_gbs
 		max_write_units = var.table_table_limits_max_write_units
+
+		#Optional
+		capacity_mode = var.table_table_limits_capacity_mode
 	}
 
 	#Optional
@@ -39,12 +42,13 @@ resource "oci_nosql_table" "test_table" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier.
-* `ddl_statement` - (Required) (Updatable) Complete CREATE TABLE DDL statement.
+* `ddl_statement` - (Required) (Updatable) Complete CREATE TABLE DDL statement. When update ddl_statement, it should be ALTER TABLE DDL statement.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace": {"bar-key": "value"}}` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_auto_reclaimable` - (Optional) True if table can be reclaimed after an idle period.
 * `name` - (Required) Table name.
 * `table_limits` - (Required) (Updatable) Throughput and storage limits configuration of a table.
+	* `capacity_mode` - (Optional) (Updatable) The capacity mode of the table.  If capacityMode = ON_DEMAND, maxReadUnits and maxWriteUnits are not used, and both will have the value of zero. 
 	* `max_read_units` - (Required) (Updatable) Maximum sustained read throughput limit for the table.
 	* `max_storage_in_gbs` - (Required) (Updatable) Maximum size of storage used by the table.
 	* `max_write_units` - (Required) (Updatable) Maximum sustained write throughput limit for the table.
@@ -77,6 +81,7 @@ The following attributes are exported:
 * `state` - The state of a table.
 * `system_tags` - Read-only system tag. These predefined keys are scoped to namespaces.  At present the only supported namespace is `"orcl-cloud"`; and the only key in that namespace is `"free-tier-retained"`. Example: `{"orcl-cloud"": {"free-tier-retained": "true"}}` 
 * `table_limits` - Throughput and storage limits configuration of a table.
+	* `capacity_mode` - The capacity mode of the table.  If capacityMode = ON_DEMAND, maxReadUnits and maxWriteUnits are not used, and both will have the value of zero. 
 	* `max_read_units` - Maximum sustained read throughput limit for the table.
 	* `max_storage_in_gbs` - Maximum size of storage used by the table.
 	* `max_write_units` - Maximum sustained write throughput limit for the table.

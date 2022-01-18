@@ -56,6 +56,7 @@ The following attributes are exported:
 * `state` - The state of a table.
 * `system_tags` - Read-only system tag. These predefined keys are scoped to namespaces.  At present the only supported namespace is `"orcl-cloud"`; and the only key in that namespace is `"free-tier-retained"`. Example: `{"orcl-cloud"": {"free-tier-retained": "true"}}` 
 * `table_limits` - Throughput and storage limits configuration of a table.
+	* `capacity_mode` - The capacity mode of the table.  If capacityMode = ON_DEMAND, maxReadUnits and maxWriteUnits are not used, and both will have the value of zero. 
 	* `max_read_units` - Maximum sustained read throughput limit for the table.
 	* `max_storage_in_gbs` - Maximum size of storage used by the table.
 	* `max_write_units` - Maximum sustained write throughput limit for the table.

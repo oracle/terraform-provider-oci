@@ -16,7 +16,7 @@ variable "private_key_path" {
 variable "region" {
 }
 
-variable "compartment_id" {
+variable "compartment_ocid" {
 }
 
 variable "table_ddl_statement" {
@@ -37,7 +37,7 @@ provider "oci" {
 
 resource "oci_nosql_table" "test_table" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   ddl_statement  = var.table_ddl_statement
   name           = "test_table"
 
@@ -62,7 +62,7 @@ resource "oci_nosql_index" "test_index" {
 
 data "oci_nosql_tables" "test_tables" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 
   filter {
     name   = "id"
@@ -79,11 +79,14 @@ output "table_name" {
 data "oci_nosql_indexes" "test_indexes" {
   #Required
   table_name_or_id = oci_nosql_table.test_table.id
+
+  filter {
+    name   = "name"
+    values = [oci_nosql_index.test_index.name]
+  }
 }
 
 output "index_name" {
-  depends_on = [oci_nosql_index.test_index]
-
   value = [
     data.oci_nosql_indexes.test_indexes.index_collection[0].name,
   ]
