@@ -10,7 +10,7 @@ description: |-
 # oci_database_autonomous_exadata_infrastructure
 This resource provides the Autonomous Exadata Infrastructure resource in Oracle Cloud Infrastructure Database service.
 
-Creates a new Autonomous Exadata Infrastructure in the specified compartment and availability domain.
+**Deprecated** To create a new Autonomous Database system on dedicated Exadata Infrastructure, use the [CreateCloudExadataInfrastructure](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/CreateCloudExadataInfrastructure) and [CreateCloudAutonomousVmCluster](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudAutonomousVmCluster/CreateCloudAutonomousVmCluster) operations instead. Note that to create an Autonomous VM cluster, you must have an existing Exadata Infrastructure resource to contain the VM cluster.
 
 ## Note :- Autonomous Exadata Infrastructure is now end-of-life.Please provision cloud autonomous vm cluster instead. 
 ## Example Usage
