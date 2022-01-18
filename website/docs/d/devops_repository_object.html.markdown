@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_devops_repository_object
 This data source provides details about a specific Repository Object resource in Oracle Cloud Infrastructure Devops service.
 
-Get blob of specific branch name/commit id and file path
+Retrieves blob of specific branch name/commit ID and file path.
 
 
 ## Example Usage
@@ -31,16 +31,16 @@ data "oci_devops_repository_object" "test_repository_object" {
 The following arguments are supported:
 
 * `file_path` - (Optional) A filter to return only commits that affect any of the specified paths.
-* `ref_name` - (Optional) A filter to return only resources that match the given Ref name.
-* `repository_id` - (Required) unique Repository identifier.
+* `ref_name` - (Optional) A filter to return only resources that match the given reference name.
+* `repository_id` - (Required) Unique repository identifier.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `is_binary` - flag to determine is the object contains binary file content or not.
-* `sha` - SHA-1 hash of git object
-* `size_in_bytes` - Size in Bytes
+* `is_binary` - Flag to determine if the object contains binary file content or not.
+* `sha` - SHA-1 hash of git object.
+* `size_in_bytes` - Size in bytes.
 * `type` - The type of git object.
 

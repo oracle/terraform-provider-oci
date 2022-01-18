@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_devops_repository_commits
 This data source provides the list of Repository Commits in Oracle Cloud Infrastructure Devops service.
 
-Returns a list of Commits.
+Returns a list of commits.
 
 
 ## Example Usage
@@ -37,10 +37,10 @@ The following arguments are supported:
 
 * `author_name` - (Optional) A filter to return any commits that are pushed by the requested author.
 * `commit_message` - (Optional) A filter to return any commits that contains the given message.
-* `exclude_ref_name` - (Optional) A filter to exclude commits that match the given Ref name.
+* `exclude_ref_name` - (Optional) A filter to exclude commits that match the given reference name.
 * `file_path` - (Optional) A filter to return only commits that affect any of the specified paths.
-* `ref_name` - (Optional) A filter to return only resources that match the given Ref name.
-* `repository_id` - (Required) unique Repository identifier.
+* `ref_name` - (Optional) A filter to return only resources that match the given reference name.
+* `repository_id` - (Required) Unique repository identifier.
 * `timestamp_greater_than_or_equal_to` - (Optional) A filter to return commits only created after the specified timestamp value.
 * `timestamp_less_than_or_equal_to` - (Optional) A filter to return commits only created before the specified timestamp value.
 
@@ -55,13 +55,13 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `author_email` - The email of the author of the repository.
-* `author_name` - The name of the author of the repository.
-* `commit_id` - Commit hash pointed to by Ref name
+* `author_email` - Email of the author of the repository.
+* `author_name` - Name of the author of the repository.
+* `commit_id` - Commit hash pointed to by reference name.
 * `commit_message` - The commit message.
-* `committer_email` - The email of who create the commit.
-* `committer_name` - The name of who create the commit.
-* `parent_commit_ids` - An array of parent commit ids of created commit.
+* `committer_email` - Email of who creates the commit.
+* `committer_name` - Name of who creates the commit.
+* `parent_commit_ids` - An array of parent commit IDs of created commit.
 * `time_created` - The time at which commit was created.
-* `tree_id` - Tree information for the specified commit
+* `tree_id` - Tree information for the specified commit.
 

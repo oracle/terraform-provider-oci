@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_devops_repository_commit
 This data source provides details about a specific Repository Commit resource in Oracle Cloud Infrastructure Devops service.
 
-Gets a Repository's Commit by commitId
+Retrieves a repository's commit by commit ID.
 
 ## Example Usage
 
@@ -26,21 +26,21 @@ data "oci_devops_repository_commit" "test_repository_commit" {
 
 The following arguments are supported:
 
-* `commit_id` - (Required) A filter to return only resources that match the given commit Id.
-* `repository_id` - (Required) unique Repository identifier.
+* `commit_id` - (Required) A filter to return only resources that match the given commit ID.
+* `repository_id` - (Required) Unique repository identifier.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `author_email` - The email of the author of the repository.
-* `author_name` - The name of the author of the repository.
-* `commit_id` - Commit hash pointed to by Ref name
+* `author_email` - Email of the author of the repository.
+* `author_name` - Name of the author of the repository.
+* `commit_id` - Commit hash pointed to by reference name.
 * `commit_message` - The commit message.
-* `committer_email` - The email of who create the commit.
-* `committer_name` - The name of who create the commit.
-* `parent_commit_ids` - An array of parent commit ids of created commit.
+* `committer_email` - Email of who creates the commit.
+* `committer_name` - Name of who creates the commit.
+* `parent_commit_ids` - An array of parent commit IDs of created commit.
 * `time_created` - The time at which commit was created.
-* `tree_id` - Tree information for the specified commit
+* `tree_id` - Tree information for the specified commit.
 

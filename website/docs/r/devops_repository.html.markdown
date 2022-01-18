@@ -10,7 +10,7 @@ description: |-
 # oci_devops_repository
 This resource provides the Repository resource in Oracle Cloud Infrastructure Devops service.
 
-Creates a new Repository.
+Creates a new repository.
 
 
 ## Example Usage
@@ -49,20 +49,17 @@ The following arguments are supported:
 
 * `default_branch` - (Optional) (Updatable) The default branch of the repository.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
-* `description` - (Optional) (Updatable) The description of this repository. Avoid entering confidential information
+* `description` - (Optional) (Updatable) Details of the repository. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 * `mirror_repository_config` - (Optional) (Updatable) Configuration information for mirroring the repository.
 	* `connector_id` - (Optional) (Updatable) Upstream git repository connection identifer.
-	* `repository_url` - (Optional) (Updatable) Url of external repository we'd like to mirror
+	* `repository_url` - (Optional) (Updatable) URL of external repository you want to mirror.
 	* `trigger_schedule` - (Optional) (Updatable) Specifies a trigger schedule. Timing information for when to initiate automated syncs.
-		* `custom_schedule` - (Optional) (Updatable) Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window, we can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
-		* `schedule_type` - (Required) (Updatable) Different types to trigger schedule
-			* NONE - No automated sync schedule.
-			* DEFAULT - Trigger Schedule will be every 30 minutes.
-			* CUSTOM - Custom triggering schedule. 
+		* `custom_schedule` - (Optional) (Updatable) Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window.  You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
+		* `schedule_type` - (Required) (Updatable) Different types of trigger schedule: None - No automated synchronization schedule. Default - Trigger schedule is every 30 minutes. Custom - Custom triggering schedule. 
 * `name` - (Required) (Updatable) Unique name of a repository.
-* `project_id` - (Required) The OCID of the Project containing the repository.
-* `repository_type` - (Optional) (Updatable) Type of repository
+* `project_id` - (Required) The OCID of the DevOps project containing the repository.
+* `repository_type` - (Optional) (Updatable) Type of repository.
 
 
 ** IMPORTANT **
@@ -74,35 +71,32 @@ The following attributes are exported:
 
 * `branch_count` - The count of the branches present in the repository.
 * `commit_count` - The count of the commits present in the repository.
-* `compartment_id` - The OCID of the repository's Compartment.
-* `default_branch` - The default branch of the repository
+* `compartment_id` - The OCID of the repository's compartment.
+* `default_branch` - The default branch of the repository.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
-* `description` - The description of this repository. Avoid entering confidential information
+* `description` - Details of the repository. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
-* `http_url` - http url user utilized to git clone, pull and push
+* `http_url` - HTTP URL that you use to git clone, pull and push.
 * `id` - The OCID of the repository. This value is unique and immutable.
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `mirror_repository_config` - Configuration information for mirroring the repository.
 	* `connector_id` - Upstream git repository connection identifer.
-	* `repository_url` - Url of external repository we'd like to mirror
+	* `repository_url` - URL of external repository you want to mirror.
 	* `trigger_schedule` - Specifies a trigger schedule. Timing information for when to initiate automated syncs.
-		* `custom_schedule` - Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window, we can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
-		* `schedule_type` - Different types to trigger schedule
-			* NONE - No automated sync schedule.
-			* DEFAULT - Trigger Schedule will be every 30 minutes.
-			* CUSTOM - Custom triggering schedule. 
+		* `custom_schedule` - Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window.  You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
+		* `schedule_type` - Different types of trigger schedule: None - No automated synchronization schedule. Default - Trigger schedule is every 30 minutes. Custom - Custom triggering schedule. 
 * `name` - Unique name of a repository. This value is mutable.
-* `namespace` - Tenancy unique namespace
-* `project_id` - The OCID of the Project containing the repository.
-* `project_name` - Project unique Name under namespace
-* `repository_type` - Type of repository MIRRORED - Repository was created by mirroring an existing repository. HOSTED - Repository was created and hosted using Oracle Cloud Infrastructure Devops Code Repository. 
+* `namespace` - Tenancy unique namespace.
+* `project_id` - The OCID of the DevOps project containing the repository.
+* `project_name` - Unique project name in a namespace.
+* `repository_type` - Type of repository: Mirrored - Repository created by mirroring an existing repository. Hosted - Repository created and hosted using Oracle Cloud Infrastructure DevOps code repository. 
 * `size_in_bytes` - The size of the repository in bytes.
-* `ssh_url` - ssh url user utilized to git clone, pull and push
-* `state` - The current state of the Repository.
+* `ssh_url` - SSH URL that you use to git clone, pull and push.
+* `state` - The current state of the repository.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
-* `time_created` - The time the the Repository was created. An RFC3339 formatted datetime string
-* `time_updated` - The time the Repository was updated. An RFC3339 formatted datetime string
-* `trigger_build_events` - Trigger Build Events supported for this repository PUSH - Build is triggered when a push event occurs COMMIT_UPDATES - Build is triggered when new commits are mirrored into repository 
+* `time_created` - The time the repository was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+* `time_updated` - The time the repository was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+* `trigger_build_events` - Trigger build events supported for this repository: Push - Build is triggered when a push event occurs. Commit updates - Build is triggered when new commits are mirrored into a repository. 
 
 ## Timeouts
 

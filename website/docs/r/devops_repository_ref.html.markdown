@@ -10,7 +10,7 @@ description: |-
 # oci_devops_repository_ref
 This resource provides the Repository Ref resource in Oracle Cloud Infrastructure Devops service.
 
-Creates a new Ref or updates an existing one.
+Creates a new reference or updates an existing one.
 
 
 ## Example Usage
@@ -34,9 +34,9 @@ The following arguments are supported:
 
 * `commit_id` - (Required when ref_type=BRANCH) (Updatable) Commit ID pointed to by the new branch.
 * `object_id` - (Required when ref_type=TAG) (Updatable) SHA-1 hash value of the object pointed to by the tag.
-* `ref_name` - (Required) A filter to return only resources that match the given Ref name.
-* `ref_type` - (Required) (Updatable) The type of Ref (Branch or Tag)
-* `repository_id` - (Required) unique Repository identifier.
+* `ref_name` - (Required) A filter to return only resources that match the given reference name.
+* `ref_type` - (Required) (Updatable) The type of reference (Branch or Tag).
+* `repository_id` - (Required) Unique repository identifier.
 
 
 ** IMPORTANT **
@@ -47,11 +47,11 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `commit_id` - Commit ID pointed to by the new branch.
-* `full_ref_name` - Unique full ref name inside a repository
+* `full_ref_name` - Unique full reference name inside a repository.
 * `object_id` - SHA-1 hash value of the object pointed to by the tag.
-* `ref_name` - Unique Ref name inside a repository
-* `ref_type` - The type of Ref (Branch or Tag)
-* `repository_id` - The OCID of the repository containing the ref.
+* `ref_name` - Unique reference name inside a repository.
+* `ref_type` - The type of reference (Branch or Tag).
+* `repository_id` - The OCID of the repository containing the reference.
 
 ## Timeouts
 

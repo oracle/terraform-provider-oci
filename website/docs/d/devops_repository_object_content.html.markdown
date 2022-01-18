@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_devops_repository_object_content
 This data source provides details about a specific Repository Object Content resource in Oracle Cloud Infrastructure Devops service.
 
-Get contents of a specified Object
+Retrieve contents of a specified object.
 
 
 ## Example Usage
@@ -31,8 +31,8 @@ data "oci_devops_repository_object_content" "test_repository_object_content" {
 The following arguments are supported:
 
 * `file_path` - (Optional) A filter to return only commits that affect any of the specified paths.
-* `repository_id` - (Required) unique Repository identifier.
-* `sha` - (Required) The SHA of a blob or tree
+* `repository_id` - (Required) Unique repository identifier.
+* `sha` - (Required) The SHA of a blob or tree.
 
 
 ## Attributes Reference
