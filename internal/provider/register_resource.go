@@ -5,6 +5,7 @@ package provider
 
 import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
+	tf_ai_vision "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
 	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
@@ -512,6 +513,9 @@ func init() {
 	RegisterResource("oci_usage_proxy_subscription_redeemable_user", tf_usage_proxy.UsageProxySubscriptionRedeemableUserResource())
 	// vault service
 	RegisterResource("oci_vault_secret", tf_vault.VaultSecretResource())
+	// vision service
+	RegisterResource("oci_ai_vision_project", tf_ai_vision.AiVisionProjectResource())
+	RegisterResource("oci_ai_vision_model", tf_ai_vision.AiVisionModelResource())
 	// visual_builder service
 	RegisterResource("oci_visual_builder_vb_instance", tf_visual_builder.VisualBuilderVbInstanceResource())
 	// vulnerability_scanning service

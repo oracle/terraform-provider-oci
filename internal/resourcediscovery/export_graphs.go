@@ -17,6 +17,7 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"availability_domain":     availabilityDomainResourceGraph,
 	"ai_anomaly_detection":    aiAnomalyDetectionResourceGraph,
+	"ai_vision":               aiVisionResourceGraph,
 	"analytics":               analyticsResourceGraph,
 	"apigateway":              apigatewayResourceGraph,
 	"apm":                     apmResourceGraph,
@@ -122,6 +123,29 @@ var aiAnomalyDetectionResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportAiAnomalyDetectionModelHints},
 		{TerraformResourceHints: exportAiAnomalyDetectionProjectHints},
 		{TerraformResourceHints: exportAiAnomalyDetectionAiPrivateEndpointHints},
+	},
+}
+
+var aiVisionResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportAiVisionProjectHints},
+		{TerraformResourceHints: exportAiVisionModelHints},
+	},
+	"oci_ai_vision_document_job": {
+		{
+			TerraformResourceHints: exportAiVisionDocumentJobHints,
+			datasourceQueryParams: map[string]string{
+				"document_job_id": "id",
+			},
+		},
+	},
+	"oci_ai_vision_image_job": {
+		{
+			TerraformResourceHints: exportAiVisionImageJobHints,
+			datasourceQueryParams: map[string]string{
+				"image_job_id": "id",
+			},
+		},
 	},
 }
 

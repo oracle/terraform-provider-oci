@@ -5,6 +5,7 @@ package resourcediscovery
 
 import (
 	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v57/aianomalydetection"
+	oci_ai_vision "github.com/oracle/oci-go-sdk/v57/aivision"
 	oci_analytics "github.com/oracle/oci-go-sdk/v57/analytics"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v57/apigateway"
 	oci_apm "github.com/oracle/oci-go-sdk/v57/apmcontrolplane"
@@ -149,6 +150,48 @@ var exportAiAnomalyDetectionAiPrivateEndpointHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_ai_anomaly_detection.AiPrivateEndpointLifecycleStateActive),
+	},
+}
+
+var exportAiVisionDocumentJobHints = &TerraformResourceHints{
+	resourceClass:        "oci_ai_vision_document_job",
+	datasourceClass:      "oci_ai_vision_document_job",
+	resourceAbbreviation: "document_job",
+	discoverableLifecycleStates: []string{
+		string(oci_ai_vision.DocumentJobLifecycleStateSucceeded),
+	},
+}
+
+var exportAiVisionImageJobHints = &TerraformResourceHints{
+	resourceClass:        "oci_ai_vision_image_job",
+	datasourceClass:      "oci_ai_vision_image_job",
+	resourceAbbreviation: "image_job",
+	discoverableLifecycleStates: []string{
+		string(oci_ai_vision.ImageJobLifecycleStateSucceeded),
+	},
+}
+
+var exportAiVisionProjectHints = &TerraformResourceHints{
+	resourceClass:          "oci_ai_vision_project",
+	datasourceClass:        "oci_ai_vision_projects",
+	datasourceItemsAttr:    "project_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "project",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_ai_vision.ProjectLifecycleStateActive),
+	},
+}
+
+var exportAiVisionModelHints = &TerraformResourceHints{
+	resourceClass:          "oci_ai_vision_model",
+	datasourceClass:        "oci_ai_vision_models",
+	datasourceItemsAttr:    "model_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "model",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_ai_vision.ModelLifecycleStateActive),
 	},
 }
 
