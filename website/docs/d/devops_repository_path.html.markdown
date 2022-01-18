@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_devops_repository_path
 This data source provides details about a specific Repository Path resource in Oracle Cloud Infrastructure Devops service.
 
-Fetches a list of files and directories in a repository.
+Retrieves a list of files and directories in a repository.
 
 
 ## Example Usage
@@ -34,22 +34,22 @@ The following arguments are supported:
 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
 * `folder_path` - (Optional) The fully qualified path to the folder whose contents are returned, including the folder name. For example, /examples is a fully-qualified path to a folder named examples that was created off of the root directory (/) of a repository.
-* `paths_in_subtree` - (Optional) Flag to determine if files should be retrived recursively. false by default
-* `ref` - (Optional) The name of branch/tag or commit hash it points to. If names conflict order of preference is commit > branch > tag. You can disambiguate with "heads/foobar" and "tags/foobar". Repository's default branch will be used if left blank. 
-* `repository_id` - (Required) unique Repository identifier.
+* `paths_in_subtree` - (Optional) Flag to determine if files must be retrived recursively. Flag is False by default.
+* `ref` - (Optional) The name of branch/tag or commit hash it points to. If names conflict, order of preference is commit > branch > tag. You can disambiguate with "heads/foobar" and "tags/foobar". If left blank repository's default branch will be used. 
+* `repository_id` - (Required) Unique repository identifier.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `items` - List of objects describings files or directories in a repository.
+* `items` - List of objects describing files or directories in a repository.
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
-	* `name` - Name of file or directory
-	* `path` - Path to file or directory in a repository
-	* `sha` - SHA-1 checksum of blob or tree
-	* `size_in_bytes` - Size of file or directory
-	* `submodule_git_url` - The giturl of the submodule
-	* `type` - File or Directory
+	* `name` - Name of file or directory.
+	* `path` - Path to file or directory in a repository.
+	* `sha` - SHA-1 checksum of blob or tree.
+	* `size_in_bytes` - Size of file or directory.
+	* `submodule_git_url` - The git URL of the submodule.
+	* `type` - File or directory.
 
