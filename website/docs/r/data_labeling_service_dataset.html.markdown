@@ -60,11 +60,7 @@ The following arguments are supported:
 
 * `annotation_format` - (Required) The annotation format name required for labeling records.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment of the resource.
-<<<<<<< ours
-* `dataset_format_details` - (Required) Specifies how to process the data. Supported formats include DOCUMENT, IMAGE and TEXT.
-=======
 * `dataset_format_details` - (Required) Specifies how to process the data. Supported formats include IMAGE and TEXT.
->>>>>>> theirs
 	* `format_type` - (Required) Format type. DOCUMENT format is for record contents that are PDFs or TIFFs. IMAGE format is for record contents that are JPEGs or PNGs. TEXT format is for record contents that are txt files.
 * `dataset_source_details` - (Required) This allows the customer to specify the source of the dataset.
 	* `bucket` - (Required) The object storage bucket that contains the dataset data source
@@ -77,14 +73,8 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: `{"bar-key": "value"}` 
 * `initial_record_generation_configuration` - (Optional) Initial Generate Records configuration, generates records from the Dataset's source.
 * `label_set` - (Required) An ordered collection of Labels that are unique by name. 
-<<<<<<< ours
-	* `items` - (Optional) An ordered collection of Labels that are unique by name.
-		* `name` - (Optional) An unique name for a label within its dataset.
-* `labeling_instructions` - (Optional) (Updatable) The labeling instructions for human labelers in rich text format
-=======
 	* `items` - (Required) An ordered collection of Labels that are unique by name.
 		* `name` - (Required) An unique name for a label within its dataset.
->>>>>>> theirs
 
 
 ** IMPORTANT **
@@ -115,10 +105,6 @@ The following attributes are exported:
 * `labeling_instructions` - The labeling instructions for human labelers in rich text format
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in FAILED or NEEDS_ATTENTION state.
 * `state` - The state of a dataset. CREATING - The dataset is being created.  It will transition to ACTIVE when it is ready for labeling. ACTIVE   - The dataset is ready for labeling. UPDATING - The dataset is being updated.  It and its related resources may be unavailable for other updates until it returns to ACTIVE. NEEDS_ATTENTION - A dataset updation operation has failed due to validation or other errors and needs attention. DELETING - The dataset and its related resources are being deleted. DELETED  - The dataset has been deleted and is no longer available. FAILED   - The dataset has failed due to validation or other errors. 
-<<<<<<< ours
-* `system_tags` - The usage of system tag keys. These predefined keys are scoped to namespaces. For example: `{"orcl-cloud": {"free-tier-retained": "true"}}` 
-=======
->>>>>>> theirs
 * `time_created` - The date and time the resource was created, in the timestamp format defined by RFC3339.
 * `time_updated` - The date and time the resource was last updated, in the timestamp format defined by RFC3339.
 
