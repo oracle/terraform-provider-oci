@@ -7,7 +7,7 @@ description: |-
   Create, update and delete replica for a vault in Oracle Cloud Infrastructure Kms service
 ---
 
-# oci_kms_replication_status
+# oci_kms_vault_replication
 This source triggers action to create, update and delete replica for a vault in Oracle Cloud Infrastructure Kms service.
 
 A vault replica is a mirror of that vault in a different region in the same realm. 

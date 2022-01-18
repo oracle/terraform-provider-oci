@@ -589,8 +589,6 @@ kms
 * oci\_kms\_vault
 * oci\_kms\_sign
 * oci\_kms\_verify
-* oci\_kms\_create\_replica
-* oci\_kms\_delete\_replica
 
 limits
     
