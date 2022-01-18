@@ -24,6 +24,7 @@ var (
 	UnsetUserAssessmentBaselineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)
 )
 
+// issue-routing-tag: data_safe/default
 func TestDataSafeUnsetUserAssessmentBaselineResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeUnsetUserAssessmentBaselineResource_basic")
 	defer httpreplay.SaveScenario()

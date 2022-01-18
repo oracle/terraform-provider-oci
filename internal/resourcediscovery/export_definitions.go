@@ -1209,6 +1209,101 @@ var exportDataSafeTargetAlertPolicyAssociationHints = &TerraformResourceHints{
 	},
 }
 
+var exportDataSafeSensitiveTypeHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_sensitive_type",
+	datasourceClass:        "oci_data_safe_sensitive_types",
+	datasourceItemsAttr:    "sensitive_type_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "sensitive_type",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.DiscoveryLifecycleStateActive),
+	},
+}
+
+var exportDataSafeMaskingPolicyHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_masking_policy",
+	datasourceClass:        "oci_data_safe_masking_policies",
+	datasourceItemsAttr:    "masking_policy_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "masking_policy",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.MaskingLifecycleStateActive),
+		string(oci_data_safe.MaskingLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeMaskingPoliciesMaskingColumnHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_masking_policies_masking_column",
+	datasourceClass:        "oci_data_safe_masking_policies_masking_columns",
+	datasourceItemsAttr:    "masking_column_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "masking_policies_masking_column",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.MaskingColumnLifecycleStateActive),
+		string(oci_data_safe.MaskingColumnLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeLibraryMaskingFormatHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_library_masking_format",
+	datasourceClass:        "oci_data_safe_library_masking_formats",
+	datasourceItemsAttr:    "library_masking_format_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "library_masking_format",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.MaskingLifecycleStateActive),
+		string(oci_data_safe.MaskingLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeSensitiveDataModelHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_sensitive_data_model",
+	datasourceClass:        "oci_data_safe_sensitive_data_models",
+	datasourceItemsAttr:    "sensitive_data_model_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "sensitive_data_model",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.DiscoveryLifecycleStateActive),
+	},
+}
+
+var exportDataSafeSensitiveDataModelsSensitiveColumnHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_sensitive_data_models_sensitive_column",
+	datasourceClass:        "oci_data_safe_sensitive_data_models_sensitive_columns",
+	datasourceItemsAttr:    "sensitive_column_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "sensitive_data_models_sensitive_column",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.SensitiveColumnLifecycleStateActive),
+	},
+}
+
+var exportDataSafeDiscoveryJobsResultHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_discovery_jobs_result",
+	datasourceClass:        "oci_data_safe_discovery_jobs_results",
+	datasourceItemsAttr:    "discovery_job_result_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "discovery_jobs_result",
+}
+
+var exportDataSafeDiscoveryJobHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_discovery_job",
+	datasourceClass:        "oci_data_safe_discovery_jobs",
+	datasourceItemsAttr:    "discovery_job_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "discovery_job",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.DiscoveryLifecycleStateActive),
+	},
+}
+
 var exportDatabaseAutonomousContainerDatabaseHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_autonomous_container_database",
 	datasourceClass:      "oci_database_autonomous_container_databases",
