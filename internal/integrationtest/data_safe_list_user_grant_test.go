@@ -32,6 +32,7 @@ var (
 		acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_users", "test_user_assessment_users", acctest.Required, acctest.Create, userAssessmentUserDataSourceRepresentation)
 )
 
+// issue-routing-tag: data_safe/default
 func TestDataSafeListUserGrantResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeListUserGrantResource_basic")
 	defer httpreplay.SaveScenario()

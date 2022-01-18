@@ -275,7 +275,6 @@ func (s *DataSafeUserAssessmentsDataSourceCrud) SetData() error {
 
 		ignoredTargets := []interface{}{}
 		for _, item := range r.IgnoredTargets {
-			//ignoredTargets = append(ignoredTargets, item)
 			ignoredTargets = append(ignoredTargets, IgnoredTargetsToMap(item))
 		}
 		userAssessment["ignored_targets"] = ignoredTargets

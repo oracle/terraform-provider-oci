@@ -501,6 +501,35 @@ var dataSafeResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeAuditProfileHints},
 		{TerraformResourceHints: exportDataSafeAuditPolicyHints},
 		{TerraformResourceHints: exportDataSafeTargetAlertPolicyAssociationHints},
+		{TerraformResourceHints: exportDataSafeSensitiveTypeHints},
+		{TerraformResourceHints: exportDataSafeMaskingPolicyHints},
+		{TerraformResourceHints: exportDataSafeLibraryMaskingFormatHints},
+		{TerraformResourceHints: exportDataSafeSensitiveDataModelHints},
+		{TerraformResourceHints: exportDataSafeDiscoveryJobHints},
+	},
+	"oci_data_safe_masking_policy": {
+		{
+			TerraformResourceHints: exportDataSafeMaskingPoliciesMaskingColumnHints,
+			datasourceQueryParams: map[string]string{
+				"masking_policy_id": "id",
+			},
+		},
+	},
+	"oci_data_safe_sensitive_data_model": {
+		{
+			TerraformResourceHints: exportDataSafeSensitiveDataModelsSensitiveColumnHints,
+			datasourceQueryParams: map[string]string{
+				"sensitive_data_model_id": "id",
+			},
+		},
+	},
+	"oci_data_safe_discovery_job": {
+		{
+			TerraformResourceHints: exportDataSafeDiscoveryJobsResultHints,
+			datasourceQueryParams: map[string]string{
+				"discovery_job_id": "id",
+			},
+		},
 	},
 }
 
