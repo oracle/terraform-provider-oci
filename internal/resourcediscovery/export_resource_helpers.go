@@ -834,6 +834,7 @@ func init() {
 	exportCertificatesManagementCertificateAuthorityHints.processDiscoveredResourcesFn = processCertificateAuthorities
 	exportCertificatesManagementCertificateHints.processDiscoveredResourcesFn = processCertificates
 	exportBdsBdsInstanceApiKeyHints.processDiscoveredResourcesFn = processBdsInstanceApiKeys
+	exportBdsBdsInstanceMetastoreConfigHints.processDiscoveredResourcesFn = processBdsInstanceMetastoreConfigs
 }
 func processBdsInstanceApiKeys(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {

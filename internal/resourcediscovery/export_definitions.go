@@ -376,6 +376,17 @@ var exportBdsBdsInstanceApiKeyHints = &TerraformResourceHints{
 		string(oci_bds.BdsApiKeyLifecycleStateActive),
 	},
 }
+
+var exportBdsBdsInstanceMetastoreConfigHints = &TerraformResourceHints{
+	resourceClass:        "oci_bds_bds_instance_metastore_config",
+	datasourceClass:      "oci_bds_bds_instance_metastore_configs",
+	datasourceItemsAttr:  "bds_metastore_configurations",
+	resourceAbbreviation: "bds_instance_metastore_config",
+	discoverableLifecycleStates: []string{
+		string(oci_bds.BdsMetastoreConfigurationLifecycleStateActive),
+	},
+}
+
 var exportBlockchainBlockchainPlatformHints = &TerraformResourceHints{
 	resourceClass:          "oci_blockchain_blockchain_platform",
 	datasourceClass:        "oci_blockchain_blockchain_platforms",
