@@ -1,4 +1,4 @@
-## 4.60.0 (Unreleased)
+## 4.60.0 (January 19, 2022)
 
 ### Added
 - Autonomous Data Guard v2-Observer Support
