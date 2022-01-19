@@ -216,6 +216,12 @@ var bdsResourceGraph = TerraformResourceGraph{
 				"bds_instance_id": "id",
 			},
 		},
+		{
+			TerraformResourceHints: exportBdsBdsInstanceMetastoreConfigHints,
+			datasourceQueryParams: map[string]string{
+				"bds_instance_id": "id",
+			},
+		},
 	},
 }
 
