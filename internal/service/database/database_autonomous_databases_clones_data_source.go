@@ -401,6 +401,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"memory_per_oracle_compute_unit_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"nsg_ids": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -850,6 +854,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.LifecycleDetails != nil {
 			autonomousDatabasesClone["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.MemoryPerOracleComputeUnitInGBs != nil {
+			autonomousDatabasesClone["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
 
 		autonomousDatabasesClone["nsg_ids"] = r.NsgIds

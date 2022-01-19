@@ -526,6 +526,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"memory_per_oracle_compute_unit_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"next_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1017,6 +1021,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("maintenance_window", nil)
 	}
 
+	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
+		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
+	}
+
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
@@ -1342,7 +1350,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) updateCompartment(comp
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) RotateContainerDatabaseEncryptionKey() error {
 	request := oci_database.RotateAutonomousContainerDatabaseEncryptionKeyRequest{}
 
-	if _, isDedicated := s.D.GetOkExists("autonomous_exadata_infrastructure_id"); !isDedicated {
+	if _, isDedicated := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); !isDedicated {
 		return fmt.Errorf("Container database is not dedicated")
 	}
 

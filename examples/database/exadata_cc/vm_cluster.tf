@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.2019 Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   display_name   = "testVmClusterRecommendedNetwork"
   dns            = ["192.168.10.10"]
   ntp            = ["192.168.10.20"]
@@ -77,13 +77,13 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 }
 
 data "oci_database_gi_versions" "gi_version" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   shape = "ExadataCC.Quarter3.100"
 }
 
 resource "oci_database_vm_cluster" "test_vm_cluster" {
   #Required
-  compartment_id            = var.compartment_id
+  compartment_id            = var.compartment_ocid
   cpu_core_count            = "4"
   display_name              = "testVmCluster"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
@@ -110,13 +110,13 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 
 data "oci_database_db_servers" "test_db_servers" {
   #Required
-  compartment_id            = var.compartment_id
+  compartment_id            = var.compartment_ocid
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 }
 
 data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_network" {
   #Required
-  compartment_id            = var.compartment_id
+  compartment_id            = var.compartment_ocid
   display_name              = "testVmClusterRecommendedNetwork"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 
@@ -184,7 +184,7 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
 
 resource "oci_database_backup_destination" "test_backup_destination_nfs" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   display_name   = "testBackupDestination"
   type           = "NFS"
 
@@ -210,13 +210,13 @@ data "oci_database_vm_cluster_network_download_config_file" "test_vm_cluster_net
 
 data "oci_database_vm_cluster_networks" "test_vm_cluster_networks" {
   #Required
-  compartment_id            = var.compartment_id
+  compartment_id            = var.compartment_ocid
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 }
 
 data "oci_database_vm_clusters" "test_vm_clusters" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 
   #Optional
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
