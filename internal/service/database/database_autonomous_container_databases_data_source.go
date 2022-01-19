@@ -245,6 +245,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["maintenance_window"] = nil
 		}
 
+		if r.MemoryPerOracleComputeUnitInGBs != nil {
+			autonomousContainerDatabase["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
+		}
+
 		if r.NextMaintenanceRunId != nil {
 			autonomousContainerDatabase["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}

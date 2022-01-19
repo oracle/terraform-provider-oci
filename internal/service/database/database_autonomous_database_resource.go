@@ -599,6 +599,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"memory_per_oracle_compute_unit_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"open_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1489,6 +1493,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
+		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
 
 	nsgIds := []interface{}{}

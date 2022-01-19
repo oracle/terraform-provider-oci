@@ -32,6 +32,7 @@ var (
 	CloudExadataInfrastructureResourceConfig = CloudExadataInfrastructureResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, cloudExadataInfrastructureRepresentation)
 
+	PeerCeiRepresentation                                      = acctest.GetUpdatedRepresentationCopy("display_name", acctest.Representation{RepType: acctest.Required, Create: "peerCEInfra"}, cloudExadataInfrastructureRepresentation)
 	cloudExadataInfrastructureSingularDataSourceRepresentation = map[string]interface{}{
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 	}

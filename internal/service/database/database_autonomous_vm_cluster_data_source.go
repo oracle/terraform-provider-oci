@@ -66,6 +66,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AutonomousDataStorageSizeInTBs != nil {
+		s.D.Set("autonomous_data_storage_size_in_tbs", *s.Res.AutonomousDataStorageSizeInTBs)
+	}
+
 	if s.Res.AvailableCpus != nil {
 		s.D.Set("available_cpus", *s.Res.AvailableCpus)
 	}
@@ -76,6 +80,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CpuCoreCountPerNode != nil {
+		s.D.Set("cpu_core_count_per_node", *s.Res.CpuCoreCountPerNode)
 	}
 
 	if s.Res.CpusEnabled != nil {
@@ -112,14 +120,32 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("is_local_backup_enabled", *s.Res.IsLocalBackupEnabled)
 	}
 
+	if s.Res.LastMaintenanceRunId != nil {
+		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.MaintenanceWindow != nil {
+		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
+	} else {
+		s.D.Set("maintenance_window", nil)
+	}
+
+	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
+		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
+	}
+
 	if s.Res.MemorySizeInGBs != nil {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
+	}
+
+	if s.Res.NextMaintenanceRunId != nil {
+		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
 
 	if s.Res.OcpusEnabled != nil {
@@ -134,6 +160,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.TimeZone != nil {
 		s.D.Set("time_zone", *s.Res.TimeZone)
+	}
+
+	if s.Res.TotalContainerDatabases != nil {
+		s.D.Set("total_container_databases", *s.Res.TotalContainerDatabases)
 	}
 
 	if s.Res.VmClusterNetworkId != nil {

@@ -1,33 +1,31 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {
-}
-
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
-variable "region" {
-}
-
-variable "compartment_ocid" {
-}
-
-variable "ssh_public_key" {
-}
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
+}
+
+resource "oci_identity_tag_namespace" "tag-namespace1" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  description    = "tagNamespace1"
+  name           = "testexamples-tag-namespace1"
+}
+
+resource "oci_identity_tag" "tag1" {
+  #Required
+  description      = "tf example tag"
+  name             = "tf-example-tag"
+  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
+}
+
+resource "local_file" "activation_file" {
+  filename = "/tmp/activation.zip"
+  content = ""
 }
 
 resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
@@ -44,7 +42,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   ntp_server                  = ["10.231.225.76"]
   shape                       = "ExadataCC.Quarter3.100"
   time_zone                   = "US/Pacific"
-  activation_file             = "activation.zip"
+  activation_file             = local_file.activation_file.filename
   storage_count               = 3
   compute_count               = 2
 
@@ -92,50 +90,14 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
     }
 
     weeks_of_month = ["2"]
-
-    patching_mode = "ROLLING"
-
-    is_custom_action_timeout_enabled = true
-
-    custom_action_timeout_in_mins = 30
   }
   
 }
 
-data "oci_database_exadata_infrastructure_download_config_file" "test_exadata_infrastructure_download_config_file" {
-  #Required
-  exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 
-  #Optional
-  base64_encode_content = true
-}
 
-data "oci_database_exadata_infrastructures" "test_exadata_infrastructures" {
-  #Required
-  compartment_id = var.compartment_ocid
-}
 
-resource "oci_identity_tag_namespace" "tag-namespace1" {
-  #Required
-  compartment_id = var.tenancy_ocid
-  description    = "tagNamespace1"
-  name           = "testexamples-tag-namespace1"
-}
 
-resource "oci_identity_tag" "tag1" {
-  #Required
-  description      = "tf example tag"
-  name             = "tf-example-tag"
-  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
-}
 
-data "oci_identity_availability_domain" "ad" {
-  compartment_id = var.tenancy_ocid
-  ad_number      = 1
-}
 
-resource "local_file" "test_exadata_infrastructure_downloaded_config_file" {
-  content  = data.oci_database_exadata_infrastructure_download_config_file.test_exadata_infrastructure_download_config_file.content
-  filename = "${path.module}/exadata_infrastructure_config.zip"
-}
 

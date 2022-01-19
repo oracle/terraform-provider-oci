@@ -64,7 +64,7 @@ var (
 		"recovery_window_in_days": acctest.Representation{RepType: acctest.Optional, Create: `7`},
 	}
 
-	ACDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig +
+	ACDatabaseResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": acctest.Representation{RepType: acctest.Required, Create: activationFilePath}})) +
@@ -78,7 +78,7 @@ var (
 )
 
 // issue-routing-tag: database/dbaas-atp-d
-func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
+func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabase_basic")
 	defer httpreplay.SaveScenario()
 
@@ -112,6 +112,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
+				resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_store_id"),
@@ -216,6 +217,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.memory_per_oracle_compute_unit_in_gbs"),
 			),
 		},
 		// verify singular datasource
@@ -249,6 +251,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs"),
 			),
 		},
 		// verify resource import
@@ -286,13 +289,13 @@ func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
 		// verify Create with optionals and rotate key
 		{
-			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(autonomousContainerDatabaseRepresentation, map[string]interface{}{
 						"rotate_key_trigger": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -326,13 +329,13 @@ func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(autonomousContainerDatabaseRepresentation, map[string]interface{}{
 						"rotate_key_trigger": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -365,13 +368,13 @@ func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 		},
 		// verify no rotation of key
 		{
-			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(autonomousContainerDatabaseRepresentation, map[string]interface{}{
 						"rotate_key_trigger": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -404,13 +407,13 @@ func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 		},
 		// verify rotate key
 		{
-			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(autonomousContainerDatabaseRepresentation, map[string]interface{}{
 						"rotate_key_trigger": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -445,17 +448,17 @@ func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", acctest.Optional, acctest.Update, autonomousContainerDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
+				compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, autonomousContainerDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.#", "1"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.autonomous_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.recovery_window_in_days", "11"),
@@ -512,11 +515,11 @@ func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 		},
 
 		{
-			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
 					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -546,6 +549,7 @@ func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 			ImportStateVerifyIgnore: []string{
 				"rotate_key_trigger",
 				"maintenance_window_details",
+				"is_automatic_failover_enabled",
 			},
 			ResourceName: resourceName,
 		},

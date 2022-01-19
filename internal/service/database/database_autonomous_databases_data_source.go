@@ -338,6 +338,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.MemoryPerOracleComputeUnitInGBs != nil {
+			autonomousDatabase["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
+		}
+
 		autonomousDatabase["nsg_ids"] = r.NsgIds
 
 		if r.OcpuCount != nil {
