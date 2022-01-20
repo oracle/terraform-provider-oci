@@ -23,6 +23,7 @@ var (
 	listingDataSourceRepresentation = map[string]interface{}{
 		"category":          acctest.Representation{RepType: acctest.Optional, Create: []string{`category`}},
 		"compartment_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"image_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_image.test_image.id}`},
 		"is_featured":       acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"listing_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_marketplace_listing.test_listing.id}`},
 		"listing_types":     acctest.Representation{RepType: acctest.Optional, Create: []string{`listingTypes`}},
@@ -90,7 +91,6 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "icon.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_featured"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "keywords"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "languages.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "links.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "long_description"),
@@ -103,7 +103,6 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "supported_operating_systems.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "support_contacts.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "support_links.#"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "system_requirements"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tagline"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "usage_information"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "videos.#"),
