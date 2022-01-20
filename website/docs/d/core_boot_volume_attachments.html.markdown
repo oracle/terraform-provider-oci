@@ -56,7 +56,7 @@ The following attributes are exported:
 * `encryption_in_transit_type` - Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
 * `id` - The OCID of the boot volume attachment.
 * `instance_id` - The OCID of the instance the boot volume is attached to.
-* `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the boot volume's paravirtualized attachment is enabled or not.
+* `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the boot volume's paravirtualized attachment is enabled or not. 
 * `state` - The current state of the boot volume attachment.
 * `time_created` - The date and time the boot volume was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 
