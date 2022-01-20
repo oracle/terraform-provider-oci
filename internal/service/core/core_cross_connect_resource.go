@@ -151,6 +151,14 @@ func CoreCrossConnectResource() *schema.Resource {
 			},
 
 			// Computed
+			"oci_logical_device_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"oci_physical_device_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"port_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -472,6 +480,14 @@ func (s *CoreCrossConnectResourceCrud) SetData() error {
 		s.D.Set("macsec_properties", []interface{}{MacsecPropertiesToMap(s.Res.MacsecProperties)})
 	} else {
 		s.D.Set("macsec_properties", nil)
+	}
+
+	if s.Res.OciLogicalDeviceName != nil {
+		s.D.Set("oci_logical_device_name", *s.Res.OciLogicalDeviceName)
+	}
+
+	if s.Res.OciPhysicalDeviceName != nil {
+		s.D.Set("oci_physical_device_name", *s.Res.OciPhysicalDeviceName)
 	}
 
 	if s.Res.PortName != nil {

@@ -151,6 +151,14 @@ func (s *CoreCrossConnectsDataSourceCrud) SetData() error {
 			crossConnect["macsec_properties"] = nil
 		}
 
+		if r.OciLogicalDeviceName != nil {
+			crossConnect["oci_logical_device_name"] = *r.OciLogicalDeviceName
+		}
+
+		if r.OciPhysicalDeviceName != nil {
+			crossConnect["oci_physical_device_name"] = *r.OciPhysicalDeviceName
+		}
+
 		if r.PortName != nil {
 			crossConnect["port_name"] = *r.PortName
 		}

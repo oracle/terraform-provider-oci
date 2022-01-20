@@ -134,6 +134,14 @@ func (s *CoreCrossConnectGroupsDataSourceCrud) SetData() error {
 			crossConnectGroup["macsec_properties"] = nil
 		}
 
+		if r.OciLogicalDeviceName != nil {
+			crossConnectGroup["oci_logical_device_name"] = *r.OciLogicalDeviceName
+		}
+
+		if r.OciPhysicalDeviceName != nil {
+			crossConnectGroup["oci_physical_device_name"] = *r.OciPhysicalDeviceName
+		}
+
 		crossConnectGroup["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

@@ -229,7 +229,9 @@ The following arguments are supported:
 				Allowed values:
 				* `0`: Represents Lower Cost option.
 				* `10`: Represents Balanced option.
-				* `20`: Represents Higher Performance option. 
+				* `20`: Represents Higher Performance option.
+
+				For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB. 
 		* `volume_id` - (Optional) The OCID of the volume.
 	* `instance_type` - (Required) The type of instance details. Supported instanceType is compute 
 	* `launch_details` - (Optional) Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
@@ -264,7 +266,7 @@ The following arguments are supported:
 				* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
 		* `availability_domain` - (Optional) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - (Optional) The OCID of the compute capacity reservation this instance is launched under.
-		* `compartment_id` - (Optional) The OCID of the compartment containing the instance.  Instances created from instance configurations are placed in the same compartment  as the instance that was used to create the instance configuration. 
+		* `compartment_id` - (Optional) The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment as the instance that was used to create the instance configuration. 
 		* `create_vnic_details` - (Optional) Contains the properties of the VNIC for an instance configuration. See [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) and [Instance Configurations](https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information. 
             * `assign_private_dns_record` - (Optional) Whether the VNIC should be assigned a private DNS record. See the `assignPrivateDnsRecord` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `assign_public_ip` - (Optional) Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
@@ -466,7 +468,9 @@ The following attributes are exported:
 				Allowed values:
 				* `0`: Represents Lower Cost option.
 				* `10`: Represents Balanced option.
-				* `20`: Represents Higher Performance option. 
+				* `20`: Represents Higher Performance option.
+
+				For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB. 
 		* `volume_id` - The OCID of the volume.
 	* `instance_type` - The type of instance details. Supported instanceType is compute 
 	* `launch_details` - Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
@@ -501,7 +505,7 @@ The following attributes are exported:
 				* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
 		* `availability_domain` - The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under.
-		* `compartment_id` - The OCID of the compartment containing the instance.  Instances created from instance configurations are placed in the same compartment  as the instance that was used to create the instance configuration. 
+		* `compartment_id` - The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment as the instance that was used to create the instance configuration. 
 		* `create_vnic_details` - Contains the properties of the VNIC for an instance configuration. See [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) and [Instance Configurations](https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information. 
             * `assign_private_dns_record` - Whether the VNIC should be assigned a private DNS record. See the `assignPrivateDnsRecord` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 			* `assign_public_ip` - Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 

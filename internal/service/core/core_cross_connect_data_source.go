@@ -98,6 +98,14 @@ func (s *CoreCrossConnectDataSourceCrud) SetData() error {
 		s.D.Set("macsec_properties", nil)
 	}
 
+	if s.Res.OciLogicalDeviceName != nil {
+		s.D.Set("oci_logical_device_name", *s.Res.OciLogicalDeviceName)
+	}
+
+	if s.Res.OciPhysicalDeviceName != nil {
+		s.D.Set("oci_physical_device_name", *s.Res.OciPhysicalDeviceName)
+	}
+
 	if s.Res.PortName != nil {
 		s.D.Set("port_name", *s.Res.PortName)
 	}
