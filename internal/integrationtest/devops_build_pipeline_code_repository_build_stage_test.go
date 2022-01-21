@@ -53,6 +53,7 @@ var (
 		"primary_build_source":                        acctest.Representation{RepType: acctest.Required, Create: `primaryBuildSource`, Update: `primaryBuildSource2`},
 		"build_source_collection":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineStageCodeRepoBuildSourceCollectionRepresentation},
 		"stage_execution_timeout_in_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"lifecycle":                                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 	buildPipelineBuildStageBuildPipelineStageCodeRepoPredecessorCollectionRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineStageBuildPipelineStagePredecessorCollectionItemsRepresentation},
