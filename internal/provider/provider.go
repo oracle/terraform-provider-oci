@@ -51,6 +51,11 @@ var AvoidWaitingForDeleteTarget bool
 var OciResources map[string]*schema.Resource
 var OciDatasources map[string]*schema.Resource
 
+// creating an interface to aid in unit tests
+type schemaResourceData interface {
+	GetOkExists(string) (interface{}, bool)
+}
+
 // OboTokenProvider interface that wraps information about auth tokens so the sdk client can make calls
 // on behalf of a different authorized user
 type OboTokenProvider interface {
@@ -104,6 +109,7 @@ func init() {
 		globalvar.RetryDurationSecondsAttrName: "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
 			"The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.",
 		globalvar.ConfigFileProfileAttrName: "(Optional) The profile name to be used from config file, if not set it will be DEFAULT.",
+		globalvar.DefinedTagsToIgnore:       "(Optional) List of defined tags keys that Terraform should ignore when planning creates and updates to the associated remote object",
 	}
 }
 
@@ -192,6 +198,13 @@ func SchemaMap() map[string]*schema.Schema {
 			Description: descriptions[globalvar.ConfigFileProfileAttrName],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.ConfigFileProfileAttrName), ociVarName(globalvar.ConfigFileProfileAttrName)}, nil),
 		},
+		globalvar.DefinedTagsToIgnore: {
+			Type:        schema.TypeList,
+			Optional:    true,
+			Elem:        &schema.Schema{Type: schema.TypeString},
+			Description: descriptions[globalvar.DefinedTagsToIgnore],
+			MaxItems:    100,
+		},
 	}
 }
 
@@ -233,6 +246,7 @@ func ResourcesMap() map[string]*schema.Resource {
 }
 
 func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
+	tf_resource.DefinedTagsToSuppress = IgnoreDefinedTags(d)
 	clients := &tf_client.OracleClients{
 		SdkClientMap:  make(map[string]interface{}, len(tf_client.OracleClientRegistrationsVar.RegisteredClients)),
 		Configuration: make(map[string]string),
@@ -485,6 +499,17 @@ func (p ResourceDataConfigProvider) Region() (string, error) {
 	return "", fmt.Errorf("can not get %s from Terraform configuration", globalvar.RegionAttrName)
 }
 
+func IgnoreDefinedTags(d schemaResourceData) []string {
+	if ignoreTags, ok := d.GetOkExists(globalvar.DefinedTagsToIgnore); ok {
+		var tags []string
+		for _, item := range ignoreTags.([]interface{}) {
+			tags = append(tags, item.(string))
+		}
+		return tags
+	}
+	return nil
+}
+
 func (p ResourceDataConfigProvider) KeyID() (string, error) {
 	tenancy, err := p.TenancyOCID()
 	if err != nil {
@@ -500,7 +525,6 @@ func (p ResourceDataConfigProvider) KeyID() (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	return fmt.Sprintf("%s/%s/%s", tenancy, user, fingerprint), nil
 }
 
