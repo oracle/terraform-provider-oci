@@ -43,7 +43,6 @@ func CoreClusterNetworkResource() *schema.Resource {
 						"instance_configuration_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"size": {
 							Type:     schema.TypeInt,
@@ -650,6 +649,11 @@ func (s *CoreClusterNetworkResourceCrud) mapToUpdateClusterNetworkInstancePoolDe
 	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 		tmp := id.(string)
 		result.Id = &tmp
+	}
+
+	if instanceConfigurationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_configuration_id")); ok {
+		tmp := instanceConfigurationId.(string)
+		result.InstanceConfigurationId = &tmp
 	}
 
 	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
