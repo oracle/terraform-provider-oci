@@ -38,7 +38,7 @@ type CreateVmClusterDetails struct {
 	// The Oracle Grid Infrastructure software version for the VM cluster.
 	GiVersion *string `mandatory:"true" json:"giVersion"`
 
-	// The number of OCPU cores to enable for the VM cluster. Only 1 decimal place is allowed for the fractional part.
+	// The number of OCPU cores to enable for the VM cluster. Only one decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
 	// The memory to be allocated in GBs.

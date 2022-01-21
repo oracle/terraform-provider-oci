@@ -26,7 +26,7 @@ type AutonomousDbVersionSummary struct {
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
 	DbWorkload AutonomousDbVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
-	// True if the database uses dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).
+	// True if the database uses dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
 	// A URL that points to a detailed description of the Autonomous Database version.

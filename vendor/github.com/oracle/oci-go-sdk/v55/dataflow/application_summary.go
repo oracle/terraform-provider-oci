@@ -57,6 +57,9 @@ type ApplicationSummary struct {
 	// The username of the user who created the resource.  If the username of the owner does not exist,
 	// `null` will be returned and the caller should refer to the ownerPrincipalId value instead.
 	OwnerUserName *string `mandatory:"false" json:"ownerUserName"`
+
+	// The Spark application processing type.
+	Type ApplicationTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 
 func (m ApplicationSummary) String() string {

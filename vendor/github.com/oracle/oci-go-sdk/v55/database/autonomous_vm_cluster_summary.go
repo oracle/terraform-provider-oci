@@ -64,7 +64,7 @@ type AutonomousVmClusterSummary struct {
 	// The total data storage allocated in TBs
 	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
 
-	// The total data storage allocated in GBs
+	// The total data storage allocated in GBs.
 	DataStorageSizeInGBs *float64 `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// The data storage available in TBs

@@ -13,9 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v55/common"
 )
 
-// AutonomousExadataInfrastructureSummary Infrastructure that enables the running of multiple Autonomous Databases within a dedicated DB system.
+// AutonomousExadataInfrastructureSummary **Deprecated** These APIs are deprecated with the introduction of the Autonomous Exadata VM Cluster resource and a shift to a common Exadata Infrastructure resource for all Exadata Cloud-based services, including Autonomous Database on dedicated Exadata infrastructure. For more details, see Latest Resource Model (https://docs.oracle.com/en/cloud/paas/autonomous-database/flddd/#articletitle).
+// Infrastructure that enables the running of multiple Autonomous Databases within a dedicated DB system.
 // For more information about Autonomous Exadata Infrastructure, see
-// Overview of Autonomous Database (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm).
+// Oracle Autonomous Database (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 // For information about access control and compartments, see
 // Overview of the Identity Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).

@@ -52,7 +52,9 @@ type UploadPartRequest struct {
 	// fail if the resource already exists.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
-	// 100-continue
+	// A value of `100-continue` requests preliminary verification of the request method, path, and headers before the request body is sent.
+	// If no error results from such verification, the server will send a 100 (Continue) interim response to indicate readiness for the request body.
+	// The only allowed value for this parameter is "100-Continue" (case-insensitive).
 	Expect *string `mandatory:"false" contributesTo:"header" name:"Expect"`
 
 	// The optional base-64 header that defines the encoded MD5 hash of the body. If the optional Content-MD5 header is present, Object

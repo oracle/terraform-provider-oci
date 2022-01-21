@@ -448,7 +448,7 @@ func (client DatabaseClient) changeAutonomousDatabaseCompartment(ctx context.Con
 	return response, err
 }
 
-// ChangeAutonomousExadataInfrastructureCompartment Moves the Autonomous Exadata Infrastructure resource and its dependent resources to the specified compartment.
+// ChangeAutonomousExadataInfrastructureCompartment **Deprecated.** Use the ChangeCloudExadataInfrastructureCompartment operation to move an Exadata infrastructure resource to a different compartment and  ChangeCloudAutonomousVmClusterCompartment operation to move an Autonomous Exadata VM cluster to a different compartment.
 // For more information, see
 // Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
 //
@@ -510,8 +510,7 @@ func (client DatabaseClient) changeAutonomousExadataInfrastructureCompartment(ct
 	return response, err
 }
 
-// ChangeAutonomousVmClusterCompartment To move an Autonomous VM cluster and its dependent resources to another compartment, use the
-// ChangeAutonomousVmClusterCompartment operation.
+// ChangeAutonomousVmClusterCompartment Moves an Autonomous VM cluster and its dependent resources to another compartment. Applies to Exadata Cloud@Customer  only. For systems in the Oracle cloud, see ChangeAutonomousVmClusterCompartment.
 //
 // See also
 //
@@ -633,8 +632,7 @@ func (client DatabaseClient) changeBackupDestinationCompartment(ctx context.Cont
 	return response, err
 }
 
-// ChangeCloudAutonomousVmClusterCompartment To move a cloud Autonomous VM cluster and its dependent resources to another compartment, use the
-// ChangeCloudAutonomousVmClusterCompartment operation.
+// ChangeCloudAutonomousVmClusterCompartment Moves an Autonomous Exadata VM cluster in the Oracle cloud and its dependent resources to another compartment. For Exadata Cloud@Customer systems, see ChangeAutonomousVmClusterCompartment.
 //
 // See also
 //
@@ -694,7 +692,7 @@ func (client DatabaseClient) changeCloudAutonomousVmClusterCompartment(ctx conte
 	return response, err
 }
 
-// ChangeCloudExadataInfrastructureCompartment Moves a cloud Exadata infrastructure resource and its dependent resources to another compartment. Applies to Exadata Cloud Service instances only. For more information about moving resources to a different compartment, see Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
+// ChangeCloudExadataInfrastructureCompartment Moves a cloud Exadata infrastructure resource and its dependent resources to another compartment. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.For more information about moving resources to a different compartment, see Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
 //
 // See also
 //
@@ -754,7 +752,7 @@ func (client DatabaseClient) changeCloudExadataInfrastructureCompartment(ctx con
 	return response, err
 }
 
-// ChangeCloudVmClusterCompartment Moves a cloud VM cluster and its dependent resources to another compartment. Applies to Exadata Cloud Service instances only.
+// ChangeCloudVmClusterCompartment Moves a cloud VM cluster and its dependent resources to another compartment. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // See also
 //
@@ -1727,7 +1725,7 @@ func (client DatabaseClient) createAutonomousDatabaseBackup(ctx context.Context,
 	return response, err
 }
 
-// CreateAutonomousVmCluster Creates an Autonomous VM cluster for Exadata Cloud@Customer.
+// CreateAutonomousVmCluster Creates an Autonomous VM cluster for Exadata Cloud@Customer. To create an Autonomous VM Cluster in the Oracle cloud, see CreateCloudAutonomousVmCluster.
 //
 // See also
 //
@@ -1907,7 +1905,7 @@ func (client DatabaseClient) createBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
-// CreateCloudAutonomousVmCluster Creates a cloud Autonomous VM cluster.
+// CreateCloudAutonomousVmCluster Creates an Autonomous Exadata VM cluster in the Oracle cloud. For Exadata Cloud@Customer systems, see CreateAutonomousVmCluster.
 //
 // See also
 //
@@ -1967,7 +1965,7 @@ func (client DatabaseClient) createCloudAutonomousVmCluster(ctx context.Context,
 	return response, err
 }
 
-// CreateCloudExadataInfrastructure Creates a cloud Exadata infrastructure resource. This resource is used to create an Exadata Cloud Service (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm) instance.
+// CreateCloudExadataInfrastructure Creates a cloud Exadata infrastructure resource. This resource is used to create either an Exadata Cloud Service (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm) instance or an Autonomous Database on dedicated Exadata infrastructure.
 //
 // See also
 //
@@ -3126,7 +3124,7 @@ func (client DatabaseClient) deleteAutonomousDatabase(ctx context.Context, reque
 	return response, err
 }
 
-// DeleteAutonomousVmCluster Deletes the specified Autonomous VM cluster in an Exadata Cloud@Customer system.
+// DeleteAutonomousVmCluster Deletes the specified Autonomous VM cluster in an Exadata Cloud@Customer system. To delete an Autonomous VM Cluster in the Oracle cloud, see DeleteCloudAutonomousVmCluster.
 //
 // See also
 //
@@ -3291,7 +3289,7 @@ func (client DatabaseClient) deleteBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteCloudAutonomousVmCluster Deletes the specified cloud Autonomous VM cluster.
+// DeleteCloudAutonomousVmCluster Deletes the specified Autonomous Exadata VM cluster in the Oracle cloud. For Exadata Cloud@Customer systems, see DeleteAutonomousVmCluster.
 //
 // See also
 //
@@ -3346,7 +3344,7 @@ func (client DatabaseClient) deleteCloudAutonomousVmCluster(ctx context.Context,
 	return response, err
 }
 
-// DeleteCloudExadataInfrastructure Deletes the cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
+// DeleteCloudExadataInfrastructure Deletes the cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // See also
 //
@@ -3401,7 +3399,7 @@ func (client DatabaseClient) deleteCloudExadataInfrastructure(ctx context.Contex
 	return response, err
 }
 
-// DeleteCloudVmCluster Deletes the specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
+// DeleteCloudVmCluster Deletes the specified cloud VM cluster. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // See also
 //
@@ -6039,7 +6037,7 @@ func (client DatabaseClient) getAutonomousDatabaseWallet(ctx context.Context, re
 	return response, err
 }
 
-// GetAutonomousExadataInfrastructure Gets information about the specified Autonomous Exadata Infrastructure resource.
+// GetAutonomousExadataInfrastructure **Deprecated.** Use the GetCloudExadataInfrastructure operation to get details of an Exadata Infrastructure resource and the GetCloudAutonomousVmCluster operation to get details of an Autonomous Exadata VM cluster.
 //
 // See also
 //
@@ -6149,7 +6147,7 @@ func (client DatabaseClient) getAutonomousPatch(ctx context.Context, request com
 	return response, err
 }
 
-// GetAutonomousVmCluster Gets information about the specified Autonomous VM cluster for an Exadata Cloud@Customer system.
+// GetAutonomousVmCluster Gets information about the specified Autonomous VM cluster for an Exadata Cloud@Customer system. To get information about an Autonomous VM Cluster in the Oracle cloud, see GetCloudAutonomousVmCluster.
 //
 // See also
 //
@@ -6314,7 +6312,7 @@ func (client DatabaseClient) getBackupDestination(ctx context.Context, request c
 	return response, err
 }
 
-// GetCloudAutonomousVmCluster Gets information about the specified cloud Autonomous VM cluster.
+// GetCloudAutonomousVmCluster Gets information about the specified Autonomous Exadata VM cluster in the Oracle cloud. For Exadata Cloud@Custustomer systems, see GetAutonomousVmCluster.
 //
 // See also
 //
@@ -6369,7 +6367,7 @@ func (client DatabaseClient) getCloudAutonomousVmCluster(ctx context.Context, re
 	return response, err
 }
 
-// GetCloudExadataInfrastructure Gets information about the specified cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
+// GetCloudExadataInfrastructure Gets information about the specified cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // See also
 //
@@ -6424,7 +6422,7 @@ func (client DatabaseClient) getCloudExadataInfrastructure(ctx context.Context, 
 	return response, err
 }
 
-// GetCloudVmCluster Gets information about the specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
+// GetCloudVmCluster Gets information about the specified cloud VM cluster. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // See also
 //
@@ -8361,7 +8359,7 @@ func (client DatabaseClient) getVmClusterUpdateHistoryEntry(ctx context.Context,
 	return response, err
 }
 
-// LaunchAutonomousExadataInfrastructure Creates a new Autonomous Exadata Infrastructure in the specified compartment and availability domain.
+// LaunchAutonomousExadataInfrastructure **Deprecated** To create a new Autonomous Database system on dedicated Exadata Infrastructure, use the CreateCloudExadataInfrastructure and CreateCloudAutonomousVmCluster operations instead. Note that to create an Autonomous VM cluster, you must have an existing Exadata Infrastructure resource to contain the VM cluster.
 //
 // See also
 //
@@ -8818,7 +8816,7 @@ func (client DatabaseClient) listAutonomousDatabases(ctx context.Context, reques
 }
 
 // ListAutonomousDbPreviewVersions Gets a list of supported Autonomous Database versions. Note that preview version software is only available for
-// databases with shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI).
+// databases with shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 //
 // See also
 //
@@ -8928,7 +8926,7 @@ func (client DatabaseClient) listAutonomousDbVersions(ctx context.Context, reque
 	return response, err
 }
 
-// ListAutonomousExadataInfrastructureShapes Gets a list of the shapes that can be used to launch a new Autonomous Exadata Infrastructure resource. The shape determines resources to allocate (CPU cores, memory and storage).
+// ListAutonomousExadataInfrastructureShapes **Deprecated.**
 //
 // See also
 //
@@ -8983,7 +8981,7 @@ func (client DatabaseClient) listAutonomousExadataInfrastructureShapes(ctx conte
 	return response, err
 }
 
-// ListAutonomousExadataInfrastructures Gets a list of the Autonomous Exadata Infrastructures in the specified compartment.
+// ListAutonomousExadataInfrastructures **Deprecated.** Use the ListCloudExadataInfrastructures operation to list Exadata Infrastructures in the Oracle cloud and the  ListCloudAutonomousVmClusters operation to list Autonomous Exadata VM clusters.
 //
 // See also
 //
@@ -9038,7 +9036,7 @@ func (client DatabaseClient) listAutonomousExadataInfrastructures(ctx context.Co
 	return response, err
 }
 
-// ListAutonomousVmClusters Gets a list of Exadata Cloud@Customer Autonomous VM clusters in the specified compartment.
+// ListAutonomousVmClusters Gets a list of Exadata Cloud@Customer Autonomous VM clusters in the specified compartment. To list Autonomous VM Clusters in the Oracle Cloud, see ListCloudAutonomousVmClusters.
 //
 // See also
 //
@@ -9203,7 +9201,7 @@ func (client DatabaseClient) listBackups(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListCloudAutonomousVmClusters Gets a list of the Autonomous cloud VM clusters in the specified compartment.
+// ListCloudAutonomousVmClusters Lists Autonomous Exadata VM clusters in the Oracle cloud. For Exadata Cloud@Customer systems, see ListAutonomousVmClusters.
 //
 // See also
 //
@@ -9258,7 +9256,7 @@ func (client DatabaseClient) listCloudAutonomousVmClusters(ctx context.Context, 
 	return response, err
 }
 
-// ListCloudExadataInfrastructures Gets a list of the cloud Exadata infrastructure resources in the specified compartment. Applies to Exadata Cloud Service instances only.
+// ListCloudExadataInfrastructures Gets a list of the cloud Exadata infrastructure resources in the specified compartment. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // See also
 //
@@ -9423,7 +9421,7 @@ func (client DatabaseClient) listCloudVmClusterUpdates(ctx context.Context, requ
 	return response, err
 }
 
-// ListCloudVmClusters Gets a list of the cloud VM clusters in the specified compartment. Applies to Exadata Cloud Service instances only.
+// ListCloudVmClusters Gets a list of the cloud VM clusters in the specified compartment. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // See also
 //
@@ -12180,7 +12178,7 @@ func (client DatabaseClient) rotateAutonomousDatabaseEncryptionKey(ctx context.C
 	return response, err
 }
 
-// RotateCloudAutonomousVmClusterOrdsCerts Rotates Oracle REST Data Services (ORDS) certs for a cloud Autonomous VM cluster.
+// RotateCloudAutonomousVmClusterOrdsCerts Rotates the Oracle REST Data Services (ORDS) certificates for a cloud Autonomous Exadata VM cluster.
 //
 // See also
 //
@@ -12240,7 +12238,7 @@ func (client DatabaseClient) rotateCloudAutonomousVmClusterOrdsCerts(ctx context
 	return response, err
 }
 
-// RotateCloudAutonomousVmClusterSslCerts Rotates SSL certs for a cloud Autonomous VM cluster.
+// RotateCloudAutonomousVmClusterSslCerts Rotates the SSL certficates for a cloud Autonomous Exadata VM cluster.
 //
 // See also
 //
@@ -12300,7 +12298,7 @@ func (client DatabaseClient) rotateCloudAutonomousVmClusterSslCerts(ctx context.
 	return response, err
 }
 
-// RotateOrdsCerts Rotates Oracle REST Data Services (ORDS) certs for an Autonomous Exadata Infrastructure resource.
+// RotateOrdsCerts **Deprecated.** Use the RotateCloudAutonomousVmClusterOrdsCerts to rotate Oracle REST Data Services (ORDS) certs for an Autonomous Exadata VM cluster instead.
 //
 // See also
 //
@@ -12360,7 +12358,7 @@ func (client DatabaseClient) rotateOrdsCerts(ctx context.Context, request common
 	return response, err
 }
 
-// RotateSslCerts Rotates SSL certs for an Autonomous Exadata Infrastructure resource.
+// RotateSslCerts **Deprecated.** Use the RotateCloudAutonomousVmClusterSslCerts to rotate SSL certs for an Autonomous Exadata VM cluster instead.
 //
 // See also
 //
@@ -12999,7 +12997,7 @@ func (client DatabaseClient) terminateAutonomousContainerDatabase(ctx context.Co
 	return response, err
 }
 
-// TerminateAutonomousExadataInfrastructure Terminates an Autonomous Exadata Infrastructure, which permanently deletes the infrastructure resource and any container databases and databases contained in the resource. The database data is local to the Autonomous Exadata Infrastructure and will be lost when the system is terminated. Oracle recommends that you back up any data in the Autonomous Exadata Infrastructure prior to terminating it.
+// TerminateAutonomousExadataInfrastructure **Deprecated.** To terminate an Exadata Infrastructure resource in the Oracle cloud, use the DeleteCloudExadataInfrastructure operation. To delete an Autonomous Exadata VM cluster in the Oracle cloud, use the DeleteCloudAutonomousVmCluster operation.
 //
 // See also
 //
@@ -13386,7 +13384,7 @@ func (client DatabaseClient) updateAutonomousDatabaseWallet(ctx context.Context,
 	return response, err
 }
 
-// UpdateAutonomousExadataInfrastructure Updates the properties of an Autonomous Exadata Infrastructure, such as the CPU core count.
+// UpdateAutonomousExadataInfrastructure **Deprecated.** Use the UpdateCloudExadataInfrastructure operation to update an Exadata Infrastructure resource and  UpdateCloudAutonomousVmCluster operation to update an Autonomous Exadata VM cluster.
 //
 // See also
 //
@@ -13441,7 +13439,7 @@ func (client DatabaseClient) updateAutonomousExadataInfrastructure(ctx context.C
 	return response, err
 }
 
-// UpdateAutonomousVmCluster Updates the specified Autonomous VM cluster for the Exadata Cloud@Customer system.
+// UpdateAutonomousVmCluster Updates the specified Autonomous VM cluster for the Exadata Cloud@Customer system.To update an Autonomous VM Cluster in the Oracle cloud, see UpdateCloudAutonomousVmCluster.
 //
 // See also
 //
@@ -13553,7 +13551,7 @@ func (client DatabaseClient) updateBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateCloudAutonomousVmCluster Updates the specified cloud VM cluster.
+// UpdateCloudAutonomousVmCluster Updates the specified Autonomous Exadata VM cluster in the Oracle cloud. For Exadata Cloud@Customer systems, see UpdateAutonomousVmCluster.
 //
 // See also
 //
@@ -13608,7 +13606,7 @@ func (client DatabaseClient) updateCloudAutonomousVmCluster(ctx context.Context,
 	return response, err
 }
 
-// UpdateCloudExadataInfrastructure Updates the Cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
+// UpdateCloudExadataInfrastructure Updates the Cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // See also
 //
@@ -13663,7 +13661,7 @@ func (client DatabaseClient) updateCloudExadataInfrastructure(ctx context.Contex
 	return response, err
 }
 
-// UpdateCloudVmCluster Updates the specified cloud VM cluster. Applies to Exadata Cloud Service instances only.
+// UpdateCloudVmCluster Updates the specified cloud VM cluster. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // See also
 //

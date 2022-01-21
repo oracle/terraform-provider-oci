@@ -76,6 +76,9 @@ type RunSummary struct {
 
 	// The total number of oCPU requested by the run.
 	TotalOCpu *int `mandatory:"false" json:"totalOCpu"`
+
+	// The Spark application processing type.
+	Type ApplicationTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 
 func (m RunSummary) String() string {

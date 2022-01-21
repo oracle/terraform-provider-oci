@@ -121,6 +121,9 @@ type Application struct {
 	// The OCID of a private endpoint.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
+	// The Spark application processing type.
+	Type ApplicationTypeEnum `mandatory:"false" json:"type,omitempty"`
+
 	// An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory
 	// for BATCH SQL runs.
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
