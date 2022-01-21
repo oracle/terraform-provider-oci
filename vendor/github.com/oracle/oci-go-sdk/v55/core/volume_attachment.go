@@ -69,10 +69,10 @@ type VolumeAttachment interface {
 	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 	GetIsPvEncryptionInTransitEnabled() *bool
 
-	// Whether the attachment is multipath or not.
+	// Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
 	GetIsMultipath() *bool
 
-	// The iscsi login state of the volume attachment. For a multipath volume attachment,
+	// The iscsi login state of the volume attachment. For a Iscsi volume attachment,
 	// all iscsi sessions need to be all logged-in or logged-out to be in logged-in or logged-out state.
 	GetIscsiLoginState() VolumeAttachmentIscsiLoginStateEnum
 }

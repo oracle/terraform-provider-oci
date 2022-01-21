@@ -32,8 +32,7 @@ type ListBucketsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Bucket summary in list of buckets includes the 'namespace', 'name', 'compartmentId', 'createdBy', 'timeCreated',
-	// and 'etag' fields. This parameter can also include 'tags' (freeformTags and definedTags). The only supported value
-	// of this parameter is 'tags' for now. Example 'tags'.
+	// and 'etag' fields. This parameter can also include 'tags' (freeformTags and definedTags). The only supported value of this parameter is 'tags' for now. Example 'tags'.
 	Fields []ListBucketsFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"csv"`
 
 	// The client request ID for tracing.

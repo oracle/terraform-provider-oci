@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/LaunchAutonomousExadataInfrastructure.go.html to see an example of how to use LaunchAutonomousExadataInfrastructureRequest.
 type LaunchAutonomousExadataInfrastructureRequest struct {
 
-	// Request to create an Autonomous Exadata Infrastructure resource.
+	// **Deprecated.** Use the CreateCloudExadataInfrastructure or CreateCloudAutonomousVmCluster operations instead.
 	LaunchAutonomousExadataInfrastructureDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

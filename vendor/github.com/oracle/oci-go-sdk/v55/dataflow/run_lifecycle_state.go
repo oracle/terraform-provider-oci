@@ -20,6 +20,8 @@ const (
 	RunLifecycleStateCanceled   RunLifecycleStateEnum = "CANCELED"
 	RunLifecycleStateFailed     RunLifecycleStateEnum = "FAILED"
 	RunLifecycleStateSucceeded  RunLifecycleStateEnum = "SUCCEEDED"
+	RunLifecycleStateStopping   RunLifecycleStateEnum = "STOPPING"
+	RunLifecycleStateStopped    RunLifecycleStateEnum = "STOPPED"
 )
 
 var mappingRunLifecycleState = map[string]RunLifecycleStateEnum{
@@ -29,6 +31,8 @@ var mappingRunLifecycleState = map[string]RunLifecycleStateEnum{
 	"CANCELED":    RunLifecycleStateCanceled,
 	"FAILED":      RunLifecycleStateFailed,
 	"SUCCEEDED":   RunLifecycleStateSucceeded,
+	"STOPPING":    RunLifecycleStateStopping,
+	"STOPPED":     RunLifecycleStateStopped,
 }
 
 // GetRunLifecycleStateEnumValues Enumerates the set of values for RunLifecycleStateEnum

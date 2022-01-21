@@ -39,6 +39,9 @@ type UpdateClusterNetworkInstancePoolDetails struct {
 
 	// The number of instances that should be in the instance pool.
 	Size *int `mandatory:"false" json:"size"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool.
+	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 }
 
 func (m UpdateClusterNetworkInstancePoolDetails) String() string {
