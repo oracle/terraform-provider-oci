@@ -37,6 +37,7 @@ const (
 	OboTokenAttrName             = "obo_token"
 	OboTokenPath                 = "obo_token_path"
 	ConfigFileProfileAttrName    = "config_file_profile"
+	DefinedTagsToIgnore          = "ignore_defined_tags"
 
 	DefaultConfigFileName    = "config"
 	DefaultConfigDirName     = ".oci"
