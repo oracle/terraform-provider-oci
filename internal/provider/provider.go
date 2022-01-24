@@ -406,6 +406,15 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		if !ok {
 			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
+
+		region, ok := d.GetOk(globalvar.RegionAttrName)
+		if !ok {
+			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", globalvar.RegionAttrName)
+		}
+		// if region is part of the provider block make sure it is part of the final configuration too, and overwrites the region in the profile. +
+		regionProvider := oci_common.NewRawConfigurationProvider("", "", region.(string), "", "", nil)
+		configProviders = append(configProviders, regionProvider)
+
 		profile, ok := d.GetOk(globalvar.ConfigFileProfileAttrName)
 		if !ok {
 			return nil, fmt.Errorf("missing profile in provider block %v", globalvar.ConfigFileProfileAttrName)
