@@ -4,13 +4,17 @@
 package acctest
 
 import (
+	"context"
 	"crypto/tls"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
+	"strings"
 	"testing"
 	"time"
+
+	oci_identity "github.com/oracle/oci-go-sdk/v56/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 
@@ -597,7 +601,7 @@ func TestUnitHomeDirectoryPrivateKeyPath_basic(t *testing.T) {
 	assert.NoError(t, err)
 	assert.True(t, privateRsaKey != nil)
 }
-
+*/
 // issue-routing-tag: terraform/default
 func TestUnitSecurityToken_basic(t *testing.T) {
 	t.Skip("Run manual with a valid security token")
@@ -609,7 +613,7 @@ func TestUnitSecurityToken_basic(t *testing.T) {
 	d.SetId("tenancy_ocid")
 	d.Set("auth", globalvar.AuthSecurityToken)
 	d.Set(globalvar.ConfigFileProfileAttrName, "DEFAULT")
-
+	d.Set(globalvar.RegionAttrName, "eu-frankfurt-1")
 	// Set API key, should be removed by auth=SecurityToken
 	d.Set("user_ocid", utils.GetEnvSettingWithBlankDefault("user_ocid"))
 	d.Set("fingerprint", utils.GetEnvSettingWithBlankDefault("fingerprint"))
@@ -618,11 +622,11 @@ func TestUnitSecurityToken_basic(t *testing.T) {
 	d.Set("private_key", utils.GetEnvSettingWithBlankDefault("private_key"))
 	// Run CLI command "oci session authenticate" to get token and profile
 	clients := &tf_client.OracleClients{
-		SdkClientMap:  make(map[string]interface{}, len(oracleClientRegistrations.registeredClients)),
+		SdkClientMap:  make(map[string]interface{}, len(tf_client.OracleClientRegistrationsVar.RegisteredClients)),
 		Configuration: make(map[string]string),
 	}
 	sdkConfigProvider, err := provider.GetSdkConfigProvider(d, clients)
-	_, empty := utils.CheckIncompatibleAttrsForApiKeyAuth(d)
+	_, empty := utils.CheckIncompatibleAttrsForApiKeyAuth(d, provider.ApiKeyConfigAttributes)
 	// API key should be removed
 	assert.True(t, true, empty)
 	assert.NoError(t, err)
@@ -634,6 +638,7 @@ func TestUnitSecurityToken_basic(t *testing.T) {
 	assert.True(t, strings.HasPrefix(keyId, "ST$"))
 	region, _ := sdkConfigProvider.Region()
 	assert.NotNil(t, region)
+	assert.Equal(t, region, "eu-frankfurt-1")
 	privateKey, _ := sdkConfigProvider.PrivateRSAKey()
 	assert.NotNil(t, privateKey)
 	client, err := oci_identity.NewIdentityClientWithConfigurationProvider(sdkConfigProvider)
@@ -643,4 +648,3 @@ func TestUnitSecurityToken_basic(t *testing.T) {
 	_, err = client.ListRegions(context.Background())
 	assert.NoError(t, err)
 }
-*/
