@@ -59,7 +59,6 @@ var (
 		"metastore_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
 		"num_executors":        acctest.Representation{RepType: acctest.Optional, Create: `1`},
 		"parameters":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: invokeRunParametersRepresentation},
-		"spark_version":        acctest.Representation{RepType: acctest.Optional, Create: `sparkVersion`},
 		"type":                 acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
 		"warehouse_bucket_uri": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
 	}
@@ -108,7 +107,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+InvokeRunResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", acctest.Optional, acctest.Create, invokeRunRepresentation), "dataflow", "invokeRun", t)
 
-	acctest.ResourceTest(t, testAccCheckDataflowInvokeRunDestroy, []resource.TestStep{
+	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunResourceDependencies +
