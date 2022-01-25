@@ -31,6 +31,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 
+	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
@@ -46,11 +47,8 @@ func init() {
 	exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
 	exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
 	exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
-	//exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
-	//exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
-	//exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
-	//exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
-	//exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
+	exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
+	exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
 	exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
 	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
@@ -62,15 +60,13 @@ func init() {
 	exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
 	exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
 	exportDnsRrsetHints.getIdFn = getDnsRrsetId
-	exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
-	//exportDnsRrsetHints.getIdFn = getDnsRrsetId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
 	exportIdentityCustomerSecretKeyHints.getIdFn = getIdentityCustomerSecretKeyId
 	exportIdentityIdpGroupMappingHints.getIdFn = getIdentityIdpGroupMappingId
 	exportIdentitySmtpCredentialHints.getIdFn = getIdentitySmtpCredentialId
 	exportIdentitySwiftPasswordHints.getIdFn = getIdentitySwiftPasswordId
-	//exportIdentityDbCredentialHints.getIdFn = getIdentityDbCredentialId
+	exportIdentityDbCredentialHints.getIdFn = getIdentityDbCredentialId
 	exportKmsKeyHints.getIdFn = getKmsKeyId
 	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
 	exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
@@ -81,12 +77,9 @@ func init() {
 	exportLoadBalancerPathRouteSetHints.getIdFn = getLoadBalancerPathRouteSetId
 	exportLoadBalancerLoadBalancerRoutingPolicyHints.getIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
 	exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
-	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
-	//exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
-	exportLoggingLogHints.getIdFn = getLoggingLogId
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
 	exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
-	//exportLoggingLogHints.getIdFn = getLoggingLogId
+	exportLoggingLogHints.getIdFn = getLoggingLogId
 	exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
 	exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
 	exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
@@ -178,7 +171,6 @@ func getBdsBdsInstanceApiKeyId(resource *OCIResource) (string, error) {
 	return bds.GetBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId), nil
 }
 
-/*
 func getBlockchainPeerId(resource *OCIResource) (string, error) {
 
 	blockchainPlatformId := resource.parent.id
@@ -186,7 +178,7 @@ func getBlockchainPeerId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find peerId for Blockchain Peer")
 	}
-	return getPeerCompositeId(blockchainPlatformId, peerId), nil
+	return tf_blockchain.GetPeerCompositeId(blockchainPlatformId, peerId), nil
 }
 
 func getBlockchainOsnId(resource *OCIResource) (string, error) {
@@ -196,10 +188,8 @@ func getBlockchainOsnId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find osnId for Blockchain Osn")
 	}
-	return getOsnCompositeId(blockchainPlatformId, osnId), nil
+	return tf_blockchain.GetOsnCompositeId(blockchainPlatformId, osnId), nil
 }
-
-*/
 
 func getBudgetAlertRuleId(resource *OCIResource) (string, error) {
 
@@ -392,7 +382,6 @@ func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
 	return tf_identity.GetSwiftPasswordCompositeId(swiftPasswordId, userId), nil
 }
 
-/*
 func getIdentityDbCredentialId(resource *OCIResource) (string, error) {
 
 	dbCredentialId, ok := resource.sourceAttributes["id"].(string)
@@ -400,9 +389,9 @@ func getIdentityDbCredentialId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find dbCredentialId for Identity DbCredential")
 	}
 	userId := resource.parent.id
-	return getDbCredentialCompositeId(dbCredentialId, userId), nil
+	return tf_identity.GetDbCredentialCompositeId(dbCredentialId, userId), nil
 }
-*/
+
 func getKmsKeyId(resource *OCIResource) (string, error) {
 	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
 	if !ok {
