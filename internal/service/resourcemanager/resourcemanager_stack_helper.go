@@ -12,8 +12,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/oracle/oci-go-sdk/v55/common"
-	"github.com/oracle/oci-go-sdk/v55/resourcemanager"
+	"github.com/oracle/oci-go-sdk/v56/common"
+	"github.com/oracle/oci-go-sdk/v56/resourcemanager"
 )
 
 func CreateResourceManagerStack(resourceManagerClient resourcemanager.ResourceManagerClient, stackDisplayName string, compartment string) (string, error) {
