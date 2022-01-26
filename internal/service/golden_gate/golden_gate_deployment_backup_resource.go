@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v55/goldengate"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v56/goldengate"
 )
 
 func GoldenGateDeploymentBackupResource() *schema.Resource {

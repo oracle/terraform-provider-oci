@@ -11,8 +11,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
-	oci_jms "github.com/oracle/oci-go-sdk/v55/jms"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
+	oci_jms "github.com/oracle/oci-go-sdk/v56/jms"
 )
 
 func JmsListJreUsageDataSource() *schema.Resource {

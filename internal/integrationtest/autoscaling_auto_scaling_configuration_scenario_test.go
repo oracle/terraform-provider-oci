@@ -14,13 +14,13 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/oracle/oci-go-sdk/v55/common"
+	"github.com/oracle/oci-go-sdk/v56/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/stretchr/testify/suite"
 
-	oci_core "github.com/oracle/oci-go-sdk/v55/core"
+	oci_core "github.com/oracle/oci-go-sdk/v56/core"
 )
 
 var (

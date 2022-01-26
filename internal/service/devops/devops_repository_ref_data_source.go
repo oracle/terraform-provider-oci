@@ -8,7 +8,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_devops "github.com/oracle/oci-go-sdk/v55/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v56/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

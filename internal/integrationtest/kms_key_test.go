@@ -11,9 +11,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v55/common"
+	"github.com/oracle/oci-go-sdk/v56/common"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v55/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v56/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"

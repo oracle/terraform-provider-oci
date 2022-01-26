@@ -12,7 +12,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_devops "github.com/oracle/oci-go-sdk/v55/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v56/devops"
 )
 
 func DevopsBuildPipelineStageDataSource() *schema.Resource {

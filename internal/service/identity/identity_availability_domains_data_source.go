@@ -9,7 +9,7 @@ import (
 	"sort"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v55/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v56/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v55/database"
+	oci_database "github.com/oracle/oci-go-sdk/v56/database"
 )
 
 func DatabaseDbNodeConsoleConnectionDataSource() *schema.Resource {
