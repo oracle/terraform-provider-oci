@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_bastion "github.com/oracle/oci-go-sdk/v55/bastion"
+	oci_bastion "github.com/oracle/oci-go-sdk/v56/bastion"
 )
 
 func BastionSessionsDataSource() *schema.Resource {

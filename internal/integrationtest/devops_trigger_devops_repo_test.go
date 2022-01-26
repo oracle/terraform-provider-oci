@@ -51,6 +51,7 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"repository_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 	devopsCodeRepositoryTriggerActionsRepresentation = map[string]interface{}{
 		"build_pipeline_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},

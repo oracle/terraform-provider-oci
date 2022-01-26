@@ -18,7 +18,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v55/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v56/identity"
 )
 
 func IdentitySwiftPasswordResource() *schema.Resource {

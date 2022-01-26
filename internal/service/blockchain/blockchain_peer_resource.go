@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_blockchain "github.com/oracle/oci-go-sdk/v55/blockchain"
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v56/blockchain"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
 )
 
 func BlockchainPeerResource() *schema.Resource {
@@ -141,7 +141,7 @@ type BlockchainPeerResourceCrud struct {
 }
 
 func (s *BlockchainPeerResourceCrud) ID() string {
-	return getPeerCompositeId(s.D.Get("blockchain_platform_id").(string), *s.Res.PeerKey)
+	return GetPeerCompositeId(s.D.Get("blockchain_platform_id").(string), *s.Res.PeerKey)
 }
 
 func (s *BlockchainPeerResourceCrud) CreatedTarget() []string {
@@ -460,7 +460,7 @@ func (s *BlockchainPeerResourceCrud) SetData() error {
 	return nil
 }
 
-func getPeerCompositeId(blockchainPlatformId string, peerId string) string {
+func GetPeerCompositeId(blockchainPlatformId string, peerId string) string {
 	blockchainPlatformId = url.PathEscape(blockchainPlatformId)
 	peerId = url.PathEscape(peerId)
 	compositeId := "blockchainPlatforms/" + blockchainPlatformId + "/peers/" + peerId

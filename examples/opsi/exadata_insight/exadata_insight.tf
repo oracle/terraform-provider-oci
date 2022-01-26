@@ -8,8 +8,8 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 variable "enterprise_manager_bridge_ocid" {}
-variable "enterprise_manager_entity_id" {}
-variable "enterprise_manager_id" {}
+variable "em_exadata_enterprise_manager_entity_id" {}
+variable "em_exadata_enterprise_manager_id" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -59,8 +59,8 @@ variable "resource_status" {
 resource "oci_opsi_exadata_insight" "test_exadata_insight" {
   compartment_id                       = var.compartment_ocid
   enterprise_manager_bridge_id         = var.enterprise_manager_bridge_ocid
-  enterprise_manager_entity_identifier = var.enterprise_manager_entity_id
-  enterprise_manager_identifier        = var.enterprise_manager_id
+  enterprise_manager_entity_identifier = var.em_exadata_enterprise_manager_entity_id
+  enterprise_manager_identifier        = var.em_exadata_enterprise_manager_id
   entity_source                        = var.exadata_insight_entity_source
   defined_tags                         = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.exadata_insight_defined_tags_value}")}"
   freeform_tags                        = var.exadata_insight_freeform_tags

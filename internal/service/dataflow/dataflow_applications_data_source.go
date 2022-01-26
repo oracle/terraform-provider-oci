@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v55/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v56/dataflow"
 )
 
 func DataflowApplicationsDataSource() *schema.Resource {
@@ -166,6 +166,8 @@ func (s *DataflowApplicationsDataSourceCrud) SetData() error {
 		if r.TimeUpdated != nil {
 			application["time_updated"] = r.TimeUpdated.String()
 		}
+
+		application["type"] = r.Type
 
 		resources = append(resources, application)
 	}

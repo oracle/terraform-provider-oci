@@ -18,8 +18,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v55/opsi"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v56/opsi"
 )
 
 func OpsiHostInsightResource() *schema.Resource {
@@ -502,7 +502,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 
 		// Wait until it finishes
 		hostInsightId, err := hostInsightWaitForWorkRequest(workId, "opsi",
-			oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
 		}

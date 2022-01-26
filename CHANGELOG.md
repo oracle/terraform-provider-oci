@@ -1,3 +1,11 @@
+## 4.61.0 (Unreleased)
+
+### Added
+support for - Cluster Network: new optional parameter to Update API
+- Support for EM managed host support for Solaris/SunOS in OPSI
+- Support for structured streaming for Data Flow
+- Documention change for Cross Region ADG
+
 ## 4.60.0 (January 19, 2022)
 
 ### Added

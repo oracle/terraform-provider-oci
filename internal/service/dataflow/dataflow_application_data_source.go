@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v55/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v56/dataflow"
 )
 
 func DataflowApplicationDataSource() *schema.Resource {
@@ -157,6 +157,8 @@ func (s *DataflowApplicationDataSourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
+	s.D.Set("type", s.Res.Type)
 
 	if s.Res.WarehouseBucketUri != nil {
 		s.D.Set("warehouse_bucket_uri", *s.Res.WarehouseBucketUri)

@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v55/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v55/devops"
+	"github.com/oracle/oci-go-sdk/v56/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v56/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -55,6 +55,7 @@ var (
 		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 	buildPipelineBuildPipelineParametersRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildPipelineParametersItemsRepresentation},

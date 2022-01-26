@@ -18,7 +18,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v55/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v56/identity"
 )
 
 func IdentityDbCredentialResource() *schema.Resource {
@@ -102,7 +102,7 @@ type IdentityDbCredentialResourceCrud struct {
 }
 
 func (s *IdentityDbCredentialResourceCrud) ID() string {
-	return getDbCredentialCompositeId(*s.Res.Id, *s.Res.UserId)
+	return GetDbCredentialCompositeId(*s.Res.Id, *s.Res.UserId)
 }
 
 func (s *IdentityDbCredentialResourceCrud) CreatedPending() []string {
@@ -240,7 +240,7 @@ func (s *IdentityDbCredentialResourceCrud) SetData() error {
 	return nil
 }
 
-func getDbCredentialCompositeId(dbCredentialId string, userId string) string {
+func GetDbCredentialCompositeId(dbCredentialId string, userId string) string {
 	dbCredentialId = url.PathEscape(dbCredentialId)
 	userId = url.PathEscape(userId)
 	compositeId := "users/" + userId + "/dbCredentials/" + dbCredentialId

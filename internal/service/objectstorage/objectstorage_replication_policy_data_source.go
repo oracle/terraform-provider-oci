@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v55/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v56/objectstorage"
 )
 
 func ObjectStorageReplicationPolicyDataSource() *schema.Resource {

@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_database_management "github.com/oracle/oci-go-sdk/v55/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v56/databasemanagement"
 
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
 )
 
 func init() {
