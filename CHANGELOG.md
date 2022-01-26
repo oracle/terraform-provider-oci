@@ -1,4 +1,4 @@
-## 4.61.0 (Unreleased)
+## 4.61.0 (January 26, 2022)
 
 ### Added
 support for - Cluster Network: new optional parameter to Update API
