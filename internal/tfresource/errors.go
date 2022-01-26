@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 )

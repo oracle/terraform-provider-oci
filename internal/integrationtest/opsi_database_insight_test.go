@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v55/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v55/opsi"
+	"github.com/oracle/oci-go-sdk/v56/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v56/opsi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -41,7 +41,7 @@ var (
 		"compartment_id_in_subtree":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"database_type":                acctest.Representation{RepType: acctest.Optional, Create: []string{`EXTERNAL-NONCDB`}},
 		"enterprise_manager_bridge_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.enterprise_manager_bridge_id}`},
-		"fields":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`databaseName`, `databaseType`, `compartmentId`, `databaseDisplayName`, `freeformTags`, `definedTags`, `systemTags`}},
+		"fields":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`databaseName`, `databaseType`, `compartmentId`, `databaseDisplayName`, `freeformTags`, `definedTags`}},
 		"id":                           acctest.Representation{RepType: acctest.Optional, Create: `${oci_opsi_database_insight.test_database_insight.id}`},
 		"state":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
 		"status":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`ENABLED`}, Update: []string{`DISABLED`}},
@@ -213,7 +213,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(datasourceName, "database_id.#", "1"), // Won't be available for EM managed databases
 				resource.TestCheckResourceAttr(datasourceName, "database_type.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "enterprise_manager_bridge_id"),
-				resource.TestCheckResourceAttr(datasourceName, "fields.#", "7"),
+				resource.TestCheckResourceAttr(datasourceName, "fields.#", "6"),
 				//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"), // id is no more list. It is a string
 				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),

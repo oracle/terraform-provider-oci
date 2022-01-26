@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_email "github.com/oracle/oci-go-sdk/v55/email"
+	oci_email "github.com/oracle/oci-go-sdk/v56/email"
 )
 
 func EmailSenderResource() *schema.Resource {

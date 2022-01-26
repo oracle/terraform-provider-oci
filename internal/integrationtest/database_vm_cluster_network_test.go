@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v55/common"
-	oci_database "github.com/oracle/oci-go-sdk/v55/database"
+	"github.com/oracle/oci-go-sdk/v56/common"
+	oci_database "github.com/oracle/oci-go-sdk/v56/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -85,14 +85,14 @@ var (
 	vmClusterNetworkVmNetworksClientNodes1Representation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21`, Update: `myprefix2-xapb22`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.10`, Update: `192.168.19.11`},
-		"vip":          acctest.Representation{RepType: acctest.Optional, Create: `192.168.19.12`, Update: `192.168.19.13`},
-		"vip_hostname": acctest.Representation{RepType: acctest.Optional, Create: `myprefix2-xapb21-vip`, Update: `myprefix2-xapb22-vip`},
+		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.12`, Update: `192.168.19.13`},
+		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb21-vip`, Update: `myprefix2-xapb22-vip`},
 	}
 	vmClusterNetworkVmNetworksClientNodes2Representation = map[string]interface{}{
 		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25`, Update: `myprefix2-xapb26`},
 		"ip":           acctest.Representation{RepType: acctest.Required, Create: `192.168.19.14`, Update: `192.168.19.15`},
-		"vip":          acctest.Representation{RepType: acctest.Optional, Create: `192.168.19.16`, Update: `192.168.19.17`},
-		"vip_hostname": acctest.Representation{RepType: acctest.Optional, Create: `myprefix2-xapb25-vip`, Update: `myprefix2-xapb26-vip`},
+		"vip":          acctest.Representation{RepType: acctest.Required, Create: `192.168.19.16`, Update: `192.168.19.17`},
+		"vip_hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb25-vip`, Update: `myprefix2-xapb26-vip`},
 	}
 	vmClusterNetworkVmNetworksBackupNodes1Representation = map[string]interface{}{
 		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix2-xapb23`, Update: `myprefix2-xapb24`},

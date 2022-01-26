@@ -16,7 +16,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_ons "github.com/oracle/oci-go-sdk/v55/ons"
+	oci_ons "github.com/oracle/oci-go-sdk/v56/ons"
 )
 
 func OnsSubscriptionResource() *schema.Resource {

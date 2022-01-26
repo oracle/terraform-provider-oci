@@ -50,6 +50,7 @@ var (
 		"display_name":                                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"wait_criteria":                               acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineStageWaitCriteriaRepresentation},
+		"lifecycle":                                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 	buildPipelineWaitStageBuildPipelineStagePredecessorCollectionRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineStageBuildPipelineStagePredecessorCollectionItemsRepresentation},

@@ -18,7 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v55/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v56/functions"
 )
 
 func FunctionsInvokeFunctionResource() *schema.Resource {

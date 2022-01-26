@@ -19,7 +19,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 
-	oci_core "github.com/oracle/oci-go-sdk/v55/core"
+	oci_core "github.com/oracle/oci-go-sdk/v56/core"
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
@@ -729,7 +729,7 @@ func init() {
 	// TODO: The following changes to resource hints are deviations from what can currently be handled by the core resource discovery/generation logic
 	// We should strive to eliminate these deviations by either improving the core logic or code generator
 
-	//exportObjectStorageNamespaceHints.isDataSource = true
+	exportObjectStorageNamespaceHints.isDataSource = true
 	exportIdentityAvailabilityDomainHints.isDataSource = true
 
 	// Custom overrides for generating composite Load Balancer IDs within the resource discovery framework

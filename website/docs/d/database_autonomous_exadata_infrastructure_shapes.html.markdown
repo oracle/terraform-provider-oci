@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_database_autonomous_exadata_infrastructure_shapes
 This data source provides the list of Autonomous Exadata Infrastructure Shapes in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the shapes that can be used to launch a new Autonomous Exadata Infrastructure resource. The shape determines resources to allocate (CPU cores, memory and storage).
+**Deprecated.** 
+
 
 ## Example Usage
 

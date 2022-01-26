@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_vm_clusters
 This data source provides the list of Autonomous Vm Clusters in Oracle Cloud Infrastructure Database service.
 
-Gets a list of Exadata Cloud@Customer Autonomous VM clusters in the specified compartment.
+Gets a list of Exadata Cloud@Customer Autonomous VM clusters in the specified compartment. To list Autonomous VM Clusters in the Oracle Cloud, see [ListCloudAutonomousVmClusters](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudAutonomousVmCluster/ListCloudAutonomousVmClusters).
 
 
 ## Example Usage
@@ -51,7 +51,7 @@ The following attributes are exported:
 * `available_data_storage_size_in_tbs` - The data storage available in TBs
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpus_enabled` - The number of enabled CPU cores.
-* `data_storage_size_in_gb` - The total data storage allocated in GBs
+* `data_storage_size_in_gb` - The total data storage allocated in GBs.
 * `data_storage_size_in_tbs` - The total data storage allocated in TBs
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 

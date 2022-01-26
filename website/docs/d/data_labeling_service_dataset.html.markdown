@@ -53,10 +53,6 @@ The following attributes are exported:
 * `labeling_instructions` - The labeling instructions for human labelers in rich text format
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in FAILED or NEEDS_ATTENTION state.
 * `state` - The state of a dataset. CREATING - The dataset is being created.  It will transition to ACTIVE when it is ready for labeling. ACTIVE   - The dataset is ready for labeling. UPDATING - The dataset is being updated.  It and its related resources may be unavailable for other updates until it returns to ACTIVE. NEEDS_ATTENTION - A dataset updation operation has failed due to validation or other errors and needs attention. DELETING - The dataset and its related resources are being deleted. DELETED  - The dataset has been deleted and is no longer available. FAILED   - The dataset has failed due to validation or other errors. 
-<<<<<<< ours
-* `system_tags` - The usage of system tag keys. These predefined keys are scoped to namespaces. For example: `{"orcl-cloud": {"free-tier-retained": "true"}}` 
-=======
->>>>>>> theirs
 * `time_created` - The date and time the resource was created, in the timestamp format defined by RFC3339.
 * `time_updated` - The date and time the resource was last updated, in the timestamp format defined by RFC3339.
 

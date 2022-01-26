@@ -41,7 +41,7 @@ The following arguments are supported:
 * `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_HOST) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource. 
 * `host_type` - (Optional) Filter by one or more host types. Possible value is EXTERNAL-HOST.
 * `id` - (Optional) Optional list of host insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
-* `platform_type` - (Optional) Filter by one or more platform types. Possible value is LINUX.
+* `platform_type` - (Optional) Filter by one or more platform types. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
 * `state` - (Optional) Lifecycle states
 * `status` - (Optional) Resource Status
 
@@ -72,7 +72,11 @@ The following attributes are exported:
 * `host_type` - Operations Insights internal representation of the host type. Possible value is EXTERNAL-HOST.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `processor_count` - Processor count.
+* `management_agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
+* `platform_name` - Platform name.
+* `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS]. 
+* `platform_version` - Platform version.
+* `processor_count` - Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 * `state` - The current state of the host.
 * `status` - Indicates the status of a host insight in Operations Insights
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

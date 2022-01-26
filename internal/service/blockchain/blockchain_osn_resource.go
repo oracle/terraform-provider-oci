@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_blockchain "github.com/oracle/oci-go-sdk/v55/blockchain"
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v56/blockchain"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
 )
 
 func BlockchainOsnResource() *schema.Resource {
@@ -118,7 +118,7 @@ type BlockchainOsnResourceCrud struct {
 }
 
 func (s *BlockchainOsnResourceCrud) ID() string {
-	return getOsnCompositeId(s.D.Get("blockchain_platform_id").(string), *s.Res.OsnKey)
+	return GetOsnCompositeId(s.D.Get("blockchain_platform_id").(string), *s.Res.OsnKey)
 }
 
 func (s *BlockchainOsnResourceCrud) CreatedTarget() []string {
@@ -357,7 +357,7 @@ func (s *BlockchainOsnResourceCrud) SetData() error {
 	return nil
 }
 
-func getOsnCompositeId(blockchainPlatformId string, osnId string) string {
+func GetOsnCompositeId(blockchainPlatformId string, osnId string) string {
 	blockchainPlatformId = url.PathEscape(blockchainPlatformId)
 	osnId = url.PathEscape(osnId)
 	compositeId := "blockchainPlatforms/" + blockchainPlatformId + "/osns/" + osnId

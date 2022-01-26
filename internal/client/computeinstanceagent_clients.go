@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v55/computeinstanceagent"
+	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v56/computeinstanceagent"
 
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
 )
 
 func init() {

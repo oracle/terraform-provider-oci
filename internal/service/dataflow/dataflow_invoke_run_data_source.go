@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v55/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v56/dataflow"
 )
 
 func DataflowInvokeRunDataSource() *schema.Resource {
@@ -194,6 +194,8 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 	if s.Res.TotalOCpu != nil {
 		s.D.Set("total_ocpu", *s.Res.TotalOCpu)
 	}
+
+	s.D.Set("type", s.Res.Type)
 
 	if s.Res.WarehouseBucketUri != nil {
 		s.D.Set("warehouse_bucket_uri", *s.Res.WarehouseBucketUri)

@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
-	oci_nosql "github.com/oracle/oci-go-sdk/v55/nosql"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
+	oci_nosql "github.com/oracle/oci-go-sdk/v56/nosql"
 )
 
 func NosqlTableResource() *schema.Resource {

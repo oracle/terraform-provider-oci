@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_autonomous_exadata_infrastructures
 This data source provides the list of Autonomous Exadata Infrastructures in Oracle Cloud Infrastructure Database service.
 
-Gets a list of the Autonomous Exadata Infrastructures in the specified compartment.
+**Deprecated.** Use the [ListCloudExadataInfrastructures](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/ListCloudExadataInfrastructures) operation to list Exadata Infrastructures in the Oracle cloud and the  [ListCloudAutonomousVmClusters](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudAutonomousVmCluster/ListCloudAutonomousVmClusters) operation to list Autonomous Exadata VM clusters.
 
 ## Note :- Autonomous Exadata Infrastructure is now end-of-life.Please provision cloud autonomous vm cluster instead. 
 ## Example Usage

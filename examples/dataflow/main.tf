@@ -91,6 +91,7 @@ resource "oci_dataflow_application" "tf_application" {
   #description     = var.application_description
   #freeform_tags   = var.application_freeform_tags
   #logs_bucket_uri = var.application_logs_bucket_uri}"
+  type             = "BATCH"
   archive_uri = var.application_archive_uri
   #parameters {
   #Required

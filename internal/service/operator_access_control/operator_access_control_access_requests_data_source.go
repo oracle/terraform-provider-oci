@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v55/operatoraccesscontrol"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v56/operatoraccesscontrol"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

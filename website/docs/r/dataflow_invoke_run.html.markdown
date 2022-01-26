@@ -40,6 +40,7 @@ resource "oci_dataflow_invoke_run" "test_invoke_run" {
 		value = var.invoke_run_parameters_value
 	}
 	spark_version = var.invoke_run_spark_version
+	type = var.invoke_run_type
 	warehouse_bucket_uri = var.invoke_run_warehouse_bucket_uri
 }
 ```
@@ -67,6 +68,7 @@ The following arguments are supported:
 	* `name` - (Required) The name of the parameter.  It must be a string of one or more word characters (a-z, A-Z, 0-9, _). Examples: "iterations", "input_file" 
 	* `value` - (Required) The value of the parameter. It must be a string of 0 or more characters of any kind. Examples: "" (empty string), "10", "mydata.xml", "${x}" 
 * `spark_version` - (Optional) The Spark version utilized to run the application. This value may be set if applicationId is not since the Spark version will be taken from the associated application. 
+* `type` - (Optional) The Spark application processing type. 
 * `warehouse_bucket_uri` - (Optional) An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 
 
@@ -115,6 +117,7 @@ The following attributes are exported:
 * `time_created` - The date and time a application was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
 * `time_updated` - The date and time a application was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
 * `total_ocpu` - The total number of oCPU requested by the run. 
+* `type` - The Spark application processing type. 
 * `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
 
 ## Timeouts

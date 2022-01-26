@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v55/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v56/apmsynthetics"
 )
 
 func ApmSyntheticsMonitorDataSource() *schema.Resource {
