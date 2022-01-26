@@ -6,6 +6,7 @@ package acctest
 import (
 	"context"
 	"crypto/tls"
+	oci_identity "github.com/oracle/oci-go-sdk/v56/identity"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -13,8 +14,6 @@ import (
 	"strings"
 	"testing"
 	"time"
-
-	oci_identity "github.com/oracle/oci-go-sdk/v56/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 
