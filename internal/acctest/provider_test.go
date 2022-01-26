@@ -6,7 +6,7 @@ package acctest
 import (
 	"context"
 	"crypto/tls"
-	oci_identity "github.com/oracle/oci-go-sdk/v55/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v56/identity"
 	"io/ioutil"
 	"net/http"
 	"os"
