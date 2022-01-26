@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v55/aianomalydetection"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v56/aianomalydetection"
 )
 
 func AiAnomalyDetectionModelDataSource() *schema.Resource {

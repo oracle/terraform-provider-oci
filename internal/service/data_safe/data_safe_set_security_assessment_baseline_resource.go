@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v55/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v55/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v56/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v56/datasafe"
 )
 
 func DataSafeSetSecurityAssessmentBaselineResource() *schema.Resource {
