@@ -1116,6 +1116,99 @@ var exportDataSafeUserAssessmentHints = &TerraformResourceHints{
 	},
 }
 
+var exportDataSafeUnsetSecurityAssessmentBaselineHints = &TerraformResourceHints{
+	resourceClass:        "oci_data_safe_unset_security_assessment_baseline",
+	resourceAbbreviation: "unset_security_assessment_baseline",
+}
+
+var exportDataSafeReportDefinitionHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_report_definition",
+	datasourceClass:        "oci_data_safe_report_definitions",
+	datasourceItemsAttr:    "report_definition_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "report_definition",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.ReportDefinitionLifecycleStateActive),
+	},
+}
+
+var exportDataSafeAuditTrailHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_audit_trail",
+	datasourceClass:        "oci_data_safe_audit_trails",
+	datasourceItemsAttr:    "audit_trail_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "audit_trail",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.AuditTrailLifecycleStateActive),
+		string(oci_data_safe.AuditTrailLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeAlertHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_alert",
+	datasourceClass:        "oci_data_safe_alerts",
+	datasourceItemsAttr:    "alert_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "alert",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.AlertLifecycleStateSucceeded),
+	},
+}
+
+var exportDataSafeAuditArchiveRetrievalHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_audit_archive_retrieval",
+	datasourceClass:        "oci_data_safe_audit_archive_retrievals",
+	datasourceItemsAttr:    "audit_archive_retrieval_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "audit_archive_retrieval",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.AuditArchiveRetrievalLifecycleStateActive),
+		string(oci_data_safe.AuditArchiveRetrievalLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeAuditProfileHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_audit_profile",
+	datasourceClass:        "oci_data_safe_audit_profiles",
+	datasourceItemsAttr:    "audit_profile_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "audit_profile",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.AuditProfileLifecycleStateActive),
+		string(oci_data_safe.AuditProfileLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeAuditPolicyHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_audit_policy",
+	datasourceClass:        "oci_data_safe_audit_policies",
+	datasourceItemsAttr:    "audit_policy_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "audit_policy",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.AuditPolicyLifecycleStateActive),
+		string(oci_data_safe.AuditPolicyLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeTargetAlertPolicyAssociationHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_target_alert_policy_association",
+	datasourceClass:        "oci_data_safe_target_alert_policy_associations",
+	datasourceItemsAttr:    "target_alert_policy_association_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "target_alert_policy_association",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.AlertPolicyLifecycleStateActive),
+	},
+}
+
 var exportDatabaseAutonomousContainerDatabaseHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_autonomous_container_database",
 	datasourceClass:      "oci_database_autonomous_container_databases",

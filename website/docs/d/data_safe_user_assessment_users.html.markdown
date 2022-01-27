@@ -49,7 +49,7 @@ The following arguments are supported:
 * `account_status` - (Optional) A filter to return only items that match the specified account status.
 * `authentication_type` - (Optional) A filter to return only items that match the specified authentication type.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
-* `target_id` - (Optional) A filter to return only items that match the specified target.
+* `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 * `time_last_login_greater_than_or_equal_to` - (Optional) A filter to return users whose last login time in the database is greater than or equal to the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 
 	**Example:** 2016-12-19T16:39:57.600Z 
