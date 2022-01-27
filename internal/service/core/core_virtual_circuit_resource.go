@@ -506,12 +506,12 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 
 	request := oci_core.UpdateVirtualCircuitRequest{}
 
-	if bandwidthShapeName, ok := s.D.GetOkExists("bandwidth_shape_name"); ok {
+	if bandwidthShapeName, ok := s.D.GetOkExists("bandwidth_shape_name"); ok && s.D.HasChange("bandwidth_shape_name") {
 		tmp := bandwidthShapeName.(string)
 		request.BandwidthShapeName = &tmp
 	}
 
-	if crossConnectMappings, ok := s.D.GetOkExists("cross_connect_mappings"); ok {
+	if crossConnectMappings, ok := s.D.GetOkExists("cross_connect_mappings"); ok && s.D.HasChange("cross_connect_mappings") {
 		interfaces := crossConnectMappings.([]interface{})
 		tmp := make([]oci_core.CrossConnectMapping, len(interfaces))
 		for i := range interfaces {
@@ -528,7 +528,7 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		}
 	}
 
-	if customerAsn, ok := s.D.GetOkExists("customer_asn"); ok {
+	if customerAsn, ok := s.D.GetOkExists("customer_asn"); ok && s.D.HasChange("customer_asn") {
 		tmp := customerAsn.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
@@ -542,7 +542,7 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		request.CustomerAsn = &tmp
 	}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -550,37 +550,37 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
+	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok && s.D.HasChange("gateway_id") {
 		tmp := gatewayId.(string)
 		request.GatewayId = &tmp
 	}
 
-	if ipMtu, ok := s.D.GetOkExists("ip_mtu"); ok {
+	if ipMtu, ok := s.D.GetOkExists("ip_mtu"); ok && s.D.HasChange("ip_mtu") {
 		request.IpMtu = oci_core.VirtualCircuitIpMtuEnum(ipMtu.(string))
 	}
 
-	if providerServiceKeyName, ok := s.D.GetOkExists("provider_service_key_name"); ok {
+	if providerServiceKeyName, ok := s.D.GetOkExists("provider_service_key_name"); ok && s.D.HasChange("provider_service_key_name") {
 		tmp := providerServiceKeyName.(string)
 		request.ProviderServiceKeyName = &tmp
 	}
 
 	// @CODEGEN - 20190315 - provider_state can only be updated by Fast Connect Providers
 
-	if referenceComment, ok := s.D.GetOkExists("reference_comment"); ok {
+	if referenceComment, ok := s.D.GetOkExists("reference_comment"); ok && s.D.HasChange("reference_comment") {
 		tmp := referenceComment.(string)
 		request.ReferenceComment = &tmp
 	}
 
-	if routingPolicy, ok := s.D.GetOkExists("routing_policy"); ok {
+	if routingPolicy, ok := s.D.GetOkExists("routing_policy"); ok && s.D.HasChange("routing_policy") {
 		interfaces := routingPolicy.([]interface{})
 		tmp := make([]oci_core.UpdateVirtualCircuitDetailsRoutingPolicyEnum, len(interfaces))
 		for i := range interfaces {
@@ -826,7 +826,7 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 
 	// Do not include default empty cross_connect_or_cross_connect_group_id in request payload unless it has changed
 	if crossConnectOrCrossConnectGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cross_connect_or_cross_connect_group_id")); ok &&
-		(crossConnectOrCrossConnectGroupId != "" || s.D.HasChange("cross_connect_or_cross_connect_group_id")) {
+		(crossConnectOrCrossConnectGroupId != "" && s.D.HasChange("cross_connect_or_cross_connect_group_id")) {
 		tmp := crossConnectOrCrossConnectGroupId.(string)
 		result.CrossConnectOrCrossConnectGroupId = &tmp
 	}
@@ -858,7 +858,7 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 		}
 	}
 
-	if vlan, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan")); ok {
+	if vlan, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan")); ok && s.D.HasChange("vlan") {
 		tmp := vlan.(int)
 		// Do not include default 0 vlan in request payload unless it has changed
 		if tmp > 0 || s.D.HasChange("vlan") {
