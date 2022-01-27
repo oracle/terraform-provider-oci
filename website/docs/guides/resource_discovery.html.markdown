@@ -176,6 +176,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `sch` - Discovers sch resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
+    * `vault` - Discovers vault resources within the specified compartment
     * `visual_builder` - Discovers visual_builder resources within the specified compartment
     * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
@@ -726,6 +727,10 @@ streaming
 usage_proxy
     
 * oci\_usage\_proxy\_subscription\_redeemable\_user
+
+vault
+    
+* oci\_vault\_secret
 
 visual_builder
     
