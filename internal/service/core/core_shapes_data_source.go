@@ -48,6 +48,10 @@ func CoreShapesDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"billing_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"gpu_description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -56,7 +60,19 @@ func CoreShapesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"is_billed_for_stopped_instance": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_flexible": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_live_migration_supported": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_subcore": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -335,6 +351,37 @@ func CoreShapesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"quota_names": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"recommended_alternatives": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"shape_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"resize_compatible_shapes": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 					},
 				},
 			},
@@ -419,6 +466,8 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 
 		shape["baseline_ocpu_utilizations"] = bous
 
+		shape["billing_type"] = r.BillingType
+
 		if r.GpuDescription != nil {
 			shape["gpu_description"] = *r.GpuDescription
 		}
@@ -427,8 +476,20 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 			shape["gpus"] = *r.Gpus
 		}
 
+		if r.IsBilledForStoppedInstance != nil {
+			shape["is_billed_for_stopped_instance"] = *r.IsBilledForStoppedInstance
+		}
+
+		if r.IsFlexible != nil {
+			shape["is_flexible"] = *r.IsFlexible
+		}
+
 		if r.IsLiveMigrationSupported != nil {
 			shape["is_live_migration_supported"] = *r.IsLiveMigrationSupported
+		}
+
+		if r.IsSubcore != nil {
+			shape["is_subcore"] = *r.IsSubcore
 		}
 
 		if r.LocalDiskDescription != nil {
@@ -501,6 +562,16 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 			shape["processor_description"] = *r.ProcessorDescription
 		}
 
+		shape["quota_names"] = r.QuotaNames
+
+		recommendedAlternatives := []interface{}{}
+		for _, item := range r.RecommendedAlternatives {
+			recommendedAlternatives = append(recommendedAlternatives, ShapeAlternativeObjectToMap(item))
+		}
+		shape["recommended_alternatives"] = recommendedAlternatives
+
+		shape["resize_compatible_shapes"] = r.ResizeCompatibleShapes
+
 		resources = append(resources, shape)
 	}
 
@@ -513,6 +584,16 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ShapeAlternativeObjectToMap(obj oci_core.ShapeAlternativeObject) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ShapeName != nil {
+		result["shape_name"] = string(*obj.ShapeName)
+	}
+
+	return result
 }
 
 func ShapeMaxVnicAttachmentOptionsToMap(obj *oci_core.ShapeMaxVnicAttachmentOptions) map[string]interface{} {
