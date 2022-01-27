@@ -18,15 +18,15 @@ import (
 var (
 	secretVersionSingularDataSourceRepresentation = map[string]interface{}{
 		"secret_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id`},
-		"secret_version_number": acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"secret_version_number": acctest.Representation{RepType: acctest.Required, Create: `10`},
 	}
 
-	SecretVersionResourceConfig = ``
+	SecretVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, vaultRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, secretRepresentation)
 )
 
 // issue-routing-tag: vault/default
 func TestVaultSecretVersionResource_basic(t *testing.T) {
-	t.Skip("Skip this test till Secret Management service provides a better way of testing this.")
 	httpreplay.SetScenario("TestVaultSecretVersionResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -49,11 +49,11 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_version_number", "1"),
 
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "content_type"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "stages.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "content_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "stages.#", "10"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_current_version_expiry"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_current_version_expiry"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_deletion"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "version_number"),
 			),
