@@ -6,11 +6,11 @@ package vault
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_vault "github.com/oracle/oci-go-sdk/v56/vault"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
 func VaultSecretsDataSource() *schema.Resource {
@@ -37,69 +37,7 @@ func VaultSecretsDataSource() *schema.Resource {
 			"secrets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"defined_tags": {
-							Type:     schema.TypeMap,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
-						"description": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"freeform_tags": {
-							Type:     schema.TypeMap,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"key_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"lifecycle_details": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"secret_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_of_current_version_expiry": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_of_deletion": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"vault_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
+				Elem:     tfresource.GetDataSourceItemSchema(VaultSecretResource()),
 			},
 		},
 	}
