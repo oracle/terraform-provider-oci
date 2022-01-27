@@ -47,11 +47,15 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `baseline_ocpu_utilizations` - For a subcore burstable VM, the supported baseline OCPU utilization for instances that use this shape. 
+* `billing_type` - How instances that use this shape are charged. 
 * `gpu_description` - A short description of the graphics processing unit (GPU) available for this shape.
 
 	If the shape does not have any GPUs, this field is `null`. 
 * `gpus` - The number of GPUs available for this shape. 
+* `is_billed_for_stopped_instance` - Whether billing continues when the instances that use this shape are in the stopped state. 
+* `is_flexible` - Whether the shape supports creating flexible instances. A [flexible shape](https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm#flexible) is a shape that lets you customize the number of OCPUs and the amount of memory when launching or resizing your instance. 
 * `is_live_migration_supported` - Whether Live Migration is currently supported for this shape. 
+* `is_subcore` - Whether the shape supports creating subcore or burstable instances. A [burstable instance](https://docs.cloud.oracle.com/iaas/Content/Compute/References/burstable-instances.htm) is a virtual machine (VM) instance that provides a baseline level of CPU performance with the ability to burst to a higher level to support occasional spikes in usage. 
 * `local_disk_description` - A short description of the local disks available for this shape.
 
 	If the shape does not have any local disks, this field is `null`. 
@@ -105,4 +109,8 @@ The following attributes are exported:
 		* `is_default_enabled` - Indicates whether Trusted Platform Module is to be enabled by default 
 	* `type` - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, INTEL_SKYLAKE_BM]) 
 * `processor_description` - A short description of the shape's processor (CPU). 
+* `quota_names` - The list of of compartment quotas for the shape. 
+* `recommended_alternatives` - The list of shapes and shape details (if applicable) that Oracle recommends that you use as an alternative to the current shape. 
+	* `shape_name` - The name of the shape. 
+* `resize_compatible_shapes` - The list of compatible shapes that this shape can be changed to. For more information, see [Changing the Shape of an Instance](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/resizinginstances.htm). 
 

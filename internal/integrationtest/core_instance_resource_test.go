@@ -1700,6 +1700,7 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T) {
 	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource")
@@ -1808,6 +1809,7 @@ func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource(t *testing.T) {
 	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource")
@@ -1916,6 +1918,7 @@ func TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource(t *testin
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource(t *testing.T) {
 	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource")
@@ -2024,6 +2027,7 @@ func TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource(t *testing.
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource(t *testing.T) {
 	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource")

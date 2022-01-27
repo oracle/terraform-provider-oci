@@ -38,6 +38,7 @@ var (
 	volumeGroupBackupSourceDetailsRepresentation = map[string]interface{}{}
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreVolumeGroupBackup_copy")
 	defer httpreplay.SaveScenario()
