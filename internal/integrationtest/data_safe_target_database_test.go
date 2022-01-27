@@ -229,11 +229,14 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				compartmentIdVariableStr + TargetDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
+				resource.TestCheckResourceAttrSet(datasourceName, "associated_resource_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_database_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.associated_resource_ids.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.display_name", "displayName2"),
@@ -251,6 +254,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_database_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "associated_resource_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_option.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_option.0.connection_type", "PRIVATE_ENDPOINT"),

@@ -66,6 +66,8 @@ func (s *DataSafeTargetDatabaseDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("associated_resource_ids", s.Res.AssociatedResourceIds)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

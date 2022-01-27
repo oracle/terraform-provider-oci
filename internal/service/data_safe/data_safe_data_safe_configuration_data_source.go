@@ -70,6 +70,21 @@ func (s *DataSafeDataSafeConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DataSafeNatGatewayIpAddress != nil {
+		s.D.Set("data_safe_nat_gateway_ip_address", *s.Res.DataSafeNatGatewayIpAddress)
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.GlobalSettings != nil {
+		s.D.Set("global_settings", []interface{}{GlobalSettingsToMap(s.Res.GlobalSettings)})
+	} else {
+		s.D.Set("global_settings", nil)
+	}
 	if s.Res.IsEnabled != nil {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}

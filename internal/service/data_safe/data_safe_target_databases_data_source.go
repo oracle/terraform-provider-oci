@@ -22,6 +22,10 @@ func DataSafeTargetDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"associated_resource_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -82,6 +86,11 @@ func (s *DataSafeTargetDatabasesDataSourceCrud) Get() error {
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
 		request.AccessLevel = oci_data_safe.ListTargetDatabasesAccessLevelEnum(accessLevel.(string))
+	}
+
+	if associatedResourceId, ok := s.D.GetOkExists("associated_resource_id"); ok {
+		tmp := associatedResourceId.(string)
+		request.AssociatedResourceId = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -151,6 +160,10 @@ func (s *DataSafeTargetDatabasesDataSourceCrud) SetData() error {
 		targetDatabase := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}
+
+		targetDatabase["associated_resource_ids"] = r.AssociatedResourceIds
+
+		//targetDatabase["database_type"] = r.DatabaseType
 
 		if r.DefinedTags != nil {
 			targetDatabase["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)

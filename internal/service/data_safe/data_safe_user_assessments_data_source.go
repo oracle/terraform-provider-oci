@@ -214,6 +214,28 @@ func (s *DataSafeUserAssessmentsDataSourceCrud) Get() error {
 	return nil
 }
 
+func IgnoredTargetsToMap(obj interface{}) interface{} {
+	result := map[string]interface{}{}
+	mobj, ok := obj.(map[string]interface{})
+	if !ok {
+		return nil
+	}
+	for k, v := range mobj {
+		// key match, return value
+		if k == "lifecycleState" {
+			result["lifecycle_state"] = v
+		}
+		if k == "targetId" {
+			result["target_id"] = v
+		}
+		if k == "userAssessmentId" {
+			result["user_assessment_id"] = v
+		}
+
+	}
+	return result
+}
+
 func (s *DataSafeUserAssessmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
@@ -253,7 +275,8 @@ func (s *DataSafeUserAssessmentsDataSourceCrud) SetData() error {
 
 		ignoredTargets := []interface{}{}
 		for _, item := range r.IgnoredTargets {
-			ignoredTargets = append(ignoredTargets, item)
+			//ignoredTargets = append(ignoredTargets, item)
+			ignoredTargets = append(ignoredTargets, IgnoredTargetsToMap(item))
 		}
 		userAssessment["ignored_targets"] = ignoredTargets
 

@@ -120,7 +120,8 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DataSafeConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_safe_nat_gateway_ip_address"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "global_settings.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_enabled"),

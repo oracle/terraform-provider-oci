@@ -232,6 +232,13 @@ func DataSafeTargetDatabaseResource() *schema.Resource {
 			},
 
 			// Computed
+			"associated_resource_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -653,6 +660,8 @@ func (s *DataSafeTargetDatabaseResourceCrud) Delete() error {
 }
 
 func (s *DataSafeTargetDatabaseResourceCrud) SetData() error {
+	s.D.Set("associated_resource_ids", s.Res.AssociatedResourceIds)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

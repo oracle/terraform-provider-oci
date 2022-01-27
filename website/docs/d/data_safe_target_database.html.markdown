@@ -33,6 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `associated_resource_ids` - The OCIDs of associated resources like Database, Data Safe private endpoint etc.
 * `compartment_id` - The OCID of the compartment which contains the Data Safe target database.
 * `connection_option` - Types of connection supported by Data Safe.
 	* `connection_type` - The connection type used to connect to the database. Allowed values:

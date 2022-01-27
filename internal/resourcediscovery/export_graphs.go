@@ -494,6 +494,13 @@ var dataSafeResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeTargetDatabaseHints},
 		{TerraformResourceHints: exportDataSafeSecurityAssessmentHints},
 		{TerraformResourceHints: exportDataSafeUserAssessmentHints},
+		{TerraformResourceHints: exportDataSafeReportDefinitionHints},
+		{TerraformResourceHints: exportDataSafeAuditTrailHints},
+		{TerraformResourceHints: exportDataSafeAlertHints},
+		{TerraformResourceHints: exportDataSafeAuditArchiveRetrievalHints},
+		{TerraformResourceHints: exportDataSafeAuditProfileHints},
+		{TerraformResourceHints: exportDataSafeAuditPolicyHints},
+		{TerraformResourceHints: exportDataSafeTargetAlertPolicyAssociationHints},
 	},
 }
 
