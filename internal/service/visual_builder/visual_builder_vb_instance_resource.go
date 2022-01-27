@@ -411,6 +411,7 @@ func getErrorFromVisualBuilderVbInstanceWorkRequest(client *oci_visual_builder.V
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_visual_builder.ListWorkRequestErrorsRequest{
 			CompartmentId: compartmentId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
