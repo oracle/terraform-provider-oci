@@ -439,6 +439,14 @@ data_safe
 * oci\_data\_safe\_target\_database
 * oci\_data\_safe\_security\_assessment
 * oci\_data\_safe\_user\_assessment
+* oci\_data\_safe\_unset\_security\_assessment\_baseline
+* oci\_data\_safe\_report\_definition
+* oci\_data\_safe\_audit\_trail
+* oci\_data\_safe\_alert
+* oci\_data\_safe\_audit\_archive\_retrieval
+* oci\_data\_safe\_audit\_profile
+* oci\_data\_safe\_audit\_policy
+* oci\_data\_safe\_target\_alert\_policy\_association
 
 database
     
