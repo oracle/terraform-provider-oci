@@ -15,20 +15,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v56/common"
 )
 
-// UpdateNodePoolNodeConfigDetails The size and placement configuration of nodes in the node pool.
-type UpdateNodePoolNodeConfigDetails struct {
-
-	// The number of nodes in the node pool.
-	Size *int `mandatory:"false" json:"size"`
-
-	// The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see NetworkSecurityGroup.
-	NsgIds []string `mandatory:"false" json:"nsgIds"`
-
-	// The OCID of the Key Management Service key assigned to the boot volume.
-	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
-
-	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
-	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+// PersistentVolumeConfigDetails Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
+type PersistentVolumeConfigDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -39,15 +27,8 @@ type UpdateNodePoolNodeConfigDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// The placement configurations for the node pool. Provide one placement
-	// configuration for each availability domain in which you intend to launch a node.
-	// To use the node pool with a regional subnet, provide a placement configuration for
-	// each availability domain, and include the regional subnet in each placement
-	// configuration.
-	PlacementConfigs []NodePoolPlacementConfigDetails `mandatory:"false" json:"placementConfigs"`
 }
 
-func (m UpdateNodePoolNodeConfigDetails) String() string {
+func (m PersistentVolumeConfigDetails) String() string {
 	return common.PointerString(m)
 }

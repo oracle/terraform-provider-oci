@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -14,10 +14,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v56/common"
 )
 
-// SearchListingsDetails The base model for a Search Listings details.
+// SearchListingsDetails A base request type that contains common criteria for Marketplace Search Listings details.
 type SearchListingsDetails interface {
 
-	// The type of matching context returned in the response.
+	// The type of matching context returned in the response. If you specify HIGHLIGHTS, then the service will highlight fragments in its response. The default value is NONE.
 	GetMatchingContextType() MatchingContextTypeEnumEnum
 }
 

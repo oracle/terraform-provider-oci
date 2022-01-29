@@ -20,6 +20,10 @@ type UpdateClusterOptionsDetails struct {
 
 	// Configurable cluster admission controllers
 	AdmissionControllerOptions *AdmissionControllerOptions `mandatory:"false" json:"admissionControllerOptions"`
+
+	PersistentVolumeConfig *PersistentVolumeConfigDetails `mandatory:"false" json:"persistentVolumeConfig"`
+
+	ServiceLbConfig *ServiceLbConfigDetails `mandatory:"false" json:"serviceLbConfig"`
 }
 
 func (m UpdateClusterOptionsDetails) String() string {

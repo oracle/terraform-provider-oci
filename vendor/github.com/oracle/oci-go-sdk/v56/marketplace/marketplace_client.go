@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -1357,8 +1357,8 @@ func (client MarketplaceClient) listTaxes(ctx context.Context, request common.OC
 	return response, err
 }
 
-// SearchListings Find listings that match the specified criteria. The search query could be free text
-// or structured.
+// SearchListings Queries all Marketplace Applications to find listings that match the specified criteria. To search
+// for a listing, you can use a free text or structured search.
 //
 // See also
 //

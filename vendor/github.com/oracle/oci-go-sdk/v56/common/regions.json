@@ -238,5 +238,11 @@
         "realmDomainComponent": "oraclecloud9.com", 
         "regionIdentifier": "me-dcc-muscat-1", 
         "realmKey": "oc9"
+    }, 
+    {
+        "regionKey": "wga", 
+        "realmDomainComponent": "oraclecloud10.com", 
+        "regionIdentifier": "ap-dcc-canberra-1", 
+        "realmKey": "oc10"
     }
 ]
