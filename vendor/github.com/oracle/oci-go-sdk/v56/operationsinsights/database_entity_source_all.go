@@ -19,12 +19,14 @@ const (
 	DatabaseEntitySourceAllAutonomousDatabase          DatabaseEntitySourceAllEnum = "AUTONOMOUS_DATABASE"
 	DatabaseEntitySourceAllEmManagedExternalDatabase   DatabaseEntitySourceAllEnum = "EM_MANAGED_EXTERNAL_DATABASE"
 	DatabaseEntitySourceAllMacsManagedExternalDatabase DatabaseEntitySourceAllEnum = "MACS_MANAGED_EXTERNAL_DATABASE"
+	DatabaseEntitySourceAllPeComanagedDatabase         DatabaseEntitySourceAllEnum = "PE_COMANAGED_DATABASE"
 )
 
 var mappingDatabaseEntitySourceAllEnum = map[string]DatabaseEntitySourceAllEnum{
 	"AUTONOMOUS_DATABASE":            DatabaseEntitySourceAllAutonomousDatabase,
 	"EM_MANAGED_EXTERNAL_DATABASE":   DatabaseEntitySourceAllEmManagedExternalDatabase,
 	"MACS_MANAGED_EXTERNAL_DATABASE": DatabaseEntitySourceAllMacsManagedExternalDatabase,
+	"PE_COMANAGED_DATABASE":          DatabaseEntitySourceAllPeComanagedDatabase,
 }
 
 // GetDatabaseEntitySourceAllEnumValues Enumerates the set of values for DatabaseEntitySourceAllEnum
@@ -42,5 +44,6 @@ func GetDatabaseEntitySourceAllEnumStringValues() []string {
 		"AUTONOMOUS_DATABASE",
 		"EM_MANAGED_EXTERNAL_DATABASE",
 		"MACS_MANAGED_EXTERNAL_DATABASE",
+		"PE_COMANAGED_DATABASE",
 	}
 }

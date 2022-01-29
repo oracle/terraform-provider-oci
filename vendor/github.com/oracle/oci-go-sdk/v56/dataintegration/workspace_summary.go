@@ -45,7 +45,7 @@ type WorkspaceSummary struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The current state of the workspace.
-	LifecycleState WorkspaceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState WorkspaceSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A detailed description about the current state of the workspace. Used to provide actionable information if the workspace is in a failed state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
@@ -61,11 +61,66 @@ func (m WorkspaceSummary) String() string {
 func (m WorkspaceSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := mappingWorkspaceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetWorkspaceLifecycleStateEnumStringValues(), ",")))
+	if _, ok := mappingWorkspaceSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetWorkspaceSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// WorkspaceSummaryLifecycleStateEnum Enum with underlying type: string
+type WorkspaceSummaryLifecycleStateEnum string
+
+// Set of constants representing the allowable values for WorkspaceSummaryLifecycleStateEnum
+const (
+	WorkspaceSummaryLifecycleStateCreating WorkspaceSummaryLifecycleStateEnum = "CREATING"
+	WorkspaceSummaryLifecycleStateActive   WorkspaceSummaryLifecycleStateEnum = "ACTIVE"
+	WorkspaceSummaryLifecycleStateInactive WorkspaceSummaryLifecycleStateEnum = "INACTIVE"
+	WorkspaceSummaryLifecycleStateUpdating WorkspaceSummaryLifecycleStateEnum = "UPDATING"
+	WorkspaceSummaryLifecycleStateDeleting WorkspaceSummaryLifecycleStateEnum = "DELETING"
+	WorkspaceSummaryLifecycleStateDeleted  WorkspaceSummaryLifecycleStateEnum = "DELETED"
+	WorkspaceSummaryLifecycleStateFailed   WorkspaceSummaryLifecycleStateEnum = "FAILED"
+	WorkspaceSummaryLifecycleStateStarting WorkspaceSummaryLifecycleStateEnum = "STARTING"
+	WorkspaceSummaryLifecycleStateStopping WorkspaceSummaryLifecycleStateEnum = "STOPPING"
+	WorkspaceSummaryLifecycleStateStopped  WorkspaceSummaryLifecycleStateEnum = "STOPPED"
+)
+
+var mappingWorkspaceSummaryLifecycleStateEnum = map[string]WorkspaceSummaryLifecycleStateEnum{
+	"CREATING": WorkspaceSummaryLifecycleStateCreating,
+	"ACTIVE":   WorkspaceSummaryLifecycleStateActive,
+	"INACTIVE": WorkspaceSummaryLifecycleStateInactive,
+	"UPDATING": WorkspaceSummaryLifecycleStateUpdating,
+	"DELETING": WorkspaceSummaryLifecycleStateDeleting,
+	"DELETED":  WorkspaceSummaryLifecycleStateDeleted,
+	"FAILED":   WorkspaceSummaryLifecycleStateFailed,
+	"STARTING": WorkspaceSummaryLifecycleStateStarting,
+	"STOPPING": WorkspaceSummaryLifecycleStateStopping,
+	"STOPPED":  WorkspaceSummaryLifecycleStateStopped,
+}
+
+// GetWorkspaceSummaryLifecycleStateEnumValues Enumerates the set of values for WorkspaceSummaryLifecycleStateEnum
+func GetWorkspaceSummaryLifecycleStateEnumValues() []WorkspaceSummaryLifecycleStateEnum {
+	values := make([]WorkspaceSummaryLifecycleStateEnum, 0)
+	for _, v := range mappingWorkspaceSummaryLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetWorkspaceSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for WorkspaceSummaryLifecycleStateEnum
+func GetWorkspaceSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"STARTING",
+		"STOPPING",
+		"STOPPED",
+	}
 }

@@ -10,6 +10,7 @@
 package databasemigration
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"strings"
@@ -27,6 +28,8 @@ type CreateDataPumpSettings struct {
 	// Defines remapping to be applied to objects as they are processed.
 	// Refer to DATA_REMAP (https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_DATAPUMP.html#GUID-E75AAE6F-4EA6-4737-A752-6B62F5E9D460)
 	MetadataRemaps []MetadataRemap `mandatory:"false" json:"metadataRemaps"`
+
+	TablespaceDetails CreateTargetTypeTablespaceDetails `mandatory:"false" json:"tablespaceDetails"`
 
 	ExportDirectoryObject *CreateDirectoryObject `mandatory:"false" json:"exportDirectoryObject"`
 
@@ -50,4 +53,46 @@ func (m CreateDataPumpSettings) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDataPumpSettings) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		JobMode               DataPumpJobModeEnum               `json:"jobMode"`
+		DataPumpParameters    *CreateDataPumpParameters         `json:"dataPumpParameters"`
+		MetadataRemaps        []MetadataRemap                   `json:"metadataRemaps"`
+		TablespaceDetails     createtargettypetablespacedetails `json:"tablespaceDetails"`
+		ExportDirectoryObject *CreateDirectoryObject            `json:"exportDirectoryObject"`
+		ImportDirectoryObject *CreateDirectoryObject            `json:"importDirectoryObject"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.JobMode = model.JobMode
+
+	m.DataPumpParameters = model.DataPumpParameters
+
+	m.MetadataRemaps = make([]MetadataRemap, len(model.MetadataRemaps))
+	for i, n := range model.MetadataRemaps {
+		m.MetadataRemaps[i] = n
+	}
+
+	nn, e = model.TablespaceDetails.UnmarshalPolymorphicJSON(model.TablespaceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TablespaceDetails = nn.(CreateTargetTypeTablespaceDetails)
+	} else {
+		m.TablespaceDetails = nil
+	}
+
+	m.ExportDirectoryObject = model.ExportDirectoryObject
+
+	m.ImportDirectoryObject = model.ImportDirectoryObject
+
+	return
 }

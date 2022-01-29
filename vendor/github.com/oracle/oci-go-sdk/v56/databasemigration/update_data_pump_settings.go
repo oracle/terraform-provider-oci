@@ -10,6 +10,7 @@
 package databasemigration
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"strings"
@@ -28,6 +29,8 @@ type UpdateDataPumpSettings struct {
 	// Refer to METADATA_REMAP Procedure  (https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_DATAPUMP.html#GUID-0FC32790-91E6-4781-87A3-229DE024CB3D)
 	// If specified, the list will be replaced entirely. Empty list will remove stored Metadata Remap details.
 	MetadataRemaps []MetadataRemap `mandatory:"false" json:"metadataRemaps"`
+
+	TablespaceDetails UpdateTargetTypeTablespaceDetails `mandatory:"false" json:"tablespaceDetails"`
 
 	ExportDirectoryObject *UpdateDirectoryObject `mandatory:"false" json:"exportDirectoryObject"`
 
@@ -51,4 +54,46 @@ func (m UpdateDataPumpSettings) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateDataPumpSettings) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		JobMode               DataPumpJobModeEnum               `json:"jobMode"`
+		DataPumpParameters    *UpdateDataPumpParameters         `json:"dataPumpParameters"`
+		MetadataRemaps        []MetadataRemap                   `json:"metadataRemaps"`
+		TablespaceDetails     updatetargettypetablespacedetails `json:"tablespaceDetails"`
+		ExportDirectoryObject *UpdateDirectoryObject            `json:"exportDirectoryObject"`
+		ImportDirectoryObject *UpdateDirectoryObject            `json:"importDirectoryObject"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.JobMode = model.JobMode
+
+	m.DataPumpParameters = model.DataPumpParameters
+
+	m.MetadataRemaps = make([]MetadataRemap, len(model.MetadataRemaps))
+	for i, n := range model.MetadataRemaps {
+		m.MetadataRemaps[i] = n
+	}
+
+	nn, e = model.TablespaceDetails.UnmarshalPolymorphicJSON(model.TablespaceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TablespaceDetails = nn.(UpdateTargetTypeTablespaceDetails)
+	} else {
+		m.TablespaceDetails = nil
+	}
+
+	m.ExportDirectoryObject = model.ExportDirectoryObject
+
+	m.ImportDirectoryObject = model.ImportDirectoryObject
+
+	return
 }

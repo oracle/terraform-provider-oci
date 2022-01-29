@@ -15,17 +15,29 @@ type OperationTypesEnum string
 
 // Set of constants representing the allowable values for OperationTypesEnum
 const (
-	OperationTypesInstall   OperationTypesEnum = "INSTALL"
-	OperationTypesUpdate    OperationTypesEnum = "UPDATE"
-	OperationTypesRemove    OperationTypesEnum = "REMOVE"
-	OperationTypesUpdateall OperationTypesEnum = "UPDATEALL"
+	OperationTypesInstall                    OperationTypesEnum = "INSTALL"
+	OperationTypesUpdate                     OperationTypesEnum = "UPDATE"
+	OperationTypesRemove                     OperationTypesEnum = "REMOVE"
+	OperationTypesUpdateall                  OperationTypesEnum = "UPDATEALL"
+	OperationTypesEnablemodulestream         OperationTypesEnum = "ENABLEMODULESTREAM"
+	OperationTypesDisablemodulestream        OperationTypesEnum = "DISABLEMODULESTREAM"
+	OperationTypesSwitchmodulestream         OperationTypesEnum = "SWITCHMODULESTREAM"
+	OperationTypesInstallmodulestreamprofile OperationTypesEnum = "INSTALLMODULESTREAMPROFILE"
+	OperationTypesRemovemodulestreamprofile  OperationTypesEnum = "REMOVEMODULESTREAMPROFILE"
+	OperationTypesCompound                   OperationTypesEnum = "COMPOUND"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
-	"INSTALL":   OperationTypesInstall,
-	"UPDATE":    OperationTypesUpdate,
-	"REMOVE":    OperationTypesRemove,
-	"UPDATEALL": OperationTypesUpdateall,
+	"INSTALL":                    OperationTypesInstall,
+	"UPDATE":                     OperationTypesUpdate,
+	"REMOVE":                     OperationTypesRemove,
+	"UPDATEALL":                  OperationTypesUpdateall,
+	"ENABLEMODULESTREAM":         OperationTypesEnablemodulestream,
+	"DISABLEMODULESTREAM":        OperationTypesDisablemodulestream,
+	"SWITCHMODULESTREAM":         OperationTypesSwitchmodulestream,
+	"INSTALLMODULESTREAMPROFILE": OperationTypesInstallmodulestreamprofile,
+	"REMOVEMODULESTREAMPROFILE":  OperationTypesRemovemodulestreamprofile,
+	"COMPOUND":                   OperationTypesCompound,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -44,5 +56,11 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE",
 		"REMOVE",
 		"UPDATEALL",
+		"ENABLEMODULESTREAM",
+		"DISABLEMODULESTREAM",
+		"SWITCHMODULESTREAM",
+		"INSTALLMODULESTREAMPROFILE",
+		"REMOVEMODULESTREAMPROFILE",
+		"COMPOUND",
 	}
 }

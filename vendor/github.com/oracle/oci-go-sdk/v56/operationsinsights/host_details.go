@@ -31,7 +31,7 @@ type HostDetails struct {
 
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType HostDetailsPlatformTypeEnum `mandatory:"true" json:"platformType"`
 
 	// The identifier of the agent.
@@ -68,12 +68,14 @@ const (
 	HostDetailsPlatformTypeLinux   HostDetailsPlatformTypeEnum = "LINUX"
 	HostDetailsPlatformTypeSolaris HostDetailsPlatformTypeEnum = "SOLARIS"
 	HostDetailsPlatformTypeSunos   HostDetailsPlatformTypeEnum = "SUNOS"
+	HostDetailsPlatformTypeZlinux  HostDetailsPlatformTypeEnum = "ZLINUX"
 )
 
 var mappingHostDetailsPlatformTypeEnum = map[string]HostDetailsPlatformTypeEnum{
 	"LINUX":   HostDetailsPlatformTypeLinux,
 	"SOLARIS": HostDetailsPlatformTypeSolaris,
 	"SUNOS":   HostDetailsPlatformTypeSunos,
+	"ZLINUX":  HostDetailsPlatformTypeZlinux,
 }
 
 // GetHostDetailsPlatformTypeEnumValues Enumerates the set of values for HostDetailsPlatformTypeEnum
@@ -91,5 +93,6 @@ func GetHostDetailsPlatformTypeEnumStringValues() []string {
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }

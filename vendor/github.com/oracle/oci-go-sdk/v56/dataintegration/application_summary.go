@@ -58,6 +58,33 @@ type ApplicationSummary struct {
 	// The date and time the application was patched, in the timestamp format defined by RFC3339.
 	TimePatched *common.SDKTime `mandatory:"false" json:"timePatched"`
 
+	// OCID of the resource that is used to uniquely identify the application
+	Id *string `mandatory:"false" json:"id"`
+
+	// OCID of the compartment that this resource belongs to. Defaults to compartment of the Workspace.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The date and time the application was created, in the timestamp format defined by RFC3339.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// The date and time the application was updated, in the timestamp format defined by RFC3339.
+	// example: 2019-08-25T21:10:29.41Z
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The current state of the workspace.
+	LifecycleState ApplicationSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
@@ -74,8 +101,54 @@ func (m ApplicationSummary) String() string {
 func (m ApplicationSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := mappingApplicationSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetApplicationSummaryLifecycleStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ApplicationSummaryLifecycleStateEnum Enum with underlying type: string
+type ApplicationSummaryLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ApplicationSummaryLifecycleStateEnum
+const (
+	ApplicationSummaryLifecycleStateCreating ApplicationSummaryLifecycleStateEnum = "CREATING"
+	ApplicationSummaryLifecycleStateActive   ApplicationSummaryLifecycleStateEnum = "ACTIVE"
+	ApplicationSummaryLifecycleStateUpdating ApplicationSummaryLifecycleStateEnum = "UPDATING"
+	ApplicationSummaryLifecycleStateDeleting ApplicationSummaryLifecycleStateEnum = "DELETING"
+	ApplicationSummaryLifecycleStateDeleted  ApplicationSummaryLifecycleStateEnum = "DELETED"
+	ApplicationSummaryLifecycleStateFailed   ApplicationSummaryLifecycleStateEnum = "FAILED"
+)
+
+var mappingApplicationSummaryLifecycleStateEnum = map[string]ApplicationSummaryLifecycleStateEnum{
+	"CREATING": ApplicationSummaryLifecycleStateCreating,
+	"ACTIVE":   ApplicationSummaryLifecycleStateActive,
+	"UPDATING": ApplicationSummaryLifecycleStateUpdating,
+	"DELETING": ApplicationSummaryLifecycleStateDeleting,
+	"DELETED":  ApplicationSummaryLifecycleStateDeleted,
+	"FAILED":   ApplicationSummaryLifecycleStateFailed,
+}
+
+// GetApplicationSummaryLifecycleStateEnumValues Enumerates the set of values for ApplicationSummaryLifecycleStateEnum
+func GetApplicationSummaryLifecycleStateEnumValues() []ApplicationSummaryLifecycleStateEnum {
+	values := make([]ApplicationSummaryLifecycleStateEnum, 0)
+	for _, v := range mappingApplicationSummaryLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetApplicationSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ApplicationSummaryLifecycleStateEnum
+func GetApplicationSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

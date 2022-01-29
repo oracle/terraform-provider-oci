@@ -123,6 +123,12 @@ type UpdateAutonomousDatabaseDetails struct {
 	// Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	// To create a local standby, set to `TRUE`. To delete a local standby, set to `FALSE`. For more information on using Autonomous Data Guard on shared Exadata infrastructure (local and cross-region) , see About Standby Databases (https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/autonomous-data-guard-about.html#GUID-045AD017-8120-4BDC-AF58-7430FFE28D2B)
 	// To enable cross-region Autonomous Data Guard on shared Exadata infrastructure, see CreateCrossRegionAutonomousDatabaseDataGuardDetails.
+	IsLocalDataGuardEnabled *bool `mandatory:"false" json:"isLocalDataGuardEnabled"`
+
+	// ** Deprecated. ** Indicates whether the Autonomous Database has a local (in-region) standby database. Not applicable when creating a cross-region Autonomous Data Guard associations, or to
+	// Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	// To create a local standby, set to `TRUE`. To delete a local standby, set to `FALSE`. For more information on using Autonomous Data Guard on shared Exadata infrastructure (local and cross-region) , see About Standby Databases (https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/autonomous-data-guard-about.html#GUID-045AD017-8120-4BDC-AF58-7430FFE28D2B)
+	// To enable cross-region Autonomous Data Guard on shared Exadata infrastructure, see CreateCrossRegionAutonomousDatabaseDataGuardDetails.
 	// To delete a cross-region standby database, provide the `peerDbId` for the standby database in a remote region, and set `isDataGuardEnabled` to `FALSE`.
 	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
 
@@ -183,6 +189,12 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
 	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
+
+	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
+	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
+
+	// The Oracle Database Edition that applies to the Autonomous databases.
+	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -212,6 +224,9 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := mappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum[string(m.AutoRefreshPolicy)]; !ok && m.AutoRefreshPolicy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoRefreshPolicy: %s. Supported values are: %s.", m.AutoRefreshPolicy, strings.Join(GetUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseSummaryDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

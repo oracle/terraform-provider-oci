@@ -35,6 +35,22 @@ type AmdMilanBmLaunchInstancePlatformConfig struct {
 	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
 	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 
+	// Whether symmetric multi-threading is enabled on the instance.
+	IsSymmetricMultiThreadingEnabled *bool `mandatory:"false" json:"isSymmetricMultiThreadingEnabled"`
+
+	// Whether the Access Control Service is enabled on the instance. When enabled,
+	// the platform can enforce PCIe device isolation, required for VFIO device passthrough.
+	IsAccessControlServiceEnabled *bool `mandatory:"false" json:"isAccessControlServiceEnabled"`
+
+	// Whether virtualization instructions are available.
+	AreVirtualInstructionsEnabled *bool `mandatory:"false" json:"areVirtualInstructionsEnabled"`
+
+	// Whether the input-output memory management unit is enabled.
+	IsInputOutputMemoryManagementUnitEnabled *bool `mandatory:"false" json:"isInputOutputMemoryManagementUnitEnabled"`
+
+	// The percentage of cores enabled.
+	PercentageOfCoresEnabled *int `mandatory:"false" json:"percentageOfCoresEnabled"`
+
 	// The number of NUMA nodes per socket (NPS).
 	NumaNodesPerSocket AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum `mandatory:"false" json:"numaNodesPerSocket,omitempty"`
 }

@@ -361,6 +361,118 @@ func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.
 	return response, err
 }
 
+// ChangeOperationsInsightsPrivateEndpointCompartment Moves a private endpoint from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+func (client OperationsInsightsClient) ChangeOperationsInsightsPrivateEndpointCompartment(ctx context.Context, request ChangeOperationsInsightsPrivateEndpointCompartmentRequest) (response ChangeOperationsInsightsPrivateEndpointCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeOperationsInsightsPrivateEndpointCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeOperationsInsightsPrivateEndpointCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeOperationsInsightsPrivateEndpointCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeOperationsInsightsPrivateEndpointCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeOperationsInsightsPrivateEndpointCompartmentResponse")
+	}
+	return
+}
+
+// changeOperationsInsightsPrivateEndpointCompartment implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeOperationsInsightsPrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/operationsInsightsPrivateEndpoints/{operationsInsightsPrivateEndpointId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeOperationsInsightsPrivateEndpointCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangePeComanagedDatabaseInsight Change the connection details of a co-managed  database insight. When provided, If-Match is checked against ETag values of the resource.
+func (client OperationsInsightsClient) ChangePeComanagedDatabaseInsight(ctx context.Context, request ChangePeComanagedDatabaseInsightRequest) (response ChangePeComanagedDatabaseInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changePeComanagedDatabaseInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangePeComanagedDatabaseInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangePeComanagedDatabaseInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangePeComanagedDatabaseInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangePeComanagedDatabaseInsightResponse")
+	}
+	return
+}
+
+// changePeComanagedDatabaseInsight implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changePeComanagedDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/changePeComanagedDatabaseInsightDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangePeComanagedDatabaseInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAwrHub Create a AWR hub resource for the tenant in Operations Insights.
 // This resource will be created in root compartment.
 func (client OperationsInsightsClient) CreateAwrHub(ctx context.Context, request CreateAwrHubRequest) (response CreateAwrHubResponse, err error) {
@@ -642,8 +754,66 @@ func (client OperationsInsightsClient) createHostInsight(ctx context.Context, re
 	return response, err
 }
 
+// CreateOperationsInsightsPrivateEndpoint Create a private endpoint resource for the tenant in Operations Insights.
+// This resource will be created in customer compartment.
+func (client OperationsInsightsClient) CreateOperationsInsightsPrivateEndpoint(ctx context.Context, request CreateOperationsInsightsPrivateEndpointRequest) (response CreateOperationsInsightsPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOperationsInsightsPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOperationsInsightsPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOperationsInsightsPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOperationsInsightsPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOperationsInsightsPrivateEndpointResponse")
+	}
+	return
+}
+
+// createOperationsInsightsPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) createOperationsInsightsPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/operationsInsightsPrivateEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOperationsInsightsPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateOperationsInsightsWarehouse Create a Operations Insights Warehouse resource for the tenant in Operations Insights. New ADW will be provisioned for this tenant.
-// There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
+// There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment. If the 'opsi-warehouse-type'
+// header is passed to the API, a warehouse resource without ADW or Schema provisioning is created.
 func (client OperationsInsightsClient) CreateOperationsInsightsWarehouse(ctx context.Context, request CreateOperationsInsightsWarehouseRequest) (response CreateOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -999,6 +1169,57 @@ func (client OperationsInsightsClient) deleteHostInsight(ctx context.Context, re
 	}
 
 	var response DeleteHostInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOperationsInsightsPrivateEndpoint Deletes a private endpoint.
+func (client OperationsInsightsClient) DeleteOperationsInsightsPrivateEndpoint(ctx context.Context, request DeleteOperationsInsightsPrivateEndpointRequest) (response DeleteOperationsInsightsPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOperationsInsightsPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOperationsInsightsPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOperationsInsightsPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOperationsInsightsPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOperationsInsightsPrivateEndpointResponse")
+	}
+	return
+}
+
+// deleteOperationsInsightsPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) deleteOperationsInsightsPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/operationsInsightsPrivateEndpoints/{operationsInsightsPrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOperationsInsightsPrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1814,6 +2035,57 @@ func (client OperationsInsightsClient) getHostInsight(ctx context.Context, reque
 	return response, err
 }
 
+// GetOperationsInsightsPrivateEndpoint Gets the details of the specified private endpoint.
+func (client OperationsInsightsClient) GetOperationsInsightsPrivateEndpoint(ctx context.Context, request GetOperationsInsightsPrivateEndpointRequest) (response GetOperationsInsightsPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOperationsInsightsPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOperationsInsightsPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOperationsInsightsPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOperationsInsightsPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOperationsInsightsPrivateEndpointResponse")
+	}
+	return
+}
+
+// getOperationsInsightsPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) getOperationsInsightsPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/operationsInsightsPrivateEndpoints/{operationsInsightsPrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOperationsInsightsPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetOperationsInsightsWarehouse Gets details of an Operations Insights Warehouse.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
 func (client OperationsInsightsClient) GetOperationsInsightsWarehouse(ctx context.Context, request GetOperationsInsightsWarehouseRequest) (response GetOperationsInsightsWarehouseResponse, err error) {
@@ -2353,6 +2625,57 @@ func (client OperationsInsightsClient) ingestSqlText(ctx context.Context, reques
 	}
 
 	var response IngestSqlTextResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAssociatedResources Gets the list of resources using the specified Operation Insights private endpoint.
+func (client OperationsInsightsClient) ListAssociatedResources(ctx context.Context, request ListAssociatedResourcesRequest) (response ListAssociatedResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAssociatedResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAssociatedResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAssociatedResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAssociatedResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAssociatedResourcesResponse")
+	}
+	return
+}
+
+// listAssociatedResources implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listAssociatedResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/operationsInsightsPrivateEndpoints/{operationsInsightsPrivateEndpointId}/associatedResources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAssociatedResourcesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2976,6 +3299,57 @@ func (client OperationsInsightsClient) listImportableEnterpriseManagerEntities(c
 	}
 
 	var response ListImportableEnterpriseManagerEntitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOperationsInsightsPrivateEndpoints Gets a list of Operation Insights private endpoints.
+func (client OperationsInsightsClient) ListOperationsInsightsPrivateEndpoints(ctx context.Context, request ListOperationsInsightsPrivateEndpointsRequest) (response ListOperationsInsightsPrivateEndpointsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOperationsInsightsPrivateEndpoints, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOperationsInsightsPrivateEndpointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOperationsInsightsPrivateEndpointsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOperationsInsightsPrivateEndpointsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOperationsInsightsPrivateEndpointsResponse")
+	}
+	return
+}
+
+// listOperationsInsightsPrivateEndpoints implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listOperationsInsightsPrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/operationsInsightsPrivateEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOperationsInsightsPrivateEndpointsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -4680,6 +5054,59 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationIn
 	return response, err
 }
 
+// SummarizeHostInsightTopProcessesUsageTrend Returns response with aggregated time series data (timeIntervalstart, timeIntervalEnd, commandArgs, usageData) for top processes.
+// Data is aggregated for the time period specified and proceses are sorted descendent by the proces metric specified (CPU, MEMORY, VIRTUAL_MEMORY).
+// HostInsight Id and Process metric must be specified
+func (client OperationsInsightsClient) SummarizeHostInsightTopProcessesUsageTrend(ctx context.Context, request SummarizeHostInsightTopProcessesUsageTrendRequest) (response SummarizeHostInsightTopProcessesUsageTrendResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightTopProcessesUsageTrend, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeHostInsightTopProcessesUsageTrendResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeHostInsightTopProcessesUsageTrendResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeHostInsightTopProcessesUsageTrendResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeHostInsightTopProcessesUsageTrendResponse")
+	}
+	return
+}
+
+// summarizeHostInsightTopProcessesUsageTrend implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeHostInsightTopProcessesUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/topProcessesUsageTrend", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeHostInsightTopProcessesUsageTrendResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SummarizeOperationsInsightsWarehouseResourceUsage Gets the details of resources used by an Operations Insights Warehouse.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
 func (client OperationsInsightsClient) SummarizeOperationsInsightsWarehouseResourceUsage(ctx context.Context, request SummarizeOperationsInsightsWarehouseResourceUsageRequest) (response SummarizeOperationsInsightsWarehouseResourceUsageResponse, err error) {
@@ -5287,6 +5714,57 @@ func (client OperationsInsightsClient) updateHostInsight(ctx context.Context, re
 	}
 
 	var response UpdateHostInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateOperationsInsightsPrivateEndpoint Updates one or more attributes of the specified private endpoint.
+func (client OperationsInsightsClient) UpdateOperationsInsightsPrivateEndpoint(ctx context.Context, request UpdateOperationsInsightsPrivateEndpointRequest) (response UpdateOperationsInsightsPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOperationsInsightsPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOperationsInsightsPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOperationsInsightsPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOperationsInsightsPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOperationsInsightsPrivateEndpointResponse")
+	}
+	return
+}
+
+// updateOperationsInsightsPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) updateOperationsInsightsPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/operationsInsightsPrivateEndpoints/{operationsInsightsPrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOperationsInsightsPrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

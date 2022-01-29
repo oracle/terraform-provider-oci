@@ -20,6 +20,8 @@ type DataTransferMediumDetails struct {
 	DatabaseLinkDetails *DatabaseLinkDetails `mandatory:"false" json:"databaseLinkDetails"`
 
 	ObjectStorageDetails *ObjectStoreBucket `mandatory:"false" json:"objectStorageDetails"`
+
+	AwsS3Details *AwsS3Details `mandatory:"false" json:"awsS3Details"`
 }
 
 func (m DataTransferMediumDetails) String() string {

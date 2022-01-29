@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AuthDetails Authentication type to be used for Generic REST invocation.
+// AuthDetails Authentication type to be used for Generic REST invocation. This is deprecated.
 type AuthDetails struct {
 
 	// Generated key that can be used in API calls to identify data flow. On scenarios where reference to the data flow is needed, a value can be passed in create.

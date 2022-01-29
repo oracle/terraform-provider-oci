@@ -42,7 +42,7 @@ type SummarizeHostInsightResourceUtilizationInsightRequest struct {
 
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType []SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -170,12 +170,14 @@ const (
 	SummarizeHostInsightResourceUtilizationInsightPlatformTypeLinux   SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = "LINUX"
 	SummarizeHostInsightResourceUtilizationInsightPlatformTypeSolaris SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = "SOLARIS"
 	SummarizeHostInsightResourceUtilizationInsightPlatformTypeSunos   SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = "SUNOS"
+	SummarizeHostInsightResourceUtilizationInsightPlatformTypeZlinux  SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = "ZLINUX"
 )
 
 var mappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = map[string]SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum{
 	"LINUX":   SummarizeHostInsightResourceUtilizationInsightPlatformTypeLinux,
 	"SOLARIS": SummarizeHostInsightResourceUtilizationInsightPlatformTypeSolaris,
 	"SUNOS":   SummarizeHostInsightResourceUtilizationInsightPlatformTypeSunos,
+	"ZLINUX":  SummarizeHostInsightResourceUtilizationInsightPlatformTypeZlinux,
 }
 
 // GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum
@@ -193,5 +195,6 @@ func GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumStringValu
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }

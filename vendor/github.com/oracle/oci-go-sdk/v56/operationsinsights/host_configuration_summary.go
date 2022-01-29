@@ -32,7 +32,7 @@ type HostConfigurationSummary interface {
 
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	GetPlatformType() HostConfigurationSummaryPlatformTypeEnum
 
 	// Platform version.
@@ -286,12 +286,14 @@ const (
 	HostConfigurationSummaryPlatformTypeLinux   HostConfigurationSummaryPlatformTypeEnum = "LINUX"
 	HostConfigurationSummaryPlatformTypeSolaris HostConfigurationSummaryPlatformTypeEnum = "SOLARIS"
 	HostConfigurationSummaryPlatformTypeSunos   HostConfigurationSummaryPlatformTypeEnum = "SUNOS"
+	HostConfigurationSummaryPlatformTypeZlinux  HostConfigurationSummaryPlatformTypeEnum = "ZLINUX"
 )
 
 var mappingHostConfigurationSummaryPlatformTypeEnum = map[string]HostConfigurationSummaryPlatformTypeEnum{
 	"LINUX":   HostConfigurationSummaryPlatformTypeLinux,
 	"SOLARIS": HostConfigurationSummaryPlatformTypeSolaris,
 	"SUNOS":   HostConfigurationSummaryPlatformTypeSunos,
+	"ZLINUX":  HostConfigurationSummaryPlatformTypeZlinux,
 }
 
 // GetHostConfigurationSummaryPlatformTypeEnumValues Enumerates the set of values for HostConfigurationSummaryPlatformTypeEnum
@@ -309,5 +311,6 @@ func GetHostConfigurationSummaryPlatformTypeEnumStringValues() []string {
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }

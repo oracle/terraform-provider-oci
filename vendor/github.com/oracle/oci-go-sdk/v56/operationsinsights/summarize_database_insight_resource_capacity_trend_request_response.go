@@ -207,21 +207,39 @@ type SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum string
 
 // Set of constants representing the allowable values for SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum
 const (
-	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAdwS           SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "ADW-S"
-	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAtpS           SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "ATP-S"
-	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAdwD           SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "ADW-D"
-	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAtpD           SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "ATP-D"
-	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalPdb    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "EXTERNAL-PDB"
-	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalNoncdb SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAdwS                 SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "ADW-S"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAtpS                 SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "ATP-S"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAdwD                 SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "ADW-D"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAtpD                 SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "ATP-D"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalPdb          SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "EXTERNAL-PDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalNoncdb       SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedVmCdb       SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-VM-CDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedVmPdb       SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-VM-PDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedVmNoncdb    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-VM-NONCDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedBmCdb       SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-BM-CDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedBmPdb       SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-BM-PDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedBmNoncdb    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-BM-NONCDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExacsCdb    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExacsPdb    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExacsNoncdb SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
 )
 
 var mappingSummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum{
-	"ADW-S":           SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAdwS,
-	"ATP-S":           SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAtpS,
-	"ADW-D":           SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAdwD,
-	"ATP-D":           SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAtpD,
-	"EXTERNAL-PDB":    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalPdb,
-	"EXTERNAL-NONCDB": SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalNoncdb,
+	"ADW-S":                  SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAdwS,
+	"ATP-S":                  SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAtpS,
+	"ADW-D":                  SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAdwD,
+	"ATP-D":                  SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeAtpD,
+	"EXTERNAL-PDB":           SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalPdb,
+	"EXTERNAL-NONCDB":        SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalNoncdb,
+	"COMANAGED-VM-CDB":       SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedVmCdb,
+	"COMANAGED-VM-PDB":       SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedVmPdb,
+	"COMANAGED-VM-NONCDB":    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedVmNoncdb,
+	"COMANAGED-BM-CDB":       SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedBmCdb,
+	"COMANAGED-BM-PDB":       SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedBmPdb,
+	"COMANAGED-BM-NONCDB":    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedBmNoncdb,
+	"COMANAGED-EXACS-CDB":    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExacsCdb,
+	"COMANAGED-EXACS-PDB":    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExacsPdb,
+	"COMANAGED-EXACS-NONCDB": SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExacsNoncdb,
 }
 
 // GetSummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum
@@ -242,6 +260,15 @@ func GetSummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnumStringValue
 		"ATP-D",
 		"EXTERNAL-PDB",
 		"EXTERNAL-NONCDB",
+		"COMANAGED-VM-CDB",
+		"COMANAGED-VM-PDB",
+		"COMANAGED-VM-NONCDB",
+		"COMANAGED-BM-CDB",
+		"COMANAGED-BM-PDB",
+		"COMANAGED-BM-NONCDB",
+		"COMANAGED-EXACS-CDB",
+		"COMANAGED-EXACS-PDB",
+		"COMANAGED-EXACS-NONCDB",
 	}
 }
 

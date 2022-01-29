@@ -176,21 +176,39 @@ type SummarizeSqlInsightsDatabaseTypeEnum string
 
 // Set of constants representing the allowable values for SummarizeSqlInsightsDatabaseTypeEnum
 const (
-	SummarizeSqlInsightsDatabaseTypeAdwS           SummarizeSqlInsightsDatabaseTypeEnum = "ADW-S"
-	SummarizeSqlInsightsDatabaseTypeAtpS           SummarizeSqlInsightsDatabaseTypeEnum = "ATP-S"
-	SummarizeSqlInsightsDatabaseTypeAdwD           SummarizeSqlInsightsDatabaseTypeEnum = "ADW-D"
-	SummarizeSqlInsightsDatabaseTypeAtpD           SummarizeSqlInsightsDatabaseTypeEnum = "ATP-D"
-	SummarizeSqlInsightsDatabaseTypeExternalPdb    SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-PDB"
-	SummarizeSqlInsightsDatabaseTypeExternalNoncdb SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	SummarizeSqlInsightsDatabaseTypeAdwS                 SummarizeSqlInsightsDatabaseTypeEnum = "ADW-S"
+	SummarizeSqlInsightsDatabaseTypeAtpS                 SummarizeSqlInsightsDatabaseTypeEnum = "ATP-S"
+	SummarizeSqlInsightsDatabaseTypeAdwD                 SummarizeSqlInsightsDatabaseTypeEnum = "ADW-D"
+	SummarizeSqlInsightsDatabaseTypeAtpD                 SummarizeSqlInsightsDatabaseTypeEnum = "ATP-D"
+	SummarizeSqlInsightsDatabaseTypeExternalPdb          SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-PDB"
+	SummarizeSqlInsightsDatabaseTypeExternalNoncdb       SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	SummarizeSqlInsightsDatabaseTypeComanagedVmCdb       SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-VM-CDB"
+	SummarizeSqlInsightsDatabaseTypeComanagedVmPdb       SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-VM-PDB"
+	SummarizeSqlInsightsDatabaseTypeComanagedVmNoncdb    SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-VM-NONCDB"
+	SummarizeSqlInsightsDatabaseTypeComanagedBmCdb       SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-BM-CDB"
+	SummarizeSqlInsightsDatabaseTypeComanagedBmPdb       SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-BM-PDB"
+	SummarizeSqlInsightsDatabaseTypeComanagedBmNoncdb    SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-BM-NONCDB"
+	SummarizeSqlInsightsDatabaseTypeComanagedExacsCdb    SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
+	SummarizeSqlInsightsDatabaseTypeComanagedExacsPdb    SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
+	SummarizeSqlInsightsDatabaseTypeComanagedExacsNoncdb SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
 )
 
 var mappingSummarizeSqlInsightsDatabaseTypeEnum = map[string]SummarizeSqlInsightsDatabaseTypeEnum{
-	"ADW-S":           SummarizeSqlInsightsDatabaseTypeAdwS,
-	"ATP-S":           SummarizeSqlInsightsDatabaseTypeAtpS,
-	"ADW-D":           SummarizeSqlInsightsDatabaseTypeAdwD,
-	"ATP-D":           SummarizeSqlInsightsDatabaseTypeAtpD,
-	"EXTERNAL-PDB":    SummarizeSqlInsightsDatabaseTypeExternalPdb,
-	"EXTERNAL-NONCDB": SummarizeSqlInsightsDatabaseTypeExternalNoncdb,
+	"ADW-S":                  SummarizeSqlInsightsDatabaseTypeAdwS,
+	"ATP-S":                  SummarizeSqlInsightsDatabaseTypeAtpS,
+	"ADW-D":                  SummarizeSqlInsightsDatabaseTypeAdwD,
+	"ATP-D":                  SummarizeSqlInsightsDatabaseTypeAtpD,
+	"EXTERNAL-PDB":           SummarizeSqlInsightsDatabaseTypeExternalPdb,
+	"EXTERNAL-NONCDB":        SummarizeSqlInsightsDatabaseTypeExternalNoncdb,
+	"COMANAGED-VM-CDB":       SummarizeSqlInsightsDatabaseTypeComanagedVmCdb,
+	"COMANAGED-VM-PDB":       SummarizeSqlInsightsDatabaseTypeComanagedVmPdb,
+	"COMANAGED-VM-NONCDB":    SummarizeSqlInsightsDatabaseTypeComanagedVmNoncdb,
+	"COMANAGED-BM-CDB":       SummarizeSqlInsightsDatabaseTypeComanagedBmCdb,
+	"COMANAGED-BM-PDB":       SummarizeSqlInsightsDatabaseTypeComanagedBmPdb,
+	"COMANAGED-BM-NONCDB":    SummarizeSqlInsightsDatabaseTypeComanagedBmNoncdb,
+	"COMANAGED-EXACS-CDB":    SummarizeSqlInsightsDatabaseTypeComanagedExacsCdb,
+	"COMANAGED-EXACS-PDB":    SummarizeSqlInsightsDatabaseTypeComanagedExacsPdb,
+	"COMANAGED-EXACS-NONCDB": SummarizeSqlInsightsDatabaseTypeComanagedExacsNoncdb,
 }
 
 // GetSummarizeSqlInsightsDatabaseTypeEnumValues Enumerates the set of values for SummarizeSqlInsightsDatabaseTypeEnum
@@ -211,5 +229,14 @@ func GetSummarizeSqlInsightsDatabaseTypeEnumStringValues() []string {
 		"ATP-D",
 		"EXTERNAL-PDB",
 		"EXTERNAL-NONCDB",
+		"COMANAGED-VM-CDB",
+		"COMANAGED-VM-PDB",
+		"COMANAGED-VM-NONCDB",
+		"COMANAGED-BM-CDB",
+		"COMANAGED-BM-PDB",
+		"COMANAGED-BM-NONCDB",
+		"COMANAGED-EXACS-CDB",
+		"COMANAGED-EXACS-PDB",
+		"COMANAGED-EXACS-NONCDB",
 	}
 }

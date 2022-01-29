@@ -42,7 +42,7 @@ type SummarizeHostInsightResourceUsageRequest struct {
 
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType []SummarizeHostInsightResourceUsagePlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -170,12 +170,14 @@ const (
 	SummarizeHostInsightResourceUsagePlatformTypeLinux   SummarizeHostInsightResourceUsagePlatformTypeEnum = "LINUX"
 	SummarizeHostInsightResourceUsagePlatformTypeSolaris SummarizeHostInsightResourceUsagePlatformTypeEnum = "SOLARIS"
 	SummarizeHostInsightResourceUsagePlatformTypeSunos   SummarizeHostInsightResourceUsagePlatformTypeEnum = "SUNOS"
+	SummarizeHostInsightResourceUsagePlatformTypeZlinux  SummarizeHostInsightResourceUsagePlatformTypeEnum = "ZLINUX"
 )
 
 var mappingSummarizeHostInsightResourceUsagePlatformTypeEnum = map[string]SummarizeHostInsightResourceUsagePlatformTypeEnum{
 	"LINUX":   SummarizeHostInsightResourceUsagePlatformTypeLinux,
 	"SOLARIS": SummarizeHostInsightResourceUsagePlatformTypeSolaris,
 	"SUNOS":   SummarizeHostInsightResourceUsagePlatformTypeSunos,
+	"ZLINUX":  SummarizeHostInsightResourceUsagePlatformTypeZlinux,
 }
 
 // GetSummarizeHostInsightResourceUsagePlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceUsagePlatformTypeEnum
@@ -193,5 +195,6 @@ func GetSummarizeHostInsightResourceUsagePlatformTypeEnumStringValues() []string
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }

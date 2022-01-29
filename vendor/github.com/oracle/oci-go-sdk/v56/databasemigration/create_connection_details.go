@@ -31,6 +31,9 @@ type CreateConnectionDetails struct {
 	// Database Connection display name identifier.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Database manual connection subtype. This value can only be specified for manual connections.
+	ManualDatabaseSubType DatabaseManualConnectionSubTypesEnum `mandatory:"false" json:"manualDatabaseSubType,omitempty"`
+
 	// The OCID of the cloud database. Required if the database connection type is Autonomous.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
@@ -72,6 +75,9 @@ func (m CreateConnectionDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetDatabaseConnectionTypesEnumStringValues(), ",")))
 	}
 
+	if _, ok := mappingDatabaseManualConnectionSubTypesEnum[string(m.ManualDatabaseSubType)]; !ok && m.ManualDatabaseSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManualDatabaseSubType: %s. Supported values are: %s.", m.ManualDatabaseSubType, strings.Join(GetDatabaseManualConnectionSubTypesEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

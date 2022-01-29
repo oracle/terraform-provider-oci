@@ -48,6 +48,20 @@ type ApplicationDetails struct {
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
+
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The current state of the workspace.
+	LifecycleState ApplicationDetailsLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
 func (m ApplicationDetails) String() string {
@@ -60,8 +74,54 @@ func (m ApplicationDetails) String() string {
 func (m ApplicationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := mappingApplicationDetailsLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetApplicationDetailsLifecycleStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ApplicationDetailsLifecycleStateEnum Enum with underlying type: string
+type ApplicationDetailsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ApplicationDetailsLifecycleStateEnum
+const (
+	ApplicationDetailsLifecycleStateCreating ApplicationDetailsLifecycleStateEnum = "CREATING"
+	ApplicationDetailsLifecycleStateActive   ApplicationDetailsLifecycleStateEnum = "ACTIVE"
+	ApplicationDetailsLifecycleStateUpdating ApplicationDetailsLifecycleStateEnum = "UPDATING"
+	ApplicationDetailsLifecycleStateDeleting ApplicationDetailsLifecycleStateEnum = "DELETING"
+	ApplicationDetailsLifecycleStateDeleted  ApplicationDetailsLifecycleStateEnum = "DELETED"
+	ApplicationDetailsLifecycleStateFailed   ApplicationDetailsLifecycleStateEnum = "FAILED"
+)
+
+var mappingApplicationDetailsLifecycleStateEnum = map[string]ApplicationDetailsLifecycleStateEnum{
+	"CREATING": ApplicationDetailsLifecycleStateCreating,
+	"ACTIVE":   ApplicationDetailsLifecycleStateActive,
+	"UPDATING": ApplicationDetailsLifecycleStateUpdating,
+	"DELETING": ApplicationDetailsLifecycleStateDeleting,
+	"DELETED":  ApplicationDetailsLifecycleStateDeleted,
+	"FAILED":   ApplicationDetailsLifecycleStateFailed,
+}
+
+// GetApplicationDetailsLifecycleStateEnumValues Enumerates the set of values for ApplicationDetailsLifecycleStateEnum
+func GetApplicationDetailsLifecycleStateEnumValues() []ApplicationDetailsLifecycleStateEnum {
+	values := make([]ApplicationDetailsLifecycleStateEnum, 0)
+	for _, v := range mappingApplicationDetailsLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetApplicationDetailsLifecycleStateEnumStringValues Enumerates the set of values in String for ApplicationDetailsLifecycleStateEnum
+func GetApplicationDetailsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

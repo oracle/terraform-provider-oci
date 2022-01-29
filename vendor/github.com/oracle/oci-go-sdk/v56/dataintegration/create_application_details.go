@@ -39,6 +39,20 @@ type CreateApplicationDetails struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The current state of the workspace.
+	LifecycleState CreateApplicationDetailsLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
 	SourceApplicationInfo *CreateSourceApplicationInfo `mandatory:"false" json:"sourceApplicationInfo"`
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
@@ -56,6 +70,9 @@ func (m CreateApplicationDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := mappingCreateApplicationDetailsModelTypeEnum[string(m.ModelType)]; !ok && m.ModelType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetCreateApplicationDetailsModelTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateApplicationDetailsLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCreateApplicationDetailsLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -88,5 +105,48 @@ func GetCreateApplicationDetailsModelTypeEnumValues() []CreateApplicationDetails
 func GetCreateApplicationDetailsModelTypeEnumStringValues() []string {
 	return []string{
 		"INTEGRATION_APPLICATION",
+	}
+}
+
+// CreateApplicationDetailsLifecycleStateEnum Enum with underlying type: string
+type CreateApplicationDetailsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for CreateApplicationDetailsLifecycleStateEnum
+const (
+	CreateApplicationDetailsLifecycleStateCreating CreateApplicationDetailsLifecycleStateEnum = "CREATING"
+	CreateApplicationDetailsLifecycleStateActive   CreateApplicationDetailsLifecycleStateEnum = "ACTIVE"
+	CreateApplicationDetailsLifecycleStateUpdating CreateApplicationDetailsLifecycleStateEnum = "UPDATING"
+	CreateApplicationDetailsLifecycleStateDeleting CreateApplicationDetailsLifecycleStateEnum = "DELETING"
+	CreateApplicationDetailsLifecycleStateDeleted  CreateApplicationDetailsLifecycleStateEnum = "DELETED"
+	CreateApplicationDetailsLifecycleStateFailed   CreateApplicationDetailsLifecycleStateEnum = "FAILED"
+)
+
+var mappingCreateApplicationDetailsLifecycleStateEnum = map[string]CreateApplicationDetailsLifecycleStateEnum{
+	"CREATING": CreateApplicationDetailsLifecycleStateCreating,
+	"ACTIVE":   CreateApplicationDetailsLifecycleStateActive,
+	"UPDATING": CreateApplicationDetailsLifecycleStateUpdating,
+	"DELETING": CreateApplicationDetailsLifecycleStateDeleting,
+	"DELETED":  CreateApplicationDetailsLifecycleStateDeleted,
+	"FAILED":   CreateApplicationDetailsLifecycleStateFailed,
+}
+
+// GetCreateApplicationDetailsLifecycleStateEnumValues Enumerates the set of values for CreateApplicationDetailsLifecycleStateEnum
+func GetCreateApplicationDetailsLifecycleStateEnumValues() []CreateApplicationDetailsLifecycleStateEnum {
+	values := make([]CreateApplicationDetailsLifecycleStateEnum, 0)
+	for _, v := range mappingCreateApplicationDetailsLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateApplicationDetailsLifecycleStateEnumStringValues Enumerates the set of values in String for CreateApplicationDetailsLifecycleStateEnum
+func GetCreateApplicationDetailsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
 	}
 }

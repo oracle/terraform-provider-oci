@@ -179,21 +179,39 @@ type ListDatabaseConfigurationsDatabaseTypeEnum string
 
 // Set of constants representing the allowable values for ListDatabaseConfigurationsDatabaseTypeEnum
 const (
-	ListDatabaseConfigurationsDatabaseTypeAdwS           ListDatabaseConfigurationsDatabaseTypeEnum = "ADW-S"
-	ListDatabaseConfigurationsDatabaseTypeAtpS           ListDatabaseConfigurationsDatabaseTypeEnum = "ATP-S"
-	ListDatabaseConfigurationsDatabaseTypeAdwD           ListDatabaseConfigurationsDatabaseTypeEnum = "ADW-D"
-	ListDatabaseConfigurationsDatabaseTypeAtpD           ListDatabaseConfigurationsDatabaseTypeEnum = "ATP-D"
-	ListDatabaseConfigurationsDatabaseTypeExternalPdb    ListDatabaseConfigurationsDatabaseTypeEnum = "EXTERNAL-PDB"
-	ListDatabaseConfigurationsDatabaseTypeExternalNoncdb ListDatabaseConfigurationsDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	ListDatabaseConfigurationsDatabaseTypeAdwS                 ListDatabaseConfigurationsDatabaseTypeEnum = "ADW-S"
+	ListDatabaseConfigurationsDatabaseTypeAtpS                 ListDatabaseConfigurationsDatabaseTypeEnum = "ATP-S"
+	ListDatabaseConfigurationsDatabaseTypeAdwD                 ListDatabaseConfigurationsDatabaseTypeEnum = "ADW-D"
+	ListDatabaseConfigurationsDatabaseTypeAtpD                 ListDatabaseConfigurationsDatabaseTypeEnum = "ATP-D"
+	ListDatabaseConfigurationsDatabaseTypeExternalPdb          ListDatabaseConfigurationsDatabaseTypeEnum = "EXTERNAL-PDB"
+	ListDatabaseConfigurationsDatabaseTypeExternalNoncdb       ListDatabaseConfigurationsDatabaseTypeEnum = "EXTERNAL-NONCDB"
+	ListDatabaseConfigurationsDatabaseTypeComanagedVmCdb       ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-VM-CDB"
+	ListDatabaseConfigurationsDatabaseTypeComanagedVmPdb       ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-VM-PDB"
+	ListDatabaseConfigurationsDatabaseTypeComanagedVmNoncdb    ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-VM-NONCDB"
+	ListDatabaseConfigurationsDatabaseTypeComanagedBmCdb       ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-BM-CDB"
+	ListDatabaseConfigurationsDatabaseTypeComanagedBmPdb       ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-BM-PDB"
+	ListDatabaseConfigurationsDatabaseTypeComanagedBmNoncdb    ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-BM-NONCDB"
+	ListDatabaseConfigurationsDatabaseTypeComanagedExacsCdb    ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
+	ListDatabaseConfigurationsDatabaseTypeComanagedExacsPdb    ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
+	ListDatabaseConfigurationsDatabaseTypeComanagedExacsNoncdb ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
 )
 
 var mappingListDatabaseConfigurationsDatabaseTypeEnum = map[string]ListDatabaseConfigurationsDatabaseTypeEnum{
-	"ADW-S":           ListDatabaseConfigurationsDatabaseTypeAdwS,
-	"ATP-S":           ListDatabaseConfigurationsDatabaseTypeAtpS,
-	"ADW-D":           ListDatabaseConfigurationsDatabaseTypeAdwD,
-	"ATP-D":           ListDatabaseConfigurationsDatabaseTypeAtpD,
-	"EXTERNAL-PDB":    ListDatabaseConfigurationsDatabaseTypeExternalPdb,
-	"EXTERNAL-NONCDB": ListDatabaseConfigurationsDatabaseTypeExternalNoncdb,
+	"ADW-S":                  ListDatabaseConfigurationsDatabaseTypeAdwS,
+	"ATP-S":                  ListDatabaseConfigurationsDatabaseTypeAtpS,
+	"ADW-D":                  ListDatabaseConfigurationsDatabaseTypeAdwD,
+	"ATP-D":                  ListDatabaseConfigurationsDatabaseTypeAtpD,
+	"EXTERNAL-PDB":           ListDatabaseConfigurationsDatabaseTypeExternalPdb,
+	"EXTERNAL-NONCDB":        ListDatabaseConfigurationsDatabaseTypeExternalNoncdb,
+	"COMANAGED-VM-CDB":       ListDatabaseConfigurationsDatabaseTypeComanagedVmCdb,
+	"COMANAGED-VM-PDB":       ListDatabaseConfigurationsDatabaseTypeComanagedVmPdb,
+	"COMANAGED-VM-NONCDB":    ListDatabaseConfigurationsDatabaseTypeComanagedVmNoncdb,
+	"COMANAGED-BM-CDB":       ListDatabaseConfigurationsDatabaseTypeComanagedBmCdb,
+	"COMANAGED-BM-PDB":       ListDatabaseConfigurationsDatabaseTypeComanagedBmPdb,
+	"COMANAGED-BM-NONCDB":    ListDatabaseConfigurationsDatabaseTypeComanagedBmNoncdb,
+	"COMANAGED-EXACS-CDB":    ListDatabaseConfigurationsDatabaseTypeComanagedExacsCdb,
+	"COMANAGED-EXACS-PDB":    ListDatabaseConfigurationsDatabaseTypeComanagedExacsPdb,
+	"COMANAGED-EXACS-NONCDB": ListDatabaseConfigurationsDatabaseTypeComanagedExacsNoncdb,
 }
 
 // GetListDatabaseConfigurationsDatabaseTypeEnumValues Enumerates the set of values for ListDatabaseConfigurationsDatabaseTypeEnum
@@ -214,6 +232,15 @@ func GetListDatabaseConfigurationsDatabaseTypeEnumStringValues() []string {
 		"ATP-D",
 		"EXTERNAL-PDB",
 		"EXTERNAL-NONCDB",
+		"COMANAGED-VM-CDB",
+		"COMANAGED-VM-PDB",
+		"COMANAGED-VM-NONCDB",
+		"COMANAGED-BM-CDB",
+		"COMANAGED-BM-PDB",
+		"COMANAGED-BM-NONCDB",
+		"COMANAGED-EXACS-CDB",
+		"COMANAGED-EXACS-PDB",
+		"COMANAGED-EXACS-NONCDB",
 	}
 }
 

@@ -22,11 +22,11 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
-	DbName *string `mandatory:"true" json:"dbName"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database Backup that you will clone to create a new Autonomous Database.
 	AutonomousDatabaseBackupId *string `mandatory:"true" json:"autonomousDatabaseBackupId"`
+
+	// The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
+	DbName *string `mandatory:"false" json:"dbName"`
 
 	// The number of OCPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
@@ -59,7 +59,7 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+	// **Important** The `adminPassword` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
@@ -110,9 +110,11 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 	StandbyWhitelistedIps []string `mandatory:"false" json:"standbyWhitelistedIps"`
 
-	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to
-	// Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	// **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
+
+	// Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+	IsLocalDataGuardEnabled *bool `mandatory:"false" json:"isLocalDataGuardEnabled"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
@@ -159,8 +161,14 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
 	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 
+	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
+	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
+
+	// The Oracle Database Edition that applies to the Autonomous databases.
+	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
@@ -290,6 +298,11 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetIsDataGuardEnabled() *bool
 	return m.IsDataGuardEnabled
 }
 
+//GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
+func (m CreateAutonomousDatabaseFromBackupDetails) GetIsLocalDataGuardEnabled() *bool {
+	return m.IsLocalDataGuardEnabled
+}
+
 //GetSubnetId returns SubnetId
 func (m CreateAutonomousDatabaseFromBackupDetails) GetSubnetId() *string {
 	return m.SubnetId
@@ -350,6 +363,16 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetIsAutoScalingForStorageEna
 	return m.IsAutoScalingForStorageEnabled
 }
 
+//GetMaxCpuCoreCount returns MaxCpuCoreCount
+func (m CreateAutonomousDatabaseFromBackupDetails) GetMaxCpuCoreCount() *int {
+	return m.MaxCpuCoreCount
+}
+
+//GetDatabaseEdition returns DatabaseEdition
+func (m CreateAutonomousDatabaseFromBackupDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
+	return m.DatabaseEdition
+}
+
 func (m CreateAutonomousDatabaseFromBackupDetails) String() string {
 	return common.PointerString(m)
 }
@@ -363,6 +386,9 @@ func (m CreateAutonomousDatabaseFromBackupDetails) ValidateEnumValue() (bool, er
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneType: %s. Supported values are: %s.", m.CloneType, strings.Join(GetCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := mappingAutonomousDatabaseSummaryDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
 	if _, ok := mappingCreateAutonomousDatabaseBaseDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
 	}

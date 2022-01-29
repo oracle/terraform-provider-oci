@@ -34,6 +34,25 @@ type AmdRomeBmLaunchInstancePlatformConfig struct {
 
 	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
 	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
+
+	// Whether symmetric multi-threading is enabled on the instance.
+	IsSymmetricMultiThreadingEnabled *bool `mandatory:"false" json:"isSymmetricMultiThreadingEnabled"`
+
+	// Whether the Access Control Service is enabled on the instance. When enabled,
+	// the platform can enforce PCIe device isolation, required for VFIO device passthrough.
+	IsAccessControlServiceEnabled *bool `mandatory:"false" json:"isAccessControlServiceEnabled"`
+
+	// Whether virtualization instructions are available.
+	AreVirtualInstructionsEnabled *bool `mandatory:"false" json:"areVirtualInstructionsEnabled"`
+
+	// Whether the input-output memory management unit is enabled.
+	IsInputOutputMemoryManagementUnitEnabled *bool `mandatory:"false" json:"isInputOutputMemoryManagementUnitEnabled"`
+
+	// The percentage of cores enabled.
+	PercentageOfCoresEnabled *int `mandatory:"false" json:"percentageOfCoresEnabled"`
+
+	// The number of NUMA nodes per socket (NPS).
+	NumaNodesPerSocket AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum `mandatory:"false" json:"numaNodesPerSocket,omitempty"`
 }
 
 //GetIsSecureBootEnabled returns IsSecureBootEnabled
@@ -65,6 +84,9 @@ func (m AmdRomeBmLaunchInstancePlatformConfig) String() string {
 // Not recommended for calling this function directly
 func (m AmdRomeBmLaunchInstancePlatformConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := mappingAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum[string(m.NumaNodesPerSocket)]; !ok && m.NumaNodesPerSocket != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NumaNodesPerSocket: %s. Supported values are: %s.", m.NumaNodesPerSocket, strings.Join(GetAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -84,4 +106,41 @@ func (m AmdRomeBmLaunchInstancePlatformConfig) MarshalJSON() (buff []byte, e err
 	}
 
 	return json.Marshal(&s)
+}
+
+// AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum Enum with underlying type: string
+type AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum string
+
+// Set of constants representing the allowable values for AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum
+const (
+	AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps0 AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS0"
+	AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps1 AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS1"
+	AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps2 AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS2"
+	AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps4 AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = "NPS4"
+)
+
+var mappingAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum = map[string]AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum{
+	"NPS0": AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps0,
+	"NPS1": AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps1,
+	"NPS2": AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps2,
+	"NPS4": AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketNps4,
+}
+
+// GetAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumValues Enumerates the set of values for AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum
+func GetAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumValues() []AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum {
+	values := make([]AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum, 0)
+	for _, v := range mappingAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues Enumerates the set of values in String for AmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum
+func GetAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnumStringValues() []string {
+	return []string{
+		"NPS0",
+		"NPS1",
+		"NPS2",
+		"NPS4",
+	}
 }

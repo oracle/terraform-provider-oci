@@ -41,7 +41,7 @@ type ListHostedEntitiesRequest struct {
 
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType []ListHostedEntitiesPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource.
@@ -159,12 +159,14 @@ const (
 	ListHostedEntitiesPlatformTypeLinux   ListHostedEntitiesPlatformTypeEnum = "LINUX"
 	ListHostedEntitiesPlatformTypeSolaris ListHostedEntitiesPlatformTypeEnum = "SOLARIS"
 	ListHostedEntitiesPlatformTypeSunos   ListHostedEntitiesPlatformTypeEnum = "SUNOS"
+	ListHostedEntitiesPlatformTypeZlinux  ListHostedEntitiesPlatformTypeEnum = "ZLINUX"
 )
 
 var mappingListHostedEntitiesPlatformTypeEnum = map[string]ListHostedEntitiesPlatformTypeEnum{
 	"LINUX":   ListHostedEntitiesPlatformTypeLinux,
 	"SOLARIS": ListHostedEntitiesPlatformTypeSolaris,
 	"SUNOS":   ListHostedEntitiesPlatformTypeSunos,
+	"ZLINUX":  ListHostedEntitiesPlatformTypeZlinux,
 }
 
 // GetListHostedEntitiesPlatformTypeEnumValues Enumerates the set of values for ListHostedEntitiesPlatformTypeEnum
@@ -182,6 +184,7 @@ func GetListHostedEntitiesPlatformTypeEnumStringValues() []string {
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }
 

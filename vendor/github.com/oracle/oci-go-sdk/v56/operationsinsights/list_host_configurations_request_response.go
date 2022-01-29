@@ -28,7 +28,7 @@ type ListHostConfigurationsRequest struct {
 
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
 	PlatformType []ListHostConfigurationsPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to
@@ -174,12 +174,14 @@ const (
 	ListHostConfigurationsPlatformTypeLinux   ListHostConfigurationsPlatformTypeEnum = "LINUX"
 	ListHostConfigurationsPlatformTypeSolaris ListHostConfigurationsPlatformTypeEnum = "SOLARIS"
 	ListHostConfigurationsPlatformTypeSunos   ListHostConfigurationsPlatformTypeEnum = "SUNOS"
+	ListHostConfigurationsPlatformTypeZlinux  ListHostConfigurationsPlatformTypeEnum = "ZLINUX"
 )
 
 var mappingListHostConfigurationsPlatformTypeEnum = map[string]ListHostConfigurationsPlatformTypeEnum{
 	"LINUX":   ListHostConfigurationsPlatformTypeLinux,
 	"SOLARIS": ListHostConfigurationsPlatformTypeSolaris,
 	"SUNOS":   ListHostConfigurationsPlatformTypeSunos,
+	"ZLINUX":  ListHostConfigurationsPlatformTypeZlinux,
 }
 
 // GetListHostConfigurationsPlatformTypeEnumValues Enumerates the set of values for ListHostConfigurationsPlatformTypeEnum
@@ -197,6 +199,7 @@ func GetListHostConfigurationsPlatformTypeEnumStringValues() []string {
 		"LINUX",
 		"SOLARIS",
 		"SUNOS",
+		"ZLINUX",
 	}
 }
 

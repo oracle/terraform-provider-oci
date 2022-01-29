@@ -61,6 +61,7 @@ const (
 	ExadataMemberSummaryEntityTypeClusterAsm       ExadataMemberSummaryEntityTypeEnum = "CLUSTER_ASM"
 	ExadataMemberSummaryEntityTypeInfinibandSwitch ExadataMemberSummaryEntityTypeEnum = "INFINIBAND_SWITCH"
 	ExadataMemberSummaryEntityTypeEthernetSwitch   ExadataMemberSummaryEntityTypeEnum = "ETHERNET_SWITCH"
+	ExadataMemberSummaryEntityTypeHost             ExadataMemberSummaryEntityTypeEnum = "HOST"
 )
 
 var mappingExadataMemberSummaryEntityTypeEnum = map[string]ExadataMemberSummaryEntityTypeEnum{
@@ -71,6 +72,7 @@ var mappingExadataMemberSummaryEntityTypeEnum = map[string]ExadataMemberSummaryE
 	"CLUSTER_ASM":       ExadataMemberSummaryEntityTypeClusterAsm,
 	"INFINIBAND_SWITCH": ExadataMemberSummaryEntityTypeInfinibandSwitch,
 	"ETHERNET_SWITCH":   ExadataMemberSummaryEntityTypeEthernetSwitch,
+	"HOST":              ExadataMemberSummaryEntityTypeHost,
 }
 
 // GetExadataMemberSummaryEntityTypeEnumValues Enumerates the set of values for ExadataMemberSummaryEntityTypeEnum
@@ -92,5 +94,6 @@ func GetExadataMemberSummaryEntityTypeEnumStringValues() []string {
 		"CLUSTER_ASM",
 		"INFINIBAND_SWITCH",
 		"ETHERNET_SWITCH",
+		"HOST",
 	}
 }
