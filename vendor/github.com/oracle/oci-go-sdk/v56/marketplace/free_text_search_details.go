@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -14,13 +14,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v56/common"
 )
 
-// FreeTextSearchDetails The model for a request that uses Search's Free text.
+// FreeTextSearchDetails A request containing arbitrary text that must be present in the Marketplace Applications.
 type FreeTextSearchDetails struct {
 
 	// The text to search for.
 	Text *string `mandatory:"true" json:"text"`
 
-	// The type of matching context returned in the response.
+	// The type of matching context returned in the response. If you specify HIGHLIGHTS, then the service will highlight fragments in its response. The default value is NONE.
 	MatchingContextType MatchingContextTypeEnumEnum `mandatory:"false" json:"matchingContextType,omitempty"`
 }
 
