@@ -234,6 +234,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
 
+		autonomousDatabase["database_edition"] = r.DatabaseEdition
+
 		autonomousDatabase["database_management_status"] = r.DatabaseManagementStatus
 
 		if r.DbName != nil {
@@ -340,6 +342,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			autonomousDatabase["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
+		}
+
+		if r.MaxCpuCoreCount != nil {
+			autonomousDatabase["max_cpu_core_count"] = *r.MaxCpuCoreCount
 		}
 
 		autonomousDatabase["nsg_ids"] = r.NsgIds
