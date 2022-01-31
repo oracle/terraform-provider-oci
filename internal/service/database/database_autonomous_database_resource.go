@@ -132,6 +132,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"database_edition": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"db_version": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -215,6 +220,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 			"license_model": {
 				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"max_cpu_core_count": {
+				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
@@ -1148,6 +1158,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.DataStorageSizeInTBs = &tmp
 	}
 
+	if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok && s.D.HasChange("database_edition") {
+		request.DatabaseEdition = oci_database.AutonomousDatabaseSummaryDatabaseEditionEnum(databaseEdition.(string))
+	}
+
 	if dbVersion, ok := s.D.GetOkExists("db_version"); ok && s.D.HasChange("db_version") {
 		err := s.updateDbVersion(dbVersion.(string))
 		if err != nil {
@@ -1213,6 +1227,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateAutonomousDatabaseDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok && s.D.HasChange("max_cpu_core_count") {
+		tmp := maxCpuCoreCount.(int)
+		request.MaxCpuCoreCount = &tmp
 	}
 
 	var updateNewtworkAccessFlag = false
@@ -1395,6 +1414,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
 	}
 
+	s.D.Set("database_edition", s.Res.DatabaseEdition)
+
 	s.D.Set("database_management_status", s.Res.DatabaseManagementStatus)
 
 	if s.Res.DbName != nil {
@@ -1497,6 +1518,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
+	}
+
+	if s.Res.MaxCpuCoreCount != nil {
+		s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
 	}
 
 	nsgIds := []interface{}{}
@@ -1921,6 +1946,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
 		}
+		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+			details.DatabaseEdition = oci_database.AutonomousDatabaseSummaryDatabaseEditionEnum(databaseEdition.(string))
+		}
 		if dbName, ok := s.D.GetOkExists("db_name"); ok {
 			tmp := dbName.(string)
 			details.DbName = &tmp
@@ -1980,6 +2008,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+			tmp := maxCpuCoreCount.(int)
+			details.MaxCpuCoreCount = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2116,6 +2148,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
 		}
+		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+			details.DatabaseEdition = oci_database.AutonomousDatabaseSummaryDatabaseEditionEnum(databaseEdition.(string))
+		}
 		if dbName, ok := s.D.GetOkExists("db_name"); ok {
 			tmp := dbName.(string)
 			details.DbName = &tmp
@@ -2175,6 +2210,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+			tmp := maxCpuCoreCount.(int)
+			details.MaxCpuCoreCount = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2304,6 +2343,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
 		}
+		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+			details.DatabaseEdition = oci_database.AutonomousDatabaseSummaryDatabaseEditionEnum(databaseEdition.(string))
+		}
 		if dbName, ok := s.D.GetOkExists("db_name"); ok {
 			tmp := dbName.(string)
 			details.DbName = &tmp
@@ -2363,6 +2405,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+			tmp := maxCpuCoreCount.(int)
+			details.MaxCpuCoreCount = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2495,6 +2541,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
 		}
+		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+			details.DatabaseEdition = oci_database.AutonomousDatabaseSummaryDatabaseEditionEnum(databaseEdition.(string))
+		}
 		if dbName, ok := s.D.GetOkExists("db_name"); ok {
 			tmp := dbName.(string)
 			details.DbName = &tmp
@@ -2558,6 +2607,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+			tmp := maxCpuCoreCount.(int)
+			details.MaxCpuCoreCount = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -2678,6 +2731,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
 		}
+		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+			details.DatabaseEdition = oci_database.AutonomousDatabaseSummaryDatabaseEditionEnum(databaseEdition.(string))
+		}
 		if dbName, ok := s.D.GetOkExists("db_name"); ok {
 			tmp := dbName.(string)
 			details.DbName = &tmp
@@ -2741,6 +2797,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+			tmp := maxCpuCoreCount.(int)
+			details.MaxCpuCoreCount = &tmp
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
