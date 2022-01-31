@@ -262,6 +262,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"database_edition": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"database_management_status": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -402,6 +406,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"memory_per_oracle_compute_unit_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"max_cpu_core_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -752,6 +760,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
 
+		autonomousDatabasesClone["database_edition"] = r.DatabaseEdition
+
 		autonomousDatabasesClone["database_management_status"] = r.DatabaseManagementStatus
 
 		if r.DbName != nil {
@@ -858,6 +868,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			autonomousDatabasesClone["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
+		}
+
+		if r.MaxCpuCoreCount != nil {
+			autonomousDatabasesClone["max_cpu_core_count"] = *r.MaxCpuCoreCount
 		}
 
 		autonomousDatabasesClone["nsg_ids"] = r.NsgIds
