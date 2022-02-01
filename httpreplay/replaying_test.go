@@ -4,6 +4,7 @@
 // Run with a command something like:
 //   go test -run TestTransform -tags replay
 
+//go:build replay
 // +build replay
 
 package httpreplay
