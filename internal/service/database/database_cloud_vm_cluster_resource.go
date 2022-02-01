@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 func DatabaseCloudVmClusterResource() *schema.Resource {
@@ -306,6 +307,7 @@ func createDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -314,6 +316,7 @@ func readDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.ReadResource(sync)
 }
@@ -322,6 +325,7 @@ func updateDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -330,6 +334,7 @@ func deleteDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)
@@ -338,6 +343,7 @@ func deleteDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 type DatabaseCloudVmClusterResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.CloudVmCluster
 	Infra                  *oci_database.CloudExadataInfrastructure
 	DisableNotFoundRetries bool
@@ -545,6 +551,14 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		return err
 	}
 
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	s.Res = &response.CloudVmCluster
 	return nil
 }
@@ -689,6 +703,14 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 	response, err := s.Client.UpdateCloudVmCluster(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.CloudVmCluster

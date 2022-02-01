@@ -41,7 +41,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 			// Required
 			"database": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -477,18 +477,33 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
+
+	if database, ok := s.D.GetOkExists("database"); ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			if workId != nil {
+				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+				if err != nil {
+					return err
+				}
+			}
+
+			s.Res = &response.DbHome
+
+			err = s.getDatabaseInfo()
+			if err != nil {
+				log.Printf("[ERROR] Could not get Database info for the dbHome: %v", err)
+			}
 		}
-	}
+	} else {
 
-	s.Res = &response.DbHome
+		if workId != nil {
+			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbHome", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			if err != nil {
+				return err
+			}
+		}
 
-	err = s.getDatabaseInfo()
-	if err != nil {
-		log.Printf("[ERROR] Could not get Database info for the dbHome: %v", err)
+		s.Res = &response.DbHome
 	}
 
 	return nil
@@ -508,11 +523,6 @@ func (s *DatabaseDbHomeResourceCrud) Get() error {
 	}
 
 	s.Res = &response.DbHome
-
-	err = s.getDatabaseInfo()
-	if err != nil {
-		log.Printf("[ERROR] Could not get Database info for the dbHome: %v", err)
-	}
 
 	return nil
 }
