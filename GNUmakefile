@@ -3,6 +3,7 @@
 TEST?=./...
 GOFMT_FILES?=$(if $(SERVICE), $$(find . -name '$(SERVICE)*.go' |grep -v vendor), $$(find . -name '*.go' |grep -v vendor))
 PKG_NAME=oci
+PKG_TARGET=$(shell go env GOOS)_$(shell go env GOARCH)
 TEST_PKG_NAME=internal/integrationtest
 WEBSITE_REPO=github.com/hashicorp/terraform-website
 release_date=$(shell date -v +5d +%F)
@@ -36,9 +37,10 @@ testacc: build
 	TF_ACC=1 $(prefix) go test $(TEST) -v $(TESTARGS) $(run_regex) $(test_tags) -timeout $(timeout)
 
 localinstall:
-	mkdir -p $(GOPATH)/bin/registry.terraform.io/hashicorp/oci/1.0.0/darwin_amd64
-	cp $(GOPATH)/bin/terraform-provider-oci $(HOME)/.terraform.d/plugins/registry.terraform.io/hashicorp/oci/1.0.0/darwin_amd64
-	cp $(GOPATH)/bin/terraform-provider-oci $(GOPATH)/bin/registry.terraform.io/hashicorp/oci/1.0.0/darwin_amd64
+	mkdir -p $(HOME)/.terraform.d/plugins/registry.terraform.io/hashicorp/oci/1.0.0/$(PKG_TARGET)
+	mkdir -p $(GOPATH)/bin/registry.terraform.io/hashicorp/oci/1.0.0/$(PKG_TARGET)
+	cp $(GOPATH)/bin/terraform-provider-oci $(HOME)/.terraform.d/plugins/registry.terraform.io/hashicorp/oci/1.0.0/$(PKG_TARGET)
+	cp $(GOPATH)/bin/terraform-provider-oci $(GOPATH)/bin/registry.terraform.io/hashicorp/oci/1.0.0/$(PKG_TARGET)
 
 vet:
 	@echo "go vet ."
@@ -134,6 +136,7 @@ zip:
 	zip -r windows_amd64.zip windows_amd64; \
 	tar -czvf darwin_386.tar.gz darwin_386; \
 	tar -czvf darwin_amd64.tar.gz darwin_amd64; \
+	tar -czvf darwin_arm64.tar.gz darwin_arm64; \
 	tar -czvf freebsd_386.tar.gz freebsd_386; \
 	tar -czvf freebsd_amd64.tar.gz freebsd_amd64; \
 	tar -czvf freebsd_arm.tar.gz freebsd_arm; \
