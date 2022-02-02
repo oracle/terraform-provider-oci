@@ -664,6 +664,13 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
 				}, true),
 			},
+			"supported_regions_to_clone_to": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"system_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -1504,6 +1511,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
+
+	s.D.Set("supported_regions_to_clone_to", s.Res.SupportedRegionsToCloneTo)
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))

@@ -22,6 +22,9 @@ type ListListingsRequest struct {
 	// The unique identifier for the listing.
 	ListingId *string `mandatory:"false" contributesTo:"query" name:"listingId"`
 
+	// Image ID of the listing
+	ImageId *string `mandatory:"false" contributesTo:"query" name:"imageId"`
+
 	// Limit results to just this publisher.
 	PublisherId *string `mandatory:"false" contributesTo:"query" name:"publisherId"`
 

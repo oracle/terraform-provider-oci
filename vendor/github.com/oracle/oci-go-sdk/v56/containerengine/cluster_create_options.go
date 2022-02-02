@@ -29,6 +29,10 @@ type ClusterCreateOptions struct {
 
 	// Configurable cluster admission controllers
 	AdmissionControllerOptions *AdmissionControllerOptions `mandatory:"false" json:"admissionControllerOptions"`
+
+	PersistentVolumeConfig *PersistentVolumeConfigDetails `mandatory:"false" json:"persistentVolumeConfig"`
+
+	ServiceLbConfig *ServiceLbConfigDetails `mandatory:"false" json:"serviceLbConfig"`
 }
 
 func (m ClusterCreateOptions) String() string {

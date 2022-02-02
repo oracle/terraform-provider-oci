@@ -1,3 +1,13 @@
+## 4.62.0 (Unreleased)
+
+### Added
+- Support for Marketplace API to Get Listing id from Image id
+- Supoort for ADBS cross region clone
+- Update document for `devops` service
+- Support for Capacity Reservation
+### Bug Fix
+- Failed Nodepool work requests clean up the resources created
+
 ## 4.61.0 (January 26, 2022)
 
 ### Added

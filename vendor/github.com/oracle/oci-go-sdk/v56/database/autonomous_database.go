@@ -265,7 +265,7 @@ type AutonomousDatabase struct {
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 
-	// The list of regions that support the creation of Autonomous Data Guard standby database.
+	// The list of regions that support the creation of an Autonomous Database clone or an Autonomous Data Guard standby database.
 	SupportedRegionsToCloneTo []string `mandatory:"false" json:"supportedRegionsToCloneTo"`
 
 	// Customer Contacts.

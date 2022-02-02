@@ -24,6 +24,9 @@ type NodePoolPlacementConfigDetails struct {
 
 	// The OCID of the subnet in which to place nodes.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
+
+	// The OCID of the compute capacity reservation in which to place the compute instance.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 }
 
 func (m NodePoolPlacementConfigDetails) String() string {

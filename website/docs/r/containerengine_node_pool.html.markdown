@@ -22,9 +22,10 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	kubernetes_version = var.node_pool_kubernetes_version
 	name = var.node_pool_name
 	node_shape = var.node_pool_node_shape
-	subnet_ids = var.node_pool_subnet_ids
 
 	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_tags = {"Department"= "Finance"}
 	initial_node_labels {
 
 		#Optional
@@ -37,12 +38,17 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 			#Required
 			availability_domain = var.node_pool_node_config_details_placement_configs_availability_domain
 			subnet_id = oci_core_subnet.test_subnet.id
+
+			#Optional
+			capacity_reservation_id = oci_containerengine_capacity_reservation.test_capacity_reservation.id
 		}
 		size = var.node_pool_node_config_details_size
 
 		#Optional
 		is_pv_encryption_in_transit_enabled = var.node_pool_node_config_details_is_pv_encryption_in_transit_enabled
 		kms_key_id = oci_kms_key.test_key.id
+		defined_tags = {"Operations.CostCenter"= "42"}
+		freeform_tags = {"Department"= "Finance"}
 		nsg_ids = var.node_pool_node_config_details_nsg_ids
 	}
 	node_image_name = oci_core_image.test_image.name
@@ -63,6 +69,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	}
 	quantity_per_subnet = var.node_pool_quantity_per_subnet
 	ssh_public_key = var.node_pool_ssh_public_key
+	subnet_ids = var.node_pool_subnet_ids
 }
 ```
 
@@ -72,6 +79,8 @@ The following arguments are supported:
 
 * `cluster_id` - (Required) The OCID of the cluster to which this node pool is attached.
 * `compartment_id` - (Required) The OCID of the compartment in which the node pool exists.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `initial_node_labels` - (Optional) (Updatable) A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
 	* `key` - (Optional) (Updatable) The key of the pair.
 	* `value` - (Optional) (Updatable) The value of the pair.
@@ -80,14 +89,16 @@ The following arguments are supported:
 * `node_config_details` - (Optional) (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
 	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	* `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management Service key assigned to the boot volume.
+	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `nsg_ids` - (Optional) (Updatable) The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 	* `placement_configs` - (Required) (Updatable) The placement configurations for the node pool. Provide one placement configuration for each availability domain in which you intend to launch a node.
 
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - (Required) (Updatable) The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
+		* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
 		* `subnet_id` - (Required) (Updatable) The OCID of the subnet in which to place nodes.
 	* `size` - (Required) (Updatable) The number of nodes that should be in the node pool. 
-* `node_image_id` - (Optional) Deprecated. Use `node_source_details` instead. The OCID of the image running on the nodes in the node pool. Cannot be used when `node_image_name` is specified.
 * `node_image_name` - (Optional) Deprecated. Use `nodeSourceDetails` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_metadata` - (Optional) (Updatable) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 * `node_shape` - (Required) (Updatable) The name of the node shape of the nodes in the node pool.
@@ -112,6 +123,8 @@ The following attributes are exported:
 
 * `cluster_id` - The OCID of the cluster to which this node pool is attached.
 * `compartment_id` - The OCID of the compartment in which the node pool exists.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the node pool.
 * `initial_node_labels` - A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
 	* `key` - The key of the pair.
@@ -121,11 +134,14 @@ The following attributes are exported:
 * `node_config_details` - The configuration of nodes in the node pool.
 	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	* `kms_key_id` - The OCID of the Key Management Service key assigned to the boot volume.
+	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `nsg_ids` - The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 	* `placement_configs` - The placement configurations for the node pool. Provide one placement configuration for each availability domain in which you intend to launch a node.
 
 		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
+		* `capacity_reservation_id` - The OCID of the compute capacity reservation in which to place the compute instance.
 		* `subnet_id` - The OCID of the subnet in which to place nodes.
 	* `size` - The number of nodes in the node pool. 
 * `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 
@@ -145,11 +161,13 @@ The following attributes are exported:
 	* `source_type` - The source type for the node. Use `IMAGE` when specifying an OCID of an image. 
 * `nodes` - The nodes in the node pool.
 	* `availability_domain` - The name of the availability domain in which this node is placed.
+	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 	* `error` - An error that may be associated with the node.
 		* `code` - A short error code that defines the upstream error, meant for programmatic parsing. See [API Errors](https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
 		* `message` - A human-readable error string of the upstream error.
 		* `status` - The status of the HTTP response encountered in the upstream error.
 	* `fault_domain` - The fault domain of this node.
+	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `id` - The OCID of the compute instance backing this node.
 	* `kubernetes_version` - The version of Kubernetes this node is running.
 	* `lifecycle_details` - Details about the state of the node.
@@ -159,9 +177,11 @@ The following attributes are exported:
 	* `public_ip` - The public IP address of this node.
 	* `state` - The state of the node.
 	* `subnet_id` - The OCID of the subnet in which this node is placed.
+	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `quantity_per_subnet` - The number of nodes in each subnet.
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
 * `subnet_ids` - The OCIDs of the subnets in which to place nodes for this node pool.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 
 ## Timeouts
 

@@ -37,6 +37,7 @@ import (
 	oci_opsi "github.com/oracle/oci-go-sdk/v56/opsi"
 	oci_sch "github.com/oracle/oci-go-sdk/v56/sch"
 	oci_streaming "github.com/oracle/oci-go-sdk/v56/streaming"
+	oci_vault "github.com/oracle/oci-go-sdk/v56/vault"
 	oci_visual_builder "github.com/oracle/oci-go-sdk/v56/visualbuilder"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v56/vulnerabilityscanning"
 	oci_waas "github.com/oracle/oci-go-sdk/v56/waas"
@@ -2791,6 +2792,17 @@ var exportVisualBuilderVbInstanceHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_visual_builder.VbInstanceLifecycleStateActive),
+	},
+}
+
+var exportVaultSecretHints = &TerraformResourceHints{
+	resourceClass:          "oci_vault_secret",
+	datasourceClass:        "oci_vault_secrets",
+	datasourceItemsAttr:    "secrets",
+	resourceAbbreviation:   "secret",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_vault.SecretLifecycleStateActive),
 	},
 }
 

@@ -72,6 +72,20 @@ type NodePool struct {
 
 	// The configuration of nodes in the node pool.
 	NodeConfigDetails *NodePoolNodeConfigDetails `mandatory:"false" json:"nodeConfigDetails"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m NodePool) String() string {
@@ -81,24 +95,27 @@ func (m NodePool) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Id                *string                    `json:"id"`
-		CompartmentId     *string                    `json:"compartmentId"`
-		ClusterId         *string                    `json:"clusterId"`
-		Name              *string                    `json:"name"`
-		KubernetesVersion *string                    `json:"kubernetesVersion"`
-		NodeMetadata      map[string]string          `json:"nodeMetadata"`
-		NodeImageId       *string                    `json:"nodeImageId"`
-		NodeImageName     *string                    `json:"nodeImageName"`
-		NodeShapeConfig   *NodeShapeConfig           `json:"nodeShapeConfig"`
-		NodeSource        nodesourceoption           `json:"nodeSource"`
-		NodeSourceDetails nodesourcedetails          `json:"nodeSourceDetails"`
-		NodeShape         *string                    `json:"nodeShape"`
-		InitialNodeLabels []KeyValue                 `json:"initialNodeLabels"`
-		SshPublicKey      *string                    `json:"sshPublicKey"`
-		QuantityPerSubnet *int                       `json:"quantityPerSubnet"`
-		SubnetIds         []string                   `json:"subnetIds"`
-		Nodes             []Node                     `json:"nodes"`
-		NodeConfigDetails *NodePoolNodeConfigDetails `json:"nodeConfigDetails"`
+		Id                *string                           `json:"id"`
+		CompartmentId     *string                           `json:"compartmentId"`
+		ClusterId         *string                           `json:"clusterId"`
+		Name              *string                           `json:"name"`
+		KubernetesVersion *string                           `json:"kubernetesVersion"`
+		NodeMetadata      map[string]string                 `json:"nodeMetadata"`
+		NodeImageId       *string                           `json:"nodeImageId"`
+		NodeImageName     *string                           `json:"nodeImageName"`
+		NodeShapeConfig   *NodeShapeConfig                  `json:"nodeShapeConfig"`
+		NodeSource        nodesourceoption                  `json:"nodeSource"`
+		NodeSourceDetails nodesourcedetails                 `json:"nodeSourceDetails"`
+		NodeShape         *string                           `json:"nodeShape"`
+		InitialNodeLabels []KeyValue                        `json:"initialNodeLabels"`
+		SshPublicKey      *string                           `json:"sshPublicKey"`
+		QuantityPerSubnet *int                              `json:"quantityPerSubnet"`
+		SubnetIds         []string                          `json:"subnetIds"`
+		Nodes             []Node                            `json:"nodes"`
+		NodeConfigDetails *NodePoolNodeConfigDetails        `json:"nodeConfigDetails"`
+		FreeformTags      map[string]string                 `json:"freeformTags"`
+		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags        map[string]map[string]interface{} `json:"systemTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -166,6 +183,12 @@ func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.NodeConfigDetails = model.NodeConfigDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	return
 }

@@ -115,6 +115,12 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 			nodePool["cluster_id"] = *r.ClusterId
 		}
 
+		if r.DefinedTags != nil {
+			nodePool["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
+		nodePool["freeform_tags"] = r.FreeformTags
+
 		if r.Id != nil {
 			nodePool["id"] = *r.Id
 		}
@@ -186,6 +192,10 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 		}
 
 		nodePool["subnet_ids"] = r.SubnetIds
+
+		if r.SystemTags != nil {
+			nodePool["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		resources = append(resources, nodePool)
 	}

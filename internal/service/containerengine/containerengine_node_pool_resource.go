@@ -67,6 +67,19 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"initial_node_labels": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -119,6 +132,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 									},
 
 									// Optional
+									"capacity_reservation_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -139,6 +157,19 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"defined_tags": {
+							Type:             schema.TypeMap,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+							Elem:             schema.TypeString,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
 						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
@@ -302,6 +333,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"defined_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"error": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -332,6 +368,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						"fault_domain": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
 						},
 						"id": {
 							Type:     schema.TypeString,
@@ -369,8 +410,18 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 					},
 				},
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 		},
 	}
@@ -431,6 +482,18 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if initialNodeLabels, ok := s.D.GetOkExists("initial_node_labels"); ok {
@@ -671,9 +734,14 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 		}
 	}
 
-	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
-	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
+	// The workrequest may have failed, check for errors if identifier is not found.
+	if identifier == nil {
 		return nil, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+	}
+
+	// The workrequest may have failed, check for errors if work failed or got cancelled
+	if response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
+		return identifier, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
@@ -722,6 +790,18 @@ func (s *ContainerengineNodePoolResourceCrud) Get() error {
 
 func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	request := oci_containerengine.UpdateNodePoolRequest{}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
 
 	if initialNodeLabels, ok := s.D.GetOkExists("initial_node_labels"); ok {
 		interfaces := initialNodeLabels.([]interface{})
@@ -861,6 +941,12 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
 	initialNodeLabels := []interface{}{}
 	for _, item := range s.Res.InitialNodeLabels {
 		initialNodeLabels = append(initialNodeLabels, KeyValueToMap(item))
@@ -945,6 +1031,10 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("subnet_ids", nil)
 	}
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	return nil
 }
 
@@ -959,6 +1049,17 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
 		tmp := kmsKeyId.(string)
 		result.KmsKeyId = &tmp
+	}
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
@@ -1011,6 +1112,11 @@ func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigD
 	if obj.KmsKeyId != nil {
 		result["kms_key_id"] = string(*obj.KmsKeyId)
 	}
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	nsgIds := []interface{}{}
 	for _, item := range obj.NsgIds {
@@ -1128,6 +1234,10 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.NodeError != nil {
 		result["error"] = []interface{}{NodeErrorToMap(obj.NodeError)}
 	}
@@ -1135,6 +1245,8 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 	if obj.FaultDomain != nil {
 		result["fault_domain"] = string(*obj.FaultDomain)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -1170,6 +1282,10 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 		result["subnet_id"] = string(*obj.SubnetId)
 	}
 
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
 	return result
 }
 
@@ -1203,6 +1319,11 @@ func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPlacementConfigDetail
 		result.AvailabilityDomain = &tmp
 	}
 
+	if capacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_id")); ok {
+		tmp := capacityReservationId.(string)
+		result.CapacityReservationId = &tmp
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -1216,6 +1337,10 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.CapacityReservationId != nil {
+		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
 	}
 
 	if obj.SubnetId != nil {
@@ -1306,6 +1431,9 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 	m := v.(map[string]interface{})
 	if availabilityDomain, ok := m["availability_domain"]; ok && availabilityDomain != "" {
 		buf.WriteString(fmt.Sprintf("%v-", availabilityDomain))
+	}
+	if capacityReservationId, ok := m["capacity_reservation_id"]; ok && capacityReservationId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", capacityReservationId))
 	}
 	if subnetId, ok := m["subnet_id"]; ok && subnetId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", subnetId))

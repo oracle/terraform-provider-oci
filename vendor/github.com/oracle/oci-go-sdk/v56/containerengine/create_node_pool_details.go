@@ -66,6 +66,16 @@ type CreateNodePoolDetails struct {
 	// The configuration of nodes in the node pool. Exactly one of the
 	// subnetIds or nodeConfigDetails properties must be specified.
 	NodeConfigDetails *CreateNodePoolNodeConfigDetails `mandatory:"false" json:"nodeConfigDetails"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m CreateNodePoolDetails) String() string {
@@ -75,20 +85,22 @@ func (m CreateNodePoolDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		NodeMetadata      map[string]string                `json:"nodeMetadata"`
-		NodeImageName     *string                          `json:"nodeImageName"`
-		NodeSourceDetails nodesourcedetails                `json:"nodeSourceDetails"`
-		NodeShapeConfig   *CreateNodeShapeConfigDetails    `json:"nodeShapeConfig"`
-		InitialNodeLabels []KeyValue                       `json:"initialNodeLabels"`
-		SshPublicKey      *string                          `json:"sshPublicKey"`
-		QuantityPerSubnet *int                             `json:"quantityPerSubnet"`
-		SubnetIds         []string                         `json:"subnetIds"`
-		NodeConfigDetails *CreateNodePoolNodeConfigDetails `json:"nodeConfigDetails"`
-		CompartmentId     *string                          `json:"compartmentId"`
-		ClusterId         *string                          `json:"clusterId"`
-		Name              *string                          `json:"name"`
-		KubernetesVersion *string                          `json:"kubernetesVersion"`
-		NodeShape         *string                          `json:"nodeShape"`
+		NodeMetadata      map[string]string                 `json:"nodeMetadata"`
+		NodeImageName     *string                           `json:"nodeImageName"`
+		NodeSourceDetails nodesourcedetails                 `json:"nodeSourceDetails"`
+		NodeShapeConfig   *CreateNodeShapeConfigDetails     `json:"nodeShapeConfig"`
+		InitialNodeLabels []KeyValue                        `json:"initialNodeLabels"`
+		SshPublicKey      *string                           `json:"sshPublicKey"`
+		QuantityPerSubnet *int                              `json:"quantityPerSubnet"`
+		SubnetIds         []string                          `json:"subnetIds"`
+		NodeConfigDetails *CreateNodePoolNodeConfigDetails  `json:"nodeConfigDetails"`
+		FreeformTags      map[string]string                 `json:"freeformTags"`
+		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
+		CompartmentId     *string                           `json:"compartmentId"`
+		ClusterId         *string                           `json:"clusterId"`
+		Name              *string                           `json:"name"`
+		KubernetesVersion *string                           `json:"kubernetesVersion"`
+		NodeShape         *string                           `json:"nodeShape"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -127,6 +139,10 @@ func (m *CreateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.NodeConfigDetails = model.NodeConfigDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	m.CompartmentId = model.CompartmentId
 
