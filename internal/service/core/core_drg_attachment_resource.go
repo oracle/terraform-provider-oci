@@ -385,6 +385,10 @@ func (s *CoreDrgAttachmentResourceCrud) Delete() error {
 }
 
 func (s *CoreDrgAttachmentResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

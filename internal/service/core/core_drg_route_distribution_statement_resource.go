@@ -310,6 +310,9 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Delete() error {
 }
 
 func (s *CoreDrgRouteDistributionStatementResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
 
 	if s.Res.Action != "" {
 		s.D.Set("action", s.Res.Action)
