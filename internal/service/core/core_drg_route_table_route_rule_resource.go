@@ -170,6 +170,9 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Create() error {
 }
 
 func (s *CoreDrgRouteTableRouteRuleResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
 
 	drgRouteTableId, drgRouteRuleId, err := parseDrgRouteTableRouteRuleCompositeId(s.D.Id())
 	if err == nil {
