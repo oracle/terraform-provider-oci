@@ -1,4 +1,4 @@
-## 4.62.0 (Unreleased)
+## 4.62.0 (February 02, 2022)
 
 ### Added
 - Support for Marketplace API to Get Listing id from Image id
