@@ -909,6 +909,8 @@ func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, set
 	}
 }
 
+// TestAccPreCheck Acc precheck test
+
 func TestAccPreCheck(t *testing.T) {
 	envVarChecklist := []string{}
 	copy(envVarChecklist, requiredTestEnvVars)
