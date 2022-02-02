@@ -51,29 +51,100 @@ var (
 		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"node_image_name":     acctest.Representation{RepType: acctest.Required, Create: `Oracle-Linux-7.6`},
 		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"subnet_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
 		"initial_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolInitialNodeLabelsRepresentation},
 		"node_metadata":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
 		"quantity_per_subnet": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
-		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}}
+		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreNodePoolSystemTagsChangesRep},
+	}
 	nodePoolInitialNodeLabelsRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
 	}
 
+	ignoreNodePoolSystemTagsChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
+	}
+
+	routeTableRouteRulesforNodePoolRepresentation = map[string]interface{}{
+		"network_entity_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_internet_gateway.test_internet_gateway.id}`},
+		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`},
+		"destination":       acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+		"destination_type":  acctest.Representation{RepType: acctest.Required, Create: `CIDR_BLOCK`},
+	}
+
+	securityListIngressSecurityRulesALLforNodePoolRepresentation = map[string]interface{}{
+		"source":           acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
+		"protocol":         acctest.Representation{RepType: acctest.Required, Create: `all`},
+		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`},
+		"destination_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	securityListIngressSecurityRulesICMPforNodePoolRepresentation = map[string]interface{}{
+		"protocol":     acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"description":  acctest.Representation{RepType: acctest.Optional, Create: `description`},
+		"source":       acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+		"icmp_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListIngressSecurityRulesIcmpOptionsRepresentation},
+		"source_type":  acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	securityListEgressSecurityRulesAllforNodePoolRepresentation = map[string]interface{}{
+		"destination":      acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+		"protocol":         acctest.Representation{RepType: acctest.Required, Create: `all`},
+		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`},
+		"destination_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	securityListIngressSecurityRulesTCPforNodePoolRepresentation = map[string]interface{}{
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"source":      acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `CIDR_BLOCK`},
+		"stateless":   acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListIngressSecurityRulesTcpOptionsforNodePoolRepresentation},
+	}
+
+	securityListIngressSecurityRulesTcpOptionsforNodePoolRepresentation = map[string]interface{}{
+		"max":               acctest.Representation{RepType: acctest.Optional, Create: `22`},
+		"min":               acctest.Representation{RepType: acctest.Optional, Create: `22`},
+		"source_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListIngressSecurityRulesTcpOptionsSourcePortRangeRepresentation},
+	}
+
+	securityListIngressSecurityRulesICMP2forNodePoolRepresentation = map[string]interface{}{
+		"protocol":     acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"description":  acctest.Representation{RepType: acctest.Optional, Create: `description`},
+		"source":       acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
+		"icmp_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: securityListIngressSecurityRulesIcmpOptionsRepresentation},
+		"source_type":  acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
 	NodePoolResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", acctest.Required, acctest.Create, nodePoolOptionSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.22.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool1`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.23.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool2`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, internetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(routeTableRepresentation, map[string]interface{}{
+			"route_rules": acctest.RepresentationGroup{RepType: acctest.Required, Group: routeTableRouteRulesforNodePoolRepresentation},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(securityListRepresentation, map[string]interface{}{
+			"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: securityListIngressSecurityRulesICMP2forNodePoolRepresentation}, {RepType: acctest.Required, Group: securityListIngressSecurityRulesALLforNodePoolRepresentation}, {RepType: acctest.Required, Group: securityListIngressSecurityRulesICMPforNodePoolRepresentation}, {RepType: acctest.Required, Group: securityListIngressSecurityRulesTCPforNodePoolRepresentation}},
+			"egress_security_rules":  []acctest.RepresentationGroup{{RepType: acctest.Required, Group: securityListEgressSecurityRulesAllforNodePoolRepresentation}},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.22.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool1`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.23.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool2`}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, clusterRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster1`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.21.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster1`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.21.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
 		AvailabilityDomainConfig +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, clusterOptionSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, networkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		KeyResourceDependencyConfig
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: containerengine/default
@@ -125,6 +196,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key"),
 				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value"),
@@ -155,6 +227,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key2"),
 				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value2"),
@@ -191,6 +264,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.cluster_id"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.key", "key2"),
@@ -216,6 +290,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.key", "key2"),

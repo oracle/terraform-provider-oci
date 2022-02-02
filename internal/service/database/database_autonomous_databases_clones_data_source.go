@@ -526,6 +526,13 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"supported_regions_to_clone_to": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"system_tags": {
 							Type:     schema.TypeMap,
 							Computed: true,
@@ -886,6 +893,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.SubnetId != nil {
 			autonomousDatabasesClone["subnet_id"] = *r.SubnetId
 		}
+
+		autonomousDatabasesClone["supported_regions_to_clone_to"] = r.SupportedRegionsToCloneTo
 
 		if r.SystemTags != nil {
 			autonomousDatabasesClone["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)

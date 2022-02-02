@@ -29,6 +29,10 @@ func MarketplaceListingsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"image_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"is_featured": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -280,6 +284,11 @@ func (s *MarketplaceListingsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if imageId, ok := s.D.GetOkExists("image_id"); ok {
+		tmp := imageId.(string)
+		request.ImageId = &tmp
 	}
 
 	if isFeatured, ok := s.D.GetOkExists("is_featured"); ok {

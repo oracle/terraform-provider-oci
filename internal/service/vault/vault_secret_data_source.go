@@ -5,120 +5,22 @@ package vault
 
 import (
 	"context"
-	"log"
 	"strconv"
-	"time"
-
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_vault "github.com/oracle/oci-go-sdk/v56/vault"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
 func VaultSecretDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularVaultSecret,
-		Schema: map[string]*schema.Schema{
-			"secret_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"current_version_number": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"key_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"metadata": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"secret_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"secret_rules": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"is_enforced_on_deleted_secret_versions": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"is_secret_content_retrieval_blocked_on_expiry": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"rule_type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"secret_version_expiry_interval": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_of_absolute_expiry": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_of_current_version_expiry": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_of_deletion": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vault_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["secret_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(VaultSecretResource(), fieldMap, readSingularVaultSecret)
 }
 
 func readSingularVaultSecret(d *schema.ResourceData, m interface{}) error {
@@ -222,35 +124,4 @@ func (s *VaultSecretDataSourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func SecretRuleToMap(obj oci_vault.SecretRule) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (obj).(type) {
-	case oci_vault.SecretExpiryRule:
-		result["rule_type"] = "SECRET_EXPIRY_RULE"
-
-		if v.IsSecretContentRetrievalBlockedOnExpiry != nil {
-			result["is_secret_content_retrieval_blocked_on_expiry"] = bool(*v.IsSecretContentRetrievalBlockedOnExpiry)
-		}
-
-		if v.SecretVersionExpiryInterval != nil {
-			result["secret_version_expiry_interval"] = string(*v.SecretVersionExpiryInterval)
-		}
-
-		if v.TimeOfAbsoluteExpiry != nil {
-			result["time_of_absolute_expiry"] = v.TimeOfAbsoluteExpiry.Format(time.RFC3339Nano)
-		}
-	case oci_vault.SecretReuseRule:
-		result["rule_type"] = "SECRET_REUSE_RULE"
-
-		if v.IsEnforcedOnDeletedSecretVersions != nil {
-			result["is_enforced_on_deleted_secret_versions"] = bool(*v.IsEnforcedOnDeletedSecretVersions)
-		}
-	default:
-		log.Printf("[WARN] Received 'rule_type' of unknown type %v", obj)
-		return nil
-	}
-
-	return result
 }

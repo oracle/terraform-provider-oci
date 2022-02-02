@@ -119,6 +119,10 @@ func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 
 		cluster["available_kubernetes_upgrades"] = r.AvailableKubernetesUpgrades
 
+		if r.DefinedTags != nil {
+			cluster["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
 		if r.EndpointConfig != nil {
 			cluster["endpoint_config"] = []interface{}{ClusterEndpointConfigToMap(r.EndpointConfig, true)}
 		} else {
@@ -130,6 +134,8 @@ func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 		} else {
 			cluster["endpoints"] = nil
 		}
+
+		cluster["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			cluster["id"] = *r.Id
@@ -166,6 +172,10 @@ func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 		}
 
 		cluster["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			cluster["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.VcnId != nil {
 			cluster["vcn_id"] = *r.VcnId

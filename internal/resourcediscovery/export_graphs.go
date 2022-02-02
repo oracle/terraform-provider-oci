@@ -67,6 +67,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"opsi":                    opsiResourceGraph,
 	"osmanagement":            osmanagementResourceGraph,
 	"sch":                     schResourceGraph,
+	"vault":                   vaultResourceGraph,
 	"vulnerability_scanning":  vulnerabilityScanningResourceGraph,
 	"waas":                    waasResourceGraph,
 	"waf":                     wafResourceGraph,
@@ -1099,6 +1100,12 @@ var streamingResourceGraph = TerraformResourceGraph{
 
 var usageProxyResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {},
+}
+
+var vaultResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportVaultSecretHints},
+	},
 }
 
 var visualBuilderResourceGraph = TerraformResourceGraph{

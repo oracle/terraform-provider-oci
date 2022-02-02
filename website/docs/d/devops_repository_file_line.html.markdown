@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_devops_repository_file_line
 This data source provides details about a specific Repository File Line resource in Oracle Cloud Infrastructure Devops service.
 
-Get lines of a specified file. Supports starting line number and limit.
+Retrieve lines of a specified file. Supports starting line number and limit.
 
 
 ## Example Usage
@@ -32,16 +32,16 @@ data "oci_devops_repository_file_line" "test_repository_file_line" {
 The following arguments are supported:
 
 * `file_path` - (Required) Path to a file within a repository.
-* `repository_id` - (Required) unique Repository identifier.
-* `revision` - (Required) Retrive file lines from specific revision.
-* `start_line_number` - (Optional) Line number from where to start returning file lines. 1 indexed.
+* `repository_id` - (Required) Unique repository identifier.
+* `revision` - (Required) Retrieve file lines from specific revision.
+* `start_line_number` - (Optional) Line number from where to start returning file lines.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `lines` - The list of lines in the file
-	* `line_content` - The content of the line
-	* `line_number` - The line number
+* `lines` - The list of lines in the file.
+	* `line_content` - The content of the line.
+	* `line_number` - The line number.
 

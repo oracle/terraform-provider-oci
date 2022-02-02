@@ -23,6 +23,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
 	endpoint_config {
 
 		#Optional
@@ -30,6 +31,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 		nsg_ids = var.cluster_endpoint_config_nsg_ids
 		subnet_id = oci_core_subnet.test_subnet.id
 	}
+	freeform_tags = {"Department"= "Finance"}
 	image_policy_config {
 
 		#Optional
@@ -61,6 +63,18 @@ resource "oci_containerengine_cluster" "test_cluster" {
 			pods_cidr = var.cluster_options_kubernetes_network_config_pods_cidr
 			services_cidr = var.cluster_options_kubernetes_network_config_services_cidr
 		}
+		persistent_volume_config {
+
+			#Optional
+			defined_tags = {"Operations.CostCenter"= "42"}
+			freeform_tags = {"Department"= "Finance"}
+		}
+		service_lb_config {
+
+			#Optional
+			defined_tags = {"Operations.CostCenter"= "42"}
+			freeform_tags = {"Department"= "Finance"}
+		}
 		service_lb_subnet_ids = var.cluster_options_service_lb_subnet_ids
 	}
 }
@@ -71,10 +85,12 @@ resource "oci_containerengine_cluster" "test_cluster" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment in which to create the cluster.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `endpoint_config` - (Optional) The network configuration for access to the Cluster control plane. 
 	* `is_public_ip_enabled` - (Optional) Whether the cluster should be assigned a public IP address. Defaults to false. If set to true on a private subnet, the cluster provisioning will fail.
 	* `nsg_ids` - (Optional) A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 	* `subnet_id` - (Optional) The OCID of the regional subnet in which to place the Cluster endpoint.
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `image_policy_config` - (Optional) (Updatable) The image verification policy for signature validation. Once a policy is created and enabled with one or more kms keys, the policy will ensure all images deployed has been signed with the key(s) attached to the policy. 
 	* `is_policy_enabled` - (Optional) (Updatable) Whether the image verification policy is enabled. Defaults to false. If set to true, the images will be verified against the policy at runtime.
 	* `key_details` - (Optional) (Updatable) A list of KMS key details.
@@ -91,6 +107,12 @@ The following arguments are supported:
 	* `kubernetes_network_config` - (Optional) Network configuration for Kubernetes.
 		* `pods_cidr` - (Optional) The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
 		* `services_cidr` - (Optional) The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+	* `persistent_volume_config` - (Optional) (Updatable) Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
+		* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+		* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+	* `service_lb_config` - (Optional) (Updatable) Configuration to be applied to load balancers created by Kubernetes services
+		* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+		* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `service_lb_subnet_ids` - (Optional) The OCIDs of the subnets used for Kubernetes services load balancers.
 * `vcn_id` - (Required) The OCID of the virtual cloud network (VCN) in which to create the cluster.
 
@@ -104,6 +126,7 @@ The following attributes are exported:
 
 * `available_kubernetes_upgrades` - Available Kubernetes versions to which the clusters masters may be upgraded.
 * `compartment_id` - The OCID of the compartment in which the cluster exists.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `endpoint_config` - The network configuration for access to the Cluster control plane. 
 	* `is_public_ip_enabled` - Whether the cluster should be assigned a public IP address. Defaults to false. If set to true on a private subnet, the cluster provisioning will fail.
 	* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
@@ -112,6 +135,7 @@ The following attributes are exported:
 	* `kubernetes` - The non-native networking Kubernetes API server endpoint.
 	* `private_endpoint` - The private native networking Kubernetes API server endpoint.
 	* `public_endpoint` - The public native networking Kubernetes API server endpoint, if one was requested.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the cluster.
 * `image_policy_config` - The image verification policy for signature validation. 
 	* `is_policy_enabled` - Whether the image verification policy is enabled. Defaults to false. If set to true, the images will be verified against the policy at runtime.
@@ -140,8 +164,15 @@ The following attributes are exported:
 	* `kubernetes_network_config` - Network configuration for Kubernetes.
 		* `pods_cidr` - The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
 		* `services_cidr` - The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+	* `persistent_volume_config` - Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
+		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+	* `service_lb_config` - Configuration to be applied to load balancers created by Kubernetes services
+		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `service_lb_subnet_ids` - The OCIDs of the subnets used for Kubernetes services load balancers.
 * `state` - The state of the cluster masters.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `vcn_id` - The OCID of the virtual cloud network (VCN) in which the cluster exists.
 
 ## Timeouts

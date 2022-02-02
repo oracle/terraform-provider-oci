@@ -4,7 +4,7 @@
 
 // Marketplace Service API
 //
-// Manage applications in Oracle Cloud Infrastructure Marketplace.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
 package marketplace
@@ -24,6 +24,9 @@ type ListingSummary struct {
 
 	// A short description of the listing.
 	ShortDescription *string `mandatory:"false" json:"shortDescription"`
+
+	// True if this application is Rover exportable
+	IsRoverExportable *bool `mandatory:"false" json:"isRoverExportable"`
 
 	// The tagline of the listing.
 	Tagline *string `mandatory:"false" json:"tagline"`
