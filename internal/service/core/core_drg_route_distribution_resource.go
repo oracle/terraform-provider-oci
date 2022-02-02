@@ -247,6 +247,10 @@ func (s *CoreDrgRouteDistributionResourceCrud) Delete() error {
 }
 
 func (s *CoreDrgRouteDistributionResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

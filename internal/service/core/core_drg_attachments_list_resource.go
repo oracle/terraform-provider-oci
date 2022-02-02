@@ -126,6 +126,10 @@ func (s *CoreDrgAttachmentsListResourceCrud) Create() error {
 }
 
 func (s *CoreDrgAttachmentsListResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res {
