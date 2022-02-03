@@ -90,6 +90,10 @@ The following attributes are exported:
 	* `crash_recovery` - Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled, and whether to enable or disable syncing of the Binary Logs. 
 	* `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+	* `deletion_policy` - The Deletion policy for the DB System.
+		* `automatic_backup_retention` - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
+		* `final_backup` - Specifies whether or not a backup is taken when the DB System is deleted. REQUIRE_FINAL_BACKUP: a backup is taken if the DB System is deleted. SKIP_FINAL_BACKUP: a backup is not taken if the DB System is deleted. 
+		* `is_delete_protected` - Specifies whether the DB System can be deleted. Set to true to prevent deletion, false (default) to allow. 
 	* `description` - User-provided data about the DB System.
 	* `display_name` - The user-friendly name for the DB System. It does not have to be unique.
 	* `endpoints` - The network endpoints available for this DB System. 

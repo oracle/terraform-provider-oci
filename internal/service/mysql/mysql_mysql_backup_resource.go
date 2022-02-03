@@ -161,6 +161,31 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"deletion_policy": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"automatic_backup_retention": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"final_backup": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_delete_protected": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -672,6 +697,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DeletionPolicy != nil {
+		result["deletion_policy"] = []interface{}{DeletionPolicyDetailsToMap(obj.DeletionPolicy)}
 	}
 
 	if obj.Description != nil {

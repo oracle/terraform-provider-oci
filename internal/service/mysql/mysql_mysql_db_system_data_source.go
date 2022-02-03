@@ -112,6 +112,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.DeletionPolicy != nil {
+		s.D.Set("deletion_policy", []interface{}{DeletionPolicyDetailsToMap(s.Res.DeletionPolicy)})
+	} else {
+		s.D.Set("deletion_policy", nil)
+	}
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
