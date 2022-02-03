@@ -39,6 +39,13 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	crash_recovery = var.mysql_db_system_crash_recovery
 	data_storage_size_in_gb = var.mysql_db_system_data_storage_size_in_gb
 	defined_tags = {"foo-namespace.bar-key"= "value"}
+	deletion_policy {
+
+		#Optional
+		automatic_backup_retention = var.mysql_db_system_deletion_policy_automatic_backup_retention
+		final_backup = var.mysql_db_system_deletion_policy_final_backup
+		is_delete_protected = var.mysql_db_system_deletion_policy_is_delete_protected
+	}
 	description = var.mysql_db_system_description
 	display_name = var.mysql_db_system_display_name
 	fault_domain = var.mysql_db_system_fault_domain
@@ -96,6 +103,10 @@ The following arguments are supported:
 * `crash_recovery` - (Optional) (Updatable) Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled, and whether to enable or disable syncing of the Binary Logs. 
 * `data_storage_size_in_gb` - (Optional) Initial size of the data volume in GBs that will be created and attached. Keep in mind that this only specifies the size of the database data volume, the log volume for the database will be scaled appropriately with its shape. It is required if you are creating a new database. It cannot be set if you are creating a database from a backup.
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
+* `deletion_policy` - (Optional) (Updatable) Policy for how the DB System and related resources should be handled at the time of its deletion. 
+	* `automatic_backup_retention` - (Optional) (Updatable) Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
+	* `final_backup` - (Optional) (Updatable) Specifies whether or not a backup is taken when the DB System is deleted. REQUIRE_FINAL_BACKUP: a backup is taken if the DB System is deleted. SKIP_FINAL_BACKUP: a backup is not taken if the DB System is deleted. 
+	* `is_delete_protected` - (Optional) (Updatable) Specifies whether the DB System can be deleted. Set to true to prevent deletion, false (default) to allow. 
 * `description` - (Optional) (Updatable) User-provided data about the DB System.
 * `display_name` - (Optional) (Updatable) The user-friendly name for the DB System. It does not have to be unique.
 * `fault_domain` - (Optional) The fault domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
@@ -208,6 +219,10 @@ The following attributes are exported:
 	* `fault_domain` - The fault domain in which the DB System is placed.
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `deletion_policy` - The Deletion policy for the DB System.
+	* `automatic_backup_retention` - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
+	* `final_backup` - Specifies whether or not a backup is taken when the DB System is deleted. REQUIRE_FINAL_BACKUP: a backup is taken if the DB System is deleted. SKIP_FINAL_BACKUP: a backup is not taken if the DB System is deleted. 
+	* `is_delete_protected` - Specifies whether the DB System can be deleted. Set to true to prevent deletion, false (default) to allow. 
 * `description` - User-provided data about the DB System.
 * `display_name` - The user-friendly name for the DB System. It does not have to be unique.
 * `endpoints` - The network endpoints available for this DB System. 

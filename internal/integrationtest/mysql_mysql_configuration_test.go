@@ -30,8 +30,8 @@ var (
 	mysqlConfigurationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
-		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E2.2.Built-in`},
-		"shape_name":       acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E2.2`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `MySQL.VM.Standard.E3.1.8GB.Standalone`},
+		"shape_name":       acctest.Representation{RepType: acctest.Optional, Create: `MySQL.VM.Standard.E3.1.8GB`},
 		"state":            acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"type":             acctest.Representation{RepType: acctest.Optional, Create: []string{`DEFAULT`}},
 	}
@@ -79,8 +79,8 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "Default Standalone configuration for the VM.Standard.E2.2 MySQL Shape"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "VM.Standard.E2.2.Standalone"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "Default Standalone configuration for the MySQL.VM.Standard.E3.1.8GB MySQL Shape"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "MySQL.VM.Standard.E3.1.8GB.Standalone"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -100,7 +100,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.group_replication_consistency", "BEFORE_ON_PRIMARY_FAILOVER"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.information_schema_stats_expiry", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_instances", "4"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_size", "10200547328"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_size", "2147483648"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_enable_stopword", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_max_token_size", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_min_token_size", "0"),
@@ -112,7 +112,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_max_purge_lag_delay", "300000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.local_infile", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mandatory_roles", "public"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_connections", "1000"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_connections", "500"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_execution_time", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_prepared_stmt_count", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysql_firewall_mode", "false"),
