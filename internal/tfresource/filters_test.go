@@ -108,6 +108,31 @@ func TestUnitApplyFilters_basic(t *testing.T) {
 }
 
 // issue-routing-tag: terraform/default
+func TestUnitApplyFiltersCollection_basic(t *testing.T) {
+	items := []interface{}{}
+	items = append(items, map[string]interface{}{"letter": "a"})
+	items = append(items, map[string]interface{}{"letter": "b"})
+	items = append(items, map[string]interface{}{"letter": "c"})
+
+	testSchema := map[string]*schema.Schema{
+		"letter": {
+			Type: schema.TypeString,
+		},
+	}
+
+	filters := &schema.Set{F: func(interface{}) int { return 1 }}
+	filters.Add(map[string]interface{}{
+		"name":   "letter",
+		"values": []interface{}{"b"},
+	})
+
+	res := ApplyFiltersInCollection(filters, items, testSchema)
+	if len(res) != 1 {
+		t.Errorf("Expected 1 result, got %d", len(res))
+	}
+}
+
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_duplicates(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
