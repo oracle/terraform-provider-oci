@@ -5,6 +5,7 @@ package tfresource
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"reflect"
 	"strconv"
 	"strings"
@@ -124,6 +125,33 @@ func TestUnitApplyFiltersCollection_basic(t *testing.T) {
 	filters.Add(map[string]interface{}{
 		"name":   "letter",
 		"values": []interface{}{"b"},
+	})
+
+	res := ApplyFiltersInCollection(filters, items, testSchema)
+	if len(res) != 1 {
+		t.Errorf("Expected 1 result, got %d", len(res))
+	}
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitApplyFiltersCollection_regex(t *testing.T) {
+	items := []interface{}{}
+	items = append(items, map[string]interface{}{"string": "xblx:PHX-AD-1"})
+	items = append(items, map[string]interface{}{"string": "xblx:PHX-AD-2"})
+	items = append(items, map[string]interface{}{"string": "xblx:PHX-AD-3"})
+	testSchema := map[string]*schema.Schema{
+		"string": {
+			Type: schema.TypeString,
+		},
+	}
+
+	filters := &schema.Set{F: func(v interface{}) int {
+		return schema.HashString(v.(map[string]interface{})["name"])
+	}}
+	filters.Add(map[string]interface{}{
+		"name":   "string",
+		"values": []interface{}{"\\w*:PHX-AD-2"},
+		"regex":  true,
 	})
 
 	res := ApplyFiltersInCollection(filters, items, testSchema)
@@ -712,6 +740,27 @@ func TestUnitApplyFilters_ElementOrder(t *testing.T) {
 		t.Errorf("Expected sort order not retained, got %s %s", res[0]["letter"], res[1]["letter"])
 	}
 
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitConvertToObjectMap(t *testing.T) {
+	stringToStringMap := map[string]string{"letter": "a"}
+	stringToInterfaceMap := ConvertToObjectMap(stringToStringMap)
+	assert.NotNil(t, stringToInterfaceMap, "should not be null")
+	assert.Equal(t, "a", stringToInterfaceMap["letter"], "should convert and return same values")
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitCheckAndConvertNestedStructure(t *testing.T) {
+	res, ok := checkAndConvertNestedStructure("a")
+	assert.Nil(t, res, "should return nil for string value ")
+	assert.False(t, ok, "should be false")
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitDataSourceFiltersSchema(t *testing.T) {
+	schema := DataSourceFiltersSchema()
+	assert.NotNil(t, schema, "schema shouldnt be null value")
 }
 
 // issue-routing-tag: terraform/default
