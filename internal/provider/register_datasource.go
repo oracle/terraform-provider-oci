@@ -553,6 +553,7 @@ func init() {
 	RegisterDatasource("oci_datascience_notebook_sessions", tf_datascience.DatascienceNotebookSessionsDataSource())
 	RegisterDatasource("oci_datascience_project", tf_datascience.DatascienceProjectDataSource())
 	RegisterDatasource("oci_datascience_projects", tf_datascience.DatascienceProjectsDataSource())
+	RegisterDatasource("oci_datascience_fast_launch_job_configs", tf_datascience.DatascienceFastLaunchJobConfigsDataSource())
 	// devops service
 	RegisterDatasource("oci_devops_build_pipeline", tf_devops.DevopsBuildPipelineDataSource())
 	RegisterDatasource("oci_devops_build_pipeline_stage", tf_devops.DevopsBuildPipelineStageDataSource())
