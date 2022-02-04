@@ -80,11 +80,11 @@ func (p oboTokenProviderFromEnv) OboToken() (string, error) {
 }
 
 func tfVarName(attrName string) string {
-	return utils.TfEnvPrefix + attrName
+	return globalvar.TfEnvPrefix + attrName
 }
 
 func ociVarName(attrName string) string {
-	return utils.OciEnvPrefix + strings.ToUpper(attrName)
+	return globalvar.OciEnvPrefix + strings.ToUpper(attrName)
 }
 
 func init() {

@@ -13,7 +13,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 
@@ -1386,7 +1385,7 @@ func (s *WaasWaasPolicyResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if originGroups, ok := s.D.GetOkExists("origin_groups"); ok {
@@ -1673,7 +1672,7 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if originGroups, ok := s.D.GetOkExists("origin_groups"); ok {
@@ -2682,7 +2681,7 @@ func (s *WaasWaasPolicyResourceCrud) mapToHealthCheck(fieldKeyFormat string) (oc
 	}
 
 	if headers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "headers")); ok {
-		result.Headers = utils.ObjectMapToStringMap(headers.(map[string]interface{}))
+		result.Headers = tfresource.ObjectMapToStringMap(headers.(map[string]interface{}))
 	}
 
 	if healthyThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "healthy_threshold")); ok {

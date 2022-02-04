@@ -16,7 +16,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func MeteringComputationQueryResource() *schema.Resource {
@@ -118,7 +117,7 @@ func MeteringComputationQueryResource() *schema.Resource {
 												"time_forecast_ended": {
 													Type:             schema.TypeString,
 													Required:         true,
-													DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+													DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 												},
 
 												// Optional
@@ -131,7 +130,7 @@ func MeteringComputationQueryResource() *schema.Resource {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+													DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 												},
 
 												// Computed
@@ -189,13 +188,13 @@ func MeteringComputationQueryResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									"time_usage_started": {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 
 									// Computed

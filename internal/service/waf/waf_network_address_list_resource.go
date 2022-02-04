@@ -12,7 +12,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -615,7 +614,7 @@ func (s *WafNetworkAddressListResourceCrud) populateTopLevelPolymorphicCreateNet
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
 			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
@@ -659,7 +658,7 @@ func (s *WafNetworkAddressListResourceCrud) populateTopLevelPolymorphicCreateNet
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
 			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
@@ -711,7 +710,7 @@ func (s *WafNetworkAddressListResourceCrud) populateTopLevelPolymorphicUpdateNet
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.NetworkAddressListId = &tmp
@@ -753,7 +752,7 @@ func (s *WafNetworkAddressListResourceCrud) populateTopLevelPolymorphicUpdateNet
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.NetworkAddressListId = &tmp

@@ -17,7 +17,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func MeteringComputationUsageResource() *schema.Resource {
@@ -42,13 +41,13 @@ func MeteringComputationUsageResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			"time_usage_started": {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 
 			// Optional
@@ -78,7 +77,7 @@ func MeteringComputationUsageResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Required:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 
 						// Optional
@@ -93,7 +92,7 @@ func MeteringComputationUsageResource() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 
 						// Computed
@@ -334,7 +333,7 @@ type MeteringComputationUsageResourceCrud struct {
 }
 
 func (s *MeteringComputationUsageResourceCrud) ID() string {
-	return utils.Timestamp()
+	return tfresource.Timestamp()
 }
 
 func (s *MeteringComputationUsageResourceCrud) Create() error {

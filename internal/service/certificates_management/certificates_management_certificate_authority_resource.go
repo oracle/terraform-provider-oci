@@ -12,7 +12,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	oci_common "github.com/oracle/oci-go-sdk/v59/common"
 
@@ -195,14 +194,14 @@ func CertificatesManagementCertificateAuthorityResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Required:         true,
 										Computed:         false,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									// Optional
 									"time_of_validity_not_before": {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         false,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 
 									// Computed
@@ -694,7 +693,7 @@ func (s *CertificatesManagementCertificateAuthorityResourceCrud) Create() error 
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
@@ -785,7 +784,7 @@ func (s *CertificatesManagementCertificateAuthorityResourceCrud) Update() error 
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "certificates_management")
