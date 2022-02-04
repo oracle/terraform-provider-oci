@@ -11,7 +11,9 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ValidateConnectionResult Details regarding the validation of a connection resource.
@@ -26,4 +28,19 @@ type ValidateConnectionResult struct {
 
 func (m ValidateConnectionResult) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ValidateConnectionResult) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingConnectionResultEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetConnectionResultEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

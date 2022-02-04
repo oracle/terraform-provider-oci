@@ -10,7 +10,9 @@
 package databasemigration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateDataPumpSettings Optional settings for Data Pump Export and Import jobs
@@ -33,4 +35,19 @@ type CreateDataPumpSettings struct {
 
 func (m CreateDataPumpSettings) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDataPumpSettings) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDataPumpJobModeEnum[string(m.JobMode)]; !ok && m.JobMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JobMode: %s. Supported values are: %s.", m.JobMode, strings.Join(GetDataPumpJobModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

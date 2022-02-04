@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CachingRule The representation of CachingRule
@@ -47,6 +49,21 @@ func (m CachingRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CachingRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCachingRuleActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetCachingRuleActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CachingRuleActionEnum Enum with underlying type: string
 type CachingRuleActionEnum string
 
@@ -56,7 +73,7 @@ const (
 	CachingRuleActionBypassCache CachingRuleActionEnum = "BYPASS_CACHE"
 )
 
-var mappingCachingRuleAction = map[string]CachingRuleActionEnum{
+var mappingCachingRuleActionEnum = map[string]CachingRuleActionEnum{
 	"CACHE":        CachingRuleActionCache,
 	"BYPASS_CACHE": CachingRuleActionBypassCache,
 }
@@ -64,8 +81,16 @@ var mappingCachingRuleAction = map[string]CachingRuleActionEnum{
 // GetCachingRuleActionEnumValues Enumerates the set of values for CachingRuleActionEnum
 func GetCachingRuleActionEnumValues() []CachingRuleActionEnum {
 	values := make([]CachingRuleActionEnum, 0)
-	for _, v := range mappingCachingRuleAction {
+	for _, v := range mappingCachingRuleActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCachingRuleActionEnumStringValues Enumerates the set of values in String for CachingRuleActionEnum
+func GetCachingRuleActionEnumStringValues() []string {
+	return []string{
+		"CACHE",
+		"BYPASS_CACHE",
+	}
 }

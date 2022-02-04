@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateEntityShapeFromFile The file data entity details.
@@ -70,6 +72,21 @@ type CreateEntityShapeFromFile struct {
 
 func (m CreateEntityShapeFromFile) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateEntityShapeFromFile) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateEntityShapeFromFileEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetCreateEntityShapeFromFileEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -180,7 +197,7 @@ const (
 	CreateEntityShapeFromFileEntityTypeOther  CreateEntityShapeFromFileEntityTypeEnum = "OTHER"
 )
 
-var mappingCreateEntityShapeFromFileEntityType = map[string]CreateEntityShapeFromFileEntityTypeEnum{
+var mappingCreateEntityShapeFromFileEntityTypeEnum = map[string]CreateEntityShapeFromFileEntityTypeEnum{
 	"TABLE":  CreateEntityShapeFromFileEntityTypeTable,
 	"VIEW":   CreateEntityShapeFromFileEntityTypeView,
 	"FILE":   CreateEntityShapeFromFileEntityTypeFile,
@@ -192,8 +209,20 @@ var mappingCreateEntityShapeFromFileEntityType = map[string]CreateEntityShapeFro
 // GetCreateEntityShapeFromFileEntityTypeEnumValues Enumerates the set of values for CreateEntityShapeFromFileEntityTypeEnum
 func GetCreateEntityShapeFromFileEntityTypeEnumValues() []CreateEntityShapeFromFileEntityTypeEnum {
 	values := make([]CreateEntityShapeFromFileEntityTypeEnum, 0)
-	for _, v := range mappingCreateEntityShapeFromFileEntityType {
+	for _, v := range mappingCreateEntityShapeFromFileEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateEntityShapeFromFileEntityTypeEnumStringValues Enumerates the set of values in String for CreateEntityShapeFromFileEntityTypeEnum
+func GetCreateEntityShapeFromFileEntityTypeEnumStringValues() []string {
+	return []string{
+		"TABLE",
+		"VIEW",
+		"FILE",
+		"QUEUE",
+		"STREAM",
+		"OTHER",
+	}
 }

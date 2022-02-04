@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListUploadsRequest wrapper for the ListUploads operation
@@ -57,6 +59,10 @@ func (request ListUploadsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListUploadsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +76,26 @@ func (request ListUploadsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListUploadsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListUploadsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListUploadsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListUploadsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUploadsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListUploadsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUploadsWarningsFilterEnum[string(request.WarningsFilter)]; !ok && request.WarningsFilter != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WarningsFilter: %s. Supported values are: %s.", request.WarningsFilter, strings.Join(GetListUploadsWarningsFilterEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListUploadsResponse wrapper for the ListUploads operation
@@ -111,7 +137,7 @@ const (
 	ListUploadsSortOrderDesc ListUploadsSortOrderEnum = "DESC"
 )
 
-var mappingListUploadsSortOrder = map[string]ListUploadsSortOrderEnum{
+var mappingListUploadsSortOrderEnum = map[string]ListUploadsSortOrderEnum{
 	"ASC":  ListUploadsSortOrderAsc,
 	"DESC": ListUploadsSortOrderDesc,
 }
@@ -119,10 +145,18 @@ var mappingListUploadsSortOrder = map[string]ListUploadsSortOrderEnum{
 // GetListUploadsSortOrderEnumValues Enumerates the set of values for ListUploadsSortOrderEnum
 func GetListUploadsSortOrderEnumValues() []ListUploadsSortOrderEnum {
 	values := make([]ListUploadsSortOrderEnum, 0)
-	for _, v := range mappingListUploadsSortOrder {
+	for _, v := range mappingListUploadsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUploadsSortOrderEnumStringValues Enumerates the set of values in String for ListUploadsSortOrderEnum
+func GetListUploadsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListUploadsSortByEnum Enum with underlying type: string
@@ -135,7 +169,7 @@ const (
 	ListUploadsSortByName        ListUploadsSortByEnum = "name"
 )
 
-var mappingListUploadsSortBy = map[string]ListUploadsSortByEnum{
+var mappingListUploadsSortByEnum = map[string]ListUploadsSortByEnum{
 	"timeUpdated": ListUploadsSortByTimeupdated,
 	"timeCreated": ListUploadsSortByTimecreated,
 	"name":        ListUploadsSortByName,
@@ -144,10 +178,19 @@ var mappingListUploadsSortBy = map[string]ListUploadsSortByEnum{
 // GetListUploadsSortByEnumValues Enumerates the set of values for ListUploadsSortByEnum
 func GetListUploadsSortByEnumValues() []ListUploadsSortByEnum {
 	values := make([]ListUploadsSortByEnum, 0)
-	for _, v := range mappingListUploadsSortBy {
+	for _, v := range mappingListUploadsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUploadsSortByEnumStringValues Enumerates the set of values in String for ListUploadsSortByEnum
+func GetListUploadsSortByEnumStringValues() []string {
+	return []string{
+		"timeUpdated",
+		"timeCreated",
+		"name",
+	}
 }
 
 // ListUploadsWarningsFilterEnum Enum with underlying type: string
@@ -160,7 +203,7 @@ const (
 	ListUploadsWarningsFilterAll             ListUploadsWarningsFilterEnum = "ALL"
 )
 
-var mappingListUploadsWarningsFilter = map[string]ListUploadsWarningsFilterEnum{
+var mappingListUploadsWarningsFilterEnum = map[string]ListUploadsWarningsFilterEnum{
 	"WITH_WARNINGS":    ListUploadsWarningsFilterWithWarnings,
 	"WITHOUT_WARNINGS": ListUploadsWarningsFilterWithoutWarnings,
 	"ALL":              ListUploadsWarningsFilterAll,
@@ -169,8 +212,17 @@ var mappingListUploadsWarningsFilter = map[string]ListUploadsWarningsFilterEnum{
 // GetListUploadsWarningsFilterEnumValues Enumerates the set of values for ListUploadsWarningsFilterEnum
 func GetListUploadsWarningsFilterEnumValues() []ListUploadsWarningsFilterEnum {
 	values := make([]ListUploadsWarningsFilterEnum, 0)
-	for _, v := range mappingListUploadsWarningsFilter {
+	for _, v := range mappingListUploadsWarningsFilterEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUploadsWarningsFilterEnumStringValues Enumerates the set of values in String for ListUploadsWarningsFilterEnum
+func GetListUploadsWarningsFilterEnumStringValues() []string {
+	return []string{
+		"WITH_WARNINGS",
+		"WITHOUT_WARNINGS",
+		"ALL",
+	}
 }

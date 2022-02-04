@@ -22,7 +22,7 @@ const (
 	LogLifecycleStateFailed   LogLifecycleStateEnum = "FAILED"
 )
 
-var mappingLogLifecycleState = map[string]LogLifecycleStateEnum{
+var mappingLogLifecycleStateEnum = map[string]LogLifecycleStateEnum{
 	"CREATING": LogLifecycleStateCreating,
 	"ACTIVE":   LogLifecycleStateActive,
 	"UPDATING": LogLifecycleStateUpdating,
@@ -34,8 +34,20 @@ var mappingLogLifecycleState = map[string]LogLifecycleStateEnum{
 // GetLogLifecycleStateEnumValues Enumerates the set of values for LogLifecycleStateEnum
 func GetLogLifecycleStateEnumValues() []LogLifecycleStateEnum {
 	values := make([]LogLifecycleStateEnum, 0)
-	for _, v := range mappingLogLifecycleState {
+	for _, v := range mappingLogLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogLifecycleStateEnumStringValues Enumerates the set of values in String for LogLifecycleStateEnum
+func GetLogLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"INACTIVE",
+		"DELETING",
+		"FAILED",
+	}
 }

@@ -23,7 +23,7 @@ const (
 	SqlTuningTaskStatusTypesError       SqlTuningTaskStatusTypesEnum = "ERROR"
 )
 
-var mappingSqlTuningTaskStatusTypes = map[string]SqlTuningTaskStatusTypesEnum{
+var mappingSqlTuningTaskStatusTypesEnum = map[string]SqlTuningTaskStatusTypesEnum{
 	"COMPLETED":   SqlTuningTaskStatusTypesCompleted,
 	"INITIAL":     SqlTuningTaskStatusTypesInitial,
 	"EXECUTING":   SqlTuningTaskStatusTypesExecuting,
@@ -34,8 +34,19 @@ var mappingSqlTuningTaskStatusTypes = map[string]SqlTuningTaskStatusTypesEnum{
 // GetSqlTuningTaskStatusTypesEnumValues Enumerates the set of values for SqlTuningTaskStatusTypesEnum
 func GetSqlTuningTaskStatusTypesEnumValues() []SqlTuningTaskStatusTypesEnum {
 	values := make([]SqlTuningTaskStatusTypesEnum, 0)
-	for _, v := range mappingSqlTuningTaskStatusTypes {
+	for _, v := range mappingSqlTuningTaskStatusTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSqlTuningTaskStatusTypesEnumStringValues Enumerates the set of values in String for SqlTuningTaskStatusTypesEnum
+func GetSqlTuningTaskStatusTypesEnumStringValues() []string {
+	return []string{
+		"COMPLETED",
+		"INITIAL",
+		"EXECUTING",
+		"INTERRUPTED",
+		"ERROR",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Vnic A virtual network interface card. Each VNIC resides in a subnet in a VCN.
@@ -130,6 +132,21 @@ func (m Vnic) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Vnic) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVnicLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVnicLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VnicLifecycleStateEnum Enum with underlying type: string
 type VnicLifecycleStateEnum string
 
@@ -141,7 +158,7 @@ const (
 	VnicLifecycleStateTerminated   VnicLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingVnicLifecycleState = map[string]VnicLifecycleStateEnum{
+var mappingVnicLifecycleStateEnum = map[string]VnicLifecycleStateEnum{
 	"PROVISIONING": VnicLifecycleStateProvisioning,
 	"AVAILABLE":    VnicLifecycleStateAvailable,
 	"TERMINATING":  VnicLifecycleStateTerminating,
@@ -151,8 +168,18 @@ var mappingVnicLifecycleState = map[string]VnicLifecycleStateEnum{
 // GetVnicLifecycleStateEnumValues Enumerates the set of values for VnicLifecycleStateEnum
 func GetVnicLifecycleStateEnumValues() []VnicLifecycleStateEnum {
 	values := make([]VnicLifecycleStateEnum, 0)
-	for _, v := range mappingVnicLifecycleState {
+	for _, v := range mappingVnicLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVnicLifecycleStateEnumStringValues Enumerates the set of values in String for VnicLifecycleStateEnum
+func GetVnicLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateBootVolumeBackupDetails The representation of CreateBootVolumeBackupDetails
@@ -45,6 +47,21 @@ func (m CreateBootVolumeBackupDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateBootVolumeBackupDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateBootVolumeBackupDetailsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCreateBootVolumeBackupDetailsTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateBootVolumeBackupDetailsTypeEnum Enum with underlying type: string
 type CreateBootVolumeBackupDetailsTypeEnum string
 
@@ -54,7 +71,7 @@ const (
 	CreateBootVolumeBackupDetailsTypeIncremental CreateBootVolumeBackupDetailsTypeEnum = "INCREMENTAL"
 )
 
-var mappingCreateBootVolumeBackupDetailsType = map[string]CreateBootVolumeBackupDetailsTypeEnum{
+var mappingCreateBootVolumeBackupDetailsTypeEnum = map[string]CreateBootVolumeBackupDetailsTypeEnum{
 	"FULL":        CreateBootVolumeBackupDetailsTypeFull,
 	"INCREMENTAL": CreateBootVolumeBackupDetailsTypeIncremental,
 }
@@ -62,8 +79,16 @@ var mappingCreateBootVolumeBackupDetailsType = map[string]CreateBootVolumeBackup
 // GetCreateBootVolumeBackupDetailsTypeEnumValues Enumerates the set of values for CreateBootVolumeBackupDetailsTypeEnum
 func GetCreateBootVolumeBackupDetailsTypeEnumValues() []CreateBootVolumeBackupDetailsTypeEnum {
 	values := make([]CreateBootVolumeBackupDetailsTypeEnum, 0)
-	for _, v := range mappingCreateBootVolumeBackupDetailsType {
+	for _, v := range mappingCreateBootVolumeBackupDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateBootVolumeBackupDetailsTypeEnumStringValues Enumerates the set of values in String for CreateBootVolumeBackupDetailsTypeEnum
+func GetCreateBootVolumeBackupDetailsTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"INCREMENTAL",
+	}
 }

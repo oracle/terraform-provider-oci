@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExecutionLogPolicy Configures the logging policies for the execution logs of an API Deployment.
@@ -36,6 +38,21 @@ func (m ExecutionLogPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExecutionLogPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingExecutionLogPolicyLogLevelEnum[string(m.LogLevel)]; !ok && m.LogLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogLevel: %s. Supported values are: %s.", m.LogLevel, strings.Join(GetExecutionLogPolicyLogLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExecutionLogPolicyLogLevelEnum Enum with underlying type: string
 type ExecutionLogPolicyLogLevelEnum string
 
@@ -46,7 +63,7 @@ const (
 	ExecutionLogPolicyLogLevelError ExecutionLogPolicyLogLevelEnum = "ERROR"
 )
 
-var mappingExecutionLogPolicyLogLevel = map[string]ExecutionLogPolicyLogLevelEnum{
+var mappingExecutionLogPolicyLogLevelEnum = map[string]ExecutionLogPolicyLogLevelEnum{
 	"INFO":  ExecutionLogPolicyLogLevelInfo,
 	"WARN":  ExecutionLogPolicyLogLevelWarn,
 	"ERROR": ExecutionLogPolicyLogLevelError,
@@ -55,8 +72,17 @@ var mappingExecutionLogPolicyLogLevel = map[string]ExecutionLogPolicyLogLevelEnu
 // GetExecutionLogPolicyLogLevelEnumValues Enumerates the set of values for ExecutionLogPolicyLogLevelEnum
 func GetExecutionLogPolicyLogLevelEnumValues() []ExecutionLogPolicyLogLevelEnum {
 	values := make([]ExecutionLogPolicyLogLevelEnum, 0)
-	for _, v := range mappingExecutionLogPolicyLogLevel {
+	for _, v := range mappingExecutionLogPolicyLogLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExecutionLogPolicyLogLevelEnumStringValues Enumerates the set of values in String for ExecutionLogPolicyLogLevelEnum
+func GetExecutionLogPolicyLogLevelEnumStringValues() []string {
+	return []string{
+		"INFO",
+		"WARN",
+		"ERROR",
+	}
 }

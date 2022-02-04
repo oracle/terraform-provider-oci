@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MaintenanceWindow The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window.
@@ -42,6 +44,21 @@ func (m MaintenanceWindow) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MaintenanceWindow) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMaintenanceWindowPreferenceEnum[string(m.Preference)]; !ok && m.Preference != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Preference: %s. Supported values are: %s.", m.Preference, strings.Join(GetMaintenanceWindowPreferenceEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MaintenanceWindowPreferenceEnum Enum with underlying type: string
 type MaintenanceWindowPreferenceEnum string
 
@@ -51,7 +68,7 @@ const (
 	MaintenanceWindowPreferenceCustomPreference MaintenanceWindowPreferenceEnum = "CUSTOM_PREFERENCE"
 )
 
-var mappingMaintenanceWindowPreference = map[string]MaintenanceWindowPreferenceEnum{
+var mappingMaintenanceWindowPreferenceEnum = map[string]MaintenanceWindowPreferenceEnum{
 	"NO_PREFERENCE":     MaintenanceWindowPreferenceNoPreference,
 	"CUSTOM_PREFERENCE": MaintenanceWindowPreferenceCustomPreference,
 }
@@ -59,8 +76,16 @@ var mappingMaintenanceWindowPreference = map[string]MaintenanceWindowPreferenceE
 // GetMaintenanceWindowPreferenceEnumValues Enumerates the set of values for MaintenanceWindowPreferenceEnum
 func GetMaintenanceWindowPreferenceEnumValues() []MaintenanceWindowPreferenceEnum {
 	values := make([]MaintenanceWindowPreferenceEnum, 0)
-	for _, v := range mappingMaintenanceWindowPreference {
+	for _, v := range mappingMaintenanceWindowPreferenceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMaintenanceWindowPreferenceEnumStringValues Enumerates the set of values in String for MaintenanceWindowPreferenceEnum
+func GetMaintenanceWindowPreferenceEnumStringValues() []string {
+	return []string{
+		"NO_PREFERENCE",
+		"CUSTOM_PREFERENCE",
+	}
 }

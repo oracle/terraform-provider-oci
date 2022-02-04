@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Bucket A bucket is a container for storing objects in a compartment within a namespace. A bucket is associated with a single compartment.
@@ -113,6 +115,30 @@ func (m Bucket) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Bucket) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBucketPublicAccessTypeEnum[string(m.PublicAccessType)]; !ok && m.PublicAccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PublicAccessType: %s. Supported values are: %s.", m.PublicAccessType, strings.Join(GetBucketPublicAccessTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBucketStorageTierEnum[string(m.StorageTier)]; !ok && m.StorageTier != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageTier: %s. Supported values are: %s.", m.StorageTier, strings.Join(GetBucketStorageTierEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBucketVersioningEnum[string(m.Versioning)]; !ok && m.Versioning != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Versioning: %s. Supported values are: %s.", m.Versioning, strings.Join(GetBucketVersioningEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBucketAutoTieringEnum[string(m.AutoTiering)]; !ok && m.AutoTiering != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoTiering: %s. Supported values are: %s.", m.AutoTiering, strings.Join(GetBucketAutoTieringEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BucketPublicAccessTypeEnum Enum with underlying type: string
 type BucketPublicAccessTypeEnum string
 
@@ -123,7 +149,7 @@ const (
 	BucketPublicAccessTypeObjectreadwithoutlist BucketPublicAccessTypeEnum = "ObjectReadWithoutList"
 )
 
-var mappingBucketPublicAccessType = map[string]BucketPublicAccessTypeEnum{
+var mappingBucketPublicAccessTypeEnum = map[string]BucketPublicAccessTypeEnum{
 	"NoPublicAccess":        BucketPublicAccessTypeNopublicaccess,
 	"ObjectRead":            BucketPublicAccessTypeObjectread,
 	"ObjectReadWithoutList": BucketPublicAccessTypeObjectreadwithoutlist,
@@ -132,10 +158,19 @@ var mappingBucketPublicAccessType = map[string]BucketPublicAccessTypeEnum{
 // GetBucketPublicAccessTypeEnumValues Enumerates the set of values for BucketPublicAccessTypeEnum
 func GetBucketPublicAccessTypeEnumValues() []BucketPublicAccessTypeEnum {
 	values := make([]BucketPublicAccessTypeEnum, 0)
-	for _, v := range mappingBucketPublicAccessType {
+	for _, v := range mappingBucketPublicAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBucketPublicAccessTypeEnumStringValues Enumerates the set of values in String for BucketPublicAccessTypeEnum
+func GetBucketPublicAccessTypeEnumStringValues() []string {
+	return []string{
+		"NoPublicAccess",
+		"ObjectRead",
+		"ObjectReadWithoutList",
+	}
 }
 
 // BucketStorageTierEnum Enum with underlying type: string
@@ -147,7 +182,7 @@ const (
 	BucketStorageTierArchive  BucketStorageTierEnum = "Archive"
 )
 
-var mappingBucketStorageTier = map[string]BucketStorageTierEnum{
+var mappingBucketStorageTierEnum = map[string]BucketStorageTierEnum{
 	"Standard": BucketStorageTierStandard,
 	"Archive":  BucketStorageTierArchive,
 }
@@ -155,10 +190,18 @@ var mappingBucketStorageTier = map[string]BucketStorageTierEnum{
 // GetBucketStorageTierEnumValues Enumerates the set of values for BucketStorageTierEnum
 func GetBucketStorageTierEnumValues() []BucketStorageTierEnum {
 	values := make([]BucketStorageTierEnum, 0)
-	for _, v := range mappingBucketStorageTier {
+	for _, v := range mappingBucketStorageTierEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBucketStorageTierEnumStringValues Enumerates the set of values in String for BucketStorageTierEnum
+func GetBucketStorageTierEnumStringValues() []string {
+	return []string{
+		"Standard",
+		"Archive",
+	}
 }
 
 // BucketVersioningEnum Enum with underlying type: string
@@ -171,7 +214,7 @@ const (
 	BucketVersioningDisabled  BucketVersioningEnum = "Disabled"
 )
 
-var mappingBucketVersioning = map[string]BucketVersioningEnum{
+var mappingBucketVersioningEnum = map[string]BucketVersioningEnum{
 	"Enabled":   BucketVersioningEnabled,
 	"Suspended": BucketVersioningSuspended,
 	"Disabled":  BucketVersioningDisabled,
@@ -180,10 +223,19 @@ var mappingBucketVersioning = map[string]BucketVersioningEnum{
 // GetBucketVersioningEnumValues Enumerates the set of values for BucketVersioningEnum
 func GetBucketVersioningEnumValues() []BucketVersioningEnum {
 	values := make([]BucketVersioningEnum, 0)
-	for _, v := range mappingBucketVersioning {
+	for _, v := range mappingBucketVersioningEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBucketVersioningEnumStringValues Enumerates the set of values in String for BucketVersioningEnum
+func GetBucketVersioningEnumStringValues() []string {
+	return []string{
+		"Enabled",
+		"Suspended",
+		"Disabled",
+	}
 }
 
 // BucketAutoTieringEnum Enum with underlying type: string
@@ -195,7 +247,7 @@ const (
 	BucketAutoTieringInfrequentaccess BucketAutoTieringEnum = "InfrequentAccess"
 )
 
-var mappingBucketAutoTiering = map[string]BucketAutoTieringEnum{
+var mappingBucketAutoTieringEnum = map[string]BucketAutoTieringEnum{
 	"Disabled":         BucketAutoTieringDisabled,
 	"InfrequentAccess": BucketAutoTieringInfrequentaccess,
 }
@@ -203,8 +255,16 @@ var mappingBucketAutoTiering = map[string]BucketAutoTieringEnum{
 // GetBucketAutoTieringEnumValues Enumerates the set of values for BucketAutoTieringEnum
 func GetBucketAutoTieringEnumValues() []BucketAutoTieringEnum {
 	values := make([]BucketAutoTieringEnum, 0)
-	for _, v := range mappingBucketAutoTiering {
+	for _, v := range mappingBucketAutoTieringEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBucketAutoTieringEnumStringValues Enumerates the set of values in String for BucketAutoTieringEnum
+func GetBucketAutoTieringEnumStringValues() []string {
+	return []string{
+		"Disabled",
+		"InfrequentAccess",
+	}
 }

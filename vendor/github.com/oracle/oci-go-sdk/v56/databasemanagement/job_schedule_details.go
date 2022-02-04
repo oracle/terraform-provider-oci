@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // JobScheduleDetails The details of the job schedule.
@@ -35,6 +37,21 @@ func (m JobScheduleDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m JobScheduleDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingJobScheduleDetailsIntervalTypeEnum[string(m.IntervalType)]; !ok && m.IntervalType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IntervalType: %s. Supported values are: %s.", m.IntervalType, strings.Join(GetJobScheduleDetailsIntervalTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // JobScheduleDetailsIntervalTypeEnum Enum with underlying type: string
 type JobScheduleDetailsIntervalTypeEnum string
 
@@ -47,7 +64,7 @@ const (
 	JobScheduleDetailsIntervalTypeNever   JobScheduleDetailsIntervalTypeEnum = "NEVER"
 )
 
-var mappingJobScheduleDetailsIntervalType = map[string]JobScheduleDetailsIntervalTypeEnum{
+var mappingJobScheduleDetailsIntervalTypeEnum = map[string]JobScheduleDetailsIntervalTypeEnum{
 	"DAILY":   JobScheduleDetailsIntervalTypeDaily,
 	"HOURLY":  JobScheduleDetailsIntervalTypeHourly,
 	"WEEKLY":  JobScheduleDetailsIntervalTypeWeekly,
@@ -58,8 +75,19 @@ var mappingJobScheduleDetailsIntervalType = map[string]JobScheduleDetailsInterva
 // GetJobScheduleDetailsIntervalTypeEnumValues Enumerates the set of values for JobScheduleDetailsIntervalTypeEnum
 func GetJobScheduleDetailsIntervalTypeEnumValues() []JobScheduleDetailsIntervalTypeEnum {
 	values := make([]JobScheduleDetailsIntervalTypeEnum, 0)
-	for _, v := range mappingJobScheduleDetailsIntervalType {
+	for _, v := range mappingJobScheduleDetailsIntervalTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobScheduleDetailsIntervalTypeEnumStringValues Enumerates the set of values in String for JobScheduleDetailsIntervalTypeEnum
+func GetJobScheduleDetailsIntervalTypeEnumStringValues() []string {
+	return []string{
+		"DAILY",
+		"HOURLY",
+		"WEEKLY",
+		"MONTHLY",
+		"NEVER",
+	}
 }

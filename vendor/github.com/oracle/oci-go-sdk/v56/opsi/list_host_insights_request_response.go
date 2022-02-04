@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListHostInsightsRequest wrapper for the ListHostInsights operation
@@ -80,6 +82,10 @@ func (request ListHostInsightsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListHostInsightsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -93,6 +99,41 @@ func (request ListHostInsightsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListHostInsightsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListHostInsightsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Status {
+		if _, ok := mappingResourceStatusEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", val, strings.Join(GetResourceStatusEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingLifecycleStateEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.PlatformType {
+		if _, ok := mappingListHostInsightsPlatformTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetListHostInsightsPlatformTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListHostInsightsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListHostInsightsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListHostInsightsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListHostInsightsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListHostInsightsResponse wrapper for the ListHostInsights operation
@@ -136,7 +177,7 @@ const (
 	ListHostInsightsPlatformTypeSunos   ListHostInsightsPlatformTypeEnum = "SUNOS"
 )
 
-var mappingListHostInsightsPlatformType = map[string]ListHostInsightsPlatformTypeEnum{
+var mappingListHostInsightsPlatformTypeEnum = map[string]ListHostInsightsPlatformTypeEnum{
 	"LINUX":   ListHostInsightsPlatformTypeLinux,
 	"SOLARIS": ListHostInsightsPlatformTypeSolaris,
 	"SUNOS":   ListHostInsightsPlatformTypeSunos,
@@ -145,10 +186,19 @@ var mappingListHostInsightsPlatformType = map[string]ListHostInsightsPlatformTyp
 // GetListHostInsightsPlatformTypeEnumValues Enumerates the set of values for ListHostInsightsPlatformTypeEnum
 func GetListHostInsightsPlatformTypeEnumValues() []ListHostInsightsPlatformTypeEnum {
 	values := make([]ListHostInsightsPlatformTypeEnum, 0)
-	for _, v := range mappingListHostInsightsPlatformType {
+	for _, v := range mappingListHostInsightsPlatformTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHostInsightsPlatformTypeEnumStringValues Enumerates the set of values in String for ListHostInsightsPlatformTypeEnum
+func GetListHostInsightsPlatformTypeEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"SOLARIS",
+		"SUNOS",
+	}
 }
 
 // ListHostInsightsSortOrderEnum Enum with underlying type: string
@@ -160,7 +210,7 @@ const (
 	ListHostInsightsSortOrderDesc ListHostInsightsSortOrderEnum = "DESC"
 )
 
-var mappingListHostInsightsSortOrder = map[string]ListHostInsightsSortOrderEnum{
+var mappingListHostInsightsSortOrderEnum = map[string]ListHostInsightsSortOrderEnum{
 	"ASC":  ListHostInsightsSortOrderAsc,
 	"DESC": ListHostInsightsSortOrderDesc,
 }
@@ -168,10 +218,18 @@ var mappingListHostInsightsSortOrder = map[string]ListHostInsightsSortOrderEnum{
 // GetListHostInsightsSortOrderEnumValues Enumerates the set of values for ListHostInsightsSortOrderEnum
 func GetListHostInsightsSortOrderEnumValues() []ListHostInsightsSortOrderEnum {
 	values := make([]ListHostInsightsSortOrderEnum, 0)
-	for _, v := range mappingListHostInsightsSortOrder {
+	for _, v := range mappingListHostInsightsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHostInsightsSortOrderEnumStringValues Enumerates the set of values in String for ListHostInsightsSortOrderEnum
+func GetListHostInsightsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListHostInsightsSortByEnum Enum with underlying type: string
@@ -183,7 +241,7 @@ const (
 	ListHostInsightsSortByHosttype ListHostInsightsSortByEnum = "hostType"
 )
 
-var mappingListHostInsightsSortBy = map[string]ListHostInsightsSortByEnum{
+var mappingListHostInsightsSortByEnum = map[string]ListHostInsightsSortByEnum{
 	"hostName": ListHostInsightsSortByHostname,
 	"hostType": ListHostInsightsSortByHosttype,
 }
@@ -191,8 +249,16 @@ var mappingListHostInsightsSortBy = map[string]ListHostInsightsSortByEnum{
 // GetListHostInsightsSortByEnumValues Enumerates the set of values for ListHostInsightsSortByEnum
 func GetListHostInsightsSortByEnumValues() []ListHostInsightsSortByEnum {
 	values := make([]ListHostInsightsSortByEnum, 0)
-	for _, v := range mappingListHostInsightsSortBy {
+	for _, v := range mappingListHostInsightsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHostInsightsSortByEnumStringValues Enumerates the set of values in String for ListHostInsightsSortByEnum
+func GetListHostInsightsSortByEnumStringValues() []string {
+	return []string{
+		"hostName",
+		"hostType",
+	}
 }

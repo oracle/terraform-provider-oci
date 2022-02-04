@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetFolderRequest wrapper for the GetFolder operation
@@ -42,6 +44,10 @@ func (request GetFolderRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetFolderRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -55,6 +61,23 @@ func (request GetFolderRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetFolderRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetFolderRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Projection {
+		if _, ok := mappingGetFolderProjectionEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Projection: %s. Supported values are: %s.", val, strings.Join(GetGetFolderProjectionEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetFolderResponse wrapper for the GetFolder operation
@@ -91,15 +114,22 @@ const (
 	GetFolderProjectionChildCountStatistics GetFolderProjectionEnum = "CHILD_COUNT_STATISTICS"
 )
 
-var mappingGetFolderProjection = map[string]GetFolderProjectionEnum{
+var mappingGetFolderProjectionEnum = map[string]GetFolderProjectionEnum{
 	"CHILD_COUNT_STATISTICS": GetFolderProjectionChildCountStatistics,
 }
 
 // GetGetFolderProjectionEnumValues Enumerates the set of values for GetFolderProjectionEnum
 func GetGetFolderProjectionEnumValues() []GetFolderProjectionEnum {
 	values := make([]GetFolderProjectionEnum, 0)
-	for _, v := range mappingGetFolderProjection {
+	for _, v := range mappingGetFolderProjectionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetFolderProjectionEnumStringValues Enumerates the set of values in String for GetFolderProjectionEnum
+func GetGetFolderProjectionEnumStringValues() []string {
+	return []string{
+		"CHILD_COUNT_STATISTICS",
+	}
 }

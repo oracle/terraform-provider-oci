@@ -18,7 +18,7 @@ const (
 	MigrationTypesOffline MigrationTypesEnum = "OFFLINE"
 )
 
-var mappingMigrationTypes = map[string]MigrationTypesEnum{
+var mappingMigrationTypesEnum = map[string]MigrationTypesEnum{
 	"ONLINE":  MigrationTypesOnline,
 	"OFFLINE": MigrationTypesOffline,
 }
@@ -26,8 +26,16 @@ var mappingMigrationTypes = map[string]MigrationTypesEnum{
 // GetMigrationTypesEnumValues Enumerates the set of values for MigrationTypesEnum
 func GetMigrationTypesEnumValues() []MigrationTypesEnum {
 	values := make([]MigrationTypesEnum, 0)
-	for _, v := range mappingMigrationTypes {
+	for _, v := range mappingMigrationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMigrationTypesEnumStringValues Enumerates the set of values in String for MigrationTypesEnum
+func GetMigrationTypesEnumStringValues() []string {
+	return []string{
+		"ONLINE",
+		"OFFLINE",
+	}
 }

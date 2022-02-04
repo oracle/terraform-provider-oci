@@ -11,7 +11,9 @@ package certificatesmanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateCertificateAuthorityConfigDetails The configuration details for updating a certificate authority (CA).
@@ -87,6 +89,21 @@ func (m updatecertificateauthorityconfigdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m updatecertificateauthorityconfigdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateCertificateAuthorityConfigDetailsStageEnum[string(m.Stage)]; !ok && m.Stage != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Stage: %s. Supported values are: %s.", m.Stage, strings.Join(GetUpdateCertificateAuthorityConfigDetailsStageEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateCertificateAuthorityConfigDetailsStageEnum Enum with underlying type: string
 type UpdateCertificateAuthorityConfigDetailsStageEnum string
 
@@ -96,7 +113,7 @@ const (
 	UpdateCertificateAuthorityConfigDetailsStagePending UpdateCertificateAuthorityConfigDetailsStageEnum = "PENDING"
 )
 
-var mappingUpdateCertificateAuthorityConfigDetailsStage = map[string]UpdateCertificateAuthorityConfigDetailsStageEnum{
+var mappingUpdateCertificateAuthorityConfigDetailsStageEnum = map[string]UpdateCertificateAuthorityConfigDetailsStageEnum{
 	"CURRENT": UpdateCertificateAuthorityConfigDetailsStageCurrent,
 	"PENDING": UpdateCertificateAuthorityConfigDetailsStagePending,
 }
@@ -104,8 +121,16 @@ var mappingUpdateCertificateAuthorityConfigDetailsStage = map[string]UpdateCerti
 // GetUpdateCertificateAuthorityConfigDetailsStageEnumValues Enumerates the set of values for UpdateCertificateAuthorityConfigDetailsStageEnum
 func GetUpdateCertificateAuthorityConfigDetailsStageEnumValues() []UpdateCertificateAuthorityConfigDetailsStageEnum {
 	values := make([]UpdateCertificateAuthorityConfigDetailsStageEnum, 0)
-	for _, v := range mappingUpdateCertificateAuthorityConfigDetailsStage {
+	for _, v := range mappingUpdateCertificateAuthorityConfigDetailsStageEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateCertificateAuthorityConfigDetailsStageEnumStringValues Enumerates the set of values in String for UpdateCertificateAuthorityConfigDetailsStageEnum
+func GetUpdateCertificateAuthorityConfigDetailsStageEnumStringValues() []string {
+	return []string{
+		"CURRENT",
+		"PENDING",
+	}
 }

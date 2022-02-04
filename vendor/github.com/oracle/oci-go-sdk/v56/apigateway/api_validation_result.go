@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ApiValidationResult The result of single validation.
@@ -29,6 +31,21 @@ func (m ApiValidationResult) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ApiValidationResult) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingApiValidationResultResultEnum[string(m.Result)]; !ok && m.Result != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Result: %s. Supported values are: %s.", m.Result, strings.Join(GetApiValidationResultResultEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ApiValidationResultResultEnum Enum with underlying type: string
 type ApiValidationResultResultEnum string
 
@@ -40,7 +57,7 @@ const (
 	ApiValidationResultResultFailed  ApiValidationResultResultEnum = "FAILED"
 )
 
-var mappingApiValidationResultResult = map[string]ApiValidationResultResultEnum{
+var mappingApiValidationResultResultEnum = map[string]ApiValidationResultResultEnum{
 	"ERROR":   ApiValidationResultResultError,
 	"WARNING": ApiValidationResultResultWarning,
 	"OK":      ApiValidationResultResultOk,
@@ -50,8 +67,18 @@ var mappingApiValidationResultResult = map[string]ApiValidationResultResultEnum{
 // GetApiValidationResultResultEnumValues Enumerates the set of values for ApiValidationResultResultEnum
 func GetApiValidationResultResultEnumValues() []ApiValidationResultResultEnum {
 	values := make([]ApiValidationResultResultEnum, 0)
-	for _, v := range mappingApiValidationResultResult {
+	for _, v := range mappingApiValidationResultResultEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApiValidationResultResultEnumStringValues Enumerates the set of values in String for ApiValidationResultResultEnum
+func GetApiValidationResultResultEnumStringValues() []string {
+	return []string{
+		"ERROR",
+		"WARNING",
+		"OK",
+		"FAILED",
+	}
 }

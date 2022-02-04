@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ExtractStructuredLogHeaderPathsRequest wrapper for the ExtractStructuredLogHeaderPaths operation
@@ -47,6 +49,10 @@ func (request ExtractStructuredLogHeaderPathsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ExtractStructuredLogHeaderPathsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -60,6 +66,20 @@ func (request ExtractStructuredLogHeaderPathsRequest) BinaryRequestBody() (*comm
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ExtractStructuredLogHeaderPathsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ExtractStructuredLogHeaderPathsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExtractStructuredLogHeaderPathsParserTypeEnum[string(request.ParserType)]; !ok && request.ParserType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ParserType: %s. Supported values are: %s.", request.ParserType, strings.Join(GetExtractStructuredLogHeaderPathsParserTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ExtractStructuredLogHeaderPathsResponse wrapper for the ExtractStructuredLogHeaderPaths operation
@@ -94,7 +114,7 @@ const (
 	ExtractStructuredLogHeaderPathsParserTypeDelimited ExtractStructuredLogHeaderPathsParserTypeEnum = "DELIMITED"
 )
 
-var mappingExtractStructuredLogHeaderPathsParserType = map[string]ExtractStructuredLogHeaderPathsParserTypeEnum{
+var mappingExtractStructuredLogHeaderPathsParserTypeEnum = map[string]ExtractStructuredLogHeaderPathsParserTypeEnum{
 	"XML":       ExtractStructuredLogHeaderPathsParserTypeXml,
 	"JSON":      ExtractStructuredLogHeaderPathsParserTypeJson,
 	"DELIMITED": ExtractStructuredLogHeaderPathsParserTypeDelimited,
@@ -103,8 +123,17 @@ var mappingExtractStructuredLogHeaderPathsParserType = map[string]ExtractStructu
 // GetExtractStructuredLogHeaderPathsParserTypeEnumValues Enumerates the set of values for ExtractStructuredLogHeaderPathsParserTypeEnum
 func GetExtractStructuredLogHeaderPathsParserTypeEnumValues() []ExtractStructuredLogHeaderPathsParserTypeEnum {
 	values := make([]ExtractStructuredLogHeaderPathsParserTypeEnum, 0)
-	for _, v := range mappingExtractStructuredLogHeaderPathsParserType {
+	for _, v := range mappingExtractStructuredLogHeaderPathsParserTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExtractStructuredLogHeaderPathsParserTypeEnumStringValues Enumerates the set of values in String for ExtractStructuredLogHeaderPathsParserTypeEnum
+func GetExtractStructuredLogHeaderPathsParserTypeEnumStringValues() []string {
+	return []string{
+		"XML",
+		"JSON",
+		"DELIMITED",
+	}
 }

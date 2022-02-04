@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TaggingWorkRequest The asynchronous API request does not take effect immediately. This request spawns an asynchronous
@@ -52,6 +54,24 @@ func (m TaggingWorkRequest) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TaggingWorkRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTaggingWorkRequestOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetTaggingWorkRequestOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaggingWorkRequestStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetTaggingWorkRequestStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TaggingWorkRequestOperationTypeEnum Enum with underlying type: string
 type TaggingWorkRequestOperationTypeEnum string
 
@@ -64,7 +84,7 @@ const (
 	TaggingWorkRequestOperationTypeImportStandardTags         TaggingWorkRequestOperationTypeEnum = "IMPORT_STANDARD_TAGS"
 )
 
-var mappingTaggingWorkRequestOperationType = map[string]TaggingWorkRequestOperationTypeEnum{
+var mappingTaggingWorkRequestOperationTypeEnum = map[string]TaggingWorkRequestOperationTypeEnum{
 	"DELETE_TAG_DEFINITION":          TaggingWorkRequestOperationTypeDeleteTagDefinition,
 	"DELETE_NON_EMPTY_TAG_NAMESPACE": TaggingWorkRequestOperationTypeDeleteNonEmptyTagNamespace,
 	"BULK_DELETE_TAG_DEFINITION":     TaggingWorkRequestOperationTypeBulkDeleteTagDefinition,
@@ -75,10 +95,21 @@ var mappingTaggingWorkRequestOperationType = map[string]TaggingWorkRequestOperat
 // GetTaggingWorkRequestOperationTypeEnumValues Enumerates the set of values for TaggingWorkRequestOperationTypeEnum
 func GetTaggingWorkRequestOperationTypeEnumValues() []TaggingWorkRequestOperationTypeEnum {
 	values := make([]TaggingWorkRequestOperationTypeEnum, 0)
-	for _, v := range mappingTaggingWorkRequestOperationType {
+	for _, v := range mappingTaggingWorkRequestOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaggingWorkRequestOperationTypeEnumStringValues Enumerates the set of values in String for TaggingWorkRequestOperationTypeEnum
+func GetTaggingWorkRequestOperationTypeEnumStringValues() []string {
+	return []string{
+		"DELETE_TAG_DEFINITION",
+		"DELETE_NON_EMPTY_TAG_NAMESPACE",
+		"BULK_DELETE_TAG_DEFINITION",
+		"BULK_EDIT_OF_TAGS",
+		"IMPORT_STANDARD_TAGS",
+	}
 }
 
 // TaggingWorkRequestStatusEnum Enum with underlying type: string
@@ -95,7 +126,7 @@ const (
 	TaggingWorkRequestStatusCanceled           TaggingWorkRequestStatusEnum = "CANCELED"
 )
 
-var mappingTaggingWorkRequestStatus = map[string]TaggingWorkRequestStatusEnum{
+var mappingTaggingWorkRequestStatusEnum = map[string]TaggingWorkRequestStatusEnum{
 	"ACCEPTED":            TaggingWorkRequestStatusAccepted,
 	"IN_PROGRESS":         TaggingWorkRequestStatusInProgress,
 	"FAILED":              TaggingWorkRequestStatusFailed,
@@ -108,8 +139,21 @@ var mappingTaggingWorkRequestStatus = map[string]TaggingWorkRequestStatusEnum{
 // GetTaggingWorkRequestStatusEnumValues Enumerates the set of values for TaggingWorkRequestStatusEnum
 func GetTaggingWorkRequestStatusEnumValues() []TaggingWorkRequestStatusEnum {
 	values := make([]TaggingWorkRequestStatusEnum, 0)
-	for _, v := range mappingTaggingWorkRequestStatus {
+	for _, v := range mappingTaggingWorkRequestStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaggingWorkRequestStatusEnumStringValues Enumerates the set of values in String for TaggingWorkRequestStatusEnum
+func GetTaggingWorkRequestStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"PARTIALLY_SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

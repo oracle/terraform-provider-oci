@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetPdbMetricsRequest wrapper for the GetPdbMetrics operation
@@ -51,6 +53,10 @@ func (request GetPdbMetricsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetPdbMetricsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +70,20 @@ func (request GetPdbMetricsRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetPdbMetricsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetPdbMetricsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetPdbMetricsCompareTypeEnum[string(request.CompareType)]; !ok && request.CompareType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CompareType: %s. Supported values are: %s.", request.CompareType, strings.Join(GetGetPdbMetricsCompareTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetPdbMetricsResponse wrapper for the GetPdbMetrics operation
@@ -98,7 +118,7 @@ const (
 	GetPdbMetricsCompareTypeDay  GetPdbMetricsCompareTypeEnum = "DAY"
 )
 
-var mappingGetPdbMetricsCompareType = map[string]GetPdbMetricsCompareTypeEnum{
+var mappingGetPdbMetricsCompareTypeEnum = map[string]GetPdbMetricsCompareTypeEnum{
 	"HOUR": GetPdbMetricsCompareTypeHour,
 	"DAY":  GetPdbMetricsCompareTypeDay,
 }
@@ -106,8 +126,16 @@ var mappingGetPdbMetricsCompareType = map[string]GetPdbMetricsCompareTypeEnum{
 // GetGetPdbMetricsCompareTypeEnumValues Enumerates the set of values for GetPdbMetricsCompareTypeEnum
 func GetGetPdbMetricsCompareTypeEnumValues() []GetPdbMetricsCompareTypeEnum {
 	values := make([]GetPdbMetricsCompareTypeEnum, 0)
-	for _, v := range mappingGetPdbMetricsCompareType {
+	for _, v := range mappingGetPdbMetricsCompareTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetPdbMetricsCompareTypeEnumStringValues Enumerates the set of values in String for GetPdbMetricsCompareTypeEnum
+func GetGetPdbMetricsCompareTypeEnumStringValues() []string {
+	return []string{
+		"HOUR",
+		"DAY",
+	}
 }

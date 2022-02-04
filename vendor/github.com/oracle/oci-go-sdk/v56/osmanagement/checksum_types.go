@@ -21,7 +21,7 @@ const (
 	ChecksumTypesSha512 ChecksumTypesEnum = "SHA512"
 )
 
-var mappingChecksumTypes = map[string]ChecksumTypesEnum{
+var mappingChecksumTypesEnum = map[string]ChecksumTypesEnum{
 	"SHA1":   ChecksumTypesSha1,
 	"SHA256": ChecksumTypesSha256,
 	"SHA384": ChecksumTypesSha384,
@@ -31,8 +31,18 @@ var mappingChecksumTypes = map[string]ChecksumTypesEnum{
 // GetChecksumTypesEnumValues Enumerates the set of values for ChecksumTypesEnum
 func GetChecksumTypesEnumValues() []ChecksumTypesEnum {
 	values := make([]ChecksumTypesEnum, 0)
-	for _, v := range mappingChecksumTypes {
+	for _, v := range mappingChecksumTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetChecksumTypesEnumStringValues Enumerates the set of values in String for ChecksumTypesEnum
+func GetChecksumTypesEnumStringValues() []string {
+	return []string{
+		"SHA1",
+		"SHA256",
+		"SHA384",
+		"SHA512",
+	}
 }

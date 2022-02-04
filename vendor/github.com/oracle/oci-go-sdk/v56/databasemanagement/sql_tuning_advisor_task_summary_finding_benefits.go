@@ -12,25 +12,39 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// SqlTuningAdvisorTaskSummaryFindingBenefits The finding benefits data for the SQL Tuning Advisor summary report.
+// SqlTuningAdvisorTaskSummaryFindingBenefits The benefits of the findings in the SQL Tuning Advisor summary report.
 type SqlTuningAdvisorTaskSummaryFindingBenefits struct {
 
-	// The count of Potential database time before SQL recommendations are implemented.
+	// The actual database time of the SQL statements for which SQL Tuning Advisor recommendations are not implemented.
 	DbTimeBeforeRecommended *int `mandatory:"true" json:"dbTimeBeforeRecommended"`
 
-	// The count of Potential database time after SQL recommendations are implemented.
+	// The estimated database time of the above SQL statements, if SQL Tuning Advisor recommendations are implemented.
 	DbTimeAfterRecommended *int `mandatory:"true" json:"dbTimeAfterRecommended"`
 
-	// The count of database time benefit before SQL recommendations are implemented.
-	DbTimeBeforeImplemented *int `mandatory:"true" json:"dbTimeBeforeImplemented"`
-
-	// The count of database time benefit after SQL recommendations are implemented.
+	// The actual database time of the SQL statements for which SQL Tuning Advisor recommendations are implemented.
 	DbTimeAfterImplemented *int `mandatory:"true" json:"dbTimeAfterImplemented"`
+
+	// The actual database time of the above SQL statements, before SQL Tuning Advisor recommendations are implemented.
+	DbTimeBeforeImplemented *int `mandatory:"true" json:"dbTimeBeforeImplemented"`
 }
 
 func (m SqlTuningAdvisorTaskSummaryFindingBenefits) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningAdvisorTaskSummaryFindingBenefits) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

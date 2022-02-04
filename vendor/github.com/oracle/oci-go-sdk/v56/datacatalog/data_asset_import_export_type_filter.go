@@ -19,7 +19,7 @@ const (
 	DataAssetImportExportTypeFilterAll                  DataAssetImportExportTypeFilterEnum = "ALL"
 )
 
-var mappingDataAssetImportExportTypeFilter = map[string]DataAssetImportExportTypeFilterEnum{
+var mappingDataAssetImportExportTypeFilterEnum = map[string]DataAssetImportExportTypeFilterEnum{
 	"CUSTOM_PROPERTY_VALUES": DataAssetImportExportTypeFilterCustomPropertyValues,
 	"ALL":                    DataAssetImportExportTypeFilterAll,
 }
@@ -27,8 +27,16 @@ var mappingDataAssetImportExportTypeFilter = map[string]DataAssetImportExportTyp
 // GetDataAssetImportExportTypeFilterEnumValues Enumerates the set of values for DataAssetImportExportTypeFilterEnum
 func GetDataAssetImportExportTypeFilterEnumValues() []DataAssetImportExportTypeFilterEnum {
 	values := make([]DataAssetImportExportTypeFilterEnum, 0)
-	for _, v := range mappingDataAssetImportExportTypeFilter {
+	for _, v := range mappingDataAssetImportExportTypeFilterEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataAssetImportExportTypeFilterEnumStringValues Enumerates the set of values in String for DataAssetImportExportTypeFilterEnum
+func GetDataAssetImportExportTypeFilterEnumStringValues() []string {
+	return []string{
+		"CUSTOM_PROPERTY_VALUES",
+		"ALL",
+	}
 }

@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LoadBalancerHealthSummary A health status summary for the specified load balancer.
@@ -38,6 +40,21 @@ func (m LoadBalancerHealthSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LoadBalancerHealthSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLoadBalancerHealthSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetLoadBalancerHealthSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LoadBalancerHealthSummaryStatusEnum Enum with underlying type: string
 type LoadBalancerHealthSummaryStatusEnum string
 
@@ -49,7 +66,7 @@ const (
 	LoadBalancerHealthSummaryStatusUnknown  LoadBalancerHealthSummaryStatusEnum = "UNKNOWN"
 )
 
-var mappingLoadBalancerHealthSummaryStatus = map[string]LoadBalancerHealthSummaryStatusEnum{
+var mappingLoadBalancerHealthSummaryStatusEnum = map[string]LoadBalancerHealthSummaryStatusEnum{
 	"OK":       LoadBalancerHealthSummaryStatusOk,
 	"WARNING":  LoadBalancerHealthSummaryStatusWarning,
 	"CRITICAL": LoadBalancerHealthSummaryStatusCritical,
@@ -59,8 +76,18 @@ var mappingLoadBalancerHealthSummaryStatus = map[string]LoadBalancerHealthSummar
 // GetLoadBalancerHealthSummaryStatusEnumValues Enumerates the set of values for LoadBalancerHealthSummaryStatusEnum
 func GetLoadBalancerHealthSummaryStatusEnumValues() []LoadBalancerHealthSummaryStatusEnum {
 	values := make([]LoadBalancerHealthSummaryStatusEnum, 0)
-	for _, v := range mappingLoadBalancerHealthSummaryStatus {
+	for _, v := range mappingLoadBalancerHealthSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLoadBalancerHealthSummaryStatusEnumStringValues Enumerates the set of values in String for LoadBalancerHealthSummaryStatusEnum
+func GetLoadBalancerHealthSummaryStatusEnumStringValues() []string {
+	return []string{
+		"OK",
+		"WARNING",
+		"CRITICAL",
+		"UNKNOWN",
+	}
 }

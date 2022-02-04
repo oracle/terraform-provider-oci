@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListVirtualCircuitsRequest wrapper for the ListVirtualCircuits operation
@@ -66,6 +68,10 @@ func (request ListVirtualCircuitsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVirtualCircuitsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,26 @@ func (request ListVirtualCircuitsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVirtualCircuitsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVirtualCircuitsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListVirtualCircuitsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListVirtualCircuitsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListVirtualCircuitsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListVirtualCircuitsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVirtualCircuitLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetVirtualCircuitLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVirtualCircuitsResponse wrapper for the ListVirtualCircuits operation
@@ -118,7 +144,7 @@ const (
 	ListVirtualCircuitsSortByDisplayname ListVirtualCircuitsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListVirtualCircuitsSortBy = map[string]ListVirtualCircuitsSortByEnum{
+var mappingListVirtualCircuitsSortByEnum = map[string]ListVirtualCircuitsSortByEnum{
 	"TIMECREATED": ListVirtualCircuitsSortByTimecreated,
 	"DISPLAYNAME": ListVirtualCircuitsSortByDisplayname,
 }
@@ -126,10 +152,18 @@ var mappingListVirtualCircuitsSortBy = map[string]ListVirtualCircuitsSortByEnum{
 // GetListVirtualCircuitsSortByEnumValues Enumerates the set of values for ListVirtualCircuitsSortByEnum
 func GetListVirtualCircuitsSortByEnumValues() []ListVirtualCircuitsSortByEnum {
 	values := make([]ListVirtualCircuitsSortByEnum, 0)
-	for _, v := range mappingListVirtualCircuitsSortBy {
+	for _, v := range mappingListVirtualCircuitsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVirtualCircuitsSortByEnumStringValues Enumerates the set of values in String for ListVirtualCircuitsSortByEnum
+func GetListVirtualCircuitsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListVirtualCircuitsSortOrderEnum Enum with underlying type: string
@@ -141,7 +175,7 @@ const (
 	ListVirtualCircuitsSortOrderDesc ListVirtualCircuitsSortOrderEnum = "DESC"
 )
 
-var mappingListVirtualCircuitsSortOrder = map[string]ListVirtualCircuitsSortOrderEnum{
+var mappingListVirtualCircuitsSortOrderEnum = map[string]ListVirtualCircuitsSortOrderEnum{
 	"ASC":  ListVirtualCircuitsSortOrderAsc,
 	"DESC": ListVirtualCircuitsSortOrderDesc,
 }
@@ -149,8 +183,16 @@ var mappingListVirtualCircuitsSortOrder = map[string]ListVirtualCircuitsSortOrde
 // GetListVirtualCircuitsSortOrderEnumValues Enumerates the set of values for ListVirtualCircuitsSortOrderEnum
 func GetListVirtualCircuitsSortOrderEnumValues() []ListVirtualCircuitsSortOrderEnum {
 	values := make([]ListVirtualCircuitsSortOrderEnum, 0)
-	for _, v := range mappingListVirtualCircuitsSortOrder {
+	for _, v := range mappingListVirtualCircuitsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVirtualCircuitsSortOrderEnumStringValues Enumerates the set of values in String for ListVirtualCircuitsSortOrderEnum
+func GetListVirtualCircuitsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

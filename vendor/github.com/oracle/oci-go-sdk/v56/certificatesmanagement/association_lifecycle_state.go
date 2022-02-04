@@ -21,7 +21,7 @@ const (
 	AssociationLifecycleStateFailed   AssociationLifecycleStateEnum = "FAILED"
 )
 
-var mappingAssociationLifecycleState = map[string]AssociationLifecycleStateEnum{
+var mappingAssociationLifecycleStateEnum = map[string]AssociationLifecycleStateEnum{
 	"CREATING": AssociationLifecycleStateCreating,
 	"ACTIVE":   AssociationLifecycleStateActive,
 	"UPDATING": AssociationLifecycleStateUpdating,
@@ -32,8 +32,19 @@ var mappingAssociationLifecycleState = map[string]AssociationLifecycleStateEnum{
 // GetAssociationLifecycleStateEnumValues Enumerates the set of values for AssociationLifecycleStateEnum
 func GetAssociationLifecycleStateEnumValues() []AssociationLifecycleStateEnum {
 	values := make([]AssociationLifecycleStateEnum, 0)
-	for _, v := range mappingAssociationLifecycleState {
+	for _, v := range mappingAssociationLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAssociationLifecycleStateEnumStringValues Enumerates the set of values in String for AssociationLifecycleStateEnum
+func GetAssociationLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"FAILED",
+	}
 }

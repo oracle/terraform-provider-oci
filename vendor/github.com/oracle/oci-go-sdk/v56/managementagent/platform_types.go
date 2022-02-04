@@ -19,7 +19,7 @@ const (
 	PlatformTypesSolaris PlatformTypesEnum = "SOLARIS"
 )
 
-var mappingPlatformTypes = map[string]PlatformTypesEnum{
+var mappingPlatformTypesEnum = map[string]PlatformTypesEnum{
 	"LINUX":   PlatformTypesLinux,
 	"WINDOWS": PlatformTypesWindows,
 	"SOLARIS": PlatformTypesSolaris,
@@ -28,8 +28,17 @@ var mappingPlatformTypes = map[string]PlatformTypesEnum{
 // GetPlatformTypesEnumValues Enumerates the set of values for PlatformTypesEnum
 func GetPlatformTypesEnumValues() []PlatformTypesEnum {
 	values := make([]PlatformTypesEnum, 0)
-	for _, v := range mappingPlatformTypes {
+	for _, v := range mappingPlatformTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPlatformTypesEnumStringValues Enumerates the set of values in String for PlatformTypesEnum
+func GetPlatformTypesEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"WINDOWS",
+		"SOLARIS",
+	}
 }

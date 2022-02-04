@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExternalPluggableDatabaseSummary An Oracle Cloud Infrastructure resource that allows you to manage an external pluggable database.
@@ -90,6 +92,27 @@ func (m ExternalPluggableDatabaseSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExternalPluggableDatabaseSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExternalPluggableDatabaseSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExternalPluggableDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingExternalPluggableDatabaseSummaryDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetExternalPluggableDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExternalPluggableDatabaseSummaryDatabaseConfigurationEnum[string(m.DatabaseConfiguration)]; !ok && m.DatabaseConfiguration != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseConfiguration: %s. Supported values are: %s.", m.DatabaseConfiguration, strings.Join(GetExternalPluggableDatabaseSummaryDatabaseConfigurationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExternalPluggableDatabaseSummaryLifecycleStateEnum Enum with underlying type: string
 type ExternalPluggableDatabaseSummaryLifecycleStateEnum string
 
@@ -104,7 +127,7 @@ const (
 	ExternalPluggableDatabaseSummaryLifecycleStateFailed       ExternalPluggableDatabaseSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingExternalPluggableDatabaseSummaryLifecycleState = map[string]ExternalPluggableDatabaseSummaryLifecycleStateEnum{
+var mappingExternalPluggableDatabaseSummaryLifecycleStateEnum = map[string]ExternalPluggableDatabaseSummaryLifecycleStateEnum{
 	"PROVISIONING":  ExternalPluggableDatabaseSummaryLifecycleStateProvisioning,
 	"NOT_CONNECTED": ExternalPluggableDatabaseSummaryLifecycleStateNotConnected,
 	"AVAILABLE":     ExternalPluggableDatabaseSummaryLifecycleStateAvailable,
@@ -117,10 +140,23 @@ var mappingExternalPluggableDatabaseSummaryLifecycleState = map[string]ExternalP
 // GetExternalPluggableDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for ExternalPluggableDatabaseSummaryLifecycleStateEnum
 func GetExternalPluggableDatabaseSummaryLifecycleStateEnumValues() []ExternalPluggableDatabaseSummaryLifecycleStateEnum {
 	values := make([]ExternalPluggableDatabaseSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingExternalPluggableDatabaseSummaryLifecycleState {
+	for _, v := range mappingExternalPluggableDatabaseSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalPluggableDatabaseSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ExternalPluggableDatabaseSummaryLifecycleStateEnum
+func GetExternalPluggableDatabaseSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"NOT_CONNECTED",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }
 
 // ExternalPluggableDatabaseSummaryDatabaseEditionEnum Enum with underlying type: string
@@ -134,7 +170,7 @@ const (
 	ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance ExternalPluggableDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 )
 
-var mappingExternalPluggableDatabaseSummaryDatabaseEdition = map[string]ExternalPluggableDatabaseSummaryDatabaseEditionEnum{
+var mappingExternalPluggableDatabaseSummaryDatabaseEditionEnum = map[string]ExternalPluggableDatabaseSummaryDatabaseEditionEnum{
 	"STANDARD_EDITION":                       ExternalPluggableDatabaseSummaryDatabaseEditionStandardEdition,
 	"ENTERPRISE_EDITION":                     ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    ExternalPluggableDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance,
@@ -144,10 +180,20 @@ var mappingExternalPluggableDatabaseSummaryDatabaseEdition = map[string]External
 // GetExternalPluggableDatabaseSummaryDatabaseEditionEnumValues Enumerates the set of values for ExternalPluggableDatabaseSummaryDatabaseEditionEnum
 func GetExternalPluggableDatabaseSummaryDatabaseEditionEnumValues() []ExternalPluggableDatabaseSummaryDatabaseEditionEnum {
 	values := make([]ExternalPluggableDatabaseSummaryDatabaseEditionEnum, 0)
-	for _, v := range mappingExternalPluggableDatabaseSummaryDatabaseEdition {
+	for _, v := range mappingExternalPluggableDatabaseSummaryDatabaseEditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalPluggableDatabaseSummaryDatabaseEditionEnumStringValues Enumerates the set of values in String for ExternalPluggableDatabaseSummaryDatabaseEditionEnum
+func GetExternalPluggableDatabaseSummaryDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+	}
 }
 
 // ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum Enum with underlying type: string
@@ -159,7 +205,7 @@ const (
 	ExternalPluggableDatabaseSummaryDatabaseConfigurationSingleInstance ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum = "SINGLE_INSTANCE"
 )
 
-var mappingExternalPluggableDatabaseSummaryDatabaseConfiguration = map[string]ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum{
+var mappingExternalPluggableDatabaseSummaryDatabaseConfigurationEnum = map[string]ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum{
 	"RAC":             ExternalPluggableDatabaseSummaryDatabaseConfigurationRac,
 	"SINGLE_INSTANCE": ExternalPluggableDatabaseSummaryDatabaseConfigurationSingleInstance,
 }
@@ -167,8 +213,16 @@ var mappingExternalPluggableDatabaseSummaryDatabaseConfiguration = map[string]Ex
 // GetExternalPluggableDatabaseSummaryDatabaseConfigurationEnumValues Enumerates the set of values for ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum
 func GetExternalPluggableDatabaseSummaryDatabaseConfigurationEnumValues() []ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum {
 	values := make([]ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum, 0)
-	for _, v := range mappingExternalPluggableDatabaseSummaryDatabaseConfiguration {
+	for _, v := range mappingExternalPluggableDatabaseSummaryDatabaseConfigurationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalPluggableDatabaseSummaryDatabaseConfigurationEnumStringValues Enumerates the set of values in String for ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum
+func GetExternalPluggableDatabaseSummaryDatabaseConfigurationEnumStringValues() []string {
+	return []string{
+		"RAC",
+		"SINGLE_INSTANCE",
+	}
 }

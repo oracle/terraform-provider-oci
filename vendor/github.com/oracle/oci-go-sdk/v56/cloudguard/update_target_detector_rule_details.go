@@ -10,7 +10,9 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateTargetDetectorRuleDetails Overriden settings of a Detector Rule applied on target
@@ -22,4 +24,16 @@ type UpdateTargetDetectorRuleDetails struct {
 
 func (m UpdateTargetDetectorRuleDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateTargetDetectorRuleDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

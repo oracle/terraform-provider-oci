@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SoftwareSource A software source contains a collection of packages
@@ -90,6 +92,30 @@ func (m SoftwareSource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SoftwareSource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingArchTypesEnum[string(m.ArchType)]; !ok && m.ArchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchType: %s. Supported values are: %s.", m.ArchType, strings.Join(GetArchTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingChecksumTypesEnum[string(m.ChecksumType)]; !ok && m.ChecksumType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ChecksumType: %s. Supported values are: %s.", m.ChecksumType, strings.Join(GetChecksumTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSoftwareSourceStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetSoftwareSourceStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLifecycleStatesEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SoftwareSourceStatusEnum Enum with underlying type: string
 type SoftwareSourceStatusEnum string
 
@@ -101,7 +127,7 @@ const (
 	SoftwareSourceStatusWarning     SoftwareSourceStatusEnum = "WARNING"
 )
 
-var mappingSoftwareSourceStatus = map[string]SoftwareSourceStatusEnum{
+var mappingSoftwareSourceStatusEnum = map[string]SoftwareSourceStatusEnum{
 	"NORMAL":      SoftwareSourceStatusNormal,
 	"UNREACHABLE": SoftwareSourceStatusUnreachable,
 	"ERROR":       SoftwareSourceStatusError,
@@ -111,8 +137,18 @@ var mappingSoftwareSourceStatus = map[string]SoftwareSourceStatusEnum{
 // GetSoftwareSourceStatusEnumValues Enumerates the set of values for SoftwareSourceStatusEnum
 func GetSoftwareSourceStatusEnumValues() []SoftwareSourceStatusEnum {
 	values := make([]SoftwareSourceStatusEnum, 0)
-	for _, v := range mappingSoftwareSourceStatus {
+	for _, v := range mappingSoftwareSourceStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSoftwareSourceStatusEnumStringValues Enumerates the set of values in String for SoftwareSourceStatusEnum
+func GetSoftwareSourceStatusEnumStringValues() []string {
+	return []string{
+		"NORMAL",
+		"UNREACHABLE",
+		"ERROR",
+		"WARNING",
+	}
 }

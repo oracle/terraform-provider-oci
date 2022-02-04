@@ -10,7 +10,9 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateAcceptedAgreementDetails The model for the parameters needed to update an accepted terms of use agreement.
@@ -32,4 +34,16 @@ type UpdateAcceptedAgreementDetails struct {
 
 func (m UpdateAcceptedAgreementDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateAcceptedAgreementDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

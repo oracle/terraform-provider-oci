@@ -18,7 +18,7 @@ const (
 	IpVersionIpv6 IpVersionEnum = "IPV6"
 )
 
-var mappingIpVersion = map[string]IpVersionEnum{
+var mappingIpVersionEnum = map[string]IpVersionEnum{
 	"IPV4": IpVersionIpv4,
 	"IPV6": IpVersionIpv6,
 }
@@ -26,8 +26,16 @@ var mappingIpVersion = map[string]IpVersionEnum{
 // GetIpVersionEnumValues Enumerates the set of values for IpVersionEnum
 func GetIpVersionEnumValues() []IpVersionEnum {
 	values := make([]IpVersionEnum, 0)
-	for _, v := range mappingIpVersion {
+	for _, v := range mappingIpVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpVersionEnumStringValues Enumerates the set of values in String for IpVersionEnum
+func GetIpVersionEnumStringValues() []string {
+	return []string{
+		"IPV4",
+		"IPV6",
+	}
 }

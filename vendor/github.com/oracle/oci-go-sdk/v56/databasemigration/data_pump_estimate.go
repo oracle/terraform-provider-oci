@@ -18,7 +18,7 @@ const (
 	DataPumpEstimateStatistics DataPumpEstimateEnum = "STATISTICS"
 )
 
-var mappingDataPumpEstimate = map[string]DataPumpEstimateEnum{
+var mappingDataPumpEstimateEnum = map[string]DataPumpEstimateEnum{
 	"BLOCKS":     DataPumpEstimateBlocks,
 	"STATISTICS": DataPumpEstimateStatistics,
 }
@@ -26,8 +26,16 @@ var mappingDataPumpEstimate = map[string]DataPumpEstimateEnum{
 // GetDataPumpEstimateEnumValues Enumerates the set of values for DataPumpEstimateEnum
 func GetDataPumpEstimateEnumValues() []DataPumpEstimateEnum {
 	values := make([]DataPumpEstimateEnum, 0)
-	for _, v := range mappingDataPumpEstimate {
+	for _, v := range mappingDataPumpEstimateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataPumpEstimateEnumStringValues Enumerates the set of values in String for DataPumpEstimateEnum
+func GetDataPumpEstimateEnumStringValues() []string {
+	return []string{
+		"BLOCKS",
+		"STATISTICS",
+	}
 }

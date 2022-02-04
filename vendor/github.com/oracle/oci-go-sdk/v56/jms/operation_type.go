@@ -20,7 +20,7 @@ const (
 	OperationTypeUpdateFleet OperationTypeEnum = "UPDATE_FLEET"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_FLEET": OperationTypeCreateFleet,
 	"DELETE_FLEET": OperationTypeDeleteFleet,
 	"MOVE_FLEET":   OperationTypeMoveFleet,
@@ -30,8 +30,18 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_FLEET",
+		"DELETE_FLEET",
+		"MOVE_FLEET",
+		"UPDATE_FLEET",
+	}
 }

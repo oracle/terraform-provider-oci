@@ -11,7 +11,9 @@ package mysql
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DbSystemSource Parameters detailing how to provision the initial data of the DB System.
@@ -69,6 +71,18 @@ func (m dbsystemsource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m dbsystemsource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DbSystemSourceSourceTypeEnum Enum with underlying type: string
 type DbSystemSourceSourceTypeEnum string
 
@@ -79,7 +93,7 @@ const (
 	DbSystemSourceSourceTypeImporturl DbSystemSourceSourceTypeEnum = "IMPORTURL"
 )
 
-var mappingDbSystemSourceSourceType = map[string]DbSystemSourceSourceTypeEnum{
+var mappingDbSystemSourceSourceTypeEnum = map[string]DbSystemSourceSourceTypeEnum{
 	"NONE":      DbSystemSourceSourceTypeNone,
 	"BACKUP":    DbSystemSourceSourceTypeBackup,
 	"IMPORTURL": DbSystemSourceSourceTypeImporturl,
@@ -88,8 +102,17 @@ var mappingDbSystemSourceSourceType = map[string]DbSystemSourceSourceTypeEnum{
 // GetDbSystemSourceSourceTypeEnumValues Enumerates the set of values for DbSystemSourceSourceTypeEnum
 func GetDbSystemSourceSourceTypeEnumValues() []DbSystemSourceSourceTypeEnum {
 	values := make([]DbSystemSourceSourceTypeEnum, 0)
-	for _, v := range mappingDbSystemSourceSourceType {
+	for _, v := range mappingDbSystemSourceSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbSystemSourceSourceTypeEnumStringValues Enumerates the set of values in String for DbSystemSourceSourceTypeEnum
+func GetDbSystemSourceSourceTypeEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"BACKUP",
+		"IMPORTURL",
+	}
 }

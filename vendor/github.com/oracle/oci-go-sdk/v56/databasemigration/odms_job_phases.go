@@ -35,7 +35,7 @@ const (
 	OdmsJobPhasesOdmsCleanup                     OdmsJobPhasesEnum = "ODMS_CLEANUP"
 )
 
-var mappingOdmsJobPhases = map[string]OdmsJobPhasesEnum{
+var mappingOdmsJobPhasesEnum = map[string]OdmsJobPhasesEnum{
 	"ODMS_VALIDATE_TGT":                   OdmsJobPhasesOdmsValidateTgt,
 	"ODMS_VALIDATE_SRC":                   OdmsJobPhasesOdmsValidateSrc,
 	"ODMS_VALIDATE_PREMIGRATION_ADVISOR":  OdmsJobPhasesOdmsValidatePremigrationAdvisor,
@@ -60,8 +60,33 @@ var mappingOdmsJobPhases = map[string]OdmsJobPhasesEnum{
 // GetOdmsJobPhasesEnumValues Enumerates the set of values for OdmsJobPhasesEnum
 func GetOdmsJobPhasesEnumValues() []OdmsJobPhasesEnum {
 	values := make([]OdmsJobPhasesEnum, 0)
-	for _, v := range mappingOdmsJobPhases {
+	for _, v := range mappingOdmsJobPhasesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOdmsJobPhasesEnumStringValues Enumerates the set of values in String for OdmsJobPhasesEnum
+func GetOdmsJobPhasesEnumStringValues() []string {
+	return []string{
+		"ODMS_VALIDATE_TGT",
+		"ODMS_VALIDATE_SRC",
+		"ODMS_VALIDATE_PREMIGRATION_ADVISOR",
+		"ODMS_VALIDATE_GG_HUB",
+		"ODMS_VALIDATE_DATAPUMP_SETTINGS",
+		"ODMS_VALIDATE_DATAPUMP_SETTINGS_SRC",
+		"ODMS_VALIDATE_DATAPUMP_SETTINGS_TGT",
+		"ODMS_VALIDATE_DATAPUMP_SRC",
+		"ODMS_VALIDATE_DATAPUMP_ESTIMATE_SRC",
+		"ODMS_VALIDATE",
+		"ODMS_PREPARE",
+		"ODMS_INITIAL_LOAD_EXPORT",
+		"ODMS_DATA_UPLOAD",
+		"ODMS_INITIAL_LOAD_IMPORT",
+		"ODMS_POST_INITIAL_LOAD",
+		"ODMS_PREPARE_REPLICATION_TARGET",
+		"ODMS_MONITOR_REPLICATION_LAG",
+		"ODMS_SWITCHOVER",
+		"ODMS_CLEANUP",
+	}
 }

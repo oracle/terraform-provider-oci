@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DataGuardAssociationSummary The properties that define a Data Guard association.
@@ -83,6 +85,33 @@ func (m DataGuardAssociationSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataGuardAssociationSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataGuardAssociationSummaryRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetDataGuardAssociationSummaryRoleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDataGuardAssociationSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDataGuardAssociationSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDataGuardAssociationSummaryPeerRoleEnum[string(m.PeerRole)]; !ok && m.PeerRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PeerRole: %s. Supported values are: %s.", m.PeerRole, strings.Join(GetDataGuardAssociationSummaryPeerRoleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDataGuardAssociationSummaryProtectionModeEnum[string(m.ProtectionMode)]; !ok && m.ProtectionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetDataGuardAssociationSummaryProtectionModeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDataGuardAssociationSummaryTransportTypeEnum[string(m.TransportType)]; !ok && m.TransportType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TransportType: %s. Supported values are: %s.", m.TransportType, strings.Join(GetDataGuardAssociationSummaryTransportTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DataGuardAssociationSummaryRoleEnum Enum with underlying type: string
 type DataGuardAssociationSummaryRoleEnum string
 
@@ -93,7 +122,7 @@ const (
 	DataGuardAssociationSummaryRoleDisabledStandby DataGuardAssociationSummaryRoleEnum = "DISABLED_STANDBY"
 )
 
-var mappingDataGuardAssociationSummaryRole = map[string]DataGuardAssociationSummaryRoleEnum{
+var mappingDataGuardAssociationSummaryRoleEnum = map[string]DataGuardAssociationSummaryRoleEnum{
 	"PRIMARY":          DataGuardAssociationSummaryRolePrimary,
 	"STANDBY":          DataGuardAssociationSummaryRoleStandby,
 	"DISABLED_STANDBY": DataGuardAssociationSummaryRoleDisabledStandby,
@@ -102,10 +131,19 @@ var mappingDataGuardAssociationSummaryRole = map[string]DataGuardAssociationSumm
 // GetDataGuardAssociationSummaryRoleEnumValues Enumerates the set of values for DataGuardAssociationSummaryRoleEnum
 func GetDataGuardAssociationSummaryRoleEnumValues() []DataGuardAssociationSummaryRoleEnum {
 	values := make([]DataGuardAssociationSummaryRoleEnum, 0)
-	for _, v := range mappingDataGuardAssociationSummaryRole {
+	for _, v := range mappingDataGuardAssociationSummaryRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataGuardAssociationSummaryRoleEnumStringValues Enumerates the set of values in String for DataGuardAssociationSummaryRoleEnum
+func GetDataGuardAssociationSummaryRoleEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"STANDBY",
+		"DISABLED_STANDBY",
+	}
 }
 
 // DataGuardAssociationSummaryLifecycleStateEnum Enum with underlying type: string
@@ -121,7 +159,7 @@ const (
 	DataGuardAssociationSummaryLifecycleStateFailed       DataGuardAssociationSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingDataGuardAssociationSummaryLifecycleState = map[string]DataGuardAssociationSummaryLifecycleStateEnum{
+var mappingDataGuardAssociationSummaryLifecycleStateEnum = map[string]DataGuardAssociationSummaryLifecycleStateEnum{
 	"PROVISIONING": DataGuardAssociationSummaryLifecycleStateProvisioning,
 	"AVAILABLE":    DataGuardAssociationSummaryLifecycleStateAvailable,
 	"UPDATING":     DataGuardAssociationSummaryLifecycleStateUpdating,
@@ -133,10 +171,22 @@ var mappingDataGuardAssociationSummaryLifecycleState = map[string]DataGuardAssoc
 // GetDataGuardAssociationSummaryLifecycleStateEnumValues Enumerates the set of values for DataGuardAssociationSummaryLifecycleStateEnum
 func GetDataGuardAssociationSummaryLifecycleStateEnumValues() []DataGuardAssociationSummaryLifecycleStateEnum {
 	values := make([]DataGuardAssociationSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingDataGuardAssociationSummaryLifecycleState {
+	for _, v := range mappingDataGuardAssociationSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataGuardAssociationSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for DataGuardAssociationSummaryLifecycleStateEnum
+func GetDataGuardAssociationSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }
 
 // DataGuardAssociationSummaryPeerRoleEnum Enum with underlying type: string
@@ -149,7 +199,7 @@ const (
 	DataGuardAssociationSummaryPeerRoleDisabledStandby DataGuardAssociationSummaryPeerRoleEnum = "DISABLED_STANDBY"
 )
 
-var mappingDataGuardAssociationSummaryPeerRole = map[string]DataGuardAssociationSummaryPeerRoleEnum{
+var mappingDataGuardAssociationSummaryPeerRoleEnum = map[string]DataGuardAssociationSummaryPeerRoleEnum{
 	"PRIMARY":          DataGuardAssociationSummaryPeerRolePrimary,
 	"STANDBY":          DataGuardAssociationSummaryPeerRoleStandby,
 	"DISABLED_STANDBY": DataGuardAssociationSummaryPeerRoleDisabledStandby,
@@ -158,10 +208,19 @@ var mappingDataGuardAssociationSummaryPeerRole = map[string]DataGuardAssociation
 // GetDataGuardAssociationSummaryPeerRoleEnumValues Enumerates the set of values for DataGuardAssociationSummaryPeerRoleEnum
 func GetDataGuardAssociationSummaryPeerRoleEnumValues() []DataGuardAssociationSummaryPeerRoleEnum {
 	values := make([]DataGuardAssociationSummaryPeerRoleEnum, 0)
-	for _, v := range mappingDataGuardAssociationSummaryPeerRole {
+	for _, v := range mappingDataGuardAssociationSummaryPeerRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataGuardAssociationSummaryPeerRoleEnumStringValues Enumerates the set of values in String for DataGuardAssociationSummaryPeerRoleEnum
+func GetDataGuardAssociationSummaryPeerRoleEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"STANDBY",
+		"DISABLED_STANDBY",
+	}
 }
 
 // DataGuardAssociationSummaryProtectionModeEnum Enum with underlying type: string
@@ -174,7 +233,7 @@ const (
 	DataGuardAssociationSummaryProtectionModeProtection   DataGuardAssociationSummaryProtectionModeEnum = "MAXIMUM_PROTECTION"
 )
 
-var mappingDataGuardAssociationSummaryProtectionMode = map[string]DataGuardAssociationSummaryProtectionModeEnum{
+var mappingDataGuardAssociationSummaryProtectionModeEnum = map[string]DataGuardAssociationSummaryProtectionModeEnum{
 	"MAXIMUM_AVAILABILITY": DataGuardAssociationSummaryProtectionModeAvailability,
 	"MAXIMUM_PERFORMANCE":  DataGuardAssociationSummaryProtectionModePerformance,
 	"MAXIMUM_PROTECTION":   DataGuardAssociationSummaryProtectionModeProtection,
@@ -183,10 +242,19 @@ var mappingDataGuardAssociationSummaryProtectionMode = map[string]DataGuardAssoc
 // GetDataGuardAssociationSummaryProtectionModeEnumValues Enumerates the set of values for DataGuardAssociationSummaryProtectionModeEnum
 func GetDataGuardAssociationSummaryProtectionModeEnumValues() []DataGuardAssociationSummaryProtectionModeEnum {
 	values := make([]DataGuardAssociationSummaryProtectionModeEnum, 0)
-	for _, v := range mappingDataGuardAssociationSummaryProtectionMode {
+	for _, v := range mappingDataGuardAssociationSummaryProtectionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataGuardAssociationSummaryProtectionModeEnumStringValues Enumerates the set of values in String for DataGuardAssociationSummaryProtectionModeEnum
+func GetDataGuardAssociationSummaryProtectionModeEnumStringValues() []string {
+	return []string{
+		"MAXIMUM_AVAILABILITY",
+		"MAXIMUM_PERFORMANCE",
+		"MAXIMUM_PROTECTION",
+	}
 }
 
 // DataGuardAssociationSummaryTransportTypeEnum Enum with underlying type: string
@@ -199,7 +267,7 @@ const (
 	DataGuardAssociationSummaryTransportTypeFastsync DataGuardAssociationSummaryTransportTypeEnum = "FASTSYNC"
 )
 
-var mappingDataGuardAssociationSummaryTransportType = map[string]DataGuardAssociationSummaryTransportTypeEnum{
+var mappingDataGuardAssociationSummaryTransportTypeEnum = map[string]DataGuardAssociationSummaryTransportTypeEnum{
 	"SYNC":     DataGuardAssociationSummaryTransportTypeSync,
 	"ASYNC":    DataGuardAssociationSummaryTransportTypeAsync,
 	"FASTSYNC": DataGuardAssociationSummaryTransportTypeFastsync,
@@ -208,8 +276,17 @@ var mappingDataGuardAssociationSummaryTransportType = map[string]DataGuardAssoci
 // GetDataGuardAssociationSummaryTransportTypeEnumValues Enumerates the set of values for DataGuardAssociationSummaryTransportTypeEnum
 func GetDataGuardAssociationSummaryTransportTypeEnumValues() []DataGuardAssociationSummaryTransportTypeEnum {
 	values := make([]DataGuardAssociationSummaryTransportTypeEnum, 0)
-	for _, v := range mappingDataGuardAssociationSummaryTransportType {
+	for _, v := range mappingDataGuardAssociationSummaryTransportTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataGuardAssociationSummaryTransportTypeEnumStringValues Enumerates the set of values in String for DataGuardAssociationSummaryTransportTypeEnum
+func GetDataGuardAssociationSummaryTransportTypeEnumStringValues() []string {
+	return []string{
+		"SYNC",
+		"ASYNC",
+		"FASTSYNC",
+	}
 }

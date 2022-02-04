@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InfoForNetworkGenDetails Parameters for generation of the client or backup network in a VM cluster network in an Exadata Cloud@Customer system.
@@ -42,6 +44,21 @@ func (m InfoForNetworkGenDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InfoForNetworkGenDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInfoForNetworkGenDetailsNetworkTypeEnum[string(m.NetworkType)]; !ok && m.NetworkType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkType: %s. Supported values are: %s.", m.NetworkType, strings.Join(GetInfoForNetworkGenDetailsNetworkTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InfoForNetworkGenDetailsNetworkTypeEnum Enum with underlying type: string
 type InfoForNetworkGenDetailsNetworkTypeEnum string
 
@@ -51,7 +68,7 @@ const (
 	InfoForNetworkGenDetailsNetworkTypeBackup InfoForNetworkGenDetailsNetworkTypeEnum = "BACKUP"
 )
 
-var mappingInfoForNetworkGenDetailsNetworkType = map[string]InfoForNetworkGenDetailsNetworkTypeEnum{
+var mappingInfoForNetworkGenDetailsNetworkTypeEnum = map[string]InfoForNetworkGenDetailsNetworkTypeEnum{
 	"CLIENT": InfoForNetworkGenDetailsNetworkTypeClient,
 	"BACKUP": InfoForNetworkGenDetailsNetworkTypeBackup,
 }
@@ -59,8 +76,16 @@ var mappingInfoForNetworkGenDetailsNetworkType = map[string]InfoForNetworkGenDet
 // GetInfoForNetworkGenDetailsNetworkTypeEnumValues Enumerates the set of values for InfoForNetworkGenDetailsNetworkTypeEnum
 func GetInfoForNetworkGenDetailsNetworkTypeEnumValues() []InfoForNetworkGenDetailsNetworkTypeEnum {
 	values := make([]InfoForNetworkGenDetailsNetworkTypeEnum, 0)
-	for _, v := range mappingInfoForNetworkGenDetailsNetworkType {
+	for _, v := range mappingInfoForNetworkGenDetailsNetworkTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInfoForNetworkGenDetailsNetworkTypeEnumStringValues Enumerates the set of values in String for InfoForNetworkGenDetailsNetworkTypeEnum
+func GetInfoForNetworkGenDetailsNetworkTypeEnumStringValues() []string {
+	return []string{
+		"CLIENT",
+		"BACKUP",
+	}
 }

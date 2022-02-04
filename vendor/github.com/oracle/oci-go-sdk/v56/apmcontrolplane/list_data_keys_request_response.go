@@ -5,8 +5,10 @@
 package apmcontrolplane
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDataKeysRequest wrapper for the ListDataKeys operation
@@ -37,6 +39,10 @@ func (request ListDataKeysRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDataKeysRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -50,6 +56,20 @@ func (request ListDataKeysRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDataKeysRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDataKeysRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDataKeysDataKeyTypeEnum[string(request.DataKeyType)]; !ok && request.DataKeyType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataKeyType: %s. Supported values are: %s.", request.DataKeyType, strings.Join(GetListDataKeysDataKeyTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDataKeysResponse wrapper for the ListDataKeys operation
@@ -84,7 +104,7 @@ const (
 	ListDataKeysDataKeyTypePublic  ListDataKeysDataKeyTypeEnum = "PUBLIC"
 )
 
-var mappingListDataKeysDataKeyType = map[string]ListDataKeysDataKeyTypeEnum{
+var mappingListDataKeysDataKeyTypeEnum = map[string]ListDataKeysDataKeyTypeEnum{
 	"PRIVATE": ListDataKeysDataKeyTypePrivate,
 	"PUBLIC":  ListDataKeysDataKeyTypePublic,
 }
@@ -92,8 +112,16 @@ var mappingListDataKeysDataKeyType = map[string]ListDataKeysDataKeyTypeEnum{
 // GetListDataKeysDataKeyTypeEnumValues Enumerates the set of values for ListDataKeysDataKeyTypeEnum
 func GetListDataKeysDataKeyTypeEnumValues() []ListDataKeysDataKeyTypeEnum {
 	values := make([]ListDataKeysDataKeyTypeEnum, 0)
-	for _, v := range mappingListDataKeysDataKeyType {
+	for _, v := range mappingListDataKeysDataKeyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataKeysDataKeyTypeEnumStringValues Enumerates the set of values in String for ListDataKeysDataKeyTypeEnum
+func GetListDataKeysDataKeyTypeEnumStringValues() []string {
+	return []string{
+		"PRIVATE",
+		"PUBLIC",
+	}
 }

@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VolumeAttachment A base object for all types of attachments between a storage volume and an instance.
@@ -226,6 +228,24 @@ func (m volumeattachment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m volumeattachment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVolumeAttachmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeAttachmentLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingVolumeAttachmentIscsiLoginStateEnum[string(m.IscsiLoginState)]; !ok && m.IscsiLoginState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IscsiLoginState: %s. Supported values are: %s.", m.IscsiLoginState, strings.Join(GetVolumeAttachmentIscsiLoginStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VolumeAttachmentLifecycleStateEnum Enum with underlying type: string
 type VolumeAttachmentLifecycleStateEnum string
 
@@ -237,7 +257,7 @@ const (
 	VolumeAttachmentLifecycleStateDetached  VolumeAttachmentLifecycleStateEnum = "DETACHED"
 )
 
-var mappingVolumeAttachmentLifecycleState = map[string]VolumeAttachmentLifecycleStateEnum{
+var mappingVolumeAttachmentLifecycleStateEnum = map[string]VolumeAttachmentLifecycleStateEnum{
 	"ATTACHING": VolumeAttachmentLifecycleStateAttaching,
 	"ATTACHED":  VolumeAttachmentLifecycleStateAttached,
 	"DETACHING": VolumeAttachmentLifecycleStateDetaching,
@@ -247,10 +267,20 @@ var mappingVolumeAttachmentLifecycleState = map[string]VolumeAttachmentLifecycle
 // GetVolumeAttachmentLifecycleStateEnumValues Enumerates the set of values for VolumeAttachmentLifecycleStateEnum
 func GetVolumeAttachmentLifecycleStateEnumValues() []VolumeAttachmentLifecycleStateEnum {
 	values := make([]VolumeAttachmentLifecycleStateEnum, 0)
-	for _, v := range mappingVolumeAttachmentLifecycleState {
+	for _, v := range mappingVolumeAttachmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeAttachmentLifecycleStateEnumStringValues Enumerates the set of values in String for VolumeAttachmentLifecycleStateEnum
+func GetVolumeAttachmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ATTACHING",
+		"ATTACHED",
+		"DETACHING",
+		"DETACHED",
+	}
 }
 
 // VolumeAttachmentIscsiLoginStateEnum Enum with underlying type: string
@@ -267,7 +297,7 @@ const (
 	VolumeAttachmentIscsiLoginStateLogoutFailed    VolumeAttachmentIscsiLoginStateEnum = "LOGOUT_FAILED"
 )
 
-var mappingVolumeAttachmentIscsiLoginState = map[string]VolumeAttachmentIscsiLoginStateEnum{
+var mappingVolumeAttachmentIscsiLoginStateEnum = map[string]VolumeAttachmentIscsiLoginStateEnum{
 	"UNKNOWN":          VolumeAttachmentIscsiLoginStateUnknown,
 	"LOGGING_IN":       VolumeAttachmentIscsiLoginStateLoggingIn,
 	"LOGIN_SUCCEEDED":  VolumeAttachmentIscsiLoginStateLoginSucceeded,
@@ -280,8 +310,21 @@ var mappingVolumeAttachmentIscsiLoginState = map[string]VolumeAttachmentIscsiLog
 // GetVolumeAttachmentIscsiLoginStateEnumValues Enumerates the set of values for VolumeAttachmentIscsiLoginStateEnum
 func GetVolumeAttachmentIscsiLoginStateEnumValues() []VolumeAttachmentIscsiLoginStateEnum {
 	values := make([]VolumeAttachmentIscsiLoginStateEnum, 0)
-	for _, v := range mappingVolumeAttachmentIscsiLoginState {
+	for _, v := range mappingVolumeAttachmentIscsiLoginStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeAttachmentIscsiLoginStateEnumStringValues Enumerates the set of values in String for VolumeAttachmentIscsiLoginStateEnum
+func GetVolumeAttachmentIscsiLoginStateEnumStringValues() []string {
+	return []string{
+		"UNKNOWN",
+		"LOGGING_IN",
+		"LOGIN_SUCCEEDED",
+		"LOGIN_FAILED",
+		"LOGGING_OUT",
+		"LOGOUT_SUCCEEDED",
+		"LOGOUT_FAILED",
+	}
 }

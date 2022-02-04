@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BuildRunSource The source from which the build run is triggered.
@@ -73,6 +75,18 @@ func (m buildrunsource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m buildrunsource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BuildRunSourceSourceTypeEnum Enum with underlying type: string
 type BuildRunSourceSourceTypeEnum string
 
@@ -84,7 +98,7 @@ const (
 	BuildRunSourceSourceTypeDevopsCodeRepository BuildRunSourceSourceTypeEnum = "DEVOPS_CODE_REPOSITORY"
 )
 
-var mappingBuildRunSourceSourceType = map[string]BuildRunSourceSourceTypeEnum{
+var mappingBuildRunSourceSourceTypeEnum = map[string]BuildRunSourceSourceTypeEnum{
 	"MANUAL":                 BuildRunSourceSourceTypeManual,
 	"GITHUB":                 BuildRunSourceSourceTypeGithub,
 	"GITLAB":                 BuildRunSourceSourceTypeGitlab,
@@ -94,8 +108,18 @@ var mappingBuildRunSourceSourceType = map[string]BuildRunSourceSourceTypeEnum{
 // GetBuildRunSourceSourceTypeEnumValues Enumerates the set of values for BuildRunSourceSourceTypeEnum
 func GetBuildRunSourceSourceTypeEnumValues() []BuildRunSourceSourceTypeEnum {
 	values := make([]BuildRunSourceSourceTypeEnum, 0)
-	for _, v := range mappingBuildRunSourceSourceType {
+	for _, v := range mappingBuildRunSourceSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBuildRunSourceSourceTypeEnumStringValues Enumerates the set of values in String for BuildRunSourceSourceTypeEnum
+func GetBuildRunSourceSourceTypeEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"GITHUB",
+		"GITLAB",
+		"DEVOPS_CODE_REPOSITORY",
+	}
 }

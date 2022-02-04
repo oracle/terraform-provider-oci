@@ -26,7 +26,7 @@ const (
 	WorkRequestOperationTypeWorkrequestCancel WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
 )
 
-var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
+var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
 	"CLUSTER_CREATE":     WorkRequestOperationTypeClusterCreate,
 	"CLUSTER_UPDATE":     WorkRequestOperationTypeClusterUpdate,
 	"CLUSTER_DELETE":     WorkRequestOperationTypeClusterDelete,
@@ -40,8 +40,22 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
 func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
 	values := make([]WorkRequestOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestOperationType {
+	for _, v := range mappingWorkRequestOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestOperationTypeEnumStringValues Enumerates the set of values in String for WorkRequestOperationTypeEnum
+func GetWorkRequestOperationTypeEnumStringValues() []string {
+	return []string{
+		"CLUSTER_CREATE",
+		"CLUSTER_UPDATE",
+		"CLUSTER_DELETE",
+		"NODEPOOL_CREATE",
+		"NODEPOOL_UPDATE",
+		"NODEPOOL_DELETE",
+		"NODEPOOL_RECONCILE",
+		"WORKREQUEST_CANCEL",
+	}
 }

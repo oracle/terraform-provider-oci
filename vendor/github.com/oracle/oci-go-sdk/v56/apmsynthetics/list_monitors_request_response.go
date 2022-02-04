@@ -5,8 +5,10 @@
 package apmsynthetics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListMonitorsRequest wrapper for the ListMonitors operation
@@ -66,6 +68,10 @@ func (request ListMonitorsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListMonitorsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,26 @@ func (request ListMonitorsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListMonitorsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListMonitorsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListMonitorsStatusEnum[string(request.Status)]; !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListMonitorsStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMonitorsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMonitorsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMonitorsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMonitorsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListMonitorsResponse wrapper for the ListMonitors operation
@@ -119,7 +145,7 @@ const (
 	ListMonitorsStatusInvalid  ListMonitorsStatusEnum = "INVALID"
 )
 
-var mappingListMonitorsStatus = map[string]ListMonitorsStatusEnum{
+var mappingListMonitorsStatusEnum = map[string]ListMonitorsStatusEnum{
 	"ENABLED":  ListMonitorsStatusEnabled,
 	"DISABLED": ListMonitorsStatusDisabled,
 	"INVALID":  ListMonitorsStatusInvalid,
@@ -128,10 +154,19 @@ var mappingListMonitorsStatus = map[string]ListMonitorsStatusEnum{
 // GetListMonitorsStatusEnumValues Enumerates the set of values for ListMonitorsStatusEnum
 func GetListMonitorsStatusEnumValues() []ListMonitorsStatusEnum {
 	values := make([]ListMonitorsStatusEnum, 0)
-	for _, v := range mappingListMonitorsStatus {
+	for _, v := range mappingListMonitorsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMonitorsStatusEnumStringValues Enumerates the set of values in String for ListMonitorsStatusEnum
+func GetListMonitorsStatusEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+		"INVALID",
+	}
 }
 
 // ListMonitorsSortOrderEnum Enum with underlying type: string
@@ -143,7 +178,7 @@ const (
 	ListMonitorsSortOrderDesc ListMonitorsSortOrderEnum = "DESC"
 )
 
-var mappingListMonitorsSortOrder = map[string]ListMonitorsSortOrderEnum{
+var mappingListMonitorsSortOrderEnum = map[string]ListMonitorsSortOrderEnum{
 	"ASC":  ListMonitorsSortOrderAsc,
 	"DESC": ListMonitorsSortOrderDesc,
 }
@@ -151,10 +186,18 @@ var mappingListMonitorsSortOrder = map[string]ListMonitorsSortOrderEnum{
 // GetListMonitorsSortOrderEnumValues Enumerates the set of values for ListMonitorsSortOrderEnum
 func GetListMonitorsSortOrderEnumValues() []ListMonitorsSortOrderEnum {
 	values := make([]ListMonitorsSortOrderEnum, 0)
-	for _, v := range mappingListMonitorsSortOrder {
+	for _, v := range mappingListMonitorsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMonitorsSortOrderEnumStringValues Enumerates the set of values in String for ListMonitorsSortOrderEnum
+func GetListMonitorsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListMonitorsSortByEnum Enum with underlying type: string
@@ -169,7 +212,7 @@ const (
 	ListMonitorsSortByMonitortype ListMonitorsSortByEnum = "monitorType"
 )
 
-var mappingListMonitorsSortBy = map[string]ListMonitorsSortByEnum{
+var mappingListMonitorsSortByEnum = map[string]ListMonitorsSortByEnum{
 	"displayName": ListMonitorsSortByDisplayname,
 	"timeCreated": ListMonitorsSortByTimecreated,
 	"timeUpdated": ListMonitorsSortByTimeupdated,
@@ -180,8 +223,19 @@ var mappingListMonitorsSortBy = map[string]ListMonitorsSortByEnum{
 // GetListMonitorsSortByEnumValues Enumerates the set of values for ListMonitorsSortByEnum
 func GetListMonitorsSortByEnumValues() []ListMonitorsSortByEnum {
 	values := make([]ListMonitorsSortByEnum, 0)
-	for _, v := range mappingListMonitorsSortBy {
+	for _, v := range mappingListMonitorsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMonitorsSortByEnumStringValues Enumerates the set of values in String for ListMonitorsSortByEnum
+func GetListMonitorsSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"timeCreated",
+		"timeUpdated",
+		"status",
+		"monitorType",
+	}
 }

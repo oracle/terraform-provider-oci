@@ -5,8 +5,10 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListRelatedEventsRequest wrapper for the ListRelatedEvents operation
@@ -57,6 +59,10 @@ func (request ListRelatedEventsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRelatedEventsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +76,23 @@ func (request ListRelatedEventsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRelatedEventsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRelatedEventsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRelatedEventsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRelatedEventsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRelatedEventsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRelatedEventsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRelatedEventsResponse wrapper for the ListRelatedEvents operation
@@ -110,7 +133,7 @@ const (
 	ListRelatedEventsSortOrderDesc ListRelatedEventsSortOrderEnum = "DESC"
 )
 
-var mappingListRelatedEventsSortOrder = map[string]ListRelatedEventsSortOrderEnum{
+var mappingListRelatedEventsSortOrderEnum = map[string]ListRelatedEventsSortOrderEnum{
 	"ASC":  ListRelatedEventsSortOrderAsc,
 	"DESC": ListRelatedEventsSortOrderDesc,
 }
@@ -118,10 +141,18 @@ var mappingListRelatedEventsSortOrder = map[string]ListRelatedEventsSortOrderEnu
 // GetListRelatedEventsSortOrderEnumValues Enumerates the set of values for ListRelatedEventsSortOrderEnum
 func GetListRelatedEventsSortOrderEnumValues() []ListRelatedEventsSortOrderEnum {
 	values := make([]ListRelatedEventsSortOrderEnum, 0)
-	for _, v := range mappingListRelatedEventsSortOrder {
+	for _, v := range mappingListRelatedEventsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRelatedEventsSortOrderEnumStringValues Enumerates the set of values in String for ListRelatedEventsSortOrderEnum
+func GetListRelatedEventsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListRelatedEventsSortByEnum Enum with underlying type: string
@@ -134,7 +165,7 @@ const (
 	ListRelatedEventsSortByEventfingerprint ListRelatedEventsSortByEnum = "eventFingerprint"
 )
 
-var mappingListRelatedEventsSortBy = map[string]ListRelatedEventsSortByEnum{
+var mappingListRelatedEventsSortByEnum = map[string]ListRelatedEventsSortByEnum{
 	"instanceId":       ListRelatedEventsSortByInstanceid,
 	"id":               ListRelatedEventsSortById,
 	"eventFingerprint": ListRelatedEventsSortByEventfingerprint,
@@ -143,8 +174,17 @@ var mappingListRelatedEventsSortBy = map[string]ListRelatedEventsSortByEnum{
 // GetListRelatedEventsSortByEnumValues Enumerates the set of values for ListRelatedEventsSortByEnum
 func GetListRelatedEventsSortByEnumValues() []ListRelatedEventsSortByEnum {
 	values := make([]ListRelatedEventsSortByEnum, 0)
-	for _, v := range mappingListRelatedEventsSortBy {
+	for _, v := range mappingListRelatedEventsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRelatedEventsSortByEnumStringValues Enumerates the set of values in String for ListRelatedEventsSortByEnum
+func GetListRelatedEventsSortByEnumStringValues() []string {
+	return []string{
+		"instanceId",
+		"id",
+		"eventFingerprint",
+	}
 }

@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Connection The properties that define a connection to external repositories.
@@ -175,6 +177,21 @@ func (m connection) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m connection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingConnectionLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectionLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConnectionLifecycleStateEnum Enum with underlying type: string
 type ConnectionLifecycleStateEnum string
 
@@ -183,17 +200,24 @@ const (
 	ConnectionLifecycleStateActive ConnectionLifecycleStateEnum = "ACTIVE"
 )
 
-var mappingConnectionLifecycleState = map[string]ConnectionLifecycleStateEnum{
+var mappingConnectionLifecycleStateEnum = map[string]ConnectionLifecycleStateEnum{
 	"ACTIVE": ConnectionLifecycleStateActive,
 }
 
 // GetConnectionLifecycleStateEnumValues Enumerates the set of values for ConnectionLifecycleStateEnum
 func GetConnectionLifecycleStateEnumValues() []ConnectionLifecycleStateEnum {
 	values := make([]ConnectionLifecycleStateEnum, 0)
-	for _, v := range mappingConnectionLifecycleState {
+	for _, v := range mappingConnectionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConnectionLifecycleStateEnumStringValues Enumerates the set of values in String for ConnectionLifecycleStateEnum
+func GetConnectionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+	}
 }
 
 // ConnectionConnectionTypeEnum Enum with underlying type: string
@@ -205,7 +229,7 @@ const (
 	ConnectionConnectionTypeGitlabAccessToken ConnectionConnectionTypeEnum = "GITLAB_ACCESS_TOKEN"
 )
 
-var mappingConnectionConnectionType = map[string]ConnectionConnectionTypeEnum{
+var mappingConnectionConnectionTypeEnum = map[string]ConnectionConnectionTypeEnum{
 	"GITHUB_ACCESS_TOKEN": ConnectionConnectionTypeGithubAccessToken,
 	"GITLAB_ACCESS_TOKEN": ConnectionConnectionTypeGitlabAccessToken,
 }
@@ -213,8 +237,16 @@ var mappingConnectionConnectionType = map[string]ConnectionConnectionTypeEnum{
 // GetConnectionConnectionTypeEnumValues Enumerates the set of values for ConnectionConnectionTypeEnum
 func GetConnectionConnectionTypeEnumValues() []ConnectionConnectionTypeEnum {
 	values := make([]ConnectionConnectionTypeEnum, 0)
-	for _, v := range mappingConnectionConnectionType {
+	for _, v := range mappingConnectionConnectionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConnectionConnectionTypeEnumStringValues Enumerates the set of values in String for ConnectionConnectionTypeEnum
+func GetConnectionConnectionTypeEnumStringValues() []string {
+	return []string{
+		"GITHUB_ACCESS_TOKEN",
+		"GITLAB_ACCESS_TOKEN",
+	}
 }

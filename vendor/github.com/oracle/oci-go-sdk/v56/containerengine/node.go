@@ -12,7 +12,9 @@
 package containerengine
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Node The properties that define a node.
@@ -73,6 +75,21 @@ func (m Node) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Node) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingNodeLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNodeLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // NodeLifecycleStateEnum Enum with underlying type: string
 type NodeLifecycleStateEnum string
 
@@ -87,7 +104,7 @@ const (
 	NodeLifecycleStateInactive NodeLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingNodeLifecycleState = map[string]NodeLifecycleStateEnum{
+var mappingNodeLifecycleStateEnum = map[string]NodeLifecycleStateEnum{
 	"CREATING": NodeLifecycleStateCreating,
 	"ACTIVE":   NodeLifecycleStateActive,
 	"UPDATING": NodeLifecycleStateUpdating,
@@ -100,8 +117,21 @@ var mappingNodeLifecycleState = map[string]NodeLifecycleStateEnum{
 // GetNodeLifecycleStateEnumValues Enumerates the set of values for NodeLifecycleStateEnum
 func GetNodeLifecycleStateEnumValues() []NodeLifecycleStateEnum {
 	values := make([]NodeLifecycleStateEnum, 0)
-	for _, v := range mappingNodeLifecycleState {
+	for _, v := range mappingNodeLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNodeLifecycleStateEnumStringValues Enumerates the set of values in String for NodeLifecycleStateEnum
+func GetNodeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILING",
+		"INACTIVE",
+	}
 }

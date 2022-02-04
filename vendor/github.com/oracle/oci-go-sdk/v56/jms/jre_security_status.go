@@ -20,7 +20,7 @@ const (
 	JreSecurityStatusUpgradeRequired JreSecurityStatusEnum = "UPGRADE_REQUIRED"
 )
 
-var mappingJreSecurityStatus = map[string]JreSecurityStatusEnum{
+var mappingJreSecurityStatusEnum = map[string]JreSecurityStatusEnum{
 	"UNKNOWN":          JreSecurityStatusUnknown,
 	"UP_TO_DATE":       JreSecurityStatusUpToDate,
 	"UPDATE_REQUIRED":  JreSecurityStatusUpdateRequired,
@@ -30,8 +30,18 @@ var mappingJreSecurityStatus = map[string]JreSecurityStatusEnum{
 // GetJreSecurityStatusEnumValues Enumerates the set of values for JreSecurityStatusEnum
 func GetJreSecurityStatusEnumValues() []JreSecurityStatusEnum {
 	values := make([]JreSecurityStatusEnum, 0)
-	for _, v := range mappingJreSecurityStatus {
+	for _, v := range mappingJreSecurityStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJreSecurityStatusEnumStringValues Enumerates the set of values in String for JreSecurityStatusEnum
+func GetJreSecurityStatusEnumStringValues() []string {
+	return []string{
+		"UNKNOWN",
+		"UP_TO_DATE",
+		"UPDATE_REQUIRED",
+		"UPGRADE_REQUIRED",
+	}
 }

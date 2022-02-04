@@ -21,7 +21,7 @@ const (
 	ParameterScopeBoth   ParameterScopeEnum = "BOTH"
 )
 
-var mappingParameterScope = map[string]ParameterScopeEnum{
+var mappingParameterScopeEnum = map[string]ParameterScopeEnum{
 	"MEMORY": ParameterScopeMemory,
 	"SPFILE": ParameterScopeSpfile,
 	"BOTH":   ParameterScopeBoth,
@@ -30,8 +30,17 @@ var mappingParameterScope = map[string]ParameterScopeEnum{
 // GetParameterScopeEnumValues Enumerates the set of values for ParameterScopeEnum
 func GetParameterScopeEnumValues() []ParameterScopeEnum {
 	values := make([]ParameterScopeEnum, 0)
-	for _, v := range mappingParameterScope {
+	for _, v := range mappingParameterScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetParameterScopeEnumStringValues Enumerates the set of values in String for ParameterScopeEnum
+func GetParameterScopeEnumStringValues() []string {
+	return []string{
+		"MEMORY",
+		"SPFILE",
+		"BOTH",
+	}
 }

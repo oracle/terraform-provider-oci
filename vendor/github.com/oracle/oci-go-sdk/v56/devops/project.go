@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Project DevOps project groups resources needed to implement the CI/CD workload. DevOps resources include artifacts, pipelines, and environments.
@@ -59,6 +61,21 @@ func (m Project) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Project) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingProjectLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetProjectLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ProjectLifecycleStateEnum Enum with underlying type: string
 type ProjectLifecycleStateEnum string
 
@@ -72,7 +89,7 @@ const (
 	ProjectLifecycleStateFailed   ProjectLifecycleStateEnum = "FAILED"
 )
 
-var mappingProjectLifecycleState = map[string]ProjectLifecycleStateEnum{
+var mappingProjectLifecycleStateEnum = map[string]ProjectLifecycleStateEnum{
 	"CREATING": ProjectLifecycleStateCreating,
 	"UPDATING": ProjectLifecycleStateUpdating,
 	"ACTIVE":   ProjectLifecycleStateActive,
@@ -84,8 +101,20 @@ var mappingProjectLifecycleState = map[string]ProjectLifecycleStateEnum{
 // GetProjectLifecycleStateEnumValues Enumerates the set of values for ProjectLifecycleStateEnum
 func GetProjectLifecycleStateEnumValues() []ProjectLifecycleStateEnum {
 	values := make([]ProjectLifecycleStateEnum, 0)
-	for _, v := range mappingProjectLifecycleState {
+	for _, v := range mappingProjectLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProjectLifecycleStateEnumStringValues Enumerates the set of values in String for ProjectLifecycleStateEnum
+func GetProjectLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

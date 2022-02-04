@@ -13,18 +13,20 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// CloneSqlTuningTaskDetails Request to clone and run a SQL tuning task. The new task uses same inputs as the one being cloned.
+// CloneSqlTuningTaskDetails The request to clone and run a SQL tuning task. The new task uses the same inputs as the one being cloned.
 type CloneSqlTuningTaskDetails struct {
 
-	// The name of the SQL tuning task. The name is unique per user in a database, and it is case sensitive.
+	// The name of the SQL tuning task. The name is unique per user in a database, and it is case-sensitive.
 	TaskName *string `mandatory:"true" json:"taskName"`
 
-	// The identifier of the task being cloned. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The identifier of the SQL tuning task being cloned. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint
-	// ListSqlTuningAdvisorTasks
+	// ListSqlTuningAdvisorTasks.
 	OriginalTaskId *int64 `mandatory:"true" json:"originalTaskId"`
 
 	CredentialDetails SqlTuningTaskCredentialDetails `mandatory:"true" json:"credentialDetails"`
@@ -35,6 +37,18 @@ type CloneSqlTuningTaskDetails struct {
 
 func (m CloneSqlTuningTaskDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CloneSqlTuningTaskDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json

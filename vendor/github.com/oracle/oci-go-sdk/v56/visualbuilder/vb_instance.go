@@ -11,7 +11,9 @@
 package visualbuilder
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VbInstance Description of Vb Instance.
@@ -72,6 +74,24 @@ func (m VbInstance) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VbInstance) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVbInstanceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVbInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingVbInstanceConsumptionModelEnum[string(m.ConsumptionModel)]; !ok && m.ConsumptionModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConsumptionModel: %s. Supported values are: %s.", m.ConsumptionModel, strings.Join(GetVbInstanceConsumptionModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VbInstanceLifecycleStateEnum Enum with underlying type: string
 type VbInstanceLifecycleStateEnum string
 
@@ -86,7 +106,7 @@ const (
 	VbInstanceLifecycleStateFailed   VbInstanceLifecycleStateEnum = "FAILED"
 )
 
-var mappingVbInstanceLifecycleState = map[string]VbInstanceLifecycleStateEnum{
+var mappingVbInstanceLifecycleStateEnum = map[string]VbInstanceLifecycleStateEnum{
 	"CREATING": VbInstanceLifecycleStateCreating,
 	"UPDATING": VbInstanceLifecycleStateUpdating,
 	"ACTIVE":   VbInstanceLifecycleStateActive,
@@ -99,10 +119,23 @@ var mappingVbInstanceLifecycleState = map[string]VbInstanceLifecycleStateEnum{
 // GetVbInstanceLifecycleStateEnumValues Enumerates the set of values for VbInstanceLifecycleStateEnum
 func GetVbInstanceLifecycleStateEnumValues() []VbInstanceLifecycleStateEnum {
 	values := make([]VbInstanceLifecycleStateEnum, 0)
-	for _, v := range mappingVbInstanceLifecycleState {
+	for _, v := range mappingVbInstanceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVbInstanceLifecycleStateEnumStringValues Enumerates the set of values in String for VbInstanceLifecycleStateEnum
+func GetVbInstanceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // VbInstanceConsumptionModelEnum Enum with underlying type: string
@@ -115,7 +148,7 @@ const (
 	VbInstanceConsumptionModelVb4saas VbInstanceConsumptionModelEnum = "VB4SAAS"
 )
 
-var mappingVbInstanceConsumptionModel = map[string]VbInstanceConsumptionModelEnum{
+var mappingVbInstanceConsumptionModelEnum = map[string]VbInstanceConsumptionModelEnum{
 	"UCM":     VbInstanceConsumptionModelUcm,
 	"GOV":     VbInstanceConsumptionModelGov,
 	"VB4SAAS": VbInstanceConsumptionModelVb4saas,
@@ -124,8 +157,17 @@ var mappingVbInstanceConsumptionModel = map[string]VbInstanceConsumptionModelEnu
 // GetVbInstanceConsumptionModelEnumValues Enumerates the set of values for VbInstanceConsumptionModelEnum
 func GetVbInstanceConsumptionModelEnumValues() []VbInstanceConsumptionModelEnum {
 	values := make([]VbInstanceConsumptionModelEnum, 0)
-	for _, v := range mappingVbInstanceConsumptionModel {
+	for _, v := range mappingVbInstanceConsumptionModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVbInstanceConsumptionModelEnumStringValues Enumerates the set of values in String for VbInstanceConsumptionModelEnum
+func GetVbInstanceConsumptionModelEnumStringValues() []string {
+	return []string{
+		"UCM",
+		"GOV",
+		"VB4SAAS",
+	}
 }

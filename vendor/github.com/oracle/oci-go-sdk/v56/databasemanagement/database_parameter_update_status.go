@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DatabaseParameterUpdateStatus The result of database parameter update.
@@ -34,6 +36,21 @@ func (m DatabaseParameterUpdateStatus) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseParameterUpdateStatus) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDatabaseParameterUpdateStatusStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetDatabaseParameterUpdateStatusStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseParameterUpdateStatusStatusEnum Enum with underlying type: string
 type DatabaseParameterUpdateStatusStatusEnum string
 
@@ -43,7 +60,7 @@ const (
 	DatabaseParameterUpdateStatusStatusFailed    DatabaseParameterUpdateStatusStatusEnum = "FAILED"
 )
 
-var mappingDatabaseParameterUpdateStatusStatus = map[string]DatabaseParameterUpdateStatusStatusEnum{
+var mappingDatabaseParameterUpdateStatusStatusEnum = map[string]DatabaseParameterUpdateStatusStatusEnum{
 	"SUCCEEDED": DatabaseParameterUpdateStatusStatusSucceeded,
 	"FAILED":    DatabaseParameterUpdateStatusStatusFailed,
 }
@@ -51,8 +68,16 @@ var mappingDatabaseParameterUpdateStatusStatus = map[string]DatabaseParameterUpd
 // GetDatabaseParameterUpdateStatusStatusEnumValues Enumerates the set of values for DatabaseParameterUpdateStatusStatusEnum
 func GetDatabaseParameterUpdateStatusStatusEnumValues() []DatabaseParameterUpdateStatusStatusEnum {
 	values := make([]DatabaseParameterUpdateStatusStatusEnum, 0)
-	for _, v := range mappingDatabaseParameterUpdateStatusStatus {
+	for _, v := range mappingDatabaseParameterUpdateStatusStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseParameterUpdateStatusStatusEnumStringValues Enumerates the set of values in String for DatabaseParameterUpdateStatusStatusEnum
+func GetDatabaseParameterUpdateStatusStatusEnumStringValues() []string {
+	return []string{
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

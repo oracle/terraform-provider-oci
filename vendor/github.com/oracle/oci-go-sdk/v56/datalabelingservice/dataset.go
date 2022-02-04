@@ -11,7 +11,9 @@ package datalabelingservice
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Dataset A dataset is a logical collection of records. The dataset contains all the information necessary to describe a record's source, format, type of annotations allowed on these records, and labels allowed on annotations.
@@ -77,6 +79,21 @@ type Dataset struct {
 
 func (m Dataset) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Dataset) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatasetLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatasetLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -173,7 +190,7 @@ const (
 	DatasetLifecycleStateFailed         DatasetLifecycleStateEnum = "FAILED"
 )
 
-var mappingDatasetLifecycleState = map[string]DatasetLifecycleStateEnum{
+var mappingDatasetLifecycleStateEnum = map[string]DatasetLifecycleStateEnum{
 	"CREATING":        DatasetLifecycleStateCreating,
 	"UPDATING":        DatasetLifecycleStateUpdating,
 	"ACTIVE":          DatasetLifecycleStateActive,
@@ -186,8 +203,21 @@ var mappingDatasetLifecycleState = map[string]DatasetLifecycleStateEnum{
 // GetDatasetLifecycleStateEnumValues Enumerates the set of values for DatasetLifecycleStateEnum
 func GetDatasetLifecycleStateEnumValues() []DatasetLifecycleStateEnum {
 	values := make([]DatasetLifecycleStateEnum, 0)
-	for _, v := range mappingDatasetLifecycleState {
+	for _, v := range mappingDatasetLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatasetLifecycleStateEnumStringValues Enumerates the set of values in String for DatasetLifecycleStateEnum
+func GetDatasetLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"NEEDS_ATTENTION",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

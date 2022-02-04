@@ -19,7 +19,7 @@ const (
 	AssociationTypeCaBundle             AssociationTypeEnum = "CA_BUNDLE"
 )
 
-var mappingAssociationType = map[string]AssociationTypeEnum{
+var mappingAssociationTypeEnum = map[string]AssociationTypeEnum{
 	"CERTIFICATE":           AssociationTypeCertificate,
 	"CERTIFICATE_AUTHORITY": AssociationTypeCertificateAuthority,
 	"CA_BUNDLE":             AssociationTypeCaBundle,
@@ -28,8 +28,17 @@ var mappingAssociationType = map[string]AssociationTypeEnum{
 // GetAssociationTypeEnumValues Enumerates the set of values for AssociationTypeEnum
 func GetAssociationTypeEnumValues() []AssociationTypeEnum {
 	values := make([]AssociationTypeEnum, 0)
-	for _, v := range mappingAssociationType {
+	for _, v := range mappingAssociationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAssociationTypeEnumStringValues Enumerates the set of values in String for AssociationTypeEnum
+func GetAssociationTypeEnumStringValues() []string {
+	return []string{
+		"CERTIFICATE",
+		"CERTIFICATE_AUTHORITY",
+		"CA_BUNDLE",
+	}
 }

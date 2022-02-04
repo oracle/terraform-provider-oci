@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeExadataInsightResourceForecastTrendAggregatedRequest wrapper for the SummarizeExadataInsightResourceForecastTrendAggregated operation
@@ -128,6 +130,10 @@ func (request SummarizeExadataInsightResourceForecastTrendAggregatedRequest) Str
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeExadataInsightResourceForecastTrendAggregatedRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -141,6 +147,23 @@ func (request SummarizeExadataInsightResourceForecastTrendAggregatedRequest) Bin
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeExadataInsightResourceForecastTrendAggregatedRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeExadataInsightResourceForecastTrendAggregatedRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum[string(request.Statistic)]; !ok && request.Statistic != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Statistic: %s. Supported values are: %s.", request.Statistic, strings.Join(GetSummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum[string(request.ForecastModel)]; !ok && request.ForecastModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ForecastModel: %s. Supported values are: %s.", request.ForecastModel, strings.Join(GetSummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeExadataInsightResourceForecastTrendAggregatedResponse wrapper for the SummarizeExadataInsightResourceForecastTrendAggregated operation
@@ -180,7 +203,7 @@ const (
 	SummarizeExadataInsightResourceForecastTrendAggregatedStatisticMax SummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum = "MAX"
 )
 
-var mappingSummarizeExadataInsightResourceForecastTrendAggregatedStatistic = map[string]SummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum{
+var mappingSummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum = map[string]SummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum{
 	"AVG": SummarizeExadataInsightResourceForecastTrendAggregatedStatisticAvg,
 	"MAX": SummarizeExadataInsightResourceForecastTrendAggregatedStatisticMax,
 }
@@ -188,10 +211,18 @@ var mappingSummarizeExadataInsightResourceForecastTrendAggregatedStatistic = map
 // GetSummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnumValues Enumerates the set of values for SummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum
 func GetSummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnumValues() []SummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum {
 	values := make([]SummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregatedStatistic {
+	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnum
+func GetSummarizeExadataInsightResourceForecastTrendAggregatedStatisticEnumStringValues() []string {
+	return []string{
+		"AVG",
+		"MAX",
+	}
 }
 
 // SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum Enum with underlying type: string
@@ -204,7 +235,7 @@ const (
 	SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelMlNoAuto SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum = "ML_NO_AUTO"
 )
 
-var mappingSummarizeExadataInsightResourceForecastTrendAggregatedForecastModel = map[string]SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum{
+var mappingSummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum = map[string]SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum{
 	"LINEAR":     SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelLinear,
 	"ML_AUTO":    SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelMlAuto,
 	"ML_NO_AUTO": SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelMlNoAuto,
@@ -213,8 +244,17 @@ var mappingSummarizeExadataInsightResourceForecastTrendAggregatedForecastModel =
 // GetSummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnumValues Enumerates the set of values for SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum
 func GetSummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnumValues() []SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum {
 	values := make([]SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregatedForecastModel {
+	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnum
+func GetSummarizeExadataInsightResourceForecastTrendAggregatedForecastModelEnumStringValues() []string {
+	return []string{
+		"LINEAR",
+		"ML_AUTO",
+		"ML_NO_AUTO",
+	}
 }

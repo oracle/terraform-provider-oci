@@ -10,7 +10,9 @@
 package goldengate
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DeploymentUpgrade A container for your OCI GoldenGate Upgrade information.
@@ -73,4 +75,25 @@ type DeploymentUpgrade struct {
 
 func (m DeploymentUpgrade) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DeploymentUpgrade) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDeploymentUpgradeTypeEnum[string(m.DeploymentUpgradeType)]; !ok && m.DeploymentUpgradeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentUpgradeType: %s. Supported values are: %s.", m.DeploymentUpgradeType, strings.Join(GetDeploymentUpgradeTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLifecycleSubStateEnum[string(m.LifecycleSubState)]; !ok && m.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetLifecycleSubStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LogAnalyticsParserSummary LogAnalyticsParserSummary
@@ -117,6 +119,21 @@ func (m LogAnalyticsParserSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsParserSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsParserSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetLogAnalyticsParserSummaryTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsParserSummaryTypeEnum Enum with underlying type: string
 type LogAnalyticsParserSummaryTypeEnum string
 
@@ -129,7 +146,7 @@ const (
 	LogAnalyticsParserSummaryTypeDelimited LogAnalyticsParserSummaryTypeEnum = "DELIMITED"
 )
 
-var mappingLogAnalyticsParserSummaryType = map[string]LogAnalyticsParserSummaryTypeEnum{
+var mappingLogAnalyticsParserSummaryTypeEnum = map[string]LogAnalyticsParserSummaryTypeEnum{
 	"XML":       LogAnalyticsParserSummaryTypeXml,
 	"JSON":      LogAnalyticsParserSummaryTypeJson,
 	"REGEX":     LogAnalyticsParserSummaryTypeRegex,
@@ -140,8 +157,19 @@ var mappingLogAnalyticsParserSummaryType = map[string]LogAnalyticsParserSummaryT
 // GetLogAnalyticsParserSummaryTypeEnumValues Enumerates the set of values for LogAnalyticsParserSummaryTypeEnum
 func GetLogAnalyticsParserSummaryTypeEnumValues() []LogAnalyticsParserSummaryTypeEnum {
 	values := make([]LogAnalyticsParserSummaryTypeEnum, 0)
-	for _, v := range mappingLogAnalyticsParserSummaryType {
+	for _, v := range mappingLogAnalyticsParserSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsParserSummaryTypeEnumStringValues Enumerates the set of values in String for LogAnalyticsParserSummaryTypeEnum
+func GetLogAnalyticsParserSummaryTypeEnumStringValues() []string {
+	return []string{
+		"XML",
+		"JSON",
+		"REGEX",
+		"ODL",
+		"DELIMITED",
+	}
 }

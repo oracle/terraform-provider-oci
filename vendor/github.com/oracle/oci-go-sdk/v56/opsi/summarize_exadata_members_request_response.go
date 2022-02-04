@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeExadataMembersRequest wrapper for the SummarizeExadataMembers operation
@@ -57,6 +59,10 @@ func (request SummarizeExadataMembersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeExadataMembersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +76,23 @@ func (request SummarizeExadataMembersRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeExadataMembersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeExadataMembersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeExadataMembersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeExadataMembersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeExadataMembersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeExadataMembersSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeExadataMembersResponse wrapper for the SummarizeExadataMembers operation
@@ -112,7 +135,7 @@ const (
 	SummarizeExadataMembersSortOrderDesc SummarizeExadataMembersSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeExadataMembersSortOrder = map[string]SummarizeExadataMembersSortOrderEnum{
+var mappingSummarizeExadataMembersSortOrderEnum = map[string]SummarizeExadataMembersSortOrderEnum{
 	"ASC":  SummarizeExadataMembersSortOrderAsc,
 	"DESC": SummarizeExadataMembersSortOrderDesc,
 }
@@ -120,10 +143,18 @@ var mappingSummarizeExadataMembersSortOrder = map[string]SummarizeExadataMembers
 // GetSummarizeExadataMembersSortOrderEnumValues Enumerates the set of values for SummarizeExadataMembersSortOrderEnum
 func GetSummarizeExadataMembersSortOrderEnumValues() []SummarizeExadataMembersSortOrderEnum {
 	values := make([]SummarizeExadataMembersSortOrderEnum, 0)
-	for _, v := range mappingSummarizeExadataMembersSortOrder {
+	for _, v := range mappingSummarizeExadataMembersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataMembersSortOrderEnumStringValues Enumerates the set of values in String for SummarizeExadataMembersSortOrderEnum
+func GetSummarizeExadataMembersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeExadataMembersSortByEnum Enum with underlying type: string
@@ -136,7 +167,7 @@ const (
 	SummarizeExadataMembersSortByEntitytype  SummarizeExadataMembersSortByEnum = "entityType"
 )
 
-var mappingSummarizeExadataMembersSortBy = map[string]SummarizeExadataMembersSortByEnum{
+var mappingSummarizeExadataMembersSortByEnum = map[string]SummarizeExadataMembersSortByEnum{
 	"name":        SummarizeExadataMembersSortByName,
 	"displayName": SummarizeExadataMembersSortByDisplayname,
 	"entityType":  SummarizeExadataMembersSortByEntitytype,
@@ -145,8 +176,17 @@ var mappingSummarizeExadataMembersSortBy = map[string]SummarizeExadataMembersSor
 // GetSummarizeExadataMembersSortByEnumValues Enumerates the set of values for SummarizeExadataMembersSortByEnum
 func GetSummarizeExadataMembersSortByEnumValues() []SummarizeExadataMembersSortByEnum {
 	values := make([]SummarizeExadataMembersSortByEnum, 0)
-	for _, v := range mappingSummarizeExadataMembersSortBy {
+	for _, v := range mappingSummarizeExadataMembersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataMembersSortByEnumStringValues Enumerates the set of values in String for SummarizeExadataMembersSortByEnum
+func GetSummarizeExadataMembersSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"displayName",
+		"entityType",
+	}
 }

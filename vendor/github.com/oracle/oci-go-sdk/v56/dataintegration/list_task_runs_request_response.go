@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListTaskRunsRequest wrapper for the ListTaskRuns operation
@@ -72,6 +74,10 @@ func (request ListTaskRunsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListTaskRunsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +91,23 @@ func (request ListTaskRunsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTaskRunsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListTaskRunsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListTaskRunsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListTaskRunsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTaskRunsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTaskRunsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListTaskRunsResponse wrapper for the ListTaskRuns operation
@@ -128,7 +151,7 @@ const (
 	ListTaskRunsSortOrderDesc ListTaskRunsSortOrderEnum = "DESC"
 )
 
-var mappingListTaskRunsSortOrder = map[string]ListTaskRunsSortOrderEnum{
+var mappingListTaskRunsSortOrderEnum = map[string]ListTaskRunsSortOrderEnum{
 	"ASC":  ListTaskRunsSortOrderAsc,
 	"DESC": ListTaskRunsSortOrderDesc,
 }
@@ -136,10 +159,18 @@ var mappingListTaskRunsSortOrder = map[string]ListTaskRunsSortOrderEnum{
 // GetListTaskRunsSortOrderEnumValues Enumerates the set of values for ListTaskRunsSortOrderEnum
 func GetListTaskRunsSortOrderEnumValues() []ListTaskRunsSortOrderEnum {
 	values := make([]ListTaskRunsSortOrderEnum, 0)
-	for _, v := range mappingListTaskRunsSortOrder {
+	for _, v := range mappingListTaskRunsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTaskRunsSortOrderEnumStringValues Enumerates the set of values in String for ListTaskRunsSortOrderEnum
+func GetListTaskRunsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListTaskRunsSortByEnum Enum with underlying type: string
@@ -151,7 +182,7 @@ const (
 	ListTaskRunsSortByDisplayName ListTaskRunsSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListTaskRunsSortBy = map[string]ListTaskRunsSortByEnum{
+var mappingListTaskRunsSortByEnum = map[string]ListTaskRunsSortByEnum{
 	"TIME_CREATED": ListTaskRunsSortByTimeCreated,
 	"DISPLAY_NAME": ListTaskRunsSortByDisplayName,
 }
@@ -159,8 +190,16 @@ var mappingListTaskRunsSortBy = map[string]ListTaskRunsSortByEnum{
 // GetListTaskRunsSortByEnumValues Enumerates the set of values for ListTaskRunsSortByEnum
 func GetListTaskRunsSortByEnumValues() []ListTaskRunsSortByEnum {
 	values := make([]ListTaskRunsSortByEnum, 0)
-	for _, v := range mappingListTaskRunsSortBy {
+	for _, v := range mappingListTaskRunsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTaskRunsSortByEnumStringValues Enumerates the set of values in String for ListTaskRunsSortByEnum
+func GetListTaskRunsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

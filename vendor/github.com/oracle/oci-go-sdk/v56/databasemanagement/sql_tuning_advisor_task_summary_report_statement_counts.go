@@ -12,25 +12,39 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// SqlTuningAdvisorTaskSummaryReportStatementCounts The statement counts data for the SQL Tuning Advisor summary report.
+// SqlTuningAdvisorTaskSummaryReportStatementCounts The number of statements in the SQL Tuning Advisor summary report.
 type SqlTuningAdvisorTaskSummaryReportStatementCounts struct {
 
-	// The count of distinct SQL statements.
+	// The number of distinct SQL statements.
 	DistinctSql *int `mandatory:"true" json:"distinctSql"`
 
-	// The total count of SQL statements.
+	// The total number of SQL statements.
 	TotalSql *int `mandatory:"true" json:"totalSql"`
 
-	// The count of distinct SQL statements with findings.
+	// The number of distinct SQL statements with findings.
 	FindingCount *int `mandatory:"true" json:"findingCount"`
 
-	// The count of distinct SQL statements with errors.
+	// The number of distinct SQL statements with errors.
 	ErrorCount *int `mandatory:"true" json:"errorCount"`
 }
 
 func (m SqlTuningAdvisorTaskSummaryReportStatementCounts) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningAdvisorTaskSummaryReportStatementCounts) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

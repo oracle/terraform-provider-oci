@@ -21,7 +21,7 @@ const (
 	HarvestStatusDeferred   HarvestStatusEnum = "DEFERRED"
 )
 
-var mappingHarvestStatus = map[string]HarvestStatusEnum{
+var mappingHarvestStatusEnum = map[string]HarvestStatusEnum{
 	"COMPLETE":    HarvestStatusComplete,
 	"ERROR":       HarvestStatusError,
 	"IN_PROGRESS": HarvestStatusInProgress,
@@ -31,8 +31,18 @@ var mappingHarvestStatus = map[string]HarvestStatusEnum{
 // GetHarvestStatusEnumValues Enumerates the set of values for HarvestStatusEnum
 func GetHarvestStatusEnumValues() []HarvestStatusEnum {
 	values := make([]HarvestStatusEnum, 0)
-	for _, v := range mappingHarvestStatus {
+	for _, v := range mappingHarvestStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHarvestStatusEnumStringValues Enumerates the set of values in String for HarvestStatusEnum
+func GetHarvestStatusEnumStringValues() []string {
+	return []string{
+		"COMPLETE",
+		"ERROR",
+		"IN_PROGRESS",
+		"DEFERRED",
+	}
 }

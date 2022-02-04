@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListResourceTypesRequest wrapper for the ListResourceTypes operation
@@ -49,6 +51,10 @@ func (request ListResourceTypesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListResourceTypesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +68,26 @@ func (request ListResourceTypesRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListResourceTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListResourceTypesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListResourceTypesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListResourceTypesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResourceTypesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListResourceTypesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResourceTypesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListResourceTypesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListResourceTypesResponse wrapper for the ListResourceTypes operation
@@ -106,7 +132,7 @@ const (
 	ListResourceTypesLifecycleStateFailed   ListResourceTypesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListResourceTypesLifecycleState = map[string]ListResourceTypesLifecycleStateEnum{
+var mappingListResourceTypesLifecycleStateEnum = map[string]ListResourceTypesLifecycleStateEnum{
 	"CREATING": ListResourceTypesLifecycleStateCreating,
 	"UPDATING": ListResourceTypesLifecycleStateUpdating,
 	"ACTIVE":   ListResourceTypesLifecycleStateActive,
@@ -119,10 +145,23 @@ var mappingListResourceTypesLifecycleState = map[string]ListResourceTypesLifecyc
 // GetListResourceTypesLifecycleStateEnumValues Enumerates the set of values for ListResourceTypesLifecycleStateEnum
 func GetListResourceTypesLifecycleStateEnumValues() []ListResourceTypesLifecycleStateEnum {
 	values := make([]ListResourceTypesLifecycleStateEnum, 0)
-	for _, v := range mappingListResourceTypesLifecycleState {
+	for _, v := range mappingListResourceTypesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResourceTypesLifecycleStateEnumStringValues Enumerates the set of values in String for ListResourceTypesLifecycleStateEnum
+func GetListResourceTypesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListResourceTypesSortOrderEnum Enum with underlying type: string
@@ -134,7 +173,7 @@ const (
 	ListResourceTypesSortOrderDesc ListResourceTypesSortOrderEnum = "DESC"
 )
 
-var mappingListResourceTypesSortOrder = map[string]ListResourceTypesSortOrderEnum{
+var mappingListResourceTypesSortOrderEnum = map[string]ListResourceTypesSortOrderEnum{
 	"ASC":  ListResourceTypesSortOrderAsc,
 	"DESC": ListResourceTypesSortOrderDesc,
 }
@@ -142,10 +181,18 @@ var mappingListResourceTypesSortOrder = map[string]ListResourceTypesSortOrderEnu
 // GetListResourceTypesSortOrderEnumValues Enumerates the set of values for ListResourceTypesSortOrderEnum
 func GetListResourceTypesSortOrderEnumValues() []ListResourceTypesSortOrderEnum {
 	values := make([]ListResourceTypesSortOrderEnum, 0)
-	for _, v := range mappingListResourceTypesSortOrder {
+	for _, v := range mappingListResourceTypesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResourceTypesSortOrderEnumStringValues Enumerates the set of values in String for ListResourceTypesSortOrderEnum
+func GetListResourceTypesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListResourceTypesSortByEnum Enum with underlying type: string
@@ -157,7 +204,7 @@ const (
 	ListResourceTypesSortByRisklevel   ListResourceTypesSortByEnum = "riskLevel"
 )
 
-var mappingListResourceTypesSortBy = map[string]ListResourceTypesSortByEnum{
+var mappingListResourceTypesSortByEnum = map[string]ListResourceTypesSortByEnum{
 	"displayName": ListResourceTypesSortByDisplayname,
 	"riskLevel":   ListResourceTypesSortByRisklevel,
 }
@@ -165,8 +212,16 @@ var mappingListResourceTypesSortBy = map[string]ListResourceTypesSortByEnum{
 // GetListResourceTypesSortByEnumValues Enumerates the set of values for ListResourceTypesSortByEnum
 func GetListResourceTypesSortByEnumValues() []ListResourceTypesSortByEnum {
 	values := make([]ListResourceTypesSortByEnum, 0)
-	for _, v := range mappingListResourceTypesSortBy {
+	for _, v := range mappingListResourceTypesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResourceTypesSortByEnumStringValues Enumerates the set of values in String for ListResourceTypesSortByEnum
+func GetListResourceTypesSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"riskLevel",
+	}
 }

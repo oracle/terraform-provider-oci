@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LogAnalyticsParser LogAnalyticsParser
@@ -121,6 +123,21 @@ func (m LogAnalyticsParser) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsParser) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsParserTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetLogAnalyticsParserTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsParserTypeEnum Enum with underlying type: string
 type LogAnalyticsParserTypeEnum string
 
@@ -133,7 +150,7 @@ const (
 	LogAnalyticsParserTypeDelimited LogAnalyticsParserTypeEnum = "DELIMITED"
 )
 
-var mappingLogAnalyticsParserType = map[string]LogAnalyticsParserTypeEnum{
+var mappingLogAnalyticsParserTypeEnum = map[string]LogAnalyticsParserTypeEnum{
 	"XML":       LogAnalyticsParserTypeXml,
 	"JSON":      LogAnalyticsParserTypeJson,
 	"REGEX":     LogAnalyticsParserTypeRegex,
@@ -144,8 +161,19 @@ var mappingLogAnalyticsParserType = map[string]LogAnalyticsParserTypeEnum{
 // GetLogAnalyticsParserTypeEnumValues Enumerates the set of values for LogAnalyticsParserTypeEnum
 func GetLogAnalyticsParserTypeEnumValues() []LogAnalyticsParserTypeEnum {
 	values := make([]LogAnalyticsParserTypeEnum, 0)
-	for _, v := range mappingLogAnalyticsParserType {
+	for _, v := range mappingLogAnalyticsParserTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsParserTypeEnumStringValues Enumerates the set of values in String for LogAnalyticsParserTypeEnum
+func GetLogAnalyticsParserTypeEnumStringValues() []string {
+	return []string{
+		"XML",
+		"JSON",
+		"REGEX",
+		"ODL",
+		"DELIMITED",
+	}
 }

@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateDatabaseBase Details for creating a database.
@@ -106,6 +108,18 @@ func (m createdatabasebase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createdatabasebase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateDatabaseBaseSourceEnum Enum with underlying type: string
 type CreateDatabaseBaseSourceEnum string
 
@@ -115,7 +129,7 @@ const (
 	CreateDatabaseBaseSourceDbBackup CreateDatabaseBaseSourceEnum = "DB_BACKUP"
 )
 
-var mappingCreateDatabaseBaseSource = map[string]CreateDatabaseBaseSourceEnum{
+var mappingCreateDatabaseBaseSourceEnum = map[string]CreateDatabaseBaseSourceEnum{
 	"NONE":      CreateDatabaseBaseSourceNone,
 	"DB_BACKUP": CreateDatabaseBaseSourceDbBackup,
 }
@@ -123,8 +137,16 @@ var mappingCreateDatabaseBaseSource = map[string]CreateDatabaseBaseSourceEnum{
 // GetCreateDatabaseBaseSourceEnumValues Enumerates the set of values for CreateDatabaseBaseSourceEnum
 func GetCreateDatabaseBaseSourceEnumValues() []CreateDatabaseBaseSourceEnum {
 	values := make([]CreateDatabaseBaseSourceEnum, 0)
-	for _, v := range mappingCreateDatabaseBaseSource {
+	for _, v := range mappingCreateDatabaseBaseSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDatabaseBaseSourceEnumStringValues Enumerates the set of values in String for CreateDatabaseBaseSourceEnum
+func GetCreateDatabaseBaseSourceEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"DB_BACKUP",
+	}
 }

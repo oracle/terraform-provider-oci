@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DatabaseConnectionCredentials Credentials used to connect to the database. Currently only the `DETAILS` type is supported for creating MACS connector crendentials.
@@ -65,6 +67,18 @@ func (m databaseconnectioncredentials) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m databaseconnectioncredentials) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseConnectionCredentialsCredentialTypeEnum Enum with underlying type: string
 type DatabaseConnectionCredentialsCredentialTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	DatabaseConnectionCredentialsCredentialTypeDetails       DatabaseConnectionCredentialsCredentialTypeEnum = "DETAILS"
 )
 
-var mappingDatabaseConnectionCredentialsCredentialType = map[string]DatabaseConnectionCredentialsCredentialTypeEnum{
+var mappingDatabaseConnectionCredentialsCredentialTypeEnum = map[string]DatabaseConnectionCredentialsCredentialTypeEnum{
 	"NAME_REFERENCE": DatabaseConnectionCredentialsCredentialTypeNameReference,
 	"DETAILS":        DatabaseConnectionCredentialsCredentialTypeDetails,
 }
@@ -82,8 +96,16 @@ var mappingDatabaseConnectionCredentialsCredentialType = map[string]DatabaseConn
 // GetDatabaseConnectionCredentialsCredentialTypeEnumValues Enumerates the set of values for DatabaseConnectionCredentialsCredentialTypeEnum
 func GetDatabaseConnectionCredentialsCredentialTypeEnumValues() []DatabaseConnectionCredentialsCredentialTypeEnum {
 	values := make([]DatabaseConnectionCredentialsCredentialTypeEnum, 0)
-	for _, v := range mappingDatabaseConnectionCredentialsCredentialType {
+	for _, v := range mappingDatabaseConnectionCredentialsCredentialTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionCredentialsCredentialTypeEnumStringValues Enumerates the set of values in String for DatabaseConnectionCredentialsCredentialTypeEnum
+func GetDatabaseConnectionCredentialsCredentialTypeEnumStringValues() []string {
+	return []string{
+		"NAME_REFERENCE",
+		"DETAILS",
+	}
 }

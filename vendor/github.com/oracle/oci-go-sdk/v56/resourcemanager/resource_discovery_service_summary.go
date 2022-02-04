@@ -13,7 +13,9 @@
 package resourcemanager
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ResourceDiscoveryServiceSummary A service supported for use with Resource Discovery.
@@ -33,6 +35,21 @@ func (m ResourceDiscoveryServiceSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ResourceDiscoveryServiceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingResourceDiscoveryServiceSummaryDiscoveryScopeEnum[string(m.DiscoveryScope)]; !ok && m.DiscoveryScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiscoveryScope: %s. Supported values are: %s.", m.DiscoveryScope, strings.Join(GetResourceDiscoveryServiceSummaryDiscoveryScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ResourceDiscoveryServiceSummaryDiscoveryScopeEnum Enum with underlying type: string
 type ResourceDiscoveryServiceSummaryDiscoveryScopeEnum string
 
@@ -42,7 +59,7 @@ const (
 	ResourceDiscoveryServiceSummaryDiscoveryScopeCompartment ResourceDiscoveryServiceSummaryDiscoveryScopeEnum = "COMPARTMENT"
 )
 
-var mappingResourceDiscoveryServiceSummaryDiscoveryScope = map[string]ResourceDiscoveryServiceSummaryDiscoveryScopeEnum{
+var mappingResourceDiscoveryServiceSummaryDiscoveryScopeEnum = map[string]ResourceDiscoveryServiceSummaryDiscoveryScopeEnum{
 	"TENANCY":     ResourceDiscoveryServiceSummaryDiscoveryScopeTenancy,
 	"COMPARTMENT": ResourceDiscoveryServiceSummaryDiscoveryScopeCompartment,
 }
@@ -50,8 +67,16 @@ var mappingResourceDiscoveryServiceSummaryDiscoveryScope = map[string]ResourceDi
 // GetResourceDiscoveryServiceSummaryDiscoveryScopeEnumValues Enumerates the set of values for ResourceDiscoveryServiceSummaryDiscoveryScopeEnum
 func GetResourceDiscoveryServiceSummaryDiscoveryScopeEnumValues() []ResourceDiscoveryServiceSummaryDiscoveryScopeEnum {
 	values := make([]ResourceDiscoveryServiceSummaryDiscoveryScopeEnum, 0)
-	for _, v := range mappingResourceDiscoveryServiceSummaryDiscoveryScope {
+	for _, v := range mappingResourceDiscoveryServiceSummaryDiscoveryScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResourceDiscoveryServiceSummaryDiscoveryScopeEnumStringValues Enumerates the set of values in String for ResourceDiscoveryServiceSummaryDiscoveryScopeEnum
+func GetResourceDiscoveryServiceSummaryDiscoveryScopeEnumStringValues() []string {
+	return []string{
+		"TENANCY",
+		"COMPARTMENT",
+	}
 }

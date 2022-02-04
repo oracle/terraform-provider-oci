@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetJobMetricsRequest wrapper for the GetJobMetrics operation
@@ -46,6 +48,10 @@ func (request GetJobMetricsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetJobMetricsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request GetJobMetricsRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetJobMetricsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetJobMetricsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetJobMetricsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetJobMetricsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetJobMetricsResponse wrapper for the GetJobMetrics operation
@@ -109,7 +132,7 @@ const (
 	GetJobMetricsFieldsUri             GetJobMetricsFieldsEnum = "uri"
 )
 
-var mappingGetJobMetricsFields = map[string]GetJobMetricsFieldsEnum{
+var mappingGetJobMetricsFieldsEnum = map[string]GetJobMetricsFieldsEnum{
 	"key":             GetJobMetricsFieldsKey,
 	"description":     GetJobMetricsFieldsDescription,
 	"displayName":     GetJobMetricsFieldsDisplayname,
@@ -130,8 +153,29 @@ var mappingGetJobMetricsFields = map[string]GetJobMetricsFieldsEnum{
 // GetGetJobMetricsFieldsEnumValues Enumerates the set of values for GetJobMetricsFieldsEnum
 func GetGetJobMetricsFieldsEnumValues() []GetJobMetricsFieldsEnum {
 	values := make([]GetJobMetricsFieldsEnum, 0)
-	for _, v := range mappingGetJobMetricsFields {
+	for _, v := range mappingGetJobMetricsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetJobMetricsFieldsEnumStringValues Enumerates the set of values in String for GetJobMetricsFieldsEnum
+func GetGetJobMetricsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"description",
+		"displayName",
+		"timeInserted",
+		"category",
+		"subCategory",
+		"unit",
+		"value",
+		"batchKey",
+		"jobExecutionKey",
+		"createdById",
+		"updatedById",
+		"timeUpdated",
+		"timeCreated",
+		"uri",
+	}
 }

@@ -10,7 +10,9 @@
 package databasemigration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateExtract Parameters for GoldenGate Extract processes.
@@ -26,4 +28,19 @@ type CreateExtract struct {
 
 func (m CreateExtract) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateExtract) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingExtractPerformanceProfileEnum[string(m.PerformanceProfile)]; !ok && m.PerformanceProfile != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PerformanceProfile: %s. Supported values are: %s.", m.PerformanceProfile, strings.Join(GetExtractPerformanceProfileEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

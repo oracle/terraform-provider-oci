@@ -17,15 +17,22 @@ const (
 	StopDeploymentTypeDefault StopDeploymentTypeEnum = "DEFAULT"
 )
 
-var mappingStopDeploymentType = map[string]StopDeploymentTypeEnum{
+var mappingStopDeploymentTypeEnum = map[string]StopDeploymentTypeEnum{
 	"DEFAULT": StopDeploymentTypeDefault,
 }
 
 // GetStopDeploymentTypeEnumValues Enumerates the set of values for StopDeploymentTypeEnum
 func GetStopDeploymentTypeEnumValues() []StopDeploymentTypeEnum {
 	values := make([]StopDeploymentTypeEnum, 0)
-	for _, v := range mappingStopDeploymentType {
+	for _, v := range mappingStopDeploymentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStopDeploymentTypeEnumStringValues Enumerates the set of values in String for StopDeploymentTypeEnum
+func GetStopDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+	}
 }

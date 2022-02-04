@@ -2,23 +2,26 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Apm Configuration API
+// Application Performance Monitoring Configuration API
 //
-// An API for the APM Configuration service. Use this API to query and set APM configuration.
+// Use the Application Performance Monitoring Configuration API to query and set Application Performance Monitoring
+// configuration. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmconfig
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// Config A configuration item. This item has a number of mutually exclusive properties that can be used to set specific
+// Config A configuration item, which has a number of mutually exclusive properties that can be used to set specific
 // portions of the configuration.
 type Config interface {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID will be generated
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	GetId() *string
 
@@ -125,4 +128,16 @@ func (m config) GetDefinedTags() map[string]map[string]interface{} {
 
 func (m config) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m config) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

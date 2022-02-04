@@ -11,7 +11,9 @@ package databasetools
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DatabaseToolsUserPasswordDetails The user password.
@@ -61,6 +63,18 @@ func (m databasetoolsuserpassworddetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m databasetoolsuserpassworddetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseToolsUserPasswordDetailsValueTypeEnum Enum with underlying type: string
 type DatabaseToolsUserPasswordDetailsValueTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	DatabaseToolsUserPasswordDetailsValueTypeSecretid DatabaseToolsUserPasswordDetailsValueTypeEnum = "SECRETID"
 )
 
-var mappingDatabaseToolsUserPasswordDetailsValueType = map[string]DatabaseToolsUserPasswordDetailsValueTypeEnum{
+var mappingDatabaseToolsUserPasswordDetailsValueTypeEnum = map[string]DatabaseToolsUserPasswordDetailsValueTypeEnum{
 	"SECRETID": DatabaseToolsUserPasswordDetailsValueTypeSecretid,
 }
 
 // GetDatabaseToolsUserPasswordDetailsValueTypeEnumValues Enumerates the set of values for DatabaseToolsUserPasswordDetailsValueTypeEnum
 func GetDatabaseToolsUserPasswordDetailsValueTypeEnumValues() []DatabaseToolsUserPasswordDetailsValueTypeEnum {
 	values := make([]DatabaseToolsUserPasswordDetailsValueTypeEnum, 0)
-	for _, v := range mappingDatabaseToolsUserPasswordDetailsValueType {
+	for _, v := range mappingDatabaseToolsUserPasswordDetailsValueTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseToolsUserPasswordDetailsValueTypeEnumStringValues Enumerates the set of values in String for DatabaseToolsUserPasswordDetailsValueTypeEnum
+func GetDatabaseToolsUserPasswordDetailsValueTypeEnumStringValues() []string {
+	return []string{
+		"SECRETID",
+	}
 }

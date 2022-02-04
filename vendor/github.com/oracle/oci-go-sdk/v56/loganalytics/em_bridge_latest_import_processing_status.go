@@ -21,7 +21,7 @@ const (
 	EmBridgeLatestImportProcessingStatusPartialSuccess EmBridgeLatestImportProcessingStatusEnum = "PARTIAL_SUCCESS"
 )
 
-var mappingEmBridgeLatestImportProcessingStatus = map[string]EmBridgeLatestImportProcessingStatusEnum{
+var mappingEmBridgeLatestImportProcessingStatusEnum = map[string]EmBridgeLatestImportProcessingStatusEnum{
 	"NOT_STARTED":     EmBridgeLatestImportProcessingStatusNotStarted,
 	"SUCCESS":         EmBridgeLatestImportProcessingStatusSuccess,
 	"IN_PROGRESS":     EmBridgeLatestImportProcessingStatusInProgress,
@@ -32,8 +32,19 @@ var mappingEmBridgeLatestImportProcessingStatus = map[string]EmBridgeLatestImpor
 // GetEmBridgeLatestImportProcessingStatusEnumValues Enumerates the set of values for EmBridgeLatestImportProcessingStatusEnum
 func GetEmBridgeLatestImportProcessingStatusEnumValues() []EmBridgeLatestImportProcessingStatusEnum {
 	values := make([]EmBridgeLatestImportProcessingStatusEnum, 0)
-	for _, v := range mappingEmBridgeLatestImportProcessingStatus {
+	for _, v := range mappingEmBridgeLatestImportProcessingStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEmBridgeLatestImportProcessingStatusEnumStringValues Enumerates the set of values in String for EmBridgeLatestImportProcessingStatusEnum
+func GetEmBridgeLatestImportProcessingStatusEnumStringValues() []string {
+	return []string{
+		"NOT_STARTED",
+		"SUCCESS",
+		"IN_PROGRESS",
+		"FAILED",
+		"PARTIAL_SUCCESS",
+	}
 }

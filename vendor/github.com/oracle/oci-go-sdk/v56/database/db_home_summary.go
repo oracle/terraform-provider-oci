@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DbHomeSummary A directory where Oracle Database software is installed. A bare metal or Exadata DB system can have multiple Database Homes
@@ -78,6 +80,21 @@ func (m DbHomeSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbHomeSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDbHomeSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbHomeSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DbHomeSummaryLifecycleStateEnum Enum with underlying type: string
 type DbHomeSummaryLifecycleStateEnum string
 
@@ -91,7 +108,7 @@ const (
 	DbHomeSummaryLifecycleStateFailed       DbHomeSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingDbHomeSummaryLifecycleState = map[string]DbHomeSummaryLifecycleStateEnum{
+var mappingDbHomeSummaryLifecycleStateEnum = map[string]DbHomeSummaryLifecycleStateEnum{
 	"PROVISIONING": DbHomeSummaryLifecycleStateProvisioning,
 	"AVAILABLE":    DbHomeSummaryLifecycleStateAvailable,
 	"UPDATING":     DbHomeSummaryLifecycleStateUpdating,
@@ -103,8 +120,20 @@ var mappingDbHomeSummaryLifecycleState = map[string]DbHomeSummaryLifecycleStateE
 // GetDbHomeSummaryLifecycleStateEnumValues Enumerates the set of values for DbHomeSummaryLifecycleStateEnum
 func GetDbHomeSummaryLifecycleStateEnumValues() []DbHomeSummaryLifecycleStateEnum {
 	values := make([]DbHomeSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingDbHomeSummaryLifecycleState {
+	for _, v := range mappingDbHomeSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbHomeSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for DbHomeSummaryLifecycleStateEnum
+func GetDbHomeSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }

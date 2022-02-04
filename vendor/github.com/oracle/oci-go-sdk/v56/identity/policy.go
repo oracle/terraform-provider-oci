@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Policy A document that specifies the type of access a group has to the resources in a compartment. For information about
@@ -74,6 +76,21 @@ func (m Policy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Policy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPolicyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPolicyLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PolicyLifecycleStateEnum Enum with underlying type: string
 type PolicyLifecycleStateEnum string
 
@@ -86,7 +103,7 @@ const (
 	PolicyLifecycleStateDeleted  PolicyLifecycleStateEnum = "DELETED"
 )
 
-var mappingPolicyLifecycleState = map[string]PolicyLifecycleStateEnum{
+var mappingPolicyLifecycleStateEnum = map[string]PolicyLifecycleStateEnum{
 	"CREATING": PolicyLifecycleStateCreating,
 	"ACTIVE":   PolicyLifecycleStateActive,
 	"INACTIVE": PolicyLifecycleStateInactive,
@@ -97,8 +114,19 @@ var mappingPolicyLifecycleState = map[string]PolicyLifecycleStateEnum{
 // GetPolicyLifecycleStateEnumValues Enumerates the set of values for PolicyLifecycleStateEnum
 func GetPolicyLifecycleStateEnumValues() []PolicyLifecycleStateEnum {
 	values := make([]PolicyLifecycleStateEnum, 0)
-	for _, v := range mappingPolicyLifecycleState {
+	for _, v := range mappingPolicyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPolicyLifecycleStateEnumStringValues Enumerates the set of values in String for PolicyLifecycleStateEnum
+func GetPolicyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

@@ -18,7 +18,7 @@ const (
 	EntityLifecycleStatesDeleted EntityLifecycleStatesEnum = "DELETED"
 )
 
-var mappingEntityLifecycleStates = map[string]EntityLifecycleStatesEnum{
+var mappingEntityLifecycleStatesEnum = map[string]EntityLifecycleStatesEnum{
 	"ACTIVE":  EntityLifecycleStatesActive,
 	"DELETED": EntityLifecycleStatesDeleted,
 }
@@ -26,8 +26,16 @@ var mappingEntityLifecycleStates = map[string]EntityLifecycleStatesEnum{
 // GetEntityLifecycleStatesEnumValues Enumerates the set of values for EntityLifecycleStatesEnum
 func GetEntityLifecycleStatesEnumValues() []EntityLifecycleStatesEnum {
 	values := make([]EntityLifecycleStatesEnum, 0)
-	for _, v := range mappingEntityLifecycleStates {
+	for _, v := range mappingEntityLifecycleStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEntityLifecycleStatesEnumStringValues Enumerates the set of values in String for EntityLifecycleStatesEnum
+func GetEntityLifecycleStatesEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
 }

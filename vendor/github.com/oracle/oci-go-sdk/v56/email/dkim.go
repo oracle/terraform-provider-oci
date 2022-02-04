@@ -14,7 +14,9 @@
 package email
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Dkim The properties that define a DKIM.
@@ -88,6 +90,21 @@ func (m Dkim) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Dkim) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDkimLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDkimLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DkimLifecycleStateEnum Enum with underlying type: string
 type DkimLifecycleStateEnum string
 
@@ -103,7 +120,7 @@ const (
 	DkimLifecycleStateUpdating       DkimLifecycleStateEnum = "UPDATING"
 )
 
-var mappingDkimLifecycleState = map[string]DkimLifecycleStateEnum{
+var mappingDkimLifecycleStateEnum = map[string]DkimLifecycleStateEnum{
 	"ACTIVE":          DkimLifecycleStateActive,
 	"CREATING":        DkimLifecycleStateCreating,
 	"DELETING":        DkimLifecycleStateDeleting,
@@ -117,8 +134,22 @@ var mappingDkimLifecycleState = map[string]DkimLifecycleStateEnum{
 // GetDkimLifecycleStateEnumValues Enumerates the set of values for DkimLifecycleStateEnum
 func GetDkimLifecycleStateEnumValues() []DkimLifecycleStateEnum {
 	values := make([]DkimLifecycleStateEnum, 0)
-	for _, v := range mappingDkimLifecycleState {
+	for _, v := range mappingDkimLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDkimLifecycleStateEnumStringValues Enumerates the set of values in String for DkimLifecycleStateEnum
+func GetDkimLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"INACTIVE",
+		"NEEDS_ATTENTION",
+		"UPDATING",
+	}
 }

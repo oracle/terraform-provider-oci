@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListScheduledTasksRequest wrapper for the ListScheduledTasks operation
@@ -62,6 +64,10 @@ func (request ListScheduledTasksRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListScheduledTasksRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +81,26 @@ func (request ListScheduledTasksRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListScheduledTasksRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListScheduledTasksRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListScheduledTasksTaskTypeEnum[string(request.TaskType)]; !ok && request.TaskType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskType: %s. Supported values are: %s.", request.TaskType, strings.Join(GetListScheduledTasksTaskTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListScheduledTasksSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListScheduledTasksSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListScheduledTasksSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListScheduledTasksSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListScheduledTasksResponse wrapper for the ListScheduledTasks operation
@@ -120,7 +146,7 @@ const (
 	ListScheduledTasksTaskTypeAccelerationMaintenance ListScheduledTasksTaskTypeEnum = "ACCELERATION_MAINTENANCE"
 )
 
-var mappingListScheduledTasksTaskType = map[string]ListScheduledTasksTaskTypeEnum{
+var mappingListScheduledTasksTaskTypeEnum = map[string]ListScheduledTasksTaskTypeEnum{
 	"SAVED_SEARCH":             ListScheduledTasksTaskTypeSavedSearch,
 	"ACCELERATION":             ListScheduledTasksTaskTypeAcceleration,
 	"PURGE":                    ListScheduledTasksTaskTypePurge,
@@ -130,10 +156,20 @@ var mappingListScheduledTasksTaskType = map[string]ListScheduledTasksTaskTypeEnu
 // GetListScheduledTasksTaskTypeEnumValues Enumerates the set of values for ListScheduledTasksTaskTypeEnum
 func GetListScheduledTasksTaskTypeEnumValues() []ListScheduledTasksTaskTypeEnum {
 	values := make([]ListScheduledTasksTaskTypeEnum, 0)
-	for _, v := range mappingListScheduledTasksTaskType {
+	for _, v := range mappingListScheduledTasksTaskTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScheduledTasksTaskTypeEnumStringValues Enumerates the set of values in String for ListScheduledTasksTaskTypeEnum
+func GetListScheduledTasksTaskTypeEnumStringValues() []string {
+	return []string{
+		"SAVED_SEARCH",
+		"ACCELERATION",
+		"PURGE",
+		"ACCELERATION_MAINTENANCE",
+	}
 }
 
 // ListScheduledTasksSortOrderEnum Enum with underlying type: string
@@ -145,7 +181,7 @@ const (
 	ListScheduledTasksSortOrderDesc ListScheduledTasksSortOrderEnum = "DESC"
 )
 
-var mappingListScheduledTasksSortOrder = map[string]ListScheduledTasksSortOrderEnum{
+var mappingListScheduledTasksSortOrderEnum = map[string]ListScheduledTasksSortOrderEnum{
 	"ASC":  ListScheduledTasksSortOrderAsc,
 	"DESC": ListScheduledTasksSortOrderDesc,
 }
@@ -153,10 +189,18 @@ var mappingListScheduledTasksSortOrder = map[string]ListScheduledTasksSortOrderE
 // GetListScheduledTasksSortOrderEnumValues Enumerates the set of values for ListScheduledTasksSortOrderEnum
 func GetListScheduledTasksSortOrderEnumValues() []ListScheduledTasksSortOrderEnum {
 	values := make([]ListScheduledTasksSortOrderEnum, 0)
-	for _, v := range mappingListScheduledTasksSortOrder {
+	for _, v := range mappingListScheduledTasksSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScheduledTasksSortOrderEnumStringValues Enumerates the set of values in String for ListScheduledTasksSortOrderEnum
+func GetListScheduledTasksSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListScheduledTasksSortByEnum Enum with underlying type: string
@@ -169,7 +213,7 @@ const (
 	ListScheduledTasksSortByDisplayname ListScheduledTasksSortByEnum = "displayName"
 )
 
-var mappingListScheduledTasksSortBy = map[string]ListScheduledTasksSortByEnum{
+var mappingListScheduledTasksSortByEnum = map[string]ListScheduledTasksSortByEnum{
 	"timeCreated": ListScheduledTasksSortByTimecreated,
 	"timeUpdated": ListScheduledTasksSortByTimeupdated,
 	"displayName": ListScheduledTasksSortByDisplayname,
@@ -178,8 +222,17 @@ var mappingListScheduledTasksSortBy = map[string]ListScheduledTasksSortByEnum{
 // GetListScheduledTasksSortByEnumValues Enumerates the set of values for ListScheduledTasksSortByEnum
 func GetListScheduledTasksSortByEnumValues() []ListScheduledTasksSortByEnum {
 	values := make([]ListScheduledTasksSortByEnum, 0)
-	for _, v := range mappingListScheduledTasksSortBy {
+	for _, v := range mappingListScheduledTasksSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScheduledTasksSortByEnumStringValues Enumerates the set of values in String for ListScheduledTasksSortByEnum
+func GetListScheduledTasksSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"timeUpdated",
+		"displayName",
+	}
 }

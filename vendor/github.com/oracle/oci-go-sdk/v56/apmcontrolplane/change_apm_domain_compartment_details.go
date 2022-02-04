@@ -11,7 +11,9 @@
 package apmcontrolplane
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ChangeApmDomainCompartmentDetails The information needed for the change compartment operation.
@@ -23,4 +25,16 @@ type ChangeApmDomainCompartmentDetails struct {
 
 func (m ChangeApmDomainCompartmentDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ChangeApmDomainCompartmentDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

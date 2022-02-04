@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VolumeGroupReplica An asynchronous replica of a volume group that can then be used to create a new volume group
@@ -73,6 +75,21 @@ func (m VolumeGroupReplica) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VolumeGroupReplica) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVolumeGroupReplicaLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeGroupReplicaLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VolumeGroupReplicaLifecycleStateEnum Enum with underlying type: string
 type VolumeGroupReplicaLifecycleStateEnum string
 
@@ -86,7 +103,7 @@ const (
 	VolumeGroupReplicaLifecycleStateFaulty       VolumeGroupReplicaLifecycleStateEnum = "FAULTY"
 )
 
-var mappingVolumeGroupReplicaLifecycleState = map[string]VolumeGroupReplicaLifecycleStateEnum{
+var mappingVolumeGroupReplicaLifecycleStateEnum = map[string]VolumeGroupReplicaLifecycleStateEnum{
 	"PROVISIONING": VolumeGroupReplicaLifecycleStateProvisioning,
 	"AVAILABLE":    VolumeGroupReplicaLifecycleStateAvailable,
 	"ACTIVATING":   VolumeGroupReplicaLifecycleStateActivating,
@@ -98,8 +115,20 @@ var mappingVolumeGroupReplicaLifecycleState = map[string]VolumeGroupReplicaLifec
 // GetVolumeGroupReplicaLifecycleStateEnumValues Enumerates the set of values for VolumeGroupReplicaLifecycleStateEnum
 func GetVolumeGroupReplicaLifecycleStateEnumValues() []VolumeGroupReplicaLifecycleStateEnum {
 	values := make([]VolumeGroupReplicaLifecycleStateEnum, 0)
-	for _, v := range mappingVolumeGroupReplicaLifecycleState {
+	for _, v := range mappingVolumeGroupReplicaLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeGroupReplicaLifecycleStateEnumStringValues Enumerates the set of values in String for VolumeGroupReplicaLifecycleStateEnum
+func GetVolumeGroupReplicaLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"ACTIVATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAULTY",
+	}
 }

@@ -5,8 +5,10 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListGrantsRequest wrapper for the ListGrants operation
@@ -70,6 +72,10 @@ func (request ListGrantsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListGrantsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -83,6 +89,23 @@ func (request ListGrantsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListGrantsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListGrantsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListGrantsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListGrantsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListGrantsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListGrantsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListGrantsResponse wrapper for the ListGrants operation
@@ -124,7 +147,7 @@ const (
 	ListGrantsSortOrderDesc ListGrantsSortOrderEnum = "DESC"
 )
 
-var mappingListGrantsSortOrder = map[string]ListGrantsSortOrderEnum{
+var mappingListGrantsSortOrderEnum = map[string]ListGrantsSortOrderEnum{
 	"ASC":  ListGrantsSortOrderAsc,
 	"DESC": ListGrantsSortOrderDesc,
 }
@@ -132,10 +155,18 @@ var mappingListGrantsSortOrder = map[string]ListGrantsSortOrderEnum{
 // GetListGrantsSortOrderEnumValues Enumerates the set of values for ListGrantsSortOrderEnum
 func GetListGrantsSortOrderEnumValues() []ListGrantsSortOrderEnum {
 	values := make([]ListGrantsSortOrderEnum, 0)
-	for _, v := range mappingListGrantsSortOrder {
+	for _, v := range mappingListGrantsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListGrantsSortOrderEnumStringValues Enumerates the set of values in String for ListGrantsSortOrderEnum
+func GetListGrantsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListGrantsSortByEnum Enum with underlying type: string
@@ -150,7 +181,7 @@ const (
 	ListGrantsSortByKey               ListGrantsSortByEnum = "key"
 )
 
-var mappingListGrantsSortBy = map[string]ListGrantsSortByEnum{
+var mappingListGrantsSortByEnum = map[string]ListGrantsSortByEnum{
 	"grantName":         ListGrantsSortByGrantname,
 	"grantType":         ListGrantsSortByGranttype,
 	"privilegeCategory": ListGrantsSortByPrivilegecategory,
@@ -161,8 +192,19 @@ var mappingListGrantsSortBy = map[string]ListGrantsSortByEnum{
 // GetListGrantsSortByEnumValues Enumerates the set of values for ListGrantsSortByEnum
 func GetListGrantsSortByEnumValues() []ListGrantsSortByEnum {
 	values := make([]ListGrantsSortByEnum, 0)
-	for _, v := range mappingListGrantsSortBy {
+	for _, v := range mappingListGrantsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListGrantsSortByEnumStringValues Enumerates the set of values in String for ListGrantsSortByEnum
+func GetListGrantsSortByEnumStringValues() []string {
+	return []string{
+		"grantName",
+		"grantType",
+		"privilegeCategory",
+		"depthLevel",
+		"key",
+	}
 }

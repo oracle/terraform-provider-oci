@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAwrHubsRequest wrapper for the ListAwrHubs operation
@@ -65,6 +67,10 @@ func (request ListAwrHubsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAwrHubsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +84,29 @@ func (request ListAwrHubsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAwrHubsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAwrHubsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingAwrHubLifecycleStateEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetAwrHubLifecycleStateEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListAwrHubsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAwrHubsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAwrHubsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAwrHubsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAwrHubsResponse wrapper for the ListAwrHubs operation
@@ -117,7 +146,7 @@ const (
 	ListAwrHubsSortOrderDesc ListAwrHubsSortOrderEnum = "DESC"
 )
 
-var mappingListAwrHubsSortOrder = map[string]ListAwrHubsSortOrderEnum{
+var mappingListAwrHubsSortOrderEnum = map[string]ListAwrHubsSortOrderEnum{
 	"ASC":  ListAwrHubsSortOrderAsc,
 	"DESC": ListAwrHubsSortOrderDesc,
 }
@@ -125,10 +154,18 @@ var mappingListAwrHubsSortOrder = map[string]ListAwrHubsSortOrderEnum{
 // GetListAwrHubsSortOrderEnumValues Enumerates the set of values for ListAwrHubsSortOrderEnum
 func GetListAwrHubsSortOrderEnumValues() []ListAwrHubsSortOrderEnum {
 	values := make([]ListAwrHubsSortOrderEnum, 0)
-	for _, v := range mappingListAwrHubsSortOrder {
+	for _, v := range mappingListAwrHubsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAwrHubsSortOrderEnumStringValues Enumerates the set of values in String for ListAwrHubsSortOrderEnum
+func GetListAwrHubsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAwrHubsSortByEnum Enum with underlying type: string
@@ -140,7 +177,7 @@ const (
 	ListAwrHubsSortByDisplayname ListAwrHubsSortByEnum = "displayName"
 )
 
-var mappingListAwrHubsSortBy = map[string]ListAwrHubsSortByEnum{
+var mappingListAwrHubsSortByEnum = map[string]ListAwrHubsSortByEnum{
 	"timeCreated": ListAwrHubsSortByTimecreated,
 	"displayName": ListAwrHubsSortByDisplayname,
 }
@@ -148,8 +185,16 @@ var mappingListAwrHubsSortBy = map[string]ListAwrHubsSortByEnum{
 // GetListAwrHubsSortByEnumValues Enumerates the set of values for ListAwrHubsSortByEnum
 func GetListAwrHubsSortByEnumValues() []ListAwrHubsSortByEnum {
 	values := make([]ListAwrHubsSortByEnum, 0)
-	for _, v := range mappingListAwrHubsSortBy {
+	for _, v := range mappingListAwrHubsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAwrHubsSortByEnumStringValues Enumerates the set of values in String for ListAwrHubsSortByEnum
+func GetListAwrHubsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

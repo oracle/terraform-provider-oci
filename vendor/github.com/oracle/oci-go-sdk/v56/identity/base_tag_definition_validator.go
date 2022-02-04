@@ -11,7 +11,9 @@ package identity
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BaseTagDefinitionValidator Validates a definedTag value. Each validator performs validation steps in addition to the standard
@@ -73,6 +75,18 @@ func (m basetagdefinitionvalidator) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m basetagdefinitionvalidator) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BaseTagDefinitionValidatorValidatorTypeEnum Enum with underlying type: string
 type BaseTagDefinitionValidatorValidatorTypeEnum string
 
@@ -82,7 +96,7 @@ const (
 	BaseTagDefinitionValidatorValidatorTypeDefault   BaseTagDefinitionValidatorValidatorTypeEnum = "DEFAULT"
 )
 
-var mappingBaseTagDefinitionValidatorValidatorType = map[string]BaseTagDefinitionValidatorValidatorTypeEnum{
+var mappingBaseTagDefinitionValidatorValidatorTypeEnum = map[string]BaseTagDefinitionValidatorValidatorTypeEnum{
 	"ENUM":    BaseTagDefinitionValidatorValidatorTypeEnumvalue,
 	"DEFAULT": BaseTagDefinitionValidatorValidatorTypeDefault,
 }
@@ -90,8 +104,16 @@ var mappingBaseTagDefinitionValidatorValidatorType = map[string]BaseTagDefinitio
 // GetBaseTagDefinitionValidatorValidatorTypeEnumValues Enumerates the set of values for BaseTagDefinitionValidatorValidatorTypeEnum
 func GetBaseTagDefinitionValidatorValidatorTypeEnumValues() []BaseTagDefinitionValidatorValidatorTypeEnum {
 	values := make([]BaseTagDefinitionValidatorValidatorTypeEnum, 0)
-	for _, v := range mappingBaseTagDefinitionValidatorValidatorType {
+	for _, v := range mappingBaseTagDefinitionValidatorValidatorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBaseTagDefinitionValidatorValidatorTypeEnumStringValues Enumerates the set of values in String for BaseTagDefinitionValidatorValidatorTypeEnum
+func GetBaseTagDefinitionValidatorValidatorTypeEnumStringValues() []string {
+	return []string{
+		"ENUM",
+		"DEFAULT",
+	}
 }

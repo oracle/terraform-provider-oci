@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MaintenanceRun Details of a maintenance run.
@@ -73,6 +75,33 @@ func (m MaintenanceRun) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MaintenanceRun) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMaintenanceRunLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMaintenanceRunLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingMaintenanceRunTargetResourceTypeEnum[string(m.TargetResourceType)]; !ok && m.TargetResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetResourceType: %s. Supported values are: %s.", m.TargetResourceType, strings.Join(GetMaintenanceRunTargetResourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMaintenanceRunMaintenanceTypeEnum[string(m.MaintenanceType)]; !ok && m.MaintenanceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceType: %s. Supported values are: %s.", m.MaintenanceType, strings.Join(GetMaintenanceRunMaintenanceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMaintenanceRunMaintenanceSubtypeEnum[string(m.MaintenanceSubtype)]; !ok && m.MaintenanceSubtype != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceSubtype: %s. Supported values are: %s.", m.MaintenanceSubtype, strings.Join(GetMaintenanceRunMaintenanceSubtypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMaintenanceRunPatchingModeEnum[string(m.PatchingMode)]; !ok && m.PatchingMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchingMode: %s. Supported values are: %s.", m.PatchingMode, strings.Join(GetMaintenanceRunPatchingModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MaintenanceRunLifecycleStateEnum Enum with underlying type: string
 type MaintenanceRunLifecycleStateEnum string
 
@@ -89,7 +118,7 @@ const (
 	MaintenanceRunLifecycleStateCanceled   MaintenanceRunLifecycleStateEnum = "CANCELED"
 )
 
-var mappingMaintenanceRunLifecycleState = map[string]MaintenanceRunLifecycleStateEnum{
+var mappingMaintenanceRunLifecycleStateEnum = map[string]MaintenanceRunLifecycleStateEnum{
 	"SCHEDULED":   MaintenanceRunLifecycleStateScheduled,
 	"IN_PROGRESS": MaintenanceRunLifecycleStateInProgress,
 	"SUCCEEDED":   MaintenanceRunLifecycleStateSucceeded,
@@ -104,10 +133,25 @@ var mappingMaintenanceRunLifecycleState = map[string]MaintenanceRunLifecycleStat
 // GetMaintenanceRunLifecycleStateEnumValues Enumerates the set of values for MaintenanceRunLifecycleStateEnum
 func GetMaintenanceRunLifecycleStateEnumValues() []MaintenanceRunLifecycleStateEnum {
 	values := make([]MaintenanceRunLifecycleStateEnum, 0)
-	for _, v := range mappingMaintenanceRunLifecycleState {
+	for _, v := range mappingMaintenanceRunLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMaintenanceRunLifecycleStateEnumStringValues Enumerates the set of values in String for MaintenanceRunLifecycleStateEnum
+func GetMaintenanceRunLifecycleStateEnumStringValues() []string {
+	return []string{
+		"SCHEDULED",
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"SKIPPED",
+		"FAILED",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"CANCELED",
+	}
 }
 
 // MaintenanceRunTargetResourceTypeEnum Enum with underlying type: string
@@ -123,7 +167,7 @@ const (
 	MaintenanceRunTargetResourceTypeAutonomousDatabase              MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_DATABASE"
 )
 
-var mappingMaintenanceRunTargetResourceType = map[string]MaintenanceRunTargetResourceTypeEnum{
+var mappingMaintenanceRunTargetResourceTypeEnum = map[string]MaintenanceRunTargetResourceTypeEnum{
 	"AUTONOMOUS_EXADATA_INFRASTRUCTURE": MaintenanceRunTargetResourceTypeAutonomousExadataInfrastructure,
 	"AUTONOMOUS_CONTAINER_DATABASE":     MaintenanceRunTargetResourceTypeAutonomousContainerDatabase,
 	"EXADATA_DB_SYSTEM":                 MaintenanceRunTargetResourceTypeExadataDbSystem,
@@ -135,10 +179,22 @@ var mappingMaintenanceRunTargetResourceType = map[string]MaintenanceRunTargetRes
 // GetMaintenanceRunTargetResourceTypeEnumValues Enumerates the set of values for MaintenanceRunTargetResourceTypeEnum
 func GetMaintenanceRunTargetResourceTypeEnumValues() []MaintenanceRunTargetResourceTypeEnum {
 	values := make([]MaintenanceRunTargetResourceTypeEnum, 0)
-	for _, v := range mappingMaintenanceRunTargetResourceType {
+	for _, v := range mappingMaintenanceRunTargetResourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMaintenanceRunTargetResourceTypeEnumStringValues Enumerates the set of values in String for MaintenanceRunTargetResourceTypeEnum
+func GetMaintenanceRunTargetResourceTypeEnumStringValues() []string {
+	return []string{
+		"AUTONOMOUS_EXADATA_INFRASTRUCTURE",
+		"AUTONOMOUS_CONTAINER_DATABASE",
+		"EXADATA_DB_SYSTEM",
+		"CLOUD_EXADATA_INFRASTRUCTURE",
+		"EXACC_INFRASTRUCTURE",
+		"AUTONOMOUS_DATABASE",
+	}
 }
 
 // MaintenanceRunMaintenanceTypeEnum Enum with underlying type: string
@@ -150,7 +206,7 @@ const (
 	MaintenanceRunMaintenanceTypeUnplanned MaintenanceRunMaintenanceTypeEnum = "UNPLANNED"
 )
 
-var mappingMaintenanceRunMaintenanceType = map[string]MaintenanceRunMaintenanceTypeEnum{
+var mappingMaintenanceRunMaintenanceTypeEnum = map[string]MaintenanceRunMaintenanceTypeEnum{
 	"PLANNED":   MaintenanceRunMaintenanceTypePlanned,
 	"UNPLANNED": MaintenanceRunMaintenanceTypeUnplanned,
 }
@@ -158,10 +214,18 @@ var mappingMaintenanceRunMaintenanceType = map[string]MaintenanceRunMaintenanceT
 // GetMaintenanceRunMaintenanceTypeEnumValues Enumerates the set of values for MaintenanceRunMaintenanceTypeEnum
 func GetMaintenanceRunMaintenanceTypeEnumValues() []MaintenanceRunMaintenanceTypeEnum {
 	values := make([]MaintenanceRunMaintenanceTypeEnum, 0)
-	for _, v := range mappingMaintenanceRunMaintenanceType {
+	for _, v := range mappingMaintenanceRunMaintenanceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMaintenanceRunMaintenanceTypeEnumStringValues Enumerates the set of values in String for MaintenanceRunMaintenanceTypeEnum
+func GetMaintenanceRunMaintenanceTypeEnumStringValues() []string {
+	return []string{
+		"PLANNED",
+		"UNPLANNED",
+	}
 }
 
 // MaintenanceRunMaintenanceSubtypeEnum Enum with underlying type: string
@@ -177,7 +241,7 @@ const (
 	MaintenanceRunMaintenanceSubtypeOneoff         MaintenanceRunMaintenanceSubtypeEnum = "ONEOFF"
 )
 
-var mappingMaintenanceRunMaintenanceSubtype = map[string]MaintenanceRunMaintenanceSubtypeEnum{
+var mappingMaintenanceRunMaintenanceSubtypeEnum = map[string]MaintenanceRunMaintenanceSubtypeEnum{
 	"QUARTERLY":      MaintenanceRunMaintenanceSubtypeQuarterly,
 	"HARDWARE":       MaintenanceRunMaintenanceSubtypeHardware,
 	"CRITICAL":       MaintenanceRunMaintenanceSubtypeCritical,
@@ -189,10 +253,22 @@ var mappingMaintenanceRunMaintenanceSubtype = map[string]MaintenanceRunMaintenan
 // GetMaintenanceRunMaintenanceSubtypeEnumValues Enumerates the set of values for MaintenanceRunMaintenanceSubtypeEnum
 func GetMaintenanceRunMaintenanceSubtypeEnumValues() []MaintenanceRunMaintenanceSubtypeEnum {
 	values := make([]MaintenanceRunMaintenanceSubtypeEnum, 0)
-	for _, v := range mappingMaintenanceRunMaintenanceSubtype {
+	for _, v := range mappingMaintenanceRunMaintenanceSubtypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMaintenanceRunMaintenanceSubtypeEnumStringValues Enumerates the set of values in String for MaintenanceRunMaintenanceSubtypeEnum
+func GetMaintenanceRunMaintenanceSubtypeEnumStringValues() []string {
+	return []string{
+		"QUARTERLY",
+		"HARDWARE",
+		"CRITICAL",
+		"INFRASTRUCTURE",
+		"DATABASE",
+		"ONEOFF",
+	}
 }
 
 // MaintenanceRunPatchingModeEnum Enum with underlying type: string
@@ -204,7 +280,7 @@ const (
 	MaintenanceRunPatchingModeNonrolling MaintenanceRunPatchingModeEnum = "NONROLLING"
 )
 
-var mappingMaintenanceRunPatchingMode = map[string]MaintenanceRunPatchingModeEnum{
+var mappingMaintenanceRunPatchingModeEnum = map[string]MaintenanceRunPatchingModeEnum{
 	"ROLLING":    MaintenanceRunPatchingModeRolling,
 	"NONROLLING": MaintenanceRunPatchingModeNonrolling,
 }
@@ -212,8 +288,16 @@ var mappingMaintenanceRunPatchingMode = map[string]MaintenanceRunPatchingModeEnu
 // GetMaintenanceRunPatchingModeEnumValues Enumerates the set of values for MaintenanceRunPatchingModeEnum
 func GetMaintenanceRunPatchingModeEnumValues() []MaintenanceRunPatchingModeEnum {
 	values := make([]MaintenanceRunPatchingModeEnum, 0)
-	for _, v := range mappingMaintenanceRunPatchingMode {
+	for _, v := range mappingMaintenanceRunPatchingModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMaintenanceRunPatchingModeEnumStringValues Enumerates the set of values in String for MaintenanceRunPatchingModeEnum
+func GetMaintenanceRunPatchingModeEnumStringValues() []string {
+	return []string{
+		"ROLLING",
+		"NONROLLING",
+	}
 }

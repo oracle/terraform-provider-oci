@@ -20,7 +20,7 @@ const (
 	AwrReportFormatTypeText AwrReportFormatTypeEnum = "TEXT"
 )
 
-var mappingAwrReportFormatType = map[string]AwrReportFormatTypeEnum{
+var mappingAwrReportFormatTypeEnum = map[string]AwrReportFormatTypeEnum{
 	"HTML": AwrReportFormatTypeHtml,
 	"TEXT": AwrReportFormatTypeText,
 }
@@ -28,8 +28,16 @@ var mappingAwrReportFormatType = map[string]AwrReportFormatTypeEnum{
 // GetAwrReportFormatTypeEnumValues Enumerates the set of values for AwrReportFormatTypeEnum
 func GetAwrReportFormatTypeEnumValues() []AwrReportFormatTypeEnum {
 	values := make([]AwrReportFormatTypeEnum, 0)
-	for _, v := range mappingAwrReportFormatType {
+	for _, v := range mappingAwrReportFormatTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAwrReportFormatTypeEnumStringValues Enumerates the set of values in String for AwrReportFormatTypeEnum
+func GetAwrReportFormatTypeEnumStringValues() []string {
+	return []string{
+		"HTML",
+		"TEXT",
+	}
 }

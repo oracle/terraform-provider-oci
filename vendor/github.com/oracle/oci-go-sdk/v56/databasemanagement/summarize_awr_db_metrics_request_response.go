@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeAwrDbMetricsRequest wrapper for the SummarizeAwrDbMetrics operation
@@ -82,6 +84,10 @@ func (request SummarizeAwrDbMetricsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeAwrDbMetricsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -95,6 +101,23 @@ func (request SummarizeAwrDbMetricsRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeAwrDbMetricsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeAwrDbMetricsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeAwrDbMetricsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeAwrDbMetricsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbMetricsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeAwrDbMetricsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeAwrDbMetricsResponse wrapper for the SummarizeAwrDbMetrics operation
@@ -134,7 +157,7 @@ const (
 	SummarizeAwrDbMetricsSortByName      SummarizeAwrDbMetricsSortByEnum = "NAME"
 )
 
-var mappingSummarizeAwrDbMetricsSortBy = map[string]SummarizeAwrDbMetricsSortByEnum{
+var mappingSummarizeAwrDbMetricsSortByEnum = map[string]SummarizeAwrDbMetricsSortByEnum{
 	"TIMESTAMP": SummarizeAwrDbMetricsSortByTimestamp,
 	"NAME":      SummarizeAwrDbMetricsSortByName,
 }
@@ -142,10 +165,18 @@ var mappingSummarizeAwrDbMetricsSortBy = map[string]SummarizeAwrDbMetricsSortByE
 // GetSummarizeAwrDbMetricsSortByEnumValues Enumerates the set of values for SummarizeAwrDbMetricsSortByEnum
 func GetSummarizeAwrDbMetricsSortByEnumValues() []SummarizeAwrDbMetricsSortByEnum {
 	values := make([]SummarizeAwrDbMetricsSortByEnum, 0)
-	for _, v := range mappingSummarizeAwrDbMetricsSortBy {
+	for _, v := range mappingSummarizeAwrDbMetricsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbMetricsSortByEnumStringValues Enumerates the set of values in String for SummarizeAwrDbMetricsSortByEnum
+func GetSummarizeAwrDbMetricsSortByEnumStringValues() []string {
+	return []string{
+		"TIMESTAMP",
+		"NAME",
+	}
 }
 
 // SummarizeAwrDbMetricsSortOrderEnum Enum with underlying type: string
@@ -157,7 +188,7 @@ const (
 	SummarizeAwrDbMetricsSortOrderDesc SummarizeAwrDbMetricsSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeAwrDbMetricsSortOrder = map[string]SummarizeAwrDbMetricsSortOrderEnum{
+var mappingSummarizeAwrDbMetricsSortOrderEnum = map[string]SummarizeAwrDbMetricsSortOrderEnum{
 	"ASC":  SummarizeAwrDbMetricsSortOrderAsc,
 	"DESC": SummarizeAwrDbMetricsSortOrderDesc,
 }
@@ -165,8 +196,16 @@ var mappingSummarizeAwrDbMetricsSortOrder = map[string]SummarizeAwrDbMetricsSort
 // GetSummarizeAwrDbMetricsSortOrderEnumValues Enumerates the set of values for SummarizeAwrDbMetricsSortOrderEnum
 func GetSummarizeAwrDbMetricsSortOrderEnumValues() []SummarizeAwrDbMetricsSortOrderEnum {
 	values := make([]SummarizeAwrDbMetricsSortOrderEnum, 0)
-	for _, v := range mappingSummarizeAwrDbMetricsSortOrder {
+	for _, v := range mappingSummarizeAwrDbMetricsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbMetricsSortOrderEnumStringValues Enumerates the set of values in String for SummarizeAwrDbMetricsSortOrderEnum
+func GetSummarizeAwrDbMetricsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

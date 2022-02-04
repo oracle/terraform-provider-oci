@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ValidationRequestPolicy Top-level validation policy mixin (not directly used).
@@ -31,6 +33,21 @@ func (m ValidationRequestPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ValidationRequestPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingValidationRequestPolicyValidationModeEnum[string(m.ValidationMode)]; !ok && m.ValidationMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValidationMode: %s. Supported values are: %s.", m.ValidationMode, strings.Join(GetValidationRequestPolicyValidationModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ValidationRequestPolicyValidationModeEnum Enum with underlying type: string
 type ValidationRequestPolicyValidationModeEnum string
 
@@ -41,7 +58,7 @@ const (
 	ValidationRequestPolicyValidationModeDisabled   ValidationRequestPolicyValidationModeEnum = "DISABLED"
 )
 
-var mappingValidationRequestPolicyValidationMode = map[string]ValidationRequestPolicyValidationModeEnum{
+var mappingValidationRequestPolicyValidationModeEnum = map[string]ValidationRequestPolicyValidationModeEnum{
 	"ENFORCING":  ValidationRequestPolicyValidationModeEnforcing,
 	"PERMISSIVE": ValidationRequestPolicyValidationModePermissive,
 	"DISABLED":   ValidationRequestPolicyValidationModeDisabled,
@@ -50,8 +67,17 @@ var mappingValidationRequestPolicyValidationMode = map[string]ValidationRequestP
 // GetValidationRequestPolicyValidationModeEnumValues Enumerates the set of values for ValidationRequestPolicyValidationModeEnum
 func GetValidationRequestPolicyValidationModeEnumValues() []ValidationRequestPolicyValidationModeEnum {
 	values := make([]ValidationRequestPolicyValidationModeEnum, 0)
-	for _, v := range mappingValidationRequestPolicyValidationMode {
+	for _, v := range mappingValidationRequestPolicyValidationModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetValidationRequestPolicyValidationModeEnumStringValues Enumerates the set of values in String for ValidationRequestPolicyValidationModeEnum
+func GetValidationRequestPolicyValidationModeEnumStringValues() []string {
+	return []string{
+		"ENFORCING",
+		"PERMISSIVE",
+		"DISABLED",
+	}
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateTaskValidationDetails The task type contains the audit summary information and the definition of the task.
@@ -205,6 +207,18 @@ func (m createtaskvalidationdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createtaskvalidationdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateTaskValidationDetailsModelTypeEnum Enum with underlying type: string
 type CreateTaskValidationDetailsModelTypeEnum string
 
@@ -215,7 +229,7 @@ const (
 	CreateTaskValidationDetailsModelTypePipelineTask    CreateTaskValidationDetailsModelTypeEnum = "PIPELINE_TASK"
 )
 
-var mappingCreateTaskValidationDetailsModelType = map[string]CreateTaskValidationDetailsModelTypeEnum{
+var mappingCreateTaskValidationDetailsModelTypeEnum = map[string]CreateTaskValidationDetailsModelTypeEnum{
 	"INTEGRATION_TASK": CreateTaskValidationDetailsModelTypeIntegrationTask,
 	"DATA_LOADER_TASK": CreateTaskValidationDetailsModelTypeDataLoaderTask,
 	"PIPELINE_TASK":    CreateTaskValidationDetailsModelTypePipelineTask,
@@ -224,8 +238,17 @@ var mappingCreateTaskValidationDetailsModelType = map[string]CreateTaskValidatio
 // GetCreateTaskValidationDetailsModelTypeEnumValues Enumerates the set of values for CreateTaskValidationDetailsModelTypeEnum
 func GetCreateTaskValidationDetailsModelTypeEnumValues() []CreateTaskValidationDetailsModelTypeEnum {
 	values := make([]CreateTaskValidationDetailsModelTypeEnum, 0)
-	for _, v := range mappingCreateTaskValidationDetailsModelType {
+	for _, v := range mappingCreateTaskValidationDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateTaskValidationDetailsModelTypeEnumStringValues Enumerates the set of values in String for CreateTaskValidationDetailsModelTypeEnum
+func GetCreateTaskValidationDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+	}
 }

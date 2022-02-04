@@ -23,7 +23,7 @@ const (
 	DatabaseSubTypeAdb    DatabaseSubTypeEnum = "ADB"
 )
 
-var mappingDatabaseSubType = map[string]DatabaseSubTypeEnum{
+var mappingDatabaseSubTypeEnum = map[string]DatabaseSubTypeEnum{
 	"CDB":     DatabaseSubTypeCdb,
 	"PDB":     DatabaseSubTypePdb,
 	"NON_CDB": DatabaseSubTypeNonCdb,
@@ -34,8 +34,19 @@ var mappingDatabaseSubType = map[string]DatabaseSubTypeEnum{
 // GetDatabaseSubTypeEnumValues Enumerates the set of values for DatabaseSubTypeEnum
 func GetDatabaseSubTypeEnumValues() []DatabaseSubTypeEnum {
 	values := make([]DatabaseSubTypeEnum, 0)
-	for _, v := range mappingDatabaseSubType {
+	for _, v := range mappingDatabaseSubTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseSubTypeEnumStringValues Enumerates the set of values in String for DatabaseSubTypeEnum
+func GetDatabaseSubTypeEnumStringValues() []string {
+	return []string{
+		"CDB",
+		"PDB",
+		"NON_CDB",
+		"ACD",
+		"ADB",
+	}
 }

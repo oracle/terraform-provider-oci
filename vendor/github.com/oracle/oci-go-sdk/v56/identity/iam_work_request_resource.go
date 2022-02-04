@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // IamWorkRequestResource A IAM work request resource entry
@@ -36,6 +38,21 @@ func (m IamWorkRequestResource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IamWorkRequestResource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIamWorkRequestResourceActionTypeEnum[string(m.ActionType)]; !ok && m.ActionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionType: %s. Supported values are: %s.", m.ActionType, strings.Join(GetIamWorkRequestResourceActionTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // IamWorkRequestResourceActionTypeEnum Enum with underlying type: string
 type IamWorkRequestResourceActionTypeEnum string
 
@@ -48,7 +65,7 @@ const (
 	IamWorkRequestResourceActionTypeInProgress IamWorkRequestResourceActionTypeEnum = "IN_PROGRESS"
 )
 
-var mappingIamWorkRequestResourceActionType = map[string]IamWorkRequestResourceActionTypeEnum{
+var mappingIamWorkRequestResourceActionTypeEnum = map[string]IamWorkRequestResourceActionTypeEnum{
 	"CREATED":     IamWorkRequestResourceActionTypeCreated,
 	"UPDATED":     IamWorkRequestResourceActionTypeUpdated,
 	"DELETED":     IamWorkRequestResourceActionTypeDeleted,
@@ -59,8 +76,19 @@ var mappingIamWorkRequestResourceActionType = map[string]IamWorkRequestResourceA
 // GetIamWorkRequestResourceActionTypeEnumValues Enumerates the set of values for IamWorkRequestResourceActionTypeEnum
 func GetIamWorkRequestResourceActionTypeEnumValues() []IamWorkRequestResourceActionTypeEnum {
 	values := make([]IamWorkRequestResourceActionTypeEnum, 0)
-	for _, v := range mappingIamWorkRequestResourceActionType {
+	for _, v := range mappingIamWorkRequestResourceActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIamWorkRequestResourceActionTypeEnumStringValues Enumerates the set of values in String for IamWorkRequestResourceActionTypeEnum
+func GetIamWorkRequestResourceActionTypeEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"UPDATED",
+		"DELETED",
+		"RELATED",
+		"IN_PROGRESS",
+	}
 }

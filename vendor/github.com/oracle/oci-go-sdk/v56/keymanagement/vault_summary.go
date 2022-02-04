@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VaultSummary The representation of VaultSummary
@@ -62,6 +64,24 @@ func (m VaultSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VaultSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVaultSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVaultSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVaultSummaryVaultTypeEnum[string(m.VaultType)]; !ok && m.VaultType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VaultType: %s. Supported values are: %s.", m.VaultType, strings.Join(GetVaultSummaryVaultTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VaultSummaryLifecycleStateEnum Enum with underlying type: string
 type VaultSummaryLifecycleStateEnum string
 
@@ -79,7 +99,7 @@ const (
 	VaultSummaryLifecycleStateRestoring          VaultSummaryLifecycleStateEnum = "RESTORING"
 )
 
-var mappingVaultSummaryLifecycleState = map[string]VaultSummaryLifecycleStateEnum{
+var mappingVaultSummaryLifecycleStateEnum = map[string]VaultSummaryLifecycleStateEnum{
 	"CREATING":            VaultSummaryLifecycleStateCreating,
 	"ACTIVE":              VaultSummaryLifecycleStateActive,
 	"DELETING":            VaultSummaryLifecycleStateDeleting,
@@ -95,10 +115,26 @@ var mappingVaultSummaryLifecycleState = map[string]VaultSummaryLifecycleStateEnu
 // GetVaultSummaryLifecycleStateEnumValues Enumerates the set of values for VaultSummaryLifecycleStateEnum
 func GetVaultSummaryLifecycleStateEnumValues() []VaultSummaryLifecycleStateEnum {
 	values := make([]VaultSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingVaultSummaryLifecycleState {
+	for _, v := range mappingVaultSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVaultSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for VaultSummaryLifecycleStateEnum
+func GetVaultSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"PENDING_DELETION",
+		"SCHEDULING_DELETION",
+		"CANCELLING_DELETION",
+		"UPDATING",
+		"BACKUP_IN_PROGRESS",
+		"RESTORING",
+	}
 }
 
 // VaultSummaryVaultTypeEnum Enum with underlying type: string
@@ -110,7 +146,7 @@ const (
 	VaultSummaryVaultTypeDefault        VaultSummaryVaultTypeEnum = "DEFAULT"
 )
 
-var mappingVaultSummaryVaultType = map[string]VaultSummaryVaultTypeEnum{
+var mappingVaultSummaryVaultTypeEnum = map[string]VaultSummaryVaultTypeEnum{
 	"VIRTUAL_PRIVATE": VaultSummaryVaultTypeVirtualPrivate,
 	"DEFAULT":         VaultSummaryVaultTypeDefault,
 }
@@ -118,8 +154,16 @@ var mappingVaultSummaryVaultType = map[string]VaultSummaryVaultTypeEnum{
 // GetVaultSummaryVaultTypeEnumValues Enumerates the set of values for VaultSummaryVaultTypeEnum
 func GetVaultSummaryVaultTypeEnumValues() []VaultSummaryVaultTypeEnum {
 	values := make([]VaultSummaryVaultTypeEnum, 0)
-	for _, v := range mappingVaultSummaryVaultType {
+	for _, v := range mappingVaultSummaryVaultTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVaultSummaryVaultTypeEnumStringValues Enumerates the set of values in String for VaultSummaryVaultTypeEnum
+func GetVaultSummaryVaultTypeEnumStringValues() []string {
+	return []string{
+		"VIRTUAL_PRIVATE",
+		"DEFAULT",
+	}
 }

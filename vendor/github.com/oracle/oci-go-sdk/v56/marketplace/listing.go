@@ -10,7 +10,9 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Listing The model for an Oracle Cloud Infrastructure Marketplace listing.
@@ -103,6 +105,24 @@ type Listing struct {
 
 func (m Listing) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Listing) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPackageTypeEnumEnum[string(m.PackageType)]; !ok && m.PackageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", m.PackageType, strings.Join(GetPackageTypeEnumEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListingTypeEnum[string(m.ListingType)]; !ok && m.ListingType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ListingType: %s. Supported values are: %s.", m.ListingType, strings.Join(GetListingTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListingPackageTypeEnum is an alias to type: PackageTypeEnumEnum

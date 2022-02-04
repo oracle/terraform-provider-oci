@@ -22,7 +22,7 @@ const (
 	EncryptionInTransitTypeBmEncryptionInTransit EncryptionInTransitTypeEnum = "BM_ENCRYPTION_IN_TRANSIT"
 )
 
-var mappingEncryptionInTransitType = map[string]EncryptionInTransitTypeEnum{
+var mappingEncryptionInTransitTypeEnum = map[string]EncryptionInTransitTypeEnum{
 	"NONE":                     EncryptionInTransitTypeNone,
 	"BM_ENCRYPTION_IN_TRANSIT": EncryptionInTransitTypeBmEncryptionInTransit,
 }
@@ -30,8 +30,16 @@ var mappingEncryptionInTransitType = map[string]EncryptionInTransitTypeEnum{
 // GetEncryptionInTransitTypeEnumValues Enumerates the set of values for EncryptionInTransitTypeEnum
 func GetEncryptionInTransitTypeEnumValues() []EncryptionInTransitTypeEnum {
 	values := make([]EncryptionInTransitTypeEnum, 0)
-	for _, v := range mappingEncryptionInTransitType {
+	for _, v := range mappingEncryptionInTransitTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEncryptionInTransitTypeEnumStringValues Enumerates the set of values in String for EncryptionInTransitTypeEnum
+func GetEncryptionInTransitTypeEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"BM_ENCRYPTION_IN_TRANSIT",
+	}
 }

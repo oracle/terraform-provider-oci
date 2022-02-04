@@ -5,8 +5,10 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListHttpMonitorsRequest wrapper for the ListHttpMonitors operation
@@ -54,6 +56,10 @@ func (request ListHttpMonitorsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListHttpMonitorsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +73,23 @@ func (request ListHttpMonitorsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListHttpMonitorsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListHttpMonitorsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListHttpMonitorsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListHttpMonitorsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListHttpMonitorsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListHttpMonitorsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListHttpMonitorsResponse wrapper for the ListHttpMonitors operation
@@ -109,7 +132,7 @@ const (
 	ListHttpMonitorsSortByTimecreated ListHttpMonitorsSortByEnum = "timeCreated"
 )
 
-var mappingListHttpMonitorsSortBy = map[string]ListHttpMonitorsSortByEnum{
+var mappingListHttpMonitorsSortByEnum = map[string]ListHttpMonitorsSortByEnum{
 	"id":          ListHttpMonitorsSortById,
 	"displayName": ListHttpMonitorsSortByDisplayname,
 	"timeCreated": ListHttpMonitorsSortByTimecreated,
@@ -118,10 +141,19 @@ var mappingListHttpMonitorsSortBy = map[string]ListHttpMonitorsSortByEnum{
 // GetListHttpMonitorsSortByEnumValues Enumerates the set of values for ListHttpMonitorsSortByEnum
 func GetListHttpMonitorsSortByEnumValues() []ListHttpMonitorsSortByEnum {
 	values := make([]ListHttpMonitorsSortByEnum, 0)
-	for _, v := range mappingListHttpMonitorsSortBy {
+	for _, v := range mappingListHttpMonitorsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHttpMonitorsSortByEnumStringValues Enumerates the set of values in String for ListHttpMonitorsSortByEnum
+func GetListHttpMonitorsSortByEnumStringValues() []string {
+	return []string{
+		"id",
+		"displayName",
+		"timeCreated",
+	}
 }
 
 // ListHttpMonitorsSortOrderEnum Enum with underlying type: string
@@ -133,7 +165,7 @@ const (
 	ListHttpMonitorsSortOrderDesc ListHttpMonitorsSortOrderEnum = "DESC"
 )
 
-var mappingListHttpMonitorsSortOrder = map[string]ListHttpMonitorsSortOrderEnum{
+var mappingListHttpMonitorsSortOrderEnum = map[string]ListHttpMonitorsSortOrderEnum{
 	"ASC":  ListHttpMonitorsSortOrderAsc,
 	"DESC": ListHttpMonitorsSortOrderDesc,
 }
@@ -141,8 +173,16 @@ var mappingListHttpMonitorsSortOrder = map[string]ListHttpMonitorsSortOrderEnum{
 // GetListHttpMonitorsSortOrderEnumValues Enumerates the set of values for ListHttpMonitorsSortOrderEnum
 func GetListHttpMonitorsSortOrderEnumValues() []ListHttpMonitorsSortOrderEnum {
 	values := make([]ListHttpMonitorsSortOrderEnum, 0)
-	for _, v := range mappingListHttpMonitorsSortOrder {
+	for _, v := range mappingListHttpMonitorsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHttpMonitorsSortOrderEnumStringValues Enumerates the set of values in String for ListHttpMonitorsSortOrderEnum
+func GetListHttpMonitorsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

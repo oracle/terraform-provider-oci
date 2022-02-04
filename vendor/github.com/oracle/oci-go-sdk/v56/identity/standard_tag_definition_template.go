@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // StandardTagDefinitionTemplate The template of the tag definition. This object includes necessary details to create the provided standard tag definition.
@@ -39,6 +41,24 @@ func (m StandardTagDefinitionTemplate) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m StandardTagDefinitionTemplate) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingStandardTagDefinitionTemplateTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetStandardTagDefinitionTemplateTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingStandardTagDefinitionTemplateEnumMutabilityEnum[string(m.EnumMutability)]; !ok && m.EnumMutability != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnumMutability: %s. Supported values are: %s.", m.EnumMutability, strings.Join(GetStandardTagDefinitionTemplateEnumMutabilityEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // StandardTagDefinitionTemplateTypeEnum Enum with underlying type: string
 type StandardTagDefinitionTemplateTypeEnum string
 
@@ -48,7 +68,7 @@ const (
 	StandardTagDefinitionTemplateTypeString    StandardTagDefinitionTemplateTypeEnum = "STRING"
 )
 
-var mappingStandardTagDefinitionTemplateType = map[string]StandardTagDefinitionTemplateTypeEnum{
+var mappingStandardTagDefinitionTemplateTypeEnum = map[string]StandardTagDefinitionTemplateTypeEnum{
 	"ENUM":   StandardTagDefinitionTemplateTypeEnumvalue,
 	"STRING": StandardTagDefinitionTemplateTypeString,
 }
@@ -56,10 +76,18 @@ var mappingStandardTagDefinitionTemplateType = map[string]StandardTagDefinitionT
 // GetStandardTagDefinitionTemplateTypeEnumValues Enumerates the set of values for StandardTagDefinitionTemplateTypeEnum
 func GetStandardTagDefinitionTemplateTypeEnumValues() []StandardTagDefinitionTemplateTypeEnum {
 	values := make([]StandardTagDefinitionTemplateTypeEnum, 0)
-	for _, v := range mappingStandardTagDefinitionTemplateType {
+	for _, v := range mappingStandardTagDefinitionTemplateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStandardTagDefinitionTemplateTypeEnumStringValues Enumerates the set of values in String for StandardTagDefinitionTemplateTypeEnum
+func GetStandardTagDefinitionTemplateTypeEnumStringValues() []string {
+	return []string{
+		"ENUM",
+		"STRING",
+	}
 }
 
 // StandardTagDefinitionTemplateEnumMutabilityEnum Enum with underlying type: string
@@ -72,7 +100,7 @@ const (
 	StandardTagDefinitionTemplateEnumMutabilityAppendable StandardTagDefinitionTemplateEnumMutabilityEnum = "APPENDABLE"
 )
 
-var mappingStandardTagDefinitionTemplateEnumMutability = map[string]StandardTagDefinitionTemplateEnumMutabilityEnum{
+var mappingStandardTagDefinitionTemplateEnumMutabilityEnum = map[string]StandardTagDefinitionTemplateEnumMutabilityEnum{
 	"IMMUTABLE":  StandardTagDefinitionTemplateEnumMutabilityImmutable,
 	"MUTABLE":    StandardTagDefinitionTemplateEnumMutabilityMutable,
 	"APPENDABLE": StandardTagDefinitionTemplateEnumMutabilityAppendable,
@@ -81,8 +109,17 @@ var mappingStandardTagDefinitionTemplateEnumMutability = map[string]StandardTagD
 // GetStandardTagDefinitionTemplateEnumMutabilityEnumValues Enumerates the set of values for StandardTagDefinitionTemplateEnumMutabilityEnum
 func GetStandardTagDefinitionTemplateEnumMutabilityEnumValues() []StandardTagDefinitionTemplateEnumMutabilityEnum {
 	values := make([]StandardTagDefinitionTemplateEnumMutabilityEnum, 0)
-	for _, v := range mappingStandardTagDefinitionTemplateEnumMutability {
+	for _, v := range mappingStandardTagDefinitionTemplateEnumMutabilityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStandardTagDefinitionTemplateEnumMutabilityEnumStringValues Enumerates the set of values in String for StandardTagDefinitionTemplateEnumMutabilityEnum
+func GetStandardTagDefinitionTemplateEnumMutabilityEnumStringValues() []string {
+	return []string{
+		"IMMUTABLE",
+		"MUTABLE",
+		"APPENDABLE",
+	}
 }

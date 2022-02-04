@@ -10,7 +10,9 @@
 package datalabelingservice
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // RemoveDatasetLabelsDetails Removes a subset of Labels from the Dataset's LabelSet.  This LabelSet will be subtracted from the current Dataset's LabelSet. Requests with non-existent Labels will be rejected.
@@ -20,4 +22,16 @@ type RemoveDatasetLabelsDetails struct {
 
 func (m RemoveDatasetLabelsDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RemoveDatasetLabelsDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

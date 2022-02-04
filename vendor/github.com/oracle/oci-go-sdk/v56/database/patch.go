@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Patch The representation of Patch
@@ -46,6 +48,30 @@ func (m Patch) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Patch) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPatchLastActionEnum[string(m.LastAction)]; !ok && m.LastAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastAction: %s. Supported values are: %s.", m.LastAction, strings.Join(GetPatchLastActionEnumStringValues(), ",")))
+	}
+	for _, val := range m.AvailableActions {
+		if _, ok := mappingPatchAvailableActionsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableActions: %s. Supported values are: %s.", val, strings.Join(GetPatchAvailableActionsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingPatchLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPatchLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PatchLastActionEnum Enum with underlying type: string
 type PatchLastActionEnum string
 
@@ -55,7 +81,7 @@ const (
 	PatchLastActionPrecheck PatchLastActionEnum = "PRECHECK"
 )
 
-var mappingPatchLastAction = map[string]PatchLastActionEnum{
+var mappingPatchLastActionEnum = map[string]PatchLastActionEnum{
 	"APPLY":    PatchLastActionApply,
 	"PRECHECK": PatchLastActionPrecheck,
 }
@@ -63,10 +89,18 @@ var mappingPatchLastAction = map[string]PatchLastActionEnum{
 // GetPatchLastActionEnumValues Enumerates the set of values for PatchLastActionEnum
 func GetPatchLastActionEnumValues() []PatchLastActionEnum {
 	values := make([]PatchLastActionEnum, 0)
-	for _, v := range mappingPatchLastAction {
+	for _, v := range mappingPatchLastActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchLastActionEnumStringValues Enumerates the set of values in String for PatchLastActionEnum
+func GetPatchLastActionEnumStringValues() []string {
+	return []string{
+		"APPLY",
+		"PRECHECK",
+	}
 }
 
 // PatchAvailableActionsEnum Enum with underlying type: string
@@ -78,7 +112,7 @@ const (
 	PatchAvailableActionsPrecheck PatchAvailableActionsEnum = "PRECHECK"
 )
 
-var mappingPatchAvailableActions = map[string]PatchAvailableActionsEnum{
+var mappingPatchAvailableActionsEnum = map[string]PatchAvailableActionsEnum{
 	"APPLY":    PatchAvailableActionsApply,
 	"PRECHECK": PatchAvailableActionsPrecheck,
 }
@@ -86,10 +120,18 @@ var mappingPatchAvailableActions = map[string]PatchAvailableActionsEnum{
 // GetPatchAvailableActionsEnumValues Enumerates the set of values for PatchAvailableActionsEnum
 func GetPatchAvailableActionsEnumValues() []PatchAvailableActionsEnum {
 	values := make([]PatchAvailableActionsEnum, 0)
-	for _, v := range mappingPatchAvailableActions {
+	for _, v := range mappingPatchAvailableActionsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchAvailableActionsEnumStringValues Enumerates the set of values in String for PatchAvailableActionsEnum
+func GetPatchAvailableActionsEnumStringValues() []string {
+	return []string{
+		"APPLY",
+		"PRECHECK",
+	}
 }
 
 // PatchLifecycleStateEnum Enum with underlying type: string
@@ -103,7 +145,7 @@ const (
 	PatchLifecycleStateFailed     PatchLifecycleStateEnum = "FAILED"
 )
 
-var mappingPatchLifecycleState = map[string]PatchLifecycleStateEnum{
+var mappingPatchLifecycleStateEnum = map[string]PatchLifecycleStateEnum{
 	"AVAILABLE":   PatchLifecycleStateAvailable,
 	"SUCCESS":     PatchLifecycleStateSuccess,
 	"IN_PROGRESS": PatchLifecycleStateInProgress,
@@ -113,8 +155,18 @@ var mappingPatchLifecycleState = map[string]PatchLifecycleStateEnum{
 // GetPatchLifecycleStateEnumValues Enumerates the set of values for PatchLifecycleStateEnum
 func GetPatchLifecycleStateEnumValues() []PatchLifecycleStateEnum {
 	values := make([]PatchLifecycleStateEnum, 0)
-	for _, v := range mappingPatchLifecycleState {
+	for _, v := range mappingPatchLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchLifecycleStateEnumStringValues Enumerates the set of values in String for PatchLifecycleStateEnum
+func GetPatchLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"SUCCESS",
+		"IN_PROGRESS",
+		"FAILED",
+	}
 }

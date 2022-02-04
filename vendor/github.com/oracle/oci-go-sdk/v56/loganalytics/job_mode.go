@@ -18,7 +18,7 @@ const (
 	JobModeBackground JobModeEnum = "BACKGROUND"
 )
 
-var mappingJobMode = map[string]JobModeEnum{
+var mappingJobModeEnum = map[string]JobModeEnum{
 	"FOREGROUND": JobModeForeground,
 	"BACKGROUND": JobModeBackground,
 }
@@ -26,8 +26,16 @@ var mappingJobMode = map[string]JobModeEnum{
 // GetJobModeEnumValues Enumerates the set of values for JobModeEnum
 func GetJobModeEnumValues() []JobModeEnum {
 	values := make([]JobModeEnum, 0)
-	for _, v := range mappingJobMode {
+	for _, v := range mappingJobModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobModeEnumStringValues Enumerates the set of values in String for JobModeEnum
+func GetJobModeEnumStringValues() []string {
+	return []string{
+		"FOREGROUND",
+		"BACKGROUND",
+	}
 }

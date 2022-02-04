@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeHostInsightResourceStatisticsRequest wrapper for the SummarizeHostInsightResourceStatistics operation
@@ -126,6 +128,10 @@ func (request SummarizeHostInsightResourceStatisticsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeHostInsightResourceStatisticsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -139,6 +145,29 @@ func (request SummarizeHostInsightResourceStatisticsRequest) BinaryRequestBody()
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeHostInsightResourceStatisticsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeHostInsightResourceStatisticsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.PlatformType {
+		if _, ok := mappingSummarizeHostInsightResourceStatisticsPlatformTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightResourceStatisticsPlatformTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeHostInsightResourceStatisticsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeHostInsightResourceStatisticsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeHostInsightResourceStatisticsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeHostInsightResourceStatisticsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeHostInsightResourceStatisticsResponse wrapper for the SummarizeHostInsightResourceStatistics operation
@@ -179,7 +208,7 @@ const (
 	SummarizeHostInsightResourceStatisticsPlatformTypeSunos   SummarizeHostInsightResourceStatisticsPlatformTypeEnum = "SUNOS"
 )
 
-var mappingSummarizeHostInsightResourceStatisticsPlatformType = map[string]SummarizeHostInsightResourceStatisticsPlatformTypeEnum{
+var mappingSummarizeHostInsightResourceStatisticsPlatformTypeEnum = map[string]SummarizeHostInsightResourceStatisticsPlatformTypeEnum{
 	"LINUX":   SummarizeHostInsightResourceStatisticsPlatformTypeLinux,
 	"SOLARIS": SummarizeHostInsightResourceStatisticsPlatformTypeSolaris,
 	"SUNOS":   SummarizeHostInsightResourceStatisticsPlatformTypeSunos,
@@ -188,10 +217,19 @@ var mappingSummarizeHostInsightResourceStatisticsPlatformType = map[string]Summa
 // GetSummarizeHostInsightResourceStatisticsPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceStatisticsPlatformTypeEnum
 func GetSummarizeHostInsightResourceStatisticsPlatformTypeEnumValues() []SummarizeHostInsightResourceStatisticsPlatformTypeEnum {
 	values := make([]SummarizeHostInsightResourceStatisticsPlatformTypeEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceStatisticsPlatformType {
+	for _, v := range mappingSummarizeHostInsightResourceStatisticsPlatformTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeHostInsightResourceStatisticsPlatformTypeEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceStatisticsPlatformTypeEnum
+func GetSummarizeHostInsightResourceStatisticsPlatformTypeEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"SOLARIS",
+		"SUNOS",
+	}
 }
 
 // SummarizeHostInsightResourceStatisticsSortOrderEnum Enum with underlying type: string
@@ -203,7 +241,7 @@ const (
 	SummarizeHostInsightResourceStatisticsSortOrderDesc SummarizeHostInsightResourceStatisticsSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeHostInsightResourceStatisticsSortOrder = map[string]SummarizeHostInsightResourceStatisticsSortOrderEnum{
+var mappingSummarizeHostInsightResourceStatisticsSortOrderEnum = map[string]SummarizeHostInsightResourceStatisticsSortOrderEnum{
 	"ASC":  SummarizeHostInsightResourceStatisticsSortOrderAsc,
 	"DESC": SummarizeHostInsightResourceStatisticsSortOrderDesc,
 }
@@ -211,10 +249,18 @@ var mappingSummarizeHostInsightResourceStatisticsSortOrder = map[string]Summariz
 // GetSummarizeHostInsightResourceStatisticsSortOrderEnumValues Enumerates the set of values for SummarizeHostInsightResourceStatisticsSortOrderEnum
 func GetSummarizeHostInsightResourceStatisticsSortOrderEnumValues() []SummarizeHostInsightResourceStatisticsSortOrderEnum {
 	values := make([]SummarizeHostInsightResourceStatisticsSortOrderEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceStatisticsSortOrder {
+	for _, v := range mappingSummarizeHostInsightResourceStatisticsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeHostInsightResourceStatisticsSortOrderEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceStatisticsSortOrderEnum
+func GetSummarizeHostInsightResourceStatisticsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeHostInsightResourceStatisticsSortByEnum Enum with underlying type: string
@@ -229,7 +275,7 @@ const (
 	SummarizeHostInsightResourceStatisticsSortByPlatformtype       SummarizeHostInsightResourceStatisticsSortByEnum = "platformType"
 )
 
-var mappingSummarizeHostInsightResourceStatisticsSortBy = map[string]SummarizeHostInsightResourceStatisticsSortByEnum{
+var mappingSummarizeHostInsightResourceStatisticsSortByEnum = map[string]SummarizeHostInsightResourceStatisticsSortByEnum{
 	"utilizationPercent": SummarizeHostInsightResourceStatisticsSortByUtilizationpercent,
 	"usage":              SummarizeHostInsightResourceStatisticsSortByUsage,
 	"usageChangePercent": SummarizeHostInsightResourceStatisticsSortByUsagechangepercent,
@@ -240,8 +286,19 @@ var mappingSummarizeHostInsightResourceStatisticsSortBy = map[string]SummarizeHo
 // GetSummarizeHostInsightResourceStatisticsSortByEnumValues Enumerates the set of values for SummarizeHostInsightResourceStatisticsSortByEnum
 func GetSummarizeHostInsightResourceStatisticsSortByEnumValues() []SummarizeHostInsightResourceStatisticsSortByEnum {
 	values := make([]SummarizeHostInsightResourceStatisticsSortByEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceStatisticsSortBy {
+	for _, v := range mappingSummarizeHostInsightResourceStatisticsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeHostInsightResourceStatisticsSortByEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceStatisticsSortByEnum
+func GetSummarizeHostInsightResourceStatisticsSortByEnumStringValues() []string {
+	return []string{
+		"utilizationPercent",
+		"usage",
+		"usageChangePercent",
+		"hostName",
+		"platformType",
+	}
 }

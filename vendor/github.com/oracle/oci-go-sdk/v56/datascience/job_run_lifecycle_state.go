@@ -24,7 +24,7 @@ const (
 	JobRunLifecycleStateNeedsAttention JobRunLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
-var mappingJobRunLifecycleState = map[string]JobRunLifecycleStateEnum{
+var mappingJobRunLifecycleStateEnum = map[string]JobRunLifecycleStateEnum{
 	"ACCEPTED":        JobRunLifecycleStateAccepted,
 	"IN_PROGRESS":     JobRunLifecycleStateInProgress,
 	"FAILED":          JobRunLifecycleStateFailed,
@@ -38,8 +38,22 @@ var mappingJobRunLifecycleState = map[string]JobRunLifecycleStateEnum{
 // GetJobRunLifecycleStateEnumValues Enumerates the set of values for JobRunLifecycleStateEnum
 func GetJobRunLifecycleStateEnumValues() []JobRunLifecycleStateEnum {
 	values := make([]JobRunLifecycleStateEnum, 0)
-	for _, v := range mappingJobRunLifecycleState {
+	for _, v := range mappingJobRunLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobRunLifecycleStateEnumStringValues Enumerates the set of values in String for JobRunLifecycleStateEnum
+func GetJobRunLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+		"DELETED",
+		"NEEDS_ATTENTION",
+	}
 }

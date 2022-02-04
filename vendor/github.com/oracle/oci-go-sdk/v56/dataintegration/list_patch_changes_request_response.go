@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPatchChangesRequest wrapper for the ListPatchChanges operation
@@ -60,6 +62,10 @@ func (request ListPatchChangesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPatchChangesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +79,23 @@ func (request ListPatchChangesRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPatchChangesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPatchChangesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPatchChangesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPatchChangesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPatchChangesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPatchChangesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPatchChangesResponse wrapper for the ListPatchChanges operation
@@ -116,7 +139,7 @@ const (
 	ListPatchChangesSortOrderDesc ListPatchChangesSortOrderEnum = "DESC"
 )
 
-var mappingListPatchChangesSortOrder = map[string]ListPatchChangesSortOrderEnum{
+var mappingListPatchChangesSortOrderEnum = map[string]ListPatchChangesSortOrderEnum{
 	"ASC":  ListPatchChangesSortOrderAsc,
 	"DESC": ListPatchChangesSortOrderDesc,
 }
@@ -124,10 +147,18 @@ var mappingListPatchChangesSortOrder = map[string]ListPatchChangesSortOrderEnum{
 // GetListPatchChangesSortOrderEnumValues Enumerates the set of values for ListPatchChangesSortOrderEnum
 func GetListPatchChangesSortOrderEnumValues() []ListPatchChangesSortOrderEnum {
 	values := make([]ListPatchChangesSortOrderEnum, 0)
-	for _, v := range mappingListPatchChangesSortOrder {
+	for _, v := range mappingListPatchChangesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPatchChangesSortOrderEnumStringValues Enumerates the set of values in String for ListPatchChangesSortOrderEnum
+func GetListPatchChangesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListPatchChangesSortByEnum Enum with underlying type: string
@@ -139,7 +170,7 @@ const (
 	ListPatchChangesSortByDisplayName ListPatchChangesSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListPatchChangesSortBy = map[string]ListPatchChangesSortByEnum{
+var mappingListPatchChangesSortByEnum = map[string]ListPatchChangesSortByEnum{
 	"TIME_CREATED": ListPatchChangesSortByTimeCreated,
 	"DISPLAY_NAME": ListPatchChangesSortByDisplayName,
 }
@@ -147,8 +178,16 @@ var mappingListPatchChangesSortBy = map[string]ListPatchChangesSortByEnum{
 // GetListPatchChangesSortByEnumValues Enumerates the set of values for ListPatchChangesSortByEnum
 func GetListPatchChangesSortByEnumValues() []ListPatchChangesSortByEnum {
 	values := make([]ListPatchChangesSortByEnum, 0)
-	for _, v := range mappingListPatchChangesSortBy {
+	for _, v := range mappingListPatchChangesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPatchChangesSortByEnumStringValues Enumerates the set of values in String for ListPatchChangesSortByEnum
+func GetListPatchChangesSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

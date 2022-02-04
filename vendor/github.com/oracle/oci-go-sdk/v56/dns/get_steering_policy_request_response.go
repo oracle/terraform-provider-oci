@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetSteeringPolicyRequest wrapper for the GetSteeringPolicy operation
@@ -51,6 +53,10 @@ func (request GetSteeringPolicyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetSteeringPolicyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +70,20 @@ func (request GetSteeringPolicyRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetSteeringPolicyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetSteeringPolicyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetSteeringPolicyScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetGetSteeringPolicyScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetSteeringPolicyResponse wrapper for the GetSteeringPolicy operation
@@ -109,7 +129,7 @@ const (
 	GetSteeringPolicyScopePrivate GetSteeringPolicyScopeEnum = "PRIVATE"
 )
 
-var mappingGetSteeringPolicyScope = map[string]GetSteeringPolicyScopeEnum{
+var mappingGetSteeringPolicyScopeEnum = map[string]GetSteeringPolicyScopeEnum{
 	"GLOBAL":  GetSteeringPolicyScopeGlobal,
 	"PRIVATE": GetSteeringPolicyScopePrivate,
 }
@@ -117,8 +137,16 @@ var mappingGetSteeringPolicyScope = map[string]GetSteeringPolicyScopeEnum{
 // GetGetSteeringPolicyScopeEnumValues Enumerates the set of values for GetSteeringPolicyScopeEnum
 func GetGetSteeringPolicyScopeEnumValues() []GetSteeringPolicyScopeEnum {
 	values := make([]GetSteeringPolicyScopeEnum, 0)
-	for _, v := range mappingGetSteeringPolicyScope {
+	for _, v := range mappingGetSteeringPolicyScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetSteeringPolicyScopeEnumStringValues Enumerates the set of values in String for GetSteeringPolicyScopeEnum
+func GetGetSteeringPolicyScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

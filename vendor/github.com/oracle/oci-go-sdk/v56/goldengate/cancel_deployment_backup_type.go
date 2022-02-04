@@ -17,15 +17,22 @@ const (
 	CancelDeploymentBackupTypeDefault CancelDeploymentBackupTypeEnum = "DEFAULT"
 )
 
-var mappingCancelDeploymentBackupType = map[string]CancelDeploymentBackupTypeEnum{
+var mappingCancelDeploymentBackupTypeEnum = map[string]CancelDeploymentBackupTypeEnum{
 	"DEFAULT": CancelDeploymentBackupTypeDefault,
 }
 
 // GetCancelDeploymentBackupTypeEnumValues Enumerates the set of values for CancelDeploymentBackupTypeEnum
 func GetCancelDeploymentBackupTypeEnumValues() []CancelDeploymentBackupTypeEnum {
 	values := make([]CancelDeploymentBackupTypeEnum, 0)
-	for _, v := range mappingCancelDeploymentBackupType {
+	for _, v := range mappingCancelDeploymentBackupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCancelDeploymentBackupTypeEnumStringValues Enumerates the set of values in String for CancelDeploymentBackupTypeEnum
+func GetCancelDeploymentBackupTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+	}
 }

@@ -18,7 +18,7 @@ const (
 	LicenseModelBringYourOwnLicense LicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingLicenseModel = map[string]LicenseModelEnum{
+var mappingLicenseModelEnum = map[string]LicenseModelEnum{
 	"LICENSE_INCLUDED":       LicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": LicenseModelBringYourOwnLicense,
 }
@@ -26,8 +26,16 @@ var mappingLicenseModel = map[string]LicenseModelEnum{
 // GetLicenseModelEnumValues Enumerates the set of values for LicenseModelEnum
 func GetLicenseModelEnumValues() []LicenseModelEnum {
 	values := make([]LicenseModelEnum, 0)
-	for _, v := range mappingLicenseModel {
+	for _, v := range mappingLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLicenseModelEnumStringValues Enumerates the set of values in String for LicenseModelEnum
+func GetLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

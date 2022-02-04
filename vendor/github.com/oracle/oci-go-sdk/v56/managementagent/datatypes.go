@@ -21,7 +21,7 @@ const (
 	DatatypesBoolean DatatypesEnum = "BOOLEAN"
 )
 
-var mappingDatatypes = map[string]DatatypesEnum{
+var mappingDatatypesEnum = map[string]DatatypesEnum{
 	"LONG":    DatatypesLong,
 	"DOUBLE":  DatatypesDouble,
 	"INTEGER": DatatypesInteger,
@@ -32,8 +32,19 @@ var mappingDatatypes = map[string]DatatypesEnum{
 // GetDatatypesEnumValues Enumerates the set of values for DatatypesEnum
 func GetDatatypesEnumValues() []DatatypesEnum {
 	values := make([]DatatypesEnum, 0)
-	for _, v := range mappingDatatypes {
+	for _, v := range mappingDatatypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatatypesEnumStringValues Enumerates the set of values in String for DatatypesEnum
+func GetDatatypesEnumStringValues() []string {
+	return []string{
+		"LONG",
+		"DOUBLE",
+		"INTEGER",
+		"STRING",
+		"BOOLEAN",
+	}
 }

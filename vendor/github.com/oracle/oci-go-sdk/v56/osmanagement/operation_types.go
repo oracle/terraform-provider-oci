@@ -21,7 +21,7 @@ const (
 	OperationTypesUpdateall OperationTypesEnum = "UPDATEALL"
 )
 
-var mappingOperationTypes = map[string]OperationTypesEnum{
+var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"INSTALL":   OperationTypesInstall,
 	"UPDATE":    OperationTypesUpdate,
 	"REMOVE":    OperationTypesRemove,
@@ -31,8 +31,18 @@ var mappingOperationTypes = map[string]OperationTypesEnum{
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
 func GetOperationTypesEnumValues() []OperationTypesEnum {
 	values := make([]OperationTypesEnum, 0)
-	for _, v := range mappingOperationTypes {
+	for _, v := range mappingOperationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypesEnumStringValues Enumerates the set of values in String for OperationTypesEnum
+func GetOperationTypesEnumStringValues() []string {
+	return []string{
+		"INSTALL",
+		"UPDATE",
+		"REMOVE",
+		"UPDATEALL",
+	}
 }

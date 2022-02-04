@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPoliciesRequest wrapper for the ListPolicies operation
@@ -46,6 +48,10 @@ func (request ListPoliciesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPoliciesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request ListPoliciesRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPoliciesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPoliciesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPoliciesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPoliciesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPoliciesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPoliciesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPoliciesResponse wrapper for the ListPolicies operation
@@ -98,7 +121,7 @@ const (
 	ListPoliciesSortOrderDesc ListPoliciesSortOrderEnum = "DESC"
 )
 
-var mappingListPoliciesSortOrder = map[string]ListPoliciesSortOrderEnum{
+var mappingListPoliciesSortOrderEnum = map[string]ListPoliciesSortOrderEnum{
 	"ASC":  ListPoliciesSortOrderAsc,
 	"DESC": ListPoliciesSortOrderDesc,
 }
@@ -106,10 +129,18 @@ var mappingListPoliciesSortOrder = map[string]ListPoliciesSortOrderEnum{
 // GetListPoliciesSortOrderEnumValues Enumerates the set of values for ListPoliciesSortOrderEnum
 func GetListPoliciesSortOrderEnumValues() []ListPoliciesSortOrderEnum {
 	values := make([]ListPoliciesSortOrderEnum, 0)
-	for _, v := range mappingListPoliciesSortOrder {
+	for _, v := range mappingListPoliciesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPoliciesSortOrderEnumStringValues Enumerates the set of values in String for ListPoliciesSortOrderEnum
+func GetListPoliciesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListPoliciesSortByEnum Enum with underlying type: string
@@ -121,7 +152,7 @@ const (
 	ListPoliciesSortByDisplayname ListPoliciesSortByEnum = "displayName"
 )
 
-var mappingListPoliciesSortBy = map[string]ListPoliciesSortByEnum{
+var mappingListPoliciesSortByEnum = map[string]ListPoliciesSortByEnum{
 	"timeCreated": ListPoliciesSortByTimecreated,
 	"displayName": ListPoliciesSortByDisplayname,
 }
@@ -129,8 +160,16 @@ var mappingListPoliciesSortBy = map[string]ListPoliciesSortByEnum{
 // GetListPoliciesSortByEnumValues Enumerates the set of values for ListPoliciesSortByEnum
 func GetListPoliciesSortByEnumValues() []ListPoliciesSortByEnum {
 	values := make([]ListPoliciesSortByEnum, 0)
-	for _, v := range mappingListPoliciesSortBy {
+	for _, v := range mappingListPoliciesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPoliciesSortByEnumStringValues Enumerates the set of values in String for ListPoliciesSortByEnum
+func GetListPoliciesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

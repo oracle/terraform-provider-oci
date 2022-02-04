@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Schedule Schedule for scheduled task.
@@ -86,6 +88,21 @@ func (m schedule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m schedule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingScheduleMisfirePolicyEnum[string(m.MisfirePolicy)]; !ok && m.MisfirePolicy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MisfirePolicy: %s. Supported values are: %s.", m.MisfirePolicy, strings.Join(GetScheduleMisfirePolicyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ScheduleMisfirePolicyEnum Enum with underlying type: string
 type ScheduleMisfirePolicyEnum string
 
@@ -96,7 +113,7 @@ const (
 	ScheduleMisfirePolicySkip              ScheduleMisfirePolicyEnum = "SKIP"
 )
 
-var mappingScheduleMisfirePolicy = map[string]ScheduleMisfirePolicyEnum{
+var mappingScheduleMisfirePolicyEnum = map[string]ScheduleMisfirePolicyEnum{
 	"RETRY_ONCE":         ScheduleMisfirePolicyRetryOnce,
 	"RETRY_INDEFINITELY": ScheduleMisfirePolicyRetryIndefinitely,
 	"SKIP":               ScheduleMisfirePolicySkip,
@@ -105,10 +122,19 @@ var mappingScheduleMisfirePolicy = map[string]ScheduleMisfirePolicyEnum{
 // GetScheduleMisfirePolicyEnumValues Enumerates the set of values for ScheduleMisfirePolicyEnum
 func GetScheduleMisfirePolicyEnumValues() []ScheduleMisfirePolicyEnum {
 	values := make([]ScheduleMisfirePolicyEnum, 0)
-	for _, v := range mappingScheduleMisfirePolicy {
+	for _, v := range mappingScheduleMisfirePolicyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScheduleMisfirePolicyEnumStringValues Enumerates the set of values in String for ScheduleMisfirePolicyEnum
+func GetScheduleMisfirePolicyEnumStringValues() []string {
+	return []string{
+		"RETRY_ONCE",
+		"RETRY_INDEFINITELY",
+		"SKIP",
+	}
 }
 
 // ScheduleTypeEnum Enum with underlying type: string
@@ -120,7 +146,7 @@ const (
 	ScheduleTypeCron           ScheduleTypeEnum = "CRON"
 )
 
-var mappingScheduleType = map[string]ScheduleTypeEnum{
+var mappingScheduleTypeEnum = map[string]ScheduleTypeEnum{
 	"FIXED_FREQUENCY": ScheduleTypeFixedFrequency,
 	"CRON":            ScheduleTypeCron,
 }
@@ -128,8 +154,16 @@ var mappingScheduleType = map[string]ScheduleTypeEnum{
 // GetScheduleTypeEnumValues Enumerates the set of values for ScheduleTypeEnum
 func GetScheduleTypeEnumValues() []ScheduleTypeEnum {
 	values := make([]ScheduleTypeEnum, 0)
-	for _, v := range mappingScheduleType {
+	for _, v := range mappingScheduleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScheduleTypeEnumStringValues Enumerates the set of values in String for ScheduleTypeEnum
+func GetScheduleTypeEnumStringValues() []string {
+	return []string{
+		"FIXED_FREQUENCY",
+		"CRON",
+	}
 }

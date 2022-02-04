@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Repository Repositories containing the source code to build and deploy.
@@ -93,6 +95,30 @@ func (m Repository) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Repository) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingRepositoryRepositoryTypeEnum[string(m.RepositoryType)]; !ok && m.RepositoryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RepositoryType: %s. Supported values are: %s.", m.RepositoryType, strings.Join(GetRepositoryRepositoryTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRepositoryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRepositoryLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range m.TriggerBuildEvents {
+		if _, ok := mappingRepositoryTriggerBuildEventsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggerBuildEvents: %s. Supported values are: %s.", val, strings.Join(GetRepositoryTriggerBuildEventsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RepositoryRepositoryTypeEnum Enum with underlying type: string
 type RepositoryRepositoryTypeEnum string
 
@@ -102,7 +128,7 @@ const (
 	RepositoryRepositoryTypeHosted   RepositoryRepositoryTypeEnum = "HOSTED"
 )
 
-var mappingRepositoryRepositoryType = map[string]RepositoryRepositoryTypeEnum{
+var mappingRepositoryRepositoryTypeEnum = map[string]RepositoryRepositoryTypeEnum{
 	"MIRRORED": RepositoryRepositoryTypeMirrored,
 	"HOSTED":   RepositoryRepositoryTypeHosted,
 }
@@ -110,10 +136,18 @@ var mappingRepositoryRepositoryType = map[string]RepositoryRepositoryTypeEnum{
 // GetRepositoryRepositoryTypeEnumValues Enumerates the set of values for RepositoryRepositoryTypeEnum
 func GetRepositoryRepositoryTypeEnumValues() []RepositoryRepositoryTypeEnum {
 	values := make([]RepositoryRepositoryTypeEnum, 0)
-	for _, v := range mappingRepositoryRepositoryType {
+	for _, v := range mappingRepositoryRepositoryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRepositoryRepositoryTypeEnumStringValues Enumerates the set of values in String for RepositoryRepositoryTypeEnum
+func GetRepositoryRepositoryTypeEnumStringValues() []string {
+	return []string{
+		"MIRRORED",
+		"HOSTED",
+	}
 }
 
 // RepositoryLifecycleStateEnum Enum with underlying type: string
@@ -126,7 +160,7 @@ const (
 	RepositoryLifecycleStateDeleted  RepositoryLifecycleStateEnum = "DELETED"
 )
 
-var mappingRepositoryLifecycleState = map[string]RepositoryLifecycleStateEnum{
+var mappingRepositoryLifecycleStateEnum = map[string]RepositoryLifecycleStateEnum{
 	"ACTIVE":   RepositoryLifecycleStateActive,
 	"CREATING": RepositoryLifecycleStateCreating,
 	"DELETED":  RepositoryLifecycleStateDeleted,
@@ -135,10 +169,19 @@ var mappingRepositoryLifecycleState = map[string]RepositoryLifecycleStateEnum{
 // GetRepositoryLifecycleStateEnumValues Enumerates the set of values for RepositoryLifecycleStateEnum
 func GetRepositoryLifecycleStateEnumValues() []RepositoryLifecycleStateEnum {
 	values := make([]RepositoryLifecycleStateEnum, 0)
-	for _, v := range mappingRepositoryLifecycleState {
+	for _, v := range mappingRepositoryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRepositoryLifecycleStateEnumStringValues Enumerates the set of values in String for RepositoryLifecycleStateEnum
+func GetRepositoryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+	}
 }
 
 // RepositoryTriggerBuildEventsEnum Enum with underlying type: string
@@ -150,7 +193,7 @@ const (
 	RepositoryTriggerBuildEventsCommitUpdates RepositoryTriggerBuildEventsEnum = "COMMIT_UPDATES"
 )
 
-var mappingRepositoryTriggerBuildEvents = map[string]RepositoryTriggerBuildEventsEnum{
+var mappingRepositoryTriggerBuildEventsEnum = map[string]RepositoryTriggerBuildEventsEnum{
 	"PUSH":           RepositoryTriggerBuildEventsPush,
 	"COMMIT_UPDATES": RepositoryTriggerBuildEventsCommitUpdates,
 }
@@ -158,8 +201,16 @@ var mappingRepositoryTriggerBuildEvents = map[string]RepositoryTriggerBuildEvent
 // GetRepositoryTriggerBuildEventsEnumValues Enumerates the set of values for RepositoryTriggerBuildEventsEnum
 func GetRepositoryTriggerBuildEventsEnumValues() []RepositoryTriggerBuildEventsEnum {
 	values := make([]RepositoryTriggerBuildEventsEnum, 0)
-	for _, v := range mappingRepositoryTriggerBuildEvents {
+	for _, v := range mappingRepositoryTriggerBuildEventsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRepositoryTriggerBuildEventsEnumStringValues Enumerates the set of values in String for RepositoryTriggerBuildEventsEnum
+func GetRepositoryTriggerBuildEventsEnumStringValues() []string {
+	return []string{
+		"PUSH",
+		"COMMIT_UPDATES",
+	}
 }

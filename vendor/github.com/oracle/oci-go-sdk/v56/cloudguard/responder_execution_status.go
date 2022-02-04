@@ -21,7 +21,7 @@ const (
 	ResponderExecutionStatusSkipped              ResponderExecutionStatusEnum = "SKIPPED"
 )
 
-var mappingResponderExecutionStatus = map[string]ResponderExecutionStatusEnum{
+var mappingResponderExecutionStatusEnum = map[string]ResponderExecutionStatusEnum{
 	"STARTED":               ResponderExecutionStatusStarted,
 	"AWAITING_CONFIRMATION": ResponderExecutionStatusAwaitingConfirmation,
 	"SUCCEEDED":             ResponderExecutionStatusSucceeded,
@@ -32,8 +32,19 @@ var mappingResponderExecutionStatus = map[string]ResponderExecutionStatusEnum{
 // GetResponderExecutionStatusEnumValues Enumerates the set of values for ResponderExecutionStatusEnum
 func GetResponderExecutionStatusEnumValues() []ResponderExecutionStatusEnum {
 	values := make([]ResponderExecutionStatusEnum, 0)
-	for _, v := range mappingResponderExecutionStatus {
+	for _, v := range mappingResponderExecutionStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResponderExecutionStatusEnumStringValues Enumerates the set of values in String for ResponderExecutionStatusEnum
+func GetResponderExecutionStatusEnumStringValues() []string {
+	return []string{
+		"STARTED",
+		"AWAITING_CONFIRMATION",
+		"SUCCEEDED",
+		"FAILED",
+		"SKIPPED",
+	}
 }

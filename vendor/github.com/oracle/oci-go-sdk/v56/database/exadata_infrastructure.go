@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExadataInfrastructure ExadataInfrastructure
@@ -134,6 +136,24 @@ func (m ExadataInfrastructure) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExadataInfrastructure) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExadataInfrastructureLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExadataInfrastructureLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingExadataInfrastructureMaintenanceSLOStatusEnum[string(m.MaintenanceSLOStatus)]; !ok && m.MaintenanceSLOStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceSLOStatus: %s. Supported values are: %s.", m.MaintenanceSLOStatus, strings.Join(GetExadataInfrastructureMaintenanceSLOStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExadataInfrastructureLifecycleStateEnum Enum with underlying type: string
 type ExadataInfrastructureLifecycleStateEnum string
 
@@ -152,7 +172,7 @@ const (
 	ExadataInfrastructureLifecycleStateMaintenanceInProgress ExadataInfrastructureLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingExadataInfrastructureLifecycleState = map[string]ExadataInfrastructureLifecycleStateEnum{
+var mappingExadataInfrastructureLifecycleStateEnum = map[string]ExadataInfrastructureLifecycleStateEnum{
 	"CREATING":                ExadataInfrastructureLifecycleStateCreating,
 	"REQUIRES_ACTIVATION":     ExadataInfrastructureLifecycleStateRequiresActivation,
 	"ACTIVATING":              ExadataInfrastructureLifecycleStateActivating,
@@ -169,10 +189,27 @@ var mappingExadataInfrastructureLifecycleState = map[string]ExadataInfrastructur
 // GetExadataInfrastructureLifecycleStateEnumValues Enumerates the set of values for ExadataInfrastructureLifecycleStateEnum
 func GetExadataInfrastructureLifecycleStateEnumValues() []ExadataInfrastructureLifecycleStateEnum {
 	values := make([]ExadataInfrastructureLifecycleStateEnum, 0)
-	for _, v := range mappingExadataInfrastructureLifecycleState {
+	for _, v := range mappingExadataInfrastructureLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExadataInfrastructureLifecycleStateEnumStringValues Enumerates the set of values in String for ExadataInfrastructureLifecycleStateEnum
+func GetExadataInfrastructureLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"REQUIRES_ACTIVATION",
+		"ACTIVATING",
+		"ACTIVE",
+		"ACTIVATION_FAILED",
+		"FAILED",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"DISCONNECTED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }
 
 // ExadataInfrastructureMaintenanceSLOStatusEnum Enum with underlying type: string
@@ -184,7 +221,7 @@ const (
 	ExadataInfrastructureMaintenanceSLOStatusDegraded ExadataInfrastructureMaintenanceSLOStatusEnum = "DEGRADED"
 )
 
-var mappingExadataInfrastructureMaintenanceSLOStatus = map[string]ExadataInfrastructureMaintenanceSLOStatusEnum{
+var mappingExadataInfrastructureMaintenanceSLOStatusEnum = map[string]ExadataInfrastructureMaintenanceSLOStatusEnum{
 	"OK":       ExadataInfrastructureMaintenanceSLOStatusOk,
 	"DEGRADED": ExadataInfrastructureMaintenanceSLOStatusDegraded,
 }
@@ -192,8 +229,16 @@ var mappingExadataInfrastructureMaintenanceSLOStatus = map[string]ExadataInfrast
 // GetExadataInfrastructureMaintenanceSLOStatusEnumValues Enumerates the set of values for ExadataInfrastructureMaintenanceSLOStatusEnum
 func GetExadataInfrastructureMaintenanceSLOStatusEnumValues() []ExadataInfrastructureMaintenanceSLOStatusEnum {
 	values := make([]ExadataInfrastructureMaintenanceSLOStatusEnum, 0)
-	for _, v := range mappingExadataInfrastructureMaintenanceSLOStatus {
+	for _, v := range mappingExadataInfrastructureMaintenanceSLOStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExadataInfrastructureMaintenanceSLOStatusEnumStringValues Enumerates the set of values in String for ExadataInfrastructureMaintenanceSLOStatusEnum
+func GetExadataInfrastructureMaintenanceSLOStatusEnumStringValues() []string {
+	return []string{
+		"OK",
+		"DEGRADED",
+	}
 }

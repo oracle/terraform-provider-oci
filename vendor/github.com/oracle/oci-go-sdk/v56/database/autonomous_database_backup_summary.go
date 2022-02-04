@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutonomousDatabaseBackupSummary An Autonomous Database backup.
@@ -74,6 +76,24 @@ func (m AutonomousDatabaseBackupSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDatabaseBackupSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousDatabaseBackupSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetAutonomousDatabaseBackupSummaryTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseBackupSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseBackupSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousDatabaseBackupSummaryTypeEnum Enum with underlying type: string
 type AutonomousDatabaseBackupSummaryTypeEnum string
 
@@ -83,7 +103,7 @@ const (
 	AutonomousDatabaseBackupSummaryTypeFull        AutonomousDatabaseBackupSummaryTypeEnum = "FULL"
 )
 
-var mappingAutonomousDatabaseBackupSummaryType = map[string]AutonomousDatabaseBackupSummaryTypeEnum{
+var mappingAutonomousDatabaseBackupSummaryTypeEnum = map[string]AutonomousDatabaseBackupSummaryTypeEnum{
 	"INCREMENTAL": AutonomousDatabaseBackupSummaryTypeIncremental,
 	"FULL":        AutonomousDatabaseBackupSummaryTypeFull,
 }
@@ -91,10 +111,18 @@ var mappingAutonomousDatabaseBackupSummaryType = map[string]AutonomousDatabaseBa
 // GetAutonomousDatabaseBackupSummaryTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupSummaryTypeEnum
 func GetAutonomousDatabaseBackupSummaryTypeEnumValues() []AutonomousDatabaseBackupSummaryTypeEnum {
 	values := make([]AutonomousDatabaseBackupSummaryTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseBackupSummaryType {
+	for _, v := range mappingAutonomousDatabaseBackupSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseBackupSummaryTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseBackupSummaryTypeEnum
+func GetAutonomousDatabaseBackupSummaryTypeEnumStringValues() []string {
+	return []string{
+		"INCREMENTAL",
+		"FULL",
+	}
 }
 
 // AutonomousDatabaseBackupSummaryLifecycleStateEnum Enum with underlying type: string
@@ -109,7 +137,7 @@ const (
 	AutonomousDatabaseBackupSummaryLifecycleStateFailed   AutonomousDatabaseBackupSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingAutonomousDatabaseBackupSummaryLifecycleState = map[string]AutonomousDatabaseBackupSummaryLifecycleStateEnum{
+var mappingAutonomousDatabaseBackupSummaryLifecycleStateEnum = map[string]AutonomousDatabaseBackupSummaryLifecycleStateEnum{
 	"CREATING": AutonomousDatabaseBackupSummaryLifecycleStateCreating,
 	"ACTIVE":   AutonomousDatabaseBackupSummaryLifecycleStateActive,
 	"DELETING": AutonomousDatabaseBackupSummaryLifecycleStateDeleting,
@@ -120,8 +148,19 @@ var mappingAutonomousDatabaseBackupSummaryLifecycleState = map[string]Autonomous
 // GetAutonomousDatabaseBackupSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseBackupSummaryLifecycleStateEnum
 func GetAutonomousDatabaseBackupSummaryLifecycleStateEnumValues() []AutonomousDatabaseBackupSummaryLifecycleStateEnum {
 	values := make([]AutonomousDatabaseBackupSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousDatabaseBackupSummaryLifecycleState {
+	for _, v := range mappingAutonomousDatabaseBackupSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseBackupSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousDatabaseBackupSummaryLifecycleStateEnum
+func GetAutonomousDatabaseBackupSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

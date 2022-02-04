@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAutonomousContainerDatabasesRequest wrapper for the ListAutonomousContainerDatabases operation
@@ -72,6 +74,10 @@ func (request ListAutonomousContainerDatabasesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAutonomousContainerDatabasesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +91,29 @@ func (request ListAutonomousContainerDatabasesRequest) BinaryRequestBody() (*com
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAutonomousContainerDatabasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAutonomousContainerDatabasesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousContainerDatabaseSummaryInfrastructureTypeEnum[string(request.InfrastructureType)]; !ok && request.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", request.InfrastructureType, strings.Join(GetAutonomousContainerDatabaseSummaryInfrastructureTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutonomousContainerDatabasesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAutonomousContainerDatabasesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutonomousContainerDatabasesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAutonomousContainerDatabasesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousContainerDatabaseSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAutonomousContainerDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAutonomousContainerDatabasesResponse wrapper for the ListAutonomousContainerDatabases operation
@@ -125,7 +154,7 @@ const (
 	ListAutonomousContainerDatabasesSortByDisplayname ListAutonomousContainerDatabasesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAutonomousContainerDatabasesSortBy = map[string]ListAutonomousContainerDatabasesSortByEnum{
+var mappingListAutonomousContainerDatabasesSortByEnum = map[string]ListAutonomousContainerDatabasesSortByEnum{
 	"TIMECREATED": ListAutonomousContainerDatabasesSortByTimecreated,
 	"DISPLAYNAME": ListAutonomousContainerDatabasesSortByDisplayname,
 }
@@ -133,10 +162,18 @@ var mappingListAutonomousContainerDatabasesSortBy = map[string]ListAutonomousCon
 // GetListAutonomousContainerDatabasesSortByEnumValues Enumerates the set of values for ListAutonomousContainerDatabasesSortByEnum
 func GetListAutonomousContainerDatabasesSortByEnumValues() []ListAutonomousContainerDatabasesSortByEnum {
 	values := make([]ListAutonomousContainerDatabasesSortByEnum, 0)
-	for _, v := range mappingListAutonomousContainerDatabasesSortBy {
+	for _, v := range mappingListAutonomousContainerDatabasesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousContainerDatabasesSortByEnumStringValues Enumerates the set of values in String for ListAutonomousContainerDatabasesSortByEnum
+func GetListAutonomousContainerDatabasesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAutonomousContainerDatabasesSortOrderEnum Enum with underlying type: string
@@ -148,7 +185,7 @@ const (
 	ListAutonomousContainerDatabasesSortOrderDesc ListAutonomousContainerDatabasesSortOrderEnum = "DESC"
 )
 
-var mappingListAutonomousContainerDatabasesSortOrder = map[string]ListAutonomousContainerDatabasesSortOrderEnum{
+var mappingListAutonomousContainerDatabasesSortOrderEnum = map[string]ListAutonomousContainerDatabasesSortOrderEnum{
 	"ASC":  ListAutonomousContainerDatabasesSortOrderAsc,
 	"DESC": ListAutonomousContainerDatabasesSortOrderDesc,
 }
@@ -156,8 +193,16 @@ var mappingListAutonomousContainerDatabasesSortOrder = map[string]ListAutonomous
 // GetListAutonomousContainerDatabasesSortOrderEnumValues Enumerates the set of values for ListAutonomousContainerDatabasesSortOrderEnum
 func GetListAutonomousContainerDatabasesSortOrderEnumValues() []ListAutonomousContainerDatabasesSortOrderEnum {
 	values := make([]ListAutonomousContainerDatabasesSortOrderEnum, 0)
-	for _, v := range mappingListAutonomousContainerDatabasesSortOrder {
+	for _, v := range mappingListAutonomousContainerDatabasesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousContainerDatabasesSortOrderEnumStringValues Enumerates the set of values in String for ListAutonomousContainerDatabasesSortOrderEnum
+func GetListAutonomousContainerDatabasesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

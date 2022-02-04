@@ -17,15 +17,22 @@ const (
 	WorkRequestResourceTypeAnalyticsInstance WorkRequestResourceTypeEnum = "ANALYTICS_INSTANCE"
 )
 
-var mappingWorkRequestResourceType = map[string]WorkRequestResourceTypeEnum{
+var mappingWorkRequestResourceTypeEnum = map[string]WorkRequestResourceTypeEnum{
 	"ANALYTICS_INSTANCE": WorkRequestResourceTypeAnalyticsInstance,
 }
 
 // GetWorkRequestResourceTypeEnumValues Enumerates the set of values for WorkRequestResourceTypeEnum
 func GetWorkRequestResourceTypeEnumValues() []WorkRequestResourceTypeEnum {
 	values := make([]WorkRequestResourceTypeEnum, 0)
-	for _, v := range mappingWorkRequestResourceType {
+	for _, v := range mappingWorkRequestResourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceTypeEnumStringValues Enumerates the set of values in String for WorkRequestResourceTypeEnum
+func GetWorkRequestResourceTypeEnumStringValues() []string {
+	return []string{
+		"ANALYTICS_INSTANCE",
+	}
 }

@@ -20,7 +20,7 @@ const (
 	KeyAlgorithmEcdsaP384 KeyAlgorithmEnum = "ECDSA_P384"
 )
 
-var mappingKeyAlgorithm = map[string]KeyAlgorithmEnum{
+var mappingKeyAlgorithmEnum = map[string]KeyAlgorithmEnum{
 	"RSA2048":    KeyAlgorithmRsa2048,
 	"RSA4096":    KeyAlgorithmRsa4096,
 	"ECDSA_P256": KeyAlgorithmEcdsaP256,
@@ -30,8 +30,18 @@ var mappingKeyAlgorithm = map[string]KeyAlgorithmEnum{
 // GetKeyAlgorithmEnumValues Enumerates the set of values for KeyAlgorithmEnum
 func GetKeyAlgorithmEnumValues() []KeyAlgorithmEnum {
 	values := make([]KeyAlgorithmEnum, 0)
-	for _, v := range mappingKeyAlgorithm {
+	for _, v := range mappingKeyAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyAlgorithmEnumStringValues Enumerates the set of values in String for KeyAlgorithmEnum
+func GetKeyAlgorithmEnumStringValues() []string {
+	return []string{
+		"RSA2048",
+		"RSA4096",
+		"ECDSA_P256",
+		"ECDSA_P384",
+	}
 }

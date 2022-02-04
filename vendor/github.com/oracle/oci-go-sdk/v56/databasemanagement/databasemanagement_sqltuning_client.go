@@ -86,7 +86,7 @@ func (client *SqlTuningClient) ConfigurationProvider() *common.ConfigurationProv
 	return client.config
 }
 
-// CloneSqlTuningTask Clone and start a SQL tuning task for a given SQL tuning task.
+// CloneSqlTuningTask Clones and runs a SQL tuning task in the database.
 //
 // See also
 //
@@ -146,7 +146,7 @@ func (client SqlTuningClient) cloneSqlTuningTask(ctx context.Context, request co
 	return response, err
 }
 
-// DropSqlTuningTask Drop a SQL tuning task and its related results from the database.
+// DropSqlTuningTask Drops a SQL tuning task and its related results from the database.
 //
 // See also
 //
@@ -206,8 +206,9 @@ func (client SqlTuningClient) dropSqlTuningTask(ctx context.Context, request com
 	return response, err
 }
 
-// GetExecutionPlanStatsComparision A SQL tuning task may suggest new execution plan for a SQL. The API returns the
-// stats comparison report for the plans.
+// GetExecutionPlanStatsComparision Retrieves a comparison of the existing SQL execution plan and a new plan.
+// A SQL tuning task may suggest a new execution plan for a SQL,
+// and this API retrieves the comparison report of the statistics of the two plans.
 //
 // See also
 //
@@ -262,7 +263,7 @@ func (client SqlTuningClient) getExecutionPlanStatsComparision(ctx context.Conte
 	return response, err
 }
 
-// GetSqlExecutionPlan Retrieve a SQL execution plan for a SQL being tuned, for original or new plan
+// GetSqlExecutionPlan Retrieves a SQL execution plan for the SQL being tuned.
 //
 // See also
 //
@@ -317,7 +318,7 @@ func (client SqlTuningClient) getSqlExecutionPlan(ctx context.Context, request c
 	return response, err
 }
 
-// GetSqlTuningAdvisorTaskSummaryReport Gets the summary report for the specific SQL Tuning Advisor task.
+// GetSqlTuningAdvisorTaskSummaryReport Gets the summary report for the specified SQL Tuning Advisor task.
 //
 // See also
 //
@@ -372,7 +373,7 @@ func (client SqlTuningClient) getSqlTuningAdvisorTaskSummaryReport(ctx context.C
 	return response, err
 }
 
-// ListSqlTuningAdvisorTaskFindings Takes in a task id, and a finding/object type filter and applies some SQLs to find return the output.
+// ListSqlTuningAdvisorTaskFindings Gets an array of the details of the findings that match specific filters.
 //
 // See also
 //
@@ -427,7 +428,8 @@ func (client SqlTuningClient) listSqlTuningAdvisorTaskFindings(ctx context.Conte
 	return response, err
 }
 
-// ListSqlTuningAdvisorTaskRecommendations Takes in a task id and object id and returns the recommendations/findings.
+// ListSqlTuningAdvisorTaskRecommendations Gets the findings and possible actions for a given object in a SQL tuning task.
+// The task ID and object ID are used to retrieve the findings and recommendations.
 //
 // See also
 //
@@ -537,8 +539,7 @@ func (client SqlTuningClient) listSqlTuningAdvisorTasks(ctx context.Context, req
 	return response, err
 }
 
-// StartSqlTuningTask Start a SQL tuning task for a given set of SQLs from active session history
-// top SQLs.
+// StartSqlTuningTask Starts a SQL tuning task for a given set of SQL statements from the active session history top SQL statements.
 //
 // See also
 //

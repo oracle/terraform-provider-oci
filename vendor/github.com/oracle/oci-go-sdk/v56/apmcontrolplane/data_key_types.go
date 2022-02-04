@@ -19,7 +19,7 @@ const (
 	DataKeyTypesPublic  DataKeyTypesEnum = "PUBLIC"
 )
 
-var mappingDataKeyTypes = map[string]DataKeyTypesEnum{
+var mappingDataKeyTypesEnum = map[string]DataKeyTypesEnum{
 	"PRIVATE": DataKeyTypesPrivate,
 	"PUBLIC":  DataKeyTypesPublic,
 }
@@ -27,8 +27,16 @@ var mappingDataKeyTypes = map[string]DataKeyTypesEnum{
 // GetDataKeyTypesEnumValues Enumerates the set of values for DataKeyTypesEnum
 func GetDataKeyTypesEnumValues() []DataKeyTypesEnum {
 	values := make([]DataKeyTypesEnum, 0)
-	for _, v := range mappingDataKeyTypes {
+	for _, v := range mappingDataKeyTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataKeyTypesEnumStringValues Enumerates the set of values in String for DataKeyTypesEnum
+func GetDataKeyTypesEnumStringValues() []string {
+	return []string{
+		"PRIVATE",
+		"PUBLIC",
+	}
 }

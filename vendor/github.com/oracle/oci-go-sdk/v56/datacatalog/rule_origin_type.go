@@ -20,7 +20,7 @@ const (
 	RuleOriginTypeProfiling RuleOriginTypeEnum = "PROFILING"
 )
 
-var mappingRuleOriginType = map[string]RuleOriginTypeEnum{
+var mappingRuleOriginTypeEnum = map[string]RuleOriginTypeEnum{
 	"SOURCE":    RuleOriginTypeSource,
 	"USER":      RuleOriginTypeUser,
 	"PROFILING": RuleOriginTypeProfiling,
@@ -29,8 +29,17 @@ var mappingRuleOriginType = map[string]RuleOriginTypeEnum{
 // GetRuleOriginTypeEnumValues Enumerates the set of values for RuleOriginTypeEnum
 func GetRuleOriginTypeEnumValues() []RuleOriginTypeEnum {
 	values := make([]RuleOriginTypeEnum, 0)
-	for _, v := range mappingRuleOriginType {
+	for _, v := range mappingRuleOriginTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRuleOriginTypeEnumStringValues Enumerates the set of values in String for RuleOriginTypeEnum
+func GetRuleOriginTypeEnumStringValues() []string {
+	return []string{
+		"SOURCE",
+		"USER",
+		"PROFILING",
+	}
 }

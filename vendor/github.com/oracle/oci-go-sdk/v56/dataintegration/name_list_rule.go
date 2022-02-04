@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // NameListRule The name list rule which defines how fields are projected. For example, this may be all fields begining with STR.
@@ -97,6 +99,24 @@ func (m NameListRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m NameListRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingNameListRuleMatchingStrategyEnum[string(m.MatchingStrategy)]; !ok && m.MatchingStrategy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchingStrategy: %s. Supported values are: %s.", m.MatchingStrategy, strings.Join(GetNameListRuleMatchingStrategyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingNameListRuleRuleTypeEnum[string(m.RuleType)]; !ok && m.RuleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuleType: %s. Supported values are: %s.", m.RuleType, strings.Join(GetNameListRuleRuleTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m NameListRule) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeNameListRule NameListRule
@@ -121,7 +141,7 @@ const (
 	NameListRuleMatchingStrategyNameOnly   NameListRuleMatchingStrategyEnum = "NAME_ONLY"
 )
 
-var mappingNameListRuleMatchingStrategy = map[string]NameListRuleMatchingStrategyEnum{
+var mappingNameListRuleMatchingStrategyEnum = map[string]NameListRuleMatchingStrategyEnum{
 	"NAME_OR_TAGS": NameListRuleMatchingStrategyNameOrTags,
 	"TAGS_ONLY":    NameListRuleMatchingStrategyTagsOnly,
 	"NAME_ONLY":    NameListRuleMatchingStrategyNameOnly,
@@ -130,10 +150,19 @@ var mappingNameListRuleMatchingStrategy = map[string]NameListRuleMatchingStrateg
 // GetNameListRuleMatchingStrategyEnumValues Enumerates the set of values for NameListRuleMatchingStrategyEnum
 func GetNameListRuleMatchingStrategyEnumValues() []NameListRuleMatchingStrategyEnum {
 	values := make([]NameListRuleMatchingStrategyEnum, 0)
-	for _, v := range mappingNameListRuleMatchingStrategy {
+	for _, v := range mappingNameListRuleMatchingStrategyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNameListRuleMatchingStrategyEnumStringValues Enumerates the set of values in String for NameListRuleMatchingStrategyEnum
+func GetNameListRuleMatchingStrategyEnumStringValues() []string {
+	return []string{
+		"NAME_OR_TAGS",
+		"TAGS_ONLY",
+		"NAME_ONLY",
+	}
 }
 
 // NameListRuleRuleTypeEnum Enum with underlying type: string
@@ -145,7 +174,7 @@ const (
 	NameListRuleRuleTypeExclude NameListRuleRuleTypeEnum = "EXCLUDE"
 )
 
-var mappingNameListRuleRuleType = map[string]NameListRuleRuleTypeEnum{
+var mappingNameListRuleRuleTypeEnum = map[string]NameListRuleRuleTypeEnum{
 	"INCLUDE": NameListRuleRuleTypeInclude,
 	"EXCLUDE": NameListRuleRuleTypeExclude,
 }
@@ -153,8 +182,16 @@ var mappingNameListRuleRuleType = map[string]NameListRuleRuleTypeEnum{
 // GetNameListRuleRuleTypeEnumValues Enumerates the set of values for NameListRuleRuleTypeEnum
 func GetNameListRuleRuleTypeEnumValues() []NameListRuleRuleTypeEnum {
 	values := make([]NameListRuleRuleTypeEnum, 0)
-	for _, v := range mappingNameListRuleRuleType {
+	for _, v := range mappingNameListRuleRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNameListRuleRuleTypeEnumStringValues Enumerates the set of values in String for NameListRuleRuleTypeEnum
+func GetNameListRuleRuleTypeEnumStringValues() []string {
+	return []string{
+		"INCLUDE",
+		"EXCLUDE",
+	}
 }

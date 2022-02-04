@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListMirrorRecordsRequest wrapper for the ListMirrorRecords operation
@@ -43,6 +45,10 @@ func (request ListMirrorRecordsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListMirrorRecordsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +62,20 @@ func (request ListMirrorRecordsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListMirrorRecordsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListMirrorRecordsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListMirrorRecordsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMirrorRecordsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListMirrorRecordsResponse wrapper for the ListMirrorRecords operation
@@ -92,7 +112,7 @@ const (
 	ListMirrorRecordsSortOrderDesc ListMirrorRecordsSortOrderEnum = "DESC"
 )
 
-var mappingListMirrorRecordsSortOrder = map[string]ListMirrorRecordsSortOrderEnum{
+var mappingListMirrorRecordsSortOrderEnum = map[string]ListMirrorRecordsSortOrderEnum{
 	"ASC":  ListMirrorRecordsSortOrderAsc,
 	"DESC": ListMirrorRecordsSortOrderDesc,
 }
@@ -100,8 +120,16 @@ var mappingListMirrorRecordsSortOrder = map[string]ListMirrorRecordsSortOrderEnu
 // GetListMirrorRecordsSortOrderEnumValues Enumerates the set of values for ListMirrorRecordsSortOrderEnum
 func GetListMirrorRecordsSortOrderEnumValues() []ListMirrorRecordsSortOrderEnum {
 	values := make([]ListMirrorRecordsSortOrderEnum, 0)
-	for _, v := range mappingListMirrorRecordsSortOrder {
+	for _, v := range mappingListMirrorRecordsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMirrorRecordsSortOrderEnumStringValues Enumerates the set of values in String for ListMirrorRecordsSortOrderEnum
+func GetListMirrorRecordsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

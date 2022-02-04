@@ -19,7 +19,7 @@ const (
 	EntityCloudTypeAll      EntityCloudTypeEnum = "ALL"
 )
 
-var mappingEntityCloudType = map[string]EntityCloudTypeEnum{
+var mappingEntityCloudTypeEnum = map[string]EntityCloudTypeEnum{
 	"CLOUD":     EntityCloudTypeCloud,
 	"NON_CLOUD": EntityCloudTypeNonCloud,
 	"ALL":       EntityCloudTypeAll,
@@ -28,8 +28,17 @@ var mappingEntityCloudType = map[string]EntityCloudTypeEnum{
 // GetEntityCloudTypeEnumValues Enumerates the set of values for EntityCloudTypeEnum
 func GetEntityCloudTypeEnumValues() []EntityCloudTypeEnum {
 	values := make([]EntityCloudTypeEnum, 0)
-	for _, v := range mappingEntityCloudType {
+	for _, v := range mappingEntityCloudTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEntityCloudTypeEnumStringValues Enumerates the set of values in String for EntityCloudTypeEnum
+func GetEntityCloudTypeEnumStringValues() []string {
+	return []string{
+		"CLOUD",
+		"NON_CLOUD",
+		"ALL",
+	}
 }

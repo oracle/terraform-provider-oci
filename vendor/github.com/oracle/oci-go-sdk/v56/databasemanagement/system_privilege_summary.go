@@ -12,29 +12,52 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// SystemPrivilegeSummary Summary of SystemPrivileges.
+// SystemPrivilegeSummary A Summary of system privileges.
 type SystemPrivilegeSummary struct {
 
-	// The name of a system privilege
+	// The name of a system privilege.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Indicates whether the grant was with the ADMIN option (YES) or not (NO)
+	// Indicates whether the system privilege is granted with the ADMIN option (YES) or not (NO).
 	AdminOption SystemPrivilegeSummaryAdminOptionEnum `mandatory:"false" json:"adminOption,omitempty"`
 
-	// Indicates how the grant was made. Possible values:
-	// YES if the role was granted commonly (CONTAINER=ALL was used)
-	// NO if the role was granted locally (CONTAINER=ALL was not used)
+	// Indicates how the system privilege was granted. Possible values:
+	// YES if the system privilege is granted commonly (CONTAINER=ALL is used)
+	// NO if the system privilege is granted locally (CONTAINER=ALL is not used)
 	Common SystemPrivilegeSummaryCommonEnum `mandatory:"false" json:"common,omitempty"`
 
-	// Indicates whether the role grant was inherited from another container (YES) or not (NO)
+	// Indicates whether the granted system privilege is inherited from another container (YES) or not (NO).
 	Inherited SystemPrivilegeSummaryInheritedEnum `mandatory:"false" json:"inherited,omitempty"`
 }
 
 func (m SystemPrivilegeSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SystemPrivilegeSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSystemPrivilegeSummaryAdminOptionEnum[string(m.AdminOption)]; !ok && m.AdminOption != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdminOption: %s. Supported values are: %s.", m.AdminOption, strings.Join(GetSystemPrivilegeSummaryAdminOptionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSystemPrivilegeSummaryCommonEnum[string(m.Common)]; !ok && m.Common != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Common: %s. Supported values are: %s.", m.Common, strings.Join(GetSystemPrivilegeSummaryCommonEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSystemPrivilegeSummaryInheritedEnum[string(m.Inherited)]; !ok && m.Inherited != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Inherited: %s. Supported values are: %s.", m.Inherited, strings.Join(GetSystemPrivilegeSummaryInheritedEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SystemPrivilegeSummaryAdminOptionEnum Enum with underlying type: string
@@ -46,7 +69,7 @@ const (
 	SystemPrivilegeSummaryAdminOptionNo  SystemPrivilegeSummaryAdminOptionEnum = "NO"
 )
 
-var mappingSystemPrivilegeSummaryAdminOption = map[string]SystemPrivilegeSummaryAdminOptionEnum{
+var mappingSystemPrivilegeSummaryAdminOptionEnum = map[string]SystemPrivilegeSummaryAdminOptionEnum{
 	"YES": SystemPrivilegeSummaryAdminOptionYes,
 	"NO":  SystemPrivilegeSummaryAdminOptionNo,
 }
@@ -54,10 +77,18 @@ var mappingSystemPrivilegeSummaryAdminOption = map[string]SystemPrivilegeSummary
 // GetSystemPrivilegeSummaryAdminOptionEnumValues Enumerates the set of values for SystemPrivilegeSummaryAdminOptionEnum
 func GetSystemPrivilegeSummaryAdminOptionEnumValues() []SystemPrivilegeSummaryAdminOptionEnum {
 	values := make([]SystemPrivilegeSummaryAdminOptionEnum, 0)
-	for _, v := range mappingSystemPrivilegeSummaryAdminOption {
+	for _, v := range mappingSystemPrivilegeSummaryAdminOptionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSystemPrivilegeSummaryAdminOptionEnumStringValues Enumerates the set of values in String for SystemPrivilegeSummaryAdminOptionEnum
+func GetSystemPrivilegeSummaryAdminOptionEnumStringValues() []string {
+	return []string{
+		"YES",
+		"NO",
+	}
 }
 
 // SystemPrivilegeSummaryCommonEnum Enum with underlying type: string
@@ -69,7 +100,7 @@ const (
 	SystemPrivilegeSummaryCommonNo  SystemPrivilegeSummaryCommonEnum = "NO"
 )
 
-var mappingSystemPrivilegeSummaryCommon = map[string]SystemPrivilegeSummaryCommonEnum{
+var mappingSystemPrivilegeSummaryCommonEnum = map[string]SystemPrivilegeSummaryCommonEnum{
 	"YES": SystemPrivilegeSummaryCommonYes,
 	"NO":  SystemPrivilegeSummaryCommonNo,
 }
@@ -77,10 +108,18 @@ var mappingSystemPrivilegeSummaryCommon = map[string]SystemPrivilegeSummaryCommo
 // GetSystemPrivilegeSummaryCommonEnumValues Enumerates the set of values for SystemPrivilegeSummaryCommonEnum
 func GetSystemPrivilegeSummaryCommonEnumValues() []SystemPrivilegeSummaryCommonEnum {
 	values := make([]SystemPrivilegeSummaryCommonEnum, 0)
-	for _, v := range mappingSystemPrivilegeSummaryCommon {
+	for _, v := range mappingSystemPrivilegeSummaryCommonEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSystemPrivilegeSummaryCommonEnumStringValues Enumerates the set of values in String for SystemPrivilegeSummaryCommonEnum
+func GetSystemPrivilegeSummaryCommonEnumStringValues() []string {
+	return []string{
+		"YES",
+		"NO",
+	}
 }
 
 // SystemPrivilegeSummaryInheritedEnum Enum with underlying type: string
@@ -92,7 +131,7 @@ const (
 	SystemPrivilegeSummaryInheritedNo  SystemPrivilegeSummaryInheritedEnum = "NO"
 )
 
-var mappingSystemPrivilegeSummaryInherited = map[string]SystemPrivilegeSummaryInheritedEnum{
+var mappingSystemPrivilegeSummaryInheritedEnum = map[string]SystemPrivilegeSummaryInheritedEnum{
 	"YES": SystemPrivilegeSummaryInheritedYes,
 	"NO":  SystemPrivilegeSummaryInheritedNo,
 }
@@ -100,8 +139,16 @@ var mappingSystemPrivilegeSummaryInherited = map[string]SystemPrivilegeSummaryIn
 // GetSystemPrivilegeSummaryInheritedEnumValues Enumerates the set of values for SystemPrivilegeSummaryInheritedEnum
 func GetSystemPrivilegeSummaryInheritedEnumValues() []SystemPrivilegeSummaryInheritedEnum {
 	values := make([]SystemPrivilegeSummaryInheritedEnum, 0)
-	for _, v := range mappingSystemPrivilegeSummaryInherited {
+	for _, v := range mappingSystemPrivilegeSummaryInheritedEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSystemPrivilegeSummaryInheritedEnumStringValues Enumerates the set of values in String for SystemPrivilegeSummaryInheritedEnum
+func GetSystemPrivilegeSummaryInheritedEnumStringValues() []string {
+	return []string{
+		"YES",
+		"NO",
+	}
 }

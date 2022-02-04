@@ -18,7 +18,7 @@ const (
 	ProblemLifecycleStateInactive ProblemLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingProblemLifecycleState = map[string]ProblemLifecycleStateEnum{
+var mappingProblemLifecycleStateEnum = map[string]ProblemLifecycleStateEnum{
 	"ACTIVE":   ProblemLifecycleStateActive,
 	"INACTIVE": ProblemLifecycleStateInactive,
 }
@@ -26,8 +26,16 @@ var mappingProblemLifecycleState = map[string]ProblemLifecycleStateEnum{
 // GetProblemLifecycleStateEnumValues Enumerates the set of values for ProblemLifecycleStateEnum
 func GetProblemLifecycleStateEnumValues() []ProblemLifecycleStateEnum {
 	values := make([]ProblemLifecycleStateEnum, 0)
-	for _, v := range mappingProblemLifecycleState {
+	for _, v := range mappingProblemLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProblemLifecycleStateEnumStringValues Enumerates the set of values in String for ProblemLifecycleStateEnum
+func GetProblemLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }

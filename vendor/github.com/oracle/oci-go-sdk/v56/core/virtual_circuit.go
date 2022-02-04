@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VirtualCircuit For use with Oracle Cloud Infrastructure FastConnect.
@@ -157,6 +159,48 @@ func (m VirtualCircuit) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VirtualCircuit) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingVirtualCircuitBgpManagementEnum[string(m.BgpManagement)]; !ok && m.BgpManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpManagement: %s. Supported values are: %s.", m.BgpManagement, strings.Join(GetVirtualCircuitBgpManagementEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVirtualCircuitBgpSessionStateEnum[string(m.BgpSessionState)]; !ok && m.BgpSessionState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpSessionState: %s. Supported values are: %s.", m.BgpSessionState, strings.Join(GetVirtualCircuitBgpSessionStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVirtualCircuitBgpIpv6SessionStateEnum[string(m.BgpIpv6SessionState)]; !ok && m.BgpIpv6SessionState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpIpv6SessionState: %s. Supported values are: %s.", m.BgpIpv6SessionState, strings.Join(GetVirtualCircuitBgpIpv6SessionStateEnumStringValues(), ",")))
+	}
+	for _, val := range m.RoutingPolicy {
+		if _, ok := mappingVirtualCircuitRoutingPolicyEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingPolicy: %s. Supported values are: %s.", val, strings.Join(GetVirtualCircuitRoutingPolicyEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingVirtualCircuitLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVirtualCircuitLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVirtualCircuitProviderStateEnum[string(m.ProviderState)]; !ok && m.ProviderState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProviderState: %s. Supported values are: %s.", m.ProviderState, strings.Join(GetVirtualCircuitProviderStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVirtualCircuitServiceTypeEnum[string(m.ServiceType)]; !ok && m.ServiceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceType: %s. Supported values are: %s.", m.ServiceType, strings.Join(GetVirtualCircuitServiceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVirtualCircuitTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetVirtualCircuitTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVirtualCircuitIpMtuEnum[string(m.IpMtu)]; !ok && m.IpMtu != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMtu: %s. Supported values are: %s.", m.IpMtu, strings.Join(GetVirtualCircuitIpMtuEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VirtualCircuitBgpManagementEnum Enum with underlying type: string
 type VirtualCircuitBgpManagementEnum string
 
@@ -167,7 +211,7 @@ const (
 	VirtualCircuitBgpManagementOracleManaged   VirtualCircuitBgpManagementEnum = "ORACLE_MANAGED"
 )
 
-var mappingVirtualCircuitBgpManagement = map[string]VirtualCircuitBgpManagementEnum{
+var mappingVirtualCircuitBgpManagementEnum = map[string]VirtualCircuitBgpManagementEnum{
 	"CUSTOMER_MANAGED": VirtualCircuitBgpManagementCustomerManaged,
 	"PROVIDER_MANAGED": VirtualCircuitBgpManagementProviderManaged,
 	"ORACLE_MANAGED":   VirtualCircuitBgpManagementOracleManaged,
@@ -176,10 +220,19 @@ var mappingVirtualCircuitBgpManagement = map[string]VirtualCircuitBgpManagementE
 // GetVirtualCircuitBgpManagementEnumValues Enumerates the set of values for VirtualCircuitBgpManagementEnum
 func GetVirtualCircuitBgpManagementEnumValues() []VirtualCircuitBgpManagementEnum {
 	values := make([]VirtualCircuitBgpManagementEnum, 0)
-	for _, v := range mappingVirtualCircuitBgpManagement {
+	for _, v := range mappingVirtualCircuitBgpManagementEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitBgpManagementEnumStringValues Enumerates the set of values in String for VirtualCircuitBgpManagementEnum
+func GetVirtualCircuitBgpManagementEnumStringValues() []string {
+	return []string{
+		"CUSTOMER_MANAGED",
+		"PROVIDER_MANAGED",
+		"ORACLE_MANAGED",
+	}
 }
 
 // VirtualCircuitBgpSessionStateEnum Enum with underlying type: string
@@ -191,7 +244,7 @@ const (
 	VirtualCircuitBgpSessionStateDown VirtualCircuitBgpSessionStateEnum = "DOWN"
 )
 
-var mappingVirtualCircuitBgpSessionState = map[string]VirtualCircuitBgpSessionStateEnum{
+var mappingVirtualCircuitBgpSessionStateEnum = map[string]VirtualCircuitBgpSessionStateEnum{
 	"UP":   VirtualCircuitBgpSessionStateUp,
 	"DOWN": VirtualCircuitBgpSessionStateDown,
 }
@@ -199,10 +252,18 @@ var mappingVirtualCircuitBgpSessionState = map[string]VirtualCircuitBgpSessionSt
 // GetVirtualCircuitBgpSessionStateEnumValues Enumerates the set of values for VirtualCircuitBgpSessionStateEnum
 func GetVirtualCircuitBgpSessionStateEnumValues() []VirtualCircuitBgpSessionStateEnum {
 	values := make([]VirtualCircuitBgpSessionStateEnum, 0)
-	for _, v := range mappingVirtualCircuitBgpSessionState {
+	for _, v := range mappingVirtualCircuitBgpSessionStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitBgpSessionStateEnumStringValues Enumerates the set of values in String for VirtualCircuitBgpSessionStateEnum
+func GetVirtualCircuitBgpSessionStateEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+	}
 }
 
 // VirtualCircuitBgpIpv6SessionStateEnum Enum with underlying type: string
@@ -214,7 +275,7 @@ const (
 	VirtualCircuitBgpIpv6SessionStateDown VirtualCircuitBgpIpv6SessionStateEnum = "DOWN"
 )
 
-var mappingVirtualCircuitBgpIpv6SessionState = map[string]VirtualCircuitBgpIpv6SessionStateEnum{
+var mappingVirtualCircuitBgpIpv6SessionStateEnum = map[string]VirtualCircuitBgpIpv6SessionStateEnum{
 	"UP":   VirtualCircuitBgpIpv6SessionStateUp,
 	"DOWN": VirtualCircuitBgpIpv6SessionStateDown,
 }
@@ -222,10 +283,18 @@ var mappingVirtualCircuitBgpIpv6SessionState = map[string]VirtualCircuitBgpIpv6S
 // GetVirtualCircuitBgpIpv6SessionStateEnumValues Enumerates the set of values for VirtualCircuitBgpIpv6SessionStateEnum
 func GetVirtualCircuitBgpIpv6SessionStateEnumValues() []VirtualCircuitBgpIpv6SessionStateEnum {
 	values := make([]VirtualCircuitBgpIpv6SessionStateEnum, 0)
-	for _, v := range mappingVirtualCircuitBgpIpv6SessionState {
+	for _, v := range mappingVirtualCircuitBgpIpv6SessionStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitBgpIpv6SessionStateEnumStringValues Enumerates the set of values in String for VirtualCircuitBgpIpv6SessionStateEnum
+func GetVirtualCircuitBgpIpv6SessionStateEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+	}
 }
 
 // VirtualCircuitRoutingPolicyEnum Enum with underlying type: string
@@ -239,7 +308,7 @@ const (
 	VirtualCircuitRoutingPolicyGlobal               VirtualCircuitRoutingPolicyEnum = "GLOBAL"
 )
 
-var mappingVirtualCircuitRoutingPolicy = map[string]VirtualCircuitRoutingPolicyEnum{
+var mappingVirtualCircuitRoutingPolicyEnum = map[string]VirtualCircuitRoutingPolicyEnum{
 	"ORACLE_SERVICE_NETWORK": VirtualCircuitRoutingPolicyOracleServiceNetwork,
 	"REGIONAL":               VirtualCircuitRoutingPolicyRegional,
 	"MARKET_LEVEL":           VirtualCircuitRoutingPolicyMarketLevel,
@@ -249,10 +318,20 @@ var mappingVirtualCircuitRoutingPolicy = map[string]VirtualCircuitRoutingPolicyE
 // GetVirtualCircuitRoutingPolicyEnumValues Enumerates the set of values for VirtualCircuitRoutingPolicyEnum
 func GetVirtualCircuitRoutingPolicyEnumValues() []VirtualCircuitRoutingPolicyEnum {
 	values := make([]VirtualCircuitRoutingPolicyEnum, 0)
-	for _, v := range mappingVirtualCircuitRoutingPolicy {
+	for _, v := range mappingVirtualCircuitRoutingPolicyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitRoutingPolicyEnumStringValues Enumerates the set of values in String for VirtualCircuitRoutingPolicyEnum
+func GetVirtualCircuitRoutingPolicyEnumStringValues() []string {
+	return []string{
+		"ORACLE_SERVICE_NETWORK",
+		"REGIONAL",
+		"MARKET_LEVEL",
+		"GLOBAL",
+	}
 }
 
 // VirtualCircuitLifecycleStateEnum Enum with underlying type: string
@@ -270,7 +349,7 @@ const (
 	VirtualCircuitLifecycleStateTerminated      VirtualCircuitLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingVirtualCircuitLifecycleState = map[string]VirtualCircuitLifecycleStateEnum{
+var mappingVirtualCircuitLifecycleStateEnum = map[string]VirtualCircuitLifecycleStateEnum{
 	"PENDING_PROVIDER": VirtualCircuitLifecycleStatePendingProvider,
 	"VERIFYING":        VirtualCircuitLifecycleStateVerifying,
 	"PROVISIONING":     VirtualCircuitLifecycleStateProvisioning,
@@ -284,10 +363,24 @@ var mappingVirtualCircuitLifecycleState = map[string]VirtualCircuitLifecycleStat
 // GetVirtualCircuitLifecycleStateEnumValues Enumerates the set of values for VirtualCircuitLifecycleStateEnum
 func GetVirtualCircuitLifecycleStateEnumValues() []VirtualCircuitLifecycleStateEnum {
 	values := make([]VirtualCircuitLifecycleStateEnum, 0)
-	for _, v := range mappingVirtualCircuitLifecycleState {
+	for _, v := range mappingVirtualCircuitLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitLifecycleStateEnumStringValues Enumerates the set of values in String for VirtualCircuitLifecycleStateEnum
+func GetVirtualCircuitLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PENDING_PROVIDER",
+		"VERIFYING",
+		"PROVISIONING",
+		"PROVISIONED",
+		"FAILED",
+		"INACTIVE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }
 
 // VirtualCircuitProviderStateEnum Enum with underlying type: string
@@ -299,7 +392,7 @@ const (
 	VirtualCircuitProviderStateInactive VirtualCircuitProviderStateEnum = "INACTIVE"
 )
 
-var mappingVirtualCircuitProviderState = map[string]VirtualCircuitProviderStateEnum{
+var mappingVirtualCircuitProviderStateEnum = map[string]VirtualCircuitProviderStateEnum{
 	"ACTIVE":   VirtualCircuitProviderStateActive,
 	"INACTIVE": VirtualCircuitProviderStateInactive,
 }
@@ -307,10 +400,18 @@ var mappingVirtualCircuitProviderState = map[string]VirtualCircuitProviderStateE
 // GetVirtualCircuitProviderStateEnumValues Enumerates the set of values for VirtualCircuitProviderStateEnum
 func GetVirtualCircuitProviderStateEnumValues() []VirtualCircuitProviderStateEnum {
 	values := make([]VirtualCircuitProviderStateEnum, 0)
-	for _, v := range mappingVirtualCircuitProviderState {
+	for _, v := range mappingVirtualCircuitProviderStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitProviderStateEnumStringValues Enumerates the set of values in String for VirtualCircuitProviderStateEnum
+func GetVirtualCircuitProviderStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }
 
 // VirtualCircuitServiceTypeEnum Enum with underlying type: string
@@ -323,7 +424,7 @@ const (
 	VirtualCircuitServiceTypeLayer3    VirtualCircuitServiceTypeEnum = "LAYER3"
 )
 
-var mappingVirtualCircuitServiceType = map[string]VirtualCircuitServiceTypeEnum{
+var mappingVirtualCircuitServiceTypeEnum = map[string]VirtualCircuitServiceTypeEnum{
 	"COLOCATED": VirtualCircuitServiceTypeColocated,
 	"LAYER2":    VirtualCircuitServiceTypeLayer2,
 	"LAYER3":    VirtualCircuitServiceTypeLayer3,
@@ -332,10 +433,19 @@ var mappingVirtualCircuitServiceType = map[string]VirtualCircuitServiceTypeEnum{
 // GetVirtualCircuitServiceTypeEnumValues Enumerates the set of values for VirtualCircuitServiceTypeEnum
 func GetVirtualCircuitServiceTypeEnumValues() []VirtualCircuitServiceTypeEnum {
 	values := make([]VirtualCircuitServiceTypeEnum, 0)
-	for _, v := range mappingVirtualCircuitServiceType {
+	for _, v := range mappingVirtualCircuitServiceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitServiceTypeEnumStringValues Enumerates the set of values in String for VirtualCircuitServiceTypeEnum
+func GetVirtualCircuitServiceTypeEnumStringValues() []string {
+	return []string{
+		"COLOCATED",
+		"LAYER2",
+		"LAYER3",
+	}
 }
 
 // VirtualCircuitTypeEnum Enum with underlying type: string
@@ -347,7 +457,7 @@ const (
 	VirtualCircuitTypePrivate VirtualCircuitTypeEnum = "PRIVATE"
 )
 
-var mappingVirtualCircuitType = map[string]VirtualCircuitTypeEnum{
+var mappingVirtualCircuitTypeEnum = map[string]VirtualCircuitTypeEnum{
 	"PUBLIC":  VirtualCircuitTypePublic,
 	"PRIVATE": VirtualCircuitTypePrivate,
 }
@@ -355,8 +465,16 @@ var mappingVirtualCircuitType = map[string]VirtualCircuitTypeEnum{
 // GetVirtualCircuitTypeEnumValues Enumerates the set of values for VirtualCircuitTypeEnum
 func GetVirtualCircuitTypeEnumValues() []VirtualCircuitTypeEnum {
 	values := make([]VirtualCircuitTypeEnum, 0)
-	for _, v := range mappingVirtualCircuitType {
+	for _, v := range mappingVirtualCircuitTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitTypeEnumStringValues Enumerates the set of values in String for VirtualCircuitTypeEnum
+func GetVirtualCircuitTypeEnumStringValues() []string {
+	return []string{
+		"PUBLIC",
+		"PRIVATE",
+	}
 }

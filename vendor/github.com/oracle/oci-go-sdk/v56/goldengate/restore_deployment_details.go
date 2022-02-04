@@ -11,7 +11,9 @@ package goldengate
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // RestoreDeploymentDetails The information about the Restore for a Deployment.
@@ -59,4 +61,16 @@ func (m *restoredeploymentdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 func (m restoredeploymentdetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m restoredeploymentdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

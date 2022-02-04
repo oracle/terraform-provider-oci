@@ -17,15 +17,22 @@ const (
 	ResetPeriodMonthly ResetPeriodEnum = "MONTHLY"
 )
 
-var mappingResetPeriod = map[string]ResetPeriodEnum{
+var mappingResetPeriodEnum = map[string]ResetPeriodEnum{
 	"MONTHLY": ResetPeriodMonthly,
 }
 
 // GetResetPeriodEnumValues Enumerates the set of values for ResetPeriodEnum
 func GetResetPeriodEnumValues() []ResetPeriodEnum {
 	values := make([]ResetPeriodEnum, 0)
-	for _, v := range mappingResetPeriod {
+	for _, v := range mappingResetPeriodEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResetPeriodEnumStringValues Enumerates the set of values in String for ResetPeriodEnum
+func GetResetPeriodEnumStringValues() []string {
+	return []string{
+		"MONTHLY",
+	}
 }

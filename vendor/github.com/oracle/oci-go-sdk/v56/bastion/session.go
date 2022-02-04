@@ -11,7 +11,9 @@ package bastion
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Session A bastion session resource. A bastion session lets authorized users connect to a target resource using a Secure Shell (SSH) for a predetermined amount of time.
@@ -65,6 +67,24 @@ type Session struct {
 
 func (m Session) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Session) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSessionLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSessionLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingSessionKeyTypeEnum[string(m.KeyType)]; !ok && m.KeyType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KeyType: %s. Supported values are: %s.", m.KeyType, strings.Join(GetSessionKeyTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -141,15 +161,22 @@ const (
 	SessionKeyTypePub SessionKeyTypeEnum = "PUB"
 )
 
-var mappingSessionKeyType = map[string]SessionKeyTypeEnum{
+var mappingSessionKeyTypeEnum = map[string]SessionKeyTypeEnum{
 	"PUB": SessionKeyTypePub,
 }
 
 // GetSessionKeyTypeEnumValues Enumerates the set of values for SessionKeyTypeEnum
 func GetSessionKeyTypeEnumValues() []SessionKeyTypeEnum {
 	values := make([]SessionKeyTypeEnum, 0)
-	for _, v := range mappingSessionKeyType {
+	for _, v := range mappingSessionKeyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSessionKeyTypeEnumStringValues Enumerates the set of values in String for SessionKeyTypeEnum
+func GetSessionKeyTypeEnumStringValues() []string {
+	return []string{
+		"PUB",
+	}
 }

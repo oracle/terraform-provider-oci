@@ -5,8 +5,10 @@
 package computeinstanceagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListInstanceagentAvailablePluginsRequest wrapper for the ListInstanceagentAvailablePlugins operation
@@ -71,6 +73,10 @@ func (request ListInstanceagentAvailablePluginsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListInstanceagentAvailablePluginsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -84,6 +90,23 @@ func (request ListInstanceagentAvailablePluginsRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListInstanceagentAvailablePluginsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListInstanceagentAvailablePluginsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListInstanceagentAvailablePluginsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListInstanceagentAvailablePluginsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListInstanceagentAvailablePluginsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListInstanceagentAvailablePluginsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListInstanceagentAvailablePluginsResponse wrapper for the ListInstanceagentAvailablePlugins operation
@@ -123,7 +146,7 @@ const (
 	ListInstanceagentAvailablePluginsSortByDisplayname ListInstanceagentAvailablePluginsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListInstanceagentAvailablePluginsSortBy = map[string]ListInstanceagentAvailablePluginsSortByEnum{
+var mappingListInstanceagentAvailablePluginsSortByEnum = map[string]ListInstanceagentAvailablePluginsSortByEnum{
 	"TIMECREATED": ListInstanceagentAvailablePluginsSortByTimecreated,
 	"DISPLAYNAME": ListInstanceagentAvailablePluginsSortByDisplayname,
 }
@@ -131,10 +154,18 @@ var mappingListInstanceagentAvailablePluginsSortBy = map[string]ListInstanceagen
 // GetListInstanceagentAvailablePluginsSortByEnumValues Enumerates the set of values for ListInstanceagentAvailablePluginsSortByEnum
 func GetListInstanceagentAvailablePluginsSortByEnumValues() []ListInstanceagentAvailablePluginsSortByEnum {
 	values := make([]ListInstanceagentAvailablePluginsSortByEnum, 0)
-	for _, v := range mappingListInstanceagentAvailablePluginsSortBy {
+	for _, v := range mappingListInstanceagentAvailablePluginsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstanceagentAvailablePluginsSortByEnumStringValues Enumerates the set of values in String for ListInstanceagentAvailablePluginsSortByEnum
+func GetListInstanceagentAvailablePluginsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListInstanceagentAvailablePluginsSortOrderEnum Enum with underlying type: string
@@ -146,7 +177,7 @@ const (
 	ListInstanceagentAvailablePluginsSortOrderDesc ListInstanceagentAvailablePluginsSortOrderEnum = "DESC"
 )
 
-var mappingListInstanceagentAvailablePluginsSortOrder = map[string]ListInstanceagentAvailablePluginsSortOrderEnum{
+var mappingListInstanceagentAvailablePluginsSortOrderEnum = map[string]ListInstanceagentAvailablePluginsSortOrderEnum{
 	"ASC":  ListInstanceagentAvailablePluginsSortOrderAsc,
 	"DESC": ListInstanceagentAvailablePluginsSortOrderDesc,
 }
@@ -154,8 +185,16 @@ var mappingListInstanceagentAvailablePluginsSortOrder = map[string]ListInstancea
 // GetListInstanceagentAvailablePluginsSortOrderEnumValues Enumerates the set of values for ListInstanceagentAvailablePluginsSortOrderEnum
 func GetListInstanceagentAvailablePluginsSortOrderEnumValues() []ListInstanceagentAvailablePluginsSortOrderEnum {
 	values := make([]ListInstanceagentAvailablePluginsSortOrderEnum, 0)
-	for _, v := range mappingListInstanceagentAvailablePluginsSortOrder {
+	for _, v := range mappingListInstanceagentAvailablePluginsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstanceagentAvailablePluginsSortOrderEnumStringValues Enumerates the set of values in String for ListInstanceagentAvailablePluginsSortOrderEnum
+func GetListInstanceagentAvailablePluginsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

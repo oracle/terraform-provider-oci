@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UserDefinedFunctionSummary The user defined function summary type contains the audit summary information and the definition of the user defined function.
@@ -57,6 +59,21 @@ func (m UserDefinedFunctionSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserDefinedFunctionSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUserDefinedFunctionSummaryModelTypeEnum[string(m.ModelType)]; !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetUserDefinedFunctionSummaryModelTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UserDefinedFunctionSummaryModelTypeEnum Enum with underlying type: string
 type UserDefinedFunctionSummaryModelTypeEnum string
 
@@ -65,15 +82,22 @@ const (
 	UserDefinedFunctionSummaryModelTypeDisUserDefinedFunction UserDefinedFunctionSummaryModelTypeEnum = "DIS_USER_DEFINED_FUNCTION"
 )
 
-var mappingUserDefinedFunctionSummaryModelType = map[string]UserDefinedFunctionSummaryModelTypeEnum{
+var mappingUserDefinedFunctionSummaryModelTypeEnum = map[string]UserDefinedFunctionSummaryModelTypeEnum{
 	"DIS_USER_DEFINED_FUNCTION": UserDefinedFunctionSummaryModelTypeDisUserDefinedFunction,
 }
 
 // GetUserDefinedFunctionSummaryModelTypeEnumValues Enumerates the set of values for UserDefinedFunctionSummaryModelTypeEnum
 func GetUserDefinedFunctionSummaryModelTypeEnumValues() []UserDefinedFunctionSummaryModelTypeEnum {
 	values := make([]UserDefinedFunctionSummaryModelTypeEnum, 0)
-	for _, v := range mappingUserDefinedFunctionSummaryModelType {
+	for _, v := range mappingUserDefinedFunctionSummaryModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserDefinedFunctionSummaryModelTypeEnumStringValues Enumerates the set of values in String for UserDefinedFunctionSummaryModelTypeEnum
+func GetUserDefinedFunctionSummaryModelTypeEnumStringValues() []string {
+	return []string{
+		"DIS_USER_DEFINED_FUNCTION",
+	}
 }

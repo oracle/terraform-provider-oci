@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeAwrDbParameterChangesRequest wrapper for the SummarizeAwrDbParameterChanges operation
@@ -82,6 +84,10 @@ func (request SummarizeAwrDbParameterChangesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeAwrDbParameterChangesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -95,6 +101,23 @@ func (request SummarizeAwrDbParameterChangesRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeAwrDbParameterChangesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeAwrDbParameterChangesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeAwrDbParameterChangesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeAwrDbParameterChangesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbParameterChangesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeAwrDbParameterChangesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeAwrDbParameterChangesResponse wrapper for the SummarizeAwrDbParameterChanges operation
@@ -134,7 +157,7 @@ const (
 	SummarizeAwrDbParameterChangesSortByName      SummarizeAwrDbParameterChangesSortByEnum = "NAME"
 )
 
-var mappingSummarizeAwrDbParameterChangesSortBy = map[string]SummarizeAwrDbParameterChangesSortByEnum{
+var mappingSummarizeAwrDbParameterChangesSortByEnum = map[string]SummarizeAwrDbParameterChangesSortByEnum{
 	"IS_CHANGED": SummarizeAwrDbParameterChangesSortByIsChanged,
 	"NAME":       SummarizeAwrDbParameterChangesSortByName,
 }
@@ -142,10 +165,18 @@ var mappingSummarizeAwrDbParameterChangesSortBy = map[string]SummarizeAwrDbParam
 // GetSummarizeAwrDbParameterChangesSortByEnumValues Enumerates the set of values for SummarizeAwrDbParameterChangesSortByEnum
 func GetSummarizeAwrDbParameterChangesSortByEnumValues() []SummarizeAwrDbParameterChangesSortByEnum {
 	values := make([]SummarizeAwrDbParameterChangesSortByEnum, 0)
-	for _, v := range mappingSummarizeAwrDbParameterChangesSortBy {
+	for _, v := range mappingSummarizeAwrDbParameterChangesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbParameterChangesSortByEnumStringValues Enumerates the set of values in String for SummarizeAwrDbParameterChangesSortByEnum
+func GetSummarizeAwrDbParameterChangesSortByEnumStringValues() []string {
+	return []string{
+		"IS_CHANGED",
+		"NAME",
+	}
 }
 
 // SummarizeAwrDbParameterChangesSortOrderEnum Enum with underlying type: string
@@ -157,7 +188,7 @@ const (
 	SummarizeAwrDbParameterChangesSortOrderDesc SummarizeAwrDbParameterChangesSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeAwrDbParameterChangesSortOrder = map[string]SummarizeAwrDbParameterChangesSortOrderEnum{
+var mappingSummarizeAwrDbParameterChangesSortOrderEnum = map[string]SummarizeAwrDbParameterChangesSortOrderEnum{
 	"ASC":  SummarizeAwrDbParameterChangesSortOrderAsc,
 	"DESC": SummarizeAwrDbParameterChangesSortOrderDesc,
 }
@@ -165,8 +196,16 @@ var mappingSummarizeAwrDbParameterChangesSortOrder = map[string]SummarizeAwrDbPa
 // GetSummarizeAwrDbParameterChangesSortOrderEnumValues Enumerates the set of values for SummarizeAwrDbParameterChangesSortOrderEnum
 func GetSummarizeAwrDbParameterChangesSortOrderEnumValues() []SummarizeAwrDbParameterChangesSortOrderEnum {
 	values := make([]SummarizeAwrDbParameterChangesSortOrderEnum, 0)
-	for _, v := range mappingSummarizeAwrDbParameterChangesSortOrder {
+	for _, v := range mappingSummarizeAwrDbParameterChangesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbParameterChangesSortOrderEnumStringValues Enumerates the set of values in String for SummarizeAwrDbParameterChangesSortOrderEnum
+func GetSummarizeAwrDbParameterChangesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

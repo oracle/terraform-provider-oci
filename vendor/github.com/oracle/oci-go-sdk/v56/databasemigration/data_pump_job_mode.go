@@ -21,7 +21,7 @@ const (
 	DataPumpJobModeTransportable DataPumpJobModeEnum = "TRANSPORTABLE"
 )
 
-var mappingDataPumpJobMode = map[string]DataPumpJobModeEnum{
+var mappingDataPumpJobModeEnum = map[string]DataPumpJobModeEnum{
 	"FULL":          DataPumpJobModeFull,
 	"SCHEMA":        DataPumpJobModeSchema,
 	"TABLE":         DataPumpJobModeTable,
@@ -32,8 +32,19 @@ var mappingDataPumpJobMode = map[string]DataPumpJobModeEnum{
 // GetDataPumpJobModeEnumValues Enumerates the set of values for DataPumpJobModeEnum
 func GetDataPumpJobModeEnumValues() []DataPumpJobModeEnum {
 	values := make([]DataPumpJobModeEnum, 0)
-	for _, v := range mappingDataPumpJobMode {
+	for _, v := range mappingDataPumpJobModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataPumpJobModeEnumStringValues Enumerates the set of values in String for DataPumpJobModeEnum
+func GetDataPumpJobModeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"SCHEMA",
+		"TABLE",
+		"TABLESPACE",
+		"TRANSPORTABLE",
+	}
 }

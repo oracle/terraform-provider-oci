@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CrossConnectMappingDetails For use with Oracle Cloud Infrastructure FastConnect. Each
@@ -89,6 +91,24 @@ func (m CrossConnectMappingDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CrossConnectMappingDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCrossConnectMappingDetailsIpv4BgpStatusEnum[string(m.Ipv4BgpStatus)]; !ok && m.Ipv4BgpStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Ipv4BgpStatus: %s. Supported values are: %s.", m.Ipv4BgpStatus, strings.Join(GetCrossConnectMappingDetailsIpv4BgpStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCrossConnectMappingDetailsIpv6BgpStatusEnum[string(m.Ipv6BgpStatus)]; !ok && m.Ipv6BgpStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Ipv6BgpStatus: %s. Supported values are: %s.", m.Ipv6BgpStatus, strings.Join(GetCrossConnectMappingDetailsIpv6BgpStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CrossConnectMappingDetailsIpv4BgpStatusEnum Enum with underlying type: string
 type CrossConnectMappingDetailsIpv4BgpStatusEnum string
 
@@ -98,7 +118,7 @@ const (
 	CrossConnectMappingDetailsIpv4BgpStatusDown CrossConnectMappingDetailsIpv4BgpStatusEnum = "DOWN"
 )
 
-var mappingCrossConnectMappingDetailsIpv4BgpStatus = map[string]CrossConnectMappingDetailsIpv4BgpStatusEnum{
+var mappingCrossConnectMappingDetailsIpv4BgpStatusEnum = map[string]CrossConnectMappingDetailsIpv4BgpStatusEnum{
 	"UP":   CrossConnectMappingDetailsIpv4BgpStatusUp,
 	"DOWN": CrossConnectMappingDetailsIpv4BgpStatusDown,
 }
@@ -106,10 +126,18 @@ var mappingCrossConnectMappingDetailsIpv4BgpStatus = map[string]CrossConnectMapp
 // GetCrossConnectMappingDetailsIpv4BgpStatusEnumValues Enumerates the set of values for CrossConnectMappingDetailsIpv4BgpStatusEnum
 func GetCrossConnectMappingDetailsIpv4BgpStatusEnumValues() []CrossConnectMappingDetailsIpv4BgpStatusEnum {
 	values := make([]CrossConnectMappingDetailsIpv4BgpStatusEnum, 0)
-	for _, v := range mappingCrossConnectMappingDetailsIpv4BgpStatus {
+	for _, v := range mappingCrossConnectMappingDetailsIpv4BgpStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCrossConnectMappingDetailsIpv4BgpStatusEnumStringValues Enumerates the set of values in String for CrossConnectMappingDetailsIpv4BgpStatusEnum
+func GetCrossConnectMappingDetailsIpv4BgpStatusEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+	}
 }
 
 // CrossConnectMappingDetailsIpv6BgpStatusEnum Enum with underlying type: string
@@ -121,7 +149,7 @@ const (
 	CrossConnectMappingDetailsIpv6BgpStatusDown CrossConnectMappingDetailsIpv6BgpStatusEnum = "DOWN"
 )
 
-var mappingCrossConnectMappingDetailsIpv6BgpStatus = map[string]CrossConnectMappingDetailsIpv6BgpStatusEnum{
+var mappingCrossConnectMappingDetailsIpv6BgpStatusEnum = map[string]CrossConnectMappingDetailsIpv6BgpStatusEnum{
 	"UP":   CrossConnectMappingDetailsIpv6BgpStatusUp,
 	"DOWN": CrossConnectMappingDetailsIpv6BgpStatusDown,
 }
@@ -129,8 +157,16 @@ var mappingCrossConnectMappingDetailsIpv6BgpStatus = map[string]CrossConnectMapp
 // GetCrossConnectMappingDetailsIpv6BgpStatusEnumValues Enumerates the set of values for CrossConnectMappingDetailsIpv6BgpStatusEnum
 func GetCrossConnectMappingDetailsIpv6BgpStatusEnumValues() []CrossConnectMappingDetailsIpv6BgpStatusEnum {
 	values := make([]CrossConnectMappingDetailsIpv6BgpStatusEnum, 0)
-	for _, v := range mappingCrossConnectMappingDetailsIpv6BgpStatus {
+	for _, v := range mappingCrossConnectMappingDetailsIpv6BgpStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCrossConnectMappingDetailsIpv6BgpStatusEnumStringValues Enumerates the set of values in String for CrossConnectMappingDetailsIpv6BgpStatusEnum
+func GetCrossConnectMappingDetailsIpv6BgpStatusEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+	}
 }

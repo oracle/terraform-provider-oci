@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateConnectionDetails Properties used in connection update operations.
@@ -187,6 +189,18 @@ func (m updateconnectiondetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m updateconnectiondetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateConnectionDetailsModelTypeEnum Enum with underlying type: string
 type UpdateConnectionDetailsModelTypeEnum string
 
@@ -202,7 +216,7 @@ const (
 	UpdateConnectionDetailsModelTypeAmazonS3Connection            UpdateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
 )
 
-var mappingUpdateConnectionDetailsModelType = map[string]UpdateConnectionDetailsModelTypeEnum{
+var mappingUpdateConnectionDetailsModelTypeEnum = map[string]UpdateConnectionDetailsModelTypeEnum{
 	"ORACLE_ADWC_CONNECTION":           UpdateConnectionDetailsModelTypeOracleAdwcConnection,
 	"ORACLE_ATP_CONNECTION":            UpdateConnectionDetailsModelTypeOracleAtpConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": UpdateConnectionDetailsModelTypeOracleObjectStorageConnection,
@@ -216,8 +230,22 @@ var mappingUpdateConnectionDetailsModelType = map[string]UpdateConnectionDetails
 // GetUpdateConnectionDetailsModelTypeEnumValues Enumerates the set of values for UpdateConnectionDetailsModelTypeEnum
 func GetUpdateConnectionDetailsModelTypeEnumValues() []UpdateConnectionDetailsModelTypeEnum {
 	values := make([]UpdateConnectionDetailsModelTypeEnum, 0)
-	for _, v := range mappingUpdateConnectionDetailsModelType {
+	for _, v := range mappingUpdateConnectionDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateConnectionDetailsModelTypeEnumStringValues Enumerates the set of values in String for UpdateConnectionDetailsModelTypeEnum
+func GetUpdateConnectionDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_ADWC_CONNECTION",
+		"ORACLE_ATP_CONNECTION",
+		"ORACLE_OBJECT_STORAGE_CONNECTION",
+		"ORACLEDB_CONNECTION",
+		"MYSQL_CONNECTION",
+		"GENERIC_JDBC_CONNECTION",
+		"BICC_CONNECTION",
+		"AMAZON_S3_CONNECTION",
+	}
 }

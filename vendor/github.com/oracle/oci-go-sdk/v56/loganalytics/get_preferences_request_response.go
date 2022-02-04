@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetPreferencesRequest wrapper for the GetPreferences operation
@@ -46,6 +48,10 @@ func (request GetPreferencesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetPreferencesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request GetPreferencesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetPreferencesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetPreferencesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetPreferencesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetGetPreferencesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingGetPreferencesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetGetPreferencesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetPreferencesResponse wrapper for the GetPreferences operation
@@ -102,7 +125,7 @@ const (
 	GetPreferencesSortOrderDesc GetPreferencesSortOrderEnum = "DESC"
 )
 
-var mappingGetPreferencesSortOrder = map[string]GetPreferencesSortOrderEnum{
+var mappingGetPreferencesSortOrderEnum = map[string]GetPreferencesSortOrderEnum{
 	"ASC":  GetPreferencesSortOrderAsc,
 	"DESC": GetPreferencesSortOrderDesc,
 }
@@ -110,10 +133,18 @@ var mappingGetPreferencesSortOrder = map[string]GetPreferencesSortOrderEnum{
 // GetGetPreferencesSortOrderEnumValues Enumerates the set of values for GetPreferencesSortOrderEnum
 func GetGetPreferencesSortOrderEnumValues() []GetPreferencesSortOrderEnum {
 	values := make([]GetPreferencesSortOrderEnum, 0)
-	for _, v := range mappingGetPreferencesSortOrder {
+	for _, v := range mappingGetPreferencesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetPreferencesSortOrderEnumStringValues Enumerates the set of values in String for GetPreferencesSortOrderEnum
+func GetGetPreferencesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // GetPreferencesSortByEnum Enum with underlying type: string
@@ -124,15 +155,22 @@ const (
 	GetPreferencesSortByName GetPreferencesSortByEnum = "name"
 )
 
-var mappingGetPreferencesSortBy = map[string]GetPreferencesSortByEnum{
+var mappingGetPreferencesSortByEnum = map[string]GetPreferencesSortByEnum{
 	"name": GetPreferencesSortByName,
 }
 
 // GetGetPreferencesSortByEnumValues Enumerates the set of values for GetPreferencesSortByEnum
 func GetGetPreferencesSortByEnumValues() []GetPreferencesSortByEnum {
 	values := make([]GetPreferencesSortByEnum, 0)
-	for _, v := range mappingGetPreferencesSortBy {
+	for _, v := range mappingGetPreferencesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetPreferencesSortByEnumStringValues Enumerates the set of values in String for GetPreferencesSortByEnum
+func GetGetPreferencesSortByEnumStringValues() []string {
+	return []string{
+		"name",
+	}
 }

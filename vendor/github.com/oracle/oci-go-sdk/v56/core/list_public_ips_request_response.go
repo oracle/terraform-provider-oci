@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPublicIpsRequest wrapper for the ListPublicIps operation
@@ -66,6 +68,10 @@ func (request ListPublicIpsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPublicIpsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,23 @@ func (request ListPublicIpsRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPublicIpsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPublicIpsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPublicIpsScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListPublicIpsScopeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPublicIpsLifetimeEnum[string(request.Lifetime)]; !ok && request.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", request.Lifetime, strings.Join(GetListPublicIpsLifetimeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPublicIpsResponse wrapper for the ListPublicIps operation
@@ -118,7 +141,7 @@ const (
 	ListPublicIpsScopeAvailabilityDomain ListPublicIpsScopeEnum = "AVAILABILITY_DOMAIN"
 )
 
-var mappingListPublicIpsScope = map[string]ListPublicIpsScopeEnum{
+var mappingListPublicIpsScopeEnum = map[string]ListPublicIpsScopeEnum{
 	"REGION":              ListPublicIpsScopeRegion,
 	"AVAILABILITY_DOMAIN": ListPublicIpsScopeAvailabilityDomain,
 }
@@ -126,10 +149,18 @@ var mappingListPublicIpsScope = map[string]ListPublicIpsScopeEnum{
 // GetListPublicIpsScopeEnumValues Enumerates the set of values for ListPublicIpsScopeEnum
 func GetListPublicIpsScopeEnumValues() []ListPublicIpsScopeEnum {
 	values := make([]ListPublicIpsScopeEnum, 0)
-	for _, v := range mappingListPublicIpsScope {
+	for _, v := range mappingListPublicIpsScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublicIpsScopeEnumStringValues Enumerates the set of values in String for ListPublicIpsScopeEnum
+func GetListPublicIpsScopeEnumStringValues() []string {
+	return []string{
+		"REGION",
+		"AVAILABILITY_DOMAIN",
+	}
 }
 
 // ListPublicIpsLifetimeEnum Enum with underlying type: string
@@ -141,7 +172,7 @@ const (
 	ListPublicIpsLifetimeReserved  ListPublicIpsLifetimeEnum = "RESERVED"
 )
 
-var mappingListPublicIpsLifetime = map[string]ListPublicIpsLifetimeEnum{
+var mappingListPublicIpsLifetimeEnum = map[string]ListPublicIpsLifetimeEnum{
 	"EPHEMERAL": ListPublicIpsLifetimeEphemeral,
 	"RESERVED":  ListPublicIpsLifetimeReserved,
 }
@@ -149,8 +180,16 @@ var mappingListPublicIpsLifetime = map[string]ListPublicIpsLifetimeEnum{
 // GetListPublicIpsLifetimeEnumValues Enumerates the set of values for ListPublicIpsLifetimeEnum
 func GetListPublicIpsLifetimeEnumValues() []ListPublicIpsLifetimeEnum {
 	values := make([]ListPublicIpsLifetimeEnum, 0)
-	for _, v := range mappingListPublicIpsLifetime {
+	for _, v := range mappingListPublicIpsLifetimeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublicIpsLifetimeEnumStringValues Enumerates the set of values in String for ListPublicIpsLifetimeEnum
+func GetListPublicIpsLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
 }

@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WorkRequestSummary Summary of a work request.
@@ -46,6 +48,24 @@ type WorkRequestSummary struct {
 
 func (m WorkRequestSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestSummaryOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetWorkRequestSummaryOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingWorkRequestSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // WorkRequestSummaryOperationTypeEnum Enum with underlying type: string
@@ -94,7 +114,7 @@ const (
 	WorkRequestSummaryOperationTypeGenerateSecurityAssessmentReport      WorkRequestSummaryOperationTypeEnum = "GENERATE_SECURITY_ASSESSMENT_REPORT"
 )
 
-var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperationTypeEnum{
+var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
 	"ENABLE_DATA_SAFE_CONFIGURATION":            WorkRequestSummaryOperationTypeEnableDataSafeConfiguration,
 	"CREATE_PRIVATE_ENDPOINT":                   WorkRequestSummaryOperationTypeCreatePrivateEndpoint,
 	"UPDATE_PRIVATE_ENDPOINT":                   WorkRequestSummaryOperationTypeUpdatePrivateEndpoint,
@@ -139,10 +159,55 @@ var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperat
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
 func GetWorkRequestSummaryOperationTypeEnumValues() []WorkRequestSummaryOperationTypeEnum {
 	values := make([]WorkRequestSummaryOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestSummaryOperationType {
+	for _, v := range mappingWorkRequestSummaryOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestSummaryOperationTypeEnumStringValues Enumerates the set of values in String for WorkRequestSummaryOperationTypeEnum
+func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
+	return []string{
+		"ENABLE_DATA_SAFE_CONFIGURATION",
+		"CREATE_PRIVATE_ENDPOINT",
+		"UPDATE_PRIVATE_ENDPOINT",
+		"DELETE_PRIVATE_ENDPOINT",
+		"CHANGE_PRIVATE_ENDPOINT_COMPARTMENT",
+		"CREATE_ONPREM_CONNECTOR",
+		"UPDATE_ONPREM_CONNECTOR",
+		"DELETE_ONPREM_CONNECTOR",
+		"UPDATE_ONPREM_CONNECTOR_WALLET",
+		"CHANGE_ONPREM_CONNECTOR_COMPARTMENT",
+		"CREATE_TARGET_DATABASE",
+		"UPDATE_TARGET_DATABASE",
+		"ACTIVATE_TARGET_DATABASE",
+		"DEACTIVATE_TARGET_DATABASE",
+		"DELETE_TARGET_DATABASE",
+		"CHANGE_TARGET_DATABASE_COMPARTMENT",
+		"CREATE_USER_ASSESSMENT",
+		"ASSESS_USER_ASSESSMENT",
+		"CREATE_SNAPSHOT_USER_ASSESSMENT",
+		"CREATE_SCHEDULE_USER_ASSESSMENT",
+		"COMPARE_WITH_BASELINE_USER_ASSESSMENT",
+		"DELETE_USER_ASSESSMENT",
+		"UPDATE_USER_ASSESSMENT",
+		"CHANGE_USER_ASSESSMENT_COMPARTMENT",
+		"SET_USER_ASSESSMENT_BASELINE",
+		"UNSET_USER_ASSESSMENT_BASELINE",
+		"GENERATE_USER_ASSESSMENT_REPORT",
+		"CREATE_SECURITY_ASSESSMENT",
+		"CREATE_SECURITY_ASSESSMENT_NOW",
+		"ASSESS_SECURITY_ASSESSMENT",
+		"CREATE_SNAPSHOT_SECURITY_ASSESSMENT",
+		"CREATE_SCHEDULE_SECURITY_ASSESSMENT",
+		"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT",
+		"DELETE_SECURITY_ASSESSMENT",
+		"UPDATE_SECURITY_ASSESSMENT",
+		"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT",
+		"SET_SECURITY_ASSESSMENT_BASELINE",
+		"UNSET_SECURITY_ASSESSMENT_BASELINE",
+		"GENERATE_SECURITY_ASSESSMENT_REPORT",
+	}
 }
 
 // WorkRequestSummaryStatusEnum Enum with underlying type: string
@@ -156,7 +221,7 @@ const (
 	WorkRequestSummaryStatusSucceeded  WorkRequestSummaryStatusEnum = "SUCCEEDED"
 )
 
-var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
+var mappingWorkRequestSummaryStatusEnum = map[string]WorkRequestSummaryStatusEnum{
 	"ACCEPTED":    WorkRequestSummaryStatusAccepted,
 	"IN_PROGRESS": WorkRequestSummaryStatusInProgress,
 	"FAILED":      WorkRequestSummaryStatusFailed,
@@ -166,8 +231,18 @@ var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
 // GetWorkRequestSummaryStatusEnumValues Enumerates the set of values for WorkRequestSummaryStatusEnum
 func GetWorkRequestSummaryStatusEnumValues() []WorkRequestSummaryStatusEnum {
 	values := make([]WorkRequestSummaryStatusEnum, 0)
-	for _, v := range mappingWorkRequestSummaryStatus {
+	for _, v := range mappingWorkRequestSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestSummaryStatusEnumStringValues Enumerates the set of values in String for WorkRequestSummaryStatusEnum
+func GetWorkRequestSummaryStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+	}
 }

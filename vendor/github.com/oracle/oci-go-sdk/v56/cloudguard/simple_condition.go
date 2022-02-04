@@ -11,7 +11,9 @@ package cloudguard
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SimpleCondition Simple Condition object.
@@ -32,6 +34,24 @@ type SimpleCondition struct {
 
 func (m SimpleCondition) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SimpleCondition) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingOperatorTypeEnum[string(m.Operator)]; !ok && m.Operator != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operator: %s. Supported values are: %s.", m.Operator, strings.Join(GetOperatorTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingConditionValueTypeEnum[string(m.ValueType)]; !ok && m.ValueType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValueType: %s. Supported values are: %s.", m.ValueType, strings.Join(GetConditionValueTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

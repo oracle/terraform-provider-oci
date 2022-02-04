@@ -32,7 +32,7 @@ const (
 	OperationTypeGoldengateDeploymentBackupCancel     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_DATABASE_REGISTRATION_CREATE": OperationTypeGoldengateDatabaseRegistrationCreate,
 	"GOLDENGATE_DATABASE_REGISTRATION_UPDATE": OperationTypeGoldengateDatabaseRegistrationUpdate,
 	"GOLDENGATE_DATABASE_REGISTRATION_DELETE": OperationTypeGoldengateDatabaseRegistrationDelete,
@@ -54,8 +54,30 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"GOLDENGATE_DATABASE_REGISTRATION_CREATE",
+		"GOLDENGATE_DATABASE_REGISTRATION_UPDATE",
+		"GOLDENGATE_DATABASE_REGISTRATION_DELETE",
+		"GOLDENGATE_DATABASE_REGISTRATION_MOVE",
+		"GOLDENGATE_DEPLOYMENT_CREATE",
+		"GOLDENGATE_DEPLOYMENT_UPDATE",
+		"GOLDENGATE_DEPLOYMENT_DELETE",
+		"GOLDENGATE_DEPLOYMENT_MOVE",
+		"GOLDENGATE_DEPLOYMENT_RESTORE",
+		"GOLDENGATE_DEPLOYMENT_START",
+		"GOLDENGATE_DEPLOYMENT_STOP",
+		"GOLDENGATE_DEPLOYMENT_PATCH",
+		"GOLDENGATE_DEPLOYMENT_UPGRADE",
+		"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE",
+		"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE",
+		"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL",
+	}
 }

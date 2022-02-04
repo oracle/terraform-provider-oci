@@ -11,7 +11,9 @@ package databasemigration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HostDumpTransferDetails Optional additional properties for dump transfer in source or target host. Default kind is CURL
@@ -65,6 +67,18 @@ func (m hostdumptransferdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m hostdumptransferdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HostDumpTransferDetailsKindEnum Enum with underlying type: string
 type HostDumpTransferDetailsKindEnum string
 
@@ -74,7 +88,7 @@ const (
 	HostDumpTransferDetailsKindOciCli HostDumpTransferDetailsKindEnum = "OCI_CLI"
 )
 
-var mappingHostDumpTransferDetailsKind = map[string]HostDumpTransferDetailsKindEnum{
+var mappingHostDumpTransferDetailsKindEnum = map[string]HostDumpTransferDetailsKindEnum{
 	"CURL":    HostDumpTransferDetailsKindCurl,
 	"OCI_CLI": HostDumpTransferDetailsKindOciCli,
 }
@@ -82,8 +96,16 @@ var mappingHostDumpTransferDetailsKind = map[string]HostDumpTransferDetailsKindE
 // GetHostDumpTransferDetailsKindEnumValues Enumerates the set of values for HostDumpTransferDetailsKindEnum
 func GetHostDumpTransferDetailsKindEnumValues() []HostDumpTransferDetailsKindEnum {
 	values := make([]HostDumpTransferDetailsKindEnum, 0)
-	for _, v := range mappingHostDumpTransferDetailsKind {
+	for _, v := range mappingHostDumpTransferDetailsKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHostDumpTransferDetailsKindEnumStringValues Enumerates the set of values in String for HostDumpTransferDetailsKindEnum
+func GetHostDumpTransferDetailsKindEnumStringValues() []string {
+	return []string{
+		"CURL",
+		"OCI_CLI",
+	}
 }

@@ -10,7 +10,9 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Export A file system and the path that you can use to mount it. Each export
@@ -91,6 +93,21 @@ func (m Export) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Export) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExportLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExportLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExportLifecycleStateEnum Enum with underlying type: string
 type ExportLifecycleStateEnum string
 
@@ -102,7 +119,7 @@ const (
 	ExportLifecycleStateDeleted  ExportLifecycleStateEnum = "DELETED"
 )
 
-var mappingExportLifecycleState = map[string]ExportLifecycleStateEnum{
+var mappingExportLifecycleStateEnum = map[string]ExportLifecycleStateEnum{
 	"CREATING": ExportLifecycleStateCreating,
 	"ACTIVE":   ExportLifecycleStateActive,
 	"DELETING": ExportLifecycleStateDeleting,
@@ -112,8 +129,18 @@ var mappingExportLifecycleState = map[string]ExportLifecycleStateEnum{
 // GetExportLifecycleStateEnumValues Enumerates the set of values for ExportLifecycleStateEnum
 func GetExportLifecycleStateEnumValues() []ExportLifecycleStateEnum {
 	values := make([]ExportLifecycleStateEnum, 0)
-	for _, v := range mappingExportLifecycleState {
+	for _, v := range mappingExportLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExportLifecycleStateEnumStringValues Enumerates the set of values in String for ExportLifecycleStateEnum
+func GetExportLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

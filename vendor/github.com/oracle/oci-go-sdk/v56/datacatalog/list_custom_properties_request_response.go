@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListCustomPropertiesRequest wrapper for the ListCustomProperties operation
@@ -81,6 +83,10 @@ func (request ListCustomPropertiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListCustomPropertiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -94,6 +100,44 @@ func (request ListCustomPropertiesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListCustomPropertiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListCustomPropertiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.DataTypes {
+		if _, ok := mappingCustomPropertyDataTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataTypes: %s. Supported values are: %s.", val, strings.Join(GetCustomPropertyDataTypeEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.TypeName {
+		if _, ok := mappingListCustomPropertiesTypeNameEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TypeName: %s. Supported values are: %s.", val, strings.Join(GetListCustomPropertiesTypeNameEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListCustomPropertiesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListCustomPropertiesLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListCustomPropertiesFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListCustomPropertiesFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListCustomPropertiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCustomPropertiesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCustomPropertiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCustomPropertiesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListCustomPropertiesResponse wrapper for the ListCustomProperties operation
@@ -172,7 +216,7 @@ const (
 	ListCustomPropertiesTypeNameUnrecognizedFile                 ListCustomPropertiesTypeNameEnum = "UNRECOGNIZED_FILE"
 )
 
-var mappingListCustomPropertiesTypeName = map[string]ListCustomPropertiesTypeNameEnum{
+var mappingListCustomPropertiesTypeNameEnum = map[string]ListCustomPropertiesTypeNameEnum{
 	"DATA_ASSET":                           ListCustomPropertiesTypeNameDataAsset,
 	"AUTONOMOUS_DATA_WAREHOUSE":            ListCustomPropertiesTypeNameAutonomousDataWarehouse,
 	"HIVE":                                 ListCustomPropertiesTypeNameHive,
@@ -221,10 +265,59 @@ var mappingListCustomPropertiesTypeName = map[string]ListCustomPropertiesTypeNam
 // GetListCustomPropertiesTypeNameEnumValues Enumerates the set of values for ListCustomPropertiesTypeNameEnum
 func GetListCustomPropertiesTypeNameEnumValues() []ListCustomPropertiesTypeNameEnum {
 	values := make([]ListCustomPropertiesTypeNameEnum, 0)
-	for _, v := range mappingListCustomPropertiesTypeName {
+	for _, v := range mappingListCustomPropertiesTypeNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCustomPropertiesTypeNameEnumStringValues Enumerates the set of values in String for ListCustomPropertiesTypeNameEnum
+func GetListCustomPropertiesTypeNameEnumStringValues() []string {
+	return []string{
+		"DATA_ASSET",
+		"AUTONOMOUS_DATA_WAREHOUSE",
+		"HIVE",
+		"KAFKA",
+		"MYSQL",
+		"ORACLE_OBJECT_STORAGE",
+		"AUTONOMOUS_TRANSACTION_PROCESSING",
+		"ORACLE",
+		"POSTGRESQL",
+		"MICROSOFT_AZURE_SQL_DATABASE",
+		"MICROSOFT_SQL_SERVER",
+		"IBM_DB2",
+		"DATA_ENTITY",
+		"LOGICAL_ENTITY",
+		"TABLE",
+		"VIEW",
+		"ATTRIBUTE",
+		"FOLDER",
+		"ORACLE_ANALYTICS_SUBJECT_AREA_COLUMN",
+		"ORACLE_ANALYTICS_LOGICAL_COLUMN",
+		"ORACLE_ANALYTICS_PHYSICAL_COLUMN",
+		"ORACLE_ANALYTICS_ANALYSIS_COLUMN",
+		"ORACLE_ANALYTICS_SERVER",
+		"ORACLE_ANALYTICS_CLOUD",
+		"ORACLE_ANALYTICS_SUBJECT_AREA",
+		"ORACLE_ANALYTICS_DASHBOARD",
+		"ORACLE_ANALYTICS_BUSINESS_MODEL",
+		"ORACLE_ANALYTICS_PHYSICAL_DATABASE",
+		"ORACLE_ANALYTICS_PHYSICAL_SCHEMA",
+		"ORACLE_ANALYTICS_PRESENTATION_TABLE",
+		"ORACLE_ANALYTICS_LOGICAL_TABLE",
+		"ORACLE_ANALYTICS_PHYSICAL_TABLE",
+		"ORACLE_ANALYTICS_ANALYSIS",
+		"DATABASE_SCHEMA",
+		"TOPIC",
+		"CONNECTION",
+		"GLOSSARY",
+		"TERM",
+		"CATEGORY",
+		"FILE",
+		"BUCKET",
+		"MESSAGE",
+		"UNRECOGNIZED_FILE",
+	}
 }
 
 // ListCustomPropertiesLifecycleStateEnum Enum with underlying type: string
@@ -242,7 +335,7 @@ const (
 	ListCustomPropertiesLifecycleStateMoving   ListCustomPropertiesLifecycleStateEnum = "MOVING"
 )
 
-var mappingListCustomPropertiesLifecycleState = map[string]ListCustomPropertiesLifecycleStateEnum{
+var mappingListCustomPropertiesLifecycleStateEnum = map[string]ListCustomPropertiesLifecycleStateEnum{
 	"CREATING": ListCustomPropertiesLifecycleStateCreating,
 	"ACTIVE":   ListCustomPropertiesLifecycleStateActive,
 	"INACTIVE": ListCustomPropertiesLifecycleStateInactive,
@@ -256,10 +349,24 @@ var mappingListCustomPropertiesLifecycleState = map[string]ListCustomPropertiesL
 // GetListCustomPropertiesLifecycleStateEnumValues Enumerates the set of values for ListCustomPropertiesLifecycleStateEnum
 func GetListCustomPropertiesLifecycleStateEnumValues() []ListCustomPropertiesLifecycleStateEnum {
 	values := make([]ListCustomPropertiesLifecycleStateEnum, 0)
-	for _, v := range mappingListCustomPropertiesLifecycleState {
+	for _, v := range mappingListCustomPropertiesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCustomPropertiesLifecycleStateEnumStringValues Enumerates the set of values in String for ListCustomPropertiesLifecycleStateEnum
+func GetListCustomPropertiesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListCustomPropertiesFieldsEnum Enum with underlying type: string
@@ -276,7 +383,7 @@ const (
 	ListCustomPropertiesFieldsTimecreated    ListCustomPropertiesFieldsEnum = "timeCreated"
 )
 
-var mappingListCustomPropertiesFields = map[string]ListCustomPropertiesFieldsEnum{
+var mappingListCustomPropertiesFieldsEnum = map[string]ListCustomPropertiesFieldsEnum{
 	"key":            ListCustomPropertiesFieldsKey,
 	"displayName":    ListCustomPropertiesFieldsDisplayname,
 	"description":    ListCustomPropertiesFieldsDescription,
@@ -289,10 +396,23 @@ var mappingListCustomPropertiesFields = map[string]ListCustomPropertiesFieldsEnu
 // GetListCustomPropertiesFieldsEnumValues Enumerates the set of values for ListCustomPropertiesFieldsEnum
 func GetListCustomPropertiesFieldsEnumValues() []ListCustomPropertiesFieldsEnum {
 	values := make([]ListCustomPropertiesFieldsEnum, 0)
-	for _, v := range mappingListCustomPropertiesFields {
+	for _, v := range mappingListCustomPropertiesFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCustomPropertiesFieldsEnumStringValues Enumerates the set of values in String for ListCustomPropertiesFieldsEnum
+func GetListCustomPropertiesFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"dataType",
+		"namespaceName",
+		"lifecycleState",
+		"timeCreated",
+	}
 }
 
 // ListCustomPropertiesSortOrderEnum Enum with underlying type: string
@@ -304,7 +424,7 @@ const (
 	ListCustomPropertiesSortOrderDesc ListCustomPropertiesSortOrderEnum = "DESC"
 )
 
-var mappingListCustomPropertiesSortOrder = map[string]ListCustomPropertiesSortOrderEnum{
+var mappingListCustomPropertiesSortOrderEnum = map[string]ListCustomPropertiesSortOrderEnum{
 	"ASC":  ListCustomPropertiesSortOrderAsc,
 	"DESC": ListCustomPropertiesSortOrderDesc,
 }
@@ -312,10 +432,18 @@ var mappingListCustomPropertiesSortOrder = map[string]ListCustomPropertiesSortOr
 // GetListCustomPropertiesSortOrderEnumValues Enumerates the set of values for ListCustomPropertiesSortOrderEnum
 func GetListCustomPropertiesSortOrderEnumValues() []ListCustomPropertiesSortOrderEnum {
 	values := make([]ListCustomPropertiesSortOrderEnum, 0)
-	for _, v := range mappingListCustomPropertiesSortOrder {
+	for _, v := range mappingListCustomPropertiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCustomPropertiesSortOrderEnumStringValues Enumerates the set of values in String for ListCustomPropertiesSortOrderEnum
+func GetListCustomPropertiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListCustomPropertiesSortByEnum Enum with underlying type: string
@@ -327,7 +455,7 @@ const (
 	ListCustomPropertiesSortByUsagecount  ListCustomPropertiesSortByEnum = "USAGECOUNT"
 )
 
-var mappingListCustomPropertiesSortBy = map[string]ListCustomPropertiesSortByEnum{
+var mappingListCustomPropertiesSortByEnum = map[string]ListCustomPropertiesSortByEnum{
 	"DISPLAYNAME": ListCustomPropertiesSortByDisplayname,
 	"USAGECOUNT":  ListCustomPropertiesSortByUsagecount,
 }
@@ -335,8 +463,16 @@ var mappingListCustomPropertiesSortBy = map[string]ListCustomPropertiesSortByEnu
 // GetListCustomPropertiesSortByEnumValues Enumerates the set of values for ListCustomPropertiesSortByEnum
 func GetListCustomPropertiesSortByEnumValues() []ListCustomPropertiesSortByEnum {
 	values := make([]ListCustomPropertiesSortByEnum, 0)
-	for _, v := range mappingListCustomPropertiesSortBy {
+	for _, v := range mappingListCustomPropertiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCustomPropertiesSortByEnumStringValues Enumerates the set of values in String for ListCustomPropertiesSortByEnum
+func GetListCustomPropertiesSortByEnumStringValues() []string {
+	return []string{
+		"DISPLAYNAME",
+		"USAGECOUNT",
+	}
 }

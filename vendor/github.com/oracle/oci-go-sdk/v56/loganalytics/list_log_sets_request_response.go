@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListLogSetsRequest wrapper for the ListLogSets operation
@@ -46,6 +48,10 @@ func (request ListLogSetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLogSetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,20 @@ func (request ListLogSetsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLogSetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLogSetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLogSetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLogSetsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLogSetsResponse wrapper for the ListLogSets operation
@@ -97,7 +117,7 @@ const (
 	ListLogSetsSortOrderDesc ListLogSetsSortOrderEnum = "DESC"
 )
 
-var mappingListLogSetsSortOrder = map[string]ListLogSetsSortOrderEnum{
+var mappingListLogSetsSortOrderEnum = map[string]ListLogSetsSortOrderEnum{
 	"ASC":  ListLogSetsSortOrderAsc,
 	"DESC": ListLogSetsSortOrderDesc,
 }
@@ -105,8 +125,16 @@ var mappingListLogSetsSortOrder = map[string]ListLogSetsSortOrderEnum{
 // GetListLogSetsSortOrderEnumValues Enumerates the set of values for ListLogSetsSortOrderEnum
 func GetListLogSetsSortOrderEnumValues() []ListLogSetsSortOrderEnum {
 	values := make([]ListLogSetsSortOrderEnum, 0)
-	for _, v := range mappingListLogSetsSortOrder {
+	for _, v := range mappingListLogSetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogSetsSortOrderEnumStringValues Enumerates the set of values in String for ListLogSetsSortOrderEnum
+func GetListLogSetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

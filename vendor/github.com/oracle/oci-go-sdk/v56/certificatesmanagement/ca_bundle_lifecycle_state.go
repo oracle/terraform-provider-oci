@@ -22,7 +22,7 @@ const (
 	CaBundleLifecycleStateFailed   CaBundleLifecycleStateEnum = "FAILED"
 )
 
-var mappingCaBundleLifecycleState = map[string]CaBundleLifecycleStateEnum{
+var mappingCaBundleLifecycleStateEnum = map[string]CaBundleLifecycleStateEnum{
 	"CREATING": CaBundleLifecycleStateCreating,
 	"ACTIVE":   CaBundleLifecycleStateActive,
 	"UPDATING": CaBundleLifecycleStateUpdating,
@@ -34,8 +34,20 @@ var mappingCaBundleLifecycleState = map[string]CaBundleLifecycleStateEnum{
 // GetCaBundleLifecycleStateEnumValues Enumerates the set of values for CaBundleLifecycleStateEnum
 func GetCaBundleLifecycleStateEnumValues() []CaBundleLifecycleStateEnum {
 	values := make([]CaBundleLifecycleStateEnum, 0)
-	for _, v := range mappingCaBundleLifecycleState {
+	for _, v := range mappingCaBundleLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCaBundleLifecycleStateEnumStringValues Enumerates the set of values in String for CaBundleLifecycleStateEnum
+func GetCaBundleLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UserAssessmentComparison Provides a list of differences for user assessment when compared with the baseline value.
@@ -31,6 +33,21 @@ func (m UserAssessmentComparison) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserAssessmentComparison) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUserAssessmentComparisonLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetUserAssessmentComparisonLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UserAssessmentComparisonLifecycleStateEnum Enum with underlying type: string
 type UserAssessmentComparisonLifecycleStateEnum string
 
@@ -41,7 +58,7 @@ const (
 	UserAssessmentComparisonLifecycleStateFailed    UserAssessmentComparisonLifecycleStateEnum = "FAILED"
 )
 
-var mappingUserAssessmentComparisonLifecycleState = map[string]UserAssessmentComparisonLifecycleStateEnum{
+var mappingUserAssessmentComparisonLifecycleStateEnum = map[string]UserAssessmentComparisonLifecycleStateEnum{
 	"CREATING":  UserAssessmentComparisonLifecycleStateCreating,
 	"SUCCEEDED": UserAssessmentComparisonLifecycleStateSucceeded,
 	"FAILED":    UserAssessmentComparisonLifecycleStateFailed,
@@ -50,8 +67,17 @@ var mappingUserAssessmentComparisonLifecycleState = map[string]UserAssessmentCom
 // GetUserAssessmentComparisonLifecycleStateEnumValues Enumerates the set of values for UserAssessmentComparisonLifecycleStateEnum
 func GetUserAssessmentComparisonLifecycleStateEnumValues() []UserAssessmentComparisonLifecycleStateEnum {
 	values := make([]UserAssessmentComparisonLifecycleStateEnum, 0)
-	for _, v := range mappingUserAssessmentComparisonLifecycleState {
+	for _, v := range mappingUserAssessmentComparisonLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserAssessmentComparisonLifecycleStateEnumStringValues Enumerates the set of values in String for UserAssessmentComparisonLifecycleStateEnum
+func GetUserAssessmentComparisonLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

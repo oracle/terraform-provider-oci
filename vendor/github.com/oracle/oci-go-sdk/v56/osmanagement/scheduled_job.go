@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ScheduledJob Detailed information about a Scheduled Job
@@ -86,4 +88,34 @@ type ScheduledJob struct {
 
 func (m ScheduledJob) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ScheduledJob) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingScheduleTypesEnum[string(m.ScheduleType)]; !ok && m.ScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduleType: %s. Supported values are: %s.", m.ScheduleType, strings.Join(GetScheduleTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIntervalTypesEnum[string(m.IntervalType)]; !ok && m.IntervalType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IntervalType: %s. Supported values are: %s.", m.IntervalType, strings.Join(GetIntervalTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOperationTypesEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetOperationTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPackageUpdateTypesEnum[string(m.UpdateType)]; !ok && m.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", m.UpdateType, strings.Join(GetPackageUpdateTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLifecycleStatesEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOsFamiliesEnum[string(m.OsFamily)]; !ok && m.OsFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamiliesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

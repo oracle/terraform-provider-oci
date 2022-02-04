@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetQueryResultRequest wrapper for the GetQueryResult operation
@@ -52,6 +54,10 @@ func (request GetQueryResultRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetQueryResultRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +71,20 @@ func (request GetQueryResultRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetQueryResultRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetQueryResultRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetQueryResultOutputModeEnum[string(request.OutputMode)]; !ok && request.OutputMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OutputMode: %s. Supported values are: %s.", request.OutputMode, strings.Join(GetGetQueryResultOutputModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetQueryResultResponse wrapper for the GetQueryResult operation
@@ -110,15 +130,22 @@ const (
 	GetQueryResultOutputModeJsonRows GetQueryResultOutputModeEnum = "JSON_ROWS"
 )
 
-var mappingGetQueryResultOutputMode = map[string]GetQueryResultOutputModeEnum{
+var mappingGetQueryResultOutputModeEnum = map[string]GetQueryResultOutputModeEnum{
 	"JSON_ROWS": GetQueryResultOutputModeJsonRows,
 }
 
 // GetGetQueryResultOutputModeEnumValues Enumerates the set of values for GetQueryResultOutputModeEnum
 func GetGetQueryResultOutputModeEnumValues() []GetQueryResultOutputModeEnum {
 	values := make([]GetQueryResultOutputModeEnum, 0)
-	for _, v := range mappingGetQueryResultOutputMode {
+	for _, v := range mappingGetQueryResultOutputModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetQueryResultOutputModeEnumStringValues Enumerates the set of values in String for GetQueryResultOutputModeEnum
+func GetGetQueryResultOutputModeEnumStringValues() []string {
+	return []string{
+		"JSON_ROWS",
+	}
 }

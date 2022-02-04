@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListCatalogPrivateEndpointsRequest wrapper for the ListCatalogPrivateEndpoints operation
@@ -52,6 +54,10 @@ func (request ListCatalogPrivateEndpointsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListCatalogPrivateEndpointsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +71,26 @@ func (request ListCatalogPrivateEndpointsRequest) BinaryRequestBody() (*common.O
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListCatalogPrivateEndpointsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListCatalogPrivateEndpointsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListCatalogPrivateEndpointsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListCatalogPrivateEndpointsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCatalogPrivateEndpointsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCatalogPrivateEndpointsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCatalogPrivateEndpointsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCatalogPrivateEndpointsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListCatalogPrivateEndpointsResponse wrapper for the ListCatalogPrivateEndpoints operation
@@ -108,7 +134,7 @@ const (
 	ListCatalogPrivateEndpointsLifecycleStateMoving   ListCatalogPrivateEndpointsLifecycleStateEnum = "MOVING"
 )
 
-var mappingListCatalogPrivateEndpointsLifecycleState = map[string]ListCatalogPrivateEndpointsLifecycleStateEnum{
+var mappingListCatalogPrivateEndpointsLifecycleStateEnum = map[string]ListCatalogPrivateEndpointsLifecycleStateEnum{
 	"CREATING": ListCatalogPrivateEndpointsLifecycleStateCreating,
 	"ACTIVE":   ListCatalogPrivateEndpointsLifecycleStateActive,
 	"INACTIVE": ListCatalogPrivateEndpointsLifecycleStateInactive,
@@ -122,10 +148,24 @@ var mappingListCatalogPrivateEndpointsLifecycleState = map[string]ListCatalogPri
 // GetListCatalogPrivateEndpointsLifecycleStateEnumValues Enumerates the set of values for ListCatalogPrivateEndpointsLifecycleStateEnum
 func GetListCatalogPrivateEndpointsLifecycleStateEnumValues() []ListCatalogPrivateEndpointsLifecycleStateEnum {
 	values := make([]ListCatalogPrivateEndpointsLifecycleStateEnum, 0)
-	for _, v := range mappingListCatalogPrivateEndpointsLifecycleState {
+	for _, v := range mappingListCatalogPrivateEndpointsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCatalogPrivateEndpointsLifecycleStateEnumStringValues Enumerates the set of values in String for ListCatalogPrivateEndpointsLifecycleStateEnum
+func GetListCatalogPrivateEndpointsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListCatalogPrivateEndpointsSortOrderEnum Enum with underlying type: string
@@ -137,7 +177,7 @@ const (
 	ListCatalogPrivateEndpointsSortOrderDesc ListCatalogPrivateEndpointsSortOrderEnum = "DESC"
 )
 
-var mappingListCatalogPrivateEndpointsSortOrder = map[string]ListCatalogPrivateEndpointsSortOrderEnum{
+var mappingListCatalogPrivateEndpointsSortOrderEnum = map[string]ListCatalogPrivateEndpointsSortOrderEnum{
 	"ASC":  ListCatalogPrivateEndpointsSortOrderAsc,
 	"DESC": ListCatalogPrivateEndpointsSortOrderDesc,
 }
@@ -145,10 +185,18 @@ var mappingListCatalogPrivateEndpointsSortOrder = map[string]ListCatalogPrivateE
 // GetListCatalogPrivateEndpointsSortOrderEnumValues Enumerates the set of values for ListCatalogPrivateEndpointsSortOrderEnum
 func GetListCatalogPrivateEndpointsSortOrderEnumValues() []ListCatalogPrivateEndpointsSortOrderEnum {
 	values := make([]ListCatalogPrivateEndpointsSortOrderEnum, 0)
-	for _, v := range mappingListCatalogPrivateEndpointsSortOrder {
+	for _, v := range mappingListCatalogPrivateEndpointsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCatalogPrivateEndpointsSortOrderEnumStringValues Enumerates the set of values in String for ListCatalogPrivateEndpointsSortOrderEnum
+func GetListCatalogPrivateEndpointsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListCatalogPrivateEndpointsSortByEnum Enum with underlying type: string
@@ -160,7 +208,7 @@ const (
 	ListCatalogPrivateEndpointsSortByDisplayname ListCatalogPrivateEndpointsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListCatalogPrivateEndpointsSortBy = map[string]ListCatalogPrivateEndpointsSortByEnum{
+var mappingListCatalogPrivateEndpointsSortByEnum = map[string]ListCatalogPrivateEndpointsSortByEnum{
 	"TIMECREATED": ListCatalogPrivateEndpointsSortByTimecreated,
 	"DISPLAYNAME": ListCatalogPrivateEndpointsSortByDisplayname,
 }
@@ -168,8 +216,16 @@ var mappingListCatalogPrivateEndpointsSortBy = map[string]ListCatalogPrivateEndp
 // GetListCatalogPrivateEndpointsSortByEnumValues Enumerates the set of values for ListCatalogPrivateEndpointsSortByEnum
 func GetListCatalogPrivateEndpointsSortByEnumValues() []ListCatalogPrivateEndpointsSortByEnum {
 	values := make([]ListCatalogPrivateEndpointsSortByEnum, 0)
-	for _, v := range mappingListCatalogPrivateEndpointsSortBy {
+	for _, v := range mappingListCatalogPrivateEndpointsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCatalogPrivateEndpointsSortByEnumStringValues Enumerates the set of values in String for ListCatalogPrivateEndpointsSortByEnum
+func GetListCatalogPrivateEndpointsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

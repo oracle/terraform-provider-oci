@@ -25,7 +25,7 @@ const (
 	OperationTypeDeleteDatabaseToolsPrivateEndpoint OperationTypeEnum = "DELETE_DATABASE_TOOLS_PRIVATE_ENDPOINT"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_DATABASE_TOOLS_CONNECTION":       OperationTypeCreateDatabaseToolsConnection,
 	"UPDATE_DATABASE_TOOLS_CONNECTION":       OperationTypeUpdateDatabaseToolsConnection,
 	"DELETE_DATABASE_TOOLS_CONNECTION":       OperationTypeDeleteDatabaseToolsConnection,
@@ -40,8 +40,23 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_DATABASE_TOOLS_CONNECTION",
+		"UPDATE_DATABASE_TOOLS_CONNECTION",
+		"DELETE_DATABASE_TOOLS_CONNECTION",
+		"CREATE_DATABASE_TOOLS_SERVICE_INSTANCE",
+		"UPDATE_DATABASE_TOOLS_SERVICE_INSTANCE",
+		"DELETE_DATABASE_TOOLS_SERVICE_INSTANCE",
+		"CREATE_DATABASE_TOOLS_PRIVATE_ENDPOINT",
+		"UPDATE_DATABASE_TOOLS_PRIVATE_ENDPOINT",
+		"DELETE_DATABASE_TOOLS_PRIVATE_ENDPOINT",
+	}
 }

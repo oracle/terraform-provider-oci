@@ -20,7 +20,7 @@ const (
 	OperatorActionLifecycleStatesInactive OperatorActionLifecycleStatesEnum = "INACTIVE"
 )
 
-var mappingOperatorActionLifecycleStates = map[string]OperatorActionLifecycleStatesEnum{
+var mappingOperatorActionLifecycleStatesEnum = map[string]OperatorActionLifecycleStatesEnum{
 	"ACTIVE":   OperatorActionLifecycleStatesActive,
 	"INACTIVE": OperatorActionLifecycleStatesInactive,
 }
@@ -28,8 +28,16 @@ var mappingOperatorActionLifecycleStates = map[string]OperatorActionLifecycleSta
 // GetOperatorActionLifecycleStatesEnumValues Enumerates the set of values for OperatorActionLifecycleStatesEnum
 func GetOperatorActionLifecycleStatesEnumValues() []OperatorActionLifecycleStatesEnum {
 	values := make([]OperatorActionLifecycleStatesEnum, 0)
-	for _, v := range mappingOperatorActionLifecycleStates {
+	for _, v := range mappingOperatorActionLifecycleStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperatorActionLifecycleStatesEnumStringValues Enumerates the set of values in String for OperatorActionLifecycleStatesEnum
+func GetOperatorActionLifecycleStatesEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }

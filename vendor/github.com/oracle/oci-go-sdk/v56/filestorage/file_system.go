@@ -10,7 +10,9 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FileSystem An NFS file system. To allow access to a file system, add it
@@ -90,6 +92,21 @@ func (m FileSystem) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FileSystem) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFileSystemLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFileSystemLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FileSystemLifecycleStateEnum Enum with underlying type: string
 type FileSystemLifecycleStateEnum string
 
@@ -101,7 +118,7 @@ const (
 	FileSystemLifecycleStateDeleted  FileSystemLifecycleStateEnum = "DELETED"
 )
 
-var mappingFileSystemLifecycleState = map[string]FileSystemLifecycleStateEnum{
+var mappingFileSystemLifecycleStateEnum = map[string]FileSystemLifecycleStateEnum{
 	"CREATING": FileSystemLifecycleStateCreating,
 	"ACTIVE":   FileSystemLifecycleStateActive,
 	"DELETING": FileSystemLifecycleStateDeleting,
@@ -111,8 +128,18 @@ var mappingFileSystemLifecycleState = map[string]FileSystemLifecycleStateEnum{
 // GetFileSystemLifecycleStateEnumValues Enumerates the set of values for FileSystemLifecycleStateEnum
 func GetFileSystemLifecycleStateEnumValues() []FileSystemLifecycleStateEnum {
 	values := make([]FileSystemLifecycleStateEnum, 0)
-	for _, v := range mappingFileSystemLifecycleState {
+	for _, v := range mappingFileSystemLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFileSystemLifecycleStateEnumStringValues Enumerates the set of values in String for FileSystemLifecycleStateEnum
+func GetFileSystemLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

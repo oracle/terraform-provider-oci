@@ -10,7 +10,9 @@
 package limits
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // QuotaSummary Consists of a subset of all the properties of the corresponding quota, and is recommended to be used in cases requiring
@@ -53,6 +55,21 @@ func (m QuotaSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m QuotaSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingQuotaSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetQuotaSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // QuotaSummaryLifecycleStateEnum Enum with underlying type: string
 type QuotaSummaryLifecycleStateEnum string
 
@@ -61,15 +78,22 @@ const (
 	QuotaSummaryLifecycleStateActive QuotaSummaryLifecycleStateEnum = "ACTIVE"
 )
 
-var mappingQuotaSummaryLifecycleState = map[string]QuotaSummaryLifecycleStateEnum{
+var mappingQuotaSummaryLifecycleStateEnum = map[string]QuotaSummaryLifecycleStateEnum{
 	"ACTIVE": QuotaSummaryLifecycleStateActive,
 }
 
 // GetQuotaSummaryLifecycleStateEnumValues Enumerates the set of values for QuotaSummaryLifecycleStateEnum
 func GetQuotaSummaryLifecycleStateEnumValues() []QuotaSummaryLifecycleStateEnum {
 	values := make([]QuotaSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingQuotaSummaryLifecycleState {
+	for _, v := range mappingQuotaSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetQuotaSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for QuotaSummaryLifecycleStateEnum
+func GetQuotaSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+	}
 }

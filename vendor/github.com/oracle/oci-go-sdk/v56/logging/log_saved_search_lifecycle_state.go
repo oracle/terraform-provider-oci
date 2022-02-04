@@ -22,7 +22,7 @@ const (
 	LogSavedSearchLifecycleStateFailed   LogSavedSearchLifecycleStateEnum = "FAILED"
 )
 
-var mappingLogSavedSearchLifecycleState = map[string]LogSavedSearchLifecycleStateEnum{
+var mappingLogSavedSearchLifecycleStateEnum = map[string]LogSavedSearchLifecycleStateEnum{
 	"CREATING": LogSavedSearchLifecycleStateCreating,
 	"ACTIVE":   LogSavedSearchLifecycleStateActive,
 	"UPDATING": LogSavedSearchLifecycleStateUpdating,
@@ -34,8 +34,20 @@ var mappingLogSavedSearchLifecycleState = map[string]LogSavedSearchLifecycleStat
 // GetLogSavedSearchLifecycleStateEnumValues Enumerates the set of values for LogSavedSearchLifecycleStateEnum
 func GetLogSavedSearchLifecycleStateEnumValues() []LogSavedSearchLifecycleStateEnum {
 	values := make([]LogSavedSearchLifecycleStateEnum, 0)
-	for _, v := range mappingLogSavedSearchLifecycleState {
+	for _, v := range mappingLogSavedSearchLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogSavedSearchLifecycleStateEnumStringValues Enumerates the set of values in String for LogSavedSearchLifecycleStateEnum
+func GetLogSavedSearchLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"INACTIVE",
+		"DELETING",
+		"FAILED",
+	}
 }

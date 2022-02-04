@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListNamespacesRequest wrapper for the ListNamespaces operation
@@ -72,6 +74,10 @@ func (request ListNamespacesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListNamespacesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +91,32 @@ func (request ListNamespacesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListNamespacesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListNamespacesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListNamespacesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListNamespacesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNamespacesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNamespacesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNamespacesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNamespacesSortOrderEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListNamespacesFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListNamespacesFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListNamespacesResponse wrapper for the ListNamespaces operation
@@ -128,7 +160,7 @@ const (
 	ListNamespacesLifecycleStateMoving   ListNamespacesLifecycleStateEnum = "MOVING"
 )
 
-var mappingListNamespacesLifecycleState = map[string]ListNamespacesLifecycleStateEnum{
+var mappingListNamespacesLifecycleStateEnum = map[string]ListNamespacesLifecycleStateEnum{
 	"CREATING": ListNamespacesLifecycleStateCreating,
 	"ACTIVE":   ListNamespacesLifecycleStateActive,
 	"INACTIVE": ListNamespacesLifecycleStateInactive,
@@ -142,10 +174,24 @@ var mappingListNamespacesLifecycleState = map[string]ListNamespacesLifecycleStat
 // GetListNamespacesLifecycleStateEnumValues Enumerates the set of values for ListNamespacesLifecycleStateEnum
 func GetListNamespacesLifecycleStateEnumValues() []ListNamespacesLifecycleStateEnum {
 	values := make([]ListNamespacesLifecycleStateEnum, 0)
-	for _, v := range mappingListNamespacesLifecycleState {
+	for _, v := range mappingListNamespacesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNamespacesLifecycleStateEnumStringValues Enumerates the set of values in String for ListNamespacesLifecycleStateEnum
+func GetListNamespacesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListNamespacesSortByEnum Enum with underlying type: string
@@ -157,7 +203,7 @@ const (
 	ListNamespacesSortByDisplayname ListNamespacesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListNamespacesSortBy = map[string]ListNamespacesSortByEnum{
+var mappingListNamespacesSortByEnum = map[string]ListNamespacesSortByEnum{
 	"TIMECREATED": ListNamespacesSortByTimecreated,
 	"DISPLAYNAME": ListNamespacesSortByDisplayname,
 }
@@ -165,10 +211,18 @@ var mappingListNamespacesSortBy = map[string]ListNamespacesSortByEnum{
 // GetListNamespacesSortByEnumValues Enumerates the set of values for ListNamespacesSortByEnum
 func GetListNamespacesSortByEnumValues() []ListNamespacesSortByEnum {
 	values := make([]ListNamespacesSortByEnum, 0)
-	for _, v := range mappingListNamespacesSortBy {
+	for _, v := range mappingListNamespacesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNamespacesSortByEnumStringValues Enumerates the set of values in String for ListNamespacesSortByEnum
+func GetListNamespacesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListNamespacesSortOrderEnum Enum with underlying type: string
@@ -180,7 +234,7 @@ const (
 	ListNamespacesSortOrderDesc ListNamespacesSortOrderEnum = "DESC"
 )
 
-var mappingListNamespacesSortOrder = map[string]ListNamespacesSortOrderEnum{
+var mappingListNamespacesSortOrderEnum = map[string]ListNamespacesSortOrderEnum{
 	"ASC":  ListNamespacesSortOrderAsc,
 	"DESC": ListNamespacesSortOrderDesc,
 }
@@ -188,10 +242,18 @@ var mappingListNamespacesSortOrder = map[string]ListNamespacesSortOrderEnum{
 // GetListNamespacesSortOrderEnumValues Enumerates the set of values for ListNamespacesSortOrderEnum
 func GetListNamespacesSortOrderEnumValues() []ListNamespacesSortOrderEnum {
 	values := make([]ListNamespacesSortOrderEnum, 0)
-	for _, v := range mappingListNamespacesSortOrder {
+	for _, v := range mappingListNamespacesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNamespacesSortOrderEnumStringValues Enumerates the set of values in String for ListNamespacesSortOrderEnum
+func GetListNamespacesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListNamespacesFieldsEnum Enum with underlying type: string
@@ -206,7 +268,7 @@ const (
 	ListNamespacesFieldsTimecreated    ListNamespacesFieldsEnum = "timeCreated"
 )
 
-var mappingListNamespacesFields = map[string]ListNamespacesFieldsEnum{
+var mappingListNamespacesFieldsEnum = map[string]ListNamespacesFieldsEnum{
 	"key":            ListNamespacesFieldsKey,
 	"displayName":    ListNamespacesFieldsDisplayname,
 	"description":    ListNamespacesFieldsDescription,
@@ -217,8 +279,19 @@ var mappingListNamespacesFields = map[string]ListNamespacesFieldsEnum{
 // GetListNamespacesFieldsEnumValues Enumerates the set of values for ListNamespacesFieldsEnum
 func GetListNamespacesFieldsEnumValues() []ListNamespacesFieldsEnum {
 	values := make([]ListNamespacesFieldsEnum, 0)
-	for _, v := range mappingListNamespacesFields {
+	for _, v := range mappingListNamespacesFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNamespacesFieldsEnumStringValues Enumerates the set of values in String for ListNamespacesFieldsEnum
+func GetListNamespacesFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"lifecycleState",
+		"timeCreated",
+	}
 }

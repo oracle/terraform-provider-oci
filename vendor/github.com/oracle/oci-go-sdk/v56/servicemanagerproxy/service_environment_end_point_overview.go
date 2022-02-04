@@ -11,7 +11,9 @@
 package servicemanagerproxy
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ServiceEnvironmentEndPointOverview An overview of service environment endpoints.
@@ -31,6 +33,21 @@ func (m ServiceEnvironmentEndPointOverview) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ServiceEnvironmentEndPointOverview) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingServiceEnvironmentEndPointOverviewEnvironmentTypeEnum[string(m.EnvironmentType)]; !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetServiceEnvironmentEndPointOverviewEnvironmentTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum Enum with underlying type: string
 type ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum string
 
@@ -42,7 +59,7 @@ const (
 	ServiceEnvironmentEndPointOverviewEnvironmentTypeOther           ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum = "OTHER"
 )
 
-var mappingServiceEnvironmentEndPointOverviewEnvironmentType = map[string]ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum{
+var mappingServiceEnvironmentEndPointOverviewEnvironmentTypeEnum = map[string]ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum{
 	"INSTANCE_URL_PROD": ServiceEnvironmentEndPointOverviewEnvironmentTypeInstanceUrlProd,
 	"INSTANCE_URL_TEST": ServiceEnvironmentEndPointOverviewEnvironmentTypeInstanceUrlTest,
 	"INSTANCE_URL_DEV":  ServiceEnvironmentEndPointOverviewEnvironmentTypeInstanceUrlDev,
@@ -52,8 +69,18 @@ var mappingServiceEnvironmentEndPointOverviewEnvironmentType = map[string]Servic
 // GetServiceEnvironmentEndPointOverviewEnvironmentTypeEnumValues Enumerates the set of values for ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum
 func GetServiceEnvironmentEndPointOverviewEnvironmentTypeEnumValues() []ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum {
 	values := make([]ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum, 0)
-	for _, v := range mappingServiceEnvironmentEndPointOverviewEnvironmentType {
+	for _, v := range mappingServiceEnvironmentEndPointOverviewEnvironmentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetServiceEnvironmentEndPointOverviewEnvironmentTypeEnumStringValues Enumerates the set of values in String for ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum
+func GetServiceEnvironmentEndPointOverviewEnvironmentTypeEnumStringValues() []string {
+	return []string{
+		"INSTANCE_URL_PROD",
+		"INSTANCE_URL_TEST",
+		"INSTANCE_URL_DEV",
+		"OTHER",
+	}
 }

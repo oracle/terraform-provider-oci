@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateVaultDetails The representation of CreateVaultDetails
@@ -42,6 +44,21 @@ func (m CreateVaultDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateVaultDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateVaultDetailsVaultTypeEnum[string(m.VaultType)]; !ok && m.VaultType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VaultType: %s. Supported values are: %s.", m.VaultType, strings.Join(GetCreateVaultDetailsVaultTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateVaultDetailsVaultTypeEnum Enum with underlying type: string
 type CreateVaultDetailsVaultTypeEnum string
 
@@ -51,7 +68,7 @@ const (
 	CreateVaultDetailsVaultTypeDefault        CreateVaultDetailsVaultTypeEnum = "DEFAULT"
 )
 
-var mappingCreateVaultDetailsVaultType = map[string]CreateVaultDetailsVaultTypeEnum{
+var mappingCreateVaultDetailsVaultTypeEnum = map[string]CreateVaultDetailsVaultTypeEnum{
 	"VIRTUAL_PRIVATE": CreateVaultDetailsVaultTypeVirtualPrivate,
 	"DEFAULT":         CreateVaultDetailsVaultTypeDefault,
 }
@@ -59,8 +76,16 @@ var mappingCreateVaultDetailsVaultType = map[string]CreateVaultDetailsVaultTypeE
 // GetCreateVaultDetailsVaultTypeEnumValues Enumerates the set of values for CreateVaultDetailsVaultTypeEnum
 func GetCreateVaultDetailsVaultTypeEnumValues() []CreateVaultDetailsVaultTypeEnum {
 	values := make([]CreateVaultDetailsVaultTypeEnum, 0)
-	for _, v := range mappingCreateVaultDetailsVaultType {
+	for _, v := range mappingCreateVaultDetailsVaultTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateVaultDetailsVaultTypeEnumStringValues Enumerates the set of values in String for CreateVaultDetailsVaultTypeEnum
+func GetCreateVaultDetailsVaultTypeEnumStringValues() []string {
+	return []string{
+		"VIRTUAL_PRIVATE",
+		"DEFAULT",
+	}
 }

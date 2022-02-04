@@ -5,8 +5,10 @@
 package budget
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAlertRulesRequest wrapper for the ListAlertRules operation
@@ -55,6 +57,10 @@ func (request ListAlertRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAlertRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListAlertRulesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAlertRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAlertRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAlertRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAlertRulesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAlertRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAlertRulesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAlertRulesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListAlertRulesLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAlertRulesResponse wrapper for the ListAlertRules operation
@@ -108,7 +134,7 @@ const (
 	ListAlertRulesSortOrderDesc ListAlertRulesSortOrderEnum = "DESC"
 )
 
-var mappingListAlertRulesSortOrder = map[string]ListAlertRulesSortOrderEnum{
+var mappingListAlertRulesSortOrderEnum = map[string]ListAlertRulesSortOrderEnum{
 	"ASC":  ListAlertRulesSortOrderAsc,
 	"DESC": ListAlertRulesSortOrderDesc,
 }
@@ -116,10 +142,18 @@ var mappingListAlertRulesSortOrder = map[string]ListAlertRulesSortOrderEnum{
 // GetListAlertRulesSortOrderEnumValues Enumerates the set of values for ListAlertRulesSortOrderEnum
 func GetListAlertRulesSortOrderEnumValues() []ListAlertRulesSortOrderEnum {
 	values := make([]ListAlertRulesSortOrderEnum, 0)
-	for _, v := range mappingListAlertRulesSortOrder {
+	for _, v := range mappingListAlertRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAlertRulesSortOrderEnumStringValues Enumerates the set of values in String for ListAlertRulesSortOrderEnum
+func GetListAlertRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAlertRulesSortByEnum Enum with underlying type: string
@@ -131,7 +165,7 @@ const (
 	ListAlertRulesSortByDisplayname ListAlertRulesSortByEnum = "displayName"
 )
 
-var mappingListAlertRulesSortBy = map[string]ListAlertRulesSortByEnum{
+var mappingListAlertRulesSortByEnum = map[string]ListAlertRulesSortByEnum{
 	"timeCreated": ListAlertRulesSortByTimecreated,
 	"displayName": ListAlertRulesSortByDisplayname,
 }
@@ -139,10 +173,18 @@ var mappingListAlertRulesSortBy = map[string]ListAlertRulesSortByEnum{
 // GetListAlertRulesSortByEnumValues Enumerates the set of values for ListAlertRulesSortByEnum
 func GetListAlertRulesSortByEnumValues() []ListAlertRulesSortByEnum {
 	values := make([]ListAlertRulesSortByEnum, 0)
-	for _, v := range mappingListAlertRulesSortBy {
+	for _, v := range mappingListAlertRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAlertRulesSortByEnumStringValues Enumerates the set of values in String for ListAlertRulesSortByEnum
+func GetListAlertRulesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListAlertRulesLifecycleStateEnum Enum with underlying type: string
@@ -154,7 +196,7 @@ const (
 	ListAlertRulesLifecycleStateInactive ListAlertRulesLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingListAlertRulesLifecycleState = map[string]ListAlertRulesLifecycleStateEnum{
+var mappingListAlertRulesLifecycleStateEnum = map[string]ListAlertRulesLifecycleStateEnum{
 	"ACTIVE":   ListAlertRulesLifecycleStateActive,
 	"INACTIVE": ListAlertRulesLifecycleStateInactive,
 }
@@ -162,8 +204,16 @@ var mappingListAlertRulesLifecycleState = map[string]ListAlertRulesLifecycleStat
 // GetListAlertRulesLifecycleStateEnumValues Enumerates the set of values for ListAlertRulesLifecycleStateEnum
 func GetListAlertRulesLifecycleStateEnumValues() []ListAlertRulesLifecycleStateEnum {
 	values := make([]ListAlertRulesLifecycleStateEnum, 0)
-	for _, v := range mappingListAlertRulesLifecycleState {
+	for _, v := range mappingListAlertRulesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAlertRulesLifecycleStateEnumStringValues Enumerates the set of values in String for ListAlertRulesLifecycleStateEnum
+func GetListAlertRulesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }

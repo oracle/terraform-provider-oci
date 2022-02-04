@@ -10,7 +10,9 @@
 package databasemigration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UnsupportedDatabaseObject Database objects to exclude from migration
@@ -30,6 +32,21 @@ func (m UnsupportedDatabaseObject) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UnsupportedDatabaseObject) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUnsupportedDatabaseObjectTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetUnsupportedDatabaseObjectTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnsupportedDatabaseObjectTypeEnum Enum with underlying type: string
 type UnsupportedDatabaseObjectTypeEnum string
 
@@ -38,15 +55,22 @@ const (
 	UnsupportedDatabaseObjectTypeGoldenGate UnsupportedDatabaseObjectTypeEnum = "GOLDEN_GATE"
 )
 
-var mappingUnsupportedDatabaseObjectType = map[string]UnsupportedDatabaseObjectTypeEnum{
+var mappingUnsupportedDatabaseObjectTypeEnum = map[string]UnsupportedDatabaseObjectTypeEnum{
 	"GOLDEN_GATE": UnsupportedDatabaseObjectTypeGoldenGate,
 }
 
 // GetUnsupportedDatabaseObjectTypeEnumValues Enumerates the set of values for UnsupportedDatabaseObjectTypeEnum
 func GetUnsupportedDatabaseObjectTypeEnumValues() []UnsupportedDatabaseObjectTypeEnum {
 	values := make([]UnsupportedDatabaseObjectTypeEnum, 0)
-	for _, v := range mappingUnsupportedDatabaseObjectType {
+	for _, v := range mappingUnsupportedDatabaseObjectTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUnsupportedDatabaseObjectTypeEnumStringValues Enumerates the set of values in String for UnsupportedDatabaseObjectTypeEnum
+func GetUnsupportedDatabaseObjectTypeEnumStringValues() []string {
+	return []string{
+		"GOLDEN_GATE",
+	}
 }

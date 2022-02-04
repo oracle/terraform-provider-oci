@@ -25,7 +25,7 @@ const (
 	InstallationSortByOsName                          InstallationSortByEnum = "osName"
 )
 
-var mappingInstallationSortBy = map[string]InstallationSortByEnum{
+var mappingInstallationSortByEnum = map[string]InstallationSortByEnum{
 	"jreDistribution":                 InstallationSortByJreDistribution,
 	"jreVendor":                       InstallationSortByJreVendor,
 	"jreVersion":                      InstallationSortByJreVersion,
@@ -40,8 +40,23 @@ var mappingInstallationSortBy = map[string]InstallationSortByEnum{
 // GetInstallationSortByEnumValues Enumerates the set of values for InstallationSortByEnum
 func GetInstallationSortByEnumValues() []InstallationSortByEnum {
 	values := make([]InstallationSortByEnum, 0)
-	for _, v := range mappingInstallationSortBy {
+	for _, v := range mappingInstallationSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstallationSortByEnumStringValues Enumerates the set of values in String for InstallationSortByEnum
+func GetInstallationSortByEnumStringValues() []string {
+	return []string{
+		"jreDistribution",
+		"jreVendor",
+		"jreVersion",
+		"path",
+		"timeFirstSeen",
+		"timeLastSeen",
+		"approximateApplicationCount",
+		"approximateManagedInstanceCount",
+		"osName",
+	}
 }

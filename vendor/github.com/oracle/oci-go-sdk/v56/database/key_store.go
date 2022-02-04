@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // KeyStore A key store to connect to an on-premise encryption key appliance like Oracle Key Vault.
@@ -52,6 +54,21 @@ type KeyStore struct {
 
 func (m KeyStore) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m KeyStore) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingKeyStoreLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetKeyStoreLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -117,7 +134,7 @@ const (
 	KeyStoreLifecycleStateDeleted KeyStoreLifecycleStateEnum = "DELETED"
 )
 
-var mappingKeyStoreLifecycleState = map[string]KeyStoreLifecycleStateEnum{
+var mappingKeyStoreLifecycleStateEnum = map[string]KeyStoreLifecycleStateEnum{
 	"ACTIVE":  KeyStoreLifecycleStateActive,
 	"DELETED": KeyStoreLifecycleStateDeleted,
 }
@@ -125,8 +142,16 @@ var mappingKeyStoreLifecycleState = map[string]KeyStoreLifecycleStateEnum{
 // GetKeyStoreLifecycleStateEnumValues Enumerates the set of values for KeyStoreLifecycleStateEnum
 func GetKeyStoreLifecycleStateEnumValues() []KeyStoreLifecycleStateEnum {
 	values := make([]KeyStoreLifecycleStateEnum, 0)
-	for _, v := range mappingKeyStoreLifecycleState {
+	for _, v := range mappingKeyStoreLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyStoreLifecycleStateEnumStringValues Enumerates the set of values in String for KeyStoreLifecycleStateEnum
+func GetKeyStoreLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
 }

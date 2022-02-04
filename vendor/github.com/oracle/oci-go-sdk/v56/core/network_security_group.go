@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // NetworkSecurityGroup A *network security group* (NSG) provides virtual firewall rules for a specific set of
@@ -82,6 +84,21 @@ func (m NetworkSecurityGroup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m NetworkSecurityGroup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingNetworkSecurityGroupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNetworkSecurityGroupLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // NetworkSecurityGroupLifecycleStateEnum Enum with underlying type: string
 type NetworkSecurityGroupLifecycleStateEnum string
 
@@ -93,7 +110,7 @@ const (
 	NetworkSecurityGroupLifecycleStateTerminated   NetworkSecurityGroupLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingNetworkSecurityGroupLifecycleState = map[string]NetworkSecurityGroupLifecycleStateEnum{
+var mappingNetworkSecurityGroupLifecycleStateEnum = map[string]NetworkSecurityGroupLifecycleStateEnum{
 	"PROVISIONING": NetworkSecurityGroupLifecycleStateProvisioning,
 	"AVAILABLE":    NetworkSecurityGroupLifecycleStateAvailable,
 	"TERMINATING":  NetworkSecurityGroupLifecycleStateTerminating,
@@ -103,8 +120,18 @@ var mappingNetworkSecurityGroupLifecycleState = map[string]NetworkSecurityGroupL
 // GetNetworkSecurityGroupLifecycleStateEnumValues Enumerates the set of values for NetworkSecurityGroupLifecycleStateEnum
 func GetNetworkSecurityGroupLifecycleStateEnumValues() []NetworkSecurityGroupLifecycleStateEnum {
 	values := make([]NetworkSecurityGroupLifecycleStateEnum, 0)
-	for _, v := range mappingNetworkSecurityGroupLifecycleState {
+	for _, v := range mappingNetworkSecurityGroupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkSecurityGroupLifecycleStateEnumStringValues Enumerates the set of values in String for NetworkSecurityGroupLifecycleStateEnum
+func GetNetworkSecurityGroupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

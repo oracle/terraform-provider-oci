@@ -12,28 +12,30 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SqlTuningAdvisorTaskRecommendationSummary A recommendation for a given object in a SQL Tuning Task.
 type SqlTuningAdvisorTaskRecommendationSummary struct {
 
-	// Unique identifier of the task. It is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The unique identifier of the task. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SqlTuningAdvisorTaskId *int64 `mandatory:"true" json:"sqlTuningAdvisorTaskId"`
 
-	// Key of the object to which these recommendations apply. It is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The key of the object to which these recommendations apply. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SqlTuningAdvisorTaskObjectId *int64 `mandatory:"true" json:"sqlTuningAdvisorTaskObjectId"`
 
-	// Unique identifier of the recommendation in the scope of the task.
+	// The unique identifier of the recommendation in the scope of the task.
 	RecommendationKey *int `mandatory:"true" json:"recommendationKey"`
 
-	// Type of recommendation
+	// Type of recommendation.
 	RecommendationType SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum `mandatory:"true" json:"recommendationType"`
 
-	// Summary of the issue found for the SQL statement.
+	// Summary of the issue found in the SQL statement.
 	Finding *string `mandatory:"false" json:"finding"`
 
-	// Particular recommendation for the finding.
+	// The recommendation for a specific finding.
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
 	// Describes the reasoning behind the recommendation and how it relates to the finding.
@@ -50,6 +52,21 @@ func (m SqlTuningAdvisorTaskRecommendationSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningAdvisorTaskRecommendationSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum[string(m.RecommendationType)]; !ok && m.RecommendationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecommendationType: %s. Supported values are: %s.", m.RecommendationType, strings.Join(GetSqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum Enum with underlying type: string
 type SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum string
 
@@ -64,7 +81,7 @@ const (
 	SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeMiscellaneous    SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum = "MISCELLANEOUS"
 )
 
-var mappingSqlTuningAdvisorTaskRecommendationSummaryRecommendationType = map[string]SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum{
+var mappingSqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum = map[string]SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum{
 	"STATISTICS":        SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeStatistics,
 	"INDEX":             SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeIndex,
 	"SQL_PROFILE":       SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeSqlProfile,
@@ -77,8 +94,21 @@ var mappingSqlTuningAdvisorTaskRecommendationSummaryRecommendationType = map[str
 // GetSqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnumValues Enumerates the set of values for SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum
 func GetSqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnumValues() []SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum {
 	values := make([]SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum, 0)
-	for _, v := range mappingSqlTuningAdvisorTaskRecommendationSummaryRecommendationType {
+	for _, v := range mappingSqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnumStringValues Enumerates the set of values in String for SqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnum
+func GetSqlTuningAdvisorTaskRecommendationSummaryRecommendationTypeEnumStringValues() []string {
+	return []string{
+		"STATISTICS",
+		"INDEX",
+		"SQL_PROFILE",
+		"RESTRUCTURE_SQL",
+		"ALTERNATIVE_PLANS",
+		"ERROR",
+		"MISCELLANEOUS",
+	}
 }

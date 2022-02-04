@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LetterOfAuthority The Letter of Authority for the cross-connect. You must submit this letter when
@@ -48,6 +50,21 @@ func (m LetterOfAuthority) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LetterOfAuthority) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLetterOfAuthorityCircuitTypeEnum[string(m.CircuitType)]; !ok && m.CircuitType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CircuitType: %s. Supported values are: %s.", m.CircuitType, strings.Join(GetLetterOfAuthorityCircuitTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LetterOfAuthorityCircuitTypeEnum Enum with underlying type: string
 type LetterOfAuthorityCircuitTypeEnum string
 
@@ -57,7 +74,7 @@ const (
 	LetterOfAuthorityCircuitTypeSc LetterOfAuthorityCircuitTypeEnum = "Single_mode_SC"
 )
 
-var mappingLetterOfAuthorityCircuitType = map[string]LetterOfAuthorityCircuitTypeEnum{
+var mappingLetterOfAuthorityCircuitTypeEnum = map[string]LetterOfAuthorityCircuitTypeEnum{
 	"Single_mode_LC": LetterOfAuthorityCircuitTypeLc,
 	"Single_mode_SC": LetterOfAuthorityCircuitTypeSc,
 }
@@ -65,8 +82,16 @@ var mappingLetterOfAuthorityCircuitType = map[string]LetterOfAuthorityCircuitTyp
 // GetLetterOfAuthorityCircuitTypeEnumValues Enumerates the set of values for LetterOfAuthorityCircuitTypeEnum
 func GetLetterOfAuthorityCircuitTypeEnumValues() []LetterOfAuthorityCircuitTypeEnum {
 	values := make([]LetterOfAuthorityCircuitTypeEnum, 0)
-	for _, v := range mappingLetterOfAuthorityCircuitType {
+	for _, v := range mappingLetterOfAuthorityCircuitTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLetterOfAuthorityCircuitTypeEnumStringValues Enumerates the set of values in String for LetterOfAuthorityCircuitTypeEnum
+func GetLetterOfAuthorityCircuitTypeEnumStringValues() []string {
+	return []string{
+		"Single_mode_LC",
+		"Single_mode_SC",
+	}
 }

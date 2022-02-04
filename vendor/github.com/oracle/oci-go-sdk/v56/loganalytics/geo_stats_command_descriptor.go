@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // GeoStatsCommandDescriptor Command descriptor for querylanguage GEOSTATS command.  This is similiar to STATS with some built in functions for City, State and Country by Coordinates.
@@ -69,6 +71,21 @@ func (m GeoStatsCommandDescriptor) GetDeclaredFields() []AbstractField {
 
 func (m GeoStatsCommandDescriptor) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m GeoStatsCommandDescriptor) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGeoStatsCommandDescriptorIncludeEnum[string(m.Include)]; !ok && m.Include != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Include: %s. Supported values are: %s.", m.Include, strings.Join(GetGeoStatsCommandDescriptorIncludeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -168,7 +185,7 @@ const (
 	GeoStatsCommandDescriptorIncludeClientAndServer GeoStatsCommandDescriptorIncludeEnum = "CLIENT_AND_SERVER"
 )
 
-var mappingGeoStatsCommandDescriptorInclude = map[string]GeoStatsCommandDescriptorIncludeEnum{
+var mappingGeoStatsCommandDescriptorIncludeEnum = map[string]GeoStatsCommandDescriptorIncludeEnum{
 	"CLIENT":            GeoStatsCommandDescriptorIncludeClient,
 	"SERVER":            GeoStatsCommandDescriptorIncludeServer,
 	"CLIENT_AND_SERVER": GeoStatsCommandDescriptorIncludeClientAndServer,
@@ -177,8 +194,17 @@ var mappingGeoStatsCommandDescriptorInclude = map[string]GeoStatsCommandDescript
 // GetGeoStatsCommandDescriptorIncludeEnumValues Enumerates the set of values for GeoStatsCommandDescriptorIncludeEnum
 func GetGeoStatsCommandDescriptorIncludeEnumValues() []GeoStatsCommandDescriptorIncludeEnum {
 	values := make([]GeoStatsCommandDescriptorIncludeEnum, 0)
-	for _, v := range mappingGeoStatsCommandDescriptorInclude {
+	for _, v := range mappingGeoStatsCommandDescriptorIncludeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGeoStatsCommandDescriptorIncludeEnumStringValues Enumerates the set of values in String for GeoStatsCommandDescriptorIncludeEnum
+func GetGeoStatsCommandDescriptorIncludeEnumStringValues() []string {
+	return []string{
+		"CLIENT",
+		"SERVER",
+		"CLIENT_AND_SERVER",
+	}
 }

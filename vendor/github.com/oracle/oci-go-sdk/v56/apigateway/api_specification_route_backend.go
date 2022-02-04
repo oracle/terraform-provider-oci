@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ApiSpecificationRouteBackend The backend to forward requests to.
@@ -71,6 +73,18 @@ func (m apispecificationroutebackend) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m apispecificationroutebackend) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ApiSpecificationRouteBackendTypeEnum Enum with underlying type: string
 type ApiSpecificationRouteBackendTypeEnum string
 
@@ -81,7 +95,7 @@ const (
 	ApiSpecificationRouteBackendTypeStockResponseBackend   ApiSpecificationRouteBackendTypeEnum = "STOCK_RESPONSE_BACKEND"
 )
 
-var mappingApiSpecificationRouteBackendType = map[string]ApiSpecificationRouteBackendTypeEnum{
+var mappingApiSpecificationRouteBackendTypeEnum = map[string]ApiSpecificationRouteBackendTypeEnum{
 	"ORACLE_FUNCTIONS_BACKEND": ApiSpecificationRouteBackendTypeOracleFunctionsBackend,
 	"HTTP_BACKEND":             ApiSpecificationRouteBackendTypeHttpBackend,
 	"STOCK_RESPONSE_BACKEND":   ApiSpecificationRouteBackendTypeStockResponseBackend,
@@ -90,8 +104,17 @@ var mappingApiSpecificationRouteBackendType = map[string]ApiSpecificationRouteBa
 // GetApiSpecificationRouteBackendTypeEnumValues Enumerates the set of values for ApiSpecificationRouteBackendTypeEnum
 func GetApiSpecificationRouteBackendTypeEnumValues() []ApiSpecificationRouteBackendTypeEnum {
 	values := make([]ApiSpecificationRouteBackendTypeEnum, 0)
-	for _, v := range mappingApiSpecificationRouteBackendType {
+	for _, v := range mappingApiSpecificationRouteBackendTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApiSpecificationRouteBackendTypeEnumStringValues Enumerates the set of values in String for ApiSpecificationRouteBackendTypeEnum
+func GetApiSpecificationRouteBackendTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_FUNCTIONS_BACKEND",
+		"HTTP_BACKEND",
+		"STOCK_RESPONSE_BACKEND",
+	}
 }

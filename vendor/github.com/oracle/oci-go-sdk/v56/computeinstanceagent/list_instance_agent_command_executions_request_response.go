@@ -5,8 +5,10 @@
 package computeinstanceagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListInstanceAgentCommandExecutionsRequest wrapper for the ListInstanceAgentCommandExecutions operation
@@ -63,6 +65,10 @@ func (request ListInstanceAgentCommandExecutionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListInstanceAgentCommandExecutionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,26 @@ func (request ListInstanceAgentCommandExecutionsRequest) BinaryRequestBody() (*c
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListInstanceAgentCommandExecutionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListInstanceAgentCommandExecutionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListInstanceAgentCommandExecutionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListInstanceAgentCommandExecutionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListInstanceAgentCommandExecutionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListInstanceAgentCommandExecutionsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInstanceAgentCommandExecutionSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetInstanceAgentCommandExecutionSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListInstanceAgentCommandExecutionsResponse wrapper for the ListInstanceAgentCommandExecutions operation
@@ -115,7 +141,7 @@ const (
 	ListInstanceAgentCommandExecutionsSortByDisplayname ListInstanceAgentCommandExecutionsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListInstanceAgentCommandExecutionsSortBy = map[string]ListInstanceAgentCommandExecutionsSortByEnum{
+var mappingListInstanceAgentCommandExecutionsSortByEnum = map[string]ListInstanceAgentCommandExecutionsSortByEnum{
 	"TIMECREATED": ListInstanceAgentCommandExecutionsSortByTimecreated,
 	"DISPLAYNAME": ListInstanceAgentCommandExecutionsSortByDisplayname,
 }
@@ -123,10 +149,18 @@ var mappingListInstanceAgentCommandExecutionsSortBy = map[string]ListInstanceAge
 // GetListInstanceAgentCommandExecutionsSortByEnumValues Enumerates the set of values for ListInstanceAgentCommandExecutionsSortByEnum
 func GetListInstanceAgentCommandExecutionsSortByEnumValues() []ListInstanceAgentCommandExecutionsSortByEnum {
 	values := make([]ListInstanceAgentCommandExecutionsSortByEnum, 0)
-	for _, v := range mappingListInstanceAgentCommandExecutionsSortBy {
+	for _, v := range mappingListInstanceAgentCommandExecutionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstanceAgentCommandExecutionsSortByEnumStringValues Enumerates the set of values in String for ListInstanceAgentCommandExecutionsSortByEnum
+func GetListInstanceAgentCommandExecutionsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListInstanceAgentCommandExecutionsSortOrderEnum Enum with underlying type: string
@@ -138,7 +172,7 @@ const (
 	ListInstanceAgentCommandExecutionsSortOrderDesc ListInstanceAgentCommandExecutionsSortOrderEnum = "DESC"
 )
 
-var mappingListInstanceAgentCommandExecutionsSortOrder = map[string]ListInstanceAgentCommandExecutionsSortOrderEnum{
+var mappingListInstanceAgentCommandExecutionsSortOrderEnum = map[string]ListInstanceAgentCommandExecutionsSortOrderEnum{
 	"ASC":  ListInstanceAgentCommandExecutionsSortOrderAsc,
 	"DESC": ListInstanceAgentCommandExecutionsSortOrderDesc,
 }
@@ -146,8 +180,16 @@ var mappingListInstanceAgentCommandExecutionsSortOrder = map[string]ListInstance
 // GetListInstanceAgentCommandExecutionsSortOrderEnumValues Enumerates the set of values for ListInstanceAgentCommandExecutionsSortOrderEnum
 func GetListInstanceAgentCommandExecutionsSortOrderEnumValues() []ListInstanceAgentCommandExecutionsSortOrderEnum {
 	values := make([]ListInstanceAgentCommandExecutionsSortOrderEnum, 0)
-	for _, v := range mappingListInstanceAgentCommandExecutionsSortOrder {
+	for _, v := range mappingListInstanceAgentCommandExecutionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstanceAgentCommandExecutionsSortOrderEnumStringValues Enumerates the set of values in String for ListInstanceAgentCommandExecutionsSortOrderEnum
+func GetListInstanceAgentCommandExecutionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -12,37 +12,54 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// SqlTuningAdvisorTaskSummaryReportTaskInfo SQL Tuning advisor task general info.
+// SqlTuningAdvisorTaskSummaryReportTaskInfo The general information regarding the SQL Tuning Advisor task.
 type SqlTuningAdvisorTaskSummaryReportTaskInfo struct {
 
-	// The SQL Tuning Advisor task id. It is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The ID of the SQL Tuning Advisor task. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	Id *int64 `mandatory:"true" json:"id"`
 
-	// The SQL Tuning Advisor task name.
+	// The name of the SQL Tuning Advisor task.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The SQL Tuning Advisor task user owner.
+	// The owner of the SQL Tuning Advisor task.
 	Owner *string `mandatory:"true" json:"owner"`
 
-	// Start timestamp of task execution.
+	// The start time of the task execution.
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
 
-	// End timestamp of task execution.
+	// The end time of the task execution.
 	TimeEnded *common.SDKTime `mandatory:"true" json:"timeEnded"`
 
-	// The SQL Tuning Advisor task description. Not defined on Auto SQL Tuning tasks.
+	// The description of the SQL Tuning Advisor task. This is not defined for Auto SQL Tuning tasks.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The SQL Tuning Advisor task status. Not defined on Auto SQL Tuning tasks.
+	// The status of the SQL Tuning Advisor task. This is not defined for Auto SQL Tuning tasks.
 	Status SqlTuningTaskStatusTypesEnum `mandatory:"false" json:"status,omitempty"`
 
-	// The total running time in seconds. Not defined on Auto SQL Tuning tasks.
+	// The total running time in seconds. This is not defined for Auto SQL Tuning tasks.
 	RunningTime *int `mandatory:"false" json:"runningTime"`
 }
 
 func (m SqlTuningAdvisorTaskSummaryReportTaskInfo) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningAdvisorTaskSummaryReportTaskInfo) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSqlTuningTaskStatusTypesEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetSqlTuningTaskStatusTypesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

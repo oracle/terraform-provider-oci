@@ -13,7 +13,9 @@ package aianomalydetection
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DetectAnomaliesDetails Base class for the DetectAnomalies call. It contains the identifier that will
@@ -78,6 +80,18 @@ func (m detectanomaliesdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m detectanomaliesdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DetectAnomaliesDetailsRequestTypeEnum Enum with underlying type: string
 type DetectAnomaliesDetailsRequestTypeEnum string
 
@@ -87,7 +101,7 @@ const (
 	DetectAnomaliesDetailsRequestTypeBase64Encoded DetectAnomaliesDetailsRequestTypeEnum = "BASE64_ENCODED"
 )
 
-var mappingDetectAnomaliesDetailsRequestType = map[string]DetectAnomaliesDetailsRequestTypeEnum{
+var mappingDetectAnomaliesDetailsRequestTypeEnum = map[string]DetectAnomaliesDetailsRequestTypeEnum{
 	"INLINE":         DetectAnomaliesDetailsRequestTypeInline,
 	"BASE64_ENCODED": DetectAnomaliesDetailsRequestTypeBase64Encoded,
 }
@@ -95,8 +109,16 @@ var mappingDetectAnomaliesDetailsRequestType = map[string]DetectAnomaliesDetails
 // GetDetectAnomaliesDetailsRequestTypeEnumValues Enumerates the set of values for DetectAnomaliesDetailsRequestTypeEnum
 func GetDetectAnomaliesDetailsRequestTypeEnumValues() []DetectAnomaliesDetailsRequestTypeEnum {
 	values := make([]DetectAnomaliesDetailsRequestTypeEnum, 0)
-	for _, v := range mappingDetectAnomaliesDetailsRequestType {
+	for _, v := range mappingDetectAnomaliesDetailsRequestTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDetectAnomaliesDetailsRequestTypeEnumStringValues Enumerates the set of values in String for DetectAnomaliesDetailsRequestTypeEnum
+func GetDetectAnomaliesDetailsRequestTypeEnumStringValues() []string {
+	return []string{
+		"INLINE",
+		"BASE64_ENCODED",
+	}
 }

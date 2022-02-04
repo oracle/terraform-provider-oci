@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PreauthenticatedRequest Pre-authenticated requests provide a way to let users access a bucket or an object without having their own credentials.
@@ -59,6 +61,24 @@ func (m PreauthenticatedRequest) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PreauthenticatedRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPreauthenticatedRequestAccessTypeEnum[string(m.AccessType)]; !ok && m.AccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessType: %s. Supported values are: %s.", m.AccessType, strings.Join(GetPreauthenticatedRequestAccessTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingPreauthenticatedRequestBucketListingActionEnum[string(m.BucketListingAction)]; !ok && m.BucketListingAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BucketListingAction: %s. Supported values are: %s.", m.BucketListingAction, strings.Join(GetPreauthenticatedRequestBucketListingActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PreauthenticatedRequestBucketListingActionEnum Enum with underlying type: string
 type PreauthenticatedRequestBucketListingActionEnum string
 
@@ -68,7 +88,7 @@ const (
 	PreauthenticatedRequestBucketListingActionListobjects PreauthenticatedRequestBucketListingActionEnum = "ListObjects"
 )
 
-var mappingPreauthenticatedRequestBucketListingAction = map[string]PreauthenticatedRequestBucketListingActionEnum{
+var mappingPreauthenticatedRequestBucketListingActionEnum = map[string]PreauthenticatedRequestBucketListingActionEnum{
 	"Deny":        PreauthenticatedRequestBucketListingActionDeny,
 	"ListObjects": PreauthenticatedRequestBucketListingActionListobjects,
 }
@@ -76,10 +96,18 @@ var mappingPreauthenticatedRequestBucketListingAction = map[string]Preauthentica
 // GetPreauthenticatedRequestBucketListingActionEnumValues Enumerates the set of values for PreauthenticatedRequestBucketListingActionEnum
 func GetPreauthenticatedRequestBucketListingActionEnumValues() []PreauthenticatedRequestBucketListingActionEnum {
 	values := make([]PreauthenticatedRequestBucketListingActionEnum, 0)
-	for _, v := range mappingPreauthenticatedRequestBucketListingAction {
+	for _, v := range mappingPreauthenticatedRequestBucketListingActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPreauthenticatedRequestBucketListingActionEnumStringValues Enumerates the set of values in String for PreauthenticatedRequestBucketListingActionEnum
+func GetPreauthenticatedRequestBucketListingActionEnumStringValues() []string {
+	return []string{
+		"Deny",
+		"ListObjects",
+	}
 }
 
 // PreauthenticatedRequestAccessTypeEnum Enum with underlying type: string
@@ -95,7 +123,7 @@ const (
 	PreauthenticatedRequestAccessTypeAnyobjectreadwrite PreauthenticatedRequestAccessTypeEnum = "AnyObjectReadWrite"
 )
 
-var mappingPreauthenticatedRequestAccessType = map[string]PreauthenticatedRequestAccessTypeEnum{
+var mappingPreauthenticatedRequestAccessTypeEnum = map[string]PreauthenticatedRequestAccessTypeEnum{
 	"ObjectRead":         PreauthenticatedRequestAccessTypeObjectread,
 	"ObjectWrite":        PreauthenticatedRequestAccessTypeObjectwrite,
 	"ObjectReadWrite":    PreauthenticatedRequestAccessTypeObjectreadwrite,
@@ -107,8 +135,20 @@ var mappingPreauthenticatedRequestAccessType = map[string]PreauthenticatedReques
 // GetPreauthenticatedRequestAccessTypeEnumValues Enumerates the set of values for PreauthenticatedRequestAccessTypeEnum
 func GetPreauthenticatedRequestAccessTypeEnumValues() []PreauthenticatedRequestAccessTypeEnum {
 	values := make([]PreauthenticatedRequestAccessTypeEnum, 0)
-	for _, v := range mappingPreauthenticatedRequestAccessType {
+	for _, v := range mappingPreauthenticatedRequestAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPreauthenticatedRequestAccessTypeEnumStringValues Enumerates the set of values in String for PreauthenticatedRequestAccessTypeEnum
+func GetPreauthenticatedRequestAccessTypeEnumStringValues() []string {
+	return []string{
+		"ObjectRead",
+		"ObjectWrite",
+		"ObjectReadWrite",
+		"AnyObjectWrite",
+		"AnyObjectRead",
+		"AnyObjectReadWrite",
+	}
 }

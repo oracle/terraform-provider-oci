@@ -11,7 +11,9 @@ package mysql
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateDbSystemSourceDetails Parameters detailing how to provision the initial data of the system.
@@ -69,6 +71,18 @@ func (m createdbsystemsourcedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createdbsystemsourcedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateDbSystemSourceDetailsSourceTypeEnum Enum with underlying type: string
 type CreateDbSystemSourceDetailsSourceTypeEnum string
 
@@ -79,7 +93,7 @@ const (
 	CreateDbSystemSourceDetailsSourceTypeImporturl CreateDbSystemSourceDetailsSourceTypeEnum = "IMPORTURL"
 )
 
-var mappingCreateDbSystemSourceDetailsSourceType = map[string]CreateDbSystemSourceDetailsSourceTypeEnum{
+var mappingCreateDbSystemSourceDetailsSourceTypeEnum = map[string]CreateDbSystemSourceDetailsSourceTypeEnum{
 	"NONE":      CreateDbSystemSourceDetailsSourceTypeNone,
 	"BACKUP":    CreateDbSystemSourceDetailsSourceTypeBackup,
 	"IMPORTURL": CreateDbSystemSourceDetailsSourceTypeImporturl,
@@ -88,8 +102,17 @@ var mappingCreateDbSystemSourceDetailsSourceType = map[string]CreateDbSystemSour
 // GetCreateDbSystemSourceDetailsSourceTypeEnumValues Enumerates the set of values for CreateDbSystemSourceDetailsSourceTypeEnum
 func GetCreateDbSystemSourceDetailsSourceTypeEnumValues() []CreateDbSystemSourceDetailsSourceTypeEnum {
 	values := make([]CreateDbSystemSourceDetailsSourceTypeEnum, 0)
-	for _, v := range mappingCreateDbSystemSourceDetailsSourceType {
+	for _, v := range mappingCreateDbSystemSourceDetailsSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDbSystemSourceDetailsSourceTypeEnumStringValues Enumerates the set of values in String for CreateDbSystemSourceDetailsSourceTypeEnum
+func GetCreateDbSystemSourceDetailsSourceTypeEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"BACKUP",
+		"IMPORTURL",
+	}
 }

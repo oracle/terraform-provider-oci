@@ -22,7 +22,7 @@ const (
 	AccessRequestSeveritiesS4 AccessRequestSeveritiesEnum = "S4"
 )
 
-var mappingAccessRequestSeverities = map[string]AccessRequestSeveritiesEnum{
+var mappingAccessRequestSeveritiesEnum = map[string]AccessRequestSeveritiesEnum{
 	"S1": AccessRequestSeveritiesS1,
 	"S2": AccessRequestSeveritiesS2,
 	"S3": AccessRequestSeveritiesS3,
@@ -32,8 +32,18 @@ var mappingAccessRequestSeverities = map[string]AccessRequestSeveritiesEnum{
 // GetAccessRequestSeveritiesEnumValues Enumerates the set of values for AccessRequestSeveritiesEnum
 func GetAccessRequestSeveritiesEnumValues() []AccessRequestSeveritiesEnum {
 	values := make([]AccessRequestSeveritiesEnum, 0)
-	for _, v := range mappingAccessRequestSeverities {
+	for _, v := range mappingAccessRequestSeveritiesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAccessRequestSeveritiesEnumStringValues Enumerates the set of values in String for AccessRequestSeveritiesEnum
+func GetAccessRequestSeveritiesEnumStringValues() []string {
+	return []string{
+		"S1",
+		"S2",
+		"S3",
+		"S4",
+	}
 }

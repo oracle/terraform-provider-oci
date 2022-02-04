@@ -21,7 +21,7 @@ const (
 	SavedSearchTypesWidgetDontShowInDashboard SavedSearchTypesEnum = "WIDGET_DONT_SHOW_IN_DASHBOARD"
 )
 
-var mappingSavedSearchTypes = map[string]SavedSearchTypesEnum{
+var mappingSavedSearchTypesEnum = map[string]SavedSearchTypesEnum{
 	"SEARCH_SHOW_IN_DASHBOARD":      SavedSearchTypesSearchShowInDashboard,
 	"SEARCH_DONT_SHOW_IN_DASHBOARD": SavedSearchTypesSearchDontShowInDashboard,
 	"WIDGET_SHOW_IN_DASHBOARD":      SavedSearchTypesWidgetShowInDashboard,
@@ -31,8 +31,18 @@ var mappingSavedSearchTypes = map[string]SavedSearchTypesEnum{
 // GetSavedSearchTypesEnumValues Enumerates the set of values for SavedSearchTypesEnum
 func GetSavedSearchTypesEnumValues() []SavedSearchTypesEnum {
 	values := make([]SavedSearchTypesEnum, 0)
-	for _, v := range mappingSavedSearchTypes {
+	for _, v := range mappingSavedSearchTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSavedSearchTypesEnumStringValues Enumerates the set of values in String for SavedSearchTypesEnum
+func GetSavedSearchTypesEnumStringValues() []string {
+	return []string{
+		"SEARCH_SHOW_IN_DASHBOARD",
+		"SEARCH_DONT_SHOW_IN_DASHBOARD",
+		"WIDGET_SHOW_IN_DASHBOARD",
+		"WIDGET_DONT_SHOW_IN_DASHBOARD",
+	}
 }

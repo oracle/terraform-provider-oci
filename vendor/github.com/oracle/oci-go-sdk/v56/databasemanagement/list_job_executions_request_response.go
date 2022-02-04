@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListJobExecutionsRequest wrapper for the ListJobExecutions operation
@@ -70,6 +72,10 @@ func (request ListJobExecutionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListJobExecutionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -83,6 +89,23 @@ func (request ListJobExecutionsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListJobExecutionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListJobExecutionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListJobExecutionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListJobExecutionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListJobExecutionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListJobExecutionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListJobExecutionsResponse wrapper for the ListJobExecutions operation
@@ -122,7 +145,7 @@ const (
 	ListJobExecutionsSortByName        ListJobExecutionsSortByEnum = "NAME"
 )
 
-var mappingListJobExecutionsSortBy = map[string]ListJobExecutionsSortByEnum{
+var mappingListJobExecutionsSortByEnum = map[string]ListJobExecutionsSortByEnum{
 	"TIMECREATED": ListJobExecutionsSortByTimecreated,
 	"NAME":        ListJobExecutionsSortByName,
 }
@@ -130,10 +153,18 @@ var mappingListJobExecutionsSortBy = map[string]ListJobExecutionsSortByEnum{
 // GetListJobExecutionsSortByEnumValues Enumerates the set of values for ListJobExecutionsSortByEnum
 func GetListJobExecutionsSortByEnumValues() []ListJobExecutionsSortByEnum {
 	values := make([]ListJobExecutionsSortByEnum, 0)
-	for _, v := range mappingListJobExecutionsSortBy {
+	for _, v := range mappingListJobExecutionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobExecutionsSortByEnumStringValues Enumerates the set of values in String for ListJobExecutionsSortByEnum
+func GetListJobExecutionsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListJobExecutionsSortOrderEnum Enum with underlying type: string
@@ -145,7 +176,7 @@ const (
 	ListJobExecutionsSortOrderDesc ListJobExecutionsSortOrderEnum = "DESC"
 )
 
-var mappingListJobExecutionsSortOrder = map[string]ListJobExecutionsSortOrderEnum{
+var mappingListJobExecutionsSortOrderEnum = map[string]ListJobExecutionsSortOrderEnum{
 	"ASC":  ListJobExecutionsSortOrderAsc,
 	"DESC": ListJobExecutionsSortOrderDesc,
 }
@@ -153,8 +184,16 @@ var mappingListJobExecutionsSortOrder = map[string]ListJobExecutionsSortOrderEnu
 // GetListJobExecutionsSortOrderEnumValues Enumerates the set of values for ListJobExecutionsSortOrderEnum
 func GetListJobExecutionsSortOrderEnumValues() []ListJobExecutionsSortOrderEnum {
 	values := make([]ListJobExecutionsSortOrderEnum, 0)
-	for _, v := range mappingListJobExecutionsSortOrder {
+	for _, v := range mappingListJobExecutionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobExecutionsSortOrderEnumStringValues Enumerates the set of values in String for ListJobExecutionsSortOrderEnum
+func GetListJobExecutionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

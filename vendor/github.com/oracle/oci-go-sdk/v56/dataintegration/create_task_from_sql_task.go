@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateTaskFromSqlTask The information about the SQL task.
@@ -130,6 +132,21 @@ func (m CreateTaskFromSqlTask) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateTaskFromSqlTask) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateTaskFromSqlTaskSqlScriptTypeEnum[string(m.SqlScriptType)]; !ok && m.SqlScriptType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SqlScriptType: %s. Supported values are: %s.", m.SqlScriptType, strings.Join(GetCreateTaskFromSqlTaskSqlScriptTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m CreateTaskFromSqlTask) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeCreateTaskFromSqlTask CreateTaskFromSqlTask
@@ -153,7 +170,7 @@ const (
 	CreateTaskFromSqlTaskSqlScriptTypeSqlCode         CreateTaskFromSqlTaskSqlScriptTypeEnum = "SQL_CODE"
 )
 
-var mappingCreateTaskFromSqlTaskSqlScriptType = map[string]CreateTaskFromSqlTaskSqlScriptTypeEnum{
+var mappingCreateTaskFromSqlTaskSqlScriptTypeEnum = map[string]CreateTaskFromSqlTaskSqlScriptTypeEnum{
 	"STORED_PROCEDURE": CreateTaskFromSqlTaskSqlScriptTypeStoredProcedure,
 	"SQL_CODE":         CreateTaskFromSqlTaskSqlScriptTypeSqlCode,
 }
@@ -161,8 +178,16 @@ var mappingCreateTaskFromSqlTaskSqlScriptType = map[string]CreateTaskFromSqlTask
 // GetCreateTaskFromSqlTaskSqlScriptTypeEnumValues Enumerates the set of values for CreateTaskFromSqlTaskSqlScriptTypeEnum
 func GetCreateTaskFromSqlTaskSqlScriptTypeEnumValues() []CreateTaskFromSqlTaskSqlScriptTypeEnum {
 	values := make([]CreateTaskFromSqlTaskSqlScriptTypeEnum, 0)
-	for _, v := range mappingCreateTaskFromSqlTaskSqlScriptType {
+	for _, v := range mappingCreateTaskFromSqlTaskSqlScriptTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateTaskFromSqlTaskSqlScriptTypeEnumStringValues Enumerates the set of values in String for CreateTaskFromSqlTaskSqlScriptTypeEnum
+func GetCreateTaskFromSqlTaskSqlScriptTypeEnumStringValues() []string {
+	return []string{
+		"STORED_PROCEDURE",
+		"SQL_CODE",
+	}
 }

@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListCatalogsRequest wrapper for the ListCatalogs operation
@@ -52,6 +54,10 @@ func (request ListCatalogsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListCatalogsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +71,26 @@ func (request ListCatalogsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListCatalogsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListCatalogsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListCatalogsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListCatalogsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCatalogsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCatalogsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCatalogsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCatalogsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListCatalogsResponse wrapper for the ListCatalogs operation
@@ -108,7 +134,7 @@ const (
 	ListCatalogsLifecycleStateMoving   ListCatalogsLifecycleStateEnum = "MOVING"
 )
 
-var mappingListCatalogsLifecycleState = map[string]ListCatalogsLifecycleStateEnum{
+var mappingListCatalogsLifecycleStateEnum = map[string]ListCatalogsLifecycleStateEnum{
 	"CREATING": ListCatalogsLifecycleStateCreating,
 	"ACTIVE":   ListCatalogsLifecycleStateActive,
 	"INACTIVE": ListCatalogsLifecycleStateInactive,
@@ -122,10 +148,24 @@ var mappingListCatalogsLifecycleState = map[string]ListCatalogsLifecycleStateEnu
 // GetListCatalogsLifecycleStateEnumValues Enumerates the set of values for ListCatalogsLifecycleStateEnum
 func GetListCatalogsLifecycleStateEnumValues() []ListCatalogsLifecycleStateEnum {
 	values := make([]ListCatalogsLifecycleStateEnum, 0)
-	for _, v := range mappingListCatalogsLifecycleState {
+	for _, v := range mappingListCatalogsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCatalogsLifecycleStateEnumStringValues Enumerates the set of values in String for ListCatalogsLifecycleStateEnum
+func GetListCatalogsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListCatalogsSortOrderEnum Enum with underlying type: string
@@ -137,7 +177,7 @@ const (
 	ListCatalogsSortOrderDesc ListCatalogsSortOrderEnum = "DESC"
 )
 
-var mappingListCatalogsSortOrder = map[string]ListCatalogsSortOrderEnum{
+var mappingListCatalogsSortOrderEnum = map[string]ListCatalogsSortOrderEnum{
 	"ASC":  ListCatalogsSortOrderAsc,
 	"DESC": ListCatalogsSortOrderDesc,
 }
@@ -145,10 +185,18 @@ var mappingListCatalogsSortOrder = map[string]ListCatalogsSortOrderEnum{
 // GetListCatalogsSortOrderEnumValues Enumerates the set of values for ListCatalogsSortOrderEnum
 func GetListCatalogsSortOrderEnumValues() []ListCatalogsSortOrderEnum {
 	values := make([]ListCatalogsSortOrderEnum, 0)
-	for _, v := range mappingListCatalogsSortOrder {
+	for _, v := range mappingListCatalogsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCatalogsSortOrderEnumStringValues Enumerates the set of values in String for ListCatalogsSortOrderEnum
+func GetListCatalogsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListCatalogsSortByEnum Enum with underlying type: string
@@ -160,7 +208,7 @@ const (
 	ListCatalogsSortByDisplayname ListCatalogsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListCatalogsSortBy = map[string]ListCatalogsSortByEnum{
+var mappingListCatalogsSortByEnum = map[string]ListCatalogsSortByEnum{
 	"TIMECREATED": ListCatalogsSortByTimecreated,
 	"DISPLAYNAME": ListCatalogsSortByDisplayname,
 }
@@ -168,8 +216,16 @@ var mappingListCatalogsSortBy = map[string]ListCatalogsSortByEnum{
 // GetListCatalogsSortByEnumValues Enumerates the set of values for ListCatalogsSortByEnum
 func GetListCatalogsSortByEnumValues() []ListCatalogsSortByEnum {
 	values := make([]ListCatalogsSortByEnum, 0)
-	for _, v := range mappingListCatalogsSortBy {
+	for _, v := range mappingListCatalogsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCatalogsSortByEnumStringValues Enumerates the set of values in String for ListCatalogsSortByEnum
+func GetListCatalogsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

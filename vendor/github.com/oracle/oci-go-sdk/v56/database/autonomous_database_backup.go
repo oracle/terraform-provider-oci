@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutonomousDatabaseBackup An Autonomous Database backup.
@@ -72,6 +74,24 @@ func (m AutonomousDatabaseBackup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDatabaseBackup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousDatabaseBackupTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetAutonomousDatabaseBackupTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseBackupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseBackupLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousDatabaseBackupTypeEnum Enum with underlying type: string
 type AutonomousDatabaseBackupTypeEnum string
 
@@ -81,7 +101,7 @@ const (
 	AutonomousDatabaseBackupTypeFull        AutonomousDatabaseBackupTypeEnum = "FULL"
 )
 
-var mappingAutonomousDatabaseBackupType = map[string]AutonomousDatabaseBackupTypeEnum{
+var mappingAutonomousDatabaseBackupTypeEnum = map[string]AutonomousDatabaseBackupTypeEnum{
 	"INCREMENTAL": AutonomousDatabaseBackupTypeIncremental,
 	"FULL":        AutonomousDatabaseBackupTypeFull,
 }
@@ -89,10 +109,18 @@ var mappingAutonomousDatabaseBackupType = map[string]AutonomousDatabaseBackupTyp
 // GetAutonomousDatabaseBackupTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupTypeEnum
 func GetAutonomousDatabaseBackupTypeEnumValues() []AutonomousDatabaseBackupTypeEnum {
 	values := make([]AutonomousDatabaseBackupTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseBackupType {
+	for _, v := range mappingAutonomousDatabaseBackupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseBackupTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseBackupTypeEnum
+func GetAutonomousDatabaseBackupTypeEnumStringValues() []string {
+	return []string{
+		"INCREMENTAL",
+		"FULL",
+	}
 }
 
 // AutonomousDatabaseBackupLifecycleStateEnum Enum with underlying type: string
@@ -107,7 +135,7 @@ const (
 	AutonomousDatabaseBackupLifecycleStateFailed   AutonomousDatabaseBackupLifecycleStateEnum = "FAILED"
 )
 
-var mappingAutonomousDatabaseBackupLifecycleState = map[string]AutonomousDatabaseBackupLifecycleStateEnum{
+var mappingAutonomousDatabaseBackupLifecycleStateEnum = map[string]AutonomousDatabaseBackupLifecycleStateEnum{
 	"CREATING": AutonomousDatabaseBackupLifecycleStateCreating,
 	"ACTIVE":   AutonomousDatabaseBackupLifecycleStateActive,
 	"DELETING": AutonomousDatabaseBackupLifecycleStateDeleting,
@@ -118,8 +146,19 @@ var mappingAutonomousDatabaseBackupLifecycleState = map[string]AutonomousDatabas
 // GetAutonomousDatabaseBackupLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseBackupLifecycleStateEnum
 func GetAutonomousDatabaseBackupLifecycleStateEnumValues() []AutonomousDatabaseBackupLifecycleStateEnum {
 	values := make([]AutonomousDatabaseBackupLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousDatabaseBackupLifecycleState {
+	for _, v := range mappingAutonomousDatabaseBackupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseBackupLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousDatabaseBackupLifecycleStateEnum
+func GetAutonomousDatabaseBackupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

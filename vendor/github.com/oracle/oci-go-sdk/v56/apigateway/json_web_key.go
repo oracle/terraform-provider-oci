@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // JsonWebKey A JSON Web Key that represents the public key used for verifying the JWT signature.
@@ -53,6 +55,29 @@ func (m JsonWebKey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m JsonWebKey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJsonWebKeyKtyEnum[string(m.Kty)]; !ok && m.Kty != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Kty: %s. Supported values are: %s.", m.Kty, strings.Join(GetJsonWebKeyKtyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingJsonWebKeyUseEnum[string(m.Use)]; !ok && m.Use != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Use: %s. Supported values are: %s.", m.Use, strings.Join(GetJsonWebKeyUseEnumStringValues(), ",")))
+	}
+	for _, val := range m.KeyOps {
+		if _, ok := mappingJsonWebKeyKeyOpsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KeyOps: %s. Supported values are: %s.", val, strings.Join(GetJsonWebKeyKeyOpsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m JsonWebKey) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeJsonWebKey JsonWebKey
@@ -75,17 +100,24 @@ const (
 	JsonWebKeyKtyRsa JsonWebKeyKtyEnum = "RSA"
 )
 
-var mappingJsonWebKeyKty = map[string]JsonWebKeyKtyEnum{
+var mappingJsonWebKeyKtyEnum = map[string]JsonWebKeyKtyEnum{
 	"RSA": JsonWebKeyKtyRsa,
 }
 
 // GetJsonWebKeyKtyEnumValues Enumerates the set of values for JsonWebKeyKtyEnum
 func GetJsonWebKeyKtyEnumValues() []JsonWebKeyKtyEnum {
 	values := make([]JsonWebKeyKtyEnum, 0)
-	for _, v := range mappingJsonWebKeyKty {
+	for _, v := range mappingJsonWebKeyKtyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJsonWebKeyKtyEnumStringValues Enumerates the set of values in String for JsonWebKeyKtyEnum
+func GetJsonWebKeyKtyEnumStringValues() []string {
+	return []string{
+		"RSA",
+	}
 }
 
 // JsonWebKeyUseEnum Enum with underlying type: string
@@ -96,17 +128,24 @@ const (
 	JsonWebKeyUseSig JsonWebKeyUseEnum = "sig"
 )
 
-var mappingJsonWebKeyUse = map[string]JsonWebKeyUseEnum{
+var mappingJsonWebKeyUseEnum = map[string]JsonWebKeyUseEnum{
 	"sig": JsonWebKeyUseSig,
 }
 
 // GetJsonWebKeyUseEnumValues Enumerates the set of values for JsonWebKeyUseEnum
 func GetJsonWebKeyUseEnumValues() []JsonWebKeyUseEnum {
 	values := make([]JsonWebKeyUseEnum, 0)
-	for _, v := range mappingJsonWebKeyUse {
+	for _, v := range mappingJsonWebKeyUseEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJsonWebKeyUseEnumStringValues Enumerates the set of values in String for JsonWebKeyUseEnum
+func GetJsonWebKeyUseEnumStringValues() []string {
+	return []string{
+		"sig",
+	}
 }
 
 // JsonWebKeyKeyOpsEnum Enum with underlying type: string
@@ -117,15 +156,22 @@ const (
 	JsonWebKeyKeyOpsVerify JsonWebKeyKeyOpsEnum = "verify"
 )
 
-var mappingJsonWebKeyKeyOps = map[string]JsonWebKeyKeyOpsEnum{
+var mappingJsonWebKeyKeyOpsEnum = map[string]JsonWebKeyKeyOpsEnum{
 	"verify": JsonWebKeyKeyOpsVerify,
 }
 
 // GetJsonWebKeyKeyOpsEnumValues Enumerates the set of values for JsonWebKeyKeyOpsEnum
 func GetJsonWebKeyKeyOpsEnumValues() []JsonWebKeyKeyOpsEnum {
 	values := make([]JsonWebKeyKeyOpsEnum, 0)
-	for _, v := range mappingJsonWebKeyKeyOps {
+	for _, v := range mappingJsonWebKeyKeyOpsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJsonWebKeyKeyOpsEnumStringValues Enumerates the set of values in String for JsonWebKeyKeyOpsEnum
+func GetJsonWebKeyKeyOpsEnumStringValues() []string {
+	return []string{
+		"verify",
+	}
 }

@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListEnterpriseManagerBridgesRequest wrapper for the ListEnterpriseManagerBridges operation
@@ -65,6 +67,10 @@ func (request ListEnterpriseManagerBridgesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListEnterpriseManagerBridgesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +84,29 @@ func (request ListEnterpriseManagerBridgesRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListEnterpriseManagerBridgesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListEnterpriseManagerBridgesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingLifecycleStateEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListEnterpriseManagerBridgesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListEnterpriseManagerBridgesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEnterpriseManagerBridgesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListEnterpriseManagerBridgesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListEnterpriseManagerBridgesResponse wrapper for the ListEnterpriseManagerBridges operation
@@ -117,7 +146,7 @@ const (
 	ListEnterpriseManagerBridgesSortOrderDesc ListEnterpriseManagerBridgesSortOrderEnum = "DESC"
 )
 
-var mappingListEnterpriseManagerBridgesSortOrder = map[string]ListEnterpriseManagerBridgesSortOrderEnum{
+var mappingListEnterpriseManagerBridgesSortOrderEnum = map[string]ListEnterpriseManagerBridgesSortOrderEnum{
 	"ASC":  ListEnterpriseManagerBridgesSortOrderAsc,
 	"DESC": ListEnterpriseManagerBridgesSortOrderDesc,
 }
@@ -125,10 +154,18 @@ var mappingListEnterpriseManagerBridgesSortOrder = map[string]ListEnterpriseMana
 // GetListEnterpriseManagerBridgesSortOrderEnumValues Enumerates the set of values for ListEnterpriseManagerBridgesSortOrderEnum
 func GetListEnterpriseManagerBridgesSortOrderEnumValues() []ListEnterpriseManagerBridgesSortOrderEnum {
 	values := make([]ListEnterpriseManagerBridgesSortOrderEnum, 0)
-	for _, v := range mappingListEnterpriseManagerBridgesSortOrder {
+	for _, v := range mappingListEnterpriseManagerBridgesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEnterpriseManagerBridgesSortOrderEnumStringValues Enumerates the set of values in String for ListEnterpriseManagerBridgesSortOrderEnum
+func GetListEnterpriseManagerBridgesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListEnterpriseManagerBridgesSortByEnum Enum with underlying type: string
@@ -140,7 +177,7 @@ const (
 	ListEnterpriseManagerBridgesSortByDisplayname ListEnterpriseManagerBridgesSortByEnum = "displayName"
 )
 
-var mappingListEnterpriseManagerBridgesSortBy = map[string]ListEnterpriseManagerBridgesSortByEnum{
+var mappingListEnterpriseManagerBridgesSortByEnum = map[string]ListEnterpriseManagerBridgesSortByEnum{
 	"timeCreated": ListEnterpriseManagerBridgesSortByTimecreated,
 	"displayName": ListEnterpriseManagerBridgesSortByDisplayname,
 }
@@ -148,8 +185,16 @@ var mappingListEnterpriseManagerBridgesSortBy = map[string]ListEnterpriseManager
 // GetListEnterpriseManagerBridgesSortByEnumValues Enumerates the set of values for ListEnterpriseManagerBridgesSortByEnum
 func GetListEnterpriseManagerBridgesSortByEnumValues() []ListEnterpriseManagerBridgesSortByEnum {
 	values := make([]ListEnterpriseManagerBridgesSortByEnum, 0)
-	for _, v := range mappingListEnterpriseManagerBridgesSortBy {
+	for _, v := range mappingListEnterpriseManagerBridgesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEnterpriseManagerBridgesSortByEnumStringValues Enumerates the set of values in String for ListEnterpriseManagerBridgesSortByEnum
+func GetListEnterpriseManagerBridgesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

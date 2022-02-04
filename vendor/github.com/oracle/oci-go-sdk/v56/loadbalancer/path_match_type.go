@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PathMatchType The type of matching to apply to incoming URIs.
@@ -33,6 +35,21 @@ func (m PathMatchType) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PathMatchType) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPathMatchTypeMatchTypeEnum[string(m.MatchType)]; !ok && m.MatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchType: %s. Supported values are: %s.", m.MatchType, strings.Join(GetPathMatchTypeMatchTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PathMatchTypeMatchTypeEnum Enum with underlying type: string
 type PathMatchTypeMatchTypeEnum string
 
@@ -44,7 +61,7 @@ const (
 	PathMatchTypeMatchTypeSuffixMatch             PathMatchTypeMatchTypeEnum = "SUFFIX_MATCH"
 )
 
-var mappingPathMatchTypeMatchType = map[string]PathMatchTypeMatchTypeEnum{
+var mappingPathMatchTypeMatchTypeEnum = map[string]PathMatchTypeMatchTypeEnum{
 	"EXACT_MATCH":                PathMatchTypeMatchTypeExactMatch,
 	"FORCE_LONGEST_PREFIX_MATCH": PathMatchTypeMatchTypeForceLongestPrefixMatch,
 	"PREFIX_MATCH":               PathMatchTypeMatchTypePrefixMatch,
@@ -54,8 +71,18 @@ var mappingPathMatchTypeMatchType = map[string]PathMatchTypeMatchTypeEnum{
 // GetPathMatchTypeMatchTypeEnumValues Enumerates the set of values for PathMatchTypeMatchTypeEnum
 func GetPathMatchTypeMatchTypeEnumValues() []PathMatchTypeMatchTypeEnum {
 	values := make([]PathMatchTypeMatchTypeEnum, 0)
-	for _, v := range mappingPathMatchTypeMatchType {
+	for _, v := range mappingPathMatchTypeMatchTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPathMatchTypeMatchTypeEnumStringValues Enumerates the set of values in String for PathMatchTypeMatchTypeEnum
+func GetPathMatchTypeMatchTypeEnumStringValues() []string {
+	return []string{
+		"EXACT_MATCH",
+		"FORCE_LONGEST_PREFIX_MATCH",
+		"PREFIX_MATCH",
+		"SUFFIX_MATCH",
+	}
 }

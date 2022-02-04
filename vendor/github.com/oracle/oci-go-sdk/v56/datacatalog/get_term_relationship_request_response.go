@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetTermRelationshipRequest wrapper for the GetTermRelationship operation
@@ -46,6 +48,10 @@ func (request GetTermRelationshipRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetTermRelationshipRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request GetTermRelationshipRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetTermRelationshipRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetTermRelationshipRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetTermRelationshipFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetTermRelationshipFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetTermRelationshipResponse wrapper for the GetTermRelationship operation
@@ -104,7 +127,7 @@ const (
 	GetTermRelationshipFieldsUri                    GetTermRelationshipFieldsEnum = "uri"
 )
 
-var mappingGetTermRelationshipFields = map[string]GetTermRelationshipFieldsEnum{
+var mappingGetTermRelationshipFieldsEnum = map[string]GetTermRelationshipFieldsEnum{
 	"key":                    GetTermRelationshipFieldsKey,
 	"displayName":            GetTermRelationshipFieldsDisplayname,
 	"description":            GetTermRelationshipFieldsDescription,
@@ -120,8 +143,24 @@ var mappingGetTermRelationshipFields = map[string]GetTermRelationshipFieldsEnum{
 // GetGetTermRelationshipFieldsEnumValues Enumerates the set of values for GetTermRelationshipFieldsEnum
 func GetGetTermRelationshipFieldsEnumValues() []GetTermRelationshipFieldsEnum {
 	values := make([]GetTermRelationshipFieldsEnum, 0)
-	for _, v := range mappingGetTermRelationshipFields {
+	for _, v := range mappingGetTermRelationshipFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetTermRelationshipFieldsEnumStringValues Enumerates the set of values in String for GetTermRelationshipFieldsEnum
+func GetGetTermRelationshipFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"relatedTermKey",
+		"relatedTermDisplayName",
+		"parentTermKey",
+		"parentTermDisplayName",
+		"lifecycleState",
+		"timeCreated",
+		"uri",
+	}
 }

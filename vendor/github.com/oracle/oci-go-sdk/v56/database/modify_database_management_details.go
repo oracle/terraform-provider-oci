@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ModifyDatabaseManagementDetails Data to update one or more attributes of the Database Management configuration for the database.
@@ -31,6 +33,21 @@ func (m ModifyDatabaseManagementDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ModifyDatabaseManagementDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingModifyDatabaseManagementDetailsManagementTypeEnum[string(m.ManagementType)]; !ok && m.ManagementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementType: %s. Supported values are: %s.", m.ManagementType, strings.Join(GetModifyDatabaseManagementDetailsManagementTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ModifyDatabaseManagementDetailsManagementTypeEnum Enum with underlying type: string
 type ModifyDatabaseManagementDetailsManagementTypeEnum string
 
@@ -40,7 +57,7 @@ const (
 	ModifyDatabaseManagementDetailsManagementTypeAdvanced ModifyDatabaseManagementDetailsManagementTypeEnum = "ADVANCED"
 )
 
-var mappingModifyDatabaseManagementDetailsManagementType = map[string]ModifyDatabaseManagementDetailsManagementTypeEnum{
+var mappingModifyDatabaseManagementDetailsManagementTypeEnum = map[string]ModifyDatabaseManagementDetailsManagementTypeEnum{
 	"BASIC":    ModifyDatabaseManagementDetailsManagementTypeBasic,
 	"ADVANCED": ModifyDatabaseManagementDetailsManagementTypeAdvanced,
 }
@@ -48,8 +65,16 @@ var mappingModifyDatabaseManagementDetailsManagementType = map[string]ModifyData
 // GetModifyDatabaseManagementDetailsManagementTypeEnumValues Enumerates the set of values for ModifyDatabaseManagementDetailsManagementTypeEnum
 func GetModifyDatabaseManagementDetailsManagementTypeEnumValues() []ModifyDatabaseManagementDetailsManagementTypeEnum {
 	values := make([]ModifyDatabaseManagementDetailsManagementTypeEnum, 0)
-	for _, v := range mappingModifyDatabaseManagementDetailsManagementType {
+	for _, v := range mappingModifyDatabaseManagementDetailsManagementTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetModifyDatabaseManagementDetailsManagementTypeEnumStringValues Enumerates the set of values in String for ModifyDatabaseManagementDetailsManagementTypeEnum
+func GetModifyDatabaseManagementDetailsManagementTypeEnumStringValues() []string {
+	return []string{
+		"BASIC",
+		"ADVANCED",
+	}
 }

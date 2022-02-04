@@ -17,15 +17,22 @@ const (
 	StartDeploymentTypeDefault StartDeploymentTypeEnum = "DEFAULT"
 )
 
-var mappingStartDeploymentType = map[string]StartDeploymentTypeEnum{
+var mappingStartDeploymentTypeEnum = map[string]StartDeploymentTypeEnum{
 	"DEFAULT": StartDeploymentTypeDefault,
 }
 
 // GetStartDeploymentTypeEnumValues Enumerates the set of values for StartDeploymentTypeEnum
 func GetStartDeploymentTypeEnumValues() []StartDeploymentTypeEnum {
 	values := make([]StartDeploymentTypeEnum, 0)
-	for _, v := range mappingStartDeploymentType {
+	for _, v := range mappingStartDeploymentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStartDeploymentTypeEnumStringValues Enumerates the set of values in String for StartDeploymentTypeEnum
+func GetStartDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+	}
 }

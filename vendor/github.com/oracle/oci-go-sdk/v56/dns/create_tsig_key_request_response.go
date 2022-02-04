@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // CreateTsigKeyRequest wrapper for the CreateTsigKey operation
@@ -39,6 +41,10 @@ func (request CreateTsigKeyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CreateTsigKeyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -52,6 +58,20 @@ func (request CreateTsigKeyRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateTsigKeyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateTsigKeyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateTsigKeyScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetCreateTsigKeyScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateTsigKeyResponse wrapper for the CreateTsigKey operation
@@ -98,7 +118,7 @@ const (
 	CreateTsigKeyScopePrivate CreateTsigKeyScopeEnum = "PRIVATE"
 )
 
-var mappingCreateTsigKeyScope = map[string]CreateTsigKeyScopeEnum{
+var mappingCreateTsigKeyScopeEnum = map[string]CreateTsigKeyScopeEnum{
 	"GLOBAL":  CreateTsigKeyScopeGlobal,
 	"PRIVATE": CreateTsigKeyScopePrivate,
 }
@@ -106,8 +126,16 @@ var mappingCreateTsigKeyScope = map[string]CreateTsigKeyScopeEnum{
 // GetCreateTsigKeyScopeEnumValues Enumerates the set of values for CreateTsigKeyScopeEnum
 func GetCreateTsigKeyScopeEnumValues() []CreateTsigKeyScopeEnum {
 	values := make([]CreateTsigKeyScopeEnum, 0)
-	for _, v := range mappingCreateTsigKeyScope {
+	for _, v := range mappingCreateTsigKeyScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateTsigKeyScopeEnumStringValues Enumerates the set of values in String for CreateTsigKeyScopeEnum
+func GetCreateTsigKeyScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

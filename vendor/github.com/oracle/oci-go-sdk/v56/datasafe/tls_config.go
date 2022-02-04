@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TlsConfig The details required to establish a TLS enabled connection.
@@ -36,6 +38,24 @@ func (m TlsConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TlsConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTlsConfigStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetTlsConfigStatusEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingTlsConfigCertificateStoreTypeEnum[string(m.CertificateStoreType)]; !ok && m.CertificateStoreType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CertificateStoreType: %s. Supported values are: %s.", m.CertificateStoreType, strings.Join(GetTlsConfigCertificateStoreTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TlsConfigStatusEnum Enum with underlying type: string
 type TlsConfigStatusEnum string
 
@@ -45,7 +65,7 @@ const (
 	TlsConfigStatusDisabled TlsConfigStatusEnum = "DISABLED"
 )
 
-var mappingTlsConfigStatus = map[string]TlsConfigStatusEnum{
+var mappingTlsConfigStatusEnum = map[string]TlsConfigStatusEnum{
 	"ENABLED":  TlsConfigStatusEnabled,
 	"DISABLED": TlsConfigStatusDisabled,
 }
@@ -53,10 +73,18 @@ var mappingTlsConfigStatus = map[string]TlsConfigStatusEnum{
 // GetTlsConfigStatusEnumValues Enumerates the set of values for TlsConfigStatusEnum
 func GetTlsConfigStatusEnumValues() []TlsConfigStatusEnum {
 	values := make([]TlsConfigStatusEnum, 0)
-	for _, v := range mappingTlsConfigStatus {
+	for _, v := range mappingTlsConfigStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTlsConfigStatusEnumStringValues Enumerates the set of values in String for TlsConfigStatusEnum
+func GetTlsConfigStatusEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }
 
 // TlsConfigCertificateStoreTypeEnum Enum with underlying type: string
@@ -67,15 +95,22 @@ const (
 	TlsConfigCertificateStoreTypeJks TlsConfigCertificateStoreTypeEnum = "JKS"
 )
 
-var mappingTlsConfigCertificateStoreType = map[string]TlsConfigCertificateStoreTypeEnum{
+var mappingTlsConfigCertificateStoreTypeEnum = map[string]TlsConfigCertificateStoreTypeEnum{
 	"JKS": TlsConfigCertificateStoreTypeJks,
 }
 
 // GetTlsConfigCertificateStoreTypeEnumValues Enumerates the set of values for TlsConfigCertificateStoreTypeEnum
 func GetTlsConfigCertificateStoreTypeEnumValues() []TlsConfigCertificateStoreTypeEnum {
 	values := make([]TlsConfigCertificateStoreTypeEnum, 0)
-	for _, v := range mappingTlsConfigCertificateStoreType {
+	for _, v := range mappingTlsConfigCertificateStoreTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTlsConfigCertificateStoreTypeEnumStringValues Enumerates the set of values in String for TlsConfigCertificateStoreTypeEnum
+func GetTlsConfigCertificateStoreTypeEnumStringValues() []string {
+	return []string{
+		"JKS",
+	}
 }

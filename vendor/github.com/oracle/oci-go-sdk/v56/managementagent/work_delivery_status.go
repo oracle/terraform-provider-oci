@@ -22,7 +22,7 @@ const (
 	WorkDeliveryStatusCanceled   WorkDeliveryStatusEnum = "CANCELED"
 )
 
-var mappingWorkDeliveryStatus = map[string]WorkDeliveryStatusEnum{
+var mappingWorkDeliveryStatusEnum = map[string]WorkDeliveryStatusEnum{
 	"ACCEPTED":    WorkDeliveryStatusAccepted,
 	"IN_PROGRESS": WorkDeliveryStatusInProgress,
 	"FAILED":      WorkDeliveryStatusFailed,
@@ -34,8 +34,20 @@ var mappingWorkDeliveryStatus = map[string]WorkDeliveryStatusEnum{
 // GetWorkDeliveryStatusEnumValues Enumerates the set of values for WorkDeliveryStatusEnum
 func GetWorkDeliveryStatusEnumValues() []WorkDeliveryStatusEnum {
 	values := make([]WorkDeliveryStatusEnum, 0)
-	for _, v := range mappingWorkDeliveryStatus {
+	for _, v := range mappingWorkDeliveryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkDeliveryStatusEnumStringValues Enumerates the set of values in String for WorkDeliveryStatusEnum
+func GetWorkDeliveryStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

@@ -20,7 +20,7 @@ const (
 	KeyStoreTypeSso            KeyStoreTypeEnum = "SSO"
 )
 
-var mappingKeyStoreType = map[string]KeyStoreTypeEnum{
+var mappingKeyStoreTypeEnum = map[string]KeyStoreTypeEnum{
 	"JAVA_KEY_STORE":   KeyStoreTypeJavaKeyStore,
 	"JAVA_TRUST_STORE": KeyStoreTypeJavaTrustStore,
 	"PKCS12":           KeyStoreTypePkcs12,
@@ -30,8 +30,18 @@ var mappingKeyStoreType = map[string]KeyStoreTypeEnum{
 // GetKeyStoreTypeEnumValues Enumerates the set of values for KeyStoreTypeEnum
 func GetKeyStoreTypeEnumValues() []KeyStoreTypeEnum {
 	values := make([]KeyStoreTypeEnum, 0)
-	for _, v := range mappingKeyStoreType {
+	for _, v := range mappingKeyStoreTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyStoreTypeEnumStringValues Enumerates the set of values in String for KeyStoreTypeEnum
+func GetKeyStoreTypeEnumStringValues() []string {
+	return []string{
+		"JAVA_KEY_STORE",
+		"JAVA_TRUST_STORE",
+		"PKCS12",
+		"SSO",
+	}
 }

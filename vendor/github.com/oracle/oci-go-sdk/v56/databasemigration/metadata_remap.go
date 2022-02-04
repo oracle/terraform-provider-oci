@@ -10,7 +10,9 @@
 package databasemigration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MetadataRemap Defines remapping to be applied to objects as they are processed.
@@ -31,6 +33,21 @@ func (m MetadataRemap) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MetadataRemap) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMetadataRemapTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetMetadataRemapTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MetadataRemapTypeEnum Enum with underlying type: string
 type MetadataRemapTypeEnum string
 
@@ -42,7 +59,7 @@ const (
 	MetadataRemapTypeTable      MetadataRemapTypeEnum = "TABLE"
 )
 
-var mappingMetadataRemapType = map[string]MetadataRemapTypeEnum{
+var mappingMetadataRemapTypeEnum = map[string]MetadataRemapTypeEnum{
 	"SCHEMA":     MetadataRemapTypeSchema,
 	"TABLESPACE": MetadataRemapTypeTablespace,
 	"DATAFILE":   MetadataRemapTypeDatafile,
@@ -52,8 +69,18 @@ var mappingMetadataRemapType = map[string]MetadataRemapTypeEnum{
 // GetMetadataRemapTypeEnumValues Enumerates the set of values for MetadataRemapTypeEnum
 func GetMetadataRemapTypeEnumValues() []MetadataRemapTypeEnum {
 	values := make([]MetadataRemapTypeEnum, 0)
-	for _, v := range mappingMetadataRemapType {
+	for _, v := range mappingMetadataRemapTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMetadataRemapTypeEnumStringValues Enumerates the set of values in String for MetadataRemapTypeEnum
+func GetMetadataRemapTypeEnumStringValues() []string {
+	return []string{
+		"SCHEMA",
+		"TABLESPACE",
+		"DATAFILE",
+		"TABLE",
+	}
 }

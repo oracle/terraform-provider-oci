@@ -22,7 +22,7 @@ const (
 	WorkRequestResourceMetadataKeyObject    WorkRequestResourceMetadataKeyEnum = "OBJECT"
 )
 
-var mappingWorkRequestResourceMetadataKey = map[string]WorkRequestResourceMetadataKeyEnum{
+var mappingWorkRequestResourceMetadataKeyEnum = map[string]WorkRequestResourceMetadataKeyEnum{
 	"REGION":    WorkRequestResourceMetadataKeyRegion,
 	"NAMESPACE": WorkRequestResourceMetadataKeyNamespace,
 	"BUCKET":    WorkRequestResourceMetadataKeyBucket,
@@ -32,8 +32,18 @@ var mappingWorkRequestResourceMetadataKey = map[string]WorkRequestResourceMetada
 // GetWorkRequestResourceMetadataKeyEnumValues Enumerates the set of values for WorkRequestResourceMetadataKeyEnum
 func GetWorkRequestResourceMetadataKeyEnumValues() []WorkRequestResourceMetadataKeyEnum {
 	values := make([]WorkRequestResourceMetadataKeyEnum, 0)
-	for _, v := range mappingWorkRequestResourceMetadataKey {
+	for _, v := range mappingWorkRequestResourceMetadataKeyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceMetadataKeyEnumStringValues Enumerates the set of values in String for WorkRequestResourceMetadataKeyEnum
+func GetWorkRequestResourceMetadataKeyEnumStringValues() []string {
+	return []string{
+		"REGION",
+		"NAMESPACE",
+		"BUCKET",
+		"OBJECT",
+	}
 }

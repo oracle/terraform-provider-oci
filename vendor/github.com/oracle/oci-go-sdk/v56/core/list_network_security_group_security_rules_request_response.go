@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListNetworkSecurityGroupSecurityRulesRequest wrapper for the ListNetworkSecurityGroupSecurityRules operation
@@ -57,6 +59,10 @@ func (request ListNetworkSecurityGroupSecurityRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListNetworkSecurityGroupSecurityRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +76,26 @@ func (request ListNetworkSecurityGroupSecurityRulesRequest) BinaryRequestBody() 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListNetworkSecurityGroupSecurityRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListNetworkSecurityGroupSecurityRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListNetworkSecurityGroupSecurityRulesDirectionEnum[string(request.Direction)]; !ok && request.Direction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Direction: %s. Supported values are: %s.", request.Direction, strings.Join(GetListNetworkSecurityGroupSecurityRulesDirectionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNetworkSecurityGroupSecurityRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNetworkSecurityGroupSecurityRulesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNetworkSecurityGroupSecurityRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNetworkSecurityGroupSecurityRulesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListNetworkSecurityGroupSecurityRulesResponse wrapper for the ListNetworkSecurityGroupSecurityRules operation
@@ -109,7 +135,7 @@ const (
 	ListNetworkSecurityGroupSecurityRulesDirectionIngress ListNetworkSecurityGroupSecurityRulesDirectionEnum = "INGRESS"
 )
 
-var mappingListNetworkSecurityGroupSecurityRulesDirection = map[string]ListNetworkSecurityGroupSecurityRulesDirectionEnum{
+var mappingListNetworkSecurityGroupSecurityRulesDirectionEnum = map[string]ListNetworkSecurityGroupSecurityRulesDirectionEnum{
 	"EGRESS":  ListNetworkSecurityGroupSecurityRulesDirectionEgress,
 	"INGRESS": ListNetworkSecurityGroupSecurityRulesDirectionIngress,
 }
@@ -117,10 +143,18 @@ var mappingListNetworkSecurityGroupSecurityRulesDirection = map[string]ListNetwo
 // GetListNetworkSecurityGroupSecurityRulesDirectionEnumValues Enumerates the set of values for ListNetworkSecurityGroupSecurityRulesDirectionEnum
 func GetListNetworkSecurityGroupSecurityRulesDirectionEnumValues() []ListNetworkSecurityGroupSecurityRulesDirectionEnum {
 	values := make([]ListNetworkSecurityGroupSecurityRulesDirectionEnum, 0)
-	for _, v := range mappingListNetworkSecurityGroupSecurityRulesDirection {
+	for _, v := range mappingListNetworkSecurityGroupSecurityRulesDirectionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkSecurityGroupSecurityRulesDirectionEnumStringValues Enumerates the set of values in String for ListNetworkSecurityGroupSecurityRulesDirectionEnum
+func GetListNetworkSecurityGroupSecurityRulesDirectionEnumStringValues() []string {
+	return []string{
+		"EGRESS",
+		"INGRESS",
+	}
 }
 
 // ListNetworkSecurityGroupSecurityRulesSortByEnum Enum with underlying type: string
@@ -131,17 +165,24 @@ const (
 	ListNetworkSecurityGroupSecurityRulesSortByTimecreated ListNetworkSecurityGroupSecurityRulesSortByEnum = "TIMECREATED"
 )
 
-var mappingListNetworkSecurityGroupSecurityRulesSortBy = map[string]ListNetworkSecurityGroupSecurityRulesSortByEnum{
+var mappingListNetworkSecurityGroupSecurityRulesSortByEnum = map[string]ListNetworkSecurityGroupSecurityRulesSortByEnum{
 	"TIMECREATED": ListNetworkSecurityGroupSecurityRulesSortByTimecreated,
 }
 
 // GetListNetworkSecurityGroupSecurityRulesSortByEnumValues Enumerates the set of values for ListNetworkSecurityGroupSecurityRulesSortByEnum
 func GetListNetworkSecurityGroupSecurityRulesSortByEnumValues() []ListNetworkSecurityGroupSecurityRulesSortByEnum {
 	values := make([]ListNetworkSecurityGroupSecurityRulesSortByEnum, 0)
-	for _, v := range mappingListNetworkSecurityGroupSecurityRulesSortBy {
+	for _, v := range mappingListNetworkSecurityGroupSecurityRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkSecurityGroupSecurityRulesSortByEnumStringValues Enumerates the set of values in String for ListNetworkSecurityGroupSecurityRulesSortByEnum
+func GetListNetworkSecurityGroupSecurityRulesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+	}
 }
 
 // ListNetworkSecurityGroupSecurityRulesSortOrderEnum Enum with underlying type: string
@@ -153,7 +194,7 @@ const (
 	ListNetworkSecurityGroupSecurityRulesSortOrderDesc ListNetworkSecurityGroupSecurityRulesSortOrderEnum = "DESC"
 )
 
-var mappingListNetworkSecurityGroupSecurityRulesSortOrder = map[string]ListNetworkSecurityGroupSecurityRulesSortOrderEnum{
+var mappingListNetworkSecurityGroupSecurityRulesSortOrderEnum = map[string]ListNetworkSecurityGroupSecurityRulesSortOrderEnum{
 	"ASC":  ListNetworkSecurityGroupSecurityRulesSortOrderAsc,
 	"DESC": ListNetworkSecurityGroupSecurityRulesSortOrderDesc,
 }
@@ -161,8 +202,16 @@ var mappingListNetworkSecurityGroupSecurityRulesSortOrder = map[string]ListNetwo
 // GetListNetworkSecurityGroupSecurityRulesSortOrderEnumValues Enumerates the set of values for ListNetworkSecurityGroupSecurityRulesSortOrderEnum
 func GetListNetworkSecurityGroupSecurityRulesSortOrderEnumValues() []ListNetworkSecurityGroupSecurityRulesSortOrderEnum {
 	values := make([]ListNetworkSecurityGroupSecurityRulesSortOrderEnum, 0)
-	for _, v := range mappingListNetworkSecurityGroupSecurityRulesSortOrder {
+	for _, v := range mappingListNetworkSecurityGroupSecurityRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkSecurityGroupSecurityRulesSortOrderEnumStringValues Enumerates the set of values in String for ListNetworkSecurityGroupSecurityRulesSortOrderEnum
+func GetListNetworkSecurityGroupSecurityRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

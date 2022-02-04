@@ -11,7 +11,9 @@ package databasetools
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DatabaseToolsUserPasswordSummary The user password.
@@ -61,6 +63,18 @@ func (m databasetoolsuserpasswordsummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m databasetoolsuserpasswordsummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseToolsUserPasswordSummaryValueTypeEnum Enum with underlying type: string
 type DatabaseToolsUserPasswordSummaryValueTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	DatabaseToolsUserPasswordSummaryValueTypeSecretid DatabaseToolsUserPasswordSummaryValueTypeEnum = "SECRETID"
 )
 
-var mappingDatabaseToolsUserPasswordSummaryValueType = map[string]DatabaseToolsUserPasswordSummaryValueTypeEnum{
+var mappingDatabaseToolsUserPasswordSummaryValueTypeEnum = map[string]DatabaseToolsUserPasswordSummaryValueTypeEnum{
 	"SECRETID": DatabaseToolsUserPasswordSummaryValueTypeSecretid,
 }
 
 // GetDatabaseToolsUserPasswordSummaryValueTypeEnumValues Enumerates the set of values for DatabaseToolsUserPasswordSummaryValueTypeEnum
 func GetDatabaseToolsUserPasswordSummaryValueTypeEnumValues() []DatabaseToolsUserPasswordSummaryValueTypeEnum {
 	values := make([]DatabaseToolsUserPasswordSummaryValueTypeEnum, 0)
-	for _, v := range mappingDatabaseToolsUserPasswordSummaryValueType {
+	for _, v := range mappingDatabaseToolsUserPasswordSummaryValueTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseToolsUserPasswordSummaryValueTypeEnumStringValues Enumerates the set of values in String for DatabaseToolsUserPasswordSummaryValueTypeEnum
+func GetDatabaseToolsUserPasswordSummaryValueTypeEnumStringValues() []string {
+	return []string{
+		"SECRETID",
+	}
 }

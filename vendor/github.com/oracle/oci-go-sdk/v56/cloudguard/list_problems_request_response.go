@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListProblemsRequest wrapper for the ListProblems operation
@@ -110,6 +112,10 @@ func (request ListProblemsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListProblemsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -123,6 +129,35 @@ func (request ListProblemsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListProblemsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListProblemsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListProblemsLifecycleDetailEnum[string(request.LifecycleDetail)]; !ok && request.LifecycleDetail != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetail: %s. Supported values are: %s.", request.LifecycleDetail, strings.Join(GetListProblemsLifecycleDetailEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProblemsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListProblemsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProblemsDetectorTypeEnum[string(request.DetectorType)]; !ok && request.DetectorType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DetectorType: %s. Supported values are: %s.", request.DetectorType, strings.Join(GetListProblemsDetectorTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProblemsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListProblemsAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProblemsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListProblemsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProblemsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListProblemsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListProblemsResponse wrapper for the ListProblems operation
@@ -164,7 +199,7 @@ const (
 	ListProblemsLifecycleDetailDeleted   ListProblemsLifecycleDetailEnum = "DELETED"
 )
 
-var mappingListProblemsLifecycleDetail = map[string]ListProblemsLifecycleDetailEnum{
+var mappingListProblemsLifecycleDetailEnum = map[string]ListProblemsLifecycleDetailEnum{
 	"OPEN":      ListProblemsLifecycleDetailOpen,
 	"RESOLVED":  ListProblemsLifecycleDetailResolved,
 	"DISMISSED": ListProblemsLifecycleDetailDismissed,
@@ -174,10 +209,20 @@ var mappingListProblemsLifecycleDetail = map[string]ListProblemsLifecycleDetailE
 // GetListProblemsLifecycleDetailEnumValues Enumerates the set of values for ListProblemsLifecycleDetailEnum
 func GetListProblemsLifecycleDetailEnumValues() []ListProblemsLifecycleDetailEnum {
 	values := make([]ListProblemsLifecycleDetailEnum, 0)
-	for _, v := range mappingListProblemsLifecycleDetail {
+	for _, v := range mappingListProblemsLifecycleDetailEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProblemsLifecycleDetailEnumStringValues Enumerates the set of values in String for ListProblemsLifecycleDetailEnum
+func GetListProblemsLifecycleDetailEnumStringValues() []string {
+	return []string{
+		"OPEN",
+		"RESOLVED",
+		"DISMISSED",
+		"DELETED",
+	}
 }
 
 // ListProblemsLifecycleStateEnum Enum with underlying type: string
@@ -189,7 +234,7 @@ const (
 	ListProblemsLifecycleStateInactive ListProblemsLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingListProblemsLifecycleState = map[string]ListProblemsLifecycleStateEnum{
+var mappingListProblemsLifecycleStateEnum = map[string]ListProblemsLifecycleStateEnum{
 	"ACTIVE":   ListProblemsLifecycleStateActive,
 	"INACTIVE": ListProblemsLifecycleStateInactive,
 }
@@ -197,10 +242,18 @@ var mappingListProblemsLifecycleState = map[string]ListProblemsLifecycleStateEnu
 // GetListProblemsLifecycleStateEnumValues Enumerates the set of values for ListProblemsLifecycleStateEnum
 func GetListProblemsLifecycleStateEnumValues() []ListProblemsLifecycleStateEnum {
 	values := make([]ListProblemsLifecycleStateEnum, 0)
-	for _, v := range mappingListProblemsLifecycleState {
+	for _, v := range mappingListProblemsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProblemsLifecycleStateEnumStringValues Enumerates the set of values in String for ListProblemsLifecycleStateEnum
+func GetListProblemsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }
 
 // ListProblemsDetectorTypeEnum Enum with underlying type: string
@@ -212,7 +265,7 @@ const (
 	ListProblemsDetectorTypeConfigurationDetector ListProblemsDetectorTypeEnum = "IAAS_CONFIGURATION_DETECTOR"
 )
 
-var mappingListProblemsDetectorType = map[string]ListProblemsDetectorTypeEnum{
+var mappingListProblemsDetectorTypeEnum = map[string]ListProblemsDetectorTypeEnum{
 	"IAAS_ACTIVITY_DETECTOR":      ListProblemsDetectorTypeActivityDetector,
 	"IAAS_CONFIGURATION_DETECTOR": ListProblemsDetectorTypeConfigurationDetector,
 }
@@ -220,10 +273,18 @@ var mappingListProblemsDetectorType = map[string]ListProblemsDetectorTypeEnum{
 // GetListProblemsDetectorTypeEnumValues Enumerates the set of values for ListProblemsDetectorTypeEnum
 func GetListProblemsDetectorTypeEnumValues() []ListProblemsDetectorTypeEnum {
 	values := make([]ListProblemsDetectorTypeEnum, 0)
-	for _, v := range mappingListProblemsDetectorType {
+	for _, v := range mappingListProblemsDetectorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProblemsDetectorTypeEnumStringValues Enumerates the set of values in String for ListProblemsDetectorTypeEnum
+func GetListProblemsDetectorTypeEnumStringValues() []string {
+	return []string{
+		"IAAS_ACTIVITY_DETECTOR",
+		"IAAS_CONFIGURATION_DETECTOR",
+	}
 }
 
 // ListProblemsAccessLevelEnum Enum with underlying type: string
@@ -235,7 +296,7 @@ const (
 	ListProblemsAccessLevelAccessible ListProblemsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListProblemsAccessLevel = map[string]ListProblemsAccessLevelEnum{
+var mappingListProblemsAccessLevelEnum = map[string]ListProblemsAccessLevelEnum{
 	"RESTRICTED": ListProblemsAccessLevelRestricted,
 	"ACCESSIBLE": ListProblemsAccessLevelAccessible,
 }
@@ -243,10 +304,18 @@ var mappingListProblemsAccessLevel = map[string]ListProblemsAccessLevelEnum{
 // GetListProblemsAccessLevelEnumValues Enumerates the set of values for ListProblemsAccessLevelEnum
 func GetListProblemsAccessLevelEnumValues() []ListProblemsAccessLevelEnum {
 	values := make([]ListProblemsAccessLevelEnum, 0)
-	for _, v := range mappingListProblemsAccessLevel {
+	for _, v := range mappingListProblemsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProblemsAccessLevelEnumStringValues Enumerates the set of values in String for ListProblemsAccessLevelEnum
+func GetListProblemsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }
 
 // ListProblemsSortOrderEnum Enum with underlying type: string
@@ -258,7 +327,7 @@ const (
 	ListProblemsSortOrderDesc ListProblemsSortOrderEnum = "DESC"
 )
 
-var mappingListProblemsSortOrder = map[string]ListProblemsSortOrderEnum{
+var mappingListProblemsSortOrderEnum = map[string]ListProblemsSortOrderEnum{
 	"ASC":  ListProblemsSortOrderAsc,
 	"DESC": ListProblemsSortOrderDesc,
 }
@@ -266,10 +335,18 @@ var mappingListProblemsSortOrder = map[string]ListProblemsSortOrderEnum{
 // GetListProblemsSortOrderEnumValues Enumerates the set of values for ListProblemsSortOrderEnum
 func GetListProblemsSortOrderEnumValues() []ListProblemsSortOrderEnum {
 	values := make([]ListProblemsSortOrderEnum, 0)
-	for _, v := range mappingListProblemsSortOrder {
+	for _, v := range mappingListProblemsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProblemsSortOrderEnumStringValues Enumerates the set of values in String for ListProblemsSortOrderEnum
+func GetListProblemsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListProblemsSortByEnum Enum with underlying type: string
@@ -282,7 +359,7 @@ const (
 	ListProblemsSortByResourcename     ListProblemsSortByEnum = "resourceName"
 )
 
-var mappingListProblemsSortBy = map[string]ListProblemsSortByEnum{
+var mappingListProblemsSortByEnum = map[string]ListProblemsSortByEnum{
 	"riskLevel":        ListProblemsSortByRisklevel,
 	"timeLastDetected": ListProblemsSortByTimelastdetected,
 	"resourceName":     ListProblemsSortByResourcename,
@@ -291,8 +368,17 @@ var mappingListProblemsSortBy = map[string]ListProblemsSortByEnum{
 // GetListProblemsSortByEnumValues Enumerates the set of values for ListProblemsSortByEnum
 func GetListProblemsSortByEnumValues() []ListProblemsSortByEnum {
 	values := make([]ListProblemsSortByEnum, 0)
-	for _, v := range mappingListProblemsSortBy {
+	for _, v := range mappingListProblemsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProblemsSortByEnumStringValues Enumerates the set of values in String for ListProblemsSortByEnum
+func GetListProblemsSortByEnumStringValues() []string {
+	return []string{
+		"riskLevel",
+		"timeLastDetected",
+		"resourceName",
+	}
 }

@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetConnectionRequest wrapper for the GetConnection operation
@@ -43,6 +45,10 @@ func (request GetConnectionRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetConnectionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +62,23 @@ func (request GetConnectionRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetConnectionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetConnectionRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetConnectionFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetConnectionFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetConnectionResponse wrapper for the GetConnection operation
@@ -106,7 +129,7 @@ const (
 	GetConnectionFieldsUri               GetConnectionFieldsEnum = "uri"
 )
 
-var mappingGetConnectionFields = map[string]GetConnectionFieldsEnum{
+var mappingGetConnectionFieldsEnum = map[string]GetConnectionFieldsEnum{
 	"key":               GetConnectionFieldsKey,
 	"displayName":       GetConnectionFieldsDisplayname,
 	"description":       GetConnectionFieldsDescription,
@@ -127,8 +150,29 @@ var mappingGetConnectionFields = map[string]GetConnectionFieldsEnum{
 // GetGetConnectionFieldsEnumValues Enumerates the set of values for GetConnectionFieldsEnum
 func GetGetConnectionFieldsEnumValues() []GetConnectionFieldsEnum {
 	values := make([]GetConnectionFieldsEnum, 0)
-	for _, v := range mappingGetConnectionFields {
+	for _, v := range mappingGetConnectionFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetConnectionFieldsEnumStringValues Enumerates the set of values in String for GetConnectionFieldsEnum
+func GetGetConnectionFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"dataAssetKey",
+		"typeKey",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"properties",
+		"externalKey",
+		"timeStatusUpdated",
+		"lifecycleState",
+		"isDefault",
+		"uri",
+	}
 }

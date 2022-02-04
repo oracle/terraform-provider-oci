@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListVlansRequest wrapper for the ListVlans operation
@@ -69,6 +71,10 @@ func (request ListVlansRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVlansRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,26 @@ func (request ListVlansRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVlansRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVlansRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListVlansSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListVlansSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListVlansSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListVlansSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVlanLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetVlanLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVlansResponse wrapper for the ListVlans operation
@@ -121,7 +147,7 @@ const (
 	ListVlansSortByDisplayname ListVlansSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListVlansSortBy = map[string]ListVlansSortByEnum{
+var mappingListVlansSortByEnum = map[string]ListVlansSortByEnum{
 	"TIMECREATED": ListVlansSortByTimecreated,
 	"DISPLAYNAME": ListVlansSortByDisplayname,
 }
@@ -129,10 +155,18 @@ var mappingListVlansSortBy = map[string]ListVlansSortByEnum{
 // GetListVlansSortByEnumValues Enumerates the set of values for ListVlansSortByEnum
 func GetListVlansSortByEnumValues() []ListVlansSortByEnum {
 	values := make([]ListVlansSortByEnum, 0)
-	for _, v := range mappingListVlansSortBy {
+	for _, v := range mappingListVlansSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVlansSortByEnumStringValues Enumerates the set of values in String for ListVlansSortByEnum
+func GetListVlansSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListVlansSortOrderEnum Enum with underlying type: string
@@ -144,7 +178,7 @@ const (
 	ListVlansSortOrderDesc ListVlansSortOrderEnum = "DESC"
 )
 
-var mappingListVlansSortOrder = map[string]ListVlansSortOrderEnum{
+var mappingListVlansSortOrderEnum = map[string]ListVlansSortOrderEnum{
 	"ASC":  ListVlansSortOrderAsc,
 	"DESC": ListVlansSortOrderDesc,
 }
@@ -152,8 +186,16 @@ var mappingListVlansSortOrder = map[string]ListVlansSortOrderEnum{
 // GetListVlansSortOrderEnumValues Enumerates the set of values for ListVlansSortOrderEnum
 func GetListVlansSortOrderEnumValues() []ListVlansSortOrderEnum {
 	values := make([]ListVlansSortOrderEnum, 0)
-	for _, v := range mappingListVlansSortOrder {
+	for _, v := range mappingListVlansSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVlansSortOrderEnumStringValues Enumerates the set of values in String for ListVlansSortOrderEnum
+func GetListVlansSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

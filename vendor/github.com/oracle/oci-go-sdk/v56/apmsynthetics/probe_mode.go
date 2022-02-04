@@ -18,7 +18,7 @@ const (
 	ProbeModeSyn  ProbeModeEnum = "SYN"
 )
 
-var mappingProbeMode = map[string]ProbeModeEnum{
+var mappingProbeModeEnum = map[string]ProbeModeEnum{
 	"SACK": ProbeModeSack,
 	"SYN":  ProbeModeSyn,
 }
@@ -26,8 +26,16 @@ var mappingProbeMode = map[string]ProbeModeEnum{
 // GetProbeModeEnumValues Enumerates the set of values for ProbeModeEnum
 func GetProbeModeEnumValues() []ProbeModeEnum {
 	values := make([]ProbeModeEnum, 0)
-	for _, v := range mappingProbeMode {
+	for _, v := range mappingProbeModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProbeModeEnumStringValues Enumerates the set of values in String for ProbeModeEnum
+func GetProbeModeEnumStringValues() []string {
+	return []string{
+		"SACK",
+		"SYN",
+	}
 }

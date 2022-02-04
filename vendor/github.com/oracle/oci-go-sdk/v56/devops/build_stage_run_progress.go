@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BuildStageRunProgress Specifies the run details for Build stage.
@@ -92,6 +94,24 @@ func (m BuildStageRunProgress) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BuildStageRunProgress) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBuildStageRunProgressImageEnum[string(m.Image)]; !ok && m.Image != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Image: %s. Supported values are: %s.", m.Image, strings.Join(GetBuildStageRunProgressImageEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingBuildPipelineStageRunProgressStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetBuildPipelineStageRunProgressStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m BuildStageRunProgress) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeBuildStageRunProgress BuildStageRunProgress
@@ -114,15 +134,22 @@ const (
 	BuildStageRunProgressImageOl7X8664Standard10 BuildStageRunProgressImageEnum = "OL7_X86_64_STANDARD_10"
 )
 
-var mappingBuildStageRunProgressImage = map[string]BuildStageRunProgressImageEnum{
+var mappingBuildStageRunProgressImageEnum = map[string]BuildStageRunProgressImageEnum{
 	"OL7_X86_64_STANDARD_10": BuildStageRunProgressImageOl7X8664Standard10,
 }
 
 // GetBuildStageRunProgressImageEnumValues Enumerates the set of values for BuildStageRunProgressImageEnum
 func GetBuildStageRunProgressImageEnumValues() []BuildStageRunProgressImageEnum {
 	values := make([]BuildStageRunProgressImageEnum, 0)
-	for _, v := range mappingBuildStageRunProgressImage {
+	for _, v := range mappingBuildStageRunProgressImageEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBuildStageRunProgressImageEnumStringValues Enumerates the set of values in String for BuildStageRunProgressImageEnum
+func GetBuildStageRunProgressImageEnumStringValues() []string {
+	return []string{
+		"OL7_X86_64_STANDARD_10",
+	}
 }

@@ -20,7 +20,7 @@ const (
 	WorkRequestResourceMetadataKeySnapshotVersion WorkRequestResourceMetadataKeyEnum = "SNAPSHOT_VERSION"
 )
 
-var mappingWorkRequestResourceMetadataKey = map[string]WorkRequestResourceMetadataKeyEnum{
+var mappingWorkRequestResourceMetadataKeyEnum = map[string]WorkRequestResourceMetadataKeyEnum{
 	"NAMESPACE":        WorkRequestResourceMetadataKeyNamespace,
 	"BUCKET":           WorkRequestResourceMetadataKeyBucket,
 	"OBJECT":           WorkRequestResourceMetadataKeyObject,
@@ -30,8 +30,18 @@ var mappingWorkRequestResourceMetadataKey = map[string]WorkRequestResourceMetada
 // GetWorkRequestResourceMetadataKeyEnumValues Enumerates the set of values for WorkRequestResourceMetadataKeyEnum
 func GetWorkRequestResourceMetadataKeyEnumValues() []WorkRequestResourceMetadataKeyEnum {
 	values := make([]WorkRequestResourceMetadataKeyEnum, 0)
-	for _, v := range mappingWorkRequestResourceMetadataKey {
+	for _, v := range mappingWorkRequestResourceMetadataKeyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceMetadataKeyEnumStringValues Enumerates the set of values in String for WorkRequestResourceMetadataKeyEnum
+func GetWorkRequestResourceMetadataKeyEnumStringValues() []string {
+	return []string{
+		"NAMESPACE",
+		"BUCKET",
+		"OBJECT",
+		"SNAPSHOT_VERSION",
+	}
 }

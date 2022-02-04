@@ -45,7 +45,7 @@ const (
 	ServiceEntitlementRegistrationStatusTraUnknown            ServiceEntitlementRegistrationStatusEnum = "TRA_UNKNOWN"
 )
 
-var mappingServiceEntitlementRegistrationStatus = map[string]ServiceEntitlementRegistrationStatusEnum{
+var mappingServiceEntitlementRegistrationStatusEnum = map[string]ServiceEntitlementRegistrationStatusEnum{
 	"INITIALIZED":             ServiceEntitlementRegistrationStatusInitialized,
 	"BEGIN_ACTIVATION":        ServiceEntitlementRegistrationStatusBeginActivation,
 	"ACTIVE":                  ServiceEntitlementRegistrationStatusActive,
@@ -79,8 +79,42 @@ var mappingServiceEntitlementRegistrationStatus = map[string]ServiceEntitlementR
 // GetServiceEntitlementRegistrationStatusEnumValues Enumerates the set of values for ServiceEntitlementRegistrationStatusEnum
 func GetServiceEntitlementRegistrationStatusEnumValues() []ServiceEntitlementRegistrationStatusEnum {
 	values := make([]ServiceEntitlementRegistrationStatusEnum, 0)
-	for _, v := range mappingServiceEntitlementRegistrationStatus {
+	for _, v := range mappingServiceEntitlementRegistrationStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetServiceEntitlementRegistrationStatusEnumStringValues Enumerates the set of values in String for ServiceEntitlementRegistrationStatusEnum
+func GetServiceEntitlementRegistrationStatusEnumStringValues() []string {
+	return []string{
+		"INITIALIZED",
+		"BEGIN_ACTIVATION",
+		"ACTIVE",
+		"BEGIN_SOFT_TERMINATION",
+		"SOFT_TERMINATED",
+		"BEGIN_TERMINATION",
+		"CANCELED",
+		"TERMINATED",
+		"BEGIN_DISABLING",
+		"BEGIN_ENABLING",
+		"BEGIN_MIGRATION",
+		"DISABLED",
+		"BEGIN_SUSPENSION",
+		"BEGIN_RESUMPTION",
+		"SUSPENDED",
+		"BEGIN_LOCK_RELOCATION",
+		"LOCKED_RELOCATION",
+		"BEGIN_RELOCATION",
+		"RELOCATED",
+		"BEGIN_UNLOCK_RELOCATION",
+		"UNLOCKED_RELOCATION",
+		"FAILED_LOCK_RELOCATION",
+		"FAILED_ACTIVATION",
+		"FAILED_MIGRATION",
+		"ACCESS_DISABLED",
+		"BEGIN_DISABLING_ACCESS",
+		"BEGIN_ENABLING_ACCESS",
+		"TRA_UNKNOWN",
+	}
 }

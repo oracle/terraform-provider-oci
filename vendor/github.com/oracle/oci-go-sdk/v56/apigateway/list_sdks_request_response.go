@@ -5,8 +5,10 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSdksRequest wrapper for the ListSdks operation
@@ -60,6 +62,10 @@ func (request ListSdksRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSdksRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +79,26 @@ func (request ListSdksRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSdksRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSdksRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSdkLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetSdkLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSdksSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSdksSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSdksSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSdksSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSdksResponse wrapper for the ListSdks operation
@@ -120,7 +146,7 @@ const (
 	ListSdksSortOrderDesc ListSdksSortOrderEnum = "DESC"
 )
 
-var mappingListSdksSortOrder = map[string]ListSdksSortOrderEnum{
+var mappingListSdksSortOrderEnum = map[string]ListSdksSortOrderEnum{
 	"ASC":  ListSdksSortOrderAsc,
 	"DESC": ListSdksSortOrderDesc,
 }
@@ -128,10 +154,18 @@ var mappingListSdksSortOrder = map[string]ListSdksSortOrderEnum{
 // GetListSdksSortOrderEnumValues Enumerates the set of values for ListSdksSortOrderEnum
 func GetListSdksSortOrderEnumValues() []ListSdksSortOrderEnum {
 	values := make([]ListSdksSortOrderEnum, 0)
-	for _, v := range mappingListSdksSortOrder {
+	for _, v := range mappingListSdksSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSdksSortOrderEnumStringValues Enumerates the set of values in String for ListSdksSortOrderEnum
+func GetListSdksSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListSdksSortByEnum Enum with underlying type: string
@@ -143,7 +177,7 @@ const (
 	ListSdksSortByDisplayname ListSdksSortByEnum = "displayName"
 )
 
-var mappingListSdksSortBy = map[string]ListSdksSortByEnum{
+var mappingListSdksSortByEnum = map[string]ListSdksSortByEnum{
 	"timeCreated": ListSdksSortByTimecreated,
 	"displayName": ListSdksSortByDisplayname,
 }
@@ -151,8 +185,16 @@ var mappingListSdksSortBy = map[string]ListSdksSortByEnum{
 // GetListSdksSortByEnumValues Enumerates the set of values for ListSdksSortByEnum
 func GetListSdksSortByEnumValues() []ListSdksSortByEnum {
 	values := make([]ListSdksSortByEnum, 0)
-	for _, v := range mappingListSdksSortBy {
+	for _, v := range mappingListSdksSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSdksSortByEnumStringValues Enumerates the set of values in String for ListSdksSortByEnum
+func GetListSdksSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

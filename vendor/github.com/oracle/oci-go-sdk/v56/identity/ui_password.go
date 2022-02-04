@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UiPassword A text password that enables a user to sign in to the Console, the user interface for interacting with Oracle
@@ -40,6 +42,21 @@ func (m UiPassword) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UiPassword) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUiPasswordLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetUiPasswordLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UiPasswordLifecycleStateEnum Enum with underlying type: string
 type UiPasswordLifecycleStateEnum string
 
@@ -52,7 +69,7 @@ const (
 	UiPasswordLifecycleStateDeleted  UiPasswordLifecycleStateEnum = "DELETED"
 )
 
-var mappingUiPasswordLifecycleState = map[string]UiPasswordLifecycleStateEnum{
+var mappingUiPasswordLifecycleStateEnum = map[string]UiPasswordLifecycleStateEnum{
 	"CREATING": UiPasswordLifecycleStateCreating,
 	"ACTIVE":   UiPasswordLifecycleStateActive,
 	"INACTIVE": UiPasswordLifecycleStateInactive,
@@ -63,8 +80,19 @@ var mappingUiPasswordLifecycleState = map[string]UiPasswordLifecycleStateEnum{
 // GetUiPasswordLifecycleStateEnumValues Enumerates the set of values for UiPasswordLifecycleStateEnum
 func GetUiPasswordLifecycleStateEnumValues() []UiPasswordLifecycleStateEnum {
 	values := make([]UiPasswordLifecycleStateEnum, 0)
-	for _, v := range mappingUiPasswordLifecycleState {
+	for _, v := range mappingUiPasswordLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUiPasswordLifecycleStateEnumStringValues Enumerates the set of values in String for UiPasswordLifecycleStateEnum
+func GetUiPasswordLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

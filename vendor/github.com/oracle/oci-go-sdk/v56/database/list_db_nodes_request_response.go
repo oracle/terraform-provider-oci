@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDbNodesRequest wrapper for the ListDbNodes operation
@@ -59,6 +61,10 @@ func (request ListDbNodesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDbNodesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,26 @@ func (request ListDbNodesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDbNodesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDbNodesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDbNodesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDbNodesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDbNodesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDbNodesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDbNodeSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDbNodeSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDbNodesResponse wrapper for the ListDbNodes operation
@@ -111,17 +137,24 @@ const (
 	ListDbNodesSortByTimecreated ListDbNodesSortByEnum = "TIMECREATED"
 )
 
-var mappingListDbNodesSortBy = map[string]ListDbNodesSortByEnum{
+var mappingListDbNodesSortByEnum = map[string]ListDbNodesSortByEnum{
 	"TIMECREATED": ListDbNodesSortByTimecreated,
 }
 
 // GetListDbNodesSortByEnumValues Enumerates the set of values for ListDbNodesSortByEnum
 func GetListDbNodesSortByEnumValues() []ListDbNodesSortByEnum {
 	values := make([]ListDbNodesSortByEnum, 0)
-	for _, v := range mappingListDbNodesSortBy {
+	for _, v := range mappingListDbNodesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDbNodesSortByEnumStringValues Enumerates the set of values in String for ListDbNodesSortByEnum
+func GetListDbNodesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+	}
 }
 
 // ListDbNodesSortOrderEnum Enum with underlying type: string
@@ -133,7 +166,7 @@ const (
 	ListDbNodesSortOrderDesc ListDbNodesSortOrderEnum = "DESC"
 )
 
-var mappingListDbNodesSortOrder = map[string]ListDbNodesSortOrderEnum{
+var mappingListDbNodesSortOrderEnum = map[string]ListDbNodesSortOrderEnum{
 	"ASC":  ListDbNodesSortOrderAsc,
 	"DESC": ListDbNodesSortOrderDesc,
 }
@@ -141,8 +174,16 @@ var mappingListDbNodesSortOrder = map[string]ListDbNodesSortOrderEnum{
 // GetListDbNodesSortOrderEnumValues Enumerates the set of values for ListDbNodesSortOrderEnum
 func GetListDbNodesSortOrderEnumValues() []ListDbNodesSortOrderEnum {
 	values := make([]ListDbNodesSortOrderEnum, 0)
-	for _, v := range mappingListDbNodesSortOrder {
+	for _, v := range mappingListDbNodesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDbNodesSortOrderEnumStringValues Enumerates the set of values in String for ListDbNodesSortOrderEnum
+func GetListDbNodesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

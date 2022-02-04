@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PatchHistoryEntrySummary The record of a patch action on a specified target.
@@ -43,6 +45,24 @@ func (m PatchHistoryEntrySummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PatchHistoryEntrySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPatchHistoryEntrySummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPatchHistoryEntrySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingPatchHistoryEntrySummaryActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetPatchHistoryEntrySummaryActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PatchHistoryEntrySummaryActionEnum Enum with underlying type: string
 type PatchHistoryEntrySummaryActionEnum string
 
@@ -52,7 +72,7 @@ const (
 	PatchHistoryEntrySummaryActionPrecheck PatchHistoryEntrySummaryActionEnum = "PRECHECK"
 )
 
-var mappingPatchHistoryEntrySummaryAction = map[string]PatchHistoryEntrySummaryActionEnum{
+var mappingPatchHistoryEntrySummaryActionEnum = map[string]PatchHistoryEntrySummaryActionEnum{
 	"APPLY":    PatchHistoryEntrySummaryActionApply,
 	"PRECHECK": PatchHistoryEntrySummaryActionPrecheck,
 }
@@ -60,10 +80,18 @@ var mappingPatchHistoryEntrySummaryAction = map[string]PatchHistoryEntrySummaryA
 // GetPatchHistoryEntrySummaryActionEnumValues Enumerates the set of values for PatchHistoryEntrySummaryActionEnum
 func GetPatchHistoryEntrySummaryActionEnumValues() []PatchHistoryEntrySummaryActionEnum {
 	values := make([]PatchHistoryEntrySummaryActionEnum, 0)
-	for _, v := range mappingPatchHistoryEntrySummaryAction {
+	for _, v := range mappingPatchHistoryEntrySummaryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchHistoryEntrySummaryActionEnumStringValues Enumerates the set of values in String for PatchHistoryEntrySummaryActionEnum
+func GetPatchHistoryEntrySummaryActionEnumStringValues() []string {
+	return []string{
+		"APPLY",
+		"PRECHECK",
+	}
 }
 
 // PatchHistoryEntrySummaryLifecycleStateEnum Enum with underlying type: string
@@ -76,7 +104,7 @@ const (
 	PatchHistoryEntrySummaryLifecycleStateFailed     PatchHistoryEntrySummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingPatchHistoryEntrySummaryLifecycleState = map[string]PatchHistoryEntrySummaryLifecycleStateEnum{
+var mappingPatchHistoryEntrySummaryLifecycleStateEnum = map[string]PatchHistoryEntrySummaryLifecycleStateEnum{
 	"IN_PROGRESS": PatchHistoryEntrySummaryLifecycleStateInProgress,
 	"SUCCEEDED":   PatchHistoryEntrySummaryLifecycleStateSucceeded,
 	"FAILED":      PatchHistoryEntrySummaryLifecycleStateFailed,
@@ -85,8 +113,17 @@ var mappingPatchHistoryEntrySummaryLifecycleState = map[string]PatchHistoryEntry
 // GetPatchHistoryEntrySummaryLifecycleStateEnumValues Enumerates the set of values for PatchHistoryEntrySummaryLifecycleStateEnum
 func GetPatchHistoryEntrySummaryLifecycleStateEnumValues() []PatchHistoryEntrySummaryLifecycleStateEnum {
 	values := make([]PatchHistoryEntrySummaryLifecycleStateEnum, 0)
-	for _, v := range mappingPatchHistoryEntrySummaryLifecycleState {
+	for _, v := range mappingPatchHistoryEntrySummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchHistoryEntrySummaryLifecycleStateEnumStringValues Enumerates the set of values in String for PatchHistoryEntrySummaryLifecycleStateEnum
+func GetPatchHistoryEntrySummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

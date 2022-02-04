@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DeployStageRollbackPolicy Specifies the rollback policy. This is initiated on the failure of certain stage types.
@@ -65,6 +67,18 @@ func (m deploystagerollbackpolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m deploystagerollbackpolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DeployStageRollbackPolicyPolicyTypeEnum Enum with underlying type: string
 type DeployStageRollbackPolicyPolicyTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	DeployStageRollbackPolicyPolicyTypeNoStageRollbackPolicy        DeployStageRollbackPolicyPolicyTypeEnum = "NO_STAGE_ROLLBACK_POLICY"
 )
 
-var mappingDeployStageRollbackPolicyPolicyType = map[string]DeployStageRollbackPolicyPolicyTypeEnum{
+var mappingDeployStageRollbackPolicyPolicyTypeEnum = map[string]DeployStageRollbackPolicyPolicyTypeEnum{
 	"AUTOMATED_STAGE_ROLLBACK_POLICY": DeployStageRollbackPolicyPolicyTypeAutomatedStageRollbackPolicy,
 	"NO_STAGE_ROLLBACK_POLICY":        DeployStageRollbackPolicyPolicyTypeNoStageRollbackPolicy,
 }
@@ -82,8 +96,16 @@ var mappingDeployStageRollbackPolicyPolicyType = map[string]DeployStageRollbackP
 // GetDeployStageRollbackPolicyPolicyTypeEnumValues Enumerates the set of values for DeployStageRollbackPolicyPolicyTypeEnum
 func GetDeployStageRollbackPolicyPolicyTypeEnumValues() []DeployStageRollbackPolicyPolicyTypeEnum {
 	values := make([]DeployStageRollbackPolicyPolicyTypeEnum, 0)
-	for _, v := range mappingDeployStageRollbackPolicyPolicyType {
+	for _, v := range mappingDeployStageRollbackPolicyPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployStageRollbackPolicyPolicyTypeEnumStringValues Enumerates the set of values in String for DeployStageRollbackPolicyPolicyTypeEnum
+func GetDeployStageRollbackPolicyPolicyTypeEnumStringValues() []string {
+	return []string{
+		"AUTOMATED_STAGE_ROLLBACK_POLICY",
+		"NO_STAGE_ROLLBACK_POLICY",
+	}
 }

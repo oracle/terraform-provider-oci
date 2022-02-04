@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateCloudVmClusterDetails Details for the create cloud VM cluster operation. Applies to Exadata Cloud Service instances only.
@@ -110,6 +112,21 @@ func (m CreateCloudVmClusterDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateCloudVmClusterDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateCloudVmClusterDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateCloudVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateCloudVmClusterDetailsLicenseModelEnum Enum with underlying type: string
 type CreateCloudVmClusterDetailsLicenseModelEnum string
 
@@ -119,7 +136,7 @@ const (
 	CreateCloudVmClusterDetailsLicenseModelBringYourOwnLicense CreateCloudVmClusterDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingCreateCloudVmClusterDetailsLicenseModel = map[string]CreateCloudVmClusterDetailsLicenseModelEnum{
+var mappingCreateCloudVmClusterDetailsLicenseModelEnum = map[string]CreateCloudVmClusterDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       CreateCloudVmClusterDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": CreateCloudVmClusterDetailsLicenseModelBringYourOwnLicense,
 }
@@ -127,8 +144,16 @@ var mappingCreateCloudVmClusterDetailsLicenseModel = map[string]CreateCloudVmClu
 // GetCreateCloudVmClusterDetailsLicenseModelEnumValues Enumerates the set of values for CreateCloudVmClusterDetailsLicenseModelEnum
 func GetCreateCloudVmClusterDetailsLicenseModelEnumValues() []CreateCloudVmClusterDetailsLicenseModelEnum {
 	values := make([]CreateCloudVmClusterDetailsLicenseModelEnum, 0)
-	for _, v := range mappingCreateCloudVmClusterDetailsLicenseModel {
+	for _, v := range mappingCreateCloudVmClusterDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateCloudVmClusterDetailsLicenseModelEnumStringValues Enumerates the set of values in String for CreateCloudVmClusterDetailsLicenseModelEnum
+func GetCreateCloudVmClusterDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

@@ -5,8 +5,10 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDomainsRequest wrapper for the ListDomains operation
@@ -78,6 +80,10 @@ func (request ListDomainsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDomainsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -91,6 +97,26 @@ func (request ListDomainsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDomainsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDomainsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDomainsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDomainsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDomainsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDomainsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDomainLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDomainLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDomainsResponse wrapper for the ListDomains operation
@@ -130,7 +156,7 @@ const (
 	ListDomainsSortByName        ListDomainsSortByEnum = "NAME"
 )
 
-var mappingListDomainsSortBy = map[string]ListDomainsSortByEnum{
+var mappingListDomainsSortByEnum = map[string]ListDomainsSortByEnum{
 	"TIMECREATED": ListDomainsSortByTimecreated,
 	"NAME":        ListDomainsSortByName,
 }
@@ -138,10 +164,18 @@ var mappingListDomainsSortBy = map[string]ListDomainsSortByEnum{
 // GetListDomainsSortByEnumValues Enumerates the set of values for ListDomainsSortByEnum
 func GetListDomainsSortByEnumValues() []ListDomainsSortByEnum {
 	values := make([]ListDomainsSortByEnum, 0)
-	for _, v := range mappingListDomainsSortBy {
+	for _, v := range mappingListDomainsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDomainsSortByEnumStringValues Enumerates the set of values in String for ListDomainsSortByEnum
+func GetListDomainsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListDomainsSortOrderEnum Enum with underlying type: string
@@ -153,7 +187,7 @@ const (
 	ListDomainsSortOrderDesc ListDomainsSortOrderEnum = "DESC"
 )
 
-var mappingListDomainsSortOrder = map[string]ListDomainsSortOrderEnum{
+var mappingListDomainsSortOrderEnum = map[string]ListDomainsSortOrderEnum{
 	"ASC":  ListDomainsSortOrderAsc,
 	"DESC": ListDomainsSortOrderDesc,
 }
@@ -161,8 +195,16 @@ var mappingListDomainsSortOrder = map[string]ListDomainsSortOrderEnum{
 // GetListDomainsSortOrderEnumValues Enumerates the set of values for ListDomainsSortOrderEnum
 func GetListDomainsSortOrderEnumValues() []ListDomainsSortOrderEnum {
 	values := make([]ListDomainsSortOrderEnum, 0)
-	for _, v := range mappingListDomainsSortOrder {
+	for _, v := range mappingListDomainsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDomainsSortOrderEnumStringValues Enumerates the set of values in String for ListDomainsSortOrderEnum
+func GetListDomainsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

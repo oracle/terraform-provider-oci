@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // NamePatternRule This rule projects fields by a name pattern, for example it may start with STR_ or end with _DATE. This is defined using a regular expression.
@@ -97,6 +99,24 @@ func (m NamePatternRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m NamePatternRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingNamePatternRuleMatchingStrategyEnum[string(m.MatchingStrategy)]; !ok && m.MatchingStrategy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchingStrategy: %s. Supported values are: %s.", m.MatchingStrategy, strings.Join(GetNamePatternRuleMatchingStrategyEnumStringValues(), ",")))
+	}
+	if _, ok := mappingNamePatternRuleRuleTypeEnum[string(m.RuleType)]; !ok && m.RuleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuleType: %s. Supported values are: %s.", m.RuleType, strings.Join(GetNamePatternRuleRuleTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m NamePatternRule) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeNamePatternRule NamePatternRule
@@ -121,7 +141,7 @@ const (
 	NamePatternRuleMatchingStrategyNameOnly   NamePatternRuleMatchingStrategyEnum = "NAME_ONLY"
 )
 
-var mappingNamePatternRuleMatchingStrategy = map[string]NamePatternRuleMatchingStrategyEnum{
+var mappingNamePatternRuleMatchingStrategyEnum = map[string]NamePatternRuleMatchingStrategyEnum{
 	"NAME_OR_TAGS": NamePatternRuleMatchingStrategyNameOrTags,
 	"TAGS_ONLY":    NamePatternRuleMatchingStrategyTagsOnly,
 	"NAME_ONLY":    NamePatternRuleMatchingStrategyNameOnly,
@@ -130,10 +150,19 @@ var mappingNamePatternRuleMatchingStrategy = map[string]NamePatternRuleMatchingS
 // GetNamePatternRuleMatchingStrategyEnumValues Enumerates the set of values for NamePatternRuleMatchingStrategyEnum
 func GetNamePatternRuleMatchingStrategyEnumValues() []NamePatternRuleMatchingStrategyEnum {
 	values := make([]NamePatternRuleMatchingStrategyEnum, 0)
-	for _, v := range mappingNamePatternRuleMatchingStrategy {
+	for _, v := range mappingNamePatternRuleMatchingStrategyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNamePatternRuleMatchingStrategyEnumStringValues Enumerates the set of values in String for NamePatternRuleMatchingStrategyEnum
+func GetNamePatternRuleMatchingStrategyEnumStringValues() []string {
+	return []string{
+		"NAME_OR_TAGS",
+		"TAGS_ONLY",
+		"NAME_ONLY",
+	}
 }
 
 // NamePatternRuleRuleTypeEnum Enum with underlying type: string
@@ -145,7 +174,7 @@ const (
 	NamePatternRuleRuleTypeExclude NamePatternRuleRuleTypeEnum = "EXCLUDE"
 )
 
-var mappingNamePatternRuleRuleType = map[string]NamePatternRuleRuleTypeEnum{
+var mappingNamePatternRuleRuleTypeEnum = map[string]NamePatternRuleRuleTypeEnum{
 	"INCLUDE": NamePatternRuleRuleTypeInclude,
 	"EXCLUDE": NamePatternRuleRuleTypeExclude,
 }
@@ -153,8 +182,16 @@ var mappingNamePatternRuleRuleType = map[string]NamePatternRuleRuleTypeEnum{
 // GetNamePatternRuleRuleTypeEnumValues Enumerates the set of values for NamePatternRuleRuleTypeEnum
 func GetNamePatternRuleRuleTypeEnumValues() []NamePatternRuleRuleTypeEnum {
 	values := make([]NamePatternRuleRuleTypeEnum, 0)
-	for _, v := range mappingNamePatternRuleRuleType {
+	for _, v := range mappingNamePatternRuleRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNamePatternRuleRuleTypeEnumStringValues Enumerates the set of values in String for NamePatternRuleRuleTypeEnum
+func GetNamePatternRuleRuleTypeEnumStringValues() []string {
+	return []string{
+		"INCLUDE",
+		"EXCLUDE",
+	}
 }

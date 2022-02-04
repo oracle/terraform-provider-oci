@@ -10,7 +10,9 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateManagementAgentInstallKeyDetails Details required to change Management Agent install key.
@@ -25,4 +27,16 @@ type UpdateManagementAgentInstallKeyDetails struct {
 
 func (m UpdateManagementAgentInstallKeyDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateManagementAgentInstallKeyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

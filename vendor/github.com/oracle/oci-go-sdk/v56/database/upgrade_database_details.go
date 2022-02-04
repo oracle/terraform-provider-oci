@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpgradeDatabaseDetails Details for upgrading a database to a specific Oracle Database version.
@@ -25,6 +27,21 @@ type UpgradeDatabaseDetails struct {
 
 func (m UpgradeDatabaseDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpgradeDatabaseDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpgradeDatabaseDetailsActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetUpgradeDatabaseDetailsActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -64,7 +81,7 @@ const (
 	UpgradeDatabaseDetailsActionRollback UpgradeDatabaseDetailsActionEnum = "ROLLBACK"
 )
 
-var mappingUpgradeDatabaseDetailsAction = map[string]UpgradeDatabaseDetailsActionEnum{
+var mappingUpgradeDatabaseDetailsActionEnum = map[string]UpgradeDatabaseDetailsActionEnum{
 	"PRECHECK": UpgradeDatabaseDetailsActionPrecheck,
 	"UPGRADE":  UpgradeDatabaseDetailsActionUpgrade,
 	"ROLLBACK": UpgradeDatabaseDetailsActionRollback,
@@ -73,8 +90,17 @@ var mappingUpgradeDatabaseDetailsAction = map[string]UpgradeDatabaseDetailsActio
 // GetUpgradeDatabaseDetailsActionEnumValues Enumerates the set of values for UpgradeDatabaseDetailsActionEnum
 func GetUpgradeDatabaseDetailsActionEnumValues() []UpgradeDatabaseDetailsActionEnum {
 	values := make([]UpgradeDatabaseDetailsActionEnum, 0)
-	for _, v := range mappingUpgradeDatabaseDetailsAction {
+	for _, v := range mappingUpgradeDatabaseDetailsActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpgradeDatabaseDetailsActionEnumStringValues Enumerates the set of values in String for UpgradeDatabaseDetailsActionEnum
+func GetUpgradeDatabaseDetailsActionEnumStringValues() []string {
+	return []string{
+		"PRECHECK",
+		"UPGRADE",
+		"ROLLBACK",
+	}
 }

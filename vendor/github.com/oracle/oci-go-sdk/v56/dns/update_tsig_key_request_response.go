@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateTsigKeyRequest wrapper for the UpdateTsigKey operation
@@ -56,6 +58,10 @@ func (request UpdateTsigKeyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateTsigKeyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,20 @@ func (request UpdateTsigKeyRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateTsigKeyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateTsigKeyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateTsigKeyScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetUpdateTsigKeyScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateTsigKeyResponse wrapper for the UpdateTsigKey operation
@@ -112,7 +132,7 @@ const (
 	UpdateTsigKeyScopePrivate UpdateTsigKeyScopeEnum = "PRIVATE"
 )
 
-var mappingUpdateTsigKeyScope = map[string]UpdateTsigKeyScopeEnum{
+var mappingUpdateTsigKeyScopeEnum = map[string]UpdateTsigKeyScopeEnum{
 	"GLOBAL":  UpdateTsigKeyScopeGlobal,
 	"PRIVATE": UpdateTsigKeyScopePrivate,
 }
@@ -120,8 +140,16 @@ var mappingUpdateTsigKeyScope = map[string]UpdateTsigKeyScopeEnum{
 // GetUpdateTsigKeyScopeEnumValues Enumerates the set of values for UpdateTsigKeyScopeEnum
 func GetUpdateTsigKeyScopeEnumValues() []UpdateTsigKeyScopeEnum {
 	values := make([]UpdateTsigKeyScopeEnum, 0)
-	for _, v := range mappingUpdateTsigKeyScope {
+	for _, v := range mappingUpdateTsigKeyScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTsigKeyScopeEnumStringValues Enumerates the set of values in String for UpdateTsigKeyScopeEnum
+func GetUpdateTsigKeyScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

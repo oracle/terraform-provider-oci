@@ -20,7 +20,7 @@ const (
 	WorkRequestOperationTypeDeleteDbManagementPrivateEndpoint WorkRequestOperationTypeEnum = "DELETE_DB_MANAGEMENT_PRIVATE_ENDPOINT"
 )
 
-var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
+var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
 	"CREATE_DB_MANAGEMENT_PRIVATE_ENDPOINT": WorkRequestOperationTypeCreateDbManagementPrivateEndpoint,
 	"DELETE_DB_MANAGEMENT_PRIVATE_ENDPOINT": WorkRequestOperationTypeDeleteDbManagementPrivateEndpoint,
 }
@@ -28,8 +28,16 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
 func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
 	values := make([]WorkRequestOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestOperationType {
+	for _, v := range mappingWorkRequestOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestOperationTypeEnumStringValues Enumerates the set of values in String for WorkRequestOperationTypeEnum
+func GetWorkRequestOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_DB_MANAGEMENT_PRIVATE_ENDPOINT",
+		"DELETE_DB_MANAGEMENT_PRIVATE_ENDPOINT",
+	}
 }

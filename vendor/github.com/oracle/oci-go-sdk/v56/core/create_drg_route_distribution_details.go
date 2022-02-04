@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateDrgRouteDistributionDetails Details used to create a route distribution.
@@ -45,6 +47,21 @@ func (m CreateDrgRouteDistributionDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDrgRouteDistributionDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateDrgRouteDistributionDetailsDistributionTypeEnum[string(m.DistributionType)]; !ok && m.DistributionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DistributionType: %s. Supported values are: %s.", m.DistributionType, strings.Join(GetCreateDrgRouteDistributionDetailsDistributionTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateDrgRouteDistributionDetailsDistributionTypeEnum Enum with underlying type: string
 type CreateDrgRouteDistributionDetailsDistributionTypeEnum string
 
@@ -53,15 +70,22 @@ const (
 	CreateDrgRouteDistributionDetailsDistributionTypeImport CreateDrgRouteDistributionDetailsDistributionTypeEnum = "IMPORT"
 )
 
-var mappingCreateDrgRouteDistributionDetailsDistributionType = map[string]CreateDrgRouteDistributionDetailsDistributionTypeEnum{
+var mappingCreateDrgRouteDistributionDetailsDistributionTypeEnum = map[string]CreateDrgRouteDistributionDetailsDistributionTypeEnum{
 	"IMPORT": CreateDrgRouteDistributionDetailsDistributionTypeImport,
 }
 
 // GetCreateDrgRouteDistributionDetailsDistributionTypeEnumValues Enumerates the set of values for CreateDrgRouteDistributionDetailsDistributionTypeEnum
 func GetCreateDrgRouteDistributionDetailsDistributionTypeEnumValues() []CreateDrgRouteDistributionDetailsDistributionTypeEnum {
 	values := make([]CreateDrgRouteDistributionDetailsDistributionTypeEnum, 0)
-	for _, v := range mappingCreateDrgRouteDistributionDetailsDistributionType {
+	for _, v := range mappingCreateDrgRouteDistributionDetailsDistributionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDrgRouteDistributionDetailsDistributionTypeEnumStringValues Enumerates the set of values in String for CreateDrgRouteDistributionDetailsDistributionTypeEnum
+func GetCreateDrgRouteDistributionDetailsDistributionTypeEnumStringValues() []string {
+	return []string{
+		"IMPORT",
+	}
 }

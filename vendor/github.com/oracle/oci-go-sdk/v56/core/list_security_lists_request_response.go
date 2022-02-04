@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSecurityListsRequest wrapper for the ListSecurityLists operation
@@ -69,6 +71,10 @@ func (request ListSecurityListsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSecurityListsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,26 @@ func (request ListSecurityListsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSecurityListsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSecurityListsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSecurityListsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSecurityListsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSecurityListsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSecurityListsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSecurityListLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetSecurityListLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSecurityListsResponse wrapper for the ListSecurityLists operation
@@ -121,7 +147,7 @@ const (
 	ListSecurityListsSortByDisplayname ListSecurityListsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListSecurityListsSortBy = map[string]ListSecurityListsSortByEnum{
+var mappingListSecurityListsSortByEnum = map[string]ListSecurityListsSortByEnum{
 	"TIMECREATED": ListSecurityListsSortByTimecreated,
 	"DISPLAYNAME": ListSecurityListsSortByDisplayname,
 }
@@ -129,10 +155,18 @@ var mappingListSecurityListsSortBy = map[string]ListSecurityListsSortByEnum{
 // GetListSecurityListsSortByEnumValues Enumerates the set of values for ListSecurityListsSortByEnum
 func GetListSecurityListsSortByEnumValues() []ListSecurityListsSortByEnum {
 	values := make([]ListSecurityListsSortByEnum, 0)
-	for _, v := range mappingListSecurityListsSortBy {
+	for _, v := range mappingListSecurityListsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSecurityListsSortByEnumStringValues Enumerates the set of values in String for ListSecurityListsSortByEnum
+func GetListSecurityListsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListSecurityListsSortOrderEnum Enum with underlying type: string
@@ -144,7 +178,7 @@ const (
 	ListSecurityListsSortOrderDesc ListSecurityListsSortOrderEnum = "DESC"
 )
 
-var mappingListSecurityListsSortOrder = map[string]ListSecurityListsSortOrderEnum{
+var mappingListSecurityListsSortOrderEnum = map[string]ListSecurityListsSortOrderEnum{
 	"ASC":  ListSecurityListsSortOrderAsc,
 	"DESC": ListSecurityListsSortOrderDesc,
 }
@@ -152,8 +186,16 @@ var mappingListSecurityListsSortOrder = map[string]ListSecurityListsSortOrderEnu
 // GetListSecurityListsSortOrderEnumValues Enumerates the set of values for ListSecurityListsSortOrderEnum
 func GetListSecurityListsSortOrderEnumValues() []ListSecurityListsSortOrderEnum {
 	values := make([]ListSecurityListsSortOrderEnum, 0)
-	for _, v := range mappingListSecurityListsSortOrder {
+	for _, v := range mappingListSecurityListsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSecurityListsSortOrderEnumStringValues Enumerates the set of values in String for ListSecurityListsSortOrderEnum
+func GetListSecurityListsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

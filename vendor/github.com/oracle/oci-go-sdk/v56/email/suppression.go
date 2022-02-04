@@ -14,7 +14,9 @@
 package email
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Suppression The full information representing an email suppression.
@@ -64,6 +66,21 @@ func (m Suppression) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Suppression) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSuppressionReasonEnum[string(m.Reason)]; !ok && m.Reason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Reason: %s. Supported values are: %s.", m.Reason, strings.Join(GetSuppressionReasonEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SuppressionReasonEnum Enum with underlying type: string
 type SuppressionReasonEnum string
 
@@ -77,7 +94,7 @@ const (
 	SuppressionReasonUnsubscribe SuppressionReasonEnum = "UNSUBSCRIBE"
 )
 
-var mappingSuppressionReason = map[string]SuppressionReasonEnum{
+var mappingSuppressionReasonEnum = map[string]SuppressionReasonEnum{
 	"UNKNOWN":     SuppressionReasonUnknown,
 	"HARDBOUNCE":  SuppressionReasonHardbounce,
 	"COMPLAINT":   SuppressionReasonComplaint,
@@ -89,8 +106,20 @@ var mappingSuppressionReason = map[string]SuppressionReasonEnum{
 // GetSuppressionReasonEnumValues Enumerates the set of values for SuppressionReasonEnum
 func GetSuppressionReasonEnumValues() []SuppressionReasonEnum {
 	values := make([]SuppressionReasonEnum, 0)
-	for _, v := range mappingSuppressionReason {
+	for _, v := range mappingSuppressionReasonEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSuppressionReasonEnumStringValues Enumerates the set of values in String for SuppressionReasonEnum
+func GetSuppressionReasonEnumStringValues() []string {
+	return []string{
+		"UNKNOWN",
+		"HARDBOUNCE",
+		"COMPLAINT",
+		"MANUAL",
+		"SOFTBOUNCE",
+		"UNSUBSCRIBE",
+	}
 }

@@ -10,7 +10,9 @@
 package oce
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // OceInstance Details of OceInstance.
@@ -97,6 +99,33 @@ func (m OceInstance) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OceInstance) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingOceInstanceUpgradeScheduleEnum[string(m.UpgradeSchedule)]; !ok && m.UpgradeSchedule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpgradeSchedule: %s. Supported values are: %s.", m.UpgradeSchedule, strings.Join(GetOceInstanceUpgradeScheduleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOceInstanceInstanceUsageTypeEnum[string(m.InstanceUsageType)]; !ok && m.InstanceUsageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceUsageType: %s. Supported values are: %s.", m.InstanceUsageType, strings.Join(GetOceInstanceInstanceUsageTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOceInstanceInstanceAccessTypeEnum[string(m.InstanceAccessType)]; !ok && m.InstanceAccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceAccessType: %s. Supported values are: %s.", m.InstanceAccessType, strings.Join(GetOceInstanceInstanceAccessTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLicenseTypeEnum[string(m.InstanceLicenseType)]; !ok && m.InstanceLicenseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceLicenseType: %s. Supported values are: %s.", m.InstanceLicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOceInstanceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOceInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // OceInstanceUpgradeScheduleEnum Enum with underlying type: string
 type OceInstanceUpgradeScheduleEnum string
 
@@ -106,7 +135,7 @@ const (
 	OceInstanceUpgradeScheduleDelayedUpgrade     OceInstanceUpgradeScheduleEnum = "DELAYED_UPGRADE"
 )
 
-var mappingOceInstanceUpgradeSchedule = map[string]OceInstanceUpgradeScheduleEnum{
+var mappingOceInstanceUpgradeScheduleEnum = map[string]OceInstanceUpgradeScheduleEnum{
 	"UPGRADE_IMMEDIATELY": OceInstanceUpgradeScheduleUpgradeImmediately,
 	"DELAYED_UPGRADE":     OceInstanceUpgradeScheduleDelayedUpgrade,
 }
@@ -114,10 +143,18 @@ var mappingOceInstanceUpgradeSchedule = map[string]OceInstanceUpgradeScheduleEnu
 // GetOceInstanceUpgradeScheduleEnumValues Enumerates the set of values for OceInstanceUpgradeScheduleEnum
 func GetOceInstanceUpgradeScheduleEnumValues() []OceInstanceUpgradeScheduleEnum {
 	values := make([]OceInstanceUpgradeScheduleEnum, 0)
-	for _, v := range mappingOceInstanceUpgradeSchedule {
+	for _, v := range mappingOceInstanceUpgradeScheduleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOceInstanceUpgradeScheduleEnumStringValues Enumerates the set of values in String for OceInstanceUpgradeScheduleEnum
+func GetOceInstanceUpgradeScheduleEnumStringValues() []string {
+	return []string{
+		"UPGRADE_IMMEDIATELY",
+		"DELAYED_UPGRADE",
+	}
 }
 
 // OceInstanceInstanceUsageTypeEnum Enum with underlying type: string
@@ -129,7 +166,7 @@ const (
 	OceInstanceInstanceUsageTypeNonprimary OceInstanceInstanceUsageTypeEnum = "NONPRIMARY"
 )
 
-var mappingOceInstanceInstanceUsageType = map[string]OceInstanceInstanceUsageTypeEnum{
+var mappingOceInstanceInstanceUsageTypeEnum = map[string]OceInstanceInstanceUsageTypeEnum{
 	"PRIMARY":    OceInstanceInstanceUsageTypePrimary,
 	"NONPRIMARY": OceInstanceInstanceUsageTypeNonprimary,
 }
@@ -137,10 +174,18 @@ var mappingOceInstanceInstanceUsageType = map[string]OceInstanceInstanceUsageTyp
 // GetOceInstanceInstanceUsageTypeEnumValues Enumerates the set of values for OceInstanceInstanceUsageTypeEnum
 func GetOceInstanceInstanceUsageTypeEnumValues() []OceInstanceInstanceUsageTypeEnum {
 	values := make([]OceInstanceInstanceUsageTypeEnum, 0)
-	for _, v := range mappingOceInstanceInstanceUsageType {
+	for _, v := range mappingOceInstanceInstanceUsageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOceInstanceInstanceUsageTypeEnumStringValues Enumerates the set of values in String for OceInstanceInstanceUsageTypeEnum
+func GetOceInstanceInstanceUsageTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"NONPRIMARY",
+	}
 }
 
 // OceInstanceInstanceAccessTypeEnum Enum with underlying type: string
@@ -152,7 +197,7 @@ const (
 	OceInstanceInstanceAccessTypePrivate OceInstanceInstanceAccessTypeEnum = "PRIVATE"
 )
 
-var mappingOceInstanceInstanceAccessType = map[string]OceInstanceInstanceAccessTypeEnum{
+var mappingOceInstanceInstanceAccessTypeEnum = map[string]OceInstanceInstanceAccessTypeEnum{
 	"PUBLIC":  OceInstanceInstanceAccessTypePublic,
 	"PRIVATE": OceInstanceInstanceAccessTypePrivate,
 }
@@ -160,10 +205,18 @@ var mappingOceInstanceInstanceAccessType = map[string]OceInstanceInstanceAccessT
 // GetOceInstanceInstanceAccessTypeEnumValues Enumerates the set of values for OceInstanceInstanceAccessTypeEnum
 func GetOceInstanceInstanceAccessTypeEnumValues() []OceInstanceInstanceAccessTypeEnum {
 	values := make([]OceInstanceInstanceAccessTypeEnum, 0)
-	for _, v := range mappingOceInstanceInstanceAccessType {
+	for _, v := range mappingOceInstanceInstanceAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOceInstanceInstanceAccessTypeEnumStringValues Enumerates the set of values in String for OceInstanceInstanceAccessTypeEnum
+func GetOceInstanceInstanceAccessTypeEnumStringValues() []string {
+	return []string{
+		"PUBLIC",
+		"PRIVATE",
+	}
 }
 
 // OceInstanceLifecycleStateEnum Enum with underlying type: string
@@ -179,7 +232,7 @@ const (
 	OceInstanceLifecycleStateFailed   OceInstanceLifecycleStateEnum = "FAILED"
 )
 
-var mappingOceInstanceLifecycleState = map[string]OceInstanceLifecycleStateEnum{
+var mappingOceInstanceLifecycleStateEnum = map[string]OceInstanceLifecycleStateEnum{
 	"CREATING": OceInstanceLifecycleStateCreating,
 	"UPDATING": OceInstanceLifecycleStateUpdating,
 	"ACTIVE":   OceInstanceLifecycleStateActive,
@@ -191,8 +244,20 @@ var mappingOceInstanceLifecycleState = map[string]OceInstanceLifecycleStateEnum{
 // GetOceInstanceLifecycleStateEnumValues Enumerates the set of values for OceInstanceLifecycleStateEnum
 func GetOceInstanceLifecycleStateEnumValues() []OceInstanceLifecycleStateEnum {
 	values := make([]OceInstanceLifecycleStateEnum, 0)
-	for _, v := range mappingOceInstanceLifecycleState {
+	for _, v := range mappingOceInstanceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOceInstanceLifecycleStateEnumStringValues Enumerates the set of values in String for OceInstanceLifecycleStateEnum
+func GetOceInstanceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

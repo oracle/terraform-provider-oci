@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Compartment A collection of related resources. Compartments are a fundamental component of Oracle Cloud Infrastructure
@@ -75,6 +77,21 @@ func (m Compartment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Compartment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCompartmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCompartmentLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CompartmentLifecycleStateEnum Enum with underlying type: string
 type CompartmentLifecycleStateEnum string
 
@@ -87,7 +104,7 @@ const (
 	CompartmentLifecycleStateDeleted  CompartmentLifecycleStateEnum = "DELETED"
 )
 
-var mappingCompartmentLifecycleState = map[string]CompartmentLifecycleStateEnum{
+var mappingCompartmentLifecycleStateEnum = map[string]CompartmentLifecycleStateEnum{
 	"CREATING": CompartmentLifecycleStateCreating,
 	"ACTIVE":   CompartmentLifecycleStateActive,
 	"INACTIVE": CompartmentLifecycleStateInactive,
@@ -98,8 +115,19 @@ var mappingCompartmentLifecycleState = map[string]CompartmentLifecycleStateEnum{
 // GetCompartmentLifecycleStateEnumValues Enumerates the set of values for CompartmentLifecycleStateEnum
 func GetCompartmentLifecycleStateEnumValues() []CompartmentLifecycleStateEnum {
 	values := make([]CompartmentLifecycleStateEnum, 0)
-	for _, v := range mappingCompartmentLifecycleState {
+	for _, v := range mappingCompartmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCompartmentLifecycleStateEnumStringValues Enumerates the set of values in String for CompartmentLifecycleStateEnum
+func GetCompartmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

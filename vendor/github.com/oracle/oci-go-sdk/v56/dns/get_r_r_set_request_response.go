@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetRRSetRequest wrapper for the GetRRSet operation
@@ -72,6 +74,10 @@ func (request GetRRSetRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetRRSetRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +91,20 @@ func (request GetRRSetRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetRRSetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetRRSetRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetRRSetScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetGetRRSetScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetRRSetResponse wrapper for the GetRRSet operation
@@ -132,7 +152,7 @@ const (
 	GetRRSetScopePrivate GetRRSetScopeEnum = "PRIVATE"
 )
 
-var mappingGetRRSetScope = map[string]GetRRSetScopeEnum{
+var mappingGetRRSetScopeEnum = map[string]GetRRSetScopeEnum{
 	"GLOBAL":  GetRRSetScopeGlobal,
 	"PRIVATE": GetRRSetScopePrivate,
 }
@@ -140,8 +160,16 @@ var mappingGetRRSetScope = map[string]GetRRSetScopeEnum{
 // GetGetRRSetScopeEnumValues Enumerates the set of values for GetRRSetScopeEnum
 func GetGetRRSetScopeEnumValues() []GetRRSetScopeEnum {
 	values := make([]GetRRSetScopeEnum, 0)
-	for _, v := range mappingGetRRSetScope {
+	for _, v := range mappingGetRRSetScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetRRSetScopeEnumStringValues Enumerates the set of values in String for GetRRSetScopeEnum
+func GetGetRRSetScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

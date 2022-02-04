@@ -22,7 +22,7 @@ const (
 	SignatureAlgorithmSha512WithEcdsa SignatureAlgorithmEnum = "SHA512_WITH_ECDSA"
 )
 
-var mappingSignatureAlgorithm = map[string]SignatureAlgorithmEnum{
+var mappingSignatureAlgorithmEnum = map[string]SignatureAlgorithmEnum{
 	"SHA256_WITH_RSA":   SignatureAlgorithmSha256WithRsa,
 	"SHA384_WITH_RSA":   SignatureAlgorithmSha384WithRsa,
 	"SHA512_WITH_RSA":   SignatureAlgorithmSha512WithRsa,
@@ -34,8 +34,20 @@ var mappingSignatureAlgorithm = map[string]SignatureAlgorithmEnum{
 // GetSignatureAlgorithmEnumValues Enumerates the set of values for SignatureAlgorithmEnum
 func GetSignatureAlgorithmEnumValues() []SignatureAlgorithmEnum {
 	values := make([]SignatureAlgorithmEnum, 0)
-	for _, v := range mappingSignatureAlgorithm {
+	for _, v := range mappingSignatureAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSignatureAlgorithmEnumStringValues Enumerates the set of values in String for SignatureAlgorithmEnum
+func GetSignatureAlgorithmEnumStringValues() []string {
+	return []string{
+		"SHA256_WITH_RSA",
+		"SHA384_WITH_RSA",
+		"SHA512_WITH_RSA",
+		"SHA256_WITH_ECDSA",
+		"SHA384_WITH_ECDSA",
+		"SHA512_WITH_ECDSA",
+	}
 }

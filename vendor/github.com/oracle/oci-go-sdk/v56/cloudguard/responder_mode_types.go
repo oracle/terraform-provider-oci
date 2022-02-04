@@ -18,7 +18,7 @@ const (
 	ResponderModeTypesUseraction ResponderModeTypesEnum = "USERACTION"
 )
 
-var mappingResponderModeTypes = map[string]ResponderModeTypesEnum{
+var mappingResponderModeTypesEnum = map[string]ResponderModeTypesEnum{
 	"AUTOACTION": ResponderModeTypesAutoaction,
 	"USERACTION": ResponderModeTypesUseraction,
 }
@@ -26,8 +26,16 @@ var mappingResponderModeTypes = map[string]ResponderModeTypesEnum{
 // GetResponderModeTypesEnumValues Enumerates the set of values for ResponderModeTypesEnum
 func GetResponderModeTypesEnumValues() []ResponderModeTypesEnum {
 	values := make([]ResponderModeTypesEnum, 0)
-	for _, v := range mappingResponderModeTypes {
+	for _, v := range mappingResponderModeTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResponderModeTypesEnumStringValues Enumerates the set of values in String for ResponderModeTypesEnum
+func GetResponderModeTypesEnumStringValues() []string {
+	return []string{
+		"AUTOACTION",
+		"USERACTION",
+	}
 }

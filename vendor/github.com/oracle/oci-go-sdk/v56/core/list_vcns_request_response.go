@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListVcnsRequest wrapper for the ListVcns operation
@@ -66,6 +68,10 @@ func (request ListVcnsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVcnsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,26 @@ func (request ListVcnsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVcnsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVcnsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListVcnsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListVcnsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListVcnsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListVcnsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVcnLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetVcnLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVcnsResponse wrapper for the ListVcns operation
@@ -118,7 +144,7 @@ const (
 	ListVcnsSortByDisplayname ListVcnsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListVcnsSortBy = map[string]ListVcnsSortByEnum{
+var mappingListVcnsSortByEnum = map[string]ListVcnsSortByEnum{
 	"TIMECREATED": ListVcnsSortByTimecreated,
 	"DISPLAYNAME": ListVcnsSortByDisplayname,
 }
@@ -126,10 +152,18 @@ var mappingListVcnsSortBy = map[string]ListVcnsSortByEnum{
 // GetListVcnsSortByEnumValues Enumerates the set of values for ListVcnsSortByEnum
 func GetListVcnsSortByEnumValues() []ListVcnsSortByEnum {
 	values := make([]ListVcnsSortByEnum, 0)
-	for _, v := range mappingListVcnsSortBy {
+	for _, v := range mappingListVcnsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVcnsSortByEnumStringValues Enumerates the set of values in String for ListVcnsSortByEnum
+func GetListVcnsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListVcnsSortOrderEnum Enum with underlying type: string
@@ -141,7 +175,7 @@ const (
 	ListVcnsSortOrderDesc ListVcnsSortOrderEnum = "DESC"
 )
 
-var mappingListVcnsSortOrder = map[string]ListVcnsSortOrderEnum{
+var mappingListVcnsSortOrderEnum = map[string]ListVcnsSortOrderEnum{
 	"ASC":  ListVcnsSortOrderAsc,
 	"DESC": ListVcnsSortOrderDesc,
 }
@@ -149,8 +183,16 @@ var mappingListVcnsSortOrder = map[string]ListVcnsSortOrderEnum{
 // GetListVcnsSortOrderEnumValues Enumerates the set of values for ListVcnsSortOrderEnum
 func GetListVcnsSortOrderEnumValues() []ListVcnsSortOrderEnum {
 	values := make([]ListVcnsSortOrderEnum, 0)
-	for _, v := range mappingListVcnsSortOrder {
+	for _, v := range mappingListVcnsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVcnsSortOrderEnumStringValues Enumerates the set of values in String for ListVcnsSortOrderEnum
+func GetListVcnsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

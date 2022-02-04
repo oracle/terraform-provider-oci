@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FieldsAddRemoveField Field denoting a field specified in querylanguage FIELDS command.
@@ -106,6 +108,24 @@ func (m FieldsAddRemoveField) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FieldsAddRemoveField) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFieldsAddRemoveFieldOperationEnum[string(m.Operation)]; !ok && m.Operation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operation: %s. Supported values are: %s.", m.Operation, strings.Join(GetFieldsAddRemoveFieldOperationEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingValueTypeEnum[string(m.ValueType)]; !ok && m.ValueType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValueType: %s. Supported values are: %s.", m.ValueType, strings.Join(GetValueTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m FieldsAddRemoveField) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeFieldsAddRemoveField FieldsAddRemoveField
@@ -129,7 +149,7 @@ const (
 	FieldsAddRemoveFieldOperationRemove FieldsAddRemoveFieldOperationEnum = "REMOVE"
 )
 
-var mappingFieldsAddRemoveFieldOperation = map[string]FieldsAddRemoveFieldOperationEnum{
+var mappingFieldsAddRemoveFieldOperationEnum = map[string]FieldsAddRemoveFieldOperationEnum{
 	"ADD":    FieldsAddRemoveFieldOperationAdd,
 	"REMOVE": FieldsAddRemoveFieldOperationRemove,
 }
@@ -137,8 +157,16 @@ var mappingFieldsAddRemoveFieldOperation = map[string]FieldsAddRemoveFieldOperat
 // GetFieldsAddRemoveFieldOperationEnumValues Enumerates the set of values for FieldsAddRemoveFieldOperationEnum
 func GetFieldsAddRemoveFieldOperationEnumValues() []FieldsAddRemoveFieldOperationEnum {
 	values := make([]FieldsAddRemoveFieldOperationEnum, 0)
-	for _, v := range mappingFieldsAddRemoveFieldOperation {
+	for _, v := range mappingFieldsAddRemoveFieldOperationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFieldsAddRemoveFieldOperationEnumStringValues Enumerates the set of values in String for FieldsAddRemoveFieldOperationEnum
+func GetFieldsAddRemoveFieldOperationEnumStringValues() []string {
+	return []string{
+		"ADD",
+		"REMOVE",
+	}
 }

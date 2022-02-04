@@ -5,8 +5,10 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSdkLanguageTypesRequest wrapper for the ListSdkLanguageTypes operation
@@ -53,6 +55,10 @@ func (request ListSdkLanguageTypesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSdkLanguageTypesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,23 @@ func (request ListSdkLanguageTypesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSdkLanguageTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSdkLanguageTypesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSdkLanguageTypesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSdkLanguageTypesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSdkLanguageTypesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSdkLanguageTypesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSdkLanguageTypesResponse wrapper for the ListSdkLanguageTypes operation
@@ -113,7 +136,7 @@ const (
 	ListSdkLanguageTypesSortOrderDesc ListSdkLanguageTypesSortOrderEnum = "DESC"
 )
 
-var mappingListSdkLanguageTypesSortOrder = map[string]ListSdkLanguageTypesSortOrderEnum{
+var mappingListSdkLanguageTypesSortOrderEnum = map[string]ListSdkLanguageTypesSortOrderEnum{
 	"ASC":  ListSdkLanguageTypesSortOrderAsc,
 	"DESC": ListSdkLanguageTypesSortOrderDesc,
 }
@@ -121,10 +144,18 @@ var mappingListSdkLanguageTypesSortOrder = map[string]ListSdkLanguageTypesSortOr
 // GetListSdkLanguageTypesSortOrderEnumValues Enumerates the set of values for ListSdkLanguageTypesSortOrderEnum
 func GetListSdkLanguageTypesSortOrderEnumValues() []ListSdkLanguageTypesSortOrderEnum {
 	values := make([]ListSdkLanguageTypesSortOrderEnum, 0)
-	for _, v := range mappingListSdkLanguageTypesSortOrder {
+	for _, v := range mappingListSdkLanguageTypesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSdkLanguageTypesSortOrderEnumStringValues Enumerates the set of values in String for ListSdkLanguageTypesSortOrderEnum
+func GetListSdkLanguageTypesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListSdkLanguageTypesSortByEnum Enum with underlying type: string
@@ -136,7 +167,7 @@ const (
 	ListSdkLanguageTypesSortByDisplayname ListSdkLanguageTypesSortByEnum = "displayName"
 )
 
-var mappingListSdkLanguageTypesSortBy = map[string]ListSdkLanguageTypesSortByEnum{
+var mappingListSdkLanguageTypesSortByEnum = map[string]ListSdkLanguageTypesSortByEnum{
 	"timeCreated": ListSdkLanguageTypesSortByTimecreated,
 	"displayName": ListSdkLanguageTypesSortByDisplayname,
 }
@@ -144,8 +175,16 @@ var mappingListSdkLanguageTypesSortBy = map[string]ListSdkLanguageTypesSortByEnu
 // GetListSdkLanguageTypesSortByEnumValues Enumerates the set of values for ListSdkLanguageTypesSortByEnum
 func GetListSdkLanguageTypesSortByEnumValues() []ListSdkLanguageTypesSortByEnum {
 	values := make([]ListSdkLanguageTypesSortByEnum, 0)
-	for _, v := range mappingListSdkLanguageTypesSortBy {
+	for _, v := range mappingListSdkLanguageTypesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSdkLanguageTypesSortByEnumStringValues Enumerates the set of values in String for ListSdkLanguageTypesSortByEnum
+func GetListSdkLanguageTypesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

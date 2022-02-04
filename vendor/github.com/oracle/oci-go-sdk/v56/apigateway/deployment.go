@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Deployment A deployment deploys an API on a gateway. Avoid entering confidential information.
@@ -77,6 +79,21 @@ func (m Deployment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Deployment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDeploymentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeploymentLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DeploymentLifecycleStateEnum Enum with underlying type: string
 type DeploymentLifecycleStateEnum string
 
@@ -90,7 +107,7 @@ const (
 	DeploymentLifecycleStateFailed   DeploymentLifecycleStateEnum = "FAILED"
 )
 
-var mappingDeploymentLifecycleState = map[string]DeploymentLifecycleStateEnum{
+var mappingDeploymentLifecycleStateEnum = map[string]DeploymentLifecycleStateEnum{
 	"CREATING": DeploymentLifecycleStateCreating,
 	"ACTIVE":   DeploymentLifecycleStateActive,
 	"UPDATING": DeploymentLifecycleStateUpdating,
@@ -102,8 +119,20 @@ var mappingDeploymentLifecycleState = map[string]DeploymentLifecycleStateEnum{
 // GetDeploymentLifecycleStateEnumValues Enumerates the set of values for DeploymentLifecycleStateEnum
 func GetDeploymentLifecycleStateEnumValues() []DeploymentLifecycleStateEnum {
 	values := make([]DeploymentLifecycleStateEnum, 0)
-	for _, v := range mappingDeploymentLifecycleState {
+	for _, v := range mappingDeploymentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeploymentLifecycleStateEnumStringValues Enumerates the set of values in String for DeploymentLifecycleStateEnum
+func GetDeploymentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

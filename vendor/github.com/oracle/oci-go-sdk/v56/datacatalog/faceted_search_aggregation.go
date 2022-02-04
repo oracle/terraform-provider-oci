@@ -11,7 +11,9 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FacetedSearchAggregation Aggregation/facets on properties of data object.
@@ -36,6 +38,21 @@ func (m FacetedSearchAggregation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FacetedSearchAggregation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingFacetedSearchAggregationPropertyTypeEnum[string(m.PropertyType)]; !ok && m.PropertyType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PropertyType: %s. Supported values are: %s.", m.PropertyType, strings.Join(GetFacetedSearchAggregationPropertyTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FacetedSearchAggregationPropertyTypeEnum Enum with underlying type: string
 type FacetedSearchAggregationPropertyTypeEnum string
 
@@ -45,7 +62,7 @@ const (
 	FacetedSearchAggregationPropertyTypeDefaultProperty FacetedSearchAggregationPropertyTypeEnum = "DEFAULT_PROPERTY"
 )
 
-var mappingFacetedSearchAggregationPropertyType = map[string]FacetedSearchAggregationPropertyTypeEnum{
+var mappingFacetedSearchAggregationPropertyTypeEnum = map[string]FacetedSearchAggregationPropertyTypeEnum{
 	"CUSTOM_PROPERTY":  FacetedSearchAggregationPropertyTypeCustomProperty,
 	"DEFAULT_PROPERTY": FacetedSearchAggregationPropertyTypeDefaultProperty,
 }
@@ -53,8 +70,16 @@ var mappingFacetedSearchAggregationPropertyType = map[string]FacetedSearchAggreg
 // GetFacetedSearchAggregationPropertyTypeEnumValues Enumerates the set of values for FacetedSearchAggregationPropertyTypeEnum
 func GetFacetedSearchAggregationPropertyTypeEnumValues() []FacetedSearchAggregationPropertyTypeEnum {
 	values := make([]FacetedSearchAggregationPropertyTypeEnum, 0)
-	for _, v := range mappingFacetedSearchAggregationPropertyType {
+	for _, v := range mappingFacetedSearchAggregationPropertyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFacetedSearchAggregationPropertyTypeEnumStringValues Enumerates the set of values in String for FacetedSearchAggregationPropertyTypeEnum
+func GetFacetedSearchAggregationPropertyTypeEnumStringValues() []string {
+	return []string{
+		"CUSTOM_PROPERTY",
+		"DEFAULT_PROPERTY",
+	}
 }

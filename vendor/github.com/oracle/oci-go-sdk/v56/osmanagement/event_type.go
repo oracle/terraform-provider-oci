@@ -27,7 +27,7 @@ const (
 	EventTypeWarning          EventTypeEnum = "WARNING"
 )
 
-var mappingEventType = map[string]EventTypeEnum{
+var mappingEventTypeEnum = map[string]EventTypeEnum{
 	"KERNEL_OOPS":       EventTypeKernelOops,
 	"KERNEL_CRASH":      EventTypeKernelCrash,
 	"CRASH":             EventTypeCrash,
@@ -43,8 +43,24 @@ var mappingEventType = map[string]EventTypeEnum{
 // GetEventTypeEnumValues Enumerates the set of values for EventTypeEnum
 func GetEventTypeEnumValues() []EventTypeEnum {
 	values := make([]EventTypeEnum, 0)
-	for _, v := range mappingEventType {
+	for _, v := range mappingEventTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEventTypeEnumStringValues Enumerates the set of values in String for EventTypeEnum
+func GetEventTypeEnumStringValues() []string {
+	return []string{
+		"KERNEL_OOPS",
+		"KERNEL_CRASH",
+		"CRASH",
+		"EXPLOIT_ATTEMPT",
+		"COMPLIANCE",
+		"TUNING_SUGGESTION",
+		"TUNING_APPLIED",
+		"SECURITY",
+		"ERROR",
+		"WARNING",
+	}
 }

@@ -13,7 +13,9 @@ package opsi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HostPerformanceMetricGroup Base Metric Group for Host performance metrics
@@ -82,6 +84,18 @@ func (m hostperformancemetricgroup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m hostperformancemetricgroup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HostPerformanceMetricGroupMetricNameEnum Enum with underlying type: string
 type HostPerformanceMetricGroupMetricNameEnum string
 
@@ -92,7 +106,7 @@ const (
 	HostPerformanceMetricGroupMetricNameNetworkActivitySummary HostPerformanceMetricGroupMetricNameEnum = "HOST_NETWORK_ACTIVITY_SUMMARY"
 )
 
-var mappingHostPerformanceMetricGroupMetricName = map[string]HostPerformanceMetricGroupMetricNameEnum{
+var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformanceMetricGroupMetricNameEnum{
 	"HOST_CPU_USAGE":                HostPerformanceMetricGroupMetricNameCpuUsage,
 	"HOST_MEMORY_USAGE":             HostPerformanceMetricGroupMetricNameMemoryUsage,
 	"HOST_NETWORK_ACTIVITY_SUMMARY": HostPerformanceMetricGroupMetricNameNetworkActivitySummary,
@@ -101,8 +115,17 @@ var mappingHostPerformanceMetricGroupMetricName = map[string]HostPerformanceMetr
 // GetHostPerformanceMetricGroupMetricNameEnumValues Enumerates the set of values for HostPerformanceMetricGroupMetricNameEnum
 func GetHostPerformanceMetricGroupMetricNameEnumValues() []HostPerformanceMetricGroupMetricNameEnum {
 	values := make([]HostPerformanceMetricGroupMetricNameEnum, 0)
-	for _, v := range mappingHostPerformanceMetricGroupMetricName {
+	for _, v := range mappingHostPerformanceMetricGroupMetricNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHostPerformanceMetricGroupMetricNameEnumStringValues Enumerates the set of values in String for HostPerformanceMetricGroupMetricNameEnum
+func GetHostPerformanceMetricGroupMetricNameEnumStringValues() []string {
+	return []string{
+		"HOST_CPU_USAGE",
+		"HOST_MEMORY_USAGE",
+		"HOST_NETWORK_ACTIVITY_SUMMARY",
+	}
 }

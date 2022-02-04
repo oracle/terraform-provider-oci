@@ -18,7 +18,7 @@ const (
 	UnifiedAgentServiceConfigurationStatesInvalid UnifiedAgentServiceConfigurationStatesEnum = "INVALID"
 )
 
-var mappingUnifiedAgentServiceConfigurationStates = map[string]UnifiedAgentServiceConfigurationStatesEnum{
+var mappingUnifiedAgentServiceConfigurationStatesEnum = map[string]UnifiedAgentServiceConfigurationStatesEnum{
 	"VALID":   UnifiedAgentServiceConfigurationStatesValid,
 	"INVALID": UnifiedAgentServiceConfigurationStatesInvalid,
 }
@@ -26,8 +26,16 @@ var mappingUnifiedAgentServiceConfigurationStates = map[string]UnifiedAgentServi
 // GetUnifiedAgentServiceConfigurationStatesEnumValues Enumerates the set of values for UnifiedAgentServiceConfigurationStatesEnum
 func GetUnifiedAgentServiceConfigurationStatesEnumValues() []UnifiedAgentServiceConfigurationStatesEnum {
 	values := make([]UnifiedAgentServiceConfigurationStatesEnum, 0)
-	for _, v := range mappingUnifiedAgentServiceConfigurationStates {
+	for _, v := range mappingUnifiedAgentServiceConfigurationStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUnifiedAgentServiceConfigurationStatesEnumStringValues Enumerates the set of values in String for UnifiedAgentServiceConfigurationStatesEnum
+func GetUnifiedAgentServiceConfigurationStatesEnumStringValues() []string {
+	return []string{
+		"VALID",
+		"INVALID",
+	}
 }

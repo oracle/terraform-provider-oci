@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateVirtualCircuitDetails The representation of UpdateVirtualCircuitDetails
@@ -97,6 +99,30 @@ func (m UpdateVirtualCircuitDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateVirtualCircuitDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.RoutingPolicy {
+		if _, ok := mappingUpdateVirtualCircuitDetailsRoutingPolicyEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingPolicy: %s. Supported values are: %s.", val, strings.Join(GetUpdateVirtualCircuitDetailsRoutingPolicyEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingUpdateVirtualCircuitDetailsProviderStateEnum[string(m.ProviderState)]; !ok && m.ProviderState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProviderState: %s. Supported values are: %s.", m.ProviderState, strings.Join(GetUpdateVirtualCircuitDetailsProviderStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVirtualCircuitIpMtuEnum[string(m.IpMtu)]; !ok && m.IpMtu != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMtu: %s. Supported values are: %s.", m.IpMtu, strings.Join(GetVirtualCircuitIpMtuEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateVirtualCircuitDetailsRoutingPolicyEnum Enum with underlying type: string
 type UpdateVirtualCircuitDetailsRoutingPolicyEnum string
 
@@ -108,7 +134,7 @@ const (
 	UpdateVirtualCircuitDetailsRoutingPolicyGlobal               UpdateVirtualCircuitDetailsRoutingPolicyEnum = "GLOBAL"
 )
 
-var mappingUpdateVirtualCircuitDetailsRoutingPolicy = map[string]UpdateVirtualCircuitDetailsRoutingPolicyEnum{
+var mappingUpdateVirtualCircuitDetailsRoutingPolicyEnum = map[string]UpdateVirtualCircuitDetailsRoutingPolicyEnum{
 	"ORACLE_SERVICE_NETWORK": UpdateVirtualCircuitDetailsRoutingPolicyOracleServiceNetwork,
 	"REGIONAL":               UpdateVirtualCircuitDetailsRoutingPolicyRegional,
 	"MARKET_LEVEL":           UpdateVirtualCircuitDetailsRoutingPolicyMarketLevel,
@@ -118,10 +144,20 @@ var mappingUpdateVirtualCircuitDetailsRoutingPolicy = map[string]UpdateVirtualCi
 // GetUpdateVirtualCircuitDetailsRoutingPolicyEnumValues Enumerates the set of values for UpdateVirtualCircuitDetailsRoutingPolicyEnum
 func GetUpdateVirtualCircuitDetailsRoutingPolicyEnumValues() []UpdateVirtualCircuitDetailsRoutingPolicyEnum {
 	values := make([]UpdateVirtualCircuitDetailsRoutingPolicyEnum, 0)
-	for _, v := range mappingUpdateVirtualCircuitDetailsRoutingPolicy {
+	for _, v := range mappingUpdateVirtualCircuitDetailsRoutingPolicyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateVirtualCircuitDetailsRoutingPolicyEnumStringValues Enumerates the set of values in String for UpdateVirtualCircuitDetailsRoutingPolicyEnum
+func GetUpdateVirtualCircuitDetailsRoutingPolicyEnumStringValues() []string {
+	return []string{
+		"ORACLE_SERVICE_NETWORK",
+		"REGIONAL",
+		"MARKET_LEVEL",
+		"GLOBAL",
+	}
 }
 
 // UpdateVirtualCircuitDetailsProviderStateEnum Enum with underlying type: string
@@ -133,7 +169,7 @@ const (
 	UpdateVirtualCircuitDetailsProviderStateInactive UpdateVirtualCircuitDetailsProviderStateEnum = "INACTIVE"
 )
 
-var mappingUpdateVirtualCircuitDetailsProviderState = map[string]UpdateVirtualCircuitDetailsProviderStateEnum{
+var mappingUpdateVirtualCircuitDetailsProviderStateEnum = map[string]UpdateVirtualCircuitDetailsProviderStateEnum{
 	"ACTIVE":   UpdateVirtualCircuitDetailsProviderStateActive,
 	"INACTIVE": UpdateVirtualCircuitDetailsProviderStateInactive,
 }
@@ -141,8 +177,16 @@ var mappingUpdateVirtualCircuitDetailsProviderState = map[string]UpdateVirtualCi
 // GetUpdateVirtualCircuitDetailsProviderStateEnumValues Enumerates the set of values for UpdateVirtualCircuitDetailsProviderStateEnum
 func GetUpdateVirtualCircuitDetailsProviderStateEnumValues() []UpdateVirtualCircuitDetailsProviderStateEnum {
 	values := make([]UpdateVirtualCircuitDetailsProviderStateEnum, 0)
-	for _, v := range mappingUpdateVirtualCircuitDetailsProviderState {
+	for _, v := range mappingUpdateVirtualCircuitDetailsProviderStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateVirtualCircuitDetailsProviderStateEnumStringValues Enumerates the set of values in String for UpdateVirtualCircuitDetailsProviderStateEnum
+func GetUpdateVirtualCircuitDetailsProviderStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }

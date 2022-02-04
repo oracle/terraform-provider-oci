@@ -12,7 +12,9 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SummarizeExadataInsightResourceForecastTrendAggregation Usage and Forecast results from the selected time period.
@@ -50,6 +52,30 @@ func (m SummarizeExadataInsightResourceForecastTrendAggregation) String() string
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SummarizeExadataInsightResourceForecastTrendAggregation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum[string(m.ExadataResourceMetric)]; !ok && m.ExadataResourceMetric != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceMetric: %s. Supported values are: %s.", m.ExadataResourceMetric, strings.Join(GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum[string(m.ExadataResourceType)]; !ok && m.ExadataResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceType: %s. Supported values are: %s.", m.ExadataResourceType, strings.Join(GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUsageUnitEnum[string(m.UsageUnit)]; !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeExadataInsightResourceForecastTrendAggregationPatternEnum[string(m.Pattern)]; !ok && m.Pattern != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Pattern: %s. Supported values are: %s.", m.Pattern, strings.Join(GetSummarizeExadataInsightResourceForecastTrendAggregationPatternEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum Enum with underlying type: string
 type SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum string
 
@@ -63,7 +89,7 @@ const (
 	SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricThroughput SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum = "THROUGHPUT"
 )
 
-var mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetric = map[string]SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum{
+var mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum = map[string]SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum{
 	"CPU":        SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricCpu,
 	"STORAGE":    SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricStorage,
 	"IO":         SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricIo,
@@ -75,10 +101,22 @@ var mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourc
 // GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnumValues Enumerates the set of values for SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum
 func GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnumValues() []SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum {
 	values := make([]SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetric {
+	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnum
+func GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceMetricEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"STORAGE",
+		"IO",
+		"MEMORY",
+		"IOPS",
+		"THROUGHPUT",
+	}
 }
 
 // SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum Enum with underlying type: string
@@ -92,7 +130,7 @@ const (
 	SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeDiskgroup     SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum = "DISKGROUP"
 )
 
-var mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceType = map[string]SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum{
+var mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum = map[string]SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum{
 	"DATABASE":       SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeDatabase,
 	"HOST":           SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeHost,
 	"STORAGE_SERVER": SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeStorageServer,
@@ -102,10 +140,20 @@ var mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourc
 // GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnumValues Enumerates the set of values for SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum
 func GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnumValues() []SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum {
 	values := make([]SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceType {
+	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnum
+func GetSummarizeExadataInsightResourceForecastTrendAggregationExadataResourceTypeEnumStringValues() []string {
+	return []string{
+		"DATABASE",
+		"HOST",
+		"STORAGE_SERVER",
+		"DISKGROUP",
+	}
 }
 
 // SummarizeExadataInsightResourceForecastTrendAggregationPatternEnum Enum with underlying type: string
@@ -123,7 +171,7 @@ const (
 	SummarizeExadataInsightResourceForecastTrendAggregationPatternYearlySeasons                 SummarizeExadataInsightResourceForecastTrendAggregationPatternEnum = "YEARLY_SEASONS"
 )
 
-var mappingSummarizeExadataInsightResourceForecastTrendAggregationPattern = map[string]SummarizeExadataInsightResourceForecastTrendAggregationPatternEnum{
+var mappingSummarizeExadataInsightResourceForecastTrendAggregationPatternEnum = map[string]SummarizeExadataInsightResourceForecastTrendAggregationPatternEnum{
 	"LINEAR":                            SummarizeExadataInsightResourceForecastTrendAggregationPatternLinear,
 	"MONTHLY_SEASONS":                   SummarizeExadataInsightResourceForecastTrendAggregationPatternMonthlySeasons,
 	"MONTHLY_AND_YEARLY_SEASONS":        SummarizeExadataInsightResourceForecastTrendAggregationPatternMonthlyAndYearlySeasons,
@@ -137,8 +185,22 @@ var mappingSummarizeExadataInsightResourceForecastTrendAggregationPattern = map[
 // GetSummarizeExadataInsightResourceForecastTrendAggregationPatternEnumValues Enumerates the set of values for SummarizeExadataInsightResourceForecastTrendAggregationPatternEnum
 func GetSummarizeExadataInsightResourceForecastTrendAggregationPatternEnumValues() []SummarizeExadataInsightResourceForecastTrendAggregationPatternEnum {
 	values := make([]SummarizeExadataInsightResourceForecastTrendAggregationPatternEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregationPattern {
+	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendAggregationPatternEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceForecastTrendAggregationPatternEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceForecastTrendAggregationPatternEnum
+func GetSummarizeExadataInsightResourceForecastTrendAggregationPatternEnumStringValues() []string {
+	return []string{
+		"LINEAR",
+		"MONTHLY_SEASONS",
+		"MONTHLY_AND_YEARLY_SEASONS",
+		"WEEKLY_SEASONS",
+		"WEEKLY_AND_MONTHLY_SEASONS",
+		"WEEKLY_MONTHLY_AND_YEARLY_SEASONS",
+		"WEEKLY_AND_YEARLY_SEASONS",
+		"YEARLY_SEASONS",
+	}
 }

@@ -5,8 +5,10 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetBucketRequest wrapper for the GetBucket operation
@@ -54,6 +56,10 @@ func (request GetBucketRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetBucketRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +73,23 @@ func (request GetBucketRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetBucketRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetBucketRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetBucketFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetBucketFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetBucketResponse wrapper for the GetBucket operation
@@ -114,7 +137,7 @@ const (
 	GetBucketFieldsAutotiering      GetBucketFieldsEnum = "autoTiering"
 )
 
-var mappingGetBucketFields = map[string]GetBucketFieldsEnum{
+var mappingGetBucketFieldsEnum = map[string]GetBucketFieldsEnum{
 	"approximateCount": GetBucketFieldsApproximatecount,
 	"approximateSize":  GetBucketFieldsApproximatesize,
 	"autoTiering":      GetBucketFieldsAutotiering,
@@ -123,8 +146,17 @@ var mappingGetBucketFields = map[string]GetBucketFieldsEnum{
 // GetGetBucketFieldsEnumValues Enumerates the set of values for GetBucketFieldsEnum
 func GetGetBucketFieldsEnumValues() []GetBucketFieldsEnum {
 	values := make([]GetBucketFieldsEnum, 0)
-	for _, v := range mappingGetBucketFields {
+	for _, v := range mappingGetBucketFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetBucketFieldsEnumStringValues Enumerates the set of values in String for GetBucketFieldsEnum
+func GetGetBucketFieldsEnumStringValues() []string {
+	return []string{
+		"approximateCount",
+		"approximateSize",
+		"autoTiering",
+	}
 }

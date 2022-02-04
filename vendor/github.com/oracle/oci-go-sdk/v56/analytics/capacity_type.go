@@ -18,7 +18,7 @@ const (
 	CapacityTypeUserCount CapacityTypeEnum = "USER_COUNT"
 )
 
-var mappingCapacityType = map[string]CapacityTypeEnum{
+var mappingCapacityTypeEnum = map[string]CapacityTypeEnum{
 	"OLPU_COUNT": CapacityTypeOlpuCount,
 	"USER_COUNT": CapacityTypeUserCount,
 }
@@ -26,8 +26,16 @@ var mappingCapacityType = map[string]CapacityTypeEnum{
 // GetCapacityTypeEnumValues Enumerates the set of values for CapacityTypeEnum
 func GetCapacityTypeEnumValues() []CapacityTypeEnum {
 	values := make([]CapacityTypeEnum, 0)
-	for _, v := range mappingCapacityType {
+	for _, v := range mappingCapacityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCapacityTypeEnumStringValues Enumerates the set of values in String for CapacityTypeEnum
+func GetCapacityTypeEnumStringValues() []string {
+	return []string{
+		"OLPU_COUNT",
+		"USER_COUNT",
+	}
 }

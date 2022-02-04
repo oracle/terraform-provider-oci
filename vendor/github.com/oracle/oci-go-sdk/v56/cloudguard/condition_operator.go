@@ -10,7 +10,9 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ConditionOperator Conditions related to the parameter data type
@@ -25,4 +27,19 @@ type ConditionOperator struct {
 
 func (m ConditionOperator) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ConditionOperator) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingConditionOperatorNameEnum[string(m.Name)]; !ok && m.Name != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Name: %s. Supported values are: %s.", m.Name, strings.Join(GetConditionOperatorNameEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

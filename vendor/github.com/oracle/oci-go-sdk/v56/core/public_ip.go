@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PublicIp A *public IP* is a conceptual term that refers to a public IP address and related properties.
@@ -112,6 +114,30 @@ func (m PublicIp) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PublicIp) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPublicIpAssignedEntityTypeEnum[string(m.AssignedEntityType)]; !ok && m.AssignedEntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AssignedEntityType: %s. Supported values are: %s.", m.AssignedEntityType, strings.Join(GetPublicIpAssignedEntityTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPublicIpLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPublicIpLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPublicIpLifetimeEnum[string(m.Lifetime)]; !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetPublicIpLifetimeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPublicIpScopeEnum[string(m.Scope)]; !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetPublicIpScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PublicIpAssignedEntityTypeEnum Enum with underlying type: string
 type PublicIpAssignedEntityTypeEnum string
 
@@ -121,7 +147,7 @@ const (
 	PublicIpAssignedEntityTypeNatGateway PublicIpAssignedEntityTypeEnum = "NAT_GATEWAY"
 )
 
-var mappingPublicIpAssignedEntityType = map[string]PublicIpAssignedEntityTypeEnum{
+var mappingPublicIpAssignedEntityTypeEnum = map[string]PublicIpAssignedEntityTypeEnum{
 	"PRIVATE_IP":  PublicIpAssignedEntityTypePrivateIp,
 	"NAT_GATEWAY": PublicIpAssignedEntityTypeNatGateway,
 }
@@ -129,10 +155,18 @@ var mappingPublicIpAssignedEntityType = map[string]PublicIpAssignedEntityTypeEnu
 // GetPublicIpAssignedEntityTypeEnumValues Enumerates the set of values for PublicIpAssignedEntityTypeEnum
 func GetPublicIpAssignedEntityTypeEnumValues() []PublicIpAssignedEntityTypeEnum {
 	values := make([]PublicIpAssignedEntityTypeEnum, 0)
-	for _, v := range mappingPublicIpAssignedEntityType {
+	for _, v := range mappingPublicIpAssignedEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPublicIpAssignedEntityTypeEnumStringValues Enumerates the set of values in String for PublicIpAssignedEntityTypeEnum
+func GetPublicIpAssignedEntityTypeEnumStringValues() []string {
+	return []string{
+		"PRIVATE_IP",
+		"NAT_GATEWAY",
+	}
 }
 
 // PublicIpLifecycleStateEnum Enum with underlying type: string
@@ -150,7 +184,7 @@ const (
 	PublicIpLifecycleStateTerminated   PublicIpLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingPublicIpLifecycleState = map[string]PublicIpLifecycleStateEnum{
+var mappingPublicIpLifecycleStateEnum = map[string]PublicIpLifecycleStateEnum{
 	"PROVISIONING": PublicIpLifecycleStateProvisioning,
 	"AVAILABLE":    PublicIpLifecycleStateAvailable,
 	"ASSIGNING":    PublicIpLifecycleStateAssigning,
@@ -164,10 +198,24 @@ var mappingPublicIpLifecycleState = map[string]PublicIpLifecycleStateEnum{
 // GetPublicIpLifecycleStateEnumValues Enumerates the set of values for PublicIpLifecycleStateEnum
 func GetPublicIpLifecycleStateEnumValues() []PublicIpLifecycleStateEnum {
 	values := make([]PublicIpLifecycleStateEnum, 0)
-	for _, v := range mappingPublicIpLifecycleState {
+	for _, v := range mappingPublicIpLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPublicIpLifecycleStateEnumStringValues Enumerates the set of values in String for PublicIpLifecycleStateEnum
+func GetPublicIpLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"ASSIGNING",
+		"ASSIGNED",
+		"UNASSIGNING",
+		"UNASSIGNED",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }
 
 // PublicIpLifetimeEnum Enum with underlying type: string
@@ -179,7 +227,7 @@ const (
 	PublicIpLifetimeReserved  PublicIpLifetimeEnum = "RESERVED"
 )
 
-var mappingPublicIpLifetime = map[string]PublicIpLifetimeEnum{
+var mappingPublicIpLifetimeEnum = map[string]PublicIpLifetimeEnum{
 	"EPHEMERAL": PublicIpLifetimeEphemeral,
 	"RESERVED":  PublicIpLifetimeReserved,
 }
@@ -187,10 +235,18 @@ var mappingPublicIpLifetime = map[string]PublicIpLifetimeEnum{
 // GetPublicIpLifetimeEnumValues Enumerates the set of values for PublicIpLifetimeEnum
 func GetPublicIpLifetimeEnumValues() []PublicIpLifetimeEnum {
 	values := make([]PublicIpLifetimeEnum, 0)
-	for _, v := range mappingPublicIpLifetime {
+	for _, v := range mappingPublicIpLifetimeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPublicIpLifetimeEnumStringValues Enumerates the set of values in String for PublicIpLifetimeEnum
+func GetPublicIpLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
 }
 
 // PublicIpScopeEnum Enum with underlying type: string
@@ -202,7 +258,7 @@ const (
 	PublicIpScopeAvailabilityDomain PublicIpScopeEnum = "AVAILABILITY_DOMAIN"
 )
 
-var mappingPublicIpScope = map[string]PublicIpScopeEnum{
+var mappingPublicIpScopeEnum = map[string]PublicIpScopeEnum{
 	"REGION":              PublicIpScopeRegion,
 	"AVAILABILITY_DOMAIN": PublicIpScopeAvailabilityDomain,
 }
@@ -210,8 +266,16 @@ var mappingPublicIpScope = map[string]PublicIpScopeEnum{
 // GetPublicIpScopeEnumValues Enumerates the set of values for PublicIpScopeEnum
 func GetPublicIpScopeEnumValues() []PublicIpScopeEnum {
 	values := make([]PublicIpScopeEnum, 0)
-	for _, v := range mappingPublicIpScope {
+	for _, v := range mappingPublicIpScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPublicIpScopeEnumStringValues Enumerates the set of values in String for PublicIpScopeEnum
+func GetPublicIpScopeEnumStringValues() []string {
+	return []string{
+		"REGION",
+		"AVAILABILITY_DOMAIN",
+	}
 }

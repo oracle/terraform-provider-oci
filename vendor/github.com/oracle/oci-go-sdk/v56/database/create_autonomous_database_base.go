@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateAutonomousDatabaseBase Details to create an Oracle Autonomous Database.
@@ -458,6 +460,27 @@ func (m createautonomousdatabasebase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createautonomousdatabasebase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateAutonomousDatabaseBaseDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum[string(m.AutonomousMaintenanceScheduleType)]; !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateAutonomousDatabaseBaseDbWorkloadEnum Enum with underlying type: string
 type CreateAutonomousDatabaseBaseDbWorkloadEnum string
 
@@ -469,7 +492,7 @@ const (
 	CreateAutonomousDatabaseBaseDbWorkloadApex CreateAutonomousDatabaseBaseDbWorkloadEnum = "APEX"
 )
 
-var mappingCreateAutonomousDatabaseBaseDbWorkload = map[string]CreateAutonomousDatabaseBaseDbWorkloadEnum{
+var mappingCreateAutonomousDatabaseBaseDbWorkloadEnum = map[string]CreateAutonomousDatabaseBaseDbWorkloadEnum{
 	"OLTP": CreateAutonomousDatabaseBaseDbWorkloadOltp,
 	"DW":   CreateAutonomousDatabaseBaseDbWorkloadDw,
 	"AJD":  CreateAutonomousDatabaseBaseDbWorkloadAjd,
@@ -479,10 +502,20 @@ var mappingCreateAutonomousDatabaseBaseDbWorkload = map[string]CreateAutonomousD
 // GetCreateAutonomousDatabaseBaseDbWorkloadEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseDbWorkloadEnum
 func GetCreateAutonomousDatabaseBaseDbWorkloadEnumValues() []CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	values := make([]CreateAutonomousDatabaseBaseDbWorkloadEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseBaseDbWorkload {
+	for _, v := range mappingCreateAutonomousDatabaseBaseDbWorkloadEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseDbWorkloadEnum
+func GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DW",
+		"AJD",
+		"APEX",
+	}
 }
 
 // CreateAutonomousDatabaseBaseLicenseModelEnum Enum with underlying type: string
@@ -494,7 +527,7 @@ const (
 	CreateAutonomousDatabaseBaseLicenseModelBringYourOwnLicense CreateAutonomousDatabaseBaseLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingCreateAutonomousDatabaseBaseLicenseModel = map[string]CreateAutonomousDatabaseBaseLicenseModelEnum{
+var mappingCreateAutonomousDatabaseBaseLicenseModelEnum = map[string]CreateAutonomousDatabaseBaseLicenseModelEnum{
 	"LICENSE_INCLUDED":       CreateAutonomousDatabaseBaseLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": CreateAutonomousDatabaseBaseLicenseModelBringYourOwnLicense,
 }
@@ -502,10 +535,18 @@ var mappingCreateAutonomousDatabaseBaseLicenseModel = map[string]CreateAutonomou
 // GetCreateAutonomousDatabaseBaseLicenseModelEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseLicenseModelEnum
 func GetCreateAutonomousDatabaseBaseLicenseModelEnumValues() []CreateAutonomousDatabaseBaseLicenseModelEnum {
 	values := make([]CreateAutonomousDatabaseBaseLicenseModelEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseBaseLicenseModel {
+	for _, v := range mappingCreateAutonomousDatabaseBaseLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseLicenseModelEnum
+func GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }
 
 // CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum Enum with underlying type: string
@@ -517,7 +558,7 @@ const (
 	CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeRegular CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum = "REGULAR"
 )
 
-var mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleType = map[string]CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum{
+var mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum = map[string]CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum{
 	"EARLY":   CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEarly,
 	"REGULAR": CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeRegular,
 }
@@ -525,10 +566,18 @@ var mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleType = map[s
 // GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
 func GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumValues() []CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	values := make([]CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleType {
+	for _, v := range mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
+func GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues() []string {
+	return []string{
+		"EARLY",
+		"REGULAR",
+	}
 }
 
 // CreateAutonomousDatabaseBaseSourceEnum Enum with underlying type: string
@@ -544,7 +593,7 @@ const (
 	CreateAutonomousDatabaseBaseSourceCrossRegionDataguard CreateAutonomousDatabaseBaseSourceEnum = "CROSS_REGION_DATAGUARD"
 )
 
-var mappingCreateAutonomousDatabaseBaseSource = map[string]CreateAutonomousDatabaseBaseSourceEnum{
+var mappingCreateAutonomousDatabaseBaseSourceEnum = map[string]CreateAutonomousDatabaseBaseSourceEnum{
 	"NONE":                   CreateAutonomousDatabaseBaseSourceNone,
 	"DATABASE":               CreateAutonomousDatabaseBaseSourceDatabase,
 	"BACKUP_FROM_ID":         CreateAutonomousDatabaseBaseSourceBackupFromId,
@@ -556,8 +605,20 @@ var mappingCreateAutonomousDatabaseBaseSource = map[string]CreateAutonomousDatab
 // GetCreateAutonomousDatabaseBaseSourceEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseSourceEnum
 func GetCreateAutonomousDatabaseBaseSourceEnumValues() []CreateAutonomousDatabaseBaseSourceEnum {
 	values := make([]CreateAutonomousDatabaseBaseSourceEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseBaseSource {
+	for _, v := range mappingCreateAutonomousDatabaseBaseSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseBaseSourceEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseSourceEnum
+func GetCreateAutonomousDatabaseBaseSourceEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"DATABASE",
+		"BACKUP_FROM_ID",
+		"BACKUP_FROM_TIMESTAMP",
+		"CLONE_TO_REFRESHABLE",
+		"CROSS_REGION_DATAGUARD",
+	}
 }

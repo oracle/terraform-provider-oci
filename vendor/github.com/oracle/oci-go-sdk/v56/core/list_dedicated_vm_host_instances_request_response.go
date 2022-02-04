@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDedicatedVmHostInstancesRequest wrapper for the ListDedicatedVmHostInstances operation
@@ -66,6 +68,10 @@ func (request ListDedicatedVmHostInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDedicatedVmHostInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,23 @@ func (request ListDedicatedVmHostInstancesRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDedicatedVmHostInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDedicatedVmHostInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDedicatedVmHostInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDedicatedVmHostInstancesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDedicatedVmHostInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDedicatedVmHostInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDedicatedVmHostInstancesResponse wrapper for the ListDedicatedVmHostInstances operation
@@ -118,7 +141,7 @@ const (
 	ListDedicatedVmHostInstancesSortByDisplayname ListDedicatedVmHostInstancesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListDedicatedVmHostInstancesSortBy = map[string]ListDedicatedVmHostInstancesSortByEnum{
+var mappingListDedicatedVmHostInstancesSortByEnum = map[string]ListDedicatedVmHostInstancesSortByEnum{
 	"TIMECREATED": ListDedicatedVmHostInstancesSortByTimecreated,
 	"DISPLAYNAME": ListDedicatedVmHostInstancesSortByDisplayname,
 }
@@ -126,10 +149,18 @@ var mappingListDedicatedVmHostInstancesSortBy = map[string]ListDedicatedVmHostIn
 // GetListDedicatedVmHostInstancesSortByEnumValues Enumerates the set of values for ListDedicatedVmHostInstancesSortByEnum
 func GetListDedicatedVmHostInstancesSortByEnumValues() []ListDedicatedVmHostInstancesSortByEnum {
 	values := make([]ListDedicatedVmHostInstancesSortByEnum, 0)
-	for _, v := range mappingListDedicatedVmHostInstancesSortBy {
+	for _, v := range mappingListDedicatedVmHostInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDedicatedVmHostInstancesSortByEnumStringValues Enumerates the set of values in String for ListDedicatedVmHostInstancesSortByEnum
+func GetListDedicatedVmHostInstancesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListDedicatedVmHostInstancesSortOrderEnum Enum with underlying type: string
@@ -141,7 +172,7 @@ const (
 	ListDedicatedVmHostInstancesSortOrderDesc ListDedicatedVmHostInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListDedicatedVmHostInstancesSortOrder = map[string]ListDedicatedVmHostInstancesSortOrderEnum{
+var mappingListDedicatedVmHostInstancesSortOrderEnum = map[string]ListDedicatedVmHostInstancesSortOrderEnum{
 	"ASC":  ListDedicatedVmHostInstancesSortOrderAsc,
 	"DESC": ListDedicatedVmHostInstancesSortOrderDesc,
 }
@@ -149,8 +180,16 @@ var mappingListDedicatedVmHostInstancesSortOrder = map[string]ListDedicatedVmHos
 // GetListDedicatedVmHostInstancesSortOrderEnumValues Enumerates the set of values for ListDedicatedVmHostInstancesSortOrderEnum
 func GetListDedicatedVmHostInstancesSortOrderEnumValues() []ListDedicatedVmHostInstancesSortOrderEnum {
 	values := make([]ListDedicatedVmHostInstancesSortOrderEnum, 0)
-	for _, v := range mappingListDedicatedVmHostInstancesSortOrder {
+	for _, v := range mappingListDedicatedVmHostInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDedicatedVmHostInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListDedicatedVmHostInstancesSortOrderEnum
+func GetListDedicatedVmHostInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

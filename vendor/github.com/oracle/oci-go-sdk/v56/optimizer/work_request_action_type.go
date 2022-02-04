@@ -23,7 +23,7 @@ const (
 	WorkRequestActionTypeRelated    WorkRequestActionTypeEnum = "RELATED"
 )
 
-var mappingWorkRequestActionType = map[string]WorkRequestActionTypeEnum{
+var mappingWorkRequestActionTypeEnum = map[string]WorkRequestActionTypeEnum{
 	"CREATED":     WorkRequestActionTypeCreated,
 	"UPDATED":     WorkRequestActionTypeUpdated,
 	"DELETED":     WorkRequestActionTypeDeleted,
@@ -34,8 +34,19 @@ var mappingWorkRequestActionType = map[string]WorkRequestActionTypeEnum{
 // GetWorkRequestActionTypeEnumValues Enumerates the set of values for WorkRequestActionTypeEnum
 func GetWorkRequestActionTypeEnumValues() []WorkRequestActionTypeEnum {
 	values := make([]WorkRequestActionTypeEnum, 0)
-	for _, v := range mappingWorkRequestActionType {
+	for _, v := range mappingWorkRequestActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestActionTypeEnumStringValues Enumerates the set of values in String for WorkRequestActionTypeEnum
+func GetWorkRequestActionTypeEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"UPDATED",
+		"DELETED",
+		"IN_PROGRESS",
+		"RELATED",
+	}
 }

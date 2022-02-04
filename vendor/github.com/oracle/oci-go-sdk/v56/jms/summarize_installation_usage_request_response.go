@@ -5,8 +5,10 @@
 package jms
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeInstallationUsageRequest wrapper for the SummarizeInstallationUsage operation
@@ -81,6 +83,10 @@ func (request SummarizeInstallationUsageRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeInstallationUsageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -94,6 +100,35 @@ func (request SummarizeInstallationUsageRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeInstallationUsageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeInstallationUsageRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingSummarizeInstallationUsageFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetSummarizeInstallationUsageFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeInstallationUsageSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeInstallationUsageSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeInstallationUsageSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeInstallationUsageSortByEnumStringValues(), ",")))
+	}
+	for _, val := range request.OsFamily {
+		if _, ok := mappingOsFamilyEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeInstallationUsageResponse wrapper for the SummarizeInstallationUsage operation
@@ -133,7 +168,7 @@ const (
 	SummarizeInstallationUsageSortOrderDesc SummarizeInstallationUsageSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeInstallationUsageSortOrder = map[string]SummarizeInstallationUsageSortOrderEnum{
+var mappingSummarizeInstallationUsageSortOrderEnum = map[string]SummarizeInstallationUsageSortOrderEnum{
 	"ASC":  SummarizeInstallationUsageSortOrderAsc,
 	"DESC": SummarizeInstallationUsageSortOrderDesc,
 }
@@ -141,10 +176,18 @@ var mappingSummarizeInstallationUsageSortOrder = map[string]SummarizeInstallatio
 // GetSummarizeInstallationUsageSortOrderEnumValues Enumerates the set of values for SummarizeInstallationUsageSortOrderEnum
 func GetSummarizeInstallationUsageSortOrderEnumValues() []SummarizeInstallationUsageSortOrderEnum {
 	values := make([]SummarizeInstallationUsageSortOrderEnum, 0)
-	for _, v := range mappingSummarizeInstallationUsageSortOrder {
+	for _, v := range mappingSummarizeInstallationUsageSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeInstallationUsageSortOrderEnumStringValues Enumerates the set of values in String for SummarizeInstallationUsageSortOrderEnum
+func GetSummarizeInstallationUsageSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeInstallationUsageSortByEnum Enum with underlying type: string
@@ -163,7 +206,7 @@ const (
 	SummarizeInstallationUsageSortByOsname                          SummarizeInstallationUsageSortByEnum = "osName"
 )
 
-var mappingSummarizeInstallationUsageSortBy = map[string]SummarizeInstallationUsageSortByEnum{
+var mappingSummarizeInstallationUsageSortByEnum = map[string]SummarizeInstallationUsageSortByEnum{
 	"jreDistribution":                 SummarizeInstallationUsageSortByJredistribution,
 	"jreVendor":                       SummarizeInstallationUsageSortByJrevendor,
 	"jreVersion":                      SummarizeInstallationUsageSortByJreversion,
@@ -178,8 +221,23 @@ var mappingSummarizeInstallationUsageSortBy = map[string]SummarizeInstallationUs
 // GetSummarizeInstallationUsageSortByEnumValues Enumerates the set of values for SummarizeInstallationUsageSortByEnum
 func GetSummarizeInstallationUsageSortByEnumValues() []SummarizeInstallationUsageSortByEnum {
 	values := make([]SummarizeInstallationUsageSortByEnum, 0)
-	for _, v := range mappingSummarizeInstallationUsageSortBy {
+	for _, v := range mappingSummarizeInstallationUsageSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeInstallationUsageSortByEnumStringValues Enumerates the set of values in String for SummarizeInstallationUsageSortByEnum
+func GetSummarizeInstallationUsageSortByEnumStringValues() []string {
+	return []string{
+		"jreDistribution",
+		"jreVendor",
+		"jreVersion",
+		"path",
+		"timeFirstSeen",
+		"timeLastSeen",
+		"approximateApplicationCount",
+		"approximateManagedInstanceCount",
+		"osName",
+	}
 }

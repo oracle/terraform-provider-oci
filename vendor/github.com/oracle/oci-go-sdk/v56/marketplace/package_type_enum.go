@@ -18,7 +18,7 @@ const (
 	PackageTypeEnumImage         PackageTypeEnumEnum = "IMAGE"
 )
 
-var mappingPackageTypeEnum = map[string]PackageTypeEnumEnum{
+var mappingPackageTypeEnumEnum = map[string]PackageTypeEnumEnum{
 	"ORCHESTRATION": PackageTypeEnumOrchestration,
 	"IMAGE":         PackageTypeEnumImage,
 }
@@ -26,8 +26,16 @@ var mappingPackageTypeEnum = map[string]PackageTypeEnumEnum{
 // GetPackageTypeEnumEnumValues Enumerates the set of values for PackageTypeEnumEnum
 func GetPackageTypeEnumEnumValues() []PackageTypeEnumEnum {
 	values := make([]PackageTypeEnumEnum, 0)
-	for _, v := range mappingPackageTypeEnum {
+	for _, v := range mappingPackageTypeEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPackageTypeEnumEnumStringValues Enumerates the set of values in String for PackageTypeEnumEnum
+func GetPackageTypeEnumEnumStringValues() []string {
+	return []string{
+		"ORCHESTRATION",
+		"IMAGE",
+	}
 }

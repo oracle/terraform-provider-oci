@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListProxiedForUsersRequest wrapper for the ListProxiedForUsers operation
@@ -54,6 +56,10 @@ func (request ListProxiedForUsersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListProxiedForUsersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +73,23 @@ func (request ListProxiedForUsersRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListProxiedForUsersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListProxiedForUsersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListProxiedForUsersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListProxiedForUsersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProxiedForUsersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListProxiedForUsersSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListProxiedForUsersResponse wrapper for the ListProxiedForUsers operation
@@ -105,17 +128,24 @@ const (
 	ListProxiedForUsersSortByName ListProxiedForUsersSortByEnum = "NAME"
 )
 
-var mappingListProxiedForUsersSortBy = map[string]ListProxiedForUsersSortByEnum{
+var mappingListProxiedForUsersSortByEnum = map[string]ListProxiedForUsersSortByEnum{
 	"NAME": ListProxiedForUsersSortByName,
 }
 
 // GetListProxiedForUsersSortByEnumValues Enumerates the set of values for ListProxiedForUsersSortByEnum
 func GetListProxiedForUsersSortByEnumValues() []ListProxiedForUsersSortByEnum {
 	values := make([]ListProxiedForUsersSortByEnum, 0)
-	for _, v := range mappingListProxiedForUsersSortBy {
+	for _, v := range mappingListProxiedForUsersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProxiedForUsersSortByEnumStringValues Enumerates the set of values in String for ListProxiedForUsersSortByEnum
+func GetListProxiedForUsersSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+	}
 }
 
 // ListProxiedForUsersSortOrderEnum Enum with underlying type: string
@@ -127,7 +157,7 @@ const (
 	ListProxiedForUsersSortOrderDesc ListProxiedForUsersSortOrderEnum = "DESC"
 )
 
-var mappingListProxiedForUsersSortOrder = map[string]ListProxiedForUsersSortOrderEnum{
+var mappingListProxiedForUsersSortOrderEnum = map[string]ListProxiedForUsersSortOrderEnum{
 	"ASC":  ListProxiedForUsersSortOrderAsc,
 	"DESC": ListProxiedForUsersSortOrderDesc,
 }
@@ -135,8 +165,16 @@ var mappingListProxiedForUsersSortOrder = map[string]ListProxiedForUsersSortOrde
 // GetListProxiedForUsersSortOrderEnumValues Enumerates the set of values for ListProxiedForUsersSortOrderEnum
 func GetListProxiedForUsersSortOrderEnumValues() []ListProxiedForUsersSortOrderEnum {
 	values := make([]ListProxiedForUsersSortOrderEnum, 0)
-	for _, v := range mappingListProxiedForUsersSortOrder {
+	for _, v := range mappingListProxiedForUsersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProxiedForUsersSortOrderEnumStringValues Enumerates the set of values in String for ListProxiedForUsersSortOrderEnum
+func GetListProxiedForUsersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

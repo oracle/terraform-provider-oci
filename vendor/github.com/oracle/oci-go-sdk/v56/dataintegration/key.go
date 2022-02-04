@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Key The key object.
@@ -61,6 +63,18 @@ func (m key) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m key) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // KeyModelTypeEnum Enum with underlying type: string
 type KeyModelTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	KeyModelTypeForeignKey KeyModelTypeEnum = "FOREIGN_KEY"
 )
 
-var mappingKeyModelType = map[string]KeyModelTypeEnum{
+var mappingKeyModelTypeEnum = map[string]KeyModelTypeEnum{
 	"FOREIGN_KEY": KeyModelTypeForeignKey,
 }
 
 // GetKeyModelTypeEnumValues Enumerates the set of values for KeyModelTypeEnum
 func GetKeyModelTypeEnumValues() []KeyModelTypeEnum {
 	values := make([]KeyModelTypeEnum, 0)
-	for _, v := range mappingKeyModelType {
+	for _, v := range mappingKeyModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyModelTypeEnumStringValues Enumerates the set of values in String for KeyModelTypeEnum
+func GetKeyModelTypeEnumStringValues() []string {
+	return []string{
+		"FOREIGN_KEY",
+	}
 }

@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PatchSummary The patch summary type contains the audit summary information and the definition of the patch.
@@ -73,6 +75,24 @@ func (m PatchSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PatchSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPatchSummaryPatchTypeEnum[string(m.PatchType)]; !ok && m.PatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchType: %s. Supported values are: %s.", m.PatchType, strings.Join(GetPatchSummaryPatchTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPatchSummaryPatchStatusEnum[string(m.PatchStatus)]; !ok && m.PatchStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchStatus: %s. Supported values are: %s.", m.PatchStatus, strings.Join(GetPatchSummaryPatchStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PatchSummaryPatchTypeEnum Enum with underlying type: string
 type PatchSummaryPatchTypeEnum string
 
@@ -83,7 +103,7 @@ const (
 	PatchSummaryPatchTypeUnpublish PatchSummaryPatchTypeEnum = "UNPUBLISH"
 )
 
-var mappingPatchSummaryPatchType = map[string]PatchSummaryPatchTypeEnum{
+var mappingPatchSummaryPatchTypeEnum = map[string]PatchSummaryPatchTypeEnum{
 	"PUBLISH":   PatchSummaryPatchTypePublish,
 	"REFRESH":   PatchSummaryPatchTypeRefresh,
 	"UNPUBLISH": PatchSummaryPatchTypeUnpublish,
@@ -92,10 +112,19 @@ var mappingPatchSummaryPatchType = map[string]PatchSummaryPatchTypeEnum{
 // GetPatchSummaryPatchTypeEnumValues Enumerates the set of values for PatchSummaryPatchTypeEnum
 func GetPatchSummaryPatchTypeEnumValues() []PatchSummaryPatchTypeEnum {
 	values := make([]PatchSummaryPatchTypeEnum, 0)
-	for _, v := range mappingPatchSummaryPatchType {
+	for _, v := range mappingPatchSummaryPatchTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchSummaryPatchTypeEnumStringValues Enumerates the set of values in String for PatchSummaryPatchTypeEnum
+func GetPatchSummaryPatchTypeEnumStringValues() []string {
+	return []string{
+		"PUBLISH",
+		"REFRESH",
+		"UNPUBLISH",
+	}
 }
 
 // PatchSummaryPatchStatusEnum Enum with underlying type: string
@@ -109,7 +138,7 @@ const (
 	PatchSummaryPatchStatusInProgress PatchSummaryPatchStatusEnum = "IN_PROGRESS"
 )
 
-var mappingPatchSummaryPatchStatus = map[string]PatchSummaryPatchStatusEnum{
+var mappingPatchSummaryPatchStatusEnum = map[string]PatchSummaryPatchStatusEnum{
 	"QUEUED":      PatchSummaryPatchStatusQueued,
 	"SUCCESSFUL":  PatchSummaryPatchStatusSuccessful,
 	"FAILED":      PatchSummaryPatchStatusFailed,
@@ -119,8 +148,18 @@ var mappingPatchSummaryPatchStatus = map[string]PatchSummaryPatchStatusEnum{
 // GetPatchSummaryPatchStatusEnumValues Enumerates the set of values for PatchSummaryPatchStatusEnum
 func GetPatchSummaryPatchStatusEnumValues() []PatchSummaryPatchStatusEnum {
 	values := make([]PatchSummaryPatchStatusEnum, 0)
-	for _, v := range mappingPatchSummaryPatchStatus {
+	for _, v := range mappingPatchSummaryPatchStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchSummaryPatchStatusEnumStringValues Enumerates the set of values in String for PatchSummaryPatchStatusEnum
+func GetPatchSummaryPatchStatusEnumStringValues() []string {
+	return []string{
+		"QUEUED",
+		"SUCCESSFUL",
+		"FAILED",
+		"IN_PROGRESS",
+	}
 }

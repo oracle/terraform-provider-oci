@@ -20,7 +20,7 @@ const (
 	TagValueTypeAny   TagValueTypeEnum = "ANY"
 )
 
-var mappingTagValueType = map[string]TagValueTypeEnum{
+var mappingTagValueTypeEnum = map[string]TagValueTypeEnum{
 	"VALUE": TagValueTypeValue,
 	"ANY":   TagValueTypeAny,
 }
@@ -28,8 +28,16 @@ var mappingTagValueType = map[string]TagValueTypeEnum{
 // GetTagValueTypeEnumValues Enumerates the set of values for TagValueTypeEnum
 func GetTagValueTypeEnumValues() []TagValueTypeEnum {
 	values := make([]TagValueTypeEnum, 0)
-	for _, v := range mappingTagValueType {
+	for _, v := range mappingTagValueTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTagValueTypeEnumStringValues Enumerates the set of values in String for TagValueTypeEnum
+func GetTagValueTypeEnumStringValues() []string {
+	return []string{
+		"VALUE",
+		"ANY",
+	}
 }

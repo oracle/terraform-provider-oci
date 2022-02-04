@@ -10,7 +10,9 @@
 package limits
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LimitDefinitionSummary The metadata specific to a resource limit definition.
@@ -49,6 +51,21 @@ func (m LimitDefinitionSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LimitDefinitionSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLimitDefinitionSummaryScopeTypeEnum[string(m.ScopeType)]; !ok && m.ScopeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScopeType: %s. Supported values are: %s.", m.ScopeType, strings.Join(GetLimitDefinitionSummaryScopeTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LimitDefinitionSummaryScopeTypeEnum Enum with underlying type: string
 type LimitDefinitionSummaryScopeTypeEnum string
 
@@ -59,7 +76,7 @@ const (
 	LimitDefinitionSummaryScopeTypeAd     LimitDefinitionSummaryScopeTypeEnum = "AD"
 )
 
-var mappingLimitDefinitionSummaryScopeType = map[string]LimitDefinitionSummaryScopeTypeEnum{
+var mappingLimitDefinitionSummaryScopeTypeEnum = map[string]LimitDefinitionSummaryScopeTypeEnum{
 	"GLOBAL": LimitDefinitionSummaryScopeTypeGlobal,
 	"REGION": LimitDefinitionSummaryScopeTypeRegion,
 	"AD":     LimitDefinitionSummaryScopeTypeAd,
@@ -68,8 +85,17 @@ var mappingLimitDefinitionSummaryScopeType = map[string]LimitDefinitionSummarySc
 // GetLimitDefinitionSummaryScopeTypeEnumValues Enumerates the set of values for LimitDefinitionSummaryScopeTypeEnum
 func GetLimitDefinitionSummaryScopeTypeEnumValues() []LimitDefinitionSummaryScopeTypeEnum {
 	values := make([]LimitDefinitionSummaryScopeTypeEnum, 0)
-	for _, v := range mappingLimitDefinitionSummaryScopeType {
+	for _, v := range mappingLimitDefinitionSummaryScopeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLimitDefinitionSummaryScopeTypeEnumStringValues Enumerates the set of values in String for LimitDefinitionSummaryScopeTypeEnum
+func GetLimitDefinitionSummaryScopeTypeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"REGION",
+		"AD",
+	}
 }

@@ -23,7 +23,7 @@ const (
 	OnPremConnectorLifecycleStateFailed   OnPremConnectorLifecycleStateEnum = "FAILED"
 )
 
-var mappingOnPremConnectorLifecycleState = map[string]OnPremConnectorLifecycleStateEnum{
+var mappingOnPremConnectorLifecycleStateEnum = map[string]OnPremConnectorLifecycleStateEnum{
 	"CREATING": OnPremConnectorLifecycleStateCreating,
 	"UPDATING": OnPremConnectorLifecycleStateUpdating,
 	"ACTIVE":   OnPremConnectorLifecycleStateActive,
@@ -36,8 +36,21 @@ var mappingOnPremConnectorLifecycleState = map[string]OnPremConnectorLifecycleSt
 // GetOnPremConnectorLifecycleStateEnumValues Enumerates the set of values for OnPremConnectorLifecycleStateEnum
 func GetOnPremConnectorLifecycleStateEnumValues() []OnPremConnectorLifecycleStateEnum {
 	values := make([]OnPremConnectorLifecycleStateEnum, 0)
-	for _, v := range mappingOnPremConnectorLifecycleState {
+	for _, v := range mappingOnPremConnectorLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOnPremConnectorLifecycleStateEnumStringValues Enumerates the set of values in String for OnPremConnectorLifecycleStateEnum
+func GetOnPremConnectorLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

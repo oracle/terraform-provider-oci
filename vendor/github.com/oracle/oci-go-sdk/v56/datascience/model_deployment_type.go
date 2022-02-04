@@ -17,15 +17,22 @@ const (
 	ModelDeploymentTypeSingleModel ModelDeploymentTypeEnum = "SINGLE_MODEL"
 )
 
-var mappingModelDeploymentType = map[string]ModelDeploymentTypeEnum{
+var mappingModelDeploymentTypeEnum = map[string]ModelDeploymentTypeEnum{
 	"SINGLE_MODEL": ModelDeploymentTypeSingleModel,
 }
 
 // GetModelDeploymentTypeEnumValues Enumerates the set of values for ModelDeploymentTypeEnum
 func GetModelDeploymentTypeEnumValues() []ModelDeploymentTypeEnum {
 	values := make([]ModelDeploymentTypeEnum, 0)
-	for _, v := range mappingModelDeploymentType {
+	for _, v := range mappingModelDeploymentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetModelDeploymentTypeEnumStringValues Enumerates the set of values in String for ModelDeploymentTypeEnum
+func GetModelDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"SINGLE_MODEL",
+	}
 }

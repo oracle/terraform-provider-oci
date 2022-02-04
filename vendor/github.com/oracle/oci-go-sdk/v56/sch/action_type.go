@@ -23,7 +23,7 @@ const (
 	ActionTypeRelated    ActionTypeEnum = "RELATED"
 )
 
-var mappingActionType = map[string]ActionTypeEnum{
+var mappingActionTypeEnum = map[string]ActionTypeEnum{
 	"CREATED":     ActionTypeCreated,
 	"UPDATED":     ActionTypeUpdated,
 	"DELETED":     ActionTypeDeleted,
@@ -34,8 +34,19 @@ var mappingActionType = map[string]ActionTypeEnum{
 // GetActionTypeEnumValues Enumerates the set of values for ActionTypeEnum
 func GetActionTypeEnumValues() []ActionTypeEnum {
 	values := make([]ActionTypeEnum, 0)
-	for _, v := range mappingActionType {
+	for _, v := range mappingActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetActionTypeEnumStringValues Enumerates the set of values in String for ActionTypeEnum
+func GetActionTypeEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"UPDATED",
+		"DELETED",
+		"IN_PROGRESS",
+		"RELATED",
+	}
 }

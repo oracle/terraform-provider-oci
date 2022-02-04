@@ -5,8 +5,10 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListRecommendationsRequest wrapper for the ListRecommendations operation
@@ -63,6 +65,10 @@ func (request ListRecommendationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRecommendationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,29 @@ func (request ListRecommendationsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRecommendationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRecommendationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRecommendationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRecommendationsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRecommendationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRecommendationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRecommendationsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListRecommendationsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRecommendationsStatusEnum[string(request.Status)]; !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListRecommendationsStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRecommendationsResponse wrapper for the ListRecommendations operation
@@ -119,7 +148,7 @@ const (
 	ListRecommendationsSortOrderDesc ListRecommendationsSortOrderEnum = "DESC"
 )
 
-var mappingListRecommendationsSortOrder = map[string]ListRecommendationsSortOrderEnum{
+var mappingListRecommendationsSortOrderEnum = map[string]ListRecommendationsSortOrderEnum{
 	"ASC":  ListRecommendationsSortOrderAsc,
 	"DESC": ListRecommendationsSortOrderDesc,
 }
@@ -127,10 +156,18 @@ var mappingListRecommendationsSortOrder = map[string]ListRecommendationsSortOrde
 // GetListRecommendationsSortOrderEnumValues Enumerates the set of values for ListRecommendationsSortOrderEnum
 func GetListRecommendationsSortOrderEnumValues() []ListRecommendationsSortOrderEnum {
 	values := make([]ListRecommendationsSortOrderEnum, 0)
-	for _, v := range mappingListRecommendationsSortOrder {
+	for _, v := range mappingListRecommendationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRecommendationsSortOrderEnumStringValues Enumerates the set of values in String for ListRecommendationsSortOrderEnum
+func GetListRecommendationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListRecommendationsSortByEnum Enum with underlying type: string
@@ -142,7 +179,7 @@ const (
 	ListRecommendationsSortByTimecreated ListRecommendationsSortByEnum = "TIMECREATED"
 )
 
-var mappingListRecommendationsSortBy = map[string]ListRecommendationsSortByEnum{
+var mappingListRecommendationsSortByEnum = map[string]ListRecommendationsSortByEnum{
 	"NAME":        ListRecommendationsSortByName,
 	"TIMECREATED": ListRecommendationsSortByTimecreated,
 }
@@ -150,10 +187,18 @@ var mappingListRecommendationsSortBy = map[string]ListRecommendationsSortByEnum{
 // GetListRecommendationsSortByEnumValues Enumerates the set of values for ListRecommendationsSortByEnum
 func GetListRecommendationsSortByEnumValues() []ListRecommendationsSortByEnum {
 	values := make([]ListRecommendationsSortByEnum, 0)
-	for _, v := range mappingListRecommendationsSortBy {
+	for _, v := range mappingListRecommendationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRecommendationsSortByEnumStringValues Enumerates the set of values in String for ListRecommendationsSortByEnum
+func GetListRecommendationsSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }
 
 // ListRecommendationsLifecycleStateEnum Enum with underlying type: string
@@ -172,7 +217,7 @@ const (
 	ListRecommendationsLifecycleStateCreating  ListRecommendationsLifecycleStateEnum = "CREATING"
 )
 
-var mappingListRecommendationsLifecycleState = map[string]ListRecommendationsLifecycleStateEnum{
+var mappingListRecommendationsLifecycleStateEnum = map[string]ListRecommendationsLifecycleStateEnum{
 	"ACTIVE":    ListRecommendationsLifecycleStateActive,
 	"FAILED":    ListRecommendationsLifecycleStateFailed,
 	"INACTIVE":  ListRecommendationsLifecycleStateInactive,
@@ -187,10 +232,25 @@ var mappingListRecommendationsLifecycleState = map[string]ListRecommendationsLif
 // GetListRecommendationsLifecycleStateEnumValues Enumerates the set of values for ListRecommendationsLifecycleStateEnum
 func GetListRecommendationsLifecycleStateEnumValues() []ListRecommendationsLifecycleStateEnum {
 	values := make([]ListRecommendationsLifecycleStateEnum, 0)
-	for _, v := range mappingListRecommendationsLifecycleState {
+	for _, v := range mappingListRecommendationsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRecommendationsLifecycleStateEnumStringValues Enumerates the set of values in String for ListRecommendationsLifecycleStateEnum
+func GetListRecommendationsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"FAILED",
+		"INACTIVE",
+		"ATTACHING",
+		"DETACHING",
+		"DELETING",
+		"DELETED",
+		"UPDATING",
+		"CREATING",
+	}
 }
 
 // ListRecommendationsStatusEnum Enum with underlying type: string
@@ -204,7 +264,7 @@ const (
 	ListRecommendationsStatusImplemented ListRecommendationsStatusEnum = "IMPLEMENTED"
 )
 
-var mappingListRecommendationsStatus = map[string]ListRecommendationsStatusEnum{
+var mappingListRecommendationsStatusEnum = map[string]ListRecommendationsStatusEnum{
 	"PENDING":     ListRecommendationsStatusPending,
 	"DISMISSED":   ListRecommendationsStatusDismissed,
 	"POSTPONED":   ListRecommendationsStatusPostponed,
@@ -214,8 +274,18 @@ var mappingListRecommendationsStatus = map[string]ListRecommendationsStatusEnum{
 // GetListRecommendationsStatusEnumValues Enumerates the set of values for ListRecommendationsStatusEnum
 func GetListRecommendationsStatusEnumValues() []ListRecommendationsStatusEnum {
 	values := make([]ListRecommendationsStatusEnum, 0)
-	for _, v := range mappingListRecommendationsStatus {
+	for _, v := range mappingListRecommendationsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRecommendationsStatusEnumStringValues Enumerates the set of values in String for ListRecommendationsStatusEnum
+func GetListRecommendationsStatusEnumStringValues() []string {
+	return []string{
+		"PENDING",
+		"DISMISSED",
+		"POSTPONED",
+		"IMPLEMENTED",
+	}
 }

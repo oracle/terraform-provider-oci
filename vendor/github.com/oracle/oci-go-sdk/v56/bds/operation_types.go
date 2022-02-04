@@ -37,7 +37,7 @@ const (
 	OperationTypesTestMetastoreConfig       OperationTypesEnum = "TEST_METASTORE_CONFIG"
 )
 
-var mappingOperationTypes = map[string]OperationTypesEnum{
+var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CREATE_BDS":                   OperationTypesCreateBds,
 	"UPDATE_BDS":                   OperationTypesUpdateBds,
 	"DELETE_BDS":                   OperationTypesDeleteBds,
@@ -64,8 +64,35 @@ var mappingOperationTypes = map[string]OperationTypesEnum{
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
 func GetOperationTypesEnumValues() []OperationTypesEnum {
 	values := make([]OperationTypesEnum, 0)
-	for _, v := range mappingOperationTypes {
+	for _, v := range mappingOperationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypesEnumStringValues Enumerates the set of values in String for OperationTypesEnum
+func GetOperationTypesEnumStringValues() []string {
+	return []string{
+		"CREATE_BDS",
+		"UPDATE_BDS",
+		"DELETE_BDS",
+		"ADD_BLOCK_STORAGE",
+		"ADD_WORKER_NODES",
+		"ADD_CLOUD_SQL",
+		"REMOVE_CLOUD_SQL",
+		"CHANGE_COMPARTMENT_FOR_BDS",
+		"CHANGE_SHAPE",
+		"UPDATE_INFRA",
+		"RESTART_NODE",
+		"AUTOSCALE_CONFIG",
+		"AUTOSCALE_RUN",
+		"CREATE_API_KEY",
+		"DELETE_API_KEY",
+		"TEST_OBJECT_STORE_CONNECTION",
+		"CREATE_METASTORE_CONFIG",
+		"DELETE_METASTORE_CONFIG",
+		"UPDATE_METASTORE_CONFIG",
+		"ACTIVATE_METASTORE_CONFIG",
+		"TEST_METASTORE_CONFIG",
+	}
 }

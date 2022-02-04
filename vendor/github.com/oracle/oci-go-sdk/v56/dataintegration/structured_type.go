@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // StructuredType A `StructuredType` object represents a data type that exists in a physical data asset object such as a table column, but is more complex. For example, an Oracle database `OBJECT` type. It can be composed of multiple `DataType` objects.
@@ -50,6 +52,24 @@ type StructuredType struct {
 
 func (m StructuredType) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m StructuredType) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingStructuredTypeModelTypeEnum[string(m.ModelType)]; !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetStructuredTypeModelTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingStructuredTypeDtTypeEnum[string(m.DtType)]; !ok && m.DtType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DtType: %s. Supported values are: %s.", m.DtType, strings.Join(GetStructuredTypeDtTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -120,7 +140,7 @@ const (
 	StructuredTypeModelTypeDerivedType    StructuredTypeModelTypeEnum = "DERIVED_TYPE"
 )
 
-var mappingStructuredTypeModelType = map[string]StructuredTypeModelTypeEnum{
+var mappingStructuredTypeModelTypeEnum = map[string]StructuredTypeModelTypeEnum{
 	"DYNAMIC_TYPE":    StructuredTypeModelTypeDynamicType,
 	"STRUCTURED_TYPE": StructuredTypeModelTypeStructuredType,
 	"DATA_TYPE":       StructuredTypeModelTypeDataType,
@@ -133,10 +153,23 @@ var mappingStructuredTypeModelType = map[string]StructuredTypeModelTypeEnum{
 // GetStructuredTypeModelTypeEnumValues Enumerates the set of values for StructuredTypeModelTypeEnum
 func GetStructuredTypeModelTypeEnumValues() []StructuredTypeModelTypeEnum {
 	values := make([]StructuredTypeModelTypeEnum, 0)
-	for _, v := range mappingStructuredTypeModelType {
+	for _, v := range mappingStructuredTypeModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStructuredTypeModelTypeEnumStringValues Enumerates the set of values in String for StructuredTypeModelTypeEnum
+func GetStructuredTypeModelTypeEnumStringValues() []string {
+	return []string{
+		"DYNAMIC_TYPE",
+		"STRUCTURED_TYPE",
+		"DATA_TYPE",
+		"JAVA_TYPE",
+		"CONFIGURED_TYPE",
+		"COMPOSITE_TYPE",
+		"DERIVED_TYPE",
+	}
 }
 
 // StructuredTypeDtTypeEnum Enum with underlying type: string
@@ -148,7 +181,7 @@ const (
 	StructuredTypeDtTypeStructured StructuredTypeDtTypeEnum = "STRUCTURED"
 )
 
-var mappingStructuredTypeDtType = map[string]StructuredTypeDtTypeEnum{
+var mappingStructuredTypeDtTypeEnum = map[string]StructuredTypeDtTypeEnum{
 	"PRIMITIVE":  StructuredTypeDtTypePrimitive,
 	"STRUCTURED": StructuredTypeDtTypeStructured,
 }
@@ -156,8 +189,16 @@ var mappingStructuredTypeDtType = map[string]StructuredTypeDtTypeEnum{
 // GetStructuredTypeDtTypeEnumValues Enumerates the set of values for StructuredTypeDtTypeEnum
 func GetStructuredTypeDtTypeEnumValues() []StructuredTypeDtTypeEnum {
 	values := make([]StructuredTypeDtTypeEnum, 0)
-	for _, v := range mappingStructuredTypeDtType {
+	for _, v := range mappingStructuredTypeDtTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStructuredTypeDtTypeEnumStringValues Enumerates the set of values in String for StructuredTypeDtTypeEnum
+func GetStructuredTypeDtTypeEnumStringValues() []string {
+	return []string{
+		"PRIMITIVE",
+		"STRUCTURED",
+	}
 }

@@ -20,7 +20,7 @@ const (
 	HttpProbeProtocolHttps HttpProbeProtocolEnum = "HTTPS"
 )
 
-var mappingHttpProbeProtocol = map[string]HttpProbeProtocolEnum{
+var mappingHttpProbeProtocolEnum = map[string]HttpProbeProtocolEnum{
 	"HTTP":  HttpProbeProtocolHttp,
 	"HTTPS": HttpProbeProtocolHttps,
 }
@@ -28,8 +28,16 @@ var mappingHttpProbeProtocol = map[string]HttpProbeProtocolEnum{
 // GetHttpProbeProtocolEnumValues Enumerates the set of values for HttpProbeProtocolEnum
 func GetHttpProbeProtocolEnumValues() []HttpProbeProtocolEnum {
 	values := make([]HttpProbeProtocolEnum, 0)
-	for _, v := range mappingHttpProbeProtocol {
+	for _, v := range mappingHttpProbeProtocolEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHttpProbeProtocolEnumStringValues Enumerates the set of values in String for HttpProbeProtocolEnum
+func GetHttpProbeProtocolEnumStringValues() []string {
+	return []string{
+		"HTTP",
+		"HTTPS",
+	}
 }

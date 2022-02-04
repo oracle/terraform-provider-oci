@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DatabaseSummary An Oracle Database on a bare metal or virtual machine DB system. For more information, see Bare Metal and Virtual Machine DB Systems (https://docs.cloud.oracle.com/Content/Database/Concepts/overview.htm).
@@ -99,6 +101,21 @@ func (m DatabaseSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseSummaryLifecycleStateEnum Enum with underlying type: string
 type DatabaseSummaryLifecycleStateEnum string
 
@@ -116,7 +133,7 @@ const (
 	DatabaseSummaryLifecycleStateFailed           DatabaseSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingDatabaseSummaryLifecycleState = map[string]DatabaseSummaryLifecycleStateEnum{
+var mappingDatabaseSummaryLifecycleStateEnum = map[string]DatabaseSummaryLifecycleStateEnum{
 	"PROVISIONING":       DatabaseSummaryLifecycleStateProvisioning,
 	"AVAILABLE":          DatabaseSummaryLifecycleStateAvailable,
 	"UPDATING":           DatabaseSummaryLifecycleStateUpdating,
@@ -132,8 +149,24 @@ var mappingDatabaseSummaryLifecycleState = map[string]DatabaseSummaryLifecycleSt
 // GetDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for DatabaseSummaryLifecycleStateEnum
 func GetDatabaseSummaryLifecycleStateEnumValues() []DatabaseSummaryLifecycleStateEnum {
 	values := make([]DatabaseSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingDatabaseSummaryLifecycleState {
+	for _, v := range mappingDatabaseSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for DatabaseSummaryLifecycleStateEnum
+func GetDatabaseSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"BACKUP_IN_PROGRESS",
+		"UPGRADING",
+		"CONVERTING",
+		"TERMINATING",
+		"TERMINATED",
+		"RESTORE_FAILED",
+		"FAILED",
+	}
 }

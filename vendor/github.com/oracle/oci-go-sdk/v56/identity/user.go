@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // User An individual employee or system that needs to manage or use your company's Oracle Cloud Infrastructure
@@ -116,6 +118,21 @@ func (m User) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m User) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUserLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetUserLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UserLifecycleStateEnum Enum with underlying type: string
 type UserLifecycleStateEnum string
 
@@ -128,7 +145,7 @@ const (
 	UserLifecycleStateDeleted  UserLifecycleStateEnum = "DELETED"
 )
 
-var mappingUserLifecycleState = map[string]UserLifecycleStateEnum{
+var mappingUserLifecycleStateEnum = map[string]UserLifecycleStateEnum{
 	"CREATING": UserLifecycleStateCreating,
 	"ACTIVE":   UserLifecycleStateActive,
 	"INACTIVE": UserLifecycleStateInactive,
@@ -139,8 +156,19 @@ var mappingUserLifecycleState = map[string]UserLifecycleStateEnum{
 // GetUserLifecycleStateEnumValues Enumerates the set of values for UserLifecycleStateEnum
 func GetUserLifecycleStateEnumValues() []UserLifecycleStateEnum {
 	values := make([]UserLifecycleStateEnum, 0)
-	for _, v := range mappingUserLifecycleState {
+	for _, v := range mappingUserLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserLifecycleStateEnumStringValues Enumerates the set of values in String for UserLifecycleStateEnum
+func GetUserLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

@@ -13,7 +13,9 @@
 package resourcemanager
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FailureDetails The representation of FailureDetails
@@ -28,6 +30,21 @@ type FailureDetails struct {
 
 func (m FailureDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FailureDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFailureDetailsCodeEnum[string(m.Code)]; !ok && m.Code != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Code: %s. Supported values are: %s.", m.Code, strings.Join(GetFailureDetailsCodeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // FailureDetailsCodeEnum Enum with underlying type: string
@@ -48,7 +65,7 @@ const (
 	FailureDetailsCodeTerraformObjectStorageConfigSourceUnsupportedObjectSize FailureDetailsCodeEnum = "TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_UNSUPPORTED_OBJECT_SIZE"
 )
 
-var mappingFailureDetailsCode = map[string]FailureDetailsCodeEnum{
+var mappingFailureDetailsCodeEnum = map[string]FailureDetailsCodeEnum{
 	"INTERNAL_SERVICE_ERROR":                                         FailureDetailsCodeInternalServiceError,
 	"TERRAFORM_EXECUTION_ERROR":                                      FailureDetailsCodeTerraformExecutionError,
 	"TERRAFORM_CONFIG_UNZIP_FAILED":                                  FailureDetailsCodeTerraformConfigUnzipFailed,
@@ -65,8 +82,25 @@ var mappingFailureDetailsCode = map[string]FailureDetailsCodeEnum{
 // GetFailureDetailsCodeEnumValues Enumerates the set of values for FailureDetailsCodeEnum
 func GetFailureDetailsCodeEnumValues() []FailureDetailsCodeEnum {
 	values := make([]FailureDetailsCodeEnum, 0)
-	for _, v := range mappingFailureDetailsCode {
+	for _, v := range mappingFailureDetailsCodeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFailureDetailsCodeEnumStringValues Enumerates the set of values in String for FailureDetailsCodeEnum
+func GetFailureDetailsCodeEnumStringValues() []string {
+	return []string{
+		"INTERNAL_SERVICE_ERROR",
+		"TERRAFORM_EXECUTION_ERROR",
+		"TERRAFORM_CONFIG_UNZIP_FAILED",
+		"INVALID_WORKING_DIRECTORY",
+		"JOB_TIMEOUT",
+		"TERRAFORM_CONFIG_VIRUS_FOUND",
+		"TERRAFORM_GIT_CLONE_FAILURE",
+		"TERRAFORM_GIT_CHECKOUT_FAILURE",
+		"TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_EMPTY_BUCKET",
+		"TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_NO_TF_FILE_PRESENT",
+		"TERRAFORM_OBJECT_STORAGE_CONFIG_SOURCE_UNSUPPORTED_OBJECT_SIZE",
+	}
 }

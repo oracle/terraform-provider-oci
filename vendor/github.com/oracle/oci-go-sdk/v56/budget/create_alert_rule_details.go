@@ -10,7 +10,9 @@
 package budget
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateAlertRuleDetails The create alert rule details. This is a batch-create.
@@ -53,6 +55,24 @@ type CreateAlertRuleDetails struct {
 
 func (m CreateAlertRuleDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateAlertRuleDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAlertTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetAlertTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingThresholdTypeEnum[string(m.ThresholdType)]; !ok && m.ThresholdType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ThresholdType: %s. Supported values are: %s.", m.ThresholdType, strings.Join(GetThresholdTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateAlertRuleDetailsTypeEnum is an alias to type: AlertTypeEnum

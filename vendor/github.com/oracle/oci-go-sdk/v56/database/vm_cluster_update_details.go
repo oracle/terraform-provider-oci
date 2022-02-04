@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VmClusterUpdateDetails Details specifying which maintenance update to apply to the VM Cluster and which action is to be performed by the maintenance update. Applies to Exadata Cloud@Customer instances only.
@@ -27,6 +29,21 @@ func (m VmClusterUpdateDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VmClusterUpdateDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingVmClusterUpdateDetailsUpdateActionEnum[string(m.UpdateAction)]; !ok && m.UpdateAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateAction: %s. Supported values are: %s.", m.UpdateAction, strings.Join(GetVmClusterUpdateDetailsUpdateActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VmClusterUpdateDetailsUpdateActionEnum Enum with underlying type: string
 type VmClusterUpdateDetailsUpdateActionEnum string
 
@@ -37,7 +54,7 @@ const (
 	VmClusterUpdateDetailsUpdateActionRollback     VmClusterUpdateDetailsUpdateActionEnum = "ROLLBACK"
 )
 
-var mappingVmClusterUpdateDetailsUpdateAction = map[string]VmClusterUpdateDetailsUpdateActionEnum{
+var mappingVmClusterUpdateDetailsUpdateActionEnum = map[string]VmClusterUpdateDetailsUpdateActionEnum{
 	"ROLLING_APPLY": VmClusterUpdateDetailsUpdateActionRollingApply,
 	"PRECHECK":      VmClusterUpdateDetailsUpdateActionPrecheck,
 	"ROLLBACK":      VmClusterUpdateDetailsUpdateActionRollback,
@@ -46,8 +63,17 @@ var mappingVmClusterUpdateDetailsUpdateAction = map[string]VmClusterUpdateDetail
 // GetVmClusterUpdateDetailsUpdateActionEnumValues Enumerates the set of values for VmClusterUpdateDetailsUpdateActionEnum
 func GetVmClusterUpdateDetailsUpdateActionEnumValues() []VmClusterUpdateDetailsUpdateActionEnum {
 	values := make([]VmClusterUpdateDetailsUpdateActionEnum, 0)
-	for _, v := range mappingVmClusterUpdateDetailsUpdateAction {
+	for _, v := range mappingVmClusterUpdateDetailsUpdateActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVmClusterUpdateDetailsUpdateActionEnumStringValues Enumerates the set of values in String for VmClusterUpdateDetailsUpdateActionEnum
+func GetVmClusterUpdateDetailsUpdateActionEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
 }

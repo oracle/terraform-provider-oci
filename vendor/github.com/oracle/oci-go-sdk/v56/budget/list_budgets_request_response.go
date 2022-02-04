@@ -5,8 +5,10 @@
 package budget
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListBudgetsRequest wrapper for the ListBudgets operation
@@ -61,6 +63,10 @@ func (request ListBudgetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBudgetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +80,29 @@ func (request ListBudgetsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBudgetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBudgetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListBudgetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBudgetsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBudgetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBudgetsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBudgetsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListBudgetsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBudgetsTargetTypeEnum[string(request.TargetType)]; !ok && request.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", request.TargetType, strings.Join(GetListBudgetsTargetTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBudgetsResponse wrapper for the ListBudgets operation
@@ -114,7 +143,7 @@ const (
 	ListBudgetsSortOrderDesc ListBudgetsSortOrderEnum = "DESC"
 )
 
-var mappingListBudgetsSortOrder = map[string]ListBudgetsSortOrderEnum{
+var mappingListBudgetsSortOrderEnum = map[string]ListBudgetsSortOrderEnum{
 	"ASC":  ListBudgetsSortOrderAsc,
 	"DESC": ListBudgetsSortOrderDesc,
 }
@@ -122,10 +151,18 @@ var mappingListBudgetsSortOrder = map[string]ListBudgetsSortOrderEnum{
 // GetListBudgetsSortOrderEnumValues Enumerates the set of values for ListBudgetsSortOrderEnum
 func GetListBudgetsSortOrderEnumValues() []ListBudgetsSortOrderEnum {
 	values := make([]ListBudgetsSortOrderEnum, 0)
-	for _, v := range mappingListBudgetsSortOrder {
+	for _, v := range mappingListBudgetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBudgetsSortOrderEnumStringValues Enumerates the set of values in String for ListBudgetsSortOrderEnum
+func GetListBudgetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListBudgetsSortByEnum Enum with underlying type: string
@@ -137,7 +174,7 @@ const (
 	ListBudgetsSortByDisplayname ListBudgetsSortByEnum = "displayName"
 )
 
-var mappingListBudgetsSortBy = map[string]ListBudgetsSortByEnum{
+var mappingListBudgetsSortByEnum = map[string]ListBudgetsSortByEnum{
 	"timeCreated": ListBudgetsSortByTimecreated,
 	"displayName": ListBudgetsSortByDisplayname,
 }
@@ -145,10 +182,18 @@ var mappingListBudgetsSortBy = map[string]ListBudgetsSortByEnum{
 // GetListBudgetsSortByEnumValues Enumerates the set of values for ListBudgetsSortByEnum
 func GetListBudgetsSortByEnumValues() []ListBudgetsSortByEnum {
 	values := make([]ListBudgetsSortByEnum, 0)
-	for _, v := range mappingListBudgetsSortBy {
+	for _, v := range mappingListBudgetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBudgetsSortByEnumStringValues Enumerates the set of values in String for ListBudgetsSortByEnum
+func GetListBudgetsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListBudgetsLifecycleStateEnum Enum with underlying type: string
@@ -160,7 +205,7 @@ const (
 	ListBudgetsLifecycleStateInactive ListBudgetsLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingListBudgetsLifecycleState = map[string]ListBudgetsLifecycleStateEnum{
+var mappingListBudgetsLifecycleStateEnum = map[string]ListBudgetsLifecycleStateEnum{
 	"ACTIVE":   ListBudgetsLifecycleStateActive,
 	"INACTIVE": ListBudgetsLifecycleStateInactive,
 }
@@ -168,10 +213,18 @@ var mappingListBudgetsLifecycleState = map[string]ListBudgetsLifecycleStateEnum{
 // GetListBudgetsLifecycleStateEnumValues Enumerates the set of values for ListBudgetsLifecycleStateEnum
 func GetListBudgetsLifecycleStateEnumValues() []ListBudgetsLifecycleStateEnum {
 	values := make([]ListBudgetsLifecycleStateEnum, 0)
-	for _, v := range mappingListBudgetsLifecycleState {
+	for _, v := range mappingListBudgetsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBudgetsLifecycleStateEnumStringValues Enumerates the set of values in String for ListBudgetsLifecycleStateEnum
+func GetListBudgetsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }
 
 // ListBudgetsTargetTypeEnum Enum with underlying type: string
@@ -184,7 +237,7 @@ const (
 	ListBudgetsTargetTypeTag         ListBudgetsTargetTypeEnum = "TAG"
 )
 
-var mappingListBudgetsTargetType = map[string]ListBudgetsTargetTypeEnum{
+var mappingListBudgetsTargetTypeEnum = map[string]ListBudgetsTargetTypeEnum{
 	"ALL":         ListBudgetsTargetTypeAll,
 	"COMPARTMENT": ListBudgetsTargetTypeCompartment,
 	"TAG":         ListBudgetsTargetTypeTag,
@@ -193,8 +246,17 @@ var mappingListBudgetsTargetType = map[string]ListBudgetsTargetTypeEnum{
 // GetListBudgetsTargetTypeEnumValues Enumerates the set of values for ListBudgetsTargetTypeEnum
 func GetListBudgetsTargetTypeEnumValues() []ListBudgetsTargetTypeEnum {
 	values := make([]ListBudgetsTargetTypeEnum, 0)
-	for _, v := range mappingListBudgetsTargetType {
+	for _, v := range mappingListBudgetsTargetTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBudgetsTargetTypeEnumStringValues Enumerates the set of values in String for ListBudgetsTargetTypeEnum
+func GetListBudgetsTargetTypeEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"COMPARTMENT",
+		"TAG",
+	}
 }

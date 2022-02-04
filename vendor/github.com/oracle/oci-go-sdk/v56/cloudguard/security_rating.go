@@ -21,7 +21,7 @@ const (
 	SecurityRatingNa        SecurityRatingEnum = "NA"
 )
 
-var mappingSecurityRating = map[string]SecurityRatingEnum{
+var mappingSecurityRatingEnum = map[string]SecurityRatingEnum{
 	"EXCELLENT": SecurityRatingExcellent,
 	"GOOD":      SecurityRatingGood,
 	"FAIR":      SecurityRatingFair,
@@ -32,8 +32,19 @@ var mappingSecurityRating = map[string]SecurityRatingEnum{
 // GetSecurityRatingEnumValues Enumerates the set of values for SecurityRatingEnum
 func GetSecurityRatingEnumValues() []SecurityRatingEnum {
 	values := make([]SecurityRatingEnum, 0)
-	for _, v := range mappingSecurityRating {
+	for _, v := range mappingSecurityRatingEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityRatingEnumStringValues Enumerates the set of values in String for SecurityRatingEnum
+func GetSecurityRatingEnumStringValues() []string {
+	return []string{
+		"EXCELLENT",
+		"GOOD",
+		"FAIR",
+		"POOR",
+		"NA",
+	}
 }

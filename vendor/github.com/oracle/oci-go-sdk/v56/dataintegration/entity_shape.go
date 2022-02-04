@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // EntityShape The data entity shape object.
@@ -73,6 +75,18 @@ func (m entityshape) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m entityshape) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // EntityShapeModelTypeEnum Enum with underlying type: string
 type EntityShapeModelTypeEnum string
 
@@ -82,7 +96,7 @@ const (
 	EntityShapeModelTypeSqlEntity  EntityShapeModelTypeEnum = "SQL_ENTITY"
 )
 
-var mappingEntityShapeModelType = map[string]EntityShapeModelTypeEnum{
+var mappingEntityShapeModelTypeEnum = map[string]EntityShapeModelTypeEnum{
 	"FILE_ENTITY": EntityShapeModelTypeFileEntity,
 	"SQL_ENTITY":  EntityShapeModelTypeSqlEntity,
 }
@@ -90,8 +104,16 @@ var mappingEntityShapeModelType = map[string]EntityShapeModelTypeEnum{
 // GetEntityShapeModelTypeEnumValues Enumerates the set of values for EntityShapeModelTypeEnum
 func GetEntityShapeModelTypeEnumValues() []EntityShapeModelTypeEnum {
 	values := make([]EntityShapeModelTypeEnum, 0)
-	for _, v := range mappingEntityShapeModelType {
+	for _, v := range mappingEntityShapeModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEntityShapeModelTypeEnumStringValues Enumerates the set of values in String for EntityShapeModelTypeEnum
+func GetEntityShapeModelTypeEnumStringValues() []string {
+	return []string{
+		"FILE_ENTITY",
+		"SQL_ENTITY",
+	}
 }

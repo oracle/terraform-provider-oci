@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BlockChallengeSettings The challenge settings if `action` is set to `BLOCK`.
@@ -48,6 +50,21 @@ func (m BlockChallengeSettings) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BlockChallengeSettings) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBlockChallengeSettingsBlockActionEnum[string(m.BlockAction)]; !ok && m.BlockAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BlockAction: %s. Supported values are: %s.", m.BlockAction, strings.Join(GetBlockChallengeSettingsBlockActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BlockChallengeSettingsBlockActionEnum Enum with underlying type: string
 type BlockChallengeSettingsBlockActionEnum string
 
@@ -58,7 +75,7 @@ const (
 	BlockChallengeSettingsBlockActionShowCaptcha     BlockChallengeSettingsBlockActionEnum = "SHOW_CAPTCHA"
 )
 
-var mappingBlockChallengeSettingsBlockAction = map[string]BlockChallengeSettingsBlockActionEnum{
+var mappingBlockChallengeSettingsBlockActionEnum = map[string]BlockChallengeSettingsBlockActionEnum{
 	"SET_RESPONSE_CODE": BlockChallengeSettingsBlockActionSetResponseCode,
 	"SHOW_ERROR_PAGE":   BlockChallengeSettingsBlockActionShowErrorPage,
 	"SHOW_CAPTCHA":      BlockChallengeSettingsBlockActionShowCaptcha,
@@ -67,8 +84,17 @@ var mappingBlockChallengeSettingsBlockAction = map[string]BlockChallengeSettings
 // GetBlockChallengeSettingsBlockActionEnumValues Enumerates the set of values for BlockChallengeSettingsBlockActionEnum
 func GetBlockChallengeSettingsBlockActionEnumValues() []BlockChallengeSettingsBlockActionEnum {
 	values := make([]BlockChallengeSettingsBlockActionEnum, 0)
-	for _, v := range mappingBlockChallengeSettingsBlockAction {
+	for _, v := range mappingBlockChallengeSettingsBlockActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBlockChallengeSettingsBlockActionEnumStringValues Enumerates the set of values in String for BlockChallengeSettingsBlockActionEnum
+func GetBlockChallengeSettingsBlockActionEnumStringValues() []string {
+	return []string{
+		"SET_RESPONSE_CODE",
+		"SHOW_ERROR_PAGE",
+		"SHOW_CAPTCHA",
+	}
 }

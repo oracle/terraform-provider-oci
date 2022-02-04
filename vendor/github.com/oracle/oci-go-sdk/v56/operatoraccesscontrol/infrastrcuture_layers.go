@@ -21,7 +21,7 @@ const (
 	InfrastrcutureLayersCps        InfrastrcutureLayersEnum = "CPS"
 )
 
-var mappingInfrastrcutureLayers = map[string]InfrastrcutureLayersEnum{
+var mappingInfrastrcutureLayersEnum = map[string]InfrastrcutureLayersEnum{
 	"DOM0":       InfrastrcutureLayersDom0,
 	"CELLSERVER": InfrastrcutureLayersCellserver,
 	"CPS":        InfrastrcutureLayersCps,
@@ -30,8 +30,17 @@ var mappingInfrastrcutureLayers = map[string]InfrastrcutureLayersEnum{
 // GetInfrastrcutureLayersEnumValues Enumerates the set of values for InfrastrcutureLayersEnum
 func GetInfrastrcutureLayersEnumValues() []InfrastrcutureLayersEnum {
 	values := make([]InfrastrcutureLayersEnum, 0)
-	for _, v := range mappingInfrastrcutureLayers {
+	for _, v := range mappingInfrastrcutureLayersEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInfrastrcutureLayersEnumStringValues Enumerates the set of values in String for InfrastrcutureLayersEnum
+func GetInfrastrcutureLayersEnumStringValues() []string {
+	return []string{
+		"DOM0",
+		"CELLSERVER",
+		"CPS",
+	}
 }

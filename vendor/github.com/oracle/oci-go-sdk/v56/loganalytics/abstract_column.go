@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AbstractColumn Generic column defining all attributes common to all querylanguage columns.
@@ -191,6 +193,24 @@ func (m abstractcolumn) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m abstractcolumn) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSubSystemNameEnum[string(m.SubSystem)]; !ok && m.SubSystem != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubSystem: %s. Supported values are: %s.", m.SubSystem, strings.Join(GetSubSystemNameEnumStringValues(), ",")))
+	}
+	if _, ok := mappingValueTypeEnum[string(m.ValueType)]; !ok && m.ValueType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValueType: %s. Supported values are: %s.", m.ValueType, strings.Join(GetValueTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AbstractColumnTypeEnum Enum with underlying type: string
 type AbstractColumnTypeEnum string
 
@@ -204,7 +224,7 @@ const (
 	AbstractColumnTypeClassifyColumn  AbstractColumnTypeEnum = "CLASSIFY_COLUMN"
 )
 
-var mappingAbstractColumnType = map[string]AbstractColumnTypeEnum{
+var mappingAbstractColumnTypeEnum = map[string]AbstractColumnTypeEnum{
 	"COLUMN":            AbstractColumnTypeColumn,
 	"CHART_COLUMN":      AbstractColumnTypeChartColumn,
 	"CHART_DATA_COLUMN": AbstractColumnTypeChartDataColumn,
@@ -216,8 +236,20 @@ var mappingAbstractColumnType = map[string]AbstractColumnTypeEnum{
 // GetAbstractColumnTypeEnumValues Enumerates the set of values for AbstractColumnTypeEnum
 func GetAbstractColumnTypeEnumValues() []AbstractColumnTypeEnum {
 	values := make([]AbstractColumnTypeEnum, 0)
-	for _, v := range mappingAbstractColumnType {
+	for _, v := range mappingAbstractColumnTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAbstractColumnTypeEnumStringValues Enumerates the set of values in String for AbstractColumnTypeEnum
+func GetAbstractColumnTypeEnumStringValues() []string {
+	return []string{
+		"COLUMN",
+		"CHART_COLUMN",
+		"CHART_DATA_COLUMN",
+		"TIME_COLUMN",
+		"TREND_COLUMN",
+		"CLASSIFY_COLUMN",
+	}
 }

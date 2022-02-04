@@ -23,7 +23,7 @@ const (
 	OperatorActionCategoriesCellmanagement     OperatorActionCategoriesEnum = "CELLMANAGEMENT"
 )
 
-var mappingOperatorActionCategories = map[string]OperatorActionCategoriesEnum{
+var mappingOperatorActionCategoriesEnum = map[string]OperatorActionCategoriesEnum{
 	"SERVICEDIAGNOSTICS": OperatorActionCategoriesServicediagnostics,
 	"SERVICEMANAGEMENT":  OperatorActionCategoriesServicemanagement,
 	"SYSTEMMANAGEMENT":   OperatorActionCategoriesSystemmanagement,
@@ -34,8 +34,19 @@ var mappingOperatorActionCategories = map[string]OperatorActionCategoriesEnum{
 // GetOperatorActionCategoriesEnumValues Enumerates the set of values for OperatorActionCategoriesEnum
 func GetOperatorActionCategoriesEnumValues() []OperatorActionCategoriesEnum {
 	values := make([]OperatorActionCategoriesEnum, 0)
-	for _, v := range mappingOperatorActionCategories {
+	for _, v := range mappingOperatorActionCategoriesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperatorActionCategoriesEnumStringValues Enumerates the set of values in String for OperatorActionCategoriesEnum
+func GetOperatorActionCategoriesEnumStringValues() []string {
+	return []string{
+		"SERVICEDIAGNOSTICS",
+		"SERVICEMANAGEMENT",
+		"SYSTEMMANAGEMENT",
+		"FULLADMINISTRATION",
+		"CELLMANAGEMENT",
+	}
 }

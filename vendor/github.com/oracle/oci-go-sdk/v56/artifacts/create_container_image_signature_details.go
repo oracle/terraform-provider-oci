@@ -11,7 +11,9 @@
 package artifacts
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateContainerImageSignatureDetails Upload container image signature request details.
@@ -46,6 +48,21 @@ func (m CreateContainerImageSignatureDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateContainerImageSignatureDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateContainerImageSignatureDetailsSigningAlgorithmEnum[string(m.SigningAlgorithm)]; !ok && m.SigningAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SigningAlgorithm: %s. Supported values are: %s.", m.SigningAlgorithm, strings.Join(GetCreateContainerImageSignatureDetailsSigningAlgorithmEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateContainerImageSignatureDetailsSigningAlgorithmEnum Enum with underlying type: string
 type CreateContainerImageSignatureDetailsSigningAlgorithmEnum string
 
@@ -57,7 +74,7 @@ const (
 	CreateContainerImageSignatureDetailsSigningAlgorithm512RsaPkcsPss CreateContainerImageSignatureDetailsSigningAlgorithmEnum = "SHA_512_RSA_PKCS_PSS"
 )
 
-var mappingCreateContainerImageSignatureDetailsSigningAlgorithm = map[string]CreateContainerImageSignatureDetailsSigningAlgorithmEnum{
+var mappingCreateContainerImageSignatureDetailsSigningAlgorithmEnum = map[string]CreateContainerImageSignatureDetailsSigningAlgorithmEnum{
 	"SHA_224_RSA_PKCS_PSS": CreateContainerImageSignatureDetailsSigningAlgorithm224RsaPkcsPss,
 	"SHA_256_RSA_PKCS_PSS": CreateContainerImageSignatureDetailsSigningAlgorithm256RsaPkcsPss,
 	"SHA_384_RSA_PKCS_PSS": CreateContainerImageSignatureDetailsSigningAlgorithm384RsaPkcsPss,
@@ -67,8 +84,18 @@ var mappingCreateContainerImageSignatureDetailsSigningAlgorithm = map[string]Cre
 // GetCreateContainerImageSignatureDetailsSigningAlgorithmEnumValues Enumerates the set of values for CreateContainerImageSignatureDetailsSigningAlgorithmEnum
 func GetCreateContainerImageSignatureDetailsSigningAlgorithmEnumValues() []CreateContainerImageSignatureDetailsSigningAlgorithmEnum {
 	values := make([]CreateContainerImageSignatureDetailsSigningAlgorithmEnum, 0)
-	for _, v := range mappingCreateContainerImageSignatureDetailsSigningAlgorithm {
+	for _, v := range mappingCreateContainerImageSignatureDetailsSigningAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateContainerImageSignatureDetailsSigningAlgorithmEnumStringValues Enumerates the set of values in String for CreateContainerImageSignatureDetailsSigningAlgorithmEnum
+func GetCreateContainerImageSignatureDetailsSigningAlgorithmEnumStringValues() []string {
+	return []string{
+		"SHA_224_RSA_PKCS_PSS",
+		"SHA_256_RSA_PKCS_PSS",
+		"SHA_384_RSA_PKCS_PSS",
+		"SHA_512_RSA_PKCS_PSS",
+	}
 }

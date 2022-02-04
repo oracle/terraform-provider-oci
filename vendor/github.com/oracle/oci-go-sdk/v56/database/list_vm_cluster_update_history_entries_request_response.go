@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListVmClusterUpdateHistoryEntriesRequest wrapper for the ListVmClusterUpdateHistoryEntries operation
@@ -46,6 +48,10 @@ func (request ListVmClusterUpdateHistoryEntriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVmClusterUpdateHistoryEntriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request ListVmClusterUpdateHistoryEntriesRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVmClusterUpdateHistoryEntriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVmClusterUpdateHistoryEntriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListVmClusterUpdateHistoryEntriesUpdateTypeEnum[string(request.UpdateType)]; !ok && request.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", request.UpdateType, strings.Join(GetListVmClusterUpdateHistoryEntriesUpdateTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVmClusterUpdateHistoryEntrySummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetVmClusterUpdateHistoryEntrySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVmClusterUpdateHistoryEntriesResponse wrapper for the ListVmClusterUpdateHistoryEntries operation
@@ -100,7 +123,7 @@ const (
 	ListVmClusterUpdateHistoryEntriesUpdateTypeOsUpdate  ListVmClusterUpdateHistoryEntriesUpdateTypeEnum = "OS_UPDATE"
 )
 
-var mappingListVmClusterUpdateHistoryEntriesUpdateType = map[string]ListVmClusterUpdateHistoryEntriesUpdateTypeEnum{
+var mappingListVmClusterUpdateHistoryEntriesUpdateTypeEnum = map[string]ListVmClusterUpdateHistoryEntriesUpdateTypeEnum{
 	"GI_UPGRADE": ListVmClusterUpdateHistoryEntriesUpdateTypeGiUpgrade,
 	"GI_PATCH":   ListVmClusterUpdateHistoryEntriesUpdateTypeGiPatch,
 	"OS_UPDATE":  ListVmClusterUpdateHistoryEntriesUpdateTypeOsUpdate,
@@ -109,8 +132,17 @@ var mappingListVmClusterUpdateHistoryEntriesUpdateType = map[string]ListVmCluste
 // GetListVmClusterUpdateHistoryEntriesUpdateTypeEnumValues Enumerates the set of values for ListVmClusterUpdateHistoryEntriesUpdateTypeEnum
 func GetListVmClusterUpdateHistoryEntriesUpdateTypeEnumValues() []ListVmClusterUpdateHistoryEntriesUpdateTypeEnum {
 	values := make([]ListVmClusterUpdateHistoryEntriesUpdateTypeEnum, 0)
-	for _, v := range mappingListVmClusterUpdateHistoryEntriesUpdateType {
+	for _, v := range mappingListVmClusterUpdateHistoryEntriesUpdateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVmClusterUpdateHistoryEntriesUpdateTypeEnumStringValues Enumerates the set of values in String for ListVmClusterUpdateHistoryEntriesUpdateTypeEnum
+func GetListVmClusterUpdateHistoryEntriesUpdateTypeEnumStringValues() []string {
+	return []string{
+		"GI_UPGRADE",
+		"GI_PATCH",
+		"OS_UPDATE",
+	}
 }

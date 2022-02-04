@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CopyObjectDetails The parameters required by Object Storage to process a request to copy an object to another bucket.
@@ -65,4 +67,19 @@ type CopyObjectDetails struct {
 
 func (m CopyObjectDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CopyObjectDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingStorageTierEnum[string(m.DestinationObjectStorageTier)]; !ok && m.DestinationObjectStorageTier != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DestinationObjectStorageTier: %s. Supported values are: %s.", m.DestinationObjectStorageTier, strings.Join(GetStorageTierEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

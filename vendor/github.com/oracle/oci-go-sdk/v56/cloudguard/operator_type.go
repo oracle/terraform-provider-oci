@@ -20,7 +20,7 @@ const (
 	OperatorTypeNotEquals OperatorTypeEnum = "NOT_EQUALS"
 )
 
-var mappingOperatorType = map[string]OperatorTypeEnum{
+var mappingOperatorTypeEnum = map[string]OperatorTypeEnum{
 	"IN":         OperatorTypeIn,
 	"NOT_IN":     OperatorTypeNotIn,
 	"EQUALS":     OperatorTypeEquals,
@@ -30,8 +30,18 @@ var mappingOperatorType = map[string]OperatorTypeEnum{
 // GetOperatorTypeEnumValues Enumerates the set of values for OperatorTypeEnum
 func GetOperatorTypeEnumValues() []OperatorTypeEnum {
 	values := make([]OperatorTypeEnum, 0)
-	for _, v := range mappingOperatorType {
+	for _, v := range mappingOperatorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperatorTypeEnumStringValues Enumerates the set of values in String for OperatorTypeEnum
+func GetOperatorTypeEnumStringValues() []string {
+	return []string{
+		"IN",
+		"NOT_IN",
+		"EQUALS",
+		"NOT_EQUALS",
+	}
 }

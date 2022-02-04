@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Lookup The information about the lookup operator. The lookup operator has two input links, a primary input, and a lookup source input. It has an output link, fields of the lookup input are appended to the primary input and projected as the output fields.
@@ -127,6 +129,21 @@ func (m Lookup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Lookup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLookupMultiMatchStrategyEnum[string(m.MultiMatchStrategy)]; !ok && m.MultiMatchStrategy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MultiMatchStrategy: %s. Supported values are: %s.", m.MultiMatchStrategy, strings.Join(GetLookupMultiMatchStrategyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m Lookup) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeLookup Lookup
@@ -153,7 +170,7 @@ const (
 	LookupMultiMatchStrategyError LookupMultiMatchStrategyEnum = "RETURN_ERROR"
 )
 
-var mappingLookupMultiMatchStrategy = map[string]LookupMultiMatchStrategyEnum{
+var mappingLookupMultiMatchStrategyEnum = map[string]LookupMultiMatchStrategyEnum{
 	"RETURN_ANY":   LookupMultiMatchStrategyAny,
 	"RETURN_FIRST": LookupMultiMatchStrategyFirst,
 	"RETURN_LAST":  LookupMultiMatchStrategyLast,
@@ -164,8 +181,19 @@ var mappingLookupMultiMatchStrategy = map[string]LookupMultiMatchStrategyEnum{
 // GetLookupMultiMatchStrategyEnumValues Enumerates the set of values for LookupMultiMatchStrategyEnum
 func GetLookupMultiMatchStrategyEnumValues() []LookupMultiMatchStrategyEnum {
 	values := make([]LookupMultiMatchStrategyEnum, 0)
-	for _, v := range mappingLookupMultiMatchStrategy {
+	for _, v := range mappingLookupMultiMatchStrategyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLookupMultiMatchStrategyEnumStringValues Enumerates the set of values in String for LookupMultiMatchStrategyEnum
+func GetLookupMultiMatchStrategyEnumStringValues() []string {
+	return []string{
+		"RETURN_ANY",
+		"RETURN_FIRST",
+		"RETURN_LAST",
+		"RETURN_ALL",
+		"RETURN_ERROR",
+	}
 }

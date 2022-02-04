@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetRepositoryRequest wrapper for the GetRepository operation
@@ -37,6 +39,10 @@ func (request GetRepositoryRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetRepositoryRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -50,6 +56,23 @@ func (request GetRepositoryRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetRepositoryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetRepositoryRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetRepositoryFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetRepositoryFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetRepositoryResponse wrapper for the GetRepository operation
@@ -87,7 +110,7 @@ const (
 	GetRepositoryFieldsSizeinbytes GetRepositoryFieldsEnum = "sizeInBytes"
 )
 
-var mappingGetRepositoryFields = map[string]GetRepositoryFieldsEnum{
+var mappingGetRepositoryFieldsEnum = map[string]GetRepositoryFieldsEnum{
 	"branchCount": GetRepositoryFieldsBranchcount,
 	"commitCount": GetRepositoryFieldsCommitcount,
 	"sizeInBytes": GetRepositoryFieldsSizeinbytes,
@@ -96,8 +119,17 @@ var mappingGetRepositoryFields = map[string]GetRepositoryFieldsEnum{
 // GetGetRepositoryFieldsEnumValues Enumerates the set of values for GetRepositoryFieldsEnum
 func GetGetRepositoryFieldsEnumValues() []GetRepositoryFieldsEnum {
 	values := make([]GetRepositoryFieldsEnum, 0)
-	for _, v := range mappingGetRepositoryFields {
+	for _, v := range mappingGetRepositoryFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetRepositoryFieldsEnumStringValues Enumerates the set of values in String for GetRepositoryFieldsEnum
+func GetGetRepositoryFieldsEnumStringValues() []string {
+	return []string{
+		"branchCount",
+		"commitCount",
+		"sizeInBytes",
+	}
 }

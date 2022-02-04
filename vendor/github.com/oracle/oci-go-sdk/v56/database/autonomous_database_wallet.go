@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutonomousDatabaseWallet The Autonomous Database wallet details.
@@ -27,6 +29,21 @@ func (m AutonomousDatabaseWallet) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDatabaseWallet) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAutonomousDatabaseWalletLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseWalletLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousDatabaseWalletLifecycleStateEnum Enum with underlying type: string
 type AutonomousDatabaseWalletLifecycleStateEnum string
 
@@ -36,7 +53,7 @@ const (
 	AutonomousDatabaseWalletLifecycleStateUpdating AutonomousDatabaseWalletLifecycleStateEnum = "UPDATING"
 )
 
-var mappingAutonomousDatabaseWalletLifecycleState = map[string]AutonomousDatabaseWalletLifecycleStateEnum{
+var mappingAutonomousDatabaseWalletLifecycleStateEnum = map[string]AutonomousDatabaseWalletLifecycleStateEnum{
 	"ACTIVE":   AutonomousDatabaseWalletLifecycleStateActive,
 	"UPDATING": AutonomousDatabaseWalletLifecycleStateUpdating,
 }
@@ -44,8 +61,16 @@ var mappingAutonomousDatabaseWalletLifecycleState = map[string]AutonomousDatabas
 // GetAutonomousDatabaseWalletLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseWalletLifecycleStateEnum
 func GetAutonomousDatabaseWalletLifecycleStateEnumValues() []AutonomousDatabaseWalletLifecycleStateEnum {
 	values := make([]AutonomousDatabaseWalletLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousDatabaseWalletLifecycleState {
+	for _, v := range mappingAutonomousDatabaseWalletLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseWalletLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousDatabaseWalletLifecycleStateEnum
+func GetAutonomousDatabaseWalletLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"UPDATING",
+	}
 }

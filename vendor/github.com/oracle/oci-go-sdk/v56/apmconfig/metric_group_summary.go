@@ -2,22 +2,26 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Apm Configuration API
+// Application Performance Monitoring Configuration API
 //
-// An API for the APM Configuration service. Use this API to query and set APM configuration.
+// Use the Application Performance Monitoring Configuration API to query and set Application Performance Monitoring
+// configuration. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmconfig
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// MetricGroupSummary A Metric Group.
+// MetricGroupSummary A metric group defines a set of metrics to collect from a span. It uses a span filter to specify which spans to
+// process. The set is then published to a namespace, which is a product level subdivision of metrics.
 type MetricGroupSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID will be generated
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration item. An OCID is generated
 	// when the item is created.
 	Id *string `mandatory:"false" json:"id"`
 
@@ -39,19 +43,20 @@ type MetricGroupSummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The name of this metric group
+	// The name of the metric group.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Span Filter. The filterId is mandatory for the creation
-	// of MetricGroups. A filterId will be generated when a Span Filter is created.
+	// of MetricGroups. A filterId is generated when a Span Filter is created.
 	FilterId *string `mandatory:"false" json:"filterId"`
 
-	// The namespace to write the metrics to
+	// The namespace to which the metrics are published. It must be one of several predefined namespaces.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
-	// A list of dimensions for this metric
+	// A list of dimensions for the metric. This variable should not be used.
 	Dimensions []Dimension `mandatory:"false" json:"dimensions"`
 
+	// The list of metrics in this group.
 	Metrics []Metric `mandatory:"false" json:"metrics"`
 }
 
@@ -82,6 +87,18 @@ func (m MetricGroupSummary) GetDefinedTags() map[string]map[string]interface{} {
 
 func (m MetricGroupSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MetricGroupSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

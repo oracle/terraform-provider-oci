@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateDestroyJobOperationDetails Job details that are specific to destroy operations.
@@ -29,6 +31,21 @@ type CreateDestroyJobOperationDetails struct {
 
 func (m CreateDestroyJobOperationDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDestroyJobOperationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDestroyJobOperationDetailsExecutionPlanStrategyEnum[string(m.ExecutionPlanStrategy)]; !ok && m.ExecutionPlanStrategy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExecutionPlanStrategy: %s. Supported values are: %s.", m.ExecutionPlanStrategy, strings.Join(GetDestroyJobOperationDetailsExecutionPlanStrategyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutonomousPatch The representation of AutonomousPatch
@@ -52,6 +54,24 @@ func (m AutonomousPatch) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousPatch) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAutonomousPatchLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousPatchLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousPatchPatchModelEnum[string(m.PatchModel)]; !ok && m.PatchModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchModel: %s. Supported values are: %s.", m.PatchModel, strings.Join(GetAutonomousPatchPatchModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousPatchLifecycleStateEnum Enum with underlying type: string
 type AutonomousPatchLifecycleStateEnum string
 
@@ -63,7 +83,7 @@ const (
 	AutonomousPatchLifecycleStateFailed     AutonomousPatchLifecycleStateEnum = "FAILED"
 )
 
-var mappingAutonomousPatchLifecycleState = map[string]AutonomousPatchLifecycleStateEnum{
+var mappingAutonomousPatchLifecycleStateEnum = map[string]AutonomousPatchLifecycleStateEnum{
 	"AVAILABLE":   AutonomousPatchLifecycleStateAvailable,
 	"SUCCESS":     AutonomousPatchLifecycleStateSuccess,
 	"IN_PROGRESS": AutonomousPatchLifecycleStateInProgress,
@@ -73,10 +93,20 @@ var mappingAutonomousPatchLifecycleState = map[string]AutonomousPatchLifecycleSt
 // GetAutonomousPatchLifecycleStateEnumValues Enumerates the set of values for AutonomousPatchLifecycleStateEnum
 func GetAutonomousPatchLifecycleStateEnumValues() []AutonomousPatchLifecycleStateEnum {
 	values := make([]AutonomousPatchLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousPatchLifecycleState {
+	for _, v := range mappingAutonomousPatchLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousPatchLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousPatchLifecycleStateEnum
+func GetAutonomousPatchLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"SUCCESS",
+		"IN_PROGRESS",
+		"FAILED",
+	}
 }
 
 // AutonomousPatchPatchModelEnum Enum with underlying type: string
@@ -88,7 +118,7 @@ const (
 	AutonomousPatchPatchModelUpdateRevisions AutonomousPatchPatchModelEnum = "RELEASE_UPDATE_REVISIONS"
 )
 
-var mappingAutonomousPatchPatchModel = map[string]AutonomousPatchPatchModelEnum{
+var mappingAutonomousPatchPatchModelEnum = map[string]AutonomousPatchPatchModelEnum{
 	"RELEASE_UPDATES":          AutonomousPatchPatchModelUpdates,
 	"RELEASE_UPDATE_REVISIONS": AutonomousPatchPatchModelUpdateRevisions,
 }
@@ -96,8 +126,16 @@ var mappingAutonomousPatchPatchModel = map[string]AutonomousPatchPatchModelEnum{
 // GetAutonomousPatchPatchModelEnumValues Enumerates the set of values for AutonomousPatchPatchModelEnum
 func GetAutonomousPatchPatchModelEnumValues() []AutonomousPatchPatchModelEnum {
 	values := make([]AutonomousPatchPatchModelEnum, 0)
-	for _, v := range mappingAutonomousPatchPatchModel {
+	for _, v := range mappingAutonomousPatchPatchModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousPatchPatchModelEnumStringValues Enumerates the set of values in String for AutonomousPatchPatchModelEnum
+func GetAutonomousPatchPatchModelEnumStringValues() []string {
+	return []string{
+		"RELEASE_UPDATES",
+		"RELEASE_UPDATE_REVISIONS",
+	}
 }

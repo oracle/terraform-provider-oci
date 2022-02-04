@@ -21,7 +21,7 @@ const (
 	StorageServerThroughput StorageServerEnum = "THROUGHPUT"
 )
 
-var mappingStorageServer = map[string]StorageServerEnum{
+var mappingStorageServerEnum = map[string]StorageServerEnum{
 	"STORAGE":    StorageServerStorage,
 	"IOPS":       StorageServerIops,
 	"THROUGHPUT": StorageServerThroughput,
@@ -30,8 +30,17 @@ var mappingStorageServer = map[string]StorageServerEnum{
 // GetStorageServerEnumValues Enumerates the set of values for StorageServerEnum
 func GetStorageServerEnumValues() []StorageServerEnum {
 	values := make([]StorageServerEnum, 0)
-	for _, v := range mappingStorageServer {
+	for _, v := range mappingStorageServerEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStorageServerEnumStringValues Enumerates the set of values in String for StorageServerEnum
+func GetStorageServerEnumStringValues() []string {
+	return []string{
+		"STORAGE",
+		"IOPS",
+		"THROUGHPUT",
+	}
 }

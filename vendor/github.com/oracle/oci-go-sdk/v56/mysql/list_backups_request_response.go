@@ -5,8 +5,10 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListBackupsRequest wrapper for the ListBackups operation
@@ -66,6 +68,10 @@ func (request ListBackupsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBackupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,29 @@ func (request ListBackupsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBackupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBackupsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBackupLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBackupLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBackupCreationTypeEnum[string(request.CreationType)]; !ok && request.CreationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CreationType: %s. Supported values are: %s.", request.CreationType, strings.Join(GetBackupCreationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBackupsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBackupsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBackupsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBackupsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBackupsResponse wrapper for the ListBackups operation
@@ -119,7 +148,7 @@ const (
 	ListBackupsSortByDisplayname ListBackupsSortByEnum = "displayName"
 )
 
-var mappingListBackupsSortBy = map[string]ListBackupsSortByEnum{
+var mappingListBackupsSortByEnum = map[string]ListBackupsSortByEnum{
 	"timeCreated": ListBackupsSortByTimecreated,
 	"timeUpdated": ListBackupsSortByTimeupdated,
 	"displayName": ListBackupsSortByDisplayname,
@@ -128,10 +157,19 @@ var mappingListBackupsSortBy = map[string]ListBackupsSortByEnum{
 // GetListBackupsSortByEnumValues Enumerates the set of values for ListBackupsSortByEnum
 func GetListBackupsSortByEnumValues() []ListBackupsSortByEnum {
 	values := make([]ListBackupsSortByEnum, 0)
-	for _, v := range mappingListBackupsSortBy {
+	for _, v := range mappingListBackupsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBackupsSortByEnumStringValues Enumerates the set of values in String for ListBackupsSortByEnum
+func GetListBackupsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"timeUpdated",
+		"displayName",
+	}
 }
 
 // ListBackupsSortOrderEnum Enum with underlying type: string
@@ -143,7 +181,7 @@ const (
 	ListBackupsSortOrderDesc ListBackupsSortOrderEnum = "DESC"
 )
 
-var mappingListBackupsSortOrder = map[string]ListBackupsSortOrderEnum{
+var mappingListBackupsSortOrderEnum = map[string]ListBackupsSortOrderEnum{
 	"ASC":  ListBackupsSortOrderAsc,
 	"DESC": ListBackupsSortOrderDesc,
 }
@@ -151,8 +189,16 @@ var mappingListBackupsSortOrder = map[string]ListBackupsSortOrderEnum{
 // GetListBackupsSortOrderEnumValues Enumerates the set of values for ListBackupsSortOrderEnum
 func GetListBackupsSortOrderEnumValues() []ListBackupsSortOrderEnum {
 	values := make([]ListBackupsSortOrderEnum, 0)
-	for _, v := range mappingListBackupsSortOrder {
+	for _, v := range mappingListBackupsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBackupsSortOrderEnumStringValues Enumerates the set of values in String for ListBackupsSortOrderEnum
+func GetListBackupsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

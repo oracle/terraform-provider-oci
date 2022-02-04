@@ -21,7 +21,7 @@ const (
 	AdvisorResultsPass          AdvisorResultsEnum = "PASS"
 )
 
-var mappingAdvisorResults = map[string]AdvisorResultsEnum{
+var mappingAdvisorResultsEnum = map[string]AdvisorResultsEnum{
 	"FATAL":         AdvisorResultsFatal,
 	"BLOCKER":       AdvisorResultsBlocker,
 	"WARNING":       AdvisorResultsWarning,
@@ -32,8 +32,19 @@ var mappingAdvisorResults = map[string]AdvisorResultsEnum{
 // GetAdvisorResultsEnumValues Enumerates the set of values for AdvisorResultsEnum
 func GetAdvisorResultsEnumValues() []AdvisorResultsEnum {
 	values := make([]AdvisorResultsEnum, 0)
-	for _, v := range mappingAdvisorResults {
+	for _, v := range mappingAdvisorResultsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAdvisorResultsEnumStringValues Enumerates the set of values in String for AdvisorResultsEnum
+func GetAdvisorResultsEnumStringValues() []string {
+	return []string{
+		"FATAL",
+		"BLOCKER",
+		"WARNING",
+		"INFORMATIONAL",
+		"PASS",
+	}
 }

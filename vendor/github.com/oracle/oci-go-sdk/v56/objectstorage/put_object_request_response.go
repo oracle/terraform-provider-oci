@@ -5,9 +5,11 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // PutObjectRequest wrapper for the PutObject operation
@@ -147,6 +149,20 @@ func (request PutObjectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request PutObjectRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPutObjectStorageTierEnum[string(request.StorageTier)]; !ok && request.StorageTier != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageTier: %s. Supported values are: %s.", request.StorageTier, strings.Join(GetPutObjectStorageTierEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PutObjectResponse wrapper for the PutObject operation
 type PutObjectResponse struct {
 
@@ -192,7 +208,7 @@ const (
 	PutObjectStorageTierArchive          PutObjectStorageTierEnum = "Archive"
 )
 
-var mappingPutObjectStorageTier = map[string]PutObjectStorageTierEnum{
+var mappingPutObjectStorageTierEnum = map[string]PutObjectStorageTierEnum{
 	"Standard":         PutObjectStorageTierStandard,
 	"InfrequentAccess": PutObjectStorageTierInfrequentaccess,
 	"Archive":          PutObjectStorageTierArchive,
@@ -201,8 +217,17 @@ var mappingPutObjectStorageTier = map[string]PutObjectStorageTierEnum{
 // GetPutObjectStorageTierEnumValues Enumerates the set of values for PutObjectStorageTierEnum
 func GetPutObjectStorageTierEnumValues() []PutObjectStorageTierEnum {
 	values := make([]PutObjectStorageTierEnum, 0)
-	for _, v := range mappingPutObjectStorageTier {
+	for _, v := range mappingPutObjectStorageTierEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPutObjectStorageTierEnumStringValues Enumerates the set of values in String for PutObjectStorageTierEnum
+func GetPutObjectStorageTierEnumStringValues() []string {
+	return []string{
+		"Standard",
+		"InfrequentAccess",
+		"Archive",
+	}
 }

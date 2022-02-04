@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // EntityShapeFromSql The SQL entity details.
@@ -77,6 +79,21 @@ func (m EntityShapeFromSql) GetMetadata() *ObjectMetadata {
 
 func (m EntityShapeFromSql) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EntityShapeFromSql) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingEntityShapeFromSqlEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetEntityShapeFromSqlEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -188,7 +205,7 @@ const (
 	EntityShapeFromSqlEntityTypeSql   EntityShapeFromSqlEntityTypeEnum = "SQL"
 )
 
-var mappingEntityShapeFromSqlEntityType = map[string]EntityShapeFromSqlEntityTypeEnum{
+var mappingEntityShapeFromSqlEntityTypeEnum = map[string]EntityShapeFromSqlEntityTypeEnum{
 	"TABLE": EntityShapeFromSqlEntityTypeTable,
 	"VIEW":  EntityShapeFromSqlEntityTypeView,
 	"FILE":  EntityShapeFromSqlEntityTypeFile,
@@ -198,8 +215,18 @@ var mappingEntityShapeFromSqlEntityType = map[string]EntityShapeFromSqlEntityTyp
 // GetEntityShapeFromSqlEntityTypeEnumValues Enumerates the set of values for EntityShapeFromSqlEntityTypeEnum
 func GetEntityShapeFromSqlEntityTypeEnumValues() []EntityShapeFromSqlEntityTypeEnum {
 	values := make([]EntityShapeFromSqlEntityTypeEnum, 0)
-	for _, v := range mappingEntityShapeFromSqlEntityType {
+	for _, v := range mappingEntityShapeFromSqlEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEntityShapeFromSqlEntityTypeEnumStringValues Enumerates the set of values in String for EntityShapeFromSqlEntityTypeEnum
+func GetEntityShapeFromSqlEntityTypeEnumStringValues() []string {
+	return []string{
+		"TABLE",
+		"VIEW",
+		"FILE",
+		"SQL",
+	}
 }

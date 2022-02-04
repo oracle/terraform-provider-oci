@@ -5,8 +5,10 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListMountTargetsRequest wrapper for the ListMountTargets operation
@@ -79,6 +81,10 @@ func (request ListMountTargetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListMountTargetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -92,6 +98,26 @@ func (request ListMountTargetsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListMountTargetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListMountTargetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListMountTargetsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListMountTargetsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMountTargetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMountTargetsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMountTargetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMountTargetsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListMountTargetsResponse wrapper for the ListMountTargets operation
@@ -136,7 +162,7 @@ const (
 	ListMountTargetsLifecycleStateFailed   ListMountTargetsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListMountTargetsLifecycleState = map[string]ListMountTargetsLifecycleStateEnum{
+var mappingListMountTargetsLifecycleStateEnum = map[string]ListMountTargetsLifecycleStateEnum{
 	"CREATING": ListMountTargetsLifecycleStateCreating,
 	"ACTIVE":   ListMountTargetsLifecycleStateActive,
 	"DELETING": ListMountTargetsLifecycleStateDeleting,
@@ -147,10 +173,21 @@ var mappingListMountTargetsLifecycleState = map[string]ListMountTargetsLifecycle
 // GetListMountTargetsLifecycleStateEnumValues Enumerates the set of values for ListMountTargetsLifecycleStateEnum
 func GetListMountTargetsLifecycleStateEnumValues() []ListMountTargetsLifecycleStateEnum {
 	values := make([]ListMountTargetsLifecycleStateEnum, 0)
-	for _, v := range mappingListMountTargetsLifecycleState {
+	for _, v := range mappingListMountTargetsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMountTargetsLifecycleStateEnumStringValues Enumerates the set of values in String for ListMountTargetsLifecycleStateEnum
+func GetListMountTargetsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListMountTargetsSortByEnum Enum with underlying type: string
@@ -162,7 +199,7 @@ const (
 	ListMountTargetsSortByDisplayname ListMountTargetsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListMountTargetsSortBy = map[string]ListMountTargetsSortByEnum{
+var mappingListMountTargetsSortByEnum = map[string]ListMountTargetsSortByEnum{
 	"TIMECREATED": ListMountTargetsSortByTimecreated,
 	"DISPLAYNAME": ListMountTargetsSortByDisplayname,
 }
@@ -170,10 +207,18 @@ var mappingListMountTargetsSortBy = map[string]ListMountTargetsSortByEnum{
 // GetListMountTargetsSortByEnumValues Enumerates the set of values for ListMountTargetsSortByEnum
 func GetListMountTargetsSortByEnumValues() []ListMountTargetsSortByEnum {
 	values := make([]ListMountTargetsSortByEnum, 0)
-	for _, v := range mappingListMountTargetsSortBy {
+	for _, v := range mappingListMountTargetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMountTargetsSortByEnumStringValues Enumerates the set of values in String for ListMountTargetsSortByEnum
+func GetListMountTargetsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListMountTargetsSortOrderEnum Enum with underlying type: string
@@ -185,7 +230,7 @@ const (
 	ListMountTargetsSortOrderDesc ListMountTargetsSortOrderEnum = "DESC"
 )
 
-var mappingListMountTargetsSortOrder = map[string]ListMountTargetsSortOrderEnum{
+var mappingListMountTargetsSortOrderEnum = map[string]ListMountTargetsSortOrderEnum{
 	"ASC":  ListMountTargetsSortOrderAsc,
 	"DESC": ListMountTargetsSortOrderDesc,
 }
@@ -193,8 +238,16 @@ var mappingListMountTargetsSortOrder = map[string]ListMountTargetsSortOrderEnum{
 // GetListMountTargetsSortOrderEnumValues Enumerates the set of values for ListMountTargetsSortOrderEnum
 func GetListMountTargetsSortOrderEnumValues() []ListMountTargetsSortOrderEnum {
 	values := make([]ListMountTargetsSortOrderEnum, 0)
-	for _, v := range mappingListMountTargetsSortOrder {
+	for _, v := range mappingListMountTargetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMountTargetsSortOrderEnumStringValues Enumerates the set of values in String for ListMountTargetsSortOrderEnum
+func GetListMountTargetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

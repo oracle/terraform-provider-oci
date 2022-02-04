@@ -5,8 +5,10 @@
 package jms
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListFleetsRequest wrapper for the ListFleets operation
@@ -59,6 +61,10 @@ func (request ListFleetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListFleetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,26 @@ func (request ListFleetsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListFleetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListFleetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListFleetsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListFleetsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFleetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFleetsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFleetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListFleetsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListFleetsResponse wrapper for the ListFleets operation
@@ -115,7 +141,7 @@ const (
 	ListFleetsLifecycleStateUpdating ListFleetsLifecycleStateEnum = "UPDATING"
 )
 
-var mappingListFleetsLifecycleState = map[string]ListFleetsLifecycleStateEnum{
+var mappingListFleetsLifecycleStateEnum = map[string]ListFleetsLifecycleStateEnum{
 	"ACTIVE":   ListFleetsLifecycleStateActive,
 	"CREATING": ListFleetsLifecycleStateCreating,
 	"DELETED":  ListFleetsLifecycleStateDeleted,
@@ -127,10 +153,22 @@ var mappingListFleetsLifecycleState = map[string]ListFleetsLifecycleStateEnum{
 // GetListFleetsLifecycleStateEnumValues Enumerates the set of values for ListFleetsLifecycleStateEnum
 func GetListFleetsLifecycleStateEnumValues() []ListFleetsLifecycleStateEnum {
 	values := make([]ListFleetsLifecycleStateEnum, 0)
-	for _, v := range mappingListFleetsLifecycleState {
+	for _, v := range mappingListFleetsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFleetsLifecycleStateEnumStringValues Enumerates the set of values in String for ListFleetsLifecycleStateEnum
+func GetListFleetsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"UPDATING",
+	}
 }
 
 // ListFleetsSortOrderEnum Enum with underlying type: string
@@ -142,7 +180,7 @@ const (
 	ListFleetsSortOrderDesc ListFleetsSortOrderEnum = "DESC"
 )
 
-var mappingListFleetsSortOrder = map[string]ListFleetsSortOrderEnum{
+var mappingListFleetsSortOrderEnum = map[string]ListFleetsSortOrderEnum{
 	"ASC":  ListFleetsSortOrderAsc,
 	"DESC": ListFleetsSortOrderDesc,
 }
@@ -150,10 +188,18 @@ var mappingListFleetsSortOrder = map[string]ListFleetsSortOrderEnum{
 // GetListFleetsSortOrderEnumValues Enumerates the set of values for ListFleetsSortOrderEnum
 func GetListFleetsSortOrderEnumValues() []ListFleetsSortOrderEnum {
 	values := make([]ListFleetsSortOrderEnum, 0)
-	for _, v := range mappingListFleetsSortOrder {
+	for _, v := range mappingListFleetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFleetsSortOrderEnumStringValues Enumerates the set of values in String for ListFleetsSortOrderEnum
+func GetListFleetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListFleetsSortByEnum Enum with underlying type: string
@@ -165,7 +211,7 @@ const (
 	ListFleetsSortByTimecreated ListFleetsSortByEnum = "timeCreated"
 )
 
-var mappingListFleetsSortBy = map[string]ListFleetsSortByEnum{
+var mappingListFleetsSortByEnum = map[string]ListFleetsSortByEnum{
 	"displayName": ListFleetsSortByDisplayname,
 	"timeCreated": ListFleetsSortByTimecreated,
 }
@@ -173,8 +219,16 @@ var mappingListFleetsSortBy = map[string]ListFleetsSortByEnum{
 // GetListFleetsSortByEnumValues Enumerates the set of values for ListFleetsSortByEnum
 func GetListFleetsSortByEnumValues() []ListFleetsSortByEnum {
 	values := make([]ListFleetsSortByEnum, 0)
-	for _, v := range mappingListFleetsSortBy {
+	for _, v := range mappingListFleetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFleetsSortByEnumStringValues Enumerates the set of values in String for ListFleetsSortByEnum
+func GetListFleetsSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"timeCreated",
+	}
 }

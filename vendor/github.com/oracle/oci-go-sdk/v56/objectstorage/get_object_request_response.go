@@ -5,9 +5,11 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // GetObjectRequest wrapper for the GetObject operation
@@ -92,6 +94,10 @@ func (request GetObjectRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetObjectRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -105,6 +111,17 @@ func (request GetObjectRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetObjectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetObjectRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetObjectResponse wrapper for the GetObject operation
@@ -206,7 +223,7 @@ const (
 	GetObjectStorageTierArchive          GetObjectStorageTierEnum = "Archive"
 )
 
-var mappingGetObjectStorageTier = map[string]GetObjectStorageTierEnum{
+var mappingGetObjectStorageTierEnum = map[string]GetObjectStorageTierEnum{
 	"Standard":         GetObjectStorageTierStandard,
 	"InfrequentAccess": GetObjectStorageTierInfrequentaccess,
 	"Archive":          GetObjectStorageTierArchive,
@@ -215,10 +232,19 @@ var mappingGetObjectStorageTier = map[string]GetObjectStorageTierEnum{
 // GetGetObjectStorageTierEnumValues Enumerates the set of values for GetObjectStorageTierEnum
 func GetGetObjectStorageTierEnumValues() []GetObjectStorageTierEnum {
 	values := make([]GetObjectStorageTierEnum, 0)
-	for _, v := range mappingGetObjectStorageTier {
+	for _, v := range mappingGetObjectStorageTierEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetObjectStorageTierEnumStringValues Enumerates the set of values in String for GetObjectStorageTierEnum
+func GetGetObjectStorageTierEnumStringValues() []string {
+	return []string{
+		"Standard",
+		"InfrequentAccess",
+		"Archive",
+	}
 }
 
 // GetObjectArchivalStateEnum Enum with underlying type: string
@@ -231,7 +257,7 @@ const (
 	GetObjectArchivalStateRestored  GetObjectArchivalStateEnum = "Restored"
 )
 
-var mappingGetObjectArchivalState = map[string]GetObjectArchivalStateEnum{
+var mappingGetObjectArchivalStateEnum = map[string]GetObjectArchivalStateEnum{
 	"Archived":  GetObjectArchivalStateArchived,
 	"Restoring": GetObjectArchivalStateRestoring,
 	"Restored":  GetObjectArchivalStateRestored,
@@ -240,8 +266,17 @@ var mappingGetObjectArchivalState = map[string]GetObjectArchivalStateEnum{
 // GetGetObjectArchivalStateEnumValues Enumerates the set of values for GetObjectArchivalStateEnum
 func GetGetObjectArchivalStateEnumValues() []GetObjectArchivalStateEnum {
 	values := make([]GetObjectArchivalStateEnum, 0)
-	for _, v := range mappingGetObjectArchivalState {
+	for _, v := range mappingGetObjectArchivalStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetObjectArchivalStateEnumStringValues Enumerates the set of values in String for GetObjectArchivalStateEnum
+func GetGetObjectArchivalStateEnumStringValues() []string {
+	return []string{
+		"Archived",
+		"Restoring",
+		"Restored",
+	}
 }

@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDbHomesRequest wrapper for the ListDbHomes operation
@@ -65,6 +67,10 @@ func (request ListDbHomesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDbHomesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +84,26 @@ func (request ListDbHomesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDbHomesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDbHomesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDbHomesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDbHomesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDbHomesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDbHomesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDbHomeSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDbHomeSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDbHomesResponse wrapper for the ListDbHomes operation
@@ -118,7 +144,7 @@ const (
 	ListDbHomesSortByDisplayname ListDbHomesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListDbHomesSortBy = map[string]ListDbHomesSortByEnum{
+var mappingListDbHomesSortByEnum = map[string]ListDbHomesSortByEnum{
 	"TIMECREATED": ListDbHomesSortByTimecreated,
 	"DISPLAYNAME": ListDbHomesSortByDisplayname,
 }
@@ -126,10 +152,18 @@ var mappingListDbHomesSortBy = map[string]ListDbHomesSortByEnum{
 // GetListDbHomesSortByEnumValues Enumerates the set of values for ListDbHomesSortByEnum
 func GetListDbHomesSortByEnumValues() []ListDbHomesSortByEnum {
 	values := make([]ListDbHomesSortByEnum, 0)
-	for _, v := range mappingListDbHomesSortBy {
+	for _, v := range mappingListDbHomesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDbHomesSortByEnumStringValues Enumerates the set of values in String for ListDbHomesSortByEnum
+func GetListDbHomesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListDbHomesSortOrderEnum Enum with underlying type: string
@@ -141,7 +175,7 @@ const (
 	ListDbHomesSortOrderDesc ListDbHomesSortOrderEnum = "DESC"
 )
 
-var mappingListDbHomesSortOrder = map[string]ListDbHomesSortOrderEnum{
+var mappingListDbHomesSortOrderEnum = map[string]ListDbHomesSortOrderEnum{
 	"ASC":  ListDbHomesSortOrderAsc,
 	"DESC": ListDbHomesSortOrderDesc,
 }
@@ -149,8 +183,16 @@ var mappingListDbHomesSortOrder = map[string]ListDbHomesSortOrderEnum{
 // GetListDbHomesSortOrderEnumValues Enumerates the set of values for ListDbHomesSortOrderEnum
 func GetListDbHomesSortOrderEnumValues() []ListDbHomesSortOrderEnum {
 	values := make([]ListDbHomesSortOrderEnum, 0)
-	for _, v := range mappingListDbHomesSortOrder {
+	for _, v := range mappingListDbHomesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDbHomesSortOrderEnumStringValues Enumerates the set of values in String for ListDbHomesSortOrderEnum
+func GetListDbHomesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

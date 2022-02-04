@@ -10,7 +10,9 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Agreement The model for an end user license agreement.
@@ -40,6 +42,21 @@ func (m Agreement) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Agreement) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAgreementAuthorEnum[string(m.Author)]; !ok && m.Author != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Author: %s. Supported values are: %s.", m.Author, strings.Join(GetAgreementAuthorEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AgreementAuthorEnum Enum with underlying type: string
 type AgreementAuthorEnum string
 
@@ -49,7 +66,7 @@ const (
 	AgreementAuthorPartner AgreementAuthorEnum = "PARTNER"
 )
 
-var mappingAgreementAuthor = map[string]AgreementAuthorEnum{
+var mappingAgreementAuthorEnum = map[string]AgreementAuthorEnum{
 	"ORACLE":  AgreementAuthorOracle,
 	"PARTNER": AgreementAuthorPartner,
 }
@@ -57,8 +74,16 @@ var mappingAgreementAuthor = map[string]AgreementAuthorEnum{
 // GetAgreementAuthorEnumValues Enumerates the set of values for AgreementAuthorEnum
 func GetAgreementAuthorEnumValues() []AgreementAuthorEnum {
 	values := make([]AgreementAuthorEnum, 0)
-	for _, v := range mappingAgreementAuthor {
+	for _, v := range mappingAgreementAuthorEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAgreementAuthorEnumStringValues Enumerates the set of values in String for AgreementAuthorEnum
+func GetAgreementAuthorEnumStringValues() []string {
+	return []string{
+		"ORACLE",
+		"PARTNER",
+	}
 }

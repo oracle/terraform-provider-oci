@@ -20,7 +20,7 @@ const (
 	ActorTypeUser              ActorTypeEnum = "USER"
 )
 
-var mappingActorType = map[string]ActorTypeEnum{
+var mappingActorTypeEnum = map[string]ActorTypeEnum{
 	"CLOUD_GUARD_SERVICE": ActorTypeCloudGuardService,
 	"CORRELATION":         ActorTypeCorrelation,
 	"RESPONDER":           ActorTypeResponder,
@@ -30,8 +30,18 @@ var mappingActorType = map[string]ActorTypeEnum{
 // GetActorTypeEnumValues Enumerates the set of values for ActorTypeEnum
 func GetActorTypeEnumValues() []ActorTypeEnum {
 	values := make([]ActorTypeEnum, 0)
-	for _, v := range mappingActorType {
+	for _, v := range mappingActorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetActorTypeEnumStringValues Enumerates the set of values in String for ActorTypeEnum
+func GetActorTypeEnumStringValues() []string {
+	return []string{
+		"CLOUD_GUARD_SERVICE",
+		"CORRELATION",
+		"RESPONDER",
+		"USER",
+	}
 }

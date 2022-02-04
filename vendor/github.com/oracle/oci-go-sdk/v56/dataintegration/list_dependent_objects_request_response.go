@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDependentObjectsRequest wrapper for the ListDependentObjects operation
@@ -73,6 +75,10 @@ func (request ListDependentObjectsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDependentObjectsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -86,6 +92,23 @@ func (request ListDependentObjectsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDependentObjectsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDependentObjectsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDependentObjectsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDependentObjectsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDependentObjectsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDependentObjectsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDependentObjectsResponse wrapper for the ListDependentObjects operation
@@ -129,7 +152,7 @@ const (
 	ListDependentObjectsSortOrderDesc ListDependentObjectsSortOrderEnum = "DESC"
 )
 
-var mappingListDependentObjectsSortOrder = map[string]ListDependentObjectsSortOrderEnum{
+var mappingListDependentObjectsSortOrderEnum = map[string]ListDependentObjectsSortOrderEnum{
 	"ASC":  ListDependentObjectsSortOrderAsc,
 	"DESC": ListDependentObjectsSortOrderDesc,
 }
@@ -137,10 +160,18 @@ var mappingListDependentObjectsSortOrder = map[string]ListDependentObjectsSortOr
 // GetListDependentObjectsSortOrderEnumValues Enumerates the set of values for ListDependentObjectsSortOrderEnum
 func GetListDependentObjectsSortOrderEnumValues() []ListDependentObjectsSortOrderEnum {
 	values := make([]ListDependentObjectsSortOrderEnum, 0)
-	for _, v := range mappingListDependentObjectsSortOrder {
+	for _, v := range mappingListDependentObjectsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDependentObjectsSortOrderEnumStringValues Enumerates the set of values in String for ListDependentObjectsSortOrderEnum
+func GetListDependentObjectsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDependentObjectsSortByEnum Enum with underlying type: string
@@ -152,7 +183,7 @@ const (
 	ListDependentObjectsSortByDisplayName ListDependentObjectsSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListDependentObjectsSortBy = map[string]ListDependentObjectsSortByEnum{
+var mappingListDependentObjectsSortByEnum = map[string]ListDependentObjectsSortByEnum{
 	"TIME_CREATED": ListDependentObjectsSortByTimeCreated,
 	"DISPLAY_NAME": ListDependentObjectsSortByDisplayName,
 }
@@ -160,8 +191,16 @@ var mappingListDependentObjectsSortBy = map[string]ListDependentObjectsSortByEnu
 // GetListDependentObjectsSortByEnumValues Enumerates the set of values for ListDependentObjectsSortByEnum
 func GetListDependentObjectsSortByEnumValues() []ListDependentObjectsSortByEnum {
 	values := make([]ListDependentObjectsSortByEnum, 0)
-	for _, v := range mappingListDependentObjectsSortBy {
+	for _, v := range mappingListDependentObjectsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDependentObjectsSortByEnumStringValues Enumerates the set of values in String for ListDependentObjectsSortByEnum
+func GetListDependentObjectsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

@@ -55,7 +55,7 @@ const (
 	OperationTypeDeleteAwrhub                  OperationTypeEnum = "DELETE_AWRHUB"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"ENABLE_DATABASE_INSIGHT":          OperationTypeEnableDatabaseInsight,
 	"DISABLE_DATABASE_INSIGHT":         OperationTypeDisableDatabaseInsight,
 	"UPDATE_DATABASE_INSIGHT":          OperationTypeUpdateDatabaseInsight,
@@ -98,8 +98,51 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"ENABLE_DATABASE_INSIGHT",
+		"DISABLE_DATABASE_INSIGHT",
+		"UPDATE_DATABASE_INSIGHT",
+		"CREATE_DATABASE_INSIGHT",
+		"MOVE_DATABASE_INSIGHT",
+		"DELETE_DATABASE_INSIGHT",
+		"CREATE_ENTERPRISE_MANAGER_BRIDGE",
+		"UDPATE_ENTERPRISE_MANAGER_BRIDGE",
+		"MOVE_ENTERPRISE_MANAGER_BRIDGE",
+		"DELETE_ENTERPRISE_MANAGER_BRIDGE",
+		"ENABLE_HOST_INSIGHT",
+		"DISABLE_HOST_INSIGHT",
+		"UPDATE_HOST_INSIGHT",
+		"CREATE_HOST_INSIGHT",
+		"MOVE_HOST_INSIGHT",
+		"DELETE_HOST_INSIGHT",
+		"CREATE_EXADATA_INSIGHT",
+		"ENABLE_EXADATA_INSIGHT",
+		"DISABLE_EXADATA_INSIGHT",
+		"UPDATE_EXADATA_INSIGHT",
+		"MOVE_EXADATA_INSIGHT",
+		"DELETE_EXADATA_INSIGHT",
+		"ADD_EXADATA_INSIGHT_MEMBERS",
+		"EXADATA_AUTO_SYNC",
+		"UPDATE_OPSI_WAREHOUSE",
+		"CREATE_OPSI_WAREHOUSE",
+		"MOVE_OPSI_WAREHOUSE",
+		"DELETE_OPSI_WAREHOUSE",
+		"ROTATE_OPSI_WAREHOUSE_WALLET",
+		"UPDATE_OPSI_WAREHOUSE_USER",
+		"CREATE_OPSI_WAREHOUSE_USER",
+		"MOVE_OPSI_WAREHOUSE_USER",
+		"DELETE_OPSI_WAREHOUSE_USER",
+		"UPDATE_AWRHUB",
+		"CREATE_AWRHUB",
+		"MOVE_AWRHUB",
+		"DELETE_AWRHUB",
+	}
 }

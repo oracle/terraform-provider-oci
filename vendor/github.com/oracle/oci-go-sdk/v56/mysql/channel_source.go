@@ -11,7 +11,9 @@ package mysql
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ChannelSource Parameters detailing how to provision the source for the given Channel.
@@ -61,6 +63,18 @@ func (m channelsource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m channelsource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ChannelSourceSourceTypeEnum Enum with underlying type: string
 type ChannelSourceSourceTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	ChannelSourceSourceTypeMysql ChannelSourceSourceTypeEnum = "MYSQL"
 )
 
-var mappingChannelSourceSourceType = map[string]ChannelSourceSourceTypeEnum{
+var mappingChannelSourceSourceTypeEnum = map[string]ChannelSourceSourceTypeEnum{
 	"MYSQL": ChannelSourceSourceTypeMysql,
 }
 
 // GetChannelSourceSourceTypeEnumValues Enumerates the set of values for ChannelSourceSourceTypeEnum
 func GetChannelSourceSourceTypeEnumValues() []ChannelSourceSourceTypeEnum {
 	values := make([]ChannelSourceSourceTypeEnum, 0)
-	for _, v := range mappingChannelSourceSourceType {
+	for _, v := range mappingChannelSourceSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetChannelSourceSourceTypeEnumStringValues Enumerates the set of values in String for ChannelSourceSourceTypeEnum
+func GetChannelSourceSourceTypeEnumStringValues() []string {
+	return []string{
+		"MYSQL",
+	}
 }

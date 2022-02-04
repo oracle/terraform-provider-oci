@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Volume A detachable block volume device that allows you to dynamically expand
@@ -101,6 +103,21 @@ type Volume struct {
 
 func (m Volume) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Volume) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVolumeLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -197,7 +214,7 @@ const (
 	VolumeLifecycleStateFaulty       VolumeLifecycleStateEnum = "FAULTY"
 )
 
-var mappingVolumeLifecycleState = map[string]VolumeLifecycleStateEnum{
+var mappingVolumeLifecycleStateEnum = map[string]VolumeLifecycleStateEnum{
 	"PROVISIONING": VolumeLifecycleStateProvisioning,
 	"RESTORING":    VolumeLifecycleStateRestoring,
 	"AVAILABLE":    VolumeLifecycleStateAvailable,
@@ -209,8 +226,20 @@ var mappingVolumeLifecycleState = map[string]VolumeLifecycleStateEnum{
 // GetVolumeLifecycleStateEnumValues Enumerates the set of values for VolumeLifecycleStateEnum
 func GetVolumeLifecycleStateEnumValues() []VolumeLifecycleStateEnum {
 	values := make([]VolumeLifecycleStateEnum, 0)
-	for _, v := range mappingVolumeLifecycleState {
+	for _, v := range mappingVolumeLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeLifecycleStateEnumStringValues Enumerates the set of values in String for VolumeLifecycleStateEnum
+func GetVolumeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"RESTORING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+		"FAULTY",
+	}
 }

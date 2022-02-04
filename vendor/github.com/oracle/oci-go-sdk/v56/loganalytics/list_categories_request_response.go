@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListCategoriesRequest wrapper for the ListCategories operation
@@ -58,6 +60,10 @@ func (request ListCategoriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListCategoriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,23 @@ func (request ListCategoriesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListCategoriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListCategoriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListCategoriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCategoriesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCategoriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCategoriesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListCategoriesResponse wrapper for the ListCategories operation
@@ -114,7 +137,7 @@ const (
 	ListCategoriesSortOrderDesc ListCategoriesSortOrderEnum = "DESC"
 )
 
-var mappingListCategoriesSortOrder = map[string]ListCategoriesSortOrderEnum{
+var mappingListCategoriesSortOrderEnum = map[string]ListCategoriesSortOrderEnum{
 	"ASC":  ListCategoriesSortOrderAsc,
 	"DESC": ListCategoriesSortOrderDesc,
 }
@@ -122,10 +145,18 @@ var mappingListCategoriesSortOrder = map[string]ListCategoriesSortOrderEnum{
 // GetListCategoriesSortOrderEnumValues Enumerates the set of values for ListCategoriesSortOrderEnum
 func GetListCategoriesSortOrderEnumValues() []ListCategoriesSortOrderEnum {
 	values := make([]ListCategoriesSortOrderEnum, 0)
-	for _, v := range mappingListCategoriesSortOrder {
+	for _, v := range mappingListCategoriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCategoriesSortOrderEnumStringValues Enumerates the set of values in String for ListCategoriesSortOrderEnum
+func GetListCategoriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListCategoriesSortByEnum Enum with underlying type: string
@@ -137,7 +168,7 @@ const (
 	ListCategoriesSortByType        ListCategoriesSortByEnum = "type"
 )
 
-var mappingListCategoriesSortBy = map[string]ListCategoriesSortByEnum{
+var mappingListCategoriesSortByEnum = map[string]ListCategoriesSortByEnum{
 	"displayName": ListCategoriesSortByDisplayname,
 	"type":        ListCategoriesSortByType,
 }
@@ -145,8 +176,16 @@ var mappingListCategoriesSortBy = map[string]ListCategoriesSortByEnum{
 // GetListCategoriesSortByEnumValues Enumerates the set of values for ListCategoriesSortByEnum
 func GetListCategoriesSortByEnumValues() []ListCategoriesSortByEnum {
 	values := make([]ListCategoriesSortByEnum, 0)
-	for _, v := range mappingListCategoriesSortBy {
+	for _, v := range mappingListCategoriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCategoriesSortByEnumStringValues Enumerates the set of values in String for ListCategoriesSortByEnum
+func GetListCategoriesSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"type",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LaunchOptions Options for tuning the compatibility and performance of VM shapes. The values that you specify override any
@@ -67,6 +69,30 @@ func (m LaunchOptions) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LaunchOptions) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLaunchOptionsBootVolumeTypeEnum[string(m.BootVolumeType)]; !ok && m.BootVolumeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BootVolumeType: %s. Supported values are: %s.", m.BootVolumeType, strings.Join(GetLaunchOptionsBootVolumeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLaunchOptionsFirmwareEnum[string(m.Firmware)]; !ok && m.Firmware != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Firmware: %s. Supported values are: %s.", m.Firmware, strings.Join(GetLaunchOptionsFirmwareEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLaunchOptionsNetworkTypeEnum[string(m.NetworkType)]; !ok && m.NetworkType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkType: %s. Supported values are: %s.", m.NetworkType, strings.Join(GetLaunchOptionsNetworkTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLaunchOptionsRemoteDataVolumeTypeEnum[string(m.RemoteDataVolumeType)]; !ok && m.RemoteDataVolumeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RemoteDataVolumeType: %s. Supported values are: %s.", m.RemoteDataVolumeType, strings.Join(GetLaunchOptionsRemoteDataVolumeTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LaunchOptionsBootVolumeTypeEnum Enum with underlying type: string
 type LaunchOptionsBootVolumeTypeEnum string
 
@@ -79,7 +105,7 @@ const (
 	LaunchOptionsBootVolumeTypeParavirtualized LaunchOptionsBootVolumeTypeEnum = "PARAVIRTUALIZED"
 )
 
-var mappingLaunchOptionsBootVolumeType = map[string]LaunchOptionsBootVolumeTypeEnum{
+var mappingLaunchOptionsBootVolumeTypeEnum = map[string]LaunchOptionsBootVolumeTypeEnum{
 	"ISCSI":           LaunchOptionsBootVolumeTypeIscsi,
 	"SCSI":            LaunchOptionsBootVolumeTypeScsi,
 	"IDE":             LaunchOptionsBootVolumeTypeIde,
@@ -90,10 +116,21 @@ var mappingLaunchOptionsBootVolumeType = map[string]LaunchOptionsBootVolumeTypeE
 // GetLaunchOptionsBootVolumeTypeEnumValues Enumerates the set of values for LaunchOptionsBootVolumeTypeEnum
 func GetLaunchOptionsBootVolumeTypeEnumValues() []LaunchOptionsBootVolumeTypeEnum {
 	values := make([]LaunchOptionsBootVolumeTypeEnum, 0)
-	for _, v := range mappingLaunchOptionsBootVolumeType {
+	for _, v := range mappingLaunchOptionsBootVolumeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchOptionsBootVolumeTypeEnumStringValues Enumerates the set of values in String for LaunchOptionsBootVolumeTypeEnum
+func GetLaunchOptionsBootVolumeTypeEnumStringValues() []string {
+	return []string{
+		"ISCSI",
+		"SCSI",
+		"IDE",
+		"VFIO",
+		"PARAVIRTUALIZED",
+	}
 }
 
 // LaunchOptionsFirmwareEnum Enum with underlying type: string
@@ -105,7 +142,7 @@ const (
 	LaunchOptionsFirmwareUefi64 LaunchOptionsFirmwareEnum = "UEFI_64"
 )
 
-var mappingLaunchOptionsFirmware = map[string]LaunchOptionsFirmwareEnum{
+var mappingLaunchOptionsFirmwareEnum = map[string]LaunchOptionsFirmwareEnum{
 	"BIOS":    LaunchOptionsFirmwareBios,
 	"UEFI_64": LaunchOptionsFirmwareUefi64,
 }
@@ -113,10 +150,18 @@ var mappingLaunchOptionsFirmware = map[string]LaunchOptionsFirmwareEnum{
 // GetLaunchOptionsFirmwareEnumValues Enumerates the set of values for LaunchOptionsFirmwareEnum
 func GetLaunchOptionsFirmwareEnumValues() []LaunchOptionsFirmwareEnum {
 	values := make([]LaunchOptionsFirmwareEnum, 0)
-	for _, v := range mappingLaunchOptionsFirmware {
+	for _, v := range mappingLaunchOptionsFirmwareEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchOptionsFirmwareEnumStringValues Enumerates the set of values in String for LaunchOptionsFirmwareEnum
+func GetLaunchOptionsFirmwareEnumStringValues() []string {
+	return []string{
+		"BIOS",
+		"UEFI_64",
+	}
 }
 
 // LaunchOptionsNetworkTypeEnum Enum with underlying type: string
@@ -129,7 +174,7 @@ const (
 	LaunchOptionsNetworkTypeParavirtualized LaunchOptionsNetworkTypeEnum = "PARAVIRTUALIZED"
 )
 
-var mappingLaunchOptionsNetworkType = map[string]LaunchOptionsNetworkTypeEnum{
+var mappingLaunchOptionsNetworkTypeEnum = map[string]LaunchOptionsNetworkTypeEnum{
 	"E1000":           LaunchOptionsNetworkTypeE1000,
 	"VFIO":            LaunchOptionsNetworkTypeVfio,
 	"PARAVIRTUALIZED": LaunchOptionsNetworkTypeParavirtualized,
@@ -138,10 +183,19 @@ var mappingLaunchOptionsNetworkType = map[string]LaunchOptionsNetworkTypeEnum{
 // GetLaunchOptionsNetworkTypeEnumValues Enumerates the set of values for LaunchOptionsNetworkTypeEnum
 func GetLaunchOptionsNetworkTypeEnumValues() []LaunchOptionsNetworkTypeEnum {
 	values := make([]LaunchOptionsNetworkTypeEnum, 0)
-	for _, v := range mappingLaunchOptionsNetworkType {
+	for _, v := range mappingLaunchOptionsNetworkTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchOptionsNetworkTypeEnumStringValues Enumerates the set of values in String for LaunchOptionsNetworkTypeEnum
+func GetLaunchOptionsNetworkTypeEnumStringValues() []string {
+	return []string{
+		"E1000",
+		"VFIO",
+		"PARAVIRTUALIZED",
+	}
 }
 
 // LaunchOptionsRemoteDataVolumeTypeEnum Enum with underlying type: string
@@ -156,7 +210,7 @@ const (
 	LaunchOptionsRemoteDataVolumeTypeParavirtualized LaunchOptionsRemoteDataVolumeTypeEnum = "PARAVIRTUALIZED"
 )
 
-var mappingLaunchOptionsRemoteDataVolumeType = map[string]LaunchOptionsRemoteDataVolumeTypeEnum{
+var mappingLaunchOptionsRemoteDataVolumeTypeEnum = map[string]LaunchOptionsRemoteDataVolumeTypeEnum{
 	"ISCSI":           LaunchOptionsRemoteDataVolumeTypeIscsi,
 	"SCSI":            LaunchOptionsRemoteDataVolumeTypeScsi,
 	"IDE":             LaunchOptionsRemoteDataVolumeTypeIde,
@@ -167,8 +221,19 @@ var mappingLaunchOptionsRemoteDataVolumeType = map[string]LaunchOptionsRemoteDat
 // GetLaunchOptionsRemoteDataVolumeTypeEnumValues Enumerates the set of values for LaunchOptionsRemoteDataVolumeTypeEnum
 func GetLaunchOptionsRemoteDataVolumeTypeEnumValues() []LaunchOptionsRemoteDataVolumeTypeEnum {
 	values := make([]LaunchOptionsRemoteDataVolumeTypeEnum, 0)
-	for _, v := range mappingLaunchOptionsRemoteDataVolumeType {
+	for _, v := range mappingLaunchOptionsRemoteDataVolumeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchOptionsRemoteDataVolumeTypeEnumStringValues Enumerates the set of values in String for LaunchOptionsRemoteDataVolumeTypeEnum
+func GetLaunchOptionsRemoteDataVolumeTypeEnumStringValues() []string {
+	return []string{
+		"ISCSI",
+		"SCSI",
+		"IDE",
+		"VFIO",
+		"PARAVIRTUALIZED",
+	}
 }

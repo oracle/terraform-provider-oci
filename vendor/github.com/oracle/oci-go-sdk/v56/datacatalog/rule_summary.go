@@ -11,7 +11,9 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // RuleSummary A list of rule resources. One or more rules can be defined for a data entity.
@@ -76,4 +78,25 @@ type RuleSummary struct {
 
 func (m RuleSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RuleSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingRuleTypeEnum[string(m.RuleType)]; !ok && m.RuleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuleType: %s. Supported values are: %s.", m.RuleType, strings.Join(GetRuleTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingRuleOriginTypeEnum[string(m.OriginType)]; !ok && m.OriginType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OriginType: %s. Supported values are: %s.", m.OriginType, strings.Join(GetRuleOriginTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

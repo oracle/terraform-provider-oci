@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ImageSourceDetails The representation of ImageSourceDetails
@@ -97,6 +99,21 @@ func (m imagesourcedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m imagesourcedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingImageSourceDetailsSourceImageTypeEnum[string(m.SourceImageType)]; !ok && m.SourceImageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceImageType: %s. Supported values are: %s.", m.SourceImageType, strings.Join(GetImageSourceDetailsSourceImageTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ImageSourceDetailsSourceImageTypeEnum Enum with underlying type: string
 type ImageSourceDetailsSourceImageTypeEnum string
 
@@ -106,7 +123,7 @@ const (
 	ImageSourceDetailsSourceImageTypeVmdk  ImageSourceDetailsSourceImageTypeEnum = "VMDK"
 )
 
-var mappingImageSourceDetailsSourceImageType = map[string]ImageSourceDetailsSourceImageTypeEnum{
+var mappingImageSourceDetailsSourceImageTypeEnum = map[string]ImageSourceDetailsSourceImageTypeEnum{
 	"QCOW2": ImageSourceDetailsSourceImageTypeQcow2,
 	"VMDK":  ImageSourceDetailsSourceImageTypeVmdk,
 }
@@ -114,8 +131,16 @@ var mappingImageSourceDetailsSourceImageType = map[string]ImageSourceDetailsSour
 // GetImageSourceDetailsSourceImageTypeEnumValues Enumerates the set of values for ImageSourceDetailsSourceImageTypeEnum
 func GetImageSourceDetailsSourceImageTypeEnumValues() []ImageSourceDetailsSourceImageTypeEnum {
 	values := make([]ImageSourceDetailsSourceImageTypeEnum, 0)
-	for _, v := range mappingImageSourceDetailsSourceImageType {
+	for _, v := range mappingImageSourceDetailsSourceImageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetImageSourceDetailsSourceImageTypeEnumStringValues Enumerates the set of values in String for ImageSourceDetailsSourceImageTypeEnum
+func GetImageSourceDetailsSourceImageTypeEnumStringValues() []string {
+	return []string{
+		"QCOW2",
+		"VMDK",
+	}
 }

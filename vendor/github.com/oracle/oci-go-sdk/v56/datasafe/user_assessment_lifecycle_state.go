@@ -21,7 +21,7 @@ const (
 	UserAssessmentLifecycleStateFailed    UserAssessmentLifecycleStateEnum = "FAILED"
 )
 
-var mappingUserAssessmentLifecycleState = map[string]UserAssessmentLifecycleStateEnum{
+var mappingUserAssessmentLifecycleStateEnum = map[string]UserAssessmentLifecycleStateEnum{
 	"CREATING":  UserAssessmentLifecycleStateCreating,
 	"SUCCEEDED": UserAssessmentLifecycleStateSucceeded,
 	"UPDATING":  UserAssessmentLifecycleStateUpdating,
@@ -32,8 +32,19 @@ var mappingUserAssessmentLifecycleState = map[string]UserAssessmentLifecycleStat
 // GetUserAssessmentLifecycleStateEnumValues Enumerates the set of values for UserAssessmentLifecycleStateEnum
 func GetUserAssessmentLifecycleStateEnumValues() []UserAssessmentLifecycleStateEnum {
 	values := make([]UserAssessmentLifecycleStateEnum, 0)
-	for _, v := range mappingUserAssessmentLifecycleState {
+	for _, v := range mappingUserAssessmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserAssessmentLifecycleStateEnumStringValues Enumerates the set of values in String for UserAssessmentLifecycleStateEnum
+func GetUserAssessmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"SUCCEEDED",
+		"UPDATING",
+		"DELETING",
+		"FAILED",
+	}
 }

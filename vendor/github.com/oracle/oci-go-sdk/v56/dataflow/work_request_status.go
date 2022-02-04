@@ -22,7 +22,7 @@ const (
 	WorkRequestStatusSucceeded  WorkRequestStatusEnum = "SUCCEEDED"
 )
 
-var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
+var mappingWorkRequestStatusEnum = map[string]WorkRequestStatusEnum{
 	"ACCEPTED":   WorkRequestStatusAccepted,
 	"CANCELLED":  WorkRequestStatusCancelled,
 	"CANCELLING": WorkRequestStatusCancelling,
@@ -34,8 +34,20 @@ var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
 // GetWorkRequestStatusEnumValues Enumerates the set of values for WorkRequestStatusEnum
 func GetWorkRequestStatusEnumValues() []WorkRequestStatusEnum {
 	values := make([]WorkRequestStatusEnum, 0)
-	for _, v := range mappingWorkRequestStatus {
+	for _, v := range mappingWorkRequestStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestStatusEnumStringValues Enumerates the set of values in String for WorkRequestStatusEnum
+func GetWorkRequestStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"CANCELLED",
+		"CANCELLING",
+		"FAILED",
+		"INPROGRESS",
+		"SUCCEEDED",
+	}
 }

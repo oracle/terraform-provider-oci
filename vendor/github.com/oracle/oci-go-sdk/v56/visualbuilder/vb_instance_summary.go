@@ -11,7 +11,9 @@
 package visualbuilder
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VbInstanceSummary Summary of the Vb Instance.
@@ -72,6 +74,24 @@ func (m VbInstanceSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VbInstanceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVbInstanceSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVbInstanceSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingVbInstanceSummaryConsumptionModelEnum[string(m.ConsumptionModel)]; !ok && m.ConsumptionModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConsumptionModel: %s. Supported values are: %s.", m.ConsumptionModel, strings.Join(GetVbInstanceSummaryConsumptionModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VbInstanceSummaryLifecycleStateEnum Enum with underlying type: string
 type VbInstanceSummaryLifecycleStateEnum string
 
@@ -86,7 +106,7 @@ const (
 	VbInstanceSummaryLifecycleStateFailed   VbInstanceSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingVbInstanceSummaryLifecycleState = map[string]VbInstanceSummaryLifecycleStateEnum{
+var mappingVbInstanceSummaryLifecycleStateEnum = map[string]VbInstanceSummaryLifecycleStateEnum{
 	"CREATING": VbInstanceSummaryLifecycleStateCreating,
 	"UPDATING": VbInstanceSummaryLifecycleStateUpdating,
 	"ACTIVE":   VbInstanceSummaryLifecycleStateActive,
@@ -99,10 +119,23 @@ var mappingVbInstanceSummaryLifecycleState = map[string]VbInstanceSummaryLifecyc
 // GetVbInstanceSummaryLifecycleStateEnumValues Enumerates the set of values for VbInstanceSummaryLifecycleStateEnum
 func GetVbInstanceSummaryLifecycleStateEnumValues() []VbInstanceSummaryLifecycleStateEnum {
 	values := make([]VbInstanceSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingVbInstanceSummaryLifecycleState {
+	for _, v := range mappingVbInstanceSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVbInstanceSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for VbInstanceSummaryLifecycleStateEnum
+func GetVbInstanceSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // VbInstanceSummaryConsumptionModelEnum Enum with underlying type: string
@@ -115,7 +148,7 @@ const (
 	VbInstanceSummaryConsumptionModelVb4saas VbInstanceSummaryConsumptionModelEnum = "VB4SAAS"
 )
 
-var mappingVbInstanceSummaryConsumptionModel = map[string]VbInstanceSummaryConsumptionModelEnum{
+var mappingVbInstanceSummaryConsumptionModelEnum = map[string]VbInstanceSummaryConsumptionModelEnum{
 	"UCM":     VbInstanceSummaryConsumptionModelUcm,
 	"GOV":     VbInstanceSummaryConsumptionModelGov,
 	"VB4SAAS": VbInstanceSummaryConsumptionModelVb4saas,
@@ -124,8 +157,17 @@ var mappingVbInstanceSummaryConsumptionModel = map[string]VbInstanceSummaryConsu
 // GetVbInstanceSummaryConsumptionModelEnumValues Enumerates the set of values for VbInstanceSummaryConsumptionModelEnum
 func GetVbInstanceSummaryConsumptionModelEnumValues() []VbInstanceSummaryConsumptionModelEnum {
 	values := make([]VbInstanceSummaryConsumptionModelEnum, 0)
-	for _, v := range mappingVbInstanceSummaryConsumptionModel {
+	for _, v := range mappingVbInstanceSummaryConsumptionModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVbInstanceSummaryConsumptionModelEnumStringValues Enumerates the set of values in String for VbInstanceSummaryConsumptionModelEnum
+func GetVbInstanceSummaryConsumptionModelEnumStringValues() []string {
+	return []string{
+		"UCM",
+		"GOV",
+		"VB4SAAS",
+	}
 }

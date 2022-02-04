@@ -20,7 +20,7 @@ const (
 	RuleTypeUniquekey  RuleTypeEnum = "UNIQUEKEY"
 )
 
-var mappingRuleType = map[string]RuleTypeEnum{
+var mappingRuleTypeEnum = map[string]RuleTypeEnum{
 	"PRIMARYKEY": RuleTypePrimarykey,
 	"FOREIGNKEY": RuleTypeForeignkey,
 	"UNIQUEKEY":  RuleTypeUniquekey,
@@ -29,8 +29,17 @@ var mappingRuleType = map[string]RuleTypeEnum{
 // GetRuleTypeEnumValues Enumerates the set of values for RuleTypeEnum
 func GetRuleTypeEnumValues() []RuleTypeEnum {
 	values := make([]RuleTypeEnum, 0)
-	for _, v := range mappingRuleType {
+	for _, v := range mappingRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRuleTypeEnumStringValues Enumerates the set of values in String for RuleTypeEnum
+func GetRuleTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARYKEY",
+		"FOREIGNKEY",
+		"UNIQUEKEY",
+	}
 }

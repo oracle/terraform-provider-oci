@@ -24,7 +24,7 @@ const (
 	RevocationReasonAaCompromise         RevocationReasonEnum = "AA_COMPROMISE"
 )
 
-var mappingRevocationReason = map[string]RevocationReasonEnum{
+var mappingRevocationReasonEnum = map[string]RevocationReasonEnum{
 	"UNSPECIFIED":            RevocationReasonUnspecified,
 	"KEY_COMPROMISE":         RevocationReasonKeyCompromise,
 	"CA_COMPROMISE":          RevocationReasonCaCompromise,
@@ -38,8 +38,22 @@ var mappingRevocationReason = map[string]RevocationReasonEnum{
 // GetRevocationReasonEnumValues Enumerates the set of values for RevocationReasonEnum
 func GetRevocationReasonEnumValues() []RevocationReasonEnum {
 	values := make([]RevocationReasonEnum, 0)
-	for _, v := range mappingRevocationReason {
+	for _, v := range mappingRevocationReasonEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRevocationReasonEnumStringValues Enumerates the set of values in String for RevocationReasonEnum
+func GetRevocationReasonEnumStringValues() []string {
+	return []string{
+		"UNSPECIFIED",
+		"KEY_COMPROMISE",
+		"CA_COMPROMISE",
+		"AFFILIATION_CHANGED",
+		"SUPERSEDED",
+		"CESSATION_OF_OPERATION",
+		"PRIVILEGE_WITHDRAWN",
+		"AA_COMPROMISE",
+	}
 }

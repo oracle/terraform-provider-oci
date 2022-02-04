@@ -25,7 +25,7 @@ const (
 	OperatorControlAssignmentLifecycleStatesDeletionfailed OperatorControlAssignmentLifecycleStatesEnum = "DELETIONFAILED"
 )
 
-var mappingOperatorControlAssignmentLifecycleStates = map[string]OperatorControlAssignmentLifecycleStatesEnum{
+var mappingOperatorControlAssignmentLifecycleStatesEnum = map[string]OperatorControlAssignmentLifecycleStatesEnum{
 	"CREATED":        OperatorControlAssignmentLifecycleStatesCreated,
 	"APPLIED":        OperatorControlAssignmentLifecycleStatesApplied,
 	"APPLYFAILED":    OperatorControlAssignmentLifecycleStatesApplyfailed,
@@ -38,8 +38,21 @@ var mappingOperatorControlAssignmentLifecycleStates = map[string]OperatorControl
 // GetOperatorControlAssignmentLifecycleStatesEnumValues Enumerates the set of values for OperatorControlAssignmentLifecycleStatesEnum
 func GetOperatorControlAssignmentLifecycleStatesEnumValues() []OperatorControlAssignmentLifecycleStatesEnum {
 	values := make([]OperatorControlAssignmentLifecycleStatesEnum, 0)
-	for _, v := range mappingOperatorControlAssignmentLifecycleStates {
+	for _, v := range mappingOperatorControlAssignmentLifecycleStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperatorControlAssignmentLifecycleStatesEnumStringValues Enumerates the set of values in String for OperatorControlAssignmentLifecycleStatesEnum
+func GetOperatorControlAssignmentLifecycleStatesEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"APPLIED",
+		"APPLYFAILED",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"DELETIONFAILED",
+	}
 }

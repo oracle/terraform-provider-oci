@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListTaskValidationsRequest wrapper for the ListTaskValidations operation
@@ -60,6 +62,10 @@ func (request ListTaskValidationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListTaskValidationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +79,23 @@ func (request ListTaskValidationsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTaskValidationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListTaskValidationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListTaskValidationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTaskValidationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTaskValidationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListTaskValidationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListTaskValidationsResponse wrapper for the ListTaskValidations operation
@@ -116,7 +139,7 @@ const (
 	ListTaskValidationsSortByDisplayName ListTaskValidationsSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListTaskValidationsSortBy = map[string]ListTaskValidationsSortByEnum{
+var mappingListTaskValidationsSortByEnum = map[string]ListTaskValidationsSortByEnum{
 	"TIME_CREATED": ListTaskValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListTaskValidationsSortByDisplayName,
 }
@@ -124,10 +147,18 @@ var mappingListTaskValidationsSortBy = map[string]ListTaskValidationsSortByEnum{
 // GetListTaskValidationsSortByEnumValues Enumerates the set of values for ListTaskValidationsSortByEnum
 func GetListTaskValidationsSortByEnumValues() []ListTaskValidationsSortByEnum {
 	values := make([]ListTaskValidationsSortByEnum, 0)
-	for _, v := range mappingListTaskValidationsSortBy {
+	for _, v := range mappingListTaskValidationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTaskValidationsSortByEnumStringValues Enumerates the set of values in String for ListTaskValidationsSortByEnum
+func GetListTaskValidationsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }
 
 // ListTaskValidationsSortOrderEnum Enum with underlying type: string
@@ -139,7 +170,7 @@ const (
 	ListTaskValidationsSortOrderDesc ListTaskValidationsSortOrderEnum = "DESC"
 )
 
-var mappingListTaskValidationsSortOrder = map[string]ListTaskValidationsSortOrderEnum{
+var mappingListTaskValidationsSortOrderEnum = map[string]ListTaskValidationsSortOrderEnum{
 	"ASC":  ListTaskValidationsSortOrderAsc,
 	"DESC": ListTaskValidationsSortOrderDesc,
 }
@@ -147,8 +178,16 @@ var mappingListTaskValidationsSortOrder = map[string]ListTaskValidationsSortOrde
 // GetListTaskValidationsSortOrderEnumValues Enumerates the set of values for ListTaskValidationsSortOrderEnum
 func GetListTaskValidationsSortOrderEnumValues() []ListTaskValidationsSortOrderEnum {
 	values := make([]ListTaskValidationsSortOrderEnum, 0)
-	for _, v := range mappingListTaskValidationsSortOrder {
+	for _, v := range mappingListTaskValidationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTaskValidationsSortOrderEnumStringValues Enumerates the set of values in String for ListTaskValidationsSortOrderEnum
+func GetListTaskValidationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

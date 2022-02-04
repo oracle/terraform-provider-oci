@@ -20,7 +20,7 @@ const (
 	ManagementOptionAdvanced ManagementOptionEnum = "ADVANCED"
 )
 
-var mappingManagementOption = map[string]ManagementOptionEnum{
+var mappingManagementOptionEnum = map[string]ManagementOptionEnum{
 	"BASIC":    ManagementOptionBasic,
 	"ADVANCED": ManagementOptionAdvanced,
 }
@@ -28,8 +28,16 @@ var mappingManagementOption = map[string]ManagementOptionEnum{
 // GetManagementOptionEnumValues Enumerates the set of values for ManagementOptionEnum
 func GetManagementOptionEnumValues() []ManagementOptionEnum {
 	values := make([]ManagementOptionEnum, 0)
-	for _, v := range mappingManagementOption {
+	for _, v := range mappingManagementOptionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetManagementOptionEnumStringValues Enumerates the set of values in String for ManagementOptionEnum
+func GetManagementOptionEnumStringValues() []string {
+	return []string{
+		"BASIC",
+		"ADVANCED",
+	}
 }

@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeDatabaseInsightResourceForecastTrendRequest wrapper for the SummarizeDatabaseInsightResourceForecastTrend operation
@@ -145,6 +147,10 @@ func (request SummarizeDatabaseInsightResourceForecastTrendRequest) String() str
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeDatabaseInsightResourceForecastTrendRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -158,6 +164,32 @@ func (request SummarizeDatabaseInsightResourceForecastTrendRequest) BinaryReques
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeDatabaseInsightResourceForecastTrendRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeDatabaseInsightResourceForecastTrendRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.DatabaseType {
+		if _, ok := mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeDatabaseInsightResourceForecastTrendStatisticEnum[string(request.Statistic)]; !ok && request.Statistic != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Statistic: %s. Supported values are: %s.", request.Statistic, strings.Join(GetSummarizeDatabaseInsightResourceForecastTrendStatisticEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeDatabaseInsightResourceForecastTrendForecastModelEnum[string(request.ForecastModel)]; !ok && request.ForecastModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ForecastModel: %s. Supported values are: %s.", request.ForecastModel, strings.Join(GetSummarizeDatabaseInsightResourceForecastTrendForecastModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum[string(request.UtilizationLevel)]; !ok && request.UtilizationLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UtilizationLevel: %s. Supported values are: %s.", request.UtilizationLevel, strings.Join(GetSummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeDatabaseInsightResourceForecastTrendResponse wrapper for the SummarizeDatabaseInsightResourceForecastTrend operation
@@ -201,7 +233,7 @@ const (
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalNoncdb SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "EXTERNAL-NONCDB"
 )
 
-var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseType = map[string]SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum{
+var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum{
 	"ADW-S":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAdwS,
 	"ATP-S":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAtpS,
 	"ADW-D":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAdwD,
@@ -213,10 +245,22 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseType = map[strin
 // GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum
 func GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumValues() []SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum {
 	values := make([]SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseType {
+	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum
+func GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"ADW-S",
+		"ATP-S",
+		"ADW-D",
+		"ATP-D",
+		"EXTERNAL-PDB",
+		"EXTERNAL-NONCDB",
+	}
 }
 
 // SummarizeDatabaseInsightResourceForecastTrendStatisticEnum Enum with underlying type: string
@@ -228,7 +272,7 @@ const (
 	SummarizeDatabaseInsightResourceForecastTrendStatisticMax SummarizeDatabaseInsightResourceForecastTrendStatisticEnum = "MAX"
 )
 
-var mappingSummarizeDatabaseInsightResourceForecastTrendStatistic = map[string]SummarizeDatabaseInsightResourceForecastTrendStatisticEnum{
+var mappingSummarizeDatabaseInsightResourceForecastTrendStatisticEnum = map[string]SummarizeDatabaseInsightResourceForecastTrendStatisticEnum{
 	"AVG": SummarizeDatabaseInsightResourceForecastTrendStatisticAvg,
 	"MAX": SummarizeDatabaseInsightResourceForecastTrendStatisticMax,
 }
@@ -236,10 +280,18 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendStatistic = map[string]S
 // GetSummarizeDatabaseInsightResourceForecastTrendStatisticEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceForecastTrendStatisticEnum
 func GetSummarizeDatabaseInsightResourceForecastTrendStatisticEnumValues() []SummarizeDatabaseInsightResourceForecastTrendStatisticEnum {
 	values := make([]SummarizeDatabaseInsightResourceForecastTrendStatisticEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendStatistic {
+	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendStatisticEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceForecastTrendStatisticEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceForecastTrendStatisticEnum
+func GetSummarizeDatabaseInsightResourceForecastTrendStatisticEnumStringValues() []string {
+	return []string{
+		"AVG",
+		"MAX",
+	}
 }
 
 // SummarizeDatabaseInsightResourceForecastTrendForecastModelEnum Enum with underlying type: string
@@ -252,7 +304,7 @@ const (
 	SummarizeDatabaseInsightResourceForecastTrendForecastModelMlNoAuto SummarizeDatabaseInsightResourceForecastTrendForecastModelEnum = "ML_NO_AUTO"
 )
 
-var mappingSummarizeDatabaseInsightResourceForecastTrendForecastModel = map[string]SummarizeDatabaseInsightResourceForecastTrendForecastModelEnum{
+var mappingSummarizeDatabaseInsightResourceForecastTrendForecastModelEnum = map[string]SummarizeDatabaseInsightResourceForecastTrendForecastModelEnum{
 	"LINEAR":     SummarizeDatabaseInsightResourceForecastTrendForecastModelLinear,
 	"ML_AUTO":    SummarizeDatabaseInsightResourceForecastTrendForecastModelMlAuto,
 	"ML_NO_AUTO": SummarizeDatabaseInsightResourceForecastTrendForecastModelMlNoAuto,
@@ -261,10 +313,19 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendForecastModel = map[stri
 // GetSummarizeDatabaseInsightResourceForecastTrendForecastModelEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceForecastTrendForecastModelEnum
 func GetSummarizeDatabaseInsightResourceForecastTrendForecastModelEnumValues() []SummarizeDatabaseInsightResourceForecastTrendForecastModelEnum {
 	values := make([]SummarizeDatabaseInsightResourceForecastTrendForecastModelEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendForecastModel {
+	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendForecastModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceForecastTrendForecastModelEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceForecastTrendForecastModelEnum
+func GetSummarizeDatabaseInsightResourceForecastTrendForecastModelEnumStringValues() []string {
+	return []string{
+		"LINEAR",
+		"ML_AUTO",
+		"ML_NO_AUTO",
+	}
 }
 
 // SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum Enum with underlying type: string
@@ -278,7 +339,7 @@ const (
 	SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelMediumLowUtilization  SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum = "MEDIUM_LOW_UTILIZATION"
 )
 
-var mappingSummarizeDatabaseInsightResourceForecastTrendUtilizationLevel = map[string]SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum{
+var mappingSummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum = map[string]SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum{
 	"HIGH_UTILIZATION":        SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelHighUtilization,
 	"LOW_UTILIZATION":         SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelLowUtilization,
 	"MEDIUM_HIGH_UTILIZATION": SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelMediumHighUtilization,
@@ -288,8 +349,18 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendUtilizationLevel = map[s
 // GetSummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum
 func GetSummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnumValues() []SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum {
 	values := make([]SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendUtilizationLevel {
+	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnum
+func GetSummarizeDatabaseInsightResourceForecastTrendUtilizationLevelEnumStringValues() []string {
+	return []string{
+		"HIGH_UTILIZATION",
+		"LOW_UTILIZATION",
+		"MEDIUM_HIGH_UTILIZATION",
+		"MEDIUM_LOW_UTILIZATION",
+	}
 }

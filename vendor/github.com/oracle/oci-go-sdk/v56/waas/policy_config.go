@@ -11,7 +11,9 @@ package waas
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PolicyConfig The configuration details for the WAAS policy.
@@ -76,6 +78,30 @@ type PolicyConfig struct {
 
 func (m PolicyConfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PolicyConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.TlsProtocols {
+		if _, ok := mappingPolicyConfigTlsProtocolsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TlsProtocols: %s. Supported values are: %s.", val, strings.Join(GetPolicyConfigTlsProtocolsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingPolicyConfigClientAddressHeaderEnum[string(m.ClientAddressHeader)]; !ok && m.ClientAddressHeader != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClientAddressHeader: %s. Supported values are: %s.", m.ClientAddressHeader, strings.Join(GetPolicyConfigClientAddressHeaderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPolicyConfigCipherGroupEnum[string(m.CipherGroup)]; !ok && m.CipherGroup != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CipherGroup: %s. Supported values are: %s.", m.CipherGroup, strings.Join(GetPolicyConfigCipherGroupEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -158,7 +184,7 @@ const (
 	PolicyConfigTlsProtocolsV13 PolicyConfigTlsProtocolsEnum = "TLS_V1_3"
 )
 
-var mappingPolicyConfigTlsProtocols = map[string]PolicyConfigTlsProtocolsEnum{
+var mappingPolicyConfigTlsProtocolsEnum = map[string]PolicyConfigTlsProtocolsEnum{
 	"TLS_V1":   PolicyConfigTlsProtocolsV1,
 	"TLS_V1_1": PolicyConfigTlsProtocolsV11,
 	"TLS_V1_2": PolicyConfigTlsProtocolsV12,
@@ -168,10 +194,20 @@ var mappingPolicyConfigTlsProtocols = map[string]PolicyConfigTlsProtocolsEnum{
 // GetPolicyConfigTlsProtocolsEnumValues Enumerates the set of values for PolicyConfigTlsProtocolsEnum
 func GetPolicyConfigTlsProtocolsEnumValues() []PolicyConfigTlsProtocolsEnum {
 	values := make([]PolicyConfigTlsProtocolsEnum, 0)
-	for _, v := range mappingPolicyConfigTlsProtocols {
+	for _, v := range mappingPolicyConfigTlsProtocolsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPolicyConfigTlsProtocolsEnumStringValues Enumerates the set of values in String for PolicyConfigTlsProtocolsEnum
+func GetPolicyConfigTlsProtocolsEnumStringValues() []string {
+	return []string{
+		"TLS_V1",
+		"TLS_V1_1",
+		"TLS_V1_2",
+		"TLS_V1_3",
+	}
 }
 
 // PolicyConfigClientAddressHeaderEnum Enum with underlying type: string
@@ -186,7 +222,7 @@ const (
 	PolicyConfigClientAddressHeaderTrueClientIp  PolicyConfigClientAddressHeaderEnum = "TRUE_CLIENT_IP"
 )
 
-var mappingPolicyConfigClientAddressHeader = map[string]PolicyConfigClientAddressHeaderEnum{
+var mappingPolicyConfigClientAddressHeaderEnum = map[string]PolicyConfigClientAddressHeaderEnum{
 	"X_FORWARDED_FOR": PolicyConfigClientAddressHeaderXForwardedFor,
 	"X_CLIENT_IP":     PolicyConfigClientAddressHeaderXClientIp,
 	"X_REAL_IP":       PolicyConfigClientAddressHeaderXRealIp,
@@ -197,10 +233,21 @@ var mappingPolicyConfigClientAddressHeader = map[string]PolicyConfigClientAddres
 // GetPolicyConfigClientAddressHeaderEnumValues Enumerates the set of values for PolicyConfigClientAddressHeaderEnum
 func GetPolicyConfigClientAddressHeaderEnumValues() []PolicyConfigClientAddressHeaderEnum {
 	values := make([]PolicyConfigClientAddressHeaderEnum, 0)
-	for _, v := range mappingPolicyConfigClientAddressHeader {
+	for _, v := range mappingPolicyConfigClientAddressHeaderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPolicyConfigClientAddressHeaderEnumStringValues Enumerates the set of values in String for PolicyConfigClientAddressHeaderEnum
+func GetPolicyConfigClientAddressHeaderEnumStringValues() []string {
+	return []string{
+		"X_FORWARDED_FOR",
+		"X_CLIENT_IP",
+		"X_REAL_IP",
+		"CLIENT_IP",
+		"TRUE_CLIENT_IP",
+	}
 }
 
 // PolicyConfigCipherGroupEnum Enum with underlying type: string
@@ -211,15 +258,22 @@ const (
 	PolicyConfigCipherGroupDefault PolicyConfigCipherGroupEnum = "DEFAULT"
 )
 
-var mappingPolicyConfigCipherGroup = map[string]PolicyConfigCipherGroupEnum{
+var mappingPolicyConfigCipherGroupEnum = map[string]PolicyConfigCipherGroupEnum{
 	"DEFAULT": PolicyConfigCipherGroupDefault,
 }
 
 // GetPolicyConfigCipherGroupEnumValues Enumerates the set of values for PolicyConfigCipherGroupEnum
 func GetPolicyConfigCipherGroupEnumValues() []PolicyConfigCipherGroupEnum {
 	values := make([]PolicyConfigCipherGroupEnum, 0)
-	for _, v := range mappingPolicyConfigCipherGroup {
+	for _, v := range mappingPolicyConfigCipherGroupEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPolicyConfigCipherGroupEnumStringValues Enumerates the set of values in String for PolicyConfigCipherGroupEnum
+func GetPolicyConfigCipherGroupEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+	}
 }

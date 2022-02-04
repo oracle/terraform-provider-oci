@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UserGroupMembership An object that represents the membership of a user in a group. When you add a user to a group, the result is a
@@ -45,6 +47,21 @@ func (m UserGroupMembership) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserGroupMembership) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUserGroupMembershipLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetUserGroupMembershipLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UserGroupMembershipLifecycleStateEnum Enum with underlying type: string
 type UserGroupMembershipLifecycleStateEnum string
 
@@ -57,7 +74,7 @@ const (
 	UserGroupMembershipLifecycleStateDeleted  UserGroupMembershipLifecycleStateEnum = "DELETED"
 )
 
-var mappingUserGroupMembershipLifecycleState = map[string]UserGroupMembershipLifecycleStateEnum{
+var mappingUserGroupMembershipLifecycleStateEnum = map[string]UserGroupMembershipLifecycleStateEnum{
 	"CREATING": UserGroupMembershipLifecycleStateCreating,
 	"ACTIVE":   UserGroupMembershipLifecycleStateActive,
 	"INACTIVE": UserGroupMembershipLifecycleStateInactive,
@@ -68,8 +85,19 @@ var mappingUserGroupMembershipLifecycleState = map[string]UserGroupMembershipLif
 // GetUserGroupMembershipLifecycleStateEnumValues Enumerates the set of values for UserGroupMembershipLifecycleStateEnum
 func GetUserGroupMembershipLifecycleStateEnumValues() []UserGroupMembershipLifecycleStateEnum {
 	values := make([]UserGroupMembershipLifecycleStateEnum, 0)
-	for _, v := range mappingUserGroupMembershipLifecycleState {
+	for _, v := range mappingUserGroupMembershipLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserGroupMembershipLifecycleStateEnumStringValues Enumerates the set of values in String for UserGroupMembershipLifecycleStateEnum
+func GetUserGroupMembershipLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

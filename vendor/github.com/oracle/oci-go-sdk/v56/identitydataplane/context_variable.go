@@ -10,7 +10,9 @@
 package identitydataplane
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ContextVariable The representation of ContextVariable
@@ -30,6 +32,21 @@ func (m ContextVariable) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ContextVariable) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingContextVariableTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetContextVariableTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ContextVariableTypeEnum Enum with underlying type: string
 type ContextVariableTypeEnum string
 
@@ -42,7 +59,7 @@ const (
 	ContextVariableTypeList    ContextVariableTypeEnum = "LIST"
 )
 
-var mappingContextVariableType = map[string]ContextVariableTypeEnum{
+var mappingContextVariableTypeEnum = map[string]ContextVariableTypeEnum{
 	"STRING":  ContextVariableTypeString,
 	"NUMBER":  ContextVariableTypeNumber,
 	"ENTITY":  ContextVariableTypeEntity,
@@ -53,8 +70,19 @@ var mappingContextVariableType = map[string]ContextVariableTypeEnum{
 // GetContextVariableTypeEnumValues Enumerates the set of values for ContextVariableTypeEnum
 func GetContextVariableTypeEnumValues() []ContextVariableTypeEnum {
 	values := make([]ContextVariableTypeEnum, 0)
-	for _, v := range mappingContextVariableType {
+	for _, v := range mappingContextVariableTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetContextVariableTypeEnumStringValues Enumerates the set of values in String for ContextVariableTypeEnum
+func GetContextVariableTypeEnumStringValues() []string {
+	return []string{
+		"STRING",
+		"NUMBER",
+		"ENTITY",
+		"BOOLEAN",
+		"LIST",
+	}
 }

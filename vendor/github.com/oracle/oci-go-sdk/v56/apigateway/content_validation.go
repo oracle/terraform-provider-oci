@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ContentValidation Content validation properties.
@@ -63,6 +65,18 @@ func (m contentvalidation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m contentvalidation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ContentValidationValidationTypeEnum Enum with underlying type: string
 type ContentValidationValidationTypeEnum string
 
@@ -71,15 +85,22 @@ const (
 	ContentValidationValidationTypeNone ContentValidationValidationTypeEnum = "NONE"
 )
 
-var mappingContentValidationValidationType = map[string]ContentValidationValidationTypeEnum{
+var mappingContentValidationValidationTypeEnum = map[string]ContentValidationValidationTypeEnum{
 	"NONE": ContentValidationValidationTypeNone,
 }
 
 // GetContentValidationValidationTypeEnumValues Enumerates the set of values for ContentValidationValidationTypeEnum
 func GetContentValidationValidationTypeEnumValues() []ContentValidationValidationTypeEnum {
 	values := make([]ContentValidationValidationTypeEnum, 0)
-	for _, v := range mappingContentValidationValidationType {
+	for _, v := range mappingContentValidationValidationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetContentValidationValidationTypeEnumStringValues Enumerates the set of values in String for ContentValidationValidationTypeEnum
+func GetContentValidationValidationTypeEnumStringValues() []string {
+	return []string{
+		"NONE",
+	}
 }

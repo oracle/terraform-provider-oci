@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Drg A dynamic routing gateway (DRG) is a virtual router that provides a path for private
@@ -64,6 +66,21 @@ func (m Drg) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Drg) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDrgLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrgLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DrgLifecycleStateEnum Enum with underlying type: string
 type DrgLifecycleStateEnum string
 
@@ -75,7 +92,7 @@ const (
 	DrgLifecycleStateTerminated   DrgLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingDrgLifecycleState = map[string]DrgLifecycleStateEnum{
+var mappingDrgLifecycleStateEnum = map[string]DrgLifecycleStateEnum{
 	"PROVISIONING": DrgLifecycleStateProvisioning,
 	"AVAILABLE":    DrgLifecycleStateAvailable,
 	"TERMINATING":  DrgLifecycleStateTerminating,
@@ -85,8 +102,18 @@ var mappingDrgLifecycleState = map[string]DrgLifecycleStateEnum{
 // GetDrgLifecycleStateEnumValues Enumerates the set of values for DrgLifecycleStateEnum
 func GetDrgLifecycleStateEnumValues() []DrgLifecycleStateEnum {
 	values := make([]DrgLifecycleStateEnum, 0)
-	for _, v := range mappingDrgLifecycleState {
+	for _, v := range mappingDrgLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgLifecycleStateEnumStringValues Enumerates the set of values in String for DrgLifecycleStateEnum
+func GetDrgLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

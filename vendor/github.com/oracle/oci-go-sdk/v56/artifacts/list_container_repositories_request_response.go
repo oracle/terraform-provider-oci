@@ -5,8 +5,10 @@
 package artifacts
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListContainerRepositoriesRequest wrapper for the ListContainerRepositories operation
@@ -78,6 +80,10 @@ func (request ListContainerRepositoriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListContainerRepositoriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -91,6 +97,23 @@ func (request ListContainerRepositoriesRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListContainerRepositoriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListContainerRepositoriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListContainerRepositoriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListContainerRepositoriesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListContainerRepositoriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListContainerRepositoriesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListContainerRepositoriesResponse wrapper for the ListContainerRepositories operation
@@ -130,7 +153,7 @@ const (
 	ListContainerRepositoriesSortByDisplayname ListContainerRepositoriesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListContainerRepositoriesSortBy = map[string]ListContainerRepositoriesSortByEnum{
+var mappingListContainerRepositoriesSortByEnum = map[string]ListContainerRepositoriesSortByEnum{
 	"TIMECREATED": ListContainerRepositoriesSortByTimecreated,
 	"DISPLAYNAME": ListContainerRepositoriesSortByDisplayname,
 }
@@ -138,10 +161,18 @@ var mappingListContainerRepositoriesSortBy = map[string]ListContainerRepositorie
 // GetListContainerRepositoriesSortByEnumValues Enumerates the set of values for ListContainerRepositoriesSortByEnum
 func GetListContainerRepositoriesSortByEnumValues() []ListContainerRepositoriesSortByEnum {
 	values := make([]ListContainerRepositoriesSortByEnum, 0)
-	for _, v := range mappingListContainerRepositoriesSortBy {
+	for _, v := range mappingListContainerRepositoriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListContainerRepositoriesSortByEnumStringValues Enumerates the set of values in String for ListContainerRepositoriesSortByEnum
+func GetListContainerRepositoriesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListContainerRepositoriesSortOrderEnum Enum with underlying type: string
@@ -153,7 +184,7 @@ const (
 	ListContainerRepositoriesSortOrderDesc ListContainerRepositoriesSortOrderEnum = "DESC"
 )
 
-var mappingListContainerRepositoriesSortOrder = map[string]ListContainerRepositoriesSortOrderEnum{
+var mappingListContainerRepositoriesSortOrderEnum = map[string]ListContainerRepositoriesSortOrderEnum{
 	"ASC":  ListContainerRepositoriesSortOrderAsc,
 	"DESC": ListContainerRepositoriesSortOrderDesc,
 }
@@ -161,8 +192,16 @@ var mappingListContainerRepositoriesSortOrder = map[string]ListContainerReposito
 // GetListContainerRepositoriesSortOrderEnumValues Enumerates the set of values for ListContainerRepositoriesSortOrderEnum
 func GetListContainerRepositoriesSortOrderEnumValues() []ListContainerRepositoriesSortOrderEnum {
 	values := make([]ListContainerRepositoriesSortOrderEnum, 0)
-	for _, v := range mappingListContainerRepositoriesSortOrder {
+	for _, v := range mappingListContainerRepositoriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListContainerRepositoriesSortOrderEnumStringValues Enumerates the set of values in String for ListContainerRepositoriesSortOrderEnum
+func GetListContainerRepositoriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -20,7 +20,7 @@ const (
 	ApplicationLanguageSql    ApplicationLanguageEnum = "SQL"
 )
 
-var mappingApplicationLanguage = map[string]ApplicationLanguageEnum{
+var mappingApplicationLanguageEnum = map[string]ApplicationLanguageEnum{
 	"SCALA":  ApplicationLanguageScala,
 	"JAVA":   ApplicationLanguageJava,
 	"PYTHON": ApplicationLanguagePython,
@@ -30,8 +30,18 @@ var mappingApplicationLanguage = map[string]ApplicationLanguageEnum{
 // GetApplicationLanguageEnumValues Enumerates the set of values for ApplicationLanguageEnum
 func GetApplicationLanguageEnumValues() []ApplicationLanguageEnum {
 	values := make([]ApplicationLanguageEnum, 0)
-	for _, v := range mappingApplicationLanguage {
+	for _, v := range mappingApplicationLanguageEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApplicationLanguageEnumStringValues Enumerates the set of values in String for ApplicationLanguageEnum
+func GetApplicationLanguageEnumStringValues() []string {
+	return []string{
+		"SCALA",
+		"JAVA",
+		"PYTHON",
+		"SQL",
+	}
 }

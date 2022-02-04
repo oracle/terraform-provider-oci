@@ -10,7 +10,9 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ListingSummary The model for a summary of an Oracle Cloud Infrastructure Marketplace listing.
@@ -61,6 +63,30 @@ func (m ListingSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ListingSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPackageTypeEnumEnum[string(m.PackageType)]; !ok && m.PackageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", m.PackageType, strings.Join(GetPackageTypeEnumEnumStringValues(), ",")))
+	}
+	for _, val := range m.PricingTypes {
+		if _, ok := mappingListingSummaryPricingTypesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PricingTypes: %s. Supported values are: %s.", val, strings.Join(GetListingSummaryPricingTypesEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListingTypeEnum[string(m.ListingType)]; !ok && m.ListingType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ListingType: %s. Supported values are: %s.", m.ListingType, strings.Join(GetListingTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ListingSummaryPricingTypesEnum Enum with underlying type: string
 type ListingSummaryPricingTypesEnum string
 
@@ -71,7 +97,7 @@ const (
 	ListingSummaryPricingTypesPaygo ListingSummaryPricingTypesEnum = "PAYGO"
 )
 
-var mappingListingSummaryPricingTypes = map[string]ListingSummaryPricingTypesEnum{
+var mappingListingSummaryPricingTypesEnum = map[string]ListingSummaryPricingTypesEnum{
 	"FREE":  ListingSummaryPricingTypesFree,
 	"BYOL":  ListingSummaryPricingTypesByol,
 	"PAYGO": ListingSummaryPricingTypesPaygo,
@@ -80,8 +106,17 @@ var mappingListingSummaryPricingTypes = map[string]ListingSummaryPricingTypesEnu
 // GetListingSummaryPricingTypesEnumValues Enumerates the set of values for ListingSummaryPricingTypesEnum
 func GetListingSummaryPricingTypesEnumValues() []ListingSummaryPricingTypesEnum {
 	values := make([]ListingSummaryPricingTypesEnum, 0)
-	for _, v := range mappingListingSummaryPricingTypes {
+	for _, v := range mappingListingSummaryPricingTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListingSummaryPricingTypesEnumStringValues Enumerates the set of values in String for ListingSummaryPricingTypesEnum
+func GetListingSummaryPricingTypesEnumStringValues() []string {
+	return []string{
+		"FREE",
+		"BYOL",
+		"PAYGO",
+	}
 }

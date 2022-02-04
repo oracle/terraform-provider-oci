@@ -24,7 +24,7 @@ const (
 	RunLifecycleStateStopped    RunLifecycleStateEnum = "STOPPED"
 )
 
-var mappingRunLifecycleState = map[string]RunLifecycleStateEnum{
+var mappingRunLifecycleStateEnum = map[string]RunLifecycleStateEnum{
 	"ACCEPTED":    RunLifecycleStateAccepted,
 	"IN_PROGRESS": RunLifecycleStateInProgress,
 	"CANCELING":   RunLifecycleStateCanceling,
@@ -38,8 +38,22 @@ var mappingRunLifecycleState = map[string]RunLifecycleStateEnum{
 // GetRunLifecycleStateEnumValues Enumerates the set of values for RunLifecycleStateEnum
 func GetRunLifecycleStateEnumValues() []RunLifecycleStateEnum {
 	values := make([]RunLifecycleStateEnum, 0)
-	for _, v := range mappingRunLifecycleState {
+	for _, v := range mappingRunLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRunLifecycleStateEnumStringValues Enumerates the set of values in String for RunLifecycleStateEnum
+func GetRunLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"CANCELING",
+		"CANCELED",
+		"FAILED",
+		"SUCCEEDED",
+		"STOPPING",
+		"STOPPED",
+	}
 }

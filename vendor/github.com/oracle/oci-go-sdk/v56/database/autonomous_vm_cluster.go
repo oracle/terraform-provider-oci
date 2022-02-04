@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutonomousVmCluster Details of the Autonomous VM cluster.
@@ -87,6 +89,24 @@ func (m AutonomousVmCluster) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousVmCluster) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousVmClusterLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousVmClusterLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAutonomousVmClusterLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetAutonomousVmClusterLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousVmClusterLifecycleStateEnum Enum with underlying type: string
 type AutonomousVmClusterLifecycleStateEnum string
 
@@ -101,7 +121,7 @@ const (
 	AutonomousVmClusterLifecycleStateMaintenanceInProgress AutonomousVmClusterLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingAutonomousVmClusterLifecycleState = map[string]AutonomousVmClusterLifecycleStateEnum{
+var mappingAutonomousVmClusterLifecycleStateEnum = map[string]AutonomousVmClusterLifecycleStateEnum{
 	"PROVISIONING":            AutonomousVmClusterLifecycleStateProvisioning,
 	"AVAILABLE":               AutonomousVmClusterLifecycleStateAvailable,
 	"UPDATING":                AutonomousVmClusterLifecycleStateUpdating,
@@ -114,10 +134,23 @@ var mappingAutonomousVmClusterLifecycleState = map[string]AutonomousVmClusterLif
 // GetAutonomousVmClusterLifecycleStateEnumValues Enumerates the set of values for AutonomousVmClusterLifecycleStateEnum
 func GetAutonomousVmClusterLifecycleStateEnumValues() []AutonomousVmClusterLifecycleStateEnum {
 	values := make([]AutonomousVmClusterLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousVmClusterLifecycleState {
+	for _, v := range mappingAutonomousVmClusterLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousVmClusterLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousVmClusterLifecycleStateEnum
+func GetAutonomousVmClusterLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }
 
 // AutonomousVmClusterLicenseModelEnum Enum with underlying type: string
@@ -129,7 +162,7 @@ const (
 	AutonomousVmClusterLicenseModelBringYourOwnLicense AutonomousVmClusterLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingAutonomousVmClusterLicenseModel = map[string]AutonomousVmClusterLicenseModelEnum{
+var mappingAutonomousVmClusterLicenseModelEnum = map[string]AutonomousVmClusterLicenseModelEnum{
 	"LICENSE_INCLUDED":       AutonomousVmClusterLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": AutonomousVmClusterLicenseModelBringYourOwnLicense,
 }
@@ -137,8 +170,16 @@ var mappingAutonomousVmClusterLicenseModel = map[string]AutonomousVmClusterLicen
 // GetAutonomousVmClusterLicenseModelEnumValues Enumerates the set of values for AutonomousVmClusterLicenseModelEnum
 func GetAutonomousVmClusterLicenseModelEnumValues() []AutonomousVmClusterLicenseModelEnum {
 	values := make([]AutonomousVmClusterLicenseModelEnum, 0)
-	for _, v := range mappingAutonomousVmClusterLicenseModel {
+	for _, v := range mappingAutonomousVmClusterLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousVmClusterLicenseModelEnumStringValues Enumerates the set of values in String for AutonomousVmClusterLicenseModelEnum
+func GetAutonomousVmClusterLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

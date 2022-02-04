@@ -22,7 +22,7 @@ const (
 	DataMaskCategoryCustom    DataMaskCategoryEnum = "CUSTOM"
 )
 
-var mappingDataMaskCategory = map[string]DataMaskCategoryEnum{
+var mappingDataMaskCategoryEnum = map[string]DataMaskCategoryEnum{
 	"ACTOR":     DataMaskCategoryActor,
 	"PII":       DataMaskCategoryPii,
 	"PHI":       DataMaskCategoryPhi,
@@ -34,8 +34,20 @@ var mappingDataMaskCategory = map[string]DataMaskCategoryEnum{
 // GetDataMaskCategoryEnumValues Enumerates the set of values for DataMaskCategoryEnum
 func GetDataMaskCategoryEnumValues() []DataMaskCategoryEnum {
 	values := make([]DataMaskCategoryEnum, 0)
-	for _, v := range mappingDataMaskCategory {
+	for _, v := range mappingDataMaskCategoryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataMaskCategoryEnumStringValues Enumerates the set of values in String for DataMaskCategoryEnum
+func GetDataMaskCategoryEnumStringValues() []string {
+	return []string{
+		"ACTOR",
+		"PII",
+		"PHI",
+		"FINANCIAL",
+		"LOCATION",
+		"CUSTOM",
+	}
 }

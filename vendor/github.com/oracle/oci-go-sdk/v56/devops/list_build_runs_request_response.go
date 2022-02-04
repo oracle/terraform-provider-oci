@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListBuildRunsRequest wrapper for the ListBuildRuns operation
@@ -61,6 +63,10 @@ func (request ListBuildRunsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBuildRunsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +80,26 @@ func (request ListBuildRunsRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBuildRunsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBuildRunsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBuildRunLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBuildRunLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBuildRunsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBuildRunsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBuildRunsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBuildRunsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBuildRunsResponse wrapper for the ListBuildRuns operation
@@ -110,7 +136,7 @@ const (
 	ListBuildRunsSortOrderDesc ListBuildRunsSortOrderEnum = "DESC"
 )
 
-var mappingListBuildRunsSortOrder = map[string]ListBuildRunsSortOrderEnum{
+var mappingListBuildRunsSortOrderEnum = map[string]ListBuildRunsSortOrderEnum{
 	"ASC":  ListBuildRunsSortOrderAsc,
 	"DESC": ListBuildRunsSortOrderDesc,
 }
@@ -118,10 +144,18 @@ var mappingListBuildRunsSortOrder = map[string]ListBuildRunsSortOrderEnum{
 // GetListBuildRunsSortOrderEnumValues Enumerates the set of values for ListBuildRunsSortOrderEnum
 func GetListBuildRunsSortOrderEnumValues() []ListBuildRunsSortOrderEnum {
 	values := make([]ListBuildRunsSortOrderEnum, 0)
-	for _, v := range mappingListBuildRunsSortOrder {
+	for _, v := range mappingListBuildRunsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBuildRunsSortOrderEnumStringValues Enumerates the set of values in String for ListBuildRunsSortOrderEnum
+func GetListBuildRunsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListBuildRunsSortByEnum Enum with underlying type: string
@@ -133,7 +167,7 @@ const (
 	ListBuildRunsSortByDisplayname ListBuildRunsSortByEnum = "displayName"
 )
 
-var mappingListBuildRunsSortBy = map[string]ListBuildRunsSortByEnum{
+var mappingListBuildRunsSortByEnum = map[string]ListBuildRunsSortByEnum{
 	"timeCreated": ListBuildRunsSortByTimecreated,
 	"displayName": ListBuildRunsSortByDisplayname,
 }
@@ -141,8 +175,16 @@ var mappingListBuildRunsSortBy = map[string]ListBuildRunsSortByEnum{
 // GetListBuildRunsSortByEnumValues Enumerates the set of values for ListBuildRunsSortByEnum
 func GetListBuildRunsSortByEnumValues() []ListBuildRunsSortByEnum {
 	values := make([]ListBuildRunsSortByEnum, 0)
-	for _, v := range mappingListBuildRunsSortBy {
+	for _, v := range mappingListBuildRunsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBuildRunsSortByEnumStringValues Enumerates the set of values in String for ListBuildRunsSortByEnum
+func GetListBuildRunsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

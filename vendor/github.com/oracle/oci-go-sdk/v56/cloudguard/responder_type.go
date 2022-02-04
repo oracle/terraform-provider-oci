@@ -18,7 +18,7 @@ const (
 	ResponderTypeNotification ResponderTypeEnum = "NOTIFICATION"
 )
 
-var mappingResponderType = map[string]ResponderTypeEnum{
+var mappingResponderTypeEnum = map[string]ResponderTypeEnum{
 	"REMEDIATION":  ResponderTypeRemediation,
 	"NOTIFICATION": ResponderTypeNotification,
 }
@@ -26,8 +26,16 @@ var mappingResponderType = map[string]ResponderTypeEnum{
 // GetResponderTypeEnumValues Enumerates the set of values for ResponderTypeEnum
 func GetResponderTypeEnumValues() []ResponderTypeEnum {
 	values := make([]ResponderTypeEnum, 0)
-	for _, v := range mappingResponderType {
+	for _, v := range mappingResponderTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResponderTypeEnumStringValues Enumerates the set of values in String for ResponderTypeEnum
+func GetResponderTypeEnumStringValues() []string {
+	return []string{
+		"REMEDIATION",
+		"NOTIFICATION",
+	}
 }

@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CaBundle Reference to the CA bundle that should be used on the gateway
@@ -67,6 +69,18 @@ func (m cabundle) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m cabundle) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CaBundleTypeEnum Enum with underlying type: string
 type CaBundleTypeEnum string
 
@@ -76,7 +90,7 @@ const (
 	CaBundleTypeCertificateAuthority CaBundleTypeEnum = "CERTIFICATE_AUTHORITY"
 )
 
-var mappingCaBundleType = map[string]CaBundleTypeEnum{
+var mappingCaBundleTypeEnum = map[string]CaBundleTypeEnum{
 	"CA_BUNDLE":             CaBundleTypeCaBundle,
 	"CERTIFICATE_AUTHORITY": CaBundleTypeCertificateAuthority,
 }
@@ -84,8 +98,16 @@ var mappingCaBundleType = map[string]CaBundleTypeEnum{
 // GetCaBundleTypeEnumValues Enumerates the set of values for CaBundleTypeEnum
 func GetCaBundleTypeEnumValues() []CaBundleTypeEnum {
 	values := make([]CaBundleTypeEnum, 0)
-	for _, v := range mappingCaBundleType {
+	for _, v := range mappingCaBundleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCaBundleTypeEnumStringValues Enumerates the set of values in String for CaBundleTypeEnum
+func GetCaBundleTypeEnumStringValues() []string {
+	return []string{
+		"CA_BUNDLE",
+		"CERTIFICATE_AUTHORITY",
+	}
 }

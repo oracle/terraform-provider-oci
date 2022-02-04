@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DataEntityFromDataStore The view entity data entity details.
@@ -89,6 +91,21 @@ func (m DataEntityFromDataStore) GetMetadata() *ObjectMetadata {
 
 func (m DataEntityFromDataStore) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataEntityFromDataStore) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataEntityFromDataStoreEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetDataEntityFromDataStoreEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -215,7 +232,7 @@ const (
 	DataEntityFromDataStoreEntityTypeDataStore DataEntityFromDataStoreEntityTypeEnum = "DATA_STORE"
 )
 
-var mappingDataEntityFromDataStoreEntityType = map[string]DataEntityFromDataStoreEntityTypeEnum{
+var mappingDataEntityFromDataStoreEntityTypeEnum = map[string]DataEntityFromDataStoreEntityTypeEnum{
 	"TABLE":      DataEntityFromDataStoreEntityTypeTable,
 	"VIEW":       DataEntityFromDataStoreEntityTypeView,
 	"FILE":       DataEntityFromDataStoreEntityTypeFile,
@@ -228,8 +245,21 @@ var mappingDataEntityFromDataStoreEntityType = map[string]DataEntityFromDataStor
 // GetDataEntityFromDataStoreEntityTypeEnumValues Enumerates the set of values for DataEntityFromDataStoreEntityTypeEnum
 func GetDataEntityFromDataStoreEntityTypeEnumValues() []DataEntityFromDataStoreEntityTypeEnum {
 	values := make([]DataEntityFromDataStoreEntityTypeEnum, 0)
-	for _, v := range mappingDataEntityFromDataStoreEntityType {
+	for _, v := range mappingDataEntityFromDataStoreEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataEntityFromDataStoreEntityTypeEnumStringValues Enumerates the set of values in String for DataEntityFromDataStoreEntityTypeEnum
+func GetDataEntityFromDataStoreEntityTypeEnumStringValues() []string {
+	return []string{
+		"TABLE",
+		"VIEW",
+		"FILE",
+		"QUEUE",
+		"STREAM",
+		"OTHER",
+		"DATA_STORE",
+	}
 }

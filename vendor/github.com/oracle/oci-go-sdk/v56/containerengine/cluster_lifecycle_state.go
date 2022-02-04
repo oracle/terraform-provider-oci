@@ -24,7 +24,7 @@ const (
 	ClusterLifecycleStateUpdating ClusterLifecycleStateEnum = "UPDATING"
 )
 
-var mappingClusterLifecycleState = map[string]ClusterLifecycleStateEnum{
+var mappingClusterLifecycleStateEnum = map[string]ClusterLifecycleStateEnum{
 	"CREATING": ClusterLifecycleStateCreating,
 	"ACTIVE":   ClusterLifecycleStateActive,
 	"FAILED":   ClusterLifecycleStateFailed,
@@ -36,8 +36,20 @@ var mappingClusterLifecycleState = map[string]ClusterLifecycleStateEnum{
 // GetClusterLifecycleStateEnumValues Enumerates the set of values for ClusterLifecycleStateEnum
 func GetClusterLifecycleStateEnumValues() []ClusterLifecycleStateEnum {
 	values := make([]ClusterLifecycleStateEnum, 0)
-	for _, v := range mappingClusterLifecycleState {
+	for _, v := range mappingClusterLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetClusterLifecycleStateEnumStringValues Enumerates the set of values in String for ClusterLifecycleStateEnum
+func GetClusterLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"FAILED",
+		"DELETING",
+		"DELETED",
+		"UPDATING",
+	}
 }

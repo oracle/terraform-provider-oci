@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WriteOperationConfig The information about the write operation.
@@ -45,6 +47,21 @@ type WriteOperationConfig struct {
 
 func (m WriteOperationConfig) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WriteOperationConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWriteOperationConfigWriteModeEnum[string(m.WriteMode)]; !ok && m.WriteMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WriteMode: %s. Supported values are: %s.", m.WriteMode, strings.Join(GetWriteOperationConfigWriteModeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -150,7 +167,7 @@ const (
 	WriteOperationConfigWriteModeIgnore    WriteOperationConfigWriteModeEnum = "IGNORE"
 )
 
-var mappingWriteOperationConfigWriteMode = map[string]WriteOperationConfigWriteModeEnum{
+var mappingWriteOperationConfigWriteModeEnum = map[string]WriteOperationConfigWriteModeEnum{
 	"OVERWRITE": WriteOperationConfigWriteModeOverwrite,
 	"APPEND":    WriteOperationConfigWriteModeAppend,
 	"MERGE":     WriteOperationConfigWriteModeMerge,
@@ -160,8 +177,18 @@ var mappingWriteOperationConfigWriteMode = map[string]WriteOperationConfigWriteM
 // GetWriteOperationConfigWriteModeEnumValues Enumerates the set of values for WriteOperationConfigWriteModeEnum
 func GetWriteOperationConfigWriteModeEnumValues() []WriteOperationConfigWriteModeEnum {
 	values := make([]WriteOperationConfigWriteModeEnum, 0)
-	for _, v := range mappingWriteOperationConfigWriteMode {
+	for _, v := range mappingWriteOperationConfigWriteModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWriteOperationConfigWriteModeEnumStringValues Enumerates the set of values in String for WriteOperationConfigWriteModeEnum
+func GetWriteOperationConfigWriteModeEnumStringValues() []string {
+	return []string{
+		"OVERWRITE",
+		"APPEND",
+		"MERGE",
+		"IGNORE",
+	}
 }

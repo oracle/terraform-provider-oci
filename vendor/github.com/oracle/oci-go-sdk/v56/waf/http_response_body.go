@@ -12,7 +12,9 @@ package waf
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HttpResponseBody Type of returned HTTP response body.
@@ -62,6 +64,18 @@ func (m httpresponsebody) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m httpresponsebody) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HttpResponseBodyTypeEnum Enum with underlying type: string
 type HttpResponseBodyTypeEnum string
 
@@ -70,15 +84,22 @@ const (
 	HttpResponseBodyTypeStaticText HttpResponseBodyTypeEnum = "STATIC_TEXT"
 )
 
-var mappingHttpResponseBodyType = map[string]HttpResponseBodyTypeEnum{
+var mappingHttpResponseBodyTypeEnum = map[string]HttpResponseBodyTypeEnum{
 	"STATIC_TEXT": HttpResponseBodyTypeStaticText,
 }
 
 // GetHttpResponseBodyTypeEnumValues Enumerates the set of values for HttpResponseBodyTypeEnum
 func GetHttpResponseBodyTypeEnumValues() []HttpResponseBodyTypeEnum {
 	values := make([]HttpResponseBodyTypeEnum, 0)
-	for _, v := range mappingHttpResponseBodyType {
+	for _, v := range mappingHttpResponseBodyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHttpResponseBodyTypeEnumStringValues Enumerates the set of values in String for HttpResponseBodyTypeEnum
+func GetHttpResponseBodyTypeEnumStringValues() []string {
+	return []string{
+		"STATIC_TEXT",
+	}
 }

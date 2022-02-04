@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ManagedInstance Detail information for an OCI Compute instance that is being managed
@@ -101,6 +103,24 @@ func (m ManagedInstance) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ManagedInstance) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingManagedInstanceStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetManagedInstanceStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOsFamiliesEnum[string(m.OsFamily)]; !ok && m.OsFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamiliesEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ManagedInstanceStatusEnum Enum with underlying type: string
 type ManagedInstanceStatusEnum string
 
@@ -112,7 +132,7 @@ const (
 	ManagedInstanceStatusWarning     ManagedInstanceStatusEnum = "WARNING"
 )
 
-var mappingManagedInstanceStatus = map[string]ManagedInstanceStatusEnum{
+var mappingManagedInstanceStatusEnum = map[string]ManagedInstanceStatusEnum{
 	"NORMAL":      ManagedInstanceStatusNormal,
 	"UNREACHABLE": ManagedInstanceStatusUnreachable,
 	"ERROR":       ManagedInstanceStatusError,
@@ -122,8 +142,18 @@ var mappingManagedInstanceStatus = map[string]ManagedInstanceStatusEnum{
 // GetManagedInstanceStatusEnumValues Enumerates the set of values for ManagedInstanceStatusEnum
 func GetManagedInstanceStatusEnumValues() []ManagedInstanceStatusEnum {
 	values := make([]ManagedInstanceStatusEnum, 0)
-	for _, v := range mappingManagedInstanceStatus {
+	for _, v := range mappingManagedInstanceStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetManagedInstanceStatusEnumStringValues Enumerates the set of values in String for ManagedInstanceStatusEnum
+func GetManagedInstanceStatusEnumStringValues() []string {
+	return []string{
+		"NORMAL",
+		"UNREACHABLE",
+		"ERROR",
+		"WARNING",
+	}
 }

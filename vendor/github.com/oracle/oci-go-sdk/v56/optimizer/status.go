@@ -22,7 +22,7 @@ const (
 	StatusImplemented StatusEnum = "IMPLEMENTED"
 )
 
-var mappingStatus = map[string]StatusEnum{
+var mappingStatusEnum = map[string]StatusEnum{
 	"PENDING":     StatusPending,
 	"DISMISSED":   StatusDismissed,
 	"POSTPONED":   StatusPostponed,
@@ -32,8 +32,18 @@ var mappingStatus = map[string]StatusEnum{
 // GetStatusEnumValues Enumerates the set of values for StatusEnum
 func GetStatusEnumValues() []StatusEnum {
 	values := make([]StatusEnum, 0)
-	for _, v := range mappingStatus {
+	for _, v := range mappingStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStatusEnumStringValues Enumerates the set of values in String for StatusEnum
+func GetStatusEnumStringValues() []string {
+	return []string{
+		"PENDING",
+		"DISMISSED",
+		"POSTPONED",
+		"IMPLEMENTED",
+	}
 }

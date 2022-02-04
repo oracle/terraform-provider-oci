@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LoadBalancerTrafficShiftDeployStage Specifies load balancer traffic shift stage.
@@ -146,6 +148,24 @@ func (m LoadBalancerTrafficShiftDeployStage) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LoadBalancerTrafficShiftDeployStage) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum[string(m.TrafficShiftTarget)]; !ok && m.TrafficShiftTarget != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TrafficShiftTarget: %s. Supported values are: %s.", m.TrafficShiftTarget, strings.Join(GetLoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDeployStageLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeployStageLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m LoadBalancerTrafficShiftDeployStage) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeLoadBalancerTrafficShiftDeployStage LoadBalancerTrafficShiftDeployStage
@@ -251,7 +271,7 @@ const (
 	LoadBalancerTrafficShiftDeployStageTrafficShiftTargetGreen      LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum = "GREEN"
 )
 
-var mappingLoadBalancerTrafficShiftDeployStageTrafficShiftTarget = map[string]LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum{
+var mappingLoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum = map[string]LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum{
 	"AUTO_SELECT": LoadBalancerTrafficShiftDeployStageTrafficShiftTargetAutoSelect,
 	"BLUE":        LoadBalancerTrafficShiftDeployStageTrafficShiftTargetBlue,
 	"GREEN":       LoadBalancerTrafficShiftDeployStageTrafficShiftTargetGreen,
@@ -260,8 +280,17 @@ var mappingLoadBalancerTrafficShiftDeployStageTrafficShiftTarget = map[string]Lo
 // GetLoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnumValues Enumerates the set of values for LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum
 func GetLoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnumValues() []LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum {
 	values := make([]LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum, 0)
-	for _, v := range mappingLoadBalancerTrafficShiftDeployStageTrafficShiftTarget {
+	for _, v := range mappingLoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnumStringValues Enumerates the set of values in String for LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum
+func GetLoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnumStringValues() []string {
+	return []string{
+		"AUTO_SELECT",
+		"BLUE",
+		"GREEN",
+	}
 }

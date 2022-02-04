@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteRRSetRequest wrapper for the DeleteRRSet operation
@@ -65,6 +67,10 @@ func (request DeleteRRSetRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteRRSetRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +84,20 @@ func (request DeleteRRSetRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteRRSetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteRRSetRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDeleteRRSetScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetDeleteRRSetScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteRRSetResponse wrapper for the DeleteRRSet operation
@@ -109,7 +129,7 @@ const (
 	DeleteRRSetScopePrivate DeleteRRSetScopeEnum = "PRIVATE"
 )
 
-var mappingDeleteRRSetScope = map[string]DeleteRRSetScopeEnum{
+var mappingDeleteRRSetScopeEnum = map[string]DeleteRRSetScopeEnum{
 	"GLOBAL":  DeleteRRSetScopeGlobal,
 	"PRIVATE": DeleteRRSetScopePrivate,
 }
@@ -117,8 +137,16 @@ var mappingDeleteRRSetScope = map[string]DeleteRRSetScopeEnum{
 // GetDeleteRRSetScopeEnumValues Enumerates the set of values for DeleteRRSetScopeEnum
 func GetDeleteRRSetScopeEnumValues() []DeleteRRSetScopeEnum {
 	values := make([]DeleteRRSetScopeEnum, 0)
-	for _, v := range mappingDeleteRRSetScope {
+	for _, v := range mappingDeleteRRSetScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeleteRRSetScopeEnumStringValues Enumerates the set of values in String for DeleteRRSetScopeEnum
+func GetDeleteRRSetScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

@@ -5,9 +5,11 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // UploadLogEventsFileRequest wrapper for the UploadLogEventsFile operation
@@ -87,6 +89,20 @@ func (request UploadLogEventsFileRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UploadLogEventsFileRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUploadLogEventsFilePayloadTypeEnum[string(request.PayloadType)]; !ok && request.PayloadType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PayloadType: %s. Supported values are: %s.", request.PayloadType, strings.Join(GetUploadLogEventsFilePayloadTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UploadLogEventsFileResponse wrapper for the UploadLogEventsFile operation
 type UploadLogEventsFileResponse struct {
 
@@ -122,7 +138,7 @@ const (
 	UploadLogEventsFilePayloadTypeZip  UploadLogEventsFilePayloadTypeEnum = "ZIP"
 )
 
-var mappingUploadLogEventsFilePayloadType = map[string]UploadLogEventsFilePayloadTypeEnum{
+var mappingUploadLogEventsFilePayloadTypeEnum = map[string]UploadLogEventsFilePayloadTypeEnum{
 	"JSON": UploadLogEventsFilePayloadTypeJson,
 	"GZIP": UploadLogEventsFilePayloadTypeGzip,
 	"ZIP":  UploadLogEventsFilePayloadTypeZip,
@@ -131,8 +147,17 @@ var mappingUploadLogEventsFilePayloadType = map[string]UploadLogEventsFilePayloa
 // GetUploadLogEventsFilePayloadTypeEnumValues Enumerates the set of values for UploadLogEventsFilePayloadTypeEnum
 func GetUploadLogEventsFilePayloadTypeEnumValues() []UploadLogEventsFilePayloadTypeEnum {
 	values := make([]UploadLogEventsFilePayloadTypeEnum, 0)
-	for _, v := range mappingUploadLogEventsFilePayloadType {
+	for _, v := range mappingUploadLogEventsFilePayloadTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUploadLogEventsFilePayloadTypeEnumStringValues Enumerates the set of values in String for UploadLogEventsFilePayloadTypeEnum
+func GetUploadLogEventsFilePayloadTypeEnumStringValues() []string {
+	return []string{
+		"JSON",
+		"GZIP",
+		"ZIP",
+	}
 }

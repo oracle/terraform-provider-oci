@@ -19,7 +19,7 @@ const (
 	AvailabilityStatusNotAvailable AvailabilityStatusEnum = "NOT_AVAILABLE"
 )
 
-var mappingAvailabilityStatus = map[string]AvailabilityStatusEnum{
+var mappingAvailabilityStatusEnum = map[string]AvailabilityStatusEnum{
 	"ACTIVE":        AvailabilityStatusActive,
 	"SILENT":        AvailabilityStatusSilent,
 	"NOT_AVAILABLE": AvailabilityStatusNotAvailable,
@@ -28,8 +28,17 @@ var mappingAvailabilityStatus = map[string]AvailabilityStatusEnum{
 // GetAvailabilityStatusEnumValues Enumerates the set of values for AvailabilityStatusEnum
 func GetAvailabilityStatusEnumValues() []AvailabilityStatusEnum {
 	values := make([]AvailabilityStatusEnum, 0)
-	for _, v := range mappingAvailabilityStatus {
+	for _, v := range mappingAvailabilityStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAvailabilityStatusEnumStringValues Enumerates the set of values in String for AvailabilityStatusEnum
+func GetAvailabilityStatusEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"SILENT",
+		"NOT_AVAILABLE",
+	}
 }

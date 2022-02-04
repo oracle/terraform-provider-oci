@@ -10,7 +10,9 @@
 package databasemigration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DataPumpParameters Optional parameters for Data Pump Export and Import. Refer to Configuring Optional Initial Load Advanced Settings (https://docs.us.oracle.com/en/cloud/paas/database-migration/dmsus/working-migration-resources.html#GUID-24BD3054-FDF8-48FF-8492-636C1D4B71ED)
@@ -38,4 +40,22 @@ type DataPumpParameters struct {
 
 func (m DataPumpParameters) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataPumpParameters) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDataPumpEstimateEnum[string(m.Estimate)]; !ok && m.Estimate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Estimate: %s. Supported values are: %s.", m.Estimate, strings.Join(GetDataPumpEstimateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDataPumpTableExistsActionEnum[string(m.TableExistsAction)]; !ok && m.TableExistsAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TableExistsAction: %s. Supported values are: %s.", m.TableExistsAction, strings.Join(GetDataPumpTableExistsActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

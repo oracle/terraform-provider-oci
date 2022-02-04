@@ -5,8 +5,10 @@
 package networkloadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListBackendSetsRequest wrapper for the ListBackendSets operation
@@ -57,6 +59,10 @@ func (request ListBackendSetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBackendSetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +76,23 @@ func (request ListBackendSetsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBackendSetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBackendSetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListBackendSetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBackendSetsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBackendSetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBackendSetsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBackendSetsResponse wrapper for the ListBackendSets operation
@@ -109,7 +132,7 @@ const (
 	ListBackendSetsSortOrderDesc ListBackendSetsSortOrderEnum = "DESC"
 )
 
-var mappingListBackendSetsSortOrder = map[string]ListBackendSetsSortOrderEnum{
+var mappingListBackendSetsSortOrderEnum = map[string]ListBackendSetsSortOrderEnum{
 	"ASC":  ListBackendSetsSortOrderAsc,
 	"DESC": ListBackendSetsSortOrderDesc,
 }
@@ -117,10 +140,18 @@ var mappingListBackendSetsSortOrder = map[string]ListBackendSetsSortOrderEnum{
 // GetListBackendSetsSortOrderEnumValues Enumerates the set of values for ListBackendSetsSortOrderEnum
 func GetListBackendSetsSortOrderEnumValues() []ListBackendSetsSortOrderEnum {
 	values := make([]ListBackendSetsSortOrderEnum, 0)
-	for _, v := range mappingListBackendSetsSortOrder {
+	for _, v := range mappingListBackendSetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBackendSetsSortOrderEnumStringValues Enumerates the set of values in String for ListBackendSetsSortOrderEnum
+func GetListBackendSetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListBackendSetsSortByEnum Enum with underlying type: string
@@ -132,7 +163,7 @@ const (
 	ListBackendSetsSortByDisplayname ListBackendSetsSortByEnum = "displayName"
 )
 
-var mappingListBackendSetsSortBy = map[string]ListBackendSetsSortByEnum{
+var mappingListBackendSetsSortByEnum = map[string]ListBackendSetsSortByEnum{
 	"timeCreated": ListBackendSetsSortByTimecreated,
 	"displayName": ListBackendSetsSortByDisplayname,
 }
@@ -140,8 +171,16 @@ var mappingListBackendSetsSortBy = map[string]ListBackendSetsSortByEnum{
 // GetListBackendSetsSortByEnumValues Enumerates the set of values for ListBackendSetsSortByEnum
 func GetListBackendSetsSortByEnumValues() []ListBackendSetsSortByEnum {
 	values := make([]ListBackendSetsSortByEnum, 0)
-	for _, v := range mappingListBackendSetsSortBy {
+	for _, v := range mappingListBackendSetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBackendSetsSortByEnumStringValues Enumerates the set of values in String for ListBackendSetsSortByEnum
+func GetListBackendSetsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

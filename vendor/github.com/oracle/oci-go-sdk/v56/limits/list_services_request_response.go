@@ -5,8 +5,10 @@
 package limits
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListServicesRequest wrapper for the ListServices operation
@@ -47,6 +49,10 @@ func (request ListServicesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListServicesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -60,6 +66,23 @@ func (request ListServicesRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListServicesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListServicesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListServicesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListServicesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListServicesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListServicesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListServicesResponse wrapper for the ListServices operation
@@ -99,7 +122,7 @@ const (
 	ListServicesSortByDescription ListServicesSortByEnum = "description"
 )
 
-var mappingListServicesSortBy = map[string]ListServicesSortByEnum{
+var mappingListServicesSortByEnum = map[string]ListServicesSortByEnum{
 	"name":        ListServicesSortByName,
 	"description": ListServicesSortByDescription,
 }
@@ -107,10 +130,18 @@ var mappingListServicesSortBy = map[string]ListServicesSortByEnum{
 // GetListServicesSortByEnumValues Enumerates the set of values for ListServicesSortByEnum
 func GetListServicesSortByEnumValues() []ListServicesSortByEnum {
 	values := make([]ListServicesSortByEnum, 0)
-	for _, v := range mappingListServicesSortBy {
+	for _, v := range mappingListServicesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServicesSortByEnumStringValues Enumerates the set of values in String for ListServicesSortByEnum
+func GetListServicesSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"description",
+	}
 }
 
 // ListServicesSortOrderEnum Enum with underlying type: string
@@ -122,7 +153,7 @@ const (
 	ListServicesSortOrderDesc ListServicesSortOrderEnum = "DESC"
 )
 
-var mappingListServicesSortOrder = map[string]ListServicesSortOrderEnum{
+var mappingListServicesSortOrderEnum = map[string]ListServicesSortOrderEnum{
 	"ASC":  ListServicesSortOrderAsc,
 	"DESC": ListServicesSortOrderDesc,
 }
@@ -130,8 +161,16 @@ var mappingListServicesSortOrder = map[string]ListServicesSortOrderEnum{
 // GetListServicesSortOrderEnumValues Enumerates the set of values for ListServicesSortOrderEnum
 func GetListServicesSortOrderEnumValues() []ListServicesSortOrderEnum {
 	values := make([]ListServicesSortOrderEnum, 0)
-	for _, v := range mappingListServicesSortOrder {
+	for _, v := range mappingListServicesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServicesSortOrderEnumStringValues Enumerates the set of values in String for ListServicesSortOrderEnum
+func GetListServicesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

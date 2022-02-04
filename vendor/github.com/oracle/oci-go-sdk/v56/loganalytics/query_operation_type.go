@@ -18,7 +18,7 @@ const (
 	QueryOperationTypeExecutePurgeJob QueryOperationTypeEnum = "EXECUTE_PURGE_JOB"
 )
 
-var mappingQueryOperationType = map[string]QueryOperationTypeEnum{
+var mappingQueryOperationTypeEnum = map[string]QueryOperationTypeEnum{
 	"EXECUTE_QUERY_JOB": QueryOperationTypeExecuteQueryJob,
 	"EXECUTE_PURGE_JOB": QueryOperationTypeExecutePurgeJob,
 }
@@ -26,8 +26,16 @@ var mappingQueryOperationType = map[string]QueryOperationTypeEnum{
 // GetQueryOperationTypeEnumValues Enumerates the set of values for QueryOperationTypeEnum
 func GetQueryOperationTypeEnumValues() []QueryOperationTypeEnum {
 	values := make([]QueryOperationTypeEnum, 0)
-	for _, v := range mappingQueryOperationType {
+	for _, v := range mappingQueryOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetQueryOperationTypeEnumStringValues Enumerates the set of values in String for QueryOperationTypeEnum
+func GetQueryOperationTypeEnumStringValues() []string {
+	return []string{
+		"EXECUTE_QUERY_JOB",
+		"EXECUTE_PURGE_JOB",
+	}
 }

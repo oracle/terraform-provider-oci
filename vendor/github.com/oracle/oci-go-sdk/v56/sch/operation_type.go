@@ -23,7 +23,7 @@ const (
 	OperationTypeDeactivateServiceConnector OperationTypeEnum = "DEACTIVATE_SERVICE_CONNECTOR"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_SERVICE_CONNECTOR":     OperationTypeCreateServiceConnector,
 	"UPDATE_SERVICE_CONNECTOR":     OperationTypeUpdateServiceConnector,
 	"DELETE_SERVICE_CONNECTOR":     OperationTypeDeleteServiceConnector,
@@ -34,8 +34,19 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_SERVICE_CONNECTOR",
+		"UPDATE_SERVICE_CONNECTOR",
+		"DELETE_SERVICE_CONNECTOR",
+		"ACTIVATE_SERVICE_CONNECTOR",
+		"DEACTIVATE_SERVICE_CONNECTOR",
+	}
 }

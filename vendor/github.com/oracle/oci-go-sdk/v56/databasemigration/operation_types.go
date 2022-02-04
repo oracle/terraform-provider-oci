@@ -27,7 +27,7 @@ const (
 	OperationTypesUpdateConnection  OperationTypesEnum = "UPDATE_CONNECTION"
 )
 
-var mappingOperationTypes = map[string]OperationTypesEnum{
+var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CREATE_AGENT":       OperationTypesCreateAgent,
 	"DELETE_AGENT":       OperationTypesDeleteAgent,
 	"CREATE_MIGRATION":   OperationTypesCreateMigration,
@@ -44,8 +44,25 @@ var mappingOperationTypes = map[string]OperationTypesEnum{
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
 func GetOperationTypesEnumValues() []OperationTypesEnum {
 	values := make([]OperationTypesEnum, 0)
-	for _, v := range mappingOperationTypes {
+	for _, v := range mappingOperationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypesEnumStringValues Enumerates the set of values in String for OperationTypesEnum
+func GetOperationTypesEnumStringValues() []string {
+	return []string{
+		"CREATE_AGENT",
+		"DELETE_AGENT",
+		"CREATE_MIGRATION",
+		"CLONE_MIGRATION",
+		"DELETE_MIGRATION",
+		"UPDATE_MIGRATION",
+		"START_MIGRATION",
+		"VALIDATE_MIGRATION",
+		"CREATE_CONNECTION",
+		"DELETE_CONNECTION",
+		"UPDATE_CONNECTION",
+	}
 }

@@ -10,7 +10,9 @@
 package usageapi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Forecast Forecast configuration of usage/cost.
@@ -30,6 +32,21 @@ func (m Forecast) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Forecast) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingForecastForecastTypeEnum[string(m.ForecastType)]; !ok && m.ForecastType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ForecastType: %s. Supported values are: %s.", m.ForecastType, strings.Join(GetForecastForecastTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ForecastForecastTypeEnum Enum with underlying type: string
 type ForecastForecastTypeEnum string
 
@@ -38,15 +55,22 @@ const (
 	ForecastForecastTypeBasic ForecastForecastTypeEnum = "BASIC"
 )
 
-var mappingForecastForecastType = map[string]ForecastForecastTypeEnum{
+var mappingForecastForecastTypeEnum = map[string]ForecastForecastTypeEnum{
 	"BASIC": ForecastForecastTypeBasic,
 }
 
 // GetForecastForecastTypeEnumValues Enumerates the set of values for ForecastForecastTypeEnum
 func GetForecastForecastTypeEnumValues() []ForecastForecastTypeEnum {
 	values := make([]ForecastForecastTypeEnum, 0)
-	for _, v := range mappingForecastForecastType {
+	for _, v := range mappingForecastForecastTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetForecastForecastTypeEnumStringValues Enumerates the set of values in String for ForecastForecastTypeEnum
+func GetForecastForecastTypeEnumStringValues() []string {
+	return []string{
+		"BASIC",
+	}
 }

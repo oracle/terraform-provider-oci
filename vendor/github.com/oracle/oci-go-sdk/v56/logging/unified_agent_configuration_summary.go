@@ -10,7 +10,9 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UnifiedAgentConfigurationSummary Unified Agent configuration summary object returned by the list API.
@@ -60,4 +62,25 @@ type UnifiedAgentConfigurationSummary struct {
 
 func (m UnifiedAgentConfigurationSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UnifiedAgentConfigurationSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLogLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLogLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUnifiedAgentServiceConfigurationTypesEnum[string(m.ConfigurationType)]; !ok && m.ConfigurationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigurationType: %s. Supported values are: %s.", m.ConfigurationType, strings.Join(GetUnifiedAgentServiceConfigurationTypesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUnifiedAgentServiceConfigurationStatesEnum[string(m.ConfigurationState)]; !ok && m.ConfigurationState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigurationState: %s. Supported values are: %s.", m.ConfigurationState, strings.Join(GetUnifiedAgentServiceConfigurationStatesEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

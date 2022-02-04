@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VcnDnsResolverAssociation The information about the VCN and the DNS resolver in the association.
@@ -34,6 +36,21 @@ func (m VcnDnsResolverAssociation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VcnDnsResolverAssociation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVcnDnsResolverAssociationLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVcnDnsResolverAssociationLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VcnDnsResolverAssociationLifecycleStateEnum Enum with underlying type: string
 type VcnDnsResolverAssociationLifecycleStateEnum string
 
@@ -45,7 +62,7 @@ const (
 	VcnDnsResolverAssociationLifecycleStateTerminated   VcnDnsResolverAssociationLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingVcnDnsResolverAssociationLifecycleState = map[string]VcnDnsResolverAssociationLifecycleStateEnum{
+var mappingVcnDnsResolverAssociationLifecycleStateEnum = map[string]VcnDnsResolverAssociationLifecycleStateEnum{
 	"PROVISIONING": VcnDnsResolverAssociationLifecycleStateProvisioning,
 	"AVAILABLE":    VcnDnsResolverAssociationLifecycleStateAvailable,
 	"TERMINATING":  VcnDnsResolverAssociationLifecycleStateTerminating,
@@ -55,8 +72,18 @@ var mappingVcnDnsResolverAssociationLifecycleState = map[string]VcnDnsResolverAs
 // GetVcnDnsResolverAssociationLifecycleStateEnumValues Enumerates the set of values for VcnDnsResolverAssociationLifecycleStateEnum
 func GetVcnDnsResolverAssociationLifecycleStateEnumValues() []VcnDnsResolverAssociationLifecycleStateEnum {
 	values := make([]VcnDnsResolverAssociationLifecycleStateEnum, 0)
-	for _, v := range mappingVcnDnsResolverAssociationLifecycleState {
+	for _, v := range mappingVcnDnsResolverAssociationLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVcnDnsResolverAssociationLifecycleStateEnumStringValues Enumerates the set of values in String for VcnDnsResolverAssociationLifecycleStateEnum
+func GetVcnDnsResolverAssociationLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

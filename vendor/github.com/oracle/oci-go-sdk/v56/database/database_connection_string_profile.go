@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DatabaseConnectionStringProfile The connection string profile to allow clients to group, filter and select connection string values based on structured metadata.
@@ -46,6 +48,36 @@ func (m DatabaseConnectionStringProfile) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseConnectionStringProfile) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseConnectionStringProfileProtocolEnum[string(m.Protocol)]; !ok && m.Protocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", m.Protocol, strings.Join(GetDatabaseConnectionStringProfileProtocolEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseConnectionStringProfileHostFormatEnum[string(m.HostFormat)]; !ok && m.HostFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HostFormat: %s. Supported values are: %s.", m.HostFormat, strings.Join(GetDatabaseConnectionStringProfileHostFormatEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseConnectionStringProfileSessionModeEnum[string(m.SessionMode)]; !ok && m.SessionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SessionMode: %s. Supported values are: %s.", m.SessionMode, strings.Join(GetDatabaseConnectionStringProfileSessionModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseConnectionStringProfileSyntaxFormatEnum[string(m.SyntaxFormat)]; !ok && m.SyntaxFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SyntaxFormat: %s. Supported values are: %s.", m.SyntaxFormat, strings.Join(GetDatabaseConnectionStringProfileSyntaxFormatEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDatabaseConnectionStringProfileConsumerGroupEnum[string(m.ConsumerGroup)]; !ok && m.ConsumerGroup != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConsumerGroup: %s. Supported values are: %s.", m.ConsumerGroup, strings.Join(GetDatabaseConnectionStringProfileConsumerGroupEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseConnectionStringProfileTlsAuthenticationEnum[string(m.TlsAuthentication)]; !ok && m.TlsAuthentication != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TlsAuthentication: %s. Supported values are: %s.", m.TlsAuthentication, strings.Join(GetDatabaseConnectionStringProfileTlsAuthenticationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseConnectionStringProfileConsumerGroupEnum Enum with underlying type: string
 type DatabaseConnectionStringProfileConsumerGroupEnum string
 
@@ -58,7 +90,7 @@ const (
 	DatabaseConnectionStringProfileConsumerGroupTpurgent DatabaseConnectionStringProfileConsumerGroupEnum = "TPURGENT"
 )
 
-var mappingDatabaseConnectionStringProfileConsumerGroup = map[string]DatabaseConnectionStringProfileConsumerGroupEnum{
+var mappingDatabaseConnectionStringProfileConsumerGroupEnum = map[string]DatabaseConnectionStringProfileConsumerGroupEnum{
 	"HIGH":     DatabaseConnectionStringProfileConsumerGroupHigh,
 	"MEDIUM":   DatabaseConnectionStringProfileConsumerGroupMedium,
 	"LOW":      DatabaseConnectionStringProfileConsumerGroupLow,
@@ -69,10 +101,21 @@ var mappingDatabaseConnectionStringProfileConsumerGroup = map[string]DatabaseCon
 // GetDatabaseConnectionStringProfileConsumerGroupEnumValues Enumerates the set of values for DatabaseConnectionStringProfileConsumerGroupEnum
 func GetDatabaseConnectionStringProfileConsumerGroupEnumValues() []DatabaseConnectionStringProfileConsumerGroupEnum {
 	values := make([]DatabaseConnectionStringProfileConsumerGroupEnum, 0)
-	for _, v := range mappingDatabaseConnectionStringProfileConsumerGroup {
+	for _, v := range mappingDatabaseConnectionStringProfileConsumerGroupEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionStringProfileConsumerGroupEnumStringValues Enumerates the set of values in String for DatabaseConnectionStringProfileConsumerGroupEnum
+func GetDatabaseConnectionStringProfileConsumerGroupEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"TP",
+		"TPURGENT",
+	}
 }
 
 // DatabaseConnectionStringProfileProtocolEnum Enum with underlying type: string
@@ -84,7 +127,7 @@ const (
 	DatabaseConnectionStringProfileProtocolTcps DatabaseConnectionStringProfileProtocolEnum = "TCPS"
 )
 
-var mappingDatabaseConnectionStringProfileProtocol = map[string]DatabaseConnectionStringProfileProtocolEnum{
+var mappingDatabaseConnectionStringProfileProtocolEnum = map[string]DatabaseConnectionStringProfileProtocolEnum{
 	"TCP":  DatabaseConnectionStringProfileProtocolTcp,
 	"TCPS": DatabaseConnectionStringProfileProtocolTcps,
 }
@@ -92,10 +135,18 @@ var mappingDatabaseConnectionStringProfileProtocol = map[string]DatabaseConnecti
 // GetDatabaseConnectionStringProfileProtocolEnumValues Enumerates the set of values for DatabaseConnectionStringProfileProtocolEnum
 func GetDatabaseConnectionStringProfileProtocolEnumValues() []DatabaseConnectionStringProfileProtocolEnum {
 	values := make([]DatabaseConnectionStringProfileProtocolEnum, 0)
-	for _, v := range mappingDatabaseConnectionStringProfileProtocol {
+	for _, v := range mappingDatabaseConnectionStringProfileProtocolEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionStringProfileProtocolEnumStringValues Enumerates the set of values in String for DatabaseConnectionStringProfileProtocolEnum
+func GetDatabaseConnectionStringProfileProtocolEnumStringValues() []string {
+	return []string{
+		"TCP",
+		"TCPS",
+	}
 }
 
 // DatabaseConnectionStringProfileTlsAuthenticationEnum Enum with underlying type: string
@@ -107,7 +158,7 @@ const (
 	DatabaseConnectionStringProfileTlsAuthenticationMutual DatabaseConnectionStringProfileTlsAuthenticationEnum = "MUTUAL"
 )
 
-var mappingDatabaseConnectionStringProfileTlsAuthentication = map[string]DatabaseConnectionStringProfileTlsAuthenticationEnum{
+var mappingDatabaseConnectionStringProfileTlsAuthenticationEnum = map[string]DatabaseConnectionStringProfileTlsAuthenticationEnum{
 	"SERVER": DatabaseConnectionStringProfileTlsAuthenticationServer,
 	"MUTUAL": DatabaseConnectionStringProfileTlsAuthenticationMutual,
 }
@@ -115,10 +166,18 @@ var mappingDatabaseConnectionStringProfileTlsAuthentication = map[string]Databas
 // GetDatabaseConnectionStringProfileTlsAuthenticationEnumValues Enumerates the set of values for DatabaseConnectionStringProfileTlsAuthenticationEnum
 func GetDatabaseConnectionStringProfileTlsAuthenticationEnumValues() []DatabaseConnectionStringProfileTlsAuthenticationEnum {
 	values := make([]DatabaseConnectionStringProfileTlsAuthenticationEnum, 0)
-	for _, v := range mappingDatabaseConnectionStringProfileTlsAuthentication {
+	for _, v := range mappingDatabaseConnectionStringProfileTlsAuthenticationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionStringProfileTlsAuthenticationEnumStringValues Enumerates the set of values in String for DatabaseConnectionStringProfileTlsAuthenticationEnum
+func GetDatabaseConnectionStringProfileTlsAuthenticationEnumStringValues() []string {
+	return []string{
+		"SERVER",
+		"MUTUAL",
+	}
 }
 
 // DatabaseConnectionStringProfileHostFormatEnum Enum with underlying type: string
@@ -130,7 +189,7 @@ const (
 	DatabaseConnectionStringProfileHostFormatIp   DatabaseConnectionStringProfileHostFormatEnum = "IP"
 )
 
-var mappingDatabaseConnectionStringProfileHostFormat = map[string]DatabaseConnectionStringProfileHostFormatEnum{
+var mappingDatabaseConnectionStringProfileHostFormatEnum = map[string]DatabaseConnectionStringProfileHostFormatEnum{
 	"FQDN": DatabaseConnectionStringProfileHostFormatFqdn,
 	"IP":   DatabaseConnectionStringProfileHostFormatIp,
 }
@@ -138,10 +197,18 @@ var mappingDatabaseConnectionStringProfileHostFormat = map[string]DatabaseConnec
 // GetDatabaseConnectionStringProfileHostFormatEnumValues Enumerates the set of values for DatabaseConnectionStringProfileHostFormatEnum
 func GetDatabaseConnectionStringProfileHostFormatEnumValues() []DatabaseConnectionStringProfileHostFormatEnum {
 	values := make([]DatabaseConnectionStringProfileHostFormatEnum, 0)
-	for _, v := range mappingDatabaseConnectionStringProfileHostFormat {
+	for _, v := range mappingDatabaseConnectionStringProfileHostFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionStringProfileHostFormatEnumStringValues Enumerates the set of values in String for DatabaseConnectionStringProfileHostFormatEnum
+func GetDatabaseConnectionStringProfileHostFormatEnumStringValues() []string {
+	return []string{
+		"FQDN",
+		"IP",
+	}
 }
 
 // DatabaseConnectionStringProfileSessionModeEnum Enum with underlying type: string
@@ -153,7 +220,7 @@ const (
 	DatabaseConnectionStringProfileSessionModeRedirect DatabaseConnectionStringProfileSessionModeEnum = "REDIRECT"
 )
 
-var mappingDatabaseConnectionStringProfileSessionMode = map[string]DatabaseConnectionStringProfileSessionModeEnum{
+var mappingDatabaseConnectionStringProfileSessionModeEnum = map[string]DatabaseConnectionStringProfileSessionModeEnum{
 	"DIRECT":   DatabaseConnectionStringProfileSessionModeDirect,
 	"REDIRECT": DatabaseConnectionStringProfileSessionModeRedirect,
 }
@@ -161,10 +228,18 @@ var mappingDatabaseConnectionStringProfileSessionMode = map[string]DatabaseConne
 // GetDatabaseConnectionStringProfileSessionModeEnumValues Enumerates the set of values for DatabaseConnectionStringProfileSessionModeEnum
 func GetDatabaseConnectionStringProfileSessionModeEnumValues() []DatabaseConnectionStringProfileSessionModeEnum {
 	values := make([]DatabaseConnectionStringProfileSessionModeEnum, 0)
-	for _, v := range mappingDatabaseConnectionStringProfileSessionMode {
+	for _, v := range mappingDatabaseConnectionStringProfileSessionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionStringProfileSessionModeEnumStringValues Enumerates the set of values in String for DatabaseConnectionStringProfileSessionModeEnum
+func GetDatabaseConnectionStringProfileSessionModeEnumStringValues() []string {
+	return []string{
+		"DIRECT",
+		"REDIRECT",
+	}
 }
 
 // DatabaseConnectionStringProfileSyntaxFormatEnum Enum with underlying type: string
@@ -177,7 +252,7 @@ const (
 	DatabaseConnectionStringProfileSyntaxFormatEzconnectplus DatabaseConnectionStringProfileSyntaxFormatEnum = "EZCONNECTPLUS"
 )
 
-var mappingDatabaseConnectionStringProfileSyntaxFormat = map[string]DatabaseConnectionStringProfileSyntaxFormatEnum{
+var mappingDatabaseConnectionStringProfileSyntaxFormatEnum = map[string]DatabaseConnectionStringProfileSyntaxFormatEnum{
 	"LONG":          DatabaseConnectionStringProfileSyntaxFormatLong,
 	"EZCONNECT":     DatabaseConnectionStringProfileSyntaxFormatEzconnect,
 	"EZCONNECTPLUS": DatabaseConnectionStringProfileSyntaxFormatEzconnectplus,
@@ -186,8 +261,17 @@ var mappingDatabaseConnectionStringProfileSyntaxFormat = map[string]DatabaseConn
 // GetDatabaseConnectionStringProfileSyntaxFormatEnumValues Enumerates the set of values for DatabaseConnectionStringProfileSyntaxFormatEnum
 func GetDatabaseConnectionStringProfileSyntaxFormatEnumValues() []DatabaseConnectionStringProfileSyntaxFormatEnum {
 	values := make([]DatabaseConnectionStringProfileSyntaxFormatEnum, 0)
-	for _, v := range mappingDatabaseConnectionStringProfileSyntaxFormat {
+	for _, v := range mappingDatabaseConnectionStringProfileSyntaxFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionStringProfileSyntaxFormatEnumStringValues Enumerates the set of values in String for DatabaseConnectionStringProfileSyntaxFormatEnum
+func GetDatabaseConnectionStringProfileSyntaxFormatEnumStringValues() []string {
+	return []string{
+		"LONG",
+		"EZCONNECT",
+		"EZCONNECTPLUS",
+	}
 }

@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDatabaseUpgradeHistoryEntriesRequest wrapper for the ListDatabaseUpgradeHistoryEntries operation
@@ -52,6 +54,10 @@ func (request ListDatabaseUpgradeHistoryEntriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDatabaseUpgradeHistoryEntriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +71,29 @@ func (request ListDatabaseUpgradeHistoryEntriesRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDatabaseUpgradeHistoryEntriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDatabaseUpgradeHistoryEntriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseUpgradeHistoryEntrySummaryActionEnum[string(request.UpgradeAction)]; !ok && request.UpgradeAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpgradeAction: %s. Supported values are: %s.", request.UpgradeAction, strings.Join(GetDatabaseUpgradeHistoryEntrySummaryActionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseUpgradeHistoryEntrySummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDatabaseUpgradeHistoryEntrySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseUpgradeHistoryEntriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDatabaseUpgradeHistoryEntriesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseUpgradeHistoryEntriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatabaseUpgradeHistoryEntriesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDatabaseUpgradeHistoryEntriesResponse wrapper for the ListDatabaseUpgradeHistoryEntries operation
@@ -104,17 +133,24 @@ const (
 	ListDatabaseUpgradeHistoryEntriesSortByTimestarted ListDatabaseUpgradeHistoryEntriesSortByEnum = "TIMESTARTED"
 )
 
-var mappingListDatabaseUpgradeHistoryEntriesSortBy = map[string]ListDatabaseUpgradeHistoryEntriesSortByEnum{
+var mappingListDatabaseUpgradeHistoryEntriesSortByEnum = map[string]ListDatabaseUpgradeHistoryEntriesSortByEnum{
 	"TIMESTARTED": ListDatabaseUpgradeHistoryEntriesSortByTimestarted,
 }
 
 // GetListDatabaseUpgradeHistoryEntriesSortByEnumValues Enumerates the set of values for ListDatabaseUpgradeHistoryEntriesSortByEnum
 func GetListDatabaseUpgradeHistoryEntriesSortByEnumValues() []ListDatabaseUpgradeHistoryEntriesSortByEnum {
 	values := make([]ListDatabaseUpgradeHistoryEntriesSortByEnum, 0)
-	for _, v := range mappingListDatabaseUpgradeHistoryEntriesSortBy {
+	for _, v := range mappingListDatabaseUpgradeHistoryEntriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseUpgradeHistoryEntriesSortByEnumStringValues Enumerates the set of values in String for ListDatabaseUpgradeHistoryEntriesSortByEnum
+func GetListDatabaseUpgradeHistoryEntriesSortByEnumStringValues() []string {
+	return []string{
+		"TIMESTARTED",
+	}
 }
 
 // ListDatabaseUpgradeHistoryEntriesSortOrderEnum Enum with underlying type: string
@@ -126,7 +162,7 @@ const (
 	ListDatabaseUpgradeHistoryEntriesSortOrderDesc ListDatabaseUpgradeHistoryEntriesSortOrderEnum = "DESC"
 )
 
-var mappingListDatabaseUpgradeHistoryEntriesSortOrder = map[string]ListDatabaseUpgradeHistoryEntriesSortOrderEnum{
+var mappingListDatabaseUpgradeHistoryEntriesSortOrderEnum = map[string]ListDatabaseUpgradeHistoryEntriesSortOrderEnum{
 	"ASC":  ListDatabaseUpgradeHistoryEntriesSortOrderAsc,
 	"DESC": ListDatabaseUpgradeHistoryEntriesSortOrderDesc,
 }
@@ -134,8 +170,16 @@ var mappingListDatabaseUpgradeHistoryEntriesSortOrder = map[string]ListDatabaseU
 // GetListDatabaseUpgradeHistoryEntriesSortOrderEnumValues Enumerates the set of values for ListDatabaseUpgradeHistoryEntriesSortOrderEnum
 func GetListDatabaseUpgradeHistoryEntriesSortOrderEnumValues() []ListDatabaseUpgradeHistoryEntriesSortOrderEnum {
 	values := make([]ListDatabaseUpgradeHistoryEntriesSortOrderEnum, 0)
-	for _, v := range mappingListDatabaseUpgradeHistoryEntriesSortOrder {
+	for _, v := range mappingListDatabaseUpgradeHistoryEntriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseUpgradeHistoryEntriesSortOrderEnumStringValues Enumerates the set of values in String for ListDatabaseUpgradeHistoryEntriesSortOrderEnum
+func GetListDatabaseUpgradeHistoryEntriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

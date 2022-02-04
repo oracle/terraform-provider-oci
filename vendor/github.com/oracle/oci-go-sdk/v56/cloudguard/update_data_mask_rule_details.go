@@ -11,7 +11,9 @@ package cloudguard
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateDataMaskRuleDetails The information to be updated.
@@ -45,6 +47,27 @@ type UpdateDataMaskRuleDetails struct {
 
 func (m UpdateDataMaskRuleDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateDataMaskRuleDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.DataMaskCategories {
+		if _, ok := mappingDataMaskCategoryEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataMaskCategories: %s. Supported values are: %s.", val, strings.Join(GetDataMaskCategoryEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingDataMaskRuleStatusEnum[string(m.DataMaskRuleStatus)]; !ok && m.DataMaskRuleStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataMaskRuleStatus: %s. Supported values are: %s.", m.DataMaskRuleStatus, strings.Join(GetDataMaskRuleStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json

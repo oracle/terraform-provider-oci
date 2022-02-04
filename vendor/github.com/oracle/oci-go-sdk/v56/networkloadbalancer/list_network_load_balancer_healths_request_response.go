@@ -5,8 +5,10 @@
 package networkloadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListNetworkLoadBalancerHealthsRequest wrapper for the ListNetworkLoadBalancerHealths operation
@@ -51,6 +53,10 @@ func (request ListNetworkLoadBalancerHealthsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListNetworkLoadBalancerHealthsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +70,23 @@ func (request ListNetworkLoadBalancerHealthsRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListNetworkLoadBalancerHealthsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListNetworkLoadBalancerHealthsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListNetworkLoadBalancerHealthsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNetworkLoadBalancerHealthsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNetworkLoadBalancerHealthsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNetworkLoadBalancerHealthsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListNetworkLoadBalancerHealthsResponse wrapper for the ListNetworkLoadBalancerHealths operation
@@ -103,7 +126,7 @@ const (
 	ListNetworkLoadBalancerHealthsSortOrderDesc ListNetworkLoadBalancerHealthsSortOrderEnum = "DESC"
 )
 
-var mappingListNetworkLoadBalancerHealthsSortOrder = map[string]ListNetworkLoadBalancerHealthsSortOrderEnum{
+var mappingListNetworkLoadBalancerHealthsSortOrderEnum = map[string]ListNetworkLoadBalancerHealthsSortOrderEnum{
 	"ASC":  ListNetworkLoadBalancerHealthsSortOrderAsc,
 	"DESC": ListNetworkLoadBalancerHealthsSortOrderDesc,
 }
@@ -111,10 +134,18 @@ var mappingListNetworkLoadBalancerHealthsSortOrder = map[string]ListNetworkLoadB
 // GetListNetworkLoadBalancerHealthsSortOrderEnumValues Enumerates the set of values for ListNetworkLoadBalancerHealthsSortOrderEnum
 func GetListNetworkLoadBalancerHealthsSortOrderEnumValues() []ListNetworkLoadBalancerHealthsSortOrderEnum {
 	values := make([]ListNetworkLoadBalancerHealthsSortOrderEnum, 0)
-	for _, v := range mappingListNetworkLoadBalancerHealthsSortOrder {
+	for _, v := range mappingListNetworkLoadBalancerHealthsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkLoadBalancerHealthsSortOrderEnumStringValues Enumerates the set of values in String for ListNetworkLoadBalancerHealthsSortOrderEnum
+func GetListNetworkLoadBalancerHealthsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListNetworkLoadBalancerHealthsSortByEnum Enum with underlying type: string
@@ -126,7 +157,7 @@ const (
 	ListNetworkLoadBalancerHealthsSortByDisplayname ListNetworkLoadBalancerHealthsSortByEnum = "displayName"
 )
 
-var mappingListNetworkLoadBalancerHealthsSortBy = map[string]ListNetworkLoadBalancerHealthsSortByEnum{
+var mappingListNetworkLoadBalancerHealthsSortByEnum = map[string]ListNetworkLoadBalancerHealthsSortByEnum{
 	"timeCreated": ListNetworkLoadBalancerHealthsSortByTimecreated,
 	"displayName": ListNetworkLoadBalancerHealthsSortByDisplayname,
 }
@@ -134,8 +165,16 @@ var mappingListNetworkLoadBalancerHealthsSortBy = map[string]ListNetworkLoadBala
 // GetListNetworkLoadBalancerHealthsSortByEnumValues Enumerates the set of values for ListNetworkLoadBalancerHealthsSortByEnum
 func GetListNetworkLoadBalancerHealthsSortByEnumValues() []ListNetworkLoadBalancerHealthsSortByEnum {
 	values := make([]ListNetworkLoadBalancerHealthsSortByEnum, 0)
-	for _, v := range mappingListNetworkLoadBalancerHealthsSortBy {
+	for _, v := range mappingListNetworkLoadBalancerHealthsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkLoadBalancerHealthsSortByEnumStringValues Enumerates the set of values in String for ListNetworkLoadBalancerHealthsSortByEnum
+func GetListNetworkLoadBalancerHealthsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

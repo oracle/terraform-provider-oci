@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // IpSecConnection A connection between a DRG and CPE. This connection consists of multiple IPSec
@@ -102,6 +104,24 @@ func (m IpSecConnection) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IpSecConnection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIpSecConnectionLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetIpSecConnectionLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingIpSecConnectionCpeLocalIdentifierTypeEnum[string(m.CpeLocalIdentifierType)]; !ok && m.CpeLocalIdentifierType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CpeLocalIdentifierType: %s. Supported values are: %s.", m.CpeLocalIdentifierType, strings.Join(GetIpSecConnectionCpeLocalIdentifierTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // IpSecConnectionLifecycleStateEnum Enum with underlying type: string
 type IpSecConnectionLifecycleStateEnum string
 
@@ -113,7 +133,7 @@ const (
 	IpSecConnectionLifecycleStateTerminated   IpSecConnectionLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingIpSecConnectionLifecycleState = map[string]IpSecConnectionLifecycleStateEnum{
+var mappingIpSecConnectionLifecycleStateEnum = map[string]IpSecConnectionLifecycleStateEnum{
 	"PROVISIONING": IpSecConnectionLifecycleStateProvisioning,
 	"AVAILABLE":    IpSecConnectionLifecycleStateAvailable,
 	"TERMINATING":  IpSecConnectionLifecycleStateTerminating,
@@ -123,10 +143,20 @@ var mappingIpSecConnectionLifecycleState = map[string]IpSecConnectionLifecycleSt
 // GetIpSecConnectionLifecycleStateEnumValues Enumerates the set of values for IpSecConnectionLifecycleStateEnum
 func GetIpSecConnectionLifecycleStateEnumValues() []IpSecConnectionLifecycleStateEnum {
 	values := make([]IpSecConnectionLifecycleStateEnum, 0)
-	for _, v := range mappingIpSecConnectionLifecycleState {
+	for _, v := range mappingIpSecConnectionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpSecConnectionLifecycleStateEnumStringValues Enumerates the set of values in String for IpSecConnectionLifecycleStateEnum
+func GetIpSecConnectionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }
 
 // IpSecConnectionCpeLocalIdentifierTypeEnum Enum with underlying type: string
@@ -138,7 +168,7 @@ const (
 	IpSecConnectionCpeLocalIdentifierTypeHostname  IpSecConnectionCpeLocalIdentifierTypeEnum = "HOSTNAME"
 )
 
-var mappingIpSecConnectionCpeLocalIdentifierType = map[string]IpSecConnectionCpeLocalIdentifierTypeEnum{
+var mappingIpSecConnectionCpeLocalIdentifierTypeEnum = map[string]IpSecConnectionCpeLocalIdentifierTypeEnum{
 	"IP_ADDRESS": IpSecConnectionCpeLocalIdentifierTypeIpAddress,
 	"HOSTNAME":   IpSecConnectionCpeLocalIdentifierTypeHostname,
 }
@@ -146,8 +176,16 @@ var mappingIpSecConnectionCpeLocalIdentifierType = map[string]IpSecConnectionCpe
 // GetIpSecConnectionCpeLocalIdentifierTypeEnumValues Enumerates the set of values for IpSecConnectionCpeLocalIdentifierTypeEnum
 func GetIpSecConnectionCpeLocalIdentifierTypeEnumValues() []IpSecConnectionCpeLocalIdentifierTypeEnum {
 	values := make([]IpSecConnectionCpeLocalIdentifierTypeEnum, 0)
-	for _, v := range mappingIpSecConnectionCpeLocalIdentifierType {
+	for _, v := range mappingIpSecConnectionCpeLocalIdentifierTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIpSecConnectionCpeLocalIdentifierTypeEnumStringValues Enumerates the set of values in String for IpSecConnectionCpeLocalIdentifierTypeEnum
+func GetIpSecConnectionCpeLocalIdentifierTypeEnumStringValues() []string {
+	return []string{
+		"IP_ADDRESS",
+		"HOSTNAME",
+	}
 }

@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetAllDrgAttachmentsRequest wrapper for the GetAllDrgAttachments operation
@@ -52,6 +54,10 @@ func (request GetAllDrgAttachmentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetAllDrgAttachmentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +71,20 @@ func (request GetAllDrgAttachmentsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetAllDrgAttachmentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetAllDrgAttachmentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetAllDrgAttachmentsAttachmentTypeEnum[string(request.AttachmentType)]; !ok && request.AttachmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttachmentType: %s. Supported values are: %s.", request.AttachmentType, strings.Join(GetGetAllDrgAttachmentsAttachmentTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetAllDrgAttachmentsResponse wrapper for the GetAllDrgAttachments operation
@@ -107,7 +127,7 @@ const (
 	GetAllDrgAttachmentsAttachmentTypeAll                     GetAllDrgAttachmentsAttachmentTypeEnum = "ALL"
 )
 
-var mappingGetAllDrgAttachmentsAttachmentType = map[string]GetAllDrgAttachmentsAttachmentTypeEnum{
+var mappingGetAllDrgAttachmentsAttachmentTypeEnum = map[string]GetAllDrgAttachmentsAttachmentTypeEnum{
 	"VCN":                       GetAllDrgAttachmentsAttachmentTypeVcn,
 	"VIRTUAL_CIRCUIT":           GetAllDrgAttachmentsAttachmentTypeVirtualCircuit,
 	"REMOTE_PEERING_CONNECTION": GetAllDrgAttachmentsAttachmentTypeRemotePeeringConnection,
@@ -118,8 +138,19 @@ var mappingGetAllDrgAttachmentsAttachmentType = map[string]GetAllDrgAttachmentsA
 // GetGetAllDrgAttachmentsAttachmentTypeEnumValues Enumerates the set of values for GetAllDrgAttachmentsAttachmentTypeEnum
 func GetGetAllDrgAttachmentsAttachmentTypeEnumValues() []GetAllDrgAttachmentsAttachmentTypeEnum {
 	values := make([]GetAllDrgAttachmentsAttachmentTypeEnum, 0)
-	for _, v := range mappingGetAllDrgAttachmentsAttachmentType {
+	for _, v := range mappingGetAllDrgAttachmentsAttachmentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetAllDrgAttachmentsAttachmentTypeEnumStringValues Enumerates the set of values in String for GetAllDrgAttachmentsAttachmentTypeEnum
+func GetGetAllDrgAttachmentsAttachmentTypeEnumStringValues() []string {
+	return []string{
+		"VCN",
+		"VIRTUAL_CIRCUIT",
+		"REMOTE_PEERING_CONNECTION",
+		"IPSEC_TUNNEL",
+		"ALL",
+	}
 }

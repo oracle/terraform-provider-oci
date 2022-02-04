@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Trigger Trigger the deployment pipeline to deploy the artifact.
@@ -199,6 +201,21 @@ func (m trigger) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m trigger) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTriggerLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTriggerLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TriggerLifecycleStateEnum Enum with underlying type: string
 type TriggerLifecycleStateEnum string
 
@@ -207,17 +224,24 @@ const (
 	TriggerLifecycleStateActive TriggerLifecycleStateEnum = "ACTIVE"
 )
 
-var mappingTriggerLifecycleState = map[string]TriggerLifecycleStateEnum{
+var mappingTriggerLifecycleStateEnum = map[string]TriggerLifecycleStateEnum{
 	"ACTIVE": TriggerLifecycleStateActive,
 }
 
 // GetTriggerLifecycleStateEnumValues Enumerates the set of values for TriggerLifecycleStateEnum
 func GetTriggerLifecycleStateEnumValues() []TriggerLifecycleStateEnum {
 	values := make([]TriggerLifecycleStateEnum, 0)
-	for _, v := range mappingTriggerLifecycleState {
+	for _, v := range mappingTriggerLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTriggerLifecycleStateEnumStringValues Enumerates the set of values in String for TriggerLifecycleStateEnum
+func GetTriggerLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+	}
 }
 
 // TriggerTriggerSourceEnum Enum with underlying type: string
@@ -230,7 +254,7 @@ const (
 	TriggerTriggerSourceDevopsCodeRepository TriggerTriggerSourceEnum = "DEVOPS_CODE_REPOSITORY"
 )
 
-var mappingTriggerTriggerSource = map[string]TriggerTriggerSourceEnum{
+var mappingTriggerTriggerSourceEnum = map[string]TriggerTriggerSourceEnum{
 	"GITHUB":                 TriggerTriggerSourceGithub,
 	"GITLAB":                 TriggerTriggerSourceGitlab,
 	"DEVOPS_CODE_REPOSITORY": TriggerTriggerSourceDevopsCodeRepository,
@@ -239,8 +263,17 @@ var mappingTriggerTriggerSource = map[string]TriggerTriggerSourceEnum{
 // GetTriggerTriggerSourceEnumValues Enumerates the set of values for TriggerTriggerSourceEnum
 func GetTriggerTriggerSourceEnumValues() []TriggerTriggerSourceEnum {
 	values := make([]TriggerTriggerSourceEnum, 0)
-	for _, v := range mappingTriggerTriggerSource {
+	for _, v := range mappingTriggerTriggerSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTriggerTriggerSourceEnumStringValues Enumerates the set of values in String for TriggerTriggerSourceEnum
+func GetTriggerTriggerSourceEnumStringValues() []string {
+	return []string{
+		"GITHUB",
+		"GITLAB",
+		"DEVOPS_CODE_REPOSITORY",
+	}
 }

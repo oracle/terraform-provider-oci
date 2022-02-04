@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VmClusterUpdateSummary A maintenance update for a VM cluster. Applies to Exadata Cloud@Customer instances only.
@@ -51,6 +53,33 @@ func (m VmClusterUpdateSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VmClusterUpdateSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVmClusterUpdateSummaryUpdateTypeEnum[string(m.UpdateType)]; !ok && m.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", m.UpdateType, strings.Join(GetVmClusterUpdateSummaryUpdateTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingVmClusterUpdateSummaryLastActionEnum[string(m.LastAction)]; !ok && m.LastAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastAction: %s. Supported values are: %s.", m.LastAction, strings.Join(GetVmClusterUpdateSummaryLastActionEnumStringValues(), ",")))
+	}
+	for _, val := range m.AvailableActions {
+		if _, ok := mappingVmClusterUpdateSummaryAvailableActionsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableActions: %s. Supported values are: %s.", val, strings.Join(GetVmClusterUpdateSummaryAvailableActionsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingVmClusterUpdateSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVmClusterUpdateSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VmClusterUpdateSummaryLastActionEnum Enum with underlying type: string
 type VmClusterUpdateSummaryLastActionEnum string
 
@@ -61,7 +90,7 @@ const (
 	VmClusterUpdateSummaryLastActionRollback     VmClusterUpdateSummaryLastActionEnum = "ROLLBACK"
 )
 
-var mappingVmClusterUpdateSummaryLastAction = map[string]VmClusterUpdateSummaryLastActionEnum{
+var mappingVmClusterUpdateSummaryLastActionEnum = map[string]VmClusterUpdateSummaryLastActionEnum{
 	"ROLLING_APPLY": VmClusterUpdateSummaryLastActionRollingApply,
 	"PRECHECK":      VmClusterUpdateSummaryLastActionPrecheck,
 	"ROLLBACK":      VmClusterUpdateSummaryLastActionRollback,
@@ -70,10 +99,19 @@ var mappingVmClusterUpdateSummaryLastAction = map[string]VmClusterUpdateSummaryL
 // GetVmClusterUpdateSummaryLastActionEnumValues Enumerates the set of values for VmClusterUpdateSummaryLastActionEnum
 func GetVmClusterUpdateSummaryLastActionEnumValues() []VmClusterUpdateSummaryLastActionEnum {
 	values := make([]VmClusterUpdateSummaryLastActionEnum, 0)
-	for _, v := range mappingVmClusterUpdateSummaryLastAction {
+	for _, v := range mappingVmClusterUpdateSummaryLastActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVmClusterUpdateSummaryLastActionEnumStringValues Enumerates the set of values in String for VmClusterUpdateSummaryLastActionEnum
+func GetVmClusterUpdateSummaryLastActionEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
 }
 
 // VmClusterUpdateSummaryAvailableActionsEnum Enum with underlying type: string
@@ -86,7 +124,7 @@ const (
 	VmClusterUpdateSummaryAvailableActionsRollback     VmClusterUpdateSummaryAvailableActionsEnum = "ROLLBACK"
 )
 
-var mappingVmClusterUpdateSummaryAvailableActions = map[string]VmClusterUpdateSummaryAvailableActionsEnum{
+var mappingVmClusterUpdateSummaryAvailableActionsEnum = map[string]VmClusterUpdateSummaryAvailableActionsEnum{
 	"ROLLING_APPLY": VmClusterUpdateSummaryAvailableActionsRollingApply,
 	"PRECHECK":      VmClusterUpdateSummaryAvailableActionsPrecheck,
 	"ROLLBACK":      VmClusterUpdateSummaryAvailableActionsRollback,
@@ -95,10 +133,19 @@ var mappingVmClusterUpdateSummaryAvailableActions = map[string]VmClusterUpdateSu
 // GetVmClusterUpdateSummaryAvailableActionsEnumValues Enumerates the set of values for VmClusterUpdateSummaryAvailableActionsEnum
 func GetVmClusterUpdateSummaryAvailableActionsEnumValues() []VmClusterUpdateSummaryAvailableActionsEnum {
 	values := make([]VmClusterUpdateSummaryAvailableActionsEnum, 0)
-	for _, v := range mappingVmClusterUpdateSummaryAvailableActions {
+	for _, v := range mappingVmClusterUpdateSummaryAvailableActionsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVmClusterUpdateSummaryAvailableActionsEnumStringValues Enumerates the set of values in String for VmClusterUpdateSummaryAvailableActionsEnum
+func GetVmClusterUpdateSummaryAvailableActionsEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
 }
 
 // VmClusterUpdateSummaryUpdateTypeEnum Enum with underlying type: string
@@ -111,7 +158,7 @@ const (
 	VmClusterUpdateSummaryUpdateTypeOsUpdate  VmClusterUpdateSummaryUpdateTypeEnum = "OS_UPDATE"
 )
 
-var mappingVmClusterUpdateSummaryUpdateType = map[string]VmClusterUpdateSummaryUpdateTypeEnum{
+var mappingVmClusterUpdateSummaryUpdateTypeEnum = map[string]VmClusterUpdateSummaryUpdateTypeEnum{
 	"GI_UPGRADE": VmClusterUpdateSummaryUpdateTypeGiUpgrade,
 	"GI_PATCH":   VmClusterUpdateSummaryUpdateTypeGiPatch,
 	"OS_UPDATE":  VmClusterUpdateSummaryUpdateTypeOsUpdate,
@@ -120,10 +167,19 @@ var mappingVmClusterUpdateSummaryUpdateType = map[string]VmClusterUpdateSummaryU
 // GetVmClusterUpdateSummaryUpdateTypeEnumValues Enumerates the set of values for VmClusterUpdateSummaryUpdateTypeEnum
 func GetVmClusterUpdateSummaryUpdateTypeEnumValues() []VmClusterUpdateSummaryUpdateTypeEnum {
 	values := make([]VmClusterUpdateSummaryUpdateTypeEnum, 0)
-	for _, v := range mappingVmClusterUpdateSummaryUpdateType {
+	for _, v := range mappingVmClusterUpdateSummaryUpdateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVmClusterUpdateSummaryUpdateTypeEnumStringValues Enumerates the set of values in String for VmClusterUpdateSummaryUpdateTypeEnum
+func GetVmClusterUpdateSummaryUpdateTypeEnumStringValues() []string {
+	return []string{
+		"GI_UPGRADE",
+		"GI_PATCH",
+		"OS_UPDATE",
+	}
 }
 
 // VmClusterUpdateSummaryLifecycleStateEnum Enum with underlying type: string
@@ -137,7 +193,7 @@ const (
 	VmClusterUpdateSummaryLifecycleStateFailed     VmClusterUpdateSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingVmClusterUpdateSummaryLifecycleState = map[string]VmClusterUpdateSummaryLifecycleStateEnum{
+var mappingVmClusterUpdateSummaryLifecycleStateEnum = map[string]VmClusterUpdateSummaryLifecycleStateEnum{
 	"AVAILABLE":   VmClusterUpdateSummaryLifecycleStateAvailable,
 	"SUCCESS":     VmClusterUpdateSummaryLifecycleStateSuccess,
 	"IN_PROGRESS": VmClusterUpdateSummaryLifecycleStateInProgress,
@@ -147,8 +203,18 @@ var mappingVmClusterUpdateSummaryLifecycleState = map[string]VmClusterUpdateSumm
 // GetVmClusterUpdateSummaryLifecycleStateEnumValues Enumerates the set of values for VmClusterUpdateSummaryLifecycleStateEnum
 func GetVmClusterUpdateSummaryLifecycleStateEnumValues() []VmClusterUpdateSummaryLifecycleStateEnum {
 	values := make([]VmClusterUpdateSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingVmClusterUpdateSummaryLifecycleState {
+	for _, v := range mappingVmClusterUpdateSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVmClusterUpdateSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for VmClusterUpdateSummaryLifecycleStateEnum
+func GetVmClusterUpdateSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"SUCCESS",
+		"IN_PROGRESS",
+		"FAILED",
+	}
 }

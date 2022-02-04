@@ -10,7 +10,9 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SecurityScoreTrendAggregation Provides the dimensions and their corresponding time and security score.
@@ -34,4 +36,19 @@ type SecurityScoreTrendAggregation struct {
 
 func (m SecurityScoreTrendAggregation) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SecurityScoreTrendAggregation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSecurityRatingEnum[string(m.SecurityRating)]; !ok && m.SecurityRating != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityRating: %s. Supported values are: %s.", m.SecurityRating, strings.Join(GetSecurityRatingEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

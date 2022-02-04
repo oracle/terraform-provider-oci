@@ -17,15 +17,22 @@ const (
 	ServiceCapabilityPrivateEndpointSupported ServiceCapabilityEnum = "PRIVATE_ENDPOINT_SUPPORTED"
 )
 
-var mappingServiceCapability = map[string]ServiceCapabilityEnum{
+var mappingServiceCapabilityEnum = map[string]ServiceCapabilityEnum{
 	"PRIVATE_ENDPOINT_SUPPORTED": ServiceCapabilityPrivateEndpointSupported,
 }
 
 // GetServiceCapabilityEnumValues Enumerates the set of values for ServiceCapabilityEnum
 func GetServiceCapabilityEnumValues() []ServiceCapabilityEnum {
 	values := make([]ServiceCapabilityEnum, 0)
-	for _, v := range mappingServiceCapability {
+	for _, v := range mappingServiceCapabilityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetServiceCapabilityEnumStringValues Enumerates the set of values in String for ServiceCapabilityEnum
+func GetServiceCapabilityEnumStringValues() []string {
+	return []string{
+		"PRIVATE_ENDPOINT_SUPPORTED",
+	}
 }

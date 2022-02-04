@@ -5,8 +5,10 @@
 package resourcemanager
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListJobsRequest wrapper for the ListJobs operation
@@ -74,6 +76,10 @@ func (request ListJobsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListJobsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -87,6 +93,26 @@ func (request ListJobsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListJobsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListJobsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJobLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetJobLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListJobsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListJobsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListJobsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListJobsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListJobsResponse wrapper for the ListJobs operation
@@ -128,7 +154,7 @@ const (
 	ListJobsSortByDisplayname ListJobsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListJobsSortBy = map[string]ListJobsSortByEnum{
+var mappingListJobsSortByEnum = map[string]ListJobsSortByEnum{
 	"TIMECREATED": ListJobsSortByTimecreated,
 	"DISPLAYNAME": ListJobsSortByDisplayname,
 }
@@ -136,10 +162,18 @@ var mappingListJobsSortBy = map[string]ListJobsSortByEnum{
 // GetListJobsSortByEnumValues Enumerates the set of values for ListJobsSortByEnum
 func GetListJobsSortByEnumValues() []ListJobsSortByEnum {
 	values := make([]ListJobsSortByEnum, 0)
-	for _, v := range mappingListJobsSortBy {
+	for _, v := range mappingListJobsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobsSortByEnumStringValues Enumerates the set of values in String for ListJobsSortByEnum
+func GetListJobsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListJobsSortOrderEnum Enum with underlying type: string
@@ -151,7 +185,7 @@ const (
 	ListJobsSortOrderDesc ListJobsSortOrderEnum = "DESC"
 )
 
-var mappingListJobsSortOrder = map[string]ListJobsSortOrderEnum{
+var mappingListJobsSortOrderEnum = map[string]ListJobsSortOrderEnum{
 	"ASC":  ListJobsSortOrderAsc,
 	"DESC": ListJobsSortOrderDesc,
 }
@@ -159,8 +193,16 @@ var mappingListJobsSortOrder = map[string]ListJobsSortOrderEnum{
 // GetListJobsSortOrderEnumValues Enumerates the set of values for ListJobsSortOrderEnum
 func GetListJobsSortOrderEnumValues() []ListJobsSortOrderEnum {
 	values := make([]ListJobsSortOrderEnum, 0)
-	for _, v := range mappingListJobsSortOrder {
+	for _, v := range mappingListJobsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobsSortOrderEnumStringValues Enumerates the set of values in String for ListJobsSortOrderEnum
+func GetListJobsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

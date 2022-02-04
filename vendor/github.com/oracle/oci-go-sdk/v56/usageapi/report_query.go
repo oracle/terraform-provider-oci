@@ -10,7 +10,9 @@
 package usageapi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ReportQuery The request of the generated Cost Analysis report.
@@ -70,6 +72,27 @@ func (m ReportQuery) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ReportQuery) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingReportQueryGranularityEnum[string(m.Granularity)]; !ok && m.Granularity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Granularity: %s. Supported values are: %s.", m.Granularity, strings.Join(GetReportQueryGranularityEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingReportQueryQueryTypeEnum[string(m.QueryType)]; !ok && m.QueryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for QueryType: %s. Supported values are: %s.", m.QueryType, strings.Join(GetReportQueryQueryTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingReportQueryDateRangeNameEnum[string(m.DateRangeName)]; !ok && m.DateRangeName != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DateRangeName: %s. Supported values are: %s.", m.DateRangeName, strings.Join(GetReportQueryDateRangeNameEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ReportQueryGranularityEnum Enum with underlying type: string
 type ReportQueryGranularityEnum string
 
@@ -81,7 +104,7 @@ const (
 	ReportQueryGranularityTotal   ReportQueryGranularityEnum = "TOTAL"
 )
 
-var mappingReportQueryGranularity = map[string]ReportQueryGranularityEnum{
+var mappingReportQueryGranularityEnum = map[string]ReportQueryGranularityEnum{
 	"HOURLY":  ReportQueryGranularityHourly,
 	"DAILY":   ReportQueryGranularityDaily,
 	"MONTHLY": ReportQueryGranularityMonthly,
@@ -91,10 +114,20 @@ var mappingReportQueryGranularity = map[string]ReportQueryGranularityEnum{
 // GetReportQueryGranularityEnumValues Enumerates the set of values for ReportQueryGranularityEnum
 func GetReportQueryGranularityEnumValues() []ReportQueryGranularityEnum {
 	values := make([]ReportQueryGranularityEnum, 0)
-	for _, v := range mappingReportQueryGranularity {
+	for _, v := range mappingReportQueryGranularityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetReportQueryGranularityEnumStringValues Enumerates the set of values in String for ReportQueryGranularityEnum
+func GetReportQueryGranularityEnumStringValues() []string {
+	return []string{
+		"HOURLY",
+		"DAILY",
+		"MONTHLY",
+		"TOTAL",
+	}
 }
 
 // ReportQueryQueryTypeEnum Enum with underlying type: string
@@ -109,7 +142,7 @@ const (
 	ReportQueryQueryTypeAllcredit     ReportQueryQueryTypeEnum = "ALLCREDIT"
 )
 
-var mappingReportQueryQueryType = map[string]ReportQueryQueryTypeEnum{
+var mappingReportQueryQueryTypeEnum = map[string]ReportQueryQueryTypeEnum{
 	"USAGE":         ReportQueryQueryTypeUsage,
 	"COST":          ReportQueryQueryTypeCost,
 	"CREDIT":        ReportQueryQueryTypeCredit,
@@ -120,10 +153,21 @@ var mappingReportQueryQueryType = map[string]ReportQueryQueryTypeEnum{
 // GetReportQueryQueryTypeEnumValues Enumerates the set of values for ReportQueryQueryTypeEnum
 func GetReportQueryQueryTypeEnumValues() []ReportQueryQueryTypeEnum {
 	values := make([]ReportQueryQueryTypeEnum, 0)
-	for _, v := range mappingReportQueryQueryType {
+	for _, v := range mappingReportQueryQueryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetReportQueryQueryTypeEnumStringValues Enumerates the set of values in String for ReportQueryQueryTypeEnum
+func GetReportQueryQueryTypeEnumStringValues() []string {
+	return []string{
+		"USAGE",
+		"COST",
+		"CREDIT",
+		"EXPIREDCREDIT",
+		"ALLCREDIT",
+	}
 }
 
 // ReportQueryDateRangeNameEnum Enum with underlying type: string
@@ -143,7 +187,7 @@ const (
 	ReportQueryDateRangeNameCustom          ReportQueryDateRangeNameEnum = "CUSTOM"
 )
 
-var mappingReportQueryDateRangeName = map[string]ReportQueryDateRangeNameEnum{
+var mappingReportQueryDateRangeNameEnum = map[string]ReportQueryDateRangeNameEnum{
 	"LAST_SEVEN_DAYS":   ReportQueryDateRangeNameLastSevenDays,
 	"LAST_TEN_DAYS":     ReportQueryDateRangeNameLastTenDays,
 	"MTD":               ReportQueryDateRangeNameMtd,
@@ -159,8 +203,24 @@ var mappingReportQueryDateRangeName = map[string]ReportQueryDateRangeNameEnum{
 // GetReportQueryDateRangeNameEnumValues Enumerates the set of values for ReportQueryDateRangeNameEnum
 func GetReportQueryDateRangeNameEnumValues() []ReportQueryDateRangeNameEnum {
 	values := make([]ReportQueryDateRangeNameEnum, 0)
-	for _, v := range mappingReportQueryDateRangeName {
+	for _, v := range mappingReportQueryDateRangeNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetReportQueryDateRangeNameEnumStringValues Enumerates the set of values in String for ReportQueryDateRangeNameEnum
+func GetReportQueryDateRangeNameEnumStringValues() []string {
+	return []string{
+		"LAST_SEVEN_DAYS",
+		"LAST_TEN_DAYS",
+		"MTD",
+		"LAST_TWO_MONTHS",
+		"LAST_THREE_MONTHS",
+		"ALL",
+		"LAST_SIX_MONTHS",
+		"LAST_ONE_YEAR",
+		"YTD",
+		"CUSTOM",
+	}
 }

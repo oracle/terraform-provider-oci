@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VolumeBackupSchedule Defines the backup frequency and retention period for a volume backup policy. For more information,
@@ -73,6 +75,36 @@ func (m VolumeBackupSchedule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VolumeBackupSchedule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVolumeBackupScheduleBackupTypeEnum[string(m.BackupType)]; !ok && m.BackupType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupType: %s. Supported values are: %s.", m.BackupType, strings.Join(GetVolumeBackupScheduleBackupTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVolumeBackupSchedulePeriodEnum[string(m.Period)]; !ok && m.Period != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Period: %s. Supported values are: %s.", m.Period, strings.Join(GetVolumeBackupSchedulePeriodEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingVolumeBackupScheduleOffsetTypeEnum[string(m.OffsetType)]; !ok && m.OffsetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OffsetType: %s. Supported values are: %s.", m.OffsetType, strings.Join(GetVolumeBackupScheduleOffsetTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVolumeBackupScheduleDayOfWeekEnum[string(m.DayOfWeek)]; !ok && m.DayOfWeek != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DayOfWeek: %s. Supported values are: %s.", m.DayOfWeek, strings.Join(GetVolumeBackupScheduleDayOfWeekEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVolumeBackupScheduleMonthEnum[string(m.Month)]; !ok && m.Month != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Month: %s. Supported values are: %s.", m.Month, strings.Join(GetVolumeBackupScheduleMonthEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVolumeBackupScheduleTimeZoneEnum[string(m.TimeZone)]; !ok && m.TimeZone != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TimeZone: %s. Supported values are: %s.", m.TimeZone, strings.Join(GetVolumeBackupScheduleTimeZoneEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VolumeBackupScheduleBackupTypeEnum Enum with underlying type: string
 type VolumeBackupScheduleBackupTypeEnum string
 
@@ -82,7 +114,7 @@ const (
 	VolumeBackupScheduleBackupTypeIncremental VolumeBackupScheduleBackupTypeEnum = "INCREMENTAL"
 )
 
-var mappingVolumeBackupScheduleBackupType = map[string]VolumeBackupScheduleBackupTypeEnum{
+var mappingVolumeBackupScheduleBackupTypeEnum = map[string]VolumeBackupScheduleBackupTypeEnum{
 	"FULL":        VolumeBackupScheduleBackupTypeFull,
 	"INCREMENTAL": VolumeBackupScheduleBackupTypeIncremental,
 }
@@ -90,10 +122,18 @@ var mappingVolumeBackupScheduleBackupType = map[string]VolumeBackupScheduleBacku
 // GetVolumeBackupScheduleBackupTypeEnumValues Enumerates the set of values for VolumeBackupScheduleBackupTypeEnum
 func GetVolumeBackupScheduleBackupTypeEnumValues() []VolumeBackupScheduleBackupTypeEnum {
 	values := make([]VolumeBackupScheduleBackupTypeEnum, 0)
-	for _, v := range mappingVolumeBackupScheduleBackupType {
+	for _, v := range mappingVolumeBackupScheduleBackupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeBackupScheduleBackupTypeEnumStringValues Enumerates the set of values in String for VolumeBackupScheduleBackupTypeEnum
+func GetVolumeBackupScheduleBackupTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"INCREMENTAL",
+	}
 }
 
 // VolumeBackupSchedulePeriodEnum Enum with underlying type: string
@@ -108,7 +148,7 @@ const (
 	VolumeBackupSchedulePeriodYear  VolumeBackupSchedulePeriodEnum = "ONE_YEAR"
 )
 
-var mappingVolumeBackupSchedulePeriod = map[string]VolumeBackupSchedulePeriodEnum{
+var mappingVolumeBackupSchedulePeriodEnum = map[string]VolumeBackupSchedulePeriodEnum{
 	"ONE_HOUR":  VolumeBackupSchedulePeriodHour,
 	"ONE_DAY":   VolumeBackupSchedulePeriodDay,
 	"ONE_WEEK":  VolumeBackupSchedulePeriodWeek,
@@ -119,10 +159,21 @@ var mappingVolumeBackupSchedulePeriod = map[string]VolumeBackupSchedulePeriodEnu
 // GetVolumeBackupSchedulePeriodEnumValues Enumerates the set of values for VolumeBackupSchedulePeriodEnum
 func GetVolumeBackupSchedulePeriodEnumValues() []VolumeBackupSchedulePeriodEnum {
 	values := make([]VolumeBackupSchedulePeriodEnum, 0)
-	for _, v := range mappingVolumeBackupSchedulePeriod {
+	for _, v := range mappingVolumeBackupSchedulePeriodEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeBackupSchedulePeriodEnumStringValues Enumerates the set of values in String for VolumeBackupSchedulePeriodEnum
+func GetVolumeBackupSchedulePeriodEnumStringValues() []string {
+	return []string{
+		"ONE_HOUR",
+		"ONE_DAY",
+		"ONE_WEEK",
+		"ONE_MONTH",
+		"ONE_YEAR",
+	}
 }
 
 // VolumeBackupScheduleOffsetTypeEnum Enum with underlying type: string
@@ -134,7 +185,7 @@ const (
 	VolumeBackupScheduleOffsetTypeNumericSeconds VolumeBackupScheduleOffsetTypeEnum = "NUMERIC_SECONDS"
 )
 
-var mappingVolumeBackupScheduleOffsetType = map[string]VolumeBackupScheduleOffsetTypeEnum{
+var mappingVolumeBackupScheduleOffsetTypeEnum = map[string]VolumeBackupScheduleOffsetTypeEnum{
 	"STRUCTURED":      VolumeBackupScheduleOffsetTypeStructured,
 	"NUMERIC_SECONDS": VolumeBackupScheduleOffsetTypeNumericSeconds,
 }
@@ -142,10 +193,18 @@ var mappingVolumeBackupScheduleOffsetType = map[string]VolumeBackupScheduleOffse
 // GetVolumeBackupScheduleOffsetTypeEnumValues Enumerates the set of values for VolumeBackupScheduleOffsetTypeEnum
 func GetVolumeBackupScheduleOffsetTypeEnumValues() []VolumeBackupScheduleOffsetTypeEnum {
 	values := make([]VolumeBackupScheduleOffsetTypeEnum, 0)
-	for _, v := range mappingVolumeBackupScheduleOffsetType {
+	for _, v := range mappingVolumeBackupScheduleOffsetTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeBackupScheduleOffsetTypeEnumStringValues Enumerates the set of values in String for VolumeBackupScheduleOffsetTypeEnum
+func GetVolumeBackupScheduleOffsetTypeEnumStringValues() []string {
+	return []string{
+		"STRUCTURED",
+		"NUMERIC_SECONDS",
+	}
 }
 
 // VolumeBackupScheduleDayOfWeekEnum Enum with underlying type: string
@@ -162,7 +221,7 @@ const (
 	VolumeBackupScheduleDayOfWeekSunday    VolumeBackupScheduleDayOfWeekEnum = "SUNDAY"
 )
 
-var mappingVolumeBackupScheduleDayOfWeek = map[string]VolumeBackupScheduleDayOfWeekEnum{
+var mappingVolumeBackupScheduleDayOfWeekEnum = map[string]VolumeBackupScheduleDayOfWeekEnum{
 	"MONDAY":    VolumeBackupScheduleDayOfWeekMonday,
 	"TUESDAY":   VolumeBackupScheduleDayOfWeekTuesday,
 	"WEDNESDAY": VolumeBackupScheduleDayOfWeekWednesday,
@@ -175,10 +234,23 @@ var mappingVolumeBackupScheduleDayOfWeek = map[string]VolumeBackupScheduleDayOfW
 // GetVolumeBackupScheduleDayOfWeekEnumValues Enumerates the set of values for VolumeBackupScheduleDayOfWeekEnum
 func GetVolumeBackupScheduleDayOfWeekEnumValues() []VolumeBackupScheduleDayOfWeekEnum {
 	values := make([]VolumeBackupScheduleDayOfWeekEnum, 0)
-	for _, v := range mappingVolumeBackupScheduleDayOfWeek {
+	for _, v := range mappingVolumeBackupScheduleDayOfWeekEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeBackupScheduleDayOfWeekEnumStringValues Enumerates the set of values in String for VolumeBackupScheduleDayOfWeekEnum
+func GetVolumeBackupScheduleDayOfWeekEnumStringValues() []string {
+	return []string{
+		"MONDAY",
+		"TUESDAY",
+		"WEDNESDAY",
+		"THURSDAY",
+		"FRIDAY",
+		"SATURDAY",
+		"SUNDAY",
+	}
 }
 
 // VolumeBackupScheduleMonthEnum Enum with underlying type: string
@@ -200,7 +272,7 @@ const (
 	VolumeBackupScheduleMonthDecember  VolumeBackupScheduleMonthEnum = "DECEMBER"
 )
 
-var mappingVolumeBackupScheduleMonth = map[string]VolumeBackupScheduleMonthEnum{
+var mappingVolumeBackupScheduleMonthEnum = map[string]VolumeBackupScheduleMonthEnum{
 	"JANUARY":   VolumeBackupScheduleMonthJanuary,
 	"FEBRUARY":  VolumeBackupScheduleMonthFebruary,
 	"MARCH":     VolumeBackupScheduleMonthMarch,
@@ -218,10 +290,28 @@ var mappingVolumeBackupScheduleMonth = map[string]VolumeBackupScheduleMonthEnum{
 // GetVolumeBackupScheduleMonthEnumValues Enumerates the set of values for VolumeBackupScheduleMonthEnum
 func GetVolumeBackupScheduleMonthEnumValues() []VolumeBackupScheduleMonthEnum {
 	values := make([]VolumeBackupScheduleMonthEnum, 0)
-	for _, v := range mappingVolumeBackupScheduleMonth {
+	for _, v := range mappingVolumeBackupScheduleMonthEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeBackupScheduleMonthEnumStringValues Enumerates the set of values in String for VolumeBackupScheduleMonthEnum
+func GetVolumeBackupScheduleMonthEnumStringValues() []string {
+	return []string{
+		"JANUARY",
+		"FEBRUARY",
+		"MARCH",
+		"APRIL",
+		"MAY",
+		"JUNE",
+		"JULY",
+		"AUGUST",
+		"SEPTEMBER",
+		"OCTOBER",
+		"NOVEMBER",
+		"DECEMBER",
+	}
 }
 
 // VolumeBackupScheduleTimeZoneEnum Enum with underlying type: string
@@ -233,7 +323,7 @@ const (
 	VolumeBackupScheduleTimeZoneRegionalDataCenterTime VolumeBackupScheduleTimeZoneEnum = "REGIONAL_DATA_CENTER_TIME"
 )
 
-var mappingVolumeBackupScheduleTimeZone = map[string]VolumeBackupScheduleTimeZoneEnum{
+var mappingVolumeBackupScheduleTimeZoneEnum = map[string]VolumeBackupScheduleTimeZoneEnum{
 	"UTC":                       VolumeBackupScheduleTimeZoneUtc,
 	"REGIONAL_DATA_CENTER_TIME": VolumeBackupScheduleTimeZoneRegionalDataCenterTime,
 }
@@ -241,8 +331,16 @@ var mappingVolumeBackupScheduleTimeZone = map[string]VolumeBackupScheduleTimeZon
 // GetVolumeBackupScheduleTimeZoneEnumValues Enumerates the set of values for VolumeBackupScheduleTimeZoneEnum
 func GetVolumeBackupScheduleTimeZoneEnumValues() []VolumeBackupScheduleTimeZoneEnum {
 	values := make([]VolumeBackupScheduleTimeZoneEnum, 0)
-	for _, v := range mappingVolumeBackupScheduleTimeZone {
+	for _, v := range mappingVolumeBackupScheduleTimeZoneEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeBackupScheduleTimeZoneEnumStringValues Enumerates the set of values in String for VolumeBackupScheduleTimeZoneEnum
+func GetVolumeBackupScheduleTimeZoneEnumStringValues() []string {
+	return []string{
+		"UTC",
+		"REGIONAL_DATA_CENTER_TIME",
+	}
 }

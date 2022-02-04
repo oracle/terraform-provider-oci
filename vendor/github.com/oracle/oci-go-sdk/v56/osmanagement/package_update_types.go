@@ -23,7 +23,7 @@ const (
 	PackageUpdateTypesAll         PackageUpdateTypesEnum = "ALL"
 )
 
-var mappingPackageUpdateTypes = map[string]PackageUpdateTypesEnum{
+var mappingPackageUpdateTypesEnum = map[string]PackageUpdateTypesEnum{
 	"SECURITY":    PackageUpdateTypesSecurity,
 	"BUGFIX":      PackageUpdateTypesBugfix,
 	"ENHANCEMENT": PackageUpdateTypesEnhancement,
@@ -35,8 +35,20 @@ var mappingPackageUpdateTypes = map[string]PackageUpdateTypesEnum{
 // GetPackageUpdateTypesEnumValues Enumerates the set of values for PackageUpdateTypesEnum
 func GetPackageUpdateTypesEnumValues() []PackageUpdateTypesEnum {
 	values := make([]PackageUpdateTypesEnum, 0)
-	for _, v := range mappingPackageUpdateTypes {
+	for _, v := range mappingPackageUpdateTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPackageUpdateTypesEnumStringValues Enumerates the set of values in String for PackageUpdateTypesEnum
+func GetPackageUpdateTypesEnumStringValues() []string {
+	return []string{
+		"SECURITY",
+		"BUGFIX",
+		"ENHANCEMENT",
+		"OTHER",
+		"KSPLICE",
+		"ALL",
+	}
 }

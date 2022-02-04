@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetResolverRequest wrapper for the GetResolver operation
@@ -51,6 +53,10 @@ func (request GetResolverRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetResolverRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +70,20 @@ func (request GetResolverRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetResolverRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetResolverRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetResolverScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetGetResolverScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetResolverResponse wrapper for the GetResolver operation
@@ -109,7 +129,7 @@ const (
 	GetResolverScopePrivate GetResolverScopeEnum = "PRIVATE"
 )
 
-var mappingGetResolverScope = map[string]GetResolverScopeEnum{
+var mappingGetResolverScopeEnum = map[string]GetResolverScopeEnum{
 	"GLOBAL":  GetResolverScopeGlobal,
 	"PRIVATE": GetResolverScopePrivate,
 }
@@ -117,8 +137,16 @@ var mappingGetResolverScope = map[string]GetResolverScopeEnum{
 // GetGetResolverScopeEnumValues Enumerates the set of values for GetResolverScopeEnum
 func GetGetResolverScopeEnumValues() []GetResolverScopeEnum {
 	values := make([]GetResolverScopeEnum, 0)
-	for _, v := range mappingGetResolverScope {
+	for _, v := range mappingGetResolverScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetResolverScopeEnumStringValues Enumerates the set of values in String for GetResolverScopeEnum
+func GetGetResolverScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

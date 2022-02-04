@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateAutonomousContainerDatabaseDetails Describes the required parameters for the creation of an Autonomous Container Database.
@@ -103,6 +105,27 @@ func (m CreateAutonomousContainerDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateAutonomousContainerDatabaseDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateAutonomousContainerDatabaseDetailsPatchModelEnum[string(m.PatchModel)]; !ok && m.PatchModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchModel: %s. Supported values are: %s.", m.PatchModel, strings.Join(GetCreateAutonomousContainerDatabaseDetailsPatchModelEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum[string(m.ServiceLevelAgreementType)]; !ok && m.ServiceLevelAgreementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceLevelAgreementType: %s. Supported values are: %s.", m.ServiceLevelAgreementType, strings.Join(GetCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousContainerDatabaseDetailsProtectionModeEnum[string(m.ProtectionMode)]; !ok && m.ProtectionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetCreateAutonomousContainerDatabaseDetailsProtectionModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum Enum with underlying type: string
 type CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum string
 
@@ -112,7 +135,7 @@ const (
 	CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeAutonomousDataguard CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum = "AUTONOMOUS_DATAGUARD"
 )
 
-var mappingCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementType = map[string]CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum{
+var mappingCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum = map[string]CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum{
 	"STANDARD":             CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeStandard,
 	"AUTONOMOUS_DATAGUARD": CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeAutonomousDataguard,
 }
@@ -120,10 +143,18 @@ var mappingCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementType = m
 // GetCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnumValues Enumerates the set of values for CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum
 func GetCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnumValues() []CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum {
 	values := make([]CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum, 0)
-	for _, v := range mappingCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementType {
+	for _, v := range mappingCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnumStringValues Enumerates the set of values in String for CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum
+func GetCreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"AUTONOMOUS_DATAGUARD",
+	}
 }
 
 // CreateAutonomousContainerDatabaseDetailsProtectionModeEnum Enum with underlying type: string
@@ -135,7 +166,7 @@ const (
 	CreateAutonomousContainerDatabaseDetailsProtectionModePerformance  CreateAutonomousContainerDatabaseDetailsProtectionModeEnum = "MAXIMUM_PERFORMANCE"
 )
 
-var mappingCreateAutonomousContainerDatabaseDetailsProtectionMode = map[string]CreateAutonomousContainerDatabaseDetailsProtectionModeEnum{
+var mappingCreateAutonomousContainerDatabaseDetailsProtectionModeEnum = map[string]CreateAutonomousContainerDatabaseDetailsProtectionModeEnum{
 	"MAXIMUM_AVAILABILITY": CreateAutonomousContainerDatabaseDetailsProtectionModeAvailability,
 	"MAXIMUM_PERFORMANCE":  CreateAutonomousContainerDatabaseDetailsProtectionModePerformance,
 }
@@ -143,10 +174,18 @@ var mappingCreateAutonomousContainerDatabaseDetailsProtectionMode = map[string]C
 // GetCreateAutonomousContainerDatabaseDetailsProtectionModeEnumValues Enumerates the set of values for CreateAutonomousContainerDatabaseDetailsProtectionModeEnum
 func GetCreateAutonomousContainerDatabaseDetailsProtectionModeEnumValues() []CreateAutonomousContainerDatabaseDetailsProtectionModeEnum {
 	values := make([]CreateAutonomousContainerDatabaseDetailsProtectionModeEnum, 0)
-	for _, v := range mappingCreateAutonomousContainerDatabaseDetailsProtectionMode {
+	for _, v := range mappingCreateAutonomousContainerDatabaseDetailsProtectionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousContainerDatabaseDetailsProtectionModeEnumStringValues Enumerates the set of values in String for CreateAutonomousContainerDatabaseDetailsProtectionModeEnum
+func GetCreateAutonomousContainerDatabaseDetailsProtectionModeEnumStringValues() []string {
+	return []string{
+		"MAXIMUM_AVAILABILITY",
+		"MAXIMUM_PERFORMANCE",
+	}
 }
 
 // CreateAutonomousContainerDatabaseDetailsPatchModelEnum Enum with underlying type: string
@@ -158,7 +197,7 @@ const (
 	CreateAutonomousContainerDatabaseDetailsPatchModelUpdateRevisions CreateAutonomousContainerDatabaseDetailsPatchModelEnum = "RELEASE_UPDATE_REVISIONS"
 )
 
-var mappingCreateAutonomousContainerDatabaseDetailsPatchModel = map[string]CreateAutonomousContainerDatabaseDetailsPatchModelEnum{
+var mappingCreateAutonomousContainerDatabaseDetailsPatchModelEnum = map[string]CreateAutonomousContainerDatabaseDetailsPatchModelEnum{
 	"RELEASE_UPDATES":          CreateAutonomousContainerDatabaseDetailsPatchModelUpdates,
 	"RELEASE_UPDATE_REVISIONS": CreateAutonomousContainerDatabaseDetailsPatchModelUpdateRevisions,
 }
@@ -166,8 +205,16 @@ var mappingCreateAutonomousContainerDatabaseDetailsPatchModel = map[string]Creat
 // GetCreateAutonomousContainerDatabaseDetailsPatchModelEnumValues Enumerates the set of values for CreateAutonomousContainerDatabaseDetailsPatchModelEnum
 func GetCreateAutonomousContainerDatabaseDetailsPatchModelEnumValues() []CreateAutonomousContainerDatabaseDetailsPatchModelEnum {
 	values := make([]CreateAutonomousContainerDatabaseDetailsPatchModelEnum, 0)
-	for _, v := range mappingCreateAutonomousContainerDatabaseDetailsPatchModel {
+	for _, v := range mappingCreateAutonomousContainerDatabaseDetailsPatchModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousContainerDatabaseDetailsPatchModelEnumStringValues Enumerates the set of values in String for CreateAutonomousContainerDatabaseDetailsPatchModelEnum
+func GetCreateAutonomousContainerDatabaseDetailsPatchModelEnumStringValues() []string {
+	return []string{
+		"RELEASE_UPDATES",
+		"RELEASE_UPDATE_REVISIONS",
+	}
 }

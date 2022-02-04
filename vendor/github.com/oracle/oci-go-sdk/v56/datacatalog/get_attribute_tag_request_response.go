@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetAttributeTagRequest wrapper for the GetAttributeTag operation
@@ -49,6 +51,10 @@ func (request GetAttributeTagRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetAttributeTagRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +68,23 @@ func (request GetAttributeTagRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetAttributeTagRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetAttributeTagRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetAttributeTagFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetAttributeTagFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetAttributeTagResponse wrapper for the GetAttributeTag operation
@@ -107,7 +130,7 @@ const (
 	GetAttributeTagFieldsAttributekey    GetAttributeTagFieldsEnum = "attributeKey"
 )
 
-var mappingGetAttributeTagFields = map[string]GetAttributeTagFieldsEnum{
+var mappingGetAttributeTagFieldsEnum = map[string]GetAttributeTagFieldsEnum{
 	"key":             GetAttributeTagFieldsKey,
 	"name":            GetAttributeTagFieldsName,
 	"termKey":         GetAttributeTagFieldsTermkey,
@@ -123,8 +146,24 @@ var mappingGetAttributeTagFields = map[string]GetAttributeTagFieldsEnum{
 // GetGetAttributeTagFieldsEnumValues Enumerates the set of values for GetAttributeTagFieldsEnum
 func GetGetAttributeTagFieldsEnumValues() []GetAttributeTagFieldsEnum {
 	values := make([]GetAttributeTagFieldsEnum, 0)
-	for _, v := range mappingGetAttributeTagFields {
+	for _, v := range mappingGetAttributeTagFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetAttributeTagFieldsEnumStringValues Enumerates the set of values in String for GetAttributeTagFieldsEnum
+func GetGetAttributeTagFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"name",
+		"termKey",
+		"termPath",
+		"termDescription",
+		"lifecycleState",
+		"timeCreated",
+		"createdById",
+		"uri",
+		"attributeKey",
+	}
 }

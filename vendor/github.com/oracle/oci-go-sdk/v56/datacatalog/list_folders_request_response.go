@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListFoldersRequest wrapper for the ListFolders operation
@@ -98,6 +100,10 @@ func (request ListFoldersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListFoldersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -111,6 +117,35 @@ func (request ListFoldersRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListFoldersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListFoldersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListFoldersLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListFoldersLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFoldersHarvestStatusEnum[string(request.HarvestStatus)]; !ok && request.HarvestStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HarvestStatus: %s. Supported values are: %s.", request.HarvestStatus, strings.Join(GetListFoldersHarvestStatusEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListFoldersFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListFoldersFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListFoldersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListFoldersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFoldersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFoldersSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListFoldersResponse wrapper for the ListFolders operation
@@ -154,7 +189,7 @@ const (
 	ListFoldersLifecycleStateMoving   ListFoldersLifecycleStateEnum = "MOVING"
 )
 
-var mappingListFoldersLifecycleState = map[string]ListFoldersLifecycleStateEnum{
+var mappingListFoldersLifecycleStateEnum = map[string]ListFoldersLifecycleStateEnum{
 	"CREATING": ListFoldersLifecycleStateCreating,
 	"ACTIVE":   ListFoldersLifecycleStateActive,
 	"INACTIVE": ListFoldersLifecycleStateInactive,
@@ -168,10 +203,24 @@ var mappingListFoldersLifecycleState = map[string]ListFoldersLifecycleStateEnum{
 // GetListFoldersLifecycleStateEnumValues Enumerates the set of values for ListFoldersLifecycleStateEnum
 func GetListFoldersLifecycleStateEnumValues() []ListFoldersLifecycleStateEnum {
 	values := make([]ListFoldersLifecycleStateEnum, 0)
-	for _, v := range mappingListFoldersLifecycleState {
+	for _, v := range mappingListFoldersLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFoldersLifecycleStateEnumStringValues Enumerates the set of values in String for ListFoldersLifecycleStateEnum
+func GetListFoldersLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListFoldersHarvestStatusEnum Enum with underlying type: string
@@ -185,7 +234,7 @@ const (
 	ListFoldersHarvestStatusDeferred   ListFoldersHarvestStatusEnum = "DEFERRED"
 )
 
-var mappingListFoldersHarvestStatus = map[string]ListFoldersHarvestStatusEnum{
+var mappingListFoldersHarvestStatusEnum = map[string]ListFoldersHarvestStatusEnum{
 	"COMPLETE":    ListFoldersHarvestStatusComplete,
 	"ERROR":       ListFoldersHarvestStatusError,
 	"IN_PROGRESS": ListFoldersHarvestStatusInProgress,
@@ -195,10 +244,20 @@ var mappingListFoldersHarvestStatus = map[string]ListFoldersHarvestStatusEnum{
 // GetListFoldersHarvestStatusEnumValues Enumerates the set of values for ListFoldersHarvestStatusEnum
 func GetListFoldersHarvestStatusEnumValues() []ListFoldersHarvestStatusEnum {
 	values := make([]ListFoldersHarvestStatusEnum, 0)
-	for _, v := range mappingListFoldersHarvestStatus {
+	for _, v := range mappingListFoldersHarvestStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFoldersHarvestStatusEnumStringValues Enumerates the set of values in String for ListFoldersHarvestStatusEnum
+func GetListFoldersHarvestStatusEnumStringValues() []string {
+	return []string{
+		"COMPLETE",
+		"ERROR",
+		"IN_PROGRESS",
+		"DEFERRED",
+	}
 }
 
 // ListFoldersFieldsEnum Enum with underlying type: string
@@ -219,7 +278,7 @@ const (
 	ListFoldersFieldsUri             ListFoldersFieldsEnum = "uri"
 )
 
-var mappingListFoldersFields = map[string]ListFoldersFieldsEnum{
+var mappingListFoldersFieldsEnum = map[string]ListFoldersFieldsEnum{
 	"key":             ListFoldersFieldsKey,
 	"displayName":     ListFoldersFieldsDisplayname,
 	"description":     ListFoldersFieldsDescription,
@@ -236,10 +295,27 @@ var mappingListFoldersFields = map[string]ListFoldersFieldsEnum{
 // GetListFoldersFieldsEnumValues Enumerates the set of values for ListFoldersFieldsEnum
 func GetListFoldersFieldsEnumValues() []ListFoldersFieldsEnum {
 	values := make([]ListFoldersFieldsEnum, 0)
-	for _, v := range mappingListFoldersFields {
+	for _, v := range mappingListFoldersFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFoldersFieldsEnumStringValues Enumerates the set of values in String for ListFoldersFieldsEnum
+func GetListFoldersFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"parentFolderKey",
+		"path",
+		"dataAssetKey",
+		"externalKey",
+		"timeExternal",
+		"timeCreated",
+		"lifecycleState",
+		"uri",
+	}
 }
 
 // ListFoldersSortByEnum Enum with underlying type: string
@@ -251,7 +327,7 @@ const (
 	ListFoldersSortByDisplayname ListFoldersSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListFoldersSortBy = map[string]ListFoldersSortByEnum{
+var mappingListFoldersSortByEnum = map[string]ListFoldersSortByEnum{
 	"TIMECREATED": ListFoldersSortByTimecreated,
 	"DISPLAYNAME": ListFoldersSortByDisplayname,
 }
@@ -259,10 +335,18 @@ var mappingListFoldersSortBy = map[string]ListFoldersSortByEnum{
 // GetListFoldersSortByEnumValues Enumerates the set of values for ListFoldersSortByEnum
 func GetListFoldersSortByEnumValues() []ListFoldersSortByEnum {
 	values := make([]ListFoldersSortByEnum, 0)
-	for _, v := range mappingListFoldersSortBy {
+	for _, v := range mappingListFoldersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFoldersSortByEnumStringValues Enumerates the set of values in String for ListFoldersSortByEnum
+func GetListFoldersSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListFoldersSortOrderEnum Enum with underlying type: string
@@ -274,7 +358,7 @@ const (
 	ListFoldersSortOrderDesc ListFoldersSortOrderEnum = "DESC"
 )
 
-var mappingListFoldersSortOrder = map[string]ListFoldersSortOrderEnum{
+var mappingListFoldersSortOrderEnum = map[string]ListFoldersSortOrderEnum{
 	"ASC":  ListFoldersSortOrderAsc,
 	"DESC": ListFoldersSortOrderDesc,
 }
@@ -282,8 +366,16 @@ var mappingListFoldersSortOrder = map[string]ListFoldersSortOrderEnum{
 // GetListFoldersSortOrderEnumValues Enumerates the set of values for ListFoldersSortOrderEnum
 func GetListFoldersSortOrderEnumValues() []ListFoldersSortOrderEnum {
 	values := make([]ListFoldersSortOrderEnum, 0)
-	for _, v := range mappingListFoldersSortOrder {
+	for _, v := range mappingListFoldersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFoldersSortOrderEnumStringValues Enumerates the set of values in String for ListFoldersSortOrderEnum
+func GetListFoldersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

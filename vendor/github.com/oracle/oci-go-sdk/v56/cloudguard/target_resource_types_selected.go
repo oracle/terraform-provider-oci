@@ -11,7 +11,9 @@ package cloudguard
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TargetResourceTypesSelected Target selection on basis of TargetResourceTypes.
@@ -23,6 +25,24 @@ type TargetResourceTypesSelected struct {
 
 func (m TargetResourceTypesSelected) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TargetResourceTypesSelected) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.Values {
+		if _, ok := mappingTargetResourceTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Values: %s. Supported values are: %s.", val, strings.Join(GetTargetResourceTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

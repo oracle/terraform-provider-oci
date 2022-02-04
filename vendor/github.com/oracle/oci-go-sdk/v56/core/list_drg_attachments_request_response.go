@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDrgAttachmentsRequest wrapper for the ListDrgAttachments operation
@@ -81,6 +83,10 @@ func (request ListDrgAttachmentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDrgAttachmentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -94,6 +100,29 @@ func (request ListDrgAttachmentsRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDrgAttachmentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDrgAttachmentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDrgAttachmentsAttachmentTypeEnum[string(request.AttachmentType)]; !ok && request.AttachmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttachmentType: %s. Supported values are: %s.", request.AttachmentType, strings.Join(GetListDrgAttachmentsAttachmentTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDrgAttachmentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDrgAttachmentsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDrgAttachmentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDrgAttachmentsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDrgAttachmentLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDrgAttachmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDrgAttachmentsResponse wrapper for the ListDrgAttachments operation
@@ -136,7 +165,7 @@ const (
 	ListDrgAttachmentsAttachmentTypeAll                     ListDrgAttachmentsAttachmentTypeEnum = "ALL"
 )
 
-var mappingListDrgAttachmentsAttachmentType = map[string]ListDrgAttachmentsAttachmentTypeEnum{
+var mappingListDrgAttachmentsAttachmentTypeEnum = map[string]ListDrgAttachmentsAttachmentTypeEnum{
 	"VCN":                       ListDrgAttachmentsAttachmentTypeVcn,
 	"VIRTUAL_CIRCUIT":           ListDrgAttachmentsAttachmentTypeVirtualCircuit,
 	"REMOTE_PEERING_CONNECTION": ListDrgAttachmentsAttachmentTypeRemotePeeringConnection,
@@ -147,10 +176,21 @@ var mappingListDrgAttachmentsAttachmentType = map[string]ListDrgAttachmentsAttac
 // GetListDrgAttachmentsAttachmentTypeEnumValues Enumerates the set of values for ListDrgAttachmentsAttachmentTypeEnum
 func GetListDrgAttachmentsAttachmentTypeEnumValues() []ListDrgAttachmentsAttachmentTypeEnum {
 	values := make([]ListDrgAttachmentsAttachmentTypeEnum, 0)
-	for _, v := range mappingListDrgAttachmentsAttachmentType {
+	for _, v := range mappingListDrgAttachmentsAttachmentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDrgAttachmentsAttachmentTypeEnumStringValues Enumerates the set of values in String for ListDrgAttachmentsAttachmentTypeEnum
+func GetListDrgAttachmentsAttachmentTypeEnumStringValues() []string {
+	return []string{
+		"VCN",
+		"VIRTUAL_CIRCUIT",
+		"REMOTE_PEERING_CONNECTION",
+		"IPSEC_TUNNEL",
+		"ALL",
+	}
 }
 
 // ListDrgAttachmentsSortByEnum Enum with underlying type: string
@@ -162,7 +202,7 @@ const (
 	ListDrgAttachmentsSortByDisplayname ListDrgAttachmentsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListDrgAttachmentsSortBy = map[string]ListDrgAttachmentsSortByEnum{
+var mappingListDrgAttachmentsSortByEnum = map[string]ListDrgAttachmentsSortByEnum{
 	"TIMECREATED": ListDrgAttachmentsSortByTimecreated,
 	"DISPLAYNAME": ListDrgAttachmentsSortByDisplayname,
 }
@@ -170,10 +210,18 @@ var mappingListDrgAttachmentsSortBy = map[string]ListDrgAttachmentsSortByEnum{
 // GetListDrgAttachmentsSortByEnumValues Enumerates the set of values for ListDrgAttachmentsSortByEnum
 func GetListDrgAttachmentsSortByEnumValues() []ListDrgAttachmentsSortByEnum {
 	values := make([]ListDrgAttachmentsSortByEnum, 0)
-	for _, v := range mappingListDrgAttachmentsSortBy {
+	for _, v := range mappingListDrgAttachmentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDrgAttachmentsSortByEnumStringValues Enumerates the set of values in String for ListDrgAttachmentsSortByEnum
+func GetListDrgAttachmentsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListDrgAttachmentsSortOrderEnum Enum with underlying type: string
@@ -185,7 +233,7 @@ const (
 	ListDrgAttachmentsSortOrderDesc ListDrgAttachmentsSortOrderEnum = "DESC"
 )
 
-var mappingListDrgAttachmentsSortOrder = map[string]ListDrgAttachmentsSortOrderEnum{
+var mappingListDrgAttachmentsSortOrderEnum = map[string]ListDrgAttachmentsSortOrderEnum{
 	"ASC":  ListDrgAttachmentsSortOrderAsc,
 	"DESC": ListDrgAttachmentsSortOrderDesc,
 }
@@ -193,8 +241,16 @@ var mappingListDrgAttachmentsSortOrder = map[string]ListDrgAttachmentsSortOrderE
 // GetListDrgAttachmentsSortOrderEnumValues Enumerates the set of values for ListDrgAttachmentsSortOrderEnum
 func GetListDrgAttachmentsSortOrderEnumValues() []ListDrgAttachmentsSortOrderEnum {
 	values := make([]ListDrgAttachmentsSortOrderEnum, 0)
-	for _, v := range mappingListDrgAttachmentsSortOrder {
+	for _, v := range mappingListDrgAttachmentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDrgAttachmentsSortOrderEnumStringValues Enumerates the set of values in String for ListDrgAttachmentsSortOrderEnum
+func GetListDrgAttachmentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

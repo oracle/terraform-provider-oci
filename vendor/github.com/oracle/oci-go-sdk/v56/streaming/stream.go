@@ -10,7 +10,9 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Stream Detailed representation of a stream, including all its partitions.
@@ -63,6 +65,21 @@ func (m Stream) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Stream) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingStreamLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetStreamLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // StreamLifecycleStateEnum Enum with underlying type: string
 type StreamLifecycleStateEnum string
 
@@ -76,7 +93,7 @@ const (
 	StreamLifecycleStateUpdating StreamLifecycleStateEnum = "UPDATING"
 )
 
-var mappingStreamLifecycleState = map[string]StreamLifecycleStateEnum{
+var mappingStreamLifecycleStateEnum = map[string]StreamLifecycleStateEnum{
 	"CREATING": StreamLifecycleStateCreating,
 	"ACTIVE":   StreamLifecycleStateActive,
 	"DELETING": StreamLifecycleStateDeleting,
@@ -88,8 +105,20 @@ var mappingStreamLifecycleState = map[string]StreamLifecycleStateEnum{
 // GetStreamLifecycleStateEnumValues Enumerates the set of values for StreamLifecycleStateEnum
 func GetStreamLifecycleStateEnumValues() []StreamLifecycleStateEnum {
 	values := make([]StreamLifecycleStateEnum, 0)
-	for _, v := range mappingStreamLifecycleState {
+	for _, v := range mappingStreamLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStreamLifecycleStateEnumStringValues Enumerates the set of values in String for StreamLifecycleStateEnum
+func GetStreamLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"UPDATING",
+	}
 }

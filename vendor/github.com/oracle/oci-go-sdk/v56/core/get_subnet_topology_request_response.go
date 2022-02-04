@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetSubnetTopologyRequest wrapper for the GetSubnetTopology operation
@@ -63,6 +65,10 @@ func (request GetSubnetTopologyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetSubnetTopologyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,20 @@ func (request GetSubnetTopologyRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetSubnetTopologyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetSubnetTopologyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetSubnetTopologyAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetGetSubnetTopologyAccessLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetSubnetTopologyResponse wrapper for the GetSubnetTopology operation
@@ -113,7 +133,7 @@ const (
 	GetSubnetTopologyAccessLevelAccessible GetSubnetTopologyAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingGetSubnetTopologyAccessLevel = map[string]GetSubnetTopologyAccessLevelEnum{
+var mappingGetSubnetTopologyAccessLevelEnum = map[string]GetSubnetTopologyAccessLevelEnum{
 	"ANY":        GetSubnetTopologyAccessLevelAny,
 	"ACCESSIBLE": GetSubnetTopologyAccessLevelAccessible,
 }
@@ -121,8 +141,16 @@ var mappingGetSubnetTopologyAccessLevel = map[string]GetSubnetTopologyAccessLeve
 // GetGetSubnetTopologyAccessLevelEnumValues Enumerates the set of values for GetSubnetTopologyAccessLevelEnum
 func GetGetSubnetTopologyAccessLevelEnumValues() []GetSubnetTopologyAccessLevelEnum {
 	values := make([]GetSubnetTopologyAccessLevelEnum, 0)
-	for _, v := range mappingGetSubnetTopologyAccessLevel {
+	for _, v := range mappingGetSubnetTopologyAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetSubnetTopologyAccessLevelEnumStringValues Enumerates the set of values in String for GetSubnetTopologyAccessLevelEnum
+func GetGetSubnetTopologyAccessLevelEnumStringValues() []string {
+	return []string{
+		"ANY",
+		"ACCESSIBLE",
+	}
 }

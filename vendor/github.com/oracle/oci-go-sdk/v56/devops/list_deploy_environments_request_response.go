@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDeployEnvironmentsRequest wrapper for the ListDeployEnvironments operation
@@ -58,6 +60,10 @@ func (request ListDeployEnvironmentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDeployEnvironmentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,26 @@ func (request ListDeployEnvironmentsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDeployEnvironmentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDeployEnvironmentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDeployEnvironmentLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDeployEnvironmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDeployEnvironmentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDeployEnvironmentsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDeployEnvironmentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDeployEnvironmentsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDeployEnvironmentsResponse wrapper for the ListDeployEnvironments operation
@@ -107,7 +133,7 @@ const (
 	ListDeployEnvironmentsSortOrderDesc ListDeployEnvironmentsSortOrderEnum = "DESC"
 )
 
-var mappingListDeployEnvironmentsSortOrder = map[string]ListDeployEnvironmentsSortOrderEnum{
+var mappingListDeployEnvironmentsSortOrderEnum = map[string]ListDeployEnvironmentsSortOrderEnum{
 	"ASC":  ListDeployEnvironmentsSortOrderAsc,
 	"DESC": ListDeployEnvironmentsSortOrderDesc,
 }
@@ -115,10 +141,18 @@ var mappingListDeployEnvironmentsSortOrder = map[string]ListDeployEnvironmentsSo
 // GetListDeployEnvironmentsSortOrderEnumValues Enumerates the set of values for ListDeployEnvironmentsSortOrderEnum
 func GetListDeployEnvironmentsSortOrderEnumValues() []ListDeployEnvironmentsSortOrderEnum {
 	values := make([]ListDeployEnvironmentsSortOrderEnum, 0)
-	for _, v := range mappingListDeployEnvironmentsSortOrder {
+	for _, v := range mappingListDeployEnvironmentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDeployEnvironmentsSortOrderEnumStringValues Enumerates the set of values in String for ListDeployEnvironmentsSortOrderEnum
+func GetListDeployEnvironmentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDeployEnvironmentsSortByEnum Enum with underlying type: string
@@ -130,7 +164,7 @@ const (
 	ListDeployEnvironmentsSortByDisplayname ListDeployEnvironmentsSortByEnum = "displayName"
 )
 
-var mappingListDeployEnvironmentsSortBy = map[string]ListDeployEnvironmentsSortByEnum{
+var mappingListDeployEnvironmentsSortByEnum = map[string]ListDeployEnvironmentsSortByEnum{
 	"timeCreated": ListDeployEnvironmentsSortByTimecreated,
 	"displayName": ListDeployEnvironmentsSortByDisplayname,
 }
@@ -138,8 +172,16 @@ var mappingListDeployEnvironmentsSortBy = map[string]ListDeployEnvironmentsSortB
 // GetListDeployEnvironmentsSortByEnumValues Enumerates the set of values for ListDeployEnvironmentsSortByEnum
 func GetListDeployEnvironmentsSortByEnumValues() []ListDeployEnvironmentsSortByEnum {
 	values := make([]ListDeployEnvironmentsSortByEnum, 0)
-	for _, v := range mappingListDeployEnvironmentsSortBy {
+	for _, v := range mappingListDeployEnvironmentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDeployEnvironmentsSortByEnumStringValues Enumerates the set of values in String for ListDeployEnvironmentsSortByEnum
+func GetListDeployEnvironmentsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

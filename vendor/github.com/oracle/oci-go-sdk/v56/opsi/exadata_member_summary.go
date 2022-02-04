@@ -12,7 +12,9 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExadataMemberSummary Lists name, display name and type of exadata member.
@@ -32,6 +34,21 @@ func (m ExadataMemberSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExadataMemberSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExadataMemberSummaryEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetExadataMemberSummaryEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExadataMemberSummaryEntityTypeEnum Enum with underlying type: string
 type ExadataMemberSummaryEntityTypeEnum string
 
@@ -46,7 +63,7 @@ const (
 	ExadataMemberSummaryEntityTypeEthernetSwitch   ExadataMemberSummaryEntityTypeEnum = "ETHERNET_SWITCH"
 )
 
-var mappingExadataMemberSummaryEntityType = map[string]ExadataMemberSummaryEntityTypeEnum{
+var mappingExadataMemberSummaryEntityTypeEnum = map[string]ExadataMemberSummaryEntityTypeEnum{
 	"DATABASE":          ExadataMemberSummaryEntityTypeDatabase,
 	"ILOM_SERVER":       ExadataMemberSummaryEntityTypeIlomServer,
 	"PDU":               ExadataMemberSummaryEntityTypePdu,
@@ -59,8 +76,21 @@ var mappingExadataMemberSummaryEntityType = map[string]ExadataMemberSummaryEntit
 // GetExadataMemberSummaryEntityTypeEnumValues Enumerates the set of values for ExadataMemberSummaryEntityTypeEnum
 func GetExadataMemberSummaryEntityTypeEnumValues() []ExadataMemberSummaryEntityTypeEnum {
 	values := make([]ExadataMemberSummaryEntityTypeEnum, 0)
-	for _, v := range mappingExadataMemberSummaryEntityType {
+	for _, v := range mappingExadataMemberSummaryEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExadataMemberSummaryEntityTypeEnumStringValues Enumerates the set of values in String for ExadataMemberSummaryEntityTypeEnum
+func GetExadataMemberSummaryEntityTypeEnumStringValues() []string {
+	return []string{
+		"DATABASE",
+		"ILOM_SERVER",
+		"PDU",
+		"STORAGE_SERVER",
+		"CLUSTER_ASM",
+		"INFINIBAND_SWITCH",
+		"ETHERNET_SWITCH",
+	}
 }

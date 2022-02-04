@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeDatabaseInsightResourceUsageTrendRequest wrapper for the SummarizeDatabaseInsightResourceUsageTrend operation
@@ -118,6 +120,10 @@ func (request SummarizeDatabaseInsightResourceUsageTrendRequest) String() string
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeDatabaseInsightResourceUsageTrendRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -131,6 +137,29 @@ func (request SummarizeDatabaseInsightResourceUsageTrendRequest) BinaryRequestBo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeDatabaseInsightResourceUsageTrendRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeDatabaseInsightResourceUsageTrendRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.DatabaseType {
+		if _, ok := mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeDatabaseInsightResourceUsageTrendSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeDatabaseInsightResourceUsageTrendSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeDatabaseInsightResourceUsageTrendSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeDatabaseInsightResourceUsageTrendSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeDatabaseInsightResourceUsageTrendResponse wrapper for the SummarizeDatabaseInsightResourceUsageTrend operation
@@ -174,7 +203,7 @@ const (
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalNoncdb SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "EXTERNAL-NONCDB"
 )
 
-var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseType = map[string]SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum{
+var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum{
 	"ADW-S":           SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAdwS,
 	"ATP-S":           SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAtpS,
 	"ADW-D":           SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAdwD,
@@ -186,10 +215,22 @@ var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseType = map[string]S
 // GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum
 func GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumValues() []SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum {
 	values := make([]SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseType {
+	for _, v := range mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum
+func GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"ADW-S",
+		"ATP-S",
+		"ADW-D",
+		"ATP-D",
+		"EXTERNAL-PDB",
+		"EXTERNAL-NONCDB",
+	}
 }
 
 // SummarizeDatabaseInsightResourceUsageTrendSortOrderEnum Enum with underlying type: string
@@ -201,7 +242,7 @@ const (
 	SummarizeDatabaseInsightResourceUsageTrendSortOrderDesc SummarizeDatabaseInsightResourceUsageTrendSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeDatabaseInsightResourceUsageTrendSortOrder = map[string]SummarizeDatabaseInsightResourceUsageTrendSortOrderEnum{
+var mappingSummarizeDatabaseInsightResourceUsageTrendSortOrderEnum = map[string]SummarizeDatabaseInsightResourceUsageTrendSortOrderEnum{
 	"ASC":  SummarizeDatabaseInsightResourceUsageTrendSortOrderAsc,
 	"DESC": SummarizeDatabaseInsightResourceUsageTrendSortOrderDesc,
 }
@@ -209,10 +250,18 @@ var mappingSummarizeDatabaseInsightResourceUsageTrendSortOrder = map[string]Summ
 // GetSummarizeDatabaseInsightResourceUsageTrendSortOrderEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUsageTrendSortOrderEnum
 func GetSummarizeDatabaseInsightResourceUsageTrendSortOrderEnumValues() []SummarizeDatabaseInsightResourceUsageTrendSortOrderEnum {
 	values := make([]SummarizeDatabaseInsightResourceUsageTrendSortOrderEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceUsageTrendSortOrder {
+	for _, v := range mappingSummarizeDatabaseInsightResourceUsageTrendSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceUsageTrendSortOrderEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceUsageTrendSortOrderEnum
+func GetSummarizeDatabaseInsightResourceUsageTrendSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeDatabaseInsightResourceUsageTrendSortByEnum Enum with underlying type: string
@@ -225,7 +274,7 @@ const (
 	SummarizeDatabaseInsightResourceUsageTrendSortByCapacity     SummarizeDatabaseInsightResourceUsageTrendSortByEnum = "capacity"
 )
 
-var mappingSummarizeDatabaseInsightResourceUsageTrendSortBy = map[string]SummarizeDatabaseInsightResourceUsageTrendSortByEnum{
+var mappingSummarizeDatabaseInsightResourceUsageTrendSortByEnum = map[string]SummarizeDatabaseInsightResourceUsageTrendSortByEnum{
 	"endTimestamp": SummarizeDatabaseInsightResourceUsageTrendSortByEndtimestamp,
 	"usage":        SummarizeDatabaseInsightResourceUsageTrendSortByUsage,
 	"capacity":     SummarizeDatabaseInsightResourceUsageTrendSortByCapacity,
@@ -234,8 +283,17 @@ var mappingSummarizeDatabaseInsightResourceUsageTrendSortBy = map[string]Summari
 // GetSummarizeDatabaseInsightResourceUsageTrendSortByEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUsageTrendSortByEnum
 func GetSummarizeDatabaseInsightResourceUsageTrendSortByEnumValues() []SummarizeDatabaseInsightResourceUsageTrendSortByEnum {
 	values := make([]SummarizeDatabaseInsightResourceUsageTrendSortByEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceUsageTrendSortBy {
+	for _, v := range mappingSummarizeDatabaseInsightResourceUsageTrendSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceUsageTrendSortByEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceUsageTrendSortByEnum
+func GetSummarizeDatabaseInsightResourceUsageTrendSortByEnumStringValues() []string {
+	return []string{
+		"endTimestamp",
+		"usage",
+		"capacity",
+	}
 }

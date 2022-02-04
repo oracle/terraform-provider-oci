@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExadataIormConfigUpdateDetails IORM Setting details for this Exadata System to be updated
@@ -29,6 +31,21 @@ func (m ExadataIormConfigUpdateDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExadataIormConfigUpdateDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingExadataIormConfigUpdateDetailsObjectiveEnum[string(m.Objective)]; !ok && m.Objective != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Objective: %s. Supported values are: %s.", m.Objective, strings.Join(GetExadataIormConfigUpdateDetailsObjectiveEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExadataIormConfigUpdateDetailsObjectiveEnum Enum with underlying type: string
 type ExadataIormConfigUpdateDetailsObjectiveEnum string
 
@@ -41,7 +58,7 @@ const (
 	ExadataIormConfigUpdateDetailsObjectiveBasic          ExadataIormConfigUpdateDetailsObjectiveEnum = "BASIC"
 )
 
-var mappingExadataIormConfigUpdateDetailsObjective = map[string]ExadataIormConfigUpdateDetailsObjectiveEnum{
+var mappingExadataIormConfigUpdateDetailsObjectiveEnum = map[string]ExadataIormConfigUpdateDetailsObjectiveEnum{
 	"LOW_LATENCY":     ExadataIormConfigUpdateDetailsObjectiveLowLatency,
 	"HIGH_THROUGHPUT": ExadataIormConfigUpdateDetailsObjectiveHighThroughput,
 	"BALANCED":        ExadataIormConfigUpdateDetailsObjectiveBalanced,
@@ -52,8 +69,19 @@ var mappingExadataIormConfigUpdateDetailsObjective = map[string]ExadataIormConfi
 // GetExadataIormConfigUpdateDetailsObjectiveEnumValues Enumerates the set of values for ExadataIormConfigUpdateDetailsObjectiveEnum
 func GetExadataIormConfigUpdateDetailsObjectiveEnumValues() []ExadataIormConfigUpdateDetailsObjectiveEnum {
 	values := make([]ExadataIormConfigUpdateDetailsObjectiveEnum, 0)
-	for _, v := range mappingExadataIormConfigUpdateDetailsObjective {
+	for _, v := range mappingExadataIormConfigUpdateDetailsObjectiveEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExadataIormConfigUpdateDetailsObjectiveEnumStringValues Enumerates the set of values in String for ExadataIormConfigUpdateDetailsObjectiveEnum
+func GetExadataIormConfigUpdateDetailsObjectiveEnumStringValues() []string {
+	return []string{
+		"LOW_LATENCY",
+		"HIGH_THROUGHPUT",
+		"BALANCED",
+		"AUTO",
+		"BASIC",
+	}
 }

@@ -12,7 +12,9 @@ package loadbalancer
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HttpHeaderRule An object that represents the advance http header options that allow the setting of http header size and allow/disallow
@@ -36,6 +38,18 @@ type HttpHeaderRule struct {
 
 func (m HttpHeaderRule) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m HttpHeaderRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

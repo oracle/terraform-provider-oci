@@ -5,8 +5,10 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeUserAssessmentCompartmentRequest wrapper for the ChangeUserAssessmentCompartment operation
@@ -50,6 +52,10 @@ func (request ChangeUserAssessmentCompartmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeUserAssessmentCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +69,17 @@ func (request ChangeUserAssessmentCompartmentRequest) BinaryRequestBody() (*comm
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeUserAssessmentCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeUserAssessmentCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeUserAssessmentCompartmentResponse wrapper for the ChangeUserAssessmentCompartment operation

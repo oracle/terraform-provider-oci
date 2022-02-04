@@ -5,8 +5,10 @@
 package limits
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListQuotasRequest wrapper for the ListQuotas operation
@@ -53,6 +55,10 @@ func (request ListQuotasRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListQuotasRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,26 @@ func (request ListQuotasRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListQuotasRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListQuotasRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListQuotasLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListQuotasLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListQuotasSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListQuotasSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListQuotasSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListQuotasSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListQuotasResponse wrapper for the ListQuotas operation
@@ -104,17 +130,24 @@ const (
 	ListQuotasLifecycleStateActive ListQuotasLifecycleStateEnum = "ACTIVE"
 )
 
-var mappingListQuotasLifecycleState = map[string]ListQuotasLifecycleStateEnum{
+var mappingListQuotasLifecycleStateEnum = map[string]ListQuotasLifecycleStateEnum{
 	"ACTIVE": ListQuotasLifecycleStateActive,
 }
 
 // GetListQuotasLifecycleStateEnumValues Enumerates the set of values for ListQuotasLifecycleStateEnum
 func GetListQuotasLifecycleStateEnumValues() []ListQuotasLifecycleStateEnum {
 	values := make([]ListQuotasLifecycleStateEnum, 0)
-	for _, v := range mappingListQuotasLifecycleState {
+	for _, v := range mappingListQuotasLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListQuotasLifecycleStateEnumStringValues Enumerates the set of values in String for ListQuotasLifecycleStateEnum
+func GetListQuotasLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+	}
 }
 
 // ListQuotasSortOrderEnum Enum with underlying type: string
@@ -126,7 +159,7 @@ const (
 	ListQuotasSortOrderDesc ListQuotasSortOrderEnum = "DESC"
 )
 
-var mappingListQuotasSortOrder = map[string]ListQuotasSortOrderEnum{
+var mappingListQuotasSortOrderEnum = map[string]ListQuotasSortOrderEnum{
 	"ASC":  ListQuotasSortOrderAsc,
 	"DESC": ListQuotasSortOrderDesc,
 }
@@ -134,10 +167,18 @@ var mappingListQuotasSortOrder = map[string]ListQuotasSortOrderEnum{
 // GetListQuotasSortOrderEnumValues Enumerates the set of values for ListQuotasSortOrderEnum
 func GetListQuotasSortOrderEnumValues() []ListQuotasSortOrderEnum {
 	values := make([]ListQuotasSortOrderEnum, 0)
-	for _, v := range mappingListQuotasSortOrder {
+	for _, v := range mappingListQuotasSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListQuotasSortOrderEnumStringValues Enumerates the set of values in String for ListQuotasSortOrderEnum
+func GetListQuotasSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListQuotasSortByEnum Enum with underlying type: string
@@ -149,7 +190,7 @@ const (
 	ListQuotasSortByTimecreated ListQuotasSortByEnum = "TIMECREATED"
 )
 
-var mappingListQuotasSortBy = map[string]ListQuotasSortByEnum{
+var mappingListQuotasSortByEnum = map[string]ListQuotasSortByEnum{
 	"NAME":        ListQuotasSortByName,
 	"TIMECREATED": ListQuotasSortByTimecreated,
 }
@@ -157,8 +198,16 @@ var mappingListQuotasSortBy = map[string]ListQuotasSortByEnum{
 // GetListQuotasSortByEnumValues Enumerates the set of values for ListQuotasSortByEnum
 func GetListQuotasSortByEnumValues() []ListQuotasSortByEnum {
 	values := make([]ListQuotasSortByEnum, 0)
-	for _, v := range mappingListQuotasSortBy {
+	for _, v := range mappingListQuotasSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListQuotasSortByEnumStringValues Enumerates the set of values in String for ListQuotasSortByEnum
+func GetListQuotasSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }

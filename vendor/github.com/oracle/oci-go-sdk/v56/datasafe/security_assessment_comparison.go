@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SecurityAssessmentComparison Provides a list of the differences in a comparison of the security assessment with the baseline value.
@@ -36,6 +38,21 @@ func (m SecurityAssessmentComparison) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SecurityAssessmentComparison) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSecurityAssessmentComparisonLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecurityAssessmentComparisonLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecurityAssessmentComparisonLifecycleStateEnum Enum with underlying type: string
 type SecurityAssessmentComparisonLifecycleStateEnum string
 
@@ -46,7 +63,7 @@ const (
 	SecurityAssessmentComparisonLifecycleStateFailed    SecurityAssessmentComparisonLifecycleStateEnum = "FAILED"
 )
 
-var mappingSecurityAssessmentComparisonLifecycleState = map[string]SecurityAssessmentComparisonLifecycleStateEnum{
+var mappingSecurityAssessmentComparisonLifecycleStateEnum = map[string]SecurityAssessmentComparisonLifecycleStateEnum{
 	"CREATING":  SecurityAssessmentComparisonLifecycleStateCreating,
 	"SUCCEEDED": SecurityAssessmentComparisonLifecycleStateSucceeded,
 	"FAILED":    SecurityAssessmentComparisonLifecycleStateFailed,
@@ -55,8 +72,17 @@ var mappingSecurityAssessmentComparisonLifecycleState = map[string]SecurityAsses
 // GetSecurityAssessmentComparisonLifecycleStateEnumValues Enumerates the set of values for SecurityAssessmentComparisonLifecycleStateEnum
 func GetSecurityAssessmentComparisonLifecycleStateEnumValues() []SecurityAssessmentComparisonLifecycleStateEnum {
 	values := make([]SecurityAssessmentComparisonLifecycleStateEnum, 0)
-	for _, v := range mappingSecurityAssessmentComparisonLifecycleState {
+	for _, v := range mappingSecurityAssessmentComparisonLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityAssessmentComparisonLifecycleStateEnumStringValues Enumerates the set of values in String for SecurityAssessmentComparisonLifecycleStateEnum
+func GetSecurityAssessmentComparisonLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

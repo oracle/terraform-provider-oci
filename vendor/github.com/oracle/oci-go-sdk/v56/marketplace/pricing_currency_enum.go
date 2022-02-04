@@ -17,15 +17,22 @@ const (
 	PricingCurrencyEnumUsd PricingCurrencyEnumEnum = "USD"
 )
 
-var mappingPricingCurrencyEnum = map[string]PricingCurrencyEnumEnum{
+var mappingPricingCurrencyEnumEnum = map[string]PricingCurrencyEnumEnum{
 	"USD": PricingCurrencyEnumUsd,
 }
 
 // GetPricingCurrencyEnumEnumValues Enumerates the set of values for PricingCurrencyEnumEnum
 func GetPricingCurrencyEnumEnumValues() []PricingCurrencyEnumEnum {
 	values := make([]PricingCurrencyEnumEnum, 0)
-	for _, v := range mappingPricingCurrencyEnum {
+	for _, v := range mappingPricingCurrencyEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPricingCurrencyEnumEnumStringValues Enumerates the set of values in String for PricingCurrencyEnumEnum
+func GetPricingCurrencyEnumEnumStringValues() []string {
+	return []string{
+		"USD",
+	}
 }

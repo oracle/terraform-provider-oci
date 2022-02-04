@@ -11,7 +11,9 @@ package datalabelingservice
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DatasetFormatDetails Specifies how to process the data. Supported formats include DOCUMENT, IMAGE and TEXT.
@@ -69,6 +71,18 @@ func (m datasetformatdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m datasetformatdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatasetFormatDetailsFormatTypeEnum Enum with underlying type: string
 type DatasetFormatDetailsFormatTypeEnum string
 
@@ -79,7 +93,7 @@ const (
 	DatasetFormatDetailsFormatTypeText     DatasetFormatDetailsFormatTypeEnum = "TEXT"
 )
 
-var mappingDatasetFormatDetailsFormatType = map[string]DatasetFormatDetailsFormatTypeEnum{
+var mappingDatasetFormatDetailsFormatTypeEnum = map[string]DatasetFormatDetailsFormatTypeEnum{
 	"DOCUMENT": DatasetFormatDetailsFormatTypeDocument,
 	"IMAGE":    DatasetFormatDetailsFormatTypeImage,
 	"TEXT":     DatasetFormatDetailsFormatTypeText,
@@ -88,8 +102,17 @@ var mappingDatasetFormatDetailsFormatType = map[string]DatasetFormatDetailsForma
 // GetDatasetFormatDetailsFormatTypeEnumValues Enumerates the set of values for DatasetFormatDetailsFormatTypeEnum
 func GetDatasetFormatDetailsFormatTypeEnumValues() []DatasetFormatDetailsFormatTypeEnum {
 	values := make([]DatasetFormatDetailsFormatTypeEnum, 0)
-	for _, v := range mappingDatasetFormatDetailsFormatType {
+	for _, v := range mappingDatasetFormatDetailsFormatTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatasetFormatDetailsFormatTypeEnumStringValues Enumerates the set of values in String for DatasetFormatDetailsFormatTypeEnum
+func GetDatasetFormatDetailsFormatTypeEnumStringValues() []string {
+	return []string{
+		"DOCUMENT",
+		"IMAGE",
+		"TEXT",
+	}
 }

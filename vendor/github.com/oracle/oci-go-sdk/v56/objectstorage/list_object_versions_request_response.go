@@ -5,8 +5,10 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListObjectVersionsRequest wrapper for the ListObjectVersions operation
@@ -73,6 +75,10 @@ func (request ListObjectVersionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListObjectVersionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -86,6 +92,20 @@ func (request ListObjectVersionsRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListObjectVersionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListObjectVersionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListObjectVersionsFieldsEnum[string(request.Fields)]; !ok && request.Fields != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", request.Fields, strings.Join(GetListObjectVersionsFieldsEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListObjectVersionsResponse wrapper for the ListObjectVersions operation
@@ -138,7 +158,7 @@ const (
 	ListObjectVersionsFieldsArchivalstate ListObjectVersionsFieldsEnum = "archivalState"
 )
 
-var mappingListObjectVersionsFields = map[string]ListObjectVersionsFieldsEnum{
+var mappingListObjectVersionsFieldsEnum = map[string]ListObjectVersionsFieldsEnum{
 	"name":          ListObjectVersionsFieldsName,
 	"size":          ListObjectVersionsFieldsSize,
 	"etag":          ListObjectVersionsFieldsEtag,
@@ -152,8 +172,22 @@ var mappingListObjectVersionsFields = map[string]ListObjectVersionsFieldsEnum{
 // GetListObjectVersionsFieldsEnumValues Enumerates the set of values for ListObjectVersionsFieldsEnum
 func GetListObjectVersionsFieldsEnumValues() []ListObjectVersionsFieldsEnum {
 	values := make([]ListObjectVersionsFieldsEnum, 0)
-	for _, v := range mappingListObjectVersionsFields {
+	for _, v := range mappingListObjectVersionsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListObjectVersionsFieldsEnumStringValues Enumerates the set of values in String for ListObjectVersionsFieldsEnum
+func GetListObjectVersionsFieldsEnumStringValues() []string {
+	return []string{
+		"name",
+		"size",
+		"etag",
+		"timeCreated",
+		"md5",
+		"timeModified",
+		"storageTier",
+		"archivalState",
+	}
 }

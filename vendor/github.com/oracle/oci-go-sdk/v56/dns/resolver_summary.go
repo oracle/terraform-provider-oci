@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ResolverSummary An OCI DNS resolver. If the resolver has an attached VCN, the VCN will attempt to answer queries based on the
@@ -73,6 +75,21 @@ func (m ResolverSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ResolverSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingResolverSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetResolverSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ResolverSummaryLifecycleStateEnum Enum with underlying type: string
 type ResolverSummaryLifecycleStateEnum string
 
@@ -86,7 +103,7 @@ const (
 	ResolverSummaryLifecycleStateUpdating ResolverSummaryLifecycleStateEnum = "UPDATING"
 )
 
-var mappingResolverSummaryLifecycleState = map[string]ResolverSummaryLifecycleStateEnum{
+var mappingResolverSummaryLifecycleStateEnum = map[string]ResolverSummaryLifecycleStateEnum{
 	"ACTIVE":   ResolverSummaryLifecycleStateActive,
 	"CREATING": ResolverSummaryLifecycleStateCreating,
 	"DELETED":  ResolverSummaryLifecycleStateDeleted,
@@ -98,8 +115,20 @@ var mappingResolverSummaryLifecycleState = map[string]ResolverSummaryLifecycleSt
 // GetResolverSummaryLifecycleStateEnumValues Enumerates the set of values for ResolverSummaryLifecycleStateEnum
 func GetResolverSummaryLifecycleStateEnumValues() []ResolverSummaryLifecycleStateEnum {
 	values := make([]ResolverSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingResolverSummaryLifecycleState {
+	for _, v := range mappingResolverSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResolverSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ResolverSummaryLifecycleStateEnum
+func GetResolverSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"UPDATING",
+	}
 }

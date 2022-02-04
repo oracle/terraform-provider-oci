@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetPatternRequest wrapper for the GetPattern operation
@@ -40,6 +42,10 @@ func (request GetPatternRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetPatternRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -53,6 +59,23 @@ func (request GetPatternRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetPatternRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetPatternRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetPatternFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetPatternFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetPatternResponse wrapper for the GetPattern operation
@@ -99,7 +122,7 @@ const (
 	GetPatternFieldsProperties     GetPatternFieldsEnum = "properties"
 )
 
-var mappingGetPatternFields = map[string]GetPatternFieldsEnum{
+var mappingGetPatternFieldsEnum = map[string]GetPatternFieldsEnum{
 	"key":            GetPatternFieldsKey,
 	"displayName":    GetPatternFieldsDisplayname,
 	"description":    GetPatternFieldsDescription,
@@ -116,8 +139,25 @@ var mappingGetPatternFields = map[string]GetPatternFieldsEnum{
 // GetGetPatternFieldsEnumValues Enumerates the set of values for GetPatternFieldsEnum
 func GetGetPatternFieldsEnumValues() []GetPatternFieldsEnum {
 	values := make([]GetPatternFieldsEnum, 0)
-	for _, v := range mappingGetPatternFields {
+	for _, v := range mappingGetPatternFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetPatternFieldsEnumStringValues Enumerates the set of values in String for GetPatternFieldsEnum
+func GetGetPatternFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"catalogId",
+		"expression",
+		"lifecycleState",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"properties",
+	}
 }

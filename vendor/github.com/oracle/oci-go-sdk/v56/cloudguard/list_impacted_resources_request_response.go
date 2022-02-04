@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListImpactedResourcesRequest wrapper for the ListImpactedResources operation
@@ -46,6 +48,10 @@ func (request ListImpactedResourcesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListImpactedResourcesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request ListImpactedResourcesRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListImpactedResourcesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListImpactedResourcesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListImpactedResourcesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListImpactedResourcesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListImpactedResourcesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListImpactedResourcesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListImpactedResourcesResponse wrapper for the ListImpactedResources operation
@@ -98,7 +121,7 @@ const (
 	ListImpactedResourcesSortOrderDesc ListImpactedResourcesSortOrderEnum = "DESC"
 )
 
-var mappingListImpactedResourcesSortOrder = map[string]ListImpactedResourcesSortOrderEnum{
+var mappingListImpactedResourcesSortOrderEnum = map[string]ListImpactedResourcesSortOrderEnum{
 	"ASC":  ListImpactedResourcesSortOrderAsc,
 	"DESC": ListImpactedResourcesSortOrderDesc,
 }
@@ -106,10 +129,18 @@ var mappingListImpactedResourcesSortOrder = map[string]ListImpactedResourcesSort
 // GetListImpactedResourcesSortOrderEnumValues Enumerates the set of values for ListImpactedResourcesSortOrderEnum
 func GetListImpactedResourcesSortOrderEnumValues() []ListImpactedResourcesSortOrderEnum {
 	values := make([]ListImpactedResourcesSortOrderEnum, 0)
-	for _, v := range mappingListImpactedResourcesSortOrder {
+	for _, v := range mappingListImpactedResourcesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListImpactedResourcesSortOrderEnumStringValues Enumerates the set of values in String for ListImpactedResourcesSortOrderEnum
+func GetListImpactedResourcesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListImpactedResourcesSortByEnum Enum with underlying type: string
@@ -120,15 +151,22 @@ const (
 	ListImpactedResourcesSortByTimecreated ListImpactedResourcesSortByEnum = "timeCreated"
 )
 
-var mappingListImpactedResourcesSortBy = map[string]ListImpactedResourcesSortByEnum{
+var mappingListImpactedResourcesSortByEnum = map[string]ListImpactedResourcesSortByEnum{
 	"timeCreated": ListImpactedResourcesSortByTimecreated,
 }
 
 // GetListImpactedResourcesSortByEnumValues Enumerates the set of values for ListImpactedResourcesSortByEnum
 func GetListImpactedResourcesSortByEnumValues() []ListImpactedResourcesSortByEnum {
 	values := make([]ListImpactedResourcesSortByEnum, 0)
-	for _, v := range mappingListImpactedResourcesSortBy {
+	for _, v := range mappingListImpactedResourcesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListImpactedResourcesSortByEnumStringValues Enumerates the set of values in String for ListImpactedResourcesSortByEnum
+func GetListImpactedResourcesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+	}
 }

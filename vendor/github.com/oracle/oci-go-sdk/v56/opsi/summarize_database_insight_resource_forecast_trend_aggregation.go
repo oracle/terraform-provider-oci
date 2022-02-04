@@ -12,7 +12,9 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SummarizeDatabaseInsightResourceForecastTrendAggregation Forecast results from the selected time period.
@@ -47,6 +49,27 @@ func (m SummarizeDatabaseInsightResourceForecastTrendAggregation) String() strin
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SummarizeDatabaseInsightResourceForecastTrendAggregation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum[string(m.ResourceMetric)]; !ok && m.ResourceMetric != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceMetric: %s. Supported values are: %s.", m.ResourceMetric, strings.Join(GetSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUsageUnitEnum[string(m.UsageUnit)]; !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum[string(m.Pattern)]; !ok && m.Pattern != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Pattern: %s. Supported values are: %s.", m.Pattern, strings.Join(GetSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum Enum with underlying type: string
 type SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum string
 
@@ -60,7 +83,7 @@ const (
 	SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricMemorySga SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum = "MEMORY_SGA"
 )
 
-var mappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetric = map[string]SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum{
+var mappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum = map[string]SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum{
 	"CPU":        SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricCpu,
 	"STORAGE":    SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricStorage,
 	"IO":         SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricIo,
@@ -72,10 +95,22 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetri
 // GetSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum
 func GetSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnumValues() []SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum {
 	values := make([]SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetric {
+	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnum
+func GetSummarizeDatabaseInsightResourceForecastTrendAggregationResourceMetricEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"STORAGE",
+		"IO",
+		"MEMORY",
+		"MEMORY_PGA",
+		"MEMORY_SGA",
+	}
 }
 
 // SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum Enum with underlying type: string
@@ -93,7 +128,7 @@ const (
 	SummarizeDatabaseInsightResourceForecastTrendAggregationPatternYearlySeasons                 SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum = "YEARLY_SEASONS"
 )
 
-var mappingSummarizeDatabaseInsightResourceForecastTrendAggregationPattern = map[string]SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum{
+var mappingSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum = map[string]SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum{
 	"LINEAR":                            SummarizeDatabaseInsightResourceForecastTrendAggregationPatternLinear,
 	"MONTHLY_SEASONS":                   SummarizeDatabaseInsightResourceForecastTrendAggregationPatternMonthlySeasons,
 	"MONTHLY_AND_YEARLY_SEASONS":        SummarizeDatabaseInsightResourceForecastTrendAggregationPatternMonthlyAndYearlySeasons,
@@ -107,8 +142,22 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendAggregationPattern = map
 // GetSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum
 func GetSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnumValues() []SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum {
 	values := make([]SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendAggregationPattern {
+	for _, v := range mappingSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum
+func GetSummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnumStringValues() []string {
+	return []string{
+		"LINEAR",
+		"MONTHLY_SEASONS",
+		"MONTHLY_AND_YEARLY_SEASONS",
+		"WEEKLY_SEASONS",
+		"WEEKLY_AND_MONTHLY_SEASONS",
+		"WEEKLY_MONTHLY_AND_YEARLY_SEASONS",
+		"WEEKLY_AND_YEARLY_SEASONS",
+		"YEARLY_SEASONS",
+	}
 }

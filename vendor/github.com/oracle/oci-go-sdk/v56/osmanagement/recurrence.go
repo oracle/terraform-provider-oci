@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Recurrence An object for representing a recurrence time interval
@@ -28,6 +30,21 @@ func (m Recurrence) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Recurrence) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRecurrenceIntervalTypeEnum[string(m.IntervalType)]; !ok && m.IntervalType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IntervalType: %s. Supported values are: %s.", m.IntervalType, strings.Join(GetRecurrenceIntervalTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RecurrenceIntervalTypeEnum Enum with underlying type: string
 type RecurrenceIntervalTypeEnum string
 
@@ -39,7 +56,7 @@ const (
 	RecurrenceIntervalTypeWeeks   RecurrenceIntervalTypeEnum = "WEEKS"
 )
 
-var mappingRecurrenceIntervalType = map[string]RecurrenceIntervalTypeEnum{
+var mappingRecurrenceIntervalTypeEnum = map[string]RecurrenceIntervalTypeEnum{
 	"MINUTES": RecurrenceIntervalTypeMinutes,
 	"HOURS":   RecurrenceIntervalTypeHours,
 	"DAYS":    RecurrenceIntervalTypeDays,
@@ -49,8 +66,18 @@ var mappingRecurrenceIntervalType = map[string]RecurrenceIntervalTypeEnum{
 // GetRecurrenceIntervalTypeEnumValues Enumerates the set of values for RecurrenceIntervalTypeEnum
 func GetRecurrenceIntervalTypeEnumValues() []RecurrenceIntervalTypeEnum {
 	values := make([]RecurrenceIntervalTypeEnum, 0)
-	for _, v := range mappingRecurrenceIntervalType {
+	for _, v := range mappingRecurrenceIntervalTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecurrenceIntervalTypeEnumStringValues Enumerates the set of values in String for RecurrenceIntervalTypeEnum
+func GetRecurrenceIntervalTypeEnumStringValues() []string {
+	return []string{
+		"MINUTES",
+		"HOURS",
+		"DAYS",
+		"WEEKS",
+	}
 }

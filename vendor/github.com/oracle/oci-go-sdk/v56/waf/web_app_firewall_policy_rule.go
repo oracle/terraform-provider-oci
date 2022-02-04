@@ -12,7 +12,9 @@ package waf
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WebAppFirewallPolicyRule Base schema for WebAppFirewallPolicyRules, including properties common to all of them.
@@ -111,6 +113,21 @@ func (m webappfirewallpolicyrule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m webappfirewallpolicyrule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingWebAppFirewallPolicyRuleConditionLanguageEnum[string(m.ConditionLanguage)]; !ok && m.ConditionLanguage != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConditionLanguage: %s. Supported values are: %s.", m.ConditionLanguage, strings.Join(GetWebAppFirewallPolicyRuleConditionLanguageEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WebAppFirewallPolicyRuleConditionLanguageEnum Enum with underlying type: string
 type WebAppFirewallPolicyRuleConditionLanguageEnum string
 
@@ -119,17 +136,24 @@ const (
 	WebAppFirewallPolicyRuleConditionLanguageJmespath WebAppFirewallPolicyRuleConditionLanguageEnum = "JMESPATH"
 )
 
-var mappingWebAppFirewallPolicyRuleConditionLanguage = map[string]WebAppFirewallPolicyRuleConditionLanguageEnum{
+var mappingWebAppFirewallPolicyRuleConditionLanguageEnum = map[string]WebAppFirewallPolicyRuleConditionLanguageEnum{
 	"JMESPATH": WebAppFirewallPolicyRuleConditionLanguageJmespath,
 }
 
 // GetWebAppFirewallPolicyRuleConditionLanguageEnumValues Enumerates the set of values for WebAppFirewallPolicyRuleConditionLanguageEnum
 func GetWebAppFirewallPolicyRuleConditionLanguageEnumValues() []WebAppFirewallPolicyRuleConditionLanguageEnum {
 	values := make([]WebAppFirewallPolicyRuleConditionLanguageEnum, 0)
-	for _, v := range mappingWebAppFirewallPolicyRuleConditionLanguage {
+	for _, v := range mappingWebAppFirewallPolicyRuleConditionLanguageEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWebAppFirewallPolicyRuleConditionLanguageEnumStringValues Enumerates the set of values in String for WebAppFirewallPolicyRuleConditionLanguageEnum
+func GetWebAppFirewallPolicyRuleConditionLanguageEnumStringValues() []string {
+	return []string{
+		"JMESPATH",
+	}
 }
 
 // WebAppFirewallPolicyRuleTypeEnum Enum with underlying type: string
@@ -142,7 +166,7 @@ const (
 	WebAppFirewallPolicyRuleTypeRequestRateLimiting WebAppFirewallPolicyRuleTypeEnum = "REQUEST_RATE_LIMITING"
 )
 
-var mappingWebAppFirewallPolicyRuleType = map[string]WebAppFirewallPolicyRuleTypeEnum{
+var mappingWebAppFirewallPolicyRuleTypeEnum = map[string]WebAppFirewallPolicyRuleTypeEnum{
 	"ACCESS_CONTROL":        WebAppFirewallPolicyRuleTypeAccessControl,
 	"PROTECTION":            WebAppFirewallPolicyRuleTypeProtection,
 	"REQUEST_RATE_LIMITING": WebAppFirewallPolicyRuleTypeRequestRateLimiting,
@@ -151,8 +175,17 @@ var mappingWebAppFirewallPolicyRuleType = map[string]WebAppFirewallPolicyRuleTyp
 // GetWebAppFirewallPolicyRuleTypeEnumValues Enumerates the set of values for WebAppFirewallPolicyRuleTypeEnum
 func GetWebAppFirewallPolicyRuleTypeEnumValues() []WebAppFirewallPolicyRuleTypeEnum {
 	values := make([]WebAppFirewallPolicyRuleTypeEnum, 0)
-	for _, v := range mappingWebAppFirewallPolicyRuleType {
+	for _, v := range mappingWebAppFirewallPolicyRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWebAppFirewallPolicyRuleTypeEnumStringValues Enumerates the set of values in String for WebAppFirewallPolicyRuleTypeEnum
+func GetWebAppFirewallPolicyRuleTypeEnumStringValues() []string {
+	return []string{
+		"ACCESS_CONTROL",
+		"PROTECTION",
+		"REQUEST_RATE_LIMITING",
+	}
 }

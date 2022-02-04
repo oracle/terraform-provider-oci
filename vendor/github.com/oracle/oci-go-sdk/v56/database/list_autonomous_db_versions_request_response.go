@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAutonomousDbVersionsRequest wrapper for the ListAutonomousDbVersions operation
@@ -46,6 +48,10 @@ func (request ListAutonomousDbVersionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAutonomousDbVersionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request ListAutonomousDbVersionsRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAutonomousDbVersionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAutonomousDbVersionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousDatabaseSummaryDbWorkloadEnum[string(request.DbWorkload)]; !ok && request.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", request.DbWorkload, strings.Join(GetAutonomousDatabaseSummaryDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutonomousDbVersionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAutonomousDbVersionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAutonomousDbVersionsResponse wrapper for the ListAutonomousDbVersions operation
@@ -99,7 +122,7 @@ const (
 	ListAutonomousDbVersionsSortOrderDesc ListAutonomousDbVersionsSortOrderEnum = "DESC"
 )
 
-var mappingListAutonomousDbVersionsSortOrder = map[string]ListAutonomousDbVersionsSortOrderEnum{
+var mappingListAutonomousDbVersionsSortOrderEnum = map[string]ListAutonomousDbVersionsSortOrderEnum{
 	"ASC":  ListAutonomousDbVersionsSortOrderAsc,
 	"DESC": ListAutonomousDbVersionsSortOrderDesc,
 }
@@ -107,8 +130,16 @@ var mappingListAutonomousDbVersionsSortOrder = map[string]ListAutonomousDbVersio
 // GetListAutonomousDbVersionsSortOrderEnumValues Enumerates the set of values for ListAutonomousDbVersionsSortOrderEnum
 func GetListAutonomousDbVersionsSortOrderEnumValues() []ListAutonomousDbVersionsSortOrderEnum {
 	values := make([]ListAutonomousDbVersionsSortOrderEnum, 0)
-	for _, v := range mappingListAutonomousDbVersionsSortOrder {
+	for _, v := range mappingListAutonomousDbVersionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousDbVersionsSortOrderEnumStringValues Enumerates the set of values in String for ListAutonomousDbVersionsSortOrderEnum
+func GetListAutonomousDbVersionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -18,7 +18,7 @@ const (
 	StorageDataTypeLookup StorageDataTypeEnum = "LOOKUP"
 )
 
-var mappingStorageDataType = map[string]StorageDataTypeEnum{
+var mappingStorageDataTypeEnum = map[string]StorageDataTypeEnum{
 	"LOG":    StorageDataTypeLog,
 	"LOOKUP": StorageDataTypeLookup,
 }
@@ -26,8 +26,16 @@ var mappingStorageDataType = map[string]StorageDataTypeEnum{
 // GetStorageDataTypeEnumValues Enumerates the set of values for StorageDataTypeEnum
 func GetStorageDataTypeEnumValues() []StorageDataTypeEnum {
 	values := make([]StorageDataTypeEnum, 0)
-	for _, v := range mappingStorageDataType {
+	for _, v := range mappingStorageDataTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStorageDataTypeEnumStringValues Enumerates the set of values in String for StorageDataTypeEnum
+func GetStorageDataTypeEnumStringValues() []string {
+	return []string{
+		"LOG",
+		"LOOKUP",
+	}
 }

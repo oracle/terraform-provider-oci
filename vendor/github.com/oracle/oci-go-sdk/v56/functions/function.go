@@ -10,7 +10,9 @@
 package functions
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Function A function resource defines the code (Docker image) and configuration for a specific function. Functions are defined in applications. Avoid entering confidential information.
@@ -82,6 +84,21 @@ func (m Function) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Function) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingFunctionLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFunctionLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FunctionLifecycleStateEnum Enum with underlying type: string
 type FunctionLifecycleStateEnum string
 
@@ -96,7 +113,7 @@ const (
 	FunctionLifecycleStateFailed   FunctionLifecycleStateEnum = "FAILED"
 )
 
-var mappingFunctionLifecycleState = map[string]FunctionLifecycleStateEnum{
+var mappingFunctionLifecycleStateEnum = map[string]FunctionLifecycleStateEnum{
 	"CREATING": FunctionLifecycleStateCreating,
 	"ACTIVE":   FunctionLifecycleStateActive,
 	"INACTIVE": FunctionLifecycleStateInactive,
@@ -109,8 +126,21 @@ var mappingFunctionLifecycleState = map[string]FunctionLifecycleStateEnum{
 // GetFunctionLifecycleStateEnumValues Enumerates the set of values for FunctionLifecycleStateEnum
 func GetFunctionLifecycleStateEnumValues() []FunctionLifecycleStateEnum {
 	values := make([]FunctionLifecycleStateEnum, 0)
-	for _, v := range mappingFunctionLifecycleState {
+	for _, v := range mappingFunctionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFunctionLifecycleStateEnumStringValues Enumerates the set of values in String for FunctionLifecycleStateEnum
+func GetFunctionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

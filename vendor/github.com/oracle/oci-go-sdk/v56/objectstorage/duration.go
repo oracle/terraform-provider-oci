@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Duration The amount of time that objects in the bucket should be preserved for and which is calculated in relation to
@@ -32,6 +34,21 @@ func (m Duration) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Duration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDurationTimeUnitEnum[string(m.TimeUnit)]; !ok && m.TimeUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TimeUnit: %s. Supported values are: %s.", m.TimeUnit, strings.Join(GetDurationTimeUnitEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DurationTimeUnitEnum Enum with underlying type: string
 type DurationTimeUnitEnum string
 
@@ -41,7 +58,7 @@ const (
 	DurationTimeUnitDays  DurationTimeUnitEnum = "DAYS"
 )
 
-var mappingDurationTimeUnit = map[string]DurationTimeUnitEnum{
+var mappingDurationTimeUnitEnum = map[string]DurationTimeUnitEnum{
 	"YEARS": DurationTimeUnitYears,
 	"DAYS":  DurationTimeUnitDays,
 }
@@ -49,8 +66,16 @@ var mappingDurationTimeUnit = map[string]DurationTimeUnitEnum{
 // GetDurationTimeUnitEnumValues Enumerates the set of values for DurationTimeUnitEnum
 func GetDurationTimeUnitEnumValues() []DurationTimeUnitEnum {
 	values := make([]DurationTimeUnitEnum, 0)
-	for _, v := range mappingDurationTimeUnit {
+	for _, v := range mappingDurationTimeUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDurationTimeUnitEnumStringValues Enumerates the set of values in String for DurationTimeUnitEnum
+func GetDurationTimeUnitEnumStringValues() []string {
+	return []string{
+		"YEARS",
+		"DAYS",
+	}
 }

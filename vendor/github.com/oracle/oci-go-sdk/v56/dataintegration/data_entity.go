@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DataEntity The data entity object.
@@ -85,6 +87,18 @@ func (m dataentity) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m dataentity) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DataEntityModelTypeEnum Enum with underlying type: string
 type DataEntityModelTypeEnum string
 
@@ -97,7 +111,7 @@ const (
 	DataEntityModelTypeDataStoreEntity DataEntityModelTypeEnum = "DATA_STORE_ENTITY"
 )
 
-var mappingDataEntityModelType = map[string]DataEntityModelTypeEnum{
+var mappingDataEntityModelTypeEnum = map[string]DataEntityModelTypeEnum{
 	"VIEW_ENTITY":       DataEntityModelTypeViewEntity,
 	"TABLE_ENTITY":      DataEntityModelTypeTableEntity,
 	"FILE_ENTITY":       DataEntityModelTypeFileEntity,
@@ -108,8 +122,19 @@ var mappingDataEntityModelType = map[string]DataEntityModelTypeEnum{
 // GetDataEntityModelTypeEnumValues Enumerates the set of values for DataEntityModelTypeEnum
 func GetDataEntityModelTypeEnumValues() []DataEntityModelTypeEnum {
 	values := make([]DataEntityModelTypeEnum, 0)
-	for _, v := range mappingDataEntityModelType {
+	for _, v := range mappingDataEntityModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataEntityModelTypeEnumStringValues Enumerates the set of values in String for DataEntityModelTypeEnum
+func GetDataEntityModelTypeEnumStringValues() []string {
+	return []string{
+		"VIEW_ENTITY",
+		"TABLE_ENTITY",
+		"FILE_ENTITY",
+		"SQL_ENTITY",
+		"DATA_STORE_ENTITY",
+	}
 }

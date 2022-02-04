@@ -5,8 +5,10 @@
 package autoscaling
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAutoScalingPoliciesRequest wrapper for the ListAutoScalingPolicies operation
@@ -53,6 +55,10 @@ func (request ListAutoScalingPoliciesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAutoScalingPoliciesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,23 @@ func (request ListAutoScalingPoliciesRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAutoScalingPoliciesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAutoScalingPoliciesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAutoScalingPoliciesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAutoScalingPoliciesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutoScalingPoliciesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAutoScalingPoliciesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAutoScalingPoliciesResponse wrapper for the ListAutoScalingPolicies operation
@@ -104,7 +127,7 @@ const (
 	ListAutoScalingPoliciesSortByDisplayname ListAutoScalingPoliciesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAutoScalingPoliciesSortBy = map[string]ListAutoScalingPoliciesSortByEnum{
+var mappingListAutoScalingPoliciesSortByEnum = map[string]ListAutoScalingPoliciesSortByEnum{
 	"TIMECREATED": ListAutoScalingPoliciesSortByTimecreated,
 	"DISPLAYNAME": ListAutoScalingPoliciesSortByDisplayname,
 }
@@ -112,10 +135,18 @@ var mappingListAutoScalingPoliciesSortBy = map[string]ListAutoScalingPoliciesSor
 // GetListAutoScalingPoliciesSortByEnumValues Enumerates the set of values for ListAutoScalingPoliciesSortByEnum
 func GetListAutoScalingPoliciesSortByEnumValues() []ListAutoScalingPoliciesSortByEnum {
 	values := make([]ListAutoScalingPoliciesSortByEnum, 0)
-	for _, v := range mappingListAutoScalingPoliciesSortBy {
+	for _, v := range mappingListAutoScalingPoliciesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutoScalingPoliciesSortByEnumStringValues Enumerates the set of values in String for ListAutoScalingPoliciesSortByEnum
+func GetListAutoScalingPoliciesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAutoScalingPoliciesSortOrderEnum Enum with underlying type: string
@@ -127,7 +158,7 @@ const (
 	ListAutoScalingPoliciesSortOrderDesc ListAutoScalingPoliciesSortOrderEnum = "DESC"
 )
 
-var mappingListAutoScalingPoliciesSortOrder = map[string]ListAutoScalingPoliciesSortOrderEnum{
+var mappingListAutoScalingPoliciesSortOrderEnum = map[string]ListAutoScalingPoliciesSortOrderEnum{
 	"ASC":  ListAutoScalingPoliciesSortOrderAsc,
 	"DESC": ListAutoScalingPoliciesSortOrderDesc,
 }
@@ -135,8 +166,16 @@ var mappingListAutoScalingPoliciesSortOrder = map[string]ListAutoScalingPolicies
 // GetListAutoScalingPoliciesSortOrderEnumValues Enumerates the set of values for ListAutoScalingPoliciesSortOrderEnum
 func GetListAutoScalingPoliciesSortOrderEnumValues() []ListAutoScalingPoliciesSortOrderEnum {
 	values := make([]ListAutoScalingPoliciesSortOrderEnum, 0)
-	for _, v := range mappingListAutoScalingPoliciesSortOrder {
+	for _, v := range mappingListAutoScalingPoliciesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutoScalingPoliciesSortOrderEnumStringValues Enumerates the set of values in String for ListAutoScalingPoliciesSortOrderEnum
+func GetListAutoScalingPoliciesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -19,15 +19,22 @@ const (
 	JobTypesSql JobTypesEnum = "SQL"
 )
 
-var mappingJobTypes = map[string]JobTypesEnum{
+var mappingJobTypesEnum = map[string]JobTypesEnum{
 	"SQL": JobTypesSql,
 }
 
 // GetJobTypesEnumValues Enumerates the set of values for JobTypesEnum
 func GetJobTypesEnumValues() []JobTypesEnum {
 	values := make([]JobTypesEnum, 0)
-	for _, v := range mappingJobTypes {
+	for _, v := range mappingJobTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobTypesEnumStringValues Enumerates the set of values in String for JobTypesEnum
+func GetJobTypesEnumStringValues() []string {
+	return []string{
+		"SQL",
+	}
 }

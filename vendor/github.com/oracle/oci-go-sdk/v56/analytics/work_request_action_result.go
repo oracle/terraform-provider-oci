@@ -30,7 +30,7 @@ const (
 	WorkRequestActionResultNone                        WorkRequestActionResultEnum = "NONE"
 )
 
-var mappingWorkRequestActionResult = map[string]WorkRequestActionResultEnum{
+var mappingWorkRequestActionResultEnum = map[string]WorkRequestActionResultEnum{
 	"COMPARTMENT_CHANGED":            WorkRequestActionResultCompartmentChanged,
 	"CREATED":                        WorkRequestActionResultCreated,
 	"DELETED":                        WorkRequestActionResultDeleted,
@@ -50,8 +50,28 @@ var mappingWorkRequestActionResult = map[string]WorkRequestActionResultEnum{
 // GetWorkRequestActionResultEnumValues Enumerates the set of values for WorkRequestActionResultEnum
 func GetWorkRequestActionResultEnumValues() []WorkRequestActionResultEnum {
 	values := make([]WorkRequestActionResultEnum, 0)
-	for _, v := range mappingWorkRequestActionResult {
+	for _, v := range mappingWorkRequestActionResultEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestActionResultEnumStringValues Enumerates the set of values in String for WorkRequestActionResultEnum
+func GetWorkRequestActionResultEnumStringValues() []string {
+	return []string{
+		"COMPARTMENT_CHANGED",
+		"CREATED",
+		"DELETED",
+		"STARTED",
+		"STOPPED",
+		"SCALED",
+		"NETWORK_ENDPOINT_CHANGED",
+		"VANITY_URL_CREATED",
+		"VANITY_URL_UPDATED",
+		"VANITY_URL_DELETED",
+		"PRIVATE_ACCESS_CHANNEL_CREATED",
+		"PRIVATE_ACCESS_CHANNEL_UPDATED",
+		"PRIVATE_ACCESS_CHANNEL_DELETED",
+		"NONE",
+	}
 }

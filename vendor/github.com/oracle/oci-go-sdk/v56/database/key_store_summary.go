@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // KeyStoreSummary Details of the Key Store.
@@ -52,6 +54,21 @@ type KeyStoreSummary struct {
 
 func (m KeyStoreSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m KeyStoreSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingKeyStoreSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetKeyStoreSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -117,7 +134,7 @@ const (
 	KeyStoreSummaryLifecycleStateDeleted KeyStoreSummaryLifecycleStateEnum = "DELETED"
 )
 
-var mappingKeyStoreSummaryLifecycleState = map[string]KeyStoreSummaryLifecycleStateEnum{
+var mappingKeyStoreSummaryLifecycleStateEnum = map[string]KeyStoreSummaryLifecycleStateEnum{
 	"ACTIVE":  KeyStoreSummaryLifecycleStateActive,
 	"DELETED": KeyStoreSummaryLifecycleStateDeleted,
 }
@@ -125,8 +142,16 @@ var mappingKeyStoreSummaryLifecycleState = map[string]KeyStoreSummaryLifecycleSt
 // GetKeyStoreSummaryLifecycleStateEnumValues Enumerates the set of values for KeyStoreSummaryLifecycleStateEnum
 func GetKeyStoreSummaryLifecycleStateEnumValues() []KeyStoreSummaryLifecycleStateEnum {
 	values := make([]KeyStoreSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingKeyStoreSummaryLifecycleState {
+	for _, v := range mappingKeyStoreSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetKeyStoreSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for KeyStoreSummaryLifecycleStateEnum
+func GetKeyStoreSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
 }

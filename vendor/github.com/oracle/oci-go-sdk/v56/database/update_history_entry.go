@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateHistoryEntry The representation of UpdateHistoryEntry
@@ -45,6 +47,27 @@ func (m UpdateHistoryEntry) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateHistoryEntry) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateHistoryEntryUpdateTypeEnum[string(m.UpdateType)]; !ok && m.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", m.UpdateType, strings.Join(GetUpdateHistoryEntryUpdateTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateHistoryEntryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetUpdateHistoryEntryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingUpdateHistoryEntryUpdateActionEnum[string(m.UpdateAction)]; !ok && m.UpdateAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateAction: %s. Supported values are: %s.", m.UpdateAction, strings.Join(GetUpdateHistoryEntryUpdateActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateHistoryEntryUpdateActionEnum Enum with underlying type: string
 type UpdateHistoryEntryUpdateActionEnum string
 
@@ -56,7 +79,7 @@ const (
 	UpdateHistoryEntryUpdateActionRollback        UpdateHistoryEntryUpdateActionEnum = "ROLLBACK"
 )
 
-var mappingUpdateHistoryEntryUpdateAction = map[string]UpdateHistoryEntryUpdateActionEnum{
+var mappingUpdateHistoryEntryUpdateActionEnum = map[string]UpdateHistoryEntryUpdateActionEnum{
 	"ROLLING_APPLY":     UpdateHistoryEntryUpdateActionRollingApply,
 	"NON_ROLLING_APPLY": UpdateHistoryEntryUpdateActionNonRollingApply,
 	"PRECHECK":          UpdateHistoryEntryUpdateActionPrecheck,
@@ -66,10 +89,20 @@ var mappingUpdateHistoryEntryUpdateAction = map[string]UpdateHistoryEntryUpdateA
 // GetUpdateHistoryEntryUpdateActionEnumValues Enumerates the set of values for UpdateHistoryEntryUpdateActionEnum
 func GetUpdateHistoryEntryUpdateActionEnumValues() []UpdateHistoryEntryUpdateActionEnum {
 	values := make([]UpdateHistoryEntryUpdateActionEnum, 0)
-	for _, v := range mappingUpdateHistoryEntryUpdateAction {
+	for _, v := range mappingUpdateHistoryEntryUpdateActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateHistoryEntryUpdateActionEnumStringValues Enumerates the set of values in String for UpdateHistoryEntryUpdateActionEnum
+func GetUpdateHistoryEntryUpdateActionEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"NON_ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
 }
 
 // UpdateHistoryEntryUpdateTypeEnum Enum with underlying type: string
@@ -82,7 +115,7 @@ const (
 	UpdateHistoryEntryUpdateTypeOsUpdate  UpdateHistoryEntryUpdateTypeEnum = "OS_UPDATE"
 )
 
-var mappingUpdateHistoryEntryUpdateType = map[string]UpdateHistoryEntryUpdateTypeEnum{
+var mappingUpdateHistoryEntryUpdateTypeEnum = map[string]UpdateHistoryEntryUpdateTypeEnum{
 	"GI_UPGRADE": UpdateHistoryEntryUpdateTypeGiUpgrade,
 	"GI_PATCH":   UpdateHistoryEntryUpdateTypeGiPatch,
 	"OS_UPDATE":  UpdateHistoryEntryUpdateTypeOsUpdate,
@@ -91,10 +124,19 @@ var mappingUpdateHistoryEntryUpdateType = map[string]UpdateHistoryEntryUpdateTyp
 // GetUpdateHistoryEntryUpdateTypeEnumValues Enumerates the set of values for UpdateHistoryEntryUpdateTypeEnum
 func GetUpdateHistoryEntryUpdateTypeEnumValues() []UpdateHistoryEntryUpdateTypeEnum {
 	values := make([]UpdateHistoryEntryUpdateTypeEnum, 0)
-	for _, v := range mappingUpdateHistoryEntryUpdateType {
+	for _, v := range mappingUpdateHistoryEntryUpdateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateHistoryEntryUpdateTypeEnumStringValues Enumerates the set of values in String for UpdateHistoryEntryUpdateTypeEnum
+func GetUpdateHistoryEntryUpdateTypeEnumStringValues() []string {
+	return []string{
+		"GI_UPGRADE",
+		"GI_PATCH",
+		"OS_UPDATE",
+	}
 }
 
 // UpdateHistoryEntryLifecycleStateEnum Enum with underlying type: string
@@ -107,7 +149,7 @@ const (
 	UpdateHistoryEntryLifecycleStateFailed     UpdateHistoryEntryLifecycleStateEnum = "FAILED"
 )
 
-var mappingUpdateHistoryEntryLifecycleState = map[string]UpdateHistoryEntryLifecycleStateEnum{
+var mappingUpdateHistoryEntryLifecycleStateEnum = map[string]UpdateHistoryEntryLifecycleStateEnum{
 	"IN_PROGRESS": UpdateHistoryEntryLifecycleStateInProgress,
 	"SUCCEEDED":   UpdateHistoryEntryLifecycleStateSucceeded,
 	"FAILED":      UpdateHistoryEntryLifecycleStateFailed,
@@ -116,8 +158,17 @@ var mappingUpdateHistoryEntryLifecycleState = map[string]UpdateHistoryEntryLifec
 // GetUpdateHistoryEntryLifecycleStateEnumValues Enumerates the set of values for UpdateHistoryEntryLifecycleStateEnum
 func GetUpdateHistoryEntryLifecycleStateEnumValues() []UpdateHistoryEntryLifecycleStateEnum {
 	values := make([]UpdateHistoryEntryLifecycleStateEnum, 0)
-	for _, v := range mappingUpdateHistoryEntryLifecycleState {
+	for _, v := range mappingUpdateHistoryEntryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateHistoryEntryLifecycleStateEnumStringValues Enumerates the set of values in String for UpdateHistoryEntryLifecycleStateEnum
+func GetUpdateHistoryEntryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

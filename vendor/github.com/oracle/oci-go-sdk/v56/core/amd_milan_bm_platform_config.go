@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AmdMilanBmPlatformConfig The platform configuration of a bare metal instance that uses an E4 shape
@@ -54,6 +56,21 @@ func (m AmdMilanBmPlatformConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AmdMilanBmPlatformConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAmdMilanBmPlatformConfigNumaNodesPerSocketEnum[string(m.NumaNodesPerSocket)]; !ok && m.NumaNodesPerSocket != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NumaNodesPerSocket: %s. Supported values are: %s.", m.NumaNodesPerSocket, strings.Join(GetAmdMilanBmPlatformConfigNumaNodesPerSocketEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m AmdMilanBmPlatformConfig) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeAmdMilanBmPlatformConfig AmdMilanBmPlatformConfig
@@ -79,7 +96,7 @@ const (
 	AmdMilanBmPlatformConfigNumaNodesPerSocketNps4 AmdMilanBmPlatformConfigNumaNodesPerSocketEnum = "NPS4"
 )
 
-var mappingAmdMilanBmPlatformConfigNumaNodesPerSocket = map[string]AmdMilanBmPlatformConfigNumaNodesPerSocketEnum{
+var mappingAmdMilanBmPlatformConfigNumaNodesPerSocketEnum = map[string]AmdMilanBmPlatformConfigNumaNodesPerSocketEnum{
 	"NPS0": AmdMilanBmPlatformConfigNumaNodesPerSocketNps0,
 	"NPS1": AmdMilanBmPlatformConfigNumaNodesPerSocketNps1,
 	"NPS2": AmdMilanBmPlatformConfigNumaNodesPerSocketNps2,
@@ -89,8 +106,18 @@ var mappingAmdMilanBmPlatformConfigNumaNodesPerSocket = map[string]AmdMilanBmPla
 // GetAmdMilanBmPlatformConfigNumaNodesPerSocketEnumValues Enumerates the set of values for AmdMilanBmPlatformConfigNumaNodesPerSocketEnum
 func GetAmdMilanBmPlatformConfigNumaNodesPerSocketEnumValues() []AmdMilanBmPlatformConfigNumaNodesPerSocketEnum {
 	values := make([]AmdMilanBmPlatformConfigNumaNodesPerSocketEnum, 0)
-	for _, v := range mappingAmdMilanBmPlatformConfigNumaNodesPerSocket {
+	for _, v := range mappingAmdMilanBmPlatformConfigNumaNodesPerSocketEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAmdMilanBmPlatformConfigNumaNodesPerSocketEnumStringValues Enumerates the set of values in String for AmdMilanBmPlatformConfigNumaNodesPerSocketEnum
+func GetAmdMilanBmPlatformConfigNumaNodesPerSocketEnumStringValues() []string {
+	return []string{
+		"NPS0",
+		"NPS1",
+		"NPS2",
+		"NPS4",
+	}
 }

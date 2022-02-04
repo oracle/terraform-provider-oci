@@ -19,7 +19,7 @@ const (
 	ResponderExecutionModesAll       ResponderExecutionModesEnum = "ALL"
 )
 
-var mappingResponderExecutionModes = map[string]ResponderExecutionModesEnum{
+var mappingResponderExecutionModesEnum = map[string]ResponderExecutionModesEnum{
 	"MANUAL":    ResponderExecutionModesManual,
 	"AUTOMATED": ResponderExecutionModesAutomated,
 	"ALL":       ResponderExecutionModesAll,
@@ -28,8 +28,17 @@ var mappingResponderExecutionModes = map[string]ResponderExecutionModesEnum{
 // GetResponderExecutionModesEnumValues Enumerates the set of values for ResponderExecutionModesEnum
 func GetResponderExecutionModesEnumValues() []ResponderExecutionModesEnum {
 	values := make([]ResponderExecutionModesEnum, 0)
-	for _, v := range mappingResponderExecutionModes {
+	for _, v := range mappingResponderExecutionModesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResponderExecutionModesEnumStringValues Enumerates the set of values in String for ResponderExecutionModesEnum
+func GetResponderExecutionModesEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTOMATED",
+		"ALL",
+	}
 }

@@ -24,7 +24,7 @@ const (
 	AwrHubLifecycleStateFailed   AwrHubLifecycleStateEnum = "FAILED"
 )
 
-var mappingAwrHubLifecycleState = map[string]AwrHubLifecycleStateEnum{
+var mappingAwrHubLifecycleStateEnum = map[string]AwrHubLifecycleStateEnum{
 	"CREATING": AwrHubLifecycleStateCreating,
 	"UPDATING": AwrHubLifecycleStateUpdating,
 	"ACTIVE":   AwrHubLifecycleStateActive,
@@ -36,8 +36,20 @@ var mappingAwrHubLifecycleState = map[string]AwrHubLifecycleStateEnum{
 // GetAwrHubLifecycleStateEnumValues Enumerates the set of values for AwrHubLifecycleStateEnum
 func GetAwrHubLifecycleStateEnumValues() []AwrHubLifecycleStateEnum {
 	values := make([]AwrHubLifecycleStateEnum, 0)
-	for _, v := range mappingAwrHubLifecycleState {
+	for _, v := range mappingAwrHubLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAwrHubLifecycleStateEnumStringValues Enumerates the set of values in String for AwrHubLifecycleStateEnum
+func GetAwrHubLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

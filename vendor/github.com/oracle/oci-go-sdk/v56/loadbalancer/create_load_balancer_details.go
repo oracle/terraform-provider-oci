@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateLoadBalancerDetails The configuration details for creating a load balancer.
@@ -94,6 +96,21 @@ func (m CreateLoadBalancerDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateLoadBalancerDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateLoadBalancerDetailsIpModeEnum[string(m.IpMode)]; !ok && m.IpMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMode: %s. Supported values are: %s.", m.IpMode, strings.Join(GetCreateLoadBalancerDetailsIpModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateLoadBalancerDetailsIpModeEnum Enum with underlying type: string
 type CreateLoadBalancerDetailsIpModeEnum string
 
@@ -103,7 +120,7 @@ const (
 	CreateLoadBalancerDetailsIpModeIpv6 CreateLoadBalancerDetailsIpModeEnum = "IPV6"
 )
 
-var mappingCreateLoadBalancerDetailsIpMode = map[string]CreateLoadBalancerDetailsIpModeEnum{
+var mappingCreateLoadBalancerDetailsIpModeEnum = map[string]CreateLoadBalancerDetailsIpModeEnum{
 	"IPV4": CreateLoadBalancerDetailsIpModeIpv4,
 	"IPV6": CreateLoadBalancerDetailsIpModeIpv6,
 }
@@ -111,8 +128,16 @@ var mappingCreateLoadBalancerDetailsIpMode = map[string]CreateLoadBalancerDetail
 // GetCreateLoadBalancerDetailsIpModeEnumValues Enumerates the set of values for CreateLoadBalancerDetailsIpModeEnum
 func GetCreateLoadBalancerDetailsIpModeEnumValues() []CreateLoadBalancerDetailsIpModeEnum {
 	values := make([]CreateLoadBalancerDetailsIpModeEnum, 0)
-	for _, v := range mappingCreateLoadBalancerDetailsIpMode {
+	for _, v := range mappingCreateLoadBalancerDetailsIpModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateLoadBalancerDetailsIpModeEnumStringValues Enumerates the set of values in String for CreateLoadBalancerDetailsIpModeEnum
+func GetCreateLoadBalancerDetailsIpModeEnumStringValues() []string {
+	return []string{
+		"IPV4",
+		"IPV6",
+	}
 }

@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateScheduledTaskDetails Details for creating a scheduled task.
@@ -110,6 +112,18 @@ func (m createscheduledtaskdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createscheduledtaskdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateScheduledTaskDetailsKindEnum Enum with underlying type: string
 type CreateScheduledTaskDetailsKindEnum string
 
@@ -119,7 +133,7 @@ const (
 	CreateScheduledTaskDetailsKindStandard     CreateScheduledTaskDetailsKindEnum = "STANDARD"
 )
 
-var mappingCreateScheduledTaskDetailsKind = map[string]CreateScheduledTaskDetailsKindEnum{
+var mappingCreateScheduledTaskDetailsKindEnum = map[string]CreateScheduledTaskDetailsKindEnum{
 	"ACCELERATION": CreateScheduledTaskDetailsKindAcceleration,
 	"STANDARD":     CreateScheduledTaskDetailsKindStandard,
 }
@@ -127,8 +141,16 @@ var mappingCreateScheduledTaskDetailsKind = map[string]CreateScheduledTaskDetail
 // GetCreateScheduledTaskDetailsKindEnumValues Enumerates the set of values for CreateScheduledTaskDetailsKindEnum
 func GetCreateScheduledTaskDetailsKindEnumValues() []CreateScheduledTaskDetailsKindEnum {
 	values := make([]CreateScheduledTaskDetailsKindEnum, 0)
-	for _, v := range mappingCreateScheduledTaskDetailsKind {
+	for _, v := range mappingCreateScheduledTaskDetailsKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateScheduledTaskDetailsKindEnumStringValues Enumerates the set of values in String for CreateScheduledTaskDetailsKindEnum
+func GetCreateScheduledTaskDetailsKindEnumStringValues() []string {
+	return []string{
+		"ACCELERATION",
+		"STANDARD",
+	}
 }

@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DataEntitySummaryFromSql The sql entity data entity details.
@@ -75,6 +77,21 @@ func (m DataEntitySummaryFromSql) GetMetadata() *ObjectMetadata {
 
 func (m DataEntitySummaryFromSql) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataEntitySummaryFromSql) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataEntitySummaryFromSqlEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetDataEntitySummaryFromSqlEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -183,7 +200,7 @@ const (
 	DataEntitySummaryFromSqlEntityTypeSql   DataEntitySummaryFromSqlEntityTypeEnum = "SQL"
 )
 
-var mappingDataEntitySummaryFromSqlEntityType = map[string]DataEntitySummaryFromSqlEntityTypeEnum{
+var mappingDataEntitySummaryFromSqlEntityTypeEnum = map[string]DataEntitySummaryFromSqlEntityTypeEnum{
 	"TABLE": DataEntitySummaryFromSqlEntityTypeTable,
 	"VIEW":  DataEntitySummaryFromSqlEntityTypeView,
 	"FILE":  DataEntitySummaryFromSqlEntityTypeFile,
@@ -193,8 +210,18 @@ var mappingDataEntitySummaryFromSqlEntityType = map[string]DataEntitySummaryFrom
 // GetDataEntitySummaryFromSqlEntityTypeEnumValues Enumerates the set of values for DataEntitySummaryFromSqlEntityTypeEnum
 func GetDataEntitySummaryFromSqlEntityTypeEnumValues() []DataEntitySummaryFromSqlEntityTypeEnum {
 	values := make([]DataEntitySummaryFromSqlEntityTypeEnum, 0)
-	for _, v := range mappingDataEntitySummaryFromSqlEntityType {
+	for _, v := range mappingDataEntitySummaryFromSqlEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataEntitySummaryFromSqlEntityTypeEnumStringValues Enumerates the set of values in String for DataEntitySummaryFromSqlEntityTypeEnum
+func GetDataEntitySummaryFromSqlEntityTypeEnumStringValues() []string {
+	return []string{
+		"TABLE",
+		"VIEW",
+		"FILE",
+		"SQL",
+	}
 }

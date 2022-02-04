@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExternalNonContainerDatabaseSummary An Oracle Cloud Infrastructure external non-container database resource. This resource is used to manage a non-container
@@ -82,6 +84,27 @@ func (m ExternalNonContainerDatabaseSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExternalNonContainerDatabaseSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExternalNonContainerDatabaseSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExternalNonContainerDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingExternalNonContainerDatabaseSummaryDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetExternalNonContainerDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum[string(m.DatabaseConfiguration)]; !ok && m.DatabaseConfiguration != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseConfiguration: %s. Supported values are: %s.", m.DatabaseConfiguration, strings.Join(GetExternalNonContainerDatabaseSummaryDatabaseConfigurationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExternalNonContainerDatabaseSummaryLifecycleStateEnum Enum with underlying type: string
 type ExternalNonContainerDatabaseSummaryLifecycleStateEnum string
 
@@ -96,7 +119,7 @@ const (
 	ExternalNonContainerDatabaseSummaryLifecycleStateFailed       ExternalNonContainerDatabaseSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingExternalNonContainerDatabaseSummaryLifecycleState = map[string]ExternalNonContainerDatabaseSummaryLifecycleStateEnum{
+var mappingExternalNonContainerDatabaseSummaryLifecycleStateEnum = map[string]ExternalNonContainerDatabaseSummaryLifecycleStateEnum{
 	"PROVISIONING":  ExternalNonContainerDatabaseSummaryLifecycleStateProvisioning,
 	"NOT_CONNECTED": ExternalNonContainerDatabaseSummaryLifecycleStateNotConnected,
 	"AVAILABLE":     ExternalNonContainerDatabaseSummaryLifecycleStateAvailable,
@@ -109,10 +132,23 @@ var mappingExternalNonContainerDatabaseSummaryLifecycleState = map[string]Extern
 // GetExternalNonContainerDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for ExternalNonContainerDatabaseSummaryLifecycleStateEnum
 func GetExternalNonContainerDatabaseSummaryLifecycleStateEnumValues() []ExternalNonContainerDatabaseSummaryLifecycleStateEnum {
 	values := make([]ExternalNonContainerDatabaseSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingExternalNonContainerDatabaseSummaryLifecycleState {
+	for _, v := range mappingExternalNonContainerDatabaseSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalNonContainerDatabaseSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ExternalNonContainerDatabaseSummaryLifecycleStateEnum
+func GetExternalNonContainerDatabaseSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"NOT_CONNECTED",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }
 
 // ExternalNonContainerDatabaseSummaryDatabaseEditionEnum Enum with underlying type: string
@@ -126,7 +162,7 @@ const (
 	ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionExtremePerformance ExternalNonContainerDatabaseSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 )
 
-var mappingExternalNonContainerDatabaseSummaryDatabaseEdition = map[string]ExternalNonContainerDatabaseSummaryDatabaseEditionEnum{
+var mappingExternalNonContainerDatabaseSummaryDatabaseEditionEnum = map[string]ExternalNonContainerDatabaseSummaryDatabaseEditionEnum{
 	"STANDARD_EDITION":                       ExternalNonContainerDatabaseSummaryDatabaseEditionStandardEdition,
 	"ENTERPRISE_EDITION":                     ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    ExternalNonContainerDatabaseSummaryDatabaseEditionEnterpriseEditionHighPerformance,
@@ -136,10 +172,20 @@ var mappingExternalNonContainerDatabaseSummaryDatabaseEdition = map[string]Exter
 // GetExternalNonContainerDatabaseSummaryDatabaseEditionEnumValues Enumerates the set of values for ExternalNonContainerDatabaseSummaryDatabaseEditionEnum
 func GetExternalNonContainerDatabaseSummaryDatabaseEditionEnumValues() []ExternalNonContainerDatabaseSummaryDatabaseEditionEnum {
 	values := make([]ExternalNonContainerDatabaseSummaryDatabaseEditionEnum, 0)
-	for _, v := range mappingExternalNonContainerDatabaseSummaryDatabaseEdition {
+	for _, v := range mappingExternalNonContainerDatabaseSummaryDatabaseEditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalNonContainerDatabaseSummaryDatabaseEditionEnumStringValues Enumerates the set of values in String for ExternalNonContainerDatabaseSummaryDatabaseEditionEnum
+func GetExternalNonContainerDatabaseSummaryDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+	}
 }
 
 // ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum Enum with underlying type: string
@@ -151,7 +197,7 @@ const (
 	ExternalNonContainerDatabaseSummaryDatabaseConfigurationSingleInstance ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum = "SINGLE_INSTANCE"
 )
 
-var mappingExternalNonContainerDatabaseSummaryDatabaseConfiguration = map[string]ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum{
+var mappingExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum = map[string]ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum{
 	"RAC":             ExternalNonContainerDatabaseSummaryDatabaseConfigurationRac,
 	"SINGLE_INSTANCE": ExternalNonContainerDatabaseSummaryDatabaseConfigurationSingleInstance,
 }
@@ -159,8 +205,16 @@ var mappingExternalNonContainerDatabaseSummaryDatabaseConfiguration = map[string
 // GetExternalNonContainerDatabaseSummaryDatabaseConfigurationEnumValues Enumerates the set of values for ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum
 func GetExternalNonContainerDatabaseSummaryDatabaseConfigurationEnumValues() []ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum {
 	values := make([]ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum, 0)
-	for _, v := range mappingExternalNonContainerDatabaseSummaryDatabaseConfiguration {
+	for _, v := range mappingExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalNonContainerDatabaseSummaryDatabaseConfigurationEnumStringValues Enumerates the set of values in String for ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum
+func GetExternalNonContainerDatabaseSummaryDatabaseConfigurationEnumStringValues() []string {
+	return []string{
+		"RAC",
+		"SINGLE_INSTANCE",
+	}
 }

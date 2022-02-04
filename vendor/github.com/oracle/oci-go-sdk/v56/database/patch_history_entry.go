@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PatchHistoryEntry The representation of PatchHistoryEntry
@@ -43,6 +45,24 @@ func (m PatchHistoryEntry) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PatchHistoryEntry) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPatchHistoryEntryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPatchHistoryEntryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingPatchHistoryEntryActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetPatchHistoryEntryActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PatchHistoryEntryActionEnum Enum with underlying type: string
 type PatchHistoryEntryActionEnum string
 
@@ -52,7 +72,7 @@ const (
 	PatchHistoryEntryActionPrecheck PatchHistoryEntryActionEnum = "PRECHECK"
 )
 
-var mappingPatchHistoryEntryAction = map[string]PatchHistoryEntryActionEnum{
+var mappingPatchHistoryEntryActionEnum = map[string]PatchHistoryEntryActionEnum{
 	"APPLY":    PatchHistoryEntryActionApply,
 	"PRECHECK": PatchHistoryEntryActionPrecheck,
 }
@@ -60,10 +80,18 @@ var mappingPatchHistoryEntryAction = map[string]PatchHistoryEntryActionEnum{
 // GetPatchHistoryEntryActionEnumValues Enumerates the set of values for PatchHistoryEntryActionEnum
 func GetPatchHistoryEntryActionEnumValues() []PatchHistoryEntryActionEnum {
 	values := make([]PatchHistoryEntryActionEnum, 0)
-	for _, v := range mappingPatchHistoryEntryAction {
+	for _, v := range mappingPatchHistoryEntryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchHistoryEntryActionEnumStringValues Enumerates the set of values in String for PatchHistoryEntryActionEnum
+func GetPatchHistoryEntryActionEnumStringValues() []string {
+	return []string{
+		"APPLY",
+		"PRECHECK",
+	}
 }
 
 // PatchHistoryEntryLifecycleStateEnum Enum with underlying type: string
@@ -76,7 +104,7 @@ const (
 	PatchHistoryEntryLifecycleStateFailed     PatchHistoryEntryLifecycleStateEnum = "FAILED"
 )
 
-var mappingPatchHistoryEntryLifecycleState = map[string]PatchHistoryEntryLifecycleStateEnum{
+var mappingPatchHistoryEntryLifecycleStateEnum = map[string]PatchHistoryEntryLifecycleStateEnum{
 	"IN_PROGRESS": PatchHistoryEntryLifecycleStateInProgress,
 	"SUCCEEDED":   PatchHistoryEntryLifecycleStateSucceeded,
 	"FAILED":      PatchHistoryEntryLifecycleStateFailed,
@@ -85,8 +113,17 @@ var mappingPatchHistoryEntryLifecycleState = map[string]PatchHistoryEntryLifecyc
 // GetPatchHistoryEntryLifecycleStateEnumValues Enumerates the set of values for PatchHistoryEntryLifecycleStateEnum
 func GetPatchHistoryEntryLifecycleStateEnumValues() []PatchHistoryEntryLifecycleStateEnum {
 	values := make([]PatchHistoryEntryLifecycleStateEnum, 0)
-	for _, v := range mappingPatchHistoryEntryLifecycleState {
+	for _, v := range mappingPatchHistoryEntryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchHistoryEntryLifecycleStateEnumStringValues Enumerates the set of values in String for PatchHistoryEntryLifecycleStateEnum
+func GetPatchHistoryEntryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

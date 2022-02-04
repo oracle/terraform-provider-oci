@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSqlTuningAdvisorTaskFindingsRequest wrapper for the ListSqlTuningAdvisorTaskFindings operation
@@ -28,10 +30,11 @@ type ListSqlTuningAdvisorTaskFindingsRequest struct {
 	// The optional less than or equal to query parameter to filter on the execution ID related to a specific SQL Tuning Advisor task.
 	EndExecId *int64 `mandatory:"false" contributesTo:"query" name:"endExecId"`
 
-	// How far back the API will search for begin and end exec id, if not supplied. Unused if beginExecId and endExecId optional query params are both supplied.
+	// The search period during which the API will search for begin and end exec id, if not supplied.
+	// Unused if beginExecId and endExecId optional query params are both supplied.
 	SearchPeriod ListSqlTuningAdvisorTaskFindingsSearchPeriodEnum `mandatory:"false" contributesTo:"query" name:"searchPeriod" omitEmpty:"true"`
 
-	// Filters which findings get shown in the report
+	// The filter used to display specific findings in the report.
 	FindingFilter ListSqlTuningAdvisorTaskFindingsFindingFilterEnum `mandatory:"false" contributesTo:"query" name:"findingFilter" omitEmpty:"true"`
 
 	// The hash value of the object for the statistic finding search.
@@ -68,6 +71,10 @@ func (request ListSqlTuningAdvisorTaskFindingsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSqlTuningAdvisorTaskFindingsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -81,6 +88,29 @@ func (request ListSqlTuningAdvisorTaskFindingsRequest) BinaryRequestBody() (*com
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSqlTuningAdvisorTaskFindingsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSqlTuningAdvisorTaskFindingsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSqlTuningAdvisorTaskFindingsSearchPeriodEnum[string(request.SearchPeriod)]; !ok && request.SearchPeriod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SearchPeriod: %s. Supported values are: %s.", request.SearchPeriod, strings.Join(GetListSqlTuningAdvisorTaskFindingsSearchPeriodEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSqlTuningAdvisorTaskFindingsFindingFilterEnum[string(request.FindingFilter)]; !ok && request.FindingFilter != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FindingFilter: %s. Supported values are: %s.", request.FindingFilter, strings.Join(GetListSqlTuningAdvisorTaskFindingsFindingFilterEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSqlTuningAdvisorTaskFindingsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSqlTuningAdvisorTaskFindingsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSqlTuningAdvisorTaskFindingsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSqlTuningAdvisorTaskFindingsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSqlTuningAdvisorTaskFindingsResponse wrapper for the ListSqlTuningAdvisorTaskFindings operation
@@ -123,7 +153,7 @@ const (
 	ListSqlTuningAdvisorTaskFindingsSearchPeriodAll       ListSqlTuningAdvisorTaskFindingsSearchPeriodEnum = "ALL"
 )
 
-var mappingListSqlTuningAdvisorTaskFindingsSearchPeriod = map[string]ListSqlTuningAdvisorTaskFindingsSearchPeriodEnum{
+var mappingListSqlTuningAdvisorTaskFindingsSearchPeriodEnum = map[string]ListSqlTuningAdvisorTaskFindingsSearchPeriodEnum{
 	"LAST_24HR":  ListSqlTuningAdvisorTaskFindingsSearchPeriodLast24hr,
 	"LAST_7DAY":  ListSqlTuningAdvisorTaskFindingsSearchPeriodLast7day,
 	"LAST_31DAY": ListSqlTuningAdvisorTaskFindingsSearchPeriodLast31day,
@@ -134,10 +164,21 @@ var mappingListSqlTuningAdvisorTaskFindingsSearchPeriod = map[string]ListSqlTuni
 // GetListSqlTuningAdvisorTaskFindingsSearchPeriodEnumValues Enumerates the set of values for ListSqlTuningAdvisorTaskFindingsSearchPeriodEnum
 func GetListSqlTuningAdvisorTaskFindingsSearchPeriodEnumValues() []ListSqlTuningAdvisorTaskFindingsSearchPeriodEnum {
 	values := make([]ListSqlTuningAdvisorTaskFindingsSearchPeriodEnum, 0)
-	for _, v := range mappingListSqlTuningAdvisorTaskFindingsSearchPeriod {
+	for _, v := range mappingListSqlTuningAdvisorTaskFindingsSearchPeriodEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSqlTuningAdvisorTaskFindingsSearchPeriodEnumStringValues Enumerates the set of values in String for ListSqlTuningAdvisorTaskFindingsSearchPeriodEnum
+func GetListSqlTuningAdvisorTaskFindingsSearchPeriodEnumStringValues() []string {
+	return []string{
+		"LAST_24HR",
+		"LAST_7DAY",
+		"LAST_31DAY",
+		"SINCE_LAST",
+		"ALL",
+	}
 }
 
 // ListSqlTuningAdvisorTaskFindingsFindingFilterEnum Enum with underlying type: string
@@ -158,7 +199,7 @@ const (
 	ListSqlTuningAdvisorTaskFindingsFindingFilterOtherProfiles ListSqlTuningAdvisorTaskFindingsFindingFilterEnum = "OTHER_PROFILES"
 )
 
-var mappingListSqlTuningAdvisorTaskFindingsFindingFilter = map[string]ListSqlTuningAdvisorTaskFindingsFindingFilterEnum{
+var mappingListSqlTuningAdvisorTaskFindingsFindingFilterEnum = map[string]ListSqlTuningAdvisorTaskFindingsFindingFilterEnum{
 	"none":           ListSqlTuningAdvisorTaskFindingsFindingFilterNone,
 	"FINDINGS":       ListSqlTuningAdvisorTaskFindingsFindingFilterFindings,
 	"NOFINDINGS":     ListSqlTuningAdvisorTaskFindingsFindingFilterNofindings,
@@ -175,10 +216,27 @@ var mappingListSqlTuningAdvisorTaskFindingsFindingFilter = map[string]ListSqlTun
 // GetListSqlTuningAdvisorTaskFindingsFindingFilterEnumValues Enumerates the set of values for ListSqlTuningAdvisorTaskFindingsFindingFilterEnum
 func GetListSqlTuningAdvisorTaskFindingsFindingFilterEnumValues() []ListSqlTuningAdvisorTaskFindingsFindingFilterEnum {
 	values := make([]ListSqlTuningAdvisorTaskFindingsFindingFilterEnum, 0)
-	for _, v := range mappingListSqlTuningAdvisorTaskFindingsFindingFilter {
+	for _, v := range mappingListSqlTuningAdvisorTaskFindingsFindingFilterEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSqlTuningAdvisorTaskFindingsFindingFilterEnumStringValues Enumerates the set of values in String for ListSqlTuningAdvisorTaskFindingsFindingFilterEnum
+func GetListSqlTuningAdvisorTaskFindingsFindingFilterEnumStringValues() []string {
+	return []string{
+		"none",
+		"FINDINGS",
+		"NOFINDINGS",
+		"ERRORS",
+		"PROFILES",
+		"INDICES",
+		"STATS",
+		"RESTRUCTURE",
+		"ALTERNATIVE",
+		"AUTO_PROFILES",
+		"OTHER_PROFILES",
+	}
 }
 
 // ListSqlTuningAdvisorTaskFindingsSortByEnum Enum with underlying type: string
@@ -201,7 +259,7 @@ const (
 	ListSqlTuningAdvisorTaskFindingsSortByTimeouts      ListSqlTuningAdvisorTaskFindingsSortByEnum = "TIMEOUTS"
 )
 
-var mappingListSqlTuningAdvisorTaskFindingsSortBy = map[string]ListSqlTuningAdvisorTaskFindingsSortByEnum{
+var mappingListSqlTuningAdvisorTaskFindingsSortByEnum = map[string]ListSqlTuningAdvisorTaskFindingsSortByEnum{
 	"DBTIME_BENEFIT": ListSqlTuningAdvisorTaskFindingsSortByDbtimeBenefit,
 	"PARSING_SCHEMA": ListSqlTuningAdvisorTaskFindingsSortByParsingSchema,
 	"SQL_ID":         ListSqlTuningAdvisorTaskFindingsSortBySqlId,
@@ -220,10 +278,29 @@ var mappingListSqlTuningAdvisorTaskFindingsSortBy = map[string]ListSqlTuningAdvi
 // GetListSqlTuningAdvisorTaskFindingsSortByEnumValues Enumerates the set of values for ListSqlTuningAdvisorTaskFindingsSortByEnum
 func GetListSqlTuningAdvisorTaskFindingsSortByEnumValues() []ListSqlTuningAdvisorTaskFindingsSortByEnum {
 	values := make([]ListSqlTuningAdvisorTaskFindingsSortByEnum, 0)
-	for _, v := range mappingListSqlTuningAdvisorTaskFindingsSortBy {
+	for _, v := range mappingListSqlTuningAdvisorTaskFindingsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSqlTuningAdvisorTaskFindingsSortByEnumStringValues Enumerates the set of values in String for ListSqlTuningAdvisorTaskFindingsSortByEnum
+func GetListSqlTuningAdvisorTaskFindingsSortByEnumStringValues() []string {
+	return []string{
+		"DBTIME_BENEFIT",
+		"PARSING_SCHEMA",
+		"SQL_ID",
+		"STATS",
+		"PROFILES",
+		"SQL_BENEFIT",
+		"DATE",
+		"INDICES",
+		"RESTRUCTURE",
+		"ALTERNATIVE",
+		"MISC",
+		"ERROR",
+		"TIMEOUTS",
+	}
 }
 
 // ListSqlTuningAdvisorTaskFindingsSortOrderEnum Enum with underlying type: string
@@ -235,7 +312,7 @@ const (
 	ListSqlTuningAdvisorTaskFindingsSortOrderDesc ListSqlTuningAdvisorTaskFindingsSortOrderEnum = "DESC"
 )
 
-var mappingListSqlTuningAdvisorTaskFindingsSortOrder = map[string]ListSqlTuningAdvisorTaskFindingsSortOrderEnum{
+var mappingListSqlTuningAdvisorTaskFindingsSortOrderEnum = map[string]ListSqlTuningAdvisorTaskFindingsSortOrderEnum{
 	"ASC":  ListSqlTuningAdvisorTaskFindingsSortOrderAsc,
 	"DESC": ListSqlTuningAdvisorTaskFindingsSortOrderDesc,
 }
@@ -243,8 +320,16 @@ var mappingListSqlTuningAdvisorTaskFindingsSortOrder = map[string]ListSqlTuningA
 // GetListSqlTuningAdvisorTaskFindingsSortOrderEnumValues Enumerates the set of values for ListSqlTuningAdvisorTaskFindingsSortOrderEnum
 func GetListSqlTuningAdvisorTaskFindingsSortOrderEnumValues() []ListSqlTuningAdvisorTaskFindingsSortOrderEnum {
 	values := make([]ListSqlTuningAdvisorTaskFindingsSortOrderEnum, 0)
-	for _, v := range mappingListSqlTuningAdvisorTaskFindingsSortOrder {
+	for _, v := range mappingListSqlTuningAdvisorTaskFindingsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSqlTuningAdvisorTaskFindingsSortOrderEnumStringValues Enumerates the set of values in String for ListSqlTuningAdvisorTaskFindingsSortOrderEnum
+func GetListSqlTuningAdvisorTaskFindingsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

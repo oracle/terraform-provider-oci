@@ -13,7 +13,9 @@
 package resourcemanager
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // StackResourceDriftSummary Drift status details for the indicated resource and stack. Includes actual and expected (defined) properties.
@@ -62,6 +64,21 @@ func (m StackResourceDriftSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m StackResourceDriftSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingStackResourceDriftSummaryResourceDriftStatusEnum[string(m.ResourceDriftStatus)]; !ok && m.ResourceDriftStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceDriftStatus: %s. Supported values are: %s.", m.ResourceDriftStatus, strings.Join(GetStackResourceDriftSummaryResourceDriftStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // StackResourceDriftSummaryResourceDriftStatusEnum Enum with underlying type: string
 type StackResourceDriftSummaryResourceDriftStatusEnum string
 
@@ -73,7 +90,7 @@ const (
 	StackResourceDriftSummaryResourceDriftStatusDeleted    StackResourceDriftSummaryResourceDriftStatusEnum = "DELETED"
 )
 
-var mappingStackResourceDriftSummaryResourceDriftStatus = map[string]StackResourceDriftSummaryResourceDriftStatusEnum{
+var mappingStackResourceDriftSummaryResourceDriftStatusEnum = map[string]StackResourceDriftSummaryResourceDriftStatusEnum{
 	"NOT_CHECKED": StackResourceDriftSummaryResourceDriftStatusNotChecked,
 	"IN_SYNC":     StackResourceDriftSummaryResourceDriftStatusInSync,
 	"MODIFIED":    StackResourceDriftSummaryResourceDriftStatusModified,
@@ -83,8 +100,18 @@ var mappingStackResourceDriftSummaryResourceDriftStatus = map[string]StackResour
 // GetStackResourceDriftSummaryResourceDriftStatusEnumValues Enumerates the set of values for StackResourceDriftSummaryResourceDriftStatusEnum
 func GetStackResourceDriftSummaryResourceDriftStatusEnumValues() []StackResourceDriftSummaryResourceDriftStatusEnum {
 	values := make([]StackResourceDriftSummaryResourceDriftStatusEnum, 0)
-	for _, v := range mappingStackResourceDriftSummaryResourceDriftStatus {
+	for _, v := range mappingStackResourceDriftSummaryResourceDriftStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStackResourceDriftSummaryResourceDriftStatusEnumStringValues Enumerates the set of values in String for StackResourceDriftSummaryResourceDriftStatusEnum
+func GetStackResourceDriftSummaryResourceDriftStatusEnumStringValues() []string {
+	return []string{
+		"NOT_CHECKED",
+		"IN_SYNC",
+		"MODIFIED",
+		"DELETED",
+	}
 }

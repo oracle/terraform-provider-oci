@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateTaskFromRestTask The information about the Generic REST task. The endpoint and cancelEndpoint  properties are deprecated, use the properties executeRestCallConfig, cancelRestCallConfig and pollRestCallConfig for execute, cancel and polling of the calls.
@@ -157,6 +159,27 @@ func (m UpdateTaskFromRestTask) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateTaskFromRestTask) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateTaskFromRestTaskMethodTypeEnum[string(m.MethodType)]; !ok && m.MethodType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MethodType: %s. Supported values are: %s.", m.MethodType, strings.Join(GetUpdateTaskFromRestTaskMethodTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateTaskFromRestTaskApiCallModeEnum[string(m.ApiCallMode)]; !ok && m.ApiCallMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ApiCallMode: %s. Supported values are: %s.", m.ApiCallMode, strings.Join(GetUpdateTaskFromRestTaskApiCallModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateTaskFromRestTaskCancelMethodTypeEnum[string(m.CancelMethodType)]; !ok && m.CancelMethodType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CancelMethodType: %s. Supported values are: %s.", m.CancelMethodType, strings.Join(GetUpdateTaskFromRestTaskCancelMethodTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m UpdateTaskFromRestTask) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeUpdateTaskFromRestTask UpdateTaskFromRestTask
@@ -183,7 +206,7 @@ const (
 	UpdateTaskFromRestTaskMethodTypePut    UpdateTaskFromRestTaskMethodTypeEnum = "PUT"
 )
 
-var mappingUpdateTaskFromRestTaskMethodType = map[string]UpdateTaskFromRestTaskMethodTypeEnum{
+var mappingUpdateTaskFromRestTaskMethodTypeEnum = map[string]UpdateTaskFromRestTaskMethodTypeEnum{
 	"GET":    UpdateTaskFromRestTaskMethodTypeGet,
 	"POST":   UpdateTaskFromRestTaskMethodTypePost,
 	"PATCH":  UpdateTaskFromRestTaskMethodTypePatch,
@@ -194,10 +217,21 @@ var mappingUpdateTaskFromRestTaskMethodType = map[string]UpdateTaskFromRestTaskM
 // GetUpdateTaskFromRestTaskMethodTypeEnumValues Enumerates the set of values for UpdateTaskFromRestTaskMethodTypeEnum
 func GetUpdateTaskFromRestTaskMethodTypeEnumValues() []UpdateTaskFromRestTaskMethodTypeEnum {
 	values := make([]UpdateTaskFromRestTaskMethodTypeEnum, 0)
-	for _, v := range mappingUpdateTaskFromRestTaskMethodType {
+	for _, v := range mappingUpdateTaskFromRestTaskMethodTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTaskFromRestTaskMethodTypeEnumStringValues Enumerates the set of values in String for UpdateTaskFromRestTaskMethodTypeEnum
+func GetUpdateTaskFromRestTaskMethodTypeEnumStringValues() []string {
+	return []string{
+		"GET",
+		"POST",
+		"PATCH",
+		"DELETE",
+		"PUT",
+	}
 }
 
 // UpdateTaskFromRestTaskApiCallModeEnum Enum with underlying type: string
@@ -210,7 +244,7 @@ const (
 	UpdateTaskFromRestTaskApiCallModeAsyncGeneric        UpdateTaskFromRestTaskApiCallModeEnum = "ASYNC_GENERIC"
 )
 
-var mappingUpdateTaskFromRestTaskApiCallMode = map[string]UpdateTaskFromRestTaskApiCallModeEnum{
+var mappingUpdateTaskFromRestTaskApiCallModeEnum = map[string]UpdateTaskFromRestTaskApiCallModeEnum{
 	"SYNCHRONOUS":           UpdateTaskFromRestTaskApiCallModeSynchronous,
 	"ASYNC_OCI_WORKREQUEST": UpdateTaskFromRestTaskApiCallModeAsyncOciWorkrequest,
 	"ASYNC_GENERIC":         UpdateTaskFromRestTaskApiCallModeAsyncGeneric,
@@ -219,10 +253,19 @@ var mappingUpdateTaskFromRestTaskApiCallMode = map[string]UpdateTaskFromRestTask
 // GetUpdateTaskFromRestTaskApiCallModeEnumValues Enumerates the set of values for UpdateTaskFromRestTaskApiCallModeEnum
 func GetUpdateTaskFromRestTaskApiCallModeEnumValues() []UpdateTaskFromRestTaskApiCallModeEnum {
 	values := make([]UpdateTaskFromRestTaskApiCallModeEnum, 0)
-	for _, v := range mappingUpdateTaskFromRestTaskApiCallMode {
+	for _, v := range mappingUpdateTaskFromRestTaskApiCallModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTaskFromRestTaskApiCallModeEnumStringValues Enumerates the set of values in String for UpdateTaskFromRestTaskApiCallModeEnum
+func GetUpdateTaskFromRestTaskApiCallModeEnumStringValues() []string {
+	return []string{
+		"SYNCHRONOUS",
+		"ASYNC_OCI_WORKREQUEST",
+		"ASYNC_GENERIC",
+	}
 }
 
 // UpdateTaskFromRestTaskCancelMethodTypeEnum Enum with underlying type: string
@@ -237,7 +280,7 @@ const (
 	UpdateTaskFromRestTaskCancelMethodTypePut    UpdateTaskFromRestTaskCancelMethodTypeEnum = "PUT"
 )
 
-var mappingUpdateTaskFromRestTaskCancelMethodType = map[string]UpdateTaskFromRestTaskCancelMethodTypeEnum{
+var mappingUpdateTaskFromRestTaskCancelMethodTypeEnum = map[string]UpdateTaskFromRestTaskCancelMethodTypeEnum{
 	"GET":    UpdateTaskFromRestTaskCancelMethodTypeGet,
 	"POST":   UpdateTaskFromRestTaskCancelMethodTypePost,
 	"PATCH":  UpdateTaskFromRestTaskCancelMethodTypePatch,
@@ -248,8 +291,19 @@ var mappingUpdateTaskFromRestTaskCancelMethodType = map[string]UpdateTaskFromRes
 // GetUpdateTaskFromRestTaskCancelMethodTypeEnumValues Enumerates the set of values for UpdateTaskFromRestTaskCancelMethodTypeEnum
 func GetUpdateTaskFromRestTaskCancelMethodTypeEnumValues() []UpdateTaskFromRestTaskCancelMethodTypeEnum {
 	values := make([]UpdateTaskFromRestTaskCancelMethodTypeEnum, 0)
-	for _, v := range mappingUpdateTaskFromRestTaskCancelMethodType {
+	for _, v := range mappingUpdateTaskFromRestTaskCancelMethodTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateTaskFromRestTaskCancelMethodTypeEnumStringValues Enumerates the set of values in String for UpdateTaskFromRestTaskCancelMethodTypeEnum
+func GetUpdateTaskFromRestTaskCancelMethodTypeEnumStringValues() []string {
+	return []string{
+		"GET",
+		"POST",
+		"PATCH",
+		"DELETE",
+		"PUT",
+	}
 }

@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListImportableAgentEntitiesRequest wrapper for the ListImportableAgentEntities operation
@@ -53,6 +55,10 @@ func (request ListImportableAgentEntitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListImportableAgentEntitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,23 @@ func (request ListImportableAgentEntitiesRequest) BinaryRequestBody() (*common.O
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListImportableAgentEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListImportableAgentEntitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListImportableAgentEntitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListImportableAgentEntitiesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListImportableAgentEntitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListImportableAgentEntitiesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListImportableAgentEntitiesResponse wrapper for the ListImportableAgentEntities operation
@@ -105,7 +128,7 @@ const (
 	ListImportableAgentEntitiesSortOrderDesc ListImportableAgentEntitiesSortOrderEnum = "DESC"
 )
 
-var mappingListImportableAgentEntitiesSortOrder = map[string]ListImportableAgentEntitiesSortOrderEnum{
+var mappingListImportableAgentEntitiesSortOrderEnum = map[string]ListImportableAgentEntitiesSortOrderEnum{
 	"ASC":  ListImportableAgentEntitiesSortOrderAsc,
 	"DESC": ListImportableAgentEntitiesSortOrderDesc,
 }
@@ -113,10 +136,18 @@ var mappingListImportableAgentEntitiesSortOrder = map[string]ListImportableAgent
 // GetListImportableAgentEntitiesSortOrderEnumValues Enumerates the set of values for ListImportableAgentEntitiesSortOrderEnum
 func GetListImportableAgentEntitiesSortOrderEnumValues() []ListImportableAgentEntitiesSortOrderEnum {
 	values := make([]ListImportableAgentEntitiesSortOrderEnum, 0)
-	for _, v := range mappingListImportableAgentEntitiesSortOrder {
+	for _, v := range mappingListImportableAgentEntitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListImportableAgentEntitiesSortOrderEnumStringValues Enumerates the set of values in String for ListImportableAgentEntitiesSortOrderEnum
+func GetListImportableAgentEntitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListImportableAgentEntitiesSortByEnum Enum with underlying type: string
@@ -128,7 +159,7 @@ const (
 	ListImportableAgentEntitiesSortByEntitytype ListImportableAgentEntitiesSortByEnum = "entityType"
 )
 
-var mappingListImportableAgentEntitiesSortBy = map[string]ListImportableAgentEntitiesSortByEnum{
+var mappingListImportableAgentEntitiesSortByEnum = map[string]ListImportableAgentEntitiesSortByEnum{
 	"entityName": ListImportableAgentEntitiesSortByEntityname,
 	"entityType": ListImportableAgentEntitiesSortByEntitytype,
 }
@@ -136,8 +167,16 @@ var mappingListImportableAgentEntitiesSortBy = map[string]ListImportableAgentEnt
 // GetListImportableAgentEntitiesSortByEnumValues Enumerates the set of values for ListImportableAgentEntitiesSortByEnum
 func GetListImportableAgentEntitiesSortByEnumValues() []ListImportableAgentEntitiesSortByEnum {
 	values := make([]ListImportableAgentEntitiesSortByEnum, 0)
-	for _, v := range mappingListImportableAgentEntitiesSortBy {
+	for _, v := range mappingListImportableAgentEntitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListImportableAgentEntitiesSortByEnumStringValues Enumerates the set of values in String for ListImportableAgentEntitiesSortByEnum
+func GetListImportableAgentEntitiesSortByEnumStringValues() []string {
+	return []string{
+		"entityName",
+		"entityType",
+	}
 }

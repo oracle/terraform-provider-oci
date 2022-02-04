@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InstancePoolInstance Information about an instance that belongs to an instance pool.
@@ -69,6 +71,21 @@ func (m InstancePoolInstance) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstancePoolInstance) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstancePoolInstanceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstancePoolInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstancePoolInstanceLifecycleStateEnum Enum with underlying type: string
 type InstancePoolInstanceLifecycleStateEnum string
 
@@ -79,7 +96,7 @@ const (
 	InstancePoolInstanceLifecycleStateDetaching InstancePoolInstanceLifecycleStateEnum = "DETACHING"
 )
 
-var mappingInstancePoolInstanceLifecycleState = map[string]InstancePoolInstanceLifecycleStateEnum{
+var mappingInstancePoolInstanceLifecycleStateEnum = map[string]InstancePoolInstanceLifecycleStateEnum{
 	"ATTACHING": InstancePoolInstanceLifecycleStateAttaching,
 	"ACTIVE":    InstancePoolInstanceLifecycleStateActive,
 	"DETACHING": InstancePoolInstanceLifecycleStateDetaching,
@@ -88,8 +105,17 @@ var mappingInstancePoolInstanceLifecycleState = map[string]InstancePoolInstanceL
 // GetInstancePoolInstanceLifecycleStateEnumValues Enumerates the set of values for InstancePoolInstanceLifecycleStateEnum
 func GetInstancePoolInstanceLifecycleStateEnumValues() []InstancePoolInstanceLifecycleStateEnum {
 	values := make([]InstancePoolInstanceLifecycleStateEnum, 0)
-	for _, v := range mappingInstancePoolInstanceLifecycleState {
+	for _, v := range mappingInstancePoolInstanceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstancePoolInstanceLifecycleStateEnumStringValues Enumerates the set of values in String for InstancePoolInstanceLifecycleStateEnum
+func GetInstancePoolInstanceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ATTACHING",
+		"ACTIVE",
+		"DETACHING",
+	}
 }

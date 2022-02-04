@@ -19,15 +19,22 @@ const (
 	DatabaseEntitySourceEmManagedExternalDatabase DatabaseEntitySourceEnum = "EM_MANAGED_EXTERNAL_DATABASE"
 )
 
-var mappingDatabaseEntitySource = map[string]DatabaseEntitySourceEnum{
+var mappingDatabaseEntitySourceEnum = map[string]DatabaseEntitySourceEnum{
 	"EM_MANAGED_EXTERNAL_DATABASE": DatabaseEntitySourceEmManagedExternalDatabase,
 }
 
 // GetDatabaseEntitySourceEnumValues Enumerates the set of values for DatabaseEntitySourceEnum
 func GetDatabaseEntitySourceEnumValues() []DatabaseEntitySourceEnum {
 	values := make([]DatabaseEntitySourceEnum, 0)
-	for _, v := range mappingDatabaseEntitySource {
+	for _, v := range mappingDatabaseEntitySourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseEntitySourceEnumStringValues Enumerates the set of values in String for DatabaseEntitySourceEnum
+func GetDatabaseEntitySourceEnumStringValues() []string {
+	return []string{
+		"EM_MANAGED_EXTERNAL_DATABASE",
+	}
 }

@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Sdk Information about the SDK.
@@ -83,6 +85,21 @@ func (m Sdk) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Sdk) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSdkLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSdkLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SdkLifecycleStateEnum Enum with underlying type: string
 type SdkLifecycleStateEnum string
 
@@ -95,7 +112,7 @@ const (
 	SdkLifecycleStateDeleted  SdkLifecycleStateEnum = "DELETED"
 )
 
-var mappingSdkLifecycleState = map[string]SdkLifecycleStateEnum{
+var mappingSdkLifecycleStateEnum = map[string]SdkLifecycleStateEnum{
 	"CREATING": SdkLifecycleStateCreating,
 	"ACTIVE":   SdkLifecycleStateActive,
 	"FAILED":   SdkLifecycleStateFailed,
@@ -106,8 +123,19 @@ var mappingSdkLifecycleState = map[string]SdkLifecycleStateEnum{
 // GetSdkLifecycleStateEnumValues Enumerates the set of values for SdkLifecycleStateEnum
 func GetSdkLifecycleStateEnumValues() []SdkLifecycleStateEnum {
 	values := make([]SdkLifecycleStateEnum, 0)
-	for _, v := range mappingSdkLifecycleState {
+	for _, v := range mappingSdkLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSdkLifecycleStateEnumStringValues Enumerates the set of values in String for SdkLifecycleStateEnum
+func GetSdkLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"FAILED",
+		"DELETING",
+		"DELETED",
+	}
 }

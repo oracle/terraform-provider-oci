@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ApprovalPolicy Specifies the approval policy.
@@ -61,6 +63,18 @@ func (m approvalpolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m approvalpolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ApprovalPolicyApprovalPolicyTypeEnum Enum with underlying type: string
 type ApprovalPolicyApprovalPolicyTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	ApprovalPolicyApprovalPolicyTypeCountBasedApproval ApprovalPolicyApprovalPolicyTypeEnum = "COUNT_BASED_APPROVAL"
 )
 
-var mappingApprovalPolicyApprovalPolicyType = map[string]ApprovalPolicyApprovalPolicyTypeEnum{
+var mappingApprovalPolicyApprovalPolicyTypeEnum = map[string]ApprovalPolicyApprovalPolicyTypeEnum{
 	"COUNT_BASED_APPROVAL": ApprovalPolicyApprovalPolicyTypeCountBasedApproval,
 }
 
 // GetApprovalPolicyApprovalPolicyTypeEnumValues Enumerates the set of values for ApprovalPolicyApprovalPolicyTypeEnum
 func GetApprovalPolicyApprovalPolicyTypeEnumValues() []ApprovalPolicyApprovalPolicyTypeEnum {
 	values := make([]ApprovalPolicyApprovalPolicyTypeEnum, 0)
-	for _, v := range mappingApprovalPolicyApprovalPolicyType {
+	for _, v := range mappingApprovalPolicyApprovalPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApprovalPolicyApprovalPolicyTypeEnumStringValues Enumerates the set of values in String for ApprovalPolicyApprovalPolicyTypeEnum
+func GetApprovalPolicyApprovalPolicyTypeEnumStringValues() []string {
+	return []string{
+		"COUNT_BASED_APPROVAL",
+	}
 }

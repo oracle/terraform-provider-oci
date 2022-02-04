@@ -5,8 +5,10 @@
 package nosql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetRowRequest wrapper for the GetRow operation
@@ -49,6 +51,10 @@ func (request GetRowRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetRowRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +68,20 @@ func (request GetRowRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, boo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetRowRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetRowRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetRowConsistencyEnum[string(request.Consistency)]; !ok && request.Consistency != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Consistency: %s. Supported values are: %s.", request.Consistency, strings.Join(GetGetRowConsistencyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetRowResponse wrapper for the GetRow operation
@@ -100,7 +120,7 @@ const (
 	GetRowConsistencyAbsolute GetRowConsistencyEnum = "ABSOLUTE"
 )
 
-var mappingGetRowConsistency = map[string]GetRowConsistencyEnum{
+var mappingGetRowConsistencyEnum = map[string]GetRowConsistencyEnum{
 	"EVENTUAL": GetRowConsistencyEventual,
 	"ABSOLUTE": GetRowConsistencyAbsolute,
 }
@@ -108,8 +128,16 @@ var mappingGetRowConsistency = map[string]GetRowConsistencyEnum{
 // GetGetRowConsistencyEnumValues Enumerates the set of values for GetRowConsistencyEnum
 func GetGetRowConsistencyEnumValues() []GetRowConsistencyEnum {
 	values := make([]GetRowConsistencyEnum, 0)
-	for _, v := range mappingGetRowConsistency {
+	for _, v := range mappingGetRowConsistencyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetRowConsistencyEnumStringValues Enumerates the set of values in String for GetRowConsistencyEnum
+func GetGetRowConsistencyEnumStringValues() []string {
+	return []string{
+		"EVENTUAL",
+		"ABSOLUTE",
+	}
 }

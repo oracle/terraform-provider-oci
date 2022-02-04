@@ -22,7 +22,7 @@ const (
 	WorkRequestSortByTimeFinished  WorkRequestSortByEnum = "timeFinished"
 )
 
-var mappingWorkRequestSortBy = map[string]WorkRequestSortByEnum{
+var mappingWorkRequestSortByEnum = map[string]WorkRequestSortByEnum{
 	"id":            WorkRequestSortById,
 	"operationType": WorkRequestSortByOperationType,
 	"status":        WorkRequestSortByStatus,
@@ -34,8 +34,20 @@ var mappingWorkRequestSortBy = map[string]WorkRequestSortByEnum{
 // GetWorkRequestSortByEnumValues Enumerates the set of values for WorkRequestSortByEnum
 func GetWorkRequestSortByEnumValues() []WorkRequestSortByEnum {
 	values := make([]WorkRequestSortByEnum, 0)
-	for _, v := range mappingWorkRequestSortBy {
+	for _, v := range mappingWorkRequestSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestSortByEnumStringValues Enumerates the set of values in String for WorkRequestSortByEnum
+func GetWorkRequestSortByEnumStringValues() []string {
+	return []string{
+		"id",
+		"operationType",
+		"status",
+		"timeAccepted",
+		"timeStarted",
+		"timeFinished",
+	}
 }

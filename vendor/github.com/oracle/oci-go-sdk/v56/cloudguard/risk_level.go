@@ -21,7 +21,7 @@ const (
 	RiskLevelMinor    RiskLevelEnum = "MINOR"
 )
 
-var mappingRiskLevel = map[string]RiskLevelEnum{
+var mappingRiskLevelEnum = map[string]RiskLevelEnum{
 	"CRITICAL": RiskLevelCritical,
 	"HIGH":     RiskLevelHigh,
 	"MEDIUM":   RiskLevelMedium,
@@ -32,8 +32,19 @@ var mappingRiskLevel = map[string]RiskLevelEnum{
 // GetRiskLevelEnumValues Enumerates the set of values for RiskLevelEnum
 func GetRiskLevelEnumValues() []RiskLevelEnum {
 	values := make([]RiskLevelEnum, 0)
-	for _, v := range mappingRiskLevel {
+	for _, v := range mappingRiskLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRiskLevelEnumStringValues Enumerates the set of values in String for RiskLevelEnum
+func GetRiskLevelEnumStringValues() []string {
+	return []string{
+		"CRITICAL",
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"MINOR",
+	}
 }

@@ -5,8 +5,10 @@
 package aianomalydetection
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDataAssetsRequest wrapper for the ListDataAssets operation
@@ -56,6 +58,10 @@ func (request ListDataAssetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDataAssetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,26 @@ func (request ListDataAssetsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDataAssetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDataAssetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDataAssetLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDataAssetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataAssetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDataAssetsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataAssetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDataAssetsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDataAssetsResponse wrapper for the ListDataAssets operation
@@ -108,7 +134,7 @@ const (
 	ListDataAssetsSortOrderDesc ListDataAssetsSortOrderEnum = "DESC"
 )
 
-var mappingListDataAssetsSortOrder = map[string]ListDataAssetsSortOrderEnum{
+var mappingListDataAssetsSortOrderEnum = map[string]ListDataAssetsSortOrderEnum{
 	"ASC":  ListDataAssetsSortOrderAsc,
 	"DESC": ListDataAssetsSortOrderDesc,
 }
@@ -116,10 +142,18 @@ var mappingListDataAssetsSortOrder = map[string]ListDataAssetsSortOrderEnum{
 // GetListDataAssetsSortOrderEnumValues Enumerates the set of values for ListDataAssetsSortOrderEnum
 func GetListDataAssetsSortOrderEnumValues() []ListDataAssetsSortOrderEnum {
 	values := make([]ListDataAssetsSortOrderEnum, 0)
-	for _, v := range mappingListDataAssetsSortOrder {
+	for _, v := range mappingListDataAssetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataAssetsSortOrderEnumStringValues Enumerates the set of values in String for ListDataAssetsSortOrderEnum
+func GetListDataAssetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDataAssetsSortByEnum Enum with underlying type: string
@@ -131,7 +165,7 @@ const (
 	ListDataAssetsSortByDisplayname ListDataAssetsSortByEnum = "displayName"
 )
 
-var mappingListDataAssetsSortBy = map[string]ListDataAssetsSortByEnum{
+var mappingListDataAssetsSortByEnum = map[string]ListDataAssetsSortByEnum{
 	"timeCreated": ListDataAssetsSortByTimecreated,
 	"displayName": ListDataAssetsSortByDisplayname,
 }
@@ -139,8 +173,16 @@ var mappingListDataAssetsSortBy = map[string]ListDataAssetsSortByEnum{
 // GetListDataAssetsSortByEnumValues Enumerates the set of values for ListDataAssetsSortByEnum
 func GetListDataAssetsSortByEnumValues() []ListDataAssetsSortByEnum {
 	values := make([]ListDataAssetsSortByEnum, 0)
-	for _, v := range mappingListDataAssetsSortBy {
+	for _, v := range mappingListDataAssetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataAssetsSortByEnumStringValues Enumerates the set of values in String for ListDataAssetsSortByEnum
+func GetListDataAssetsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

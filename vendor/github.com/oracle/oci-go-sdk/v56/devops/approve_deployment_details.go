@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ApproveDeploymentDetails The stage information for submitting for approval.
@@ -30,6 +32,21 @@ func (m ApproveDeploymentDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ApproveDeploymentDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingApproveDeploymentDetailsActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetApproveDeploymentDetailsActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ApproveDeploymentDetailsActionEnum Enum with underlying type: string
 type ApproveDeploymentDetailsActionEnum string
 
@@ -39,7 +56,7 @@ const (
 	ApproveDeploymentDetailsActionReject  ApproveDeploymentDetailsActionEnum = "REJECT"
 )
 
-var mappingApproveDeploymentDetailsAction = map[string]ApproveDeploymentDetailsActionEnum{
+var mappingApproveDeploymentDetailsActionEnum = map[string]ApproveDeploymentDetailsActionEnum{
 	"APPROVE": ApproveDeploymentDetailsActionApprove,
 	"REJECT":  ApproveDeploymentDetailsActionReject,
 }
@@ -47,8 +64,16 @@ var mappingApproveDeploymentDetailsAction = map[string]ApproveDeploymentDetailsA
 // GetApproveDeploymentDetailsActionEnumValues Enumerates the set of values for ApproveDeploymentDetailsActionEnum
 func GetApproveDeploymentDetailsActionEnumValues() []ApproveDeploymentDetailsActionEnum {
 	values := make([]ApproveDeploymentDetailsActionEnum, 0)
-	for _, v := range mappingApproveDeploymentDetailsAction {
+	for _, v := range mappingApproveDeploymentDetailsActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApproveDeploymentDetailsActionEnumStringValues Enumerates the set of values in String for ApproveDeploymentDetailsActionEnum
+func GetApproveDeploymentDetailsActionEnumStringValues() []string {
+	return []string{
+		"APPROVE",
+		"REJECT",
+	}
 }

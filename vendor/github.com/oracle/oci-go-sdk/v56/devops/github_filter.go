@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // GithubFilter The filter for GitHub events.
@@ -24,6 +26,23 @@ type GithubFilter struct {
 
 func (m GithubFilter) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m GithubFilter) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range m.Events {
+		if _, ok := mappingGithubFilterEventsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Events: %s. Supported values are: %s.", val, strings.Join(GetGithubFilterEventsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -52,7 +71,7 @@ const (
 	GithubFilterEventsPullRequestMerged   GithubFilterEventsEnum = "PULL_REQUEST_MERGED"
 )
 
-var mappingGithubFilterEvents = map[string]GithubFilterEventsEnum{
+var mappingGithubFilterEventsEnum = map[string]GithubFilterEventsEnum{
 	"PUSH":                  GithubFilterEventsPush,
 	"PULL_REQUEST_CREATED":  GithubFilterEventsPullRequestCreated,
 	"PULL_REQUEST_UPDATED":  GithubFilterEventsPullRequestUpdated,
@@ -63,8 +82,19 @@ var mappingGithubFilterEvents = map[string]GithubFilterEventsEnum{
 // GetGithubFilterEventsEnumValues Enumerates the set of values for GithubFilterEventsEnum
 func GetGithubFilterEventsEnumValues() []GithubFilterEventsEnum {
 	values := make([]GithubFilterEventsEnum, 0)
-	for _, v := range mappingGithubFilterEvents {
+	for _, v := range mappingGithubFilterEventsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGithubFilterEventsEnumStringValues Enumerates the set of values in String for GithubFilterEventsEnum
+func GetGithubFilterEventsEnumStringValues() []string {
+	return []string{
+		"PUSH",
+		"PULL_REQUEST_CREATED",
+		"PULL_REQUEST_UPDATED",
+		"PULL_REQUEST_REOPENED",
+		"PULL_REQUEST_MERGED",
+	}
 }

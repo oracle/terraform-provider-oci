@@ -23,7 +23,7 @@ const (
 	ImportanceMinor    ImportanceEnum = "MINOR"
 )
 
-var mappingImportance = map[string]ImportanceEnum{
+var mappingImportanceEnum = map[string]ImportanceEnum{
 	"CRITICAL": ImportanceCritical,
 	"HIGH":     ImportanceHigh,
 	"MODERATE": ImportanceModerate,
@@ -34,8 +34,19 @@ var mappingImportance = map[string]ImportanceEnum{
 // GetImportanceEnumValues Enumerates the set of values for ImportanceEnum
 func GetImportanceEnumValues() []ImportanceEnum {
 	values := make([]ImportanceEnum, 0)
-	for _, v := range mappingImportance {
+	for _, v := range mappingImportanceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetImportanceEnumStringValues Enumerates the set of values in String for ImportanceEnum
+func GetImportanceEnumStringValues() []string {
+	return []string{
+		"CRITICAL",
+		"HIGH",
+		"MODERATE",
+		"LOW",
+		"MINOR",
+	}
 }

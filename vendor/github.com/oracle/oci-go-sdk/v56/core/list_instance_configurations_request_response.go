@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListInstanceConfigurationsRequest wrapper for the ListInstanceConfigurations operation
@@ -59,6 +61,10 @@ func (request ListInstanceConfigurationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListInstanceConfigurationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,23 @@ func (request ListInstanceConfigurationsRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListInstanceConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListInstanceConfigurationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListInstanceConfigurationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListInstanceConfigurationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListInstanceConfigurationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListInstanceConfigurationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListInstanceConfigurationsResponse wrapper for the ListInstanceConfigurations operation
@@ -111,7 +134,7 @@ const (
 	ListInstanceConfigurationsSortByDisplayname ListInstanceConfigurationsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListInstanceConfigurationsSortBy = map[string]ListInstanceConfigurationsSortByEnum{
+var mappingListInstanceConfigurationsSortByEnum = map[string]ListInstanceConfigurationsSortByEnum{
 	"TIMECREATED": ListInstanceConfigurationsSortByTimecreated,
 	"DISPLAYNAME": ListInstanceConfigurationsSortByDisplayname,
 }
@@ -119,10 +142,18 @@ var mappingListInstanceConfigurationsSortBy = map[string]ListInstanceConfigurati
 // GetListInstanceConfigurationsSortByEnumValues Enumerates the set of values for ListInstanceConfigurationsSortByEnum
 func GetListInstanceConfigurationsSortByEnumValues() []ListInstanceConfigurationsSortByEnum {
 	values := make([]ListInstanceConfigurationsSortByEnum, 0)
-	for _, v := range mappingListInstanceConfigurationsSortBy {
+	for _, v := range mappingListInstanceConfigurationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstanceConfigurationsSortByEnumStringValues Enumerates the set of values in String for ListInstanceConfigurationsSortByEnum
+func GetListInstanceConfigurationsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListInstanceConfigurationsSortOrderEnum Enum with underlying type: string
@@ -134,7 +165,7 @@ const (
 	ListInstanceConfigurationsSortOrderDesc ListInstanceConfigurationsSortOrderEnum = "DESC"
 )
 
-var mappingListInstanceConfigurationsSortOrder = map[string]ListInstanceConfigurationsSortOrderEnum{
+var mappingListInstanceConfigurationsSortOrderEnum = map[string]ListInstanceConfigurationsSortOrderEnum{
 	"ASC":  ListInstanceConfigurationsSortOrderAsc,
 	"DESC": ListInstanceConfigurationsSortOrderDesc,
 }
@@ -142,8 +173,16 @@ var mappingListInstanceConfigurationsSortOrder = map[string]ListInstanceConfigur
 // GetListInstanceConfigurationsSortOrderEnumValues Enumerates the set of values for ListInstanceConfigurationsSortOrderEnum
 func GetListInstanceConfigurationsSortOrderEnumValues() []ListInstanceConfigurationsSortOrderEnum {
 	values := make([]ListInstanceConfigurationsSortOrderEnum, 0)
-	for _, v := range mappingListInstanceConfigurationsSortOrder {
+	for _, v := range mappingListInstanceConfigurationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstanceConfigurationsSortOrderEnumStringValues Enumerates the set of values in String for ListInstanceConfigurationsSortOrderEnum
+func GetListInstanceConfigurationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

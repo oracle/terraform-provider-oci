@@ -11,7 +11,9 @@ package mysql
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Channel A Channel connecting a DB System to an external entity.
@@ -59,6 +61,21 @@ type Channel struct {
 
 func (m Channel) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Channel) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingChannelLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetChannelLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -144,7 +161,7 @@ const (
 	ChannelLifecycleStateFailed         ChannelLifecycleStateEnum = "FAILED"
 )
 
-var mappingChannelLifecycleState = map[string]ChannelLifecycleStateEnum{
+var mappingChannelLifecycleStateEnum = map[string]ChannelLifecycleStateEnum{
 	"CREATING":        ChannelLifecycleStateCreating,
 	"ACTIVE":          ChannelLifecycleStateActive,
 	"NEEDS_ATTENTION": ChannelLifecycleStateNeedsAttention,
@@ -158,8 +175,22 @@ var mappingChannelLifecycleState = map[string]ChannelLifecycleStateEnum{
 // GetChannelLifecycleStateEnumValues Enumerates the set of values for ChannelLifecycleStateEnum
 func GetChannelLifecycleStateEnumValues() []ChannelLifecycleStateEnum {
 	values := make([]ChannelLifecycleStateEnum, 0)
-	for _, v := range mappingChannelLifecycleState {
+	for _, v := range mappingChannelLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetChannelLifecycleStateEnumStringValues Enumerates the set of values in String for ChannelLifecycleStateEnum
+func GetChannelLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"NEEDS_ATTENTION",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

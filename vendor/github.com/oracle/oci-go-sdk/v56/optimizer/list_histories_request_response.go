@@ -5,8 +5,10 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListHistoriesRequest wrapper for the ListHistories operation
@@ -69,6 +71,10 @@ func (request ListHistoriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListHistoriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,29 @@ func (request ListHistoriesRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListHistoriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListHistoriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListHistoriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListHistoriesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListHistoriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListHistoriesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListHistoriesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListHistoriesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListHistoriesStatusEnum[string(request.Status)]; !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListHistoriesStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListHistoriesResponse wrapper for the ListHistories operation
@@ -125,7 +154,7 @@ const (
 	ListHistoriesSortOrderDesc ListHistoriesSortOrderEnum = "DESC"
 )
 
-var mappingListHistoriesSortOrder = map[string]ListHistoriesSortOrderEnum{
+var mappingListHistoriesSortOrderEnum = map[string]ListHistoriesSortOrderEnum{
 	"ASC":  ListHistoriesSortOrderAsc,
 	"DESC": ListHistoriesSortOrderDesc,
 }
@@ -133,10 +162,18 @@ var mappingListHistoriesSortOrder = map[string]ListHistoriesSortOrderEnum{
 // GetListHistoriesSortOrderEnumValues Enumerates the set of values for ListHistoriesSortOrderEnum
 func GetListHistoriesSortOrderEnumValues() []ListHistoriesSortOrderEnum {
 	values := make([]ListHistoriesSortOrderEnum, 0)
-	for _, v := range mappingListHistoriesSortOrder {
+	for _, v := range mappingListHistoriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHistoriesSortOrderEnumStringValues Enumerates the set of values in String for ListHistoriesSortOrderEnum
+func GetListHistoriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListHistoriesSortByEnum Enum with underlying type: string
@@ -148,7 +185,7 @@ const (
 	ListHistoriesSortByTimecreated ListHistoriesSortByEnum = "TIMECREATED"
 )
 
-var mappingListHistoriesSortBy = map[string]ListHistoriesSortByEnum{
+var mappingListHistoriesSortByEnum = map[string]ListHistoriesSortByEnum{
 	"NAME":        ListHistoriesSortByName,
 	"TIMECREATED": ListHistoriesSortByTimecreated,
 }
@@ -156,10 +193,18 @@ var mappingListHistoriesSortBy = map[string]ListHistoriesSortByEnum{
 // GetListHistoriesSortByEnumValues Enumerates the set of values for ListHistoriesSortByEnum
 func GetListHistoriesSortByEnumValues() []ListHistoriesSortByEnum {
 	values := make([]ListHistoriesSortByEnum, 0)
-	for _, v := range mappingListHistoriesSortBy {
+	for _, v := range mappingListHistoriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHistoriesSortByEnumStringValues Enumerates the set of values in String for ListHistoriesSortByEnum
+func GetListHistoriesSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }
 
 // ListHistoriesLifecycleStateEnum Enum with underlying type: string
@@ -178,7 +223,7 @@ const (
 	ListHistoriesLifecycleStateCreating  ListHistoriesLifecycleStateEnum = "CREATING"
 )
 
-var mappingListHistoriesLifecycleState = map[string]ListHistoriesLifecycleStateEnum{
+var mappingListHistoriesLifecycleStateEnum = map[string]ListHistoriesLifecycleStateEnum{
 	"ACTIVE":    ListHistoriesLifecycleStateActive,
 	"FAILED":    ListHistoriesLifecycleStateFailed,
 	"INACTIVE":  ListHistoriesLifecycleStateInactive,
@@ -193,10 +238,25 @@ var mappingListHistoriesLifecycleState = map[string]ListHistoriesLifecycleStateE
 // GetListHistoriesLifecycleStateEnumValues Enumerates the set of values for ListHistoriesLifecycleStateEnum
 func GetListHistoriesLifecycleStateEnumValues() []ListHistoriesLifecycleStateEnum {
 	values := make([]ListHistoriesLifecycleStateEnum, 0)
-	for _, v := range mappingListHistoriesLifecycleState {
+	for _, v := range mappingListHistoriesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHistoriesLifecycleStateEnumStringValues Enumerates the set of values in String for ListHistoriesLifecycleStateEnum
+func GetListHistoriesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"FAILED",
+		"INACTIVE",
+		"ATTACHING",
+		"DETACHING",
+		"DELETING",
+		"DELETED",
+		"UPDATING",
+		"CREATING",
+	}
 }
 
 // ListHistoriesStatusEnum Enum with underlying type: string
@@ -210,7 +270,7 @@ const (
 	ListHistoriesStatusImplemented ListHistoriesStatusEnum = "IMPLEMENTED"
 )
 
-var mappingListHistoriesStatus = map[string]ListHistoriesStatusEnum{
+var mappingListHistoriesStatusEnum = map[string]ListHistoriesStatusEnum{
 	"PENDING":     ListHistoriesStatusPending,
 	"DISMISSED":   ListHistoriesStatusDismissed,
 	"POSTPONED":   ListHistoriesStatusPostponed,
@@ -220,8 +280,18 @@ var mappingListHistoriesStatus = map[string]ListHistoriesStatusEnum{
 // GetListHistoriesStatusEnumValues Enumerates the set of values for ListHistoriesStatusEnum
 func GetListHistoriesStatusEnumValues() []ListHistoriesStatusEnum {
 	values := make([]ListHistoriesStatusEnum, 0)
-	for _, v := range mappingListHistoriesStatus {
+	for _, v := range mappingListHistoriesStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHistoriesStatusEnumStringValues Enumerates the set of values in String for ListHistoriesStatusEnum
+func GetListHistoriesStatusEnumStringValues() []string {
+	return []string{
+		"PENDING",
+		"DISMISSED",
+		"POSTPONED",
+		"IMPLEMENTED",
+	}
 }

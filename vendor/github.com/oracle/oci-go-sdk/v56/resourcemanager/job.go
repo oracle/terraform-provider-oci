@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Job The properties that define a job. Jobs perform the actions that are defined in your configuration.
@@ -96,6 +98,24 @@ type Job struct {
 
 func (m Job) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Job) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingJobOperationEnum[string(m.Operation)]; !ok && m.Operation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operation: %s. Supported values are: %s.", m.Operation, strings.Join(GetJobOperationEnumStringValues(), ",")))
+	}
+	if _, ok := mappingJobLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetJobLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -192,7 +212,7 @@ const (
 	JobOperationImportTfState JobOperationEnum = "IMPORT_TF_STATE"
 )
 
-var mappingJobOperation = map[string]JobOperationEnum{
+var mappingJobOperationEnum = map[string]JobOperationEnum{
 	"PLAN":            JobOperationPlan,
 	"APPLY":           JobOperationApply,
 	"DESTROY":         JobOperationDestroy,
@@ -202,10 +222,20 @@ var mappingJobOperation = map[string]JobOperationEnum{
 // GetJobOperationEnumValues Enumerates the set of values for JobOperationEnum
 func GetJobOperationEnumValues() []JobOperationEnum {
 	values := make([]JobOperationEnum, 0)
-	for _, v := range mappingJobOperation {
+	for _, v := range mappingJobOperationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobOperationEnumStringValues Enumerates the set of values in String for JobOperationEnum
+func GetJobOperationEnumStringValues() []string {
+	return []string{
+		"PLAN",
+		"APPLY",
+		"DESTROY",
+		"IMPORT_TF_STATE",
+	}
 }
 
 // JobLifecycleStateEnum Enum with underlying type: string
@@ -221,7 +251,7 @@ const (
 	JobLifecycleStateCanceled   JobLifecycleStateEnum = "CANCELED"
 )
 
-var mappingJobLifecycleState = map[string]JobLifecycleStateEnum{
+var mappingJobLifecycleStateEnum = map[string]JobLifecycleStateEnum{
 	"ACCEPTED":    JobLifecycleStateAccepted,
 	"IN_PROGRESS": JobLifecycleStateInProgress,
 	"FAILED":      JobLifecycleStateFailed,
@@ -233,8 +263,20 @@ var mappingJobLifecycleState = map[string]JobLifecycleStateEnum{
 // GetJobLifecycleStateEnumValues Enumerates the set of values for JobLifecycleStateEnum
 func GetJobLifecycleStateEnumValues() []JobLifecycleStateEnum {
 	values := make([]JobLifecycleStateEnum, 0)
-	for _, v := range mappingJobLifecycleState {
+	for _, v := range mappingJobLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobLifecycleStateEnumStringValues Enumerates the set of values in String for JobLifecycleStateEnum
+func GetJobLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

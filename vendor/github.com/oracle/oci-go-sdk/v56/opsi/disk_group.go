@@ -19,15 +19,22 @@ const (
 	DiskGroupStorage DiskGroupEnum = "STORAGE"
 )
 
-var mappingDiskGroup = map[string]DiskGroupEnum{
+var mappingDiskGroupEnum = map[string]DiskGroupEnum{
 	"STORAGE": DiskGroupStorage,
 }
 
 // GetDiskGroupEnumValues Enumerates the set of values for DiskGroupEnum
 func GetDiskGroupEnumValues() []DiskGroupEnum {
 	values := make([]DiskGroupEnum, 0)
-	for _, v := range mappingDiskGroup {
+	for _, v := range mappingDiskGroupEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDiskGroupEnumStringValues Enumerates the set of values in String for DiskGroupEnum
+func GetDiskGroupEnumStringValues() []string {
+	return []string{
+		"STORAGE",
+	}
 }

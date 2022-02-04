@@ -22,7 +22,7 @@ const (
 	MacsecStateDisabled MacsecStateEnum = "DISABLED"
 )
 
-var mappingMacsecState = map[string]MacsecStateEnum{
+var mappingMacsecStateEnum = map[string]MacsecStateEnum{
 	"ENABLED":  MacsecStateEnabled,
 	"DISABLED": MacsecStateDisabled,
 }
@@ -30,8 +30,16 @@ var mappingMacsecState = map[string]MacsecStateEnum{
 // GetMacsecStateEnumValues Enumerates the set of values for MacsecStateEnum
 func GetMacsecStateEnumValues() []MacsecStateEnum {
 	values := make([]MacsecStateEnum, 0)
-	for _, v := range mappingMacsecState {
+	for _, v := range mappingMacsecStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMacsecStateEnumStringValues Enumerates the set of values in String for MacsecStateEnum
+func GetMacsecStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }

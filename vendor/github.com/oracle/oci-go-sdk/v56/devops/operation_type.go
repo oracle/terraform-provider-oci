@@ -52,7 +52,7 @@ const (
 	OperationTypeMirrorRepository         OperationTypeEnum = "MIRROR_REPOSITORY"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_PROJECT":              OperationTypeCreateProject,
 	"UPDATE_PROJECT":              OperationTypeUpdateProject,
 	"DELETE_PROJECT":              OperationTypeDeleteProject,
@@ -94,8 +94,50 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_PROJECT",
+		"UPDATE_PROJECT",
+		"DELETE_PROJECT",
+		"MOVE_PROJECT",
+		"CREATE_DEPLOY_PIPELINE",
+		"UPDATE_DEPLOY_PIPELINE",
+		"DELETE_DEPLOY_PIPELINE",
+		"CREATE_DEPLOY_STAGE",
+		"UPDATE_DEPLOY_STAGE",
+		"DELETE_DEPLOY_STAGE",
+		"CREATE_DEPLOY_ARTIFACT",
+		"UPDATE_DEPLOY_ARTIFACT",
+		"DELETE_DEPLOY_ARTIFACT",
+		"CREATE_DEPLOY_ENVIRONMENT",
+		"UPDATE_DEPLOY_ENVIRONMENT",
+		"DELETE_DEPLOY_ENVIRONMENT",
+		"CREATE_DEPLOYMENT",
+		"UPDATE_DEPLOYMENT",
+		"DELETE_DEPLOYMENT",
+		"CREATE_BUILD_PIPELINE",
+		"UPDATE_BUILD_PIPELINE",
+		"DELETE_BUILD_PIPELINE",
+		"CREATE_BUILD_PIPELINE_STAGE",
+		"UPDATE_BUILD_PIPELINE_STAGE",
+		"DELETE_BUILD_PIPELINE_STAGE",
+		"CREATE_CONNECTION",
+		"UPDATE_CONNECTION",
+		"DELETE_CONNECTION",
+		"CREATE_TRIGGER",
+		"UPDATE_TRIGGER",
+		"DELETE_TRIGGER",
+		"EXECUTE_TRIGGER",
+		"CREATE_REPOSITORY",
+		"UPDATE_REPOSITORY",
+		"DELETE_REPOSITORY",
+		"MIRROR_REPOSITORY",
+	}
 }

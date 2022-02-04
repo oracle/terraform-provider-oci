@@ -18,7 +18,7 @@ const (
 	CertificateAuthorityConfigTypeSubordinateCaIssuedByInternalCa CertificateAuthorityConfigTypeEnum = "SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA"
 )
 
-var mappingCertificateAuthorityConfigType = map[string]CertificateAuthorityConfigTypeEnum{
+var mappingCertificateAuthorityConfigTypeEnum = map[string]CertificateAuthorityConfigTypeEnum{
 	"ROOT_CA_GENERATED_INTERNALLY":         CertificateAuthorityConfigTypeRootCaGeneratedInternally,
 	"SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA": CertificateAuthorityConfigTypeSubordinateCaIssuedByInternalCa,
 }
@@ -26,8 +26,16 @@ var mappingCertificateAuthorityConfigType = map[string]CertificateAuthorityConfi
 // GetCertificateAuthorityConfigTypeEnumValues Enumerates the set of values for CertificateAuthorityConfigTypeEnum
 func GetCertificateAuthorityConfigTypeEnumValues() []CertificateAuthorityConfigTypeEnum {
 	values := make([]CertificateAuthorityConfigTypeEnum, 0)
-	for _, v := range mappingCertificateAuthorityConfigType {
+	for _, v := range mappingCertificateAuthorityConfigTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCertificateAuthorityConfigTypeEnumStringValues Enumerates the set of values in String for CertificateAuthorityConfigTypeEnum
+func GetCertificateAuthorityConfigTypeEnumStringValues() []string {
+	return []string{
+		"ROOT_CA_GENERATED_INTERNALLY",
+		"SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA",
+	}
 }

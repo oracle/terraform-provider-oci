@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateDatabaseDetails Details for creating a database.
@@ -65,6 +67,21 @@ func (m CreateDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateDatabaseDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateDatabaseDetailsDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateDatabaseDetailsDbWorkloadEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateDatabaseDetailsDbWorkloadEnum Enum with underlying type: string
 type CreateDatabaseDetailsDbWorkloadEnum string
 
@@ -74,7 +91,7 @@ const (
 	CreateDatabaseDetailsDbWorkloadDss  CreateDatabaseDetailsDbWorkloadEnum = "DSS"
 )
 
-var mappingCreateDatabaseDetailsDbWorkload = map[string]CreateDatabaseDetailsDbWorkloadEnum{
+var mappingCreateDatabaseDetailsDbWorkloadEnum = map[string]CreateDatabaseDetailsDbWorkloadEnum{
 	"OLTP": CreateDatabaseDetailsDbWorkloadOltp,
 	"DSS":  CreateDatabaseDetailsDbWorkloadDss,
 }
@@ -82,8 +99,16 @@ var mappingCreateDatabaseDetailsDbWorkload = map[string]CreateDatabaseDetailsDbW
 // GetCreateDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for CreateDatabaseDetailsDbWorkloadEnum
 func GetCreateDatabaseDetailsDbWorkloadEnumValues() []CreateDatabaseDetailsDbWorkloadEnum {
 	values := make([]CreateDatabaseDetailsDbWorkloadEnum, 0)
-	for _, v := range mappingCreateDatabaseDetailsDbWorkload {
+	for _, v := range mappingCreateDatabaseDetailsDbWorkloadEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateDatabaseDetailsDbWorkloadEnumStringValues Enumerates the set of values in String for CreateDatabaseDetailsDbWorkloadEnum
+func GetCreateDatabaseDetailsDbWorkloadEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DSS",
+	}
 }

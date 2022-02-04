@@ -12,7 +12,9 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SummarizeHostInsightResourceCapacityTrendAggregationCollection Top level response object.
@@ -41,6 +43,24 @@ func (m SummarizeHostInsightResourceCapacityTrendAggregationCollection) String()
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SummarizeHostInsightResourceCapacityTrendAggregationCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum[string(m.ResourceMetric)]; !ok && m.ResourceMetric != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceMetric: %s. Supported values are: %s.", m.ResourceMetric, strings.Join(GetSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUsageUnitEnum[string(m.UsageUnit)]; !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum Enum with underlying type: string
 type SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum string
 
@@ -51,7 +71,7 @@ const (
 	SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricLogicalMemory SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = "LOGICAL_MEMORY"
 )
 
-var mappingSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetric = map[string]SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum{
+var mappingSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = map[string]SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum{
 	"CPU":            SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricCpu,
 	"MEMORY":         SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricMemory,
 	"LOGICAL_MEMORY": SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricLogicalMemory,
@@ -60,8 +80,17 @@ var mappingSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourc
 // GetSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumValues Enumerates the set of values for SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum
 func GetSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumValues() []SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum {
 	values := make([]SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetric {
+	for _, v := range mappingSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum
+func GetSummarizeHostInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"MEMORY",
+		"LOGICAL_MEMORY",
+	}
 }

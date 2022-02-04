@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDatabaseConfigurationsRequest wrapper for the ListDatabaseConfigurations operation
@@ -103,6 +105,10 @@ func (request ListDatabaseConfigurationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDatabaseConfigurationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -116,6 +122,29 @@ func (request ListDatabaseConfigurationsRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDatabaseConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDatabaseConfigurationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.DatabaseType {
+		if _, ok := mappingListDatabaseConfigurationsDatabaseTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", val, strings.Join(GetListDatabaseConfigurationsDatabaseTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListDatabaseConfigurationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatabaseConfigurationsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseConfigurationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDatabaseConfigurationsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDatabaseConfigurationsResponse wrapper for the ListDatabaseConfigurations operation
@@ -162,7 +191,7 @@ const (
 	ListDatabaseConfigurationsDatabaseTypeExternalNoncdb ListDatabaseConfigurationsDatabaseTypeEnum = "EXTERNAL-NONCDB"
 )
 
-var mappingListDatabaseConfigurationsDatabaseType = map[string]ListDatabaseConfigurationsDatabaseTypeEnum{
+var mappingListDatabaseConfigurationsDatabaseTypeEnum = map[string]ListDatabaseConfigurationsDatabaseTypeEnum{
 	"ADW-S":           ListDatabaseConfigurationsDatabaseTypeAdwS,
 	"ATP-S":           ListDatabaseConfigurationsDatabaseTypeAtpS,
 	"ADW-D":           ListDatabaseConfigurationsDatabaseTypeAdwD,
@@ -174,10 +203,22 @@ var mappingListDatabaseConfigurationsDatabaseType = map[string]ListDatabaseConfi
 // GetListDatabaseConfigurationsDatabaseTypeEnumValues Enumerates the set of values for ListDatabaseConfigurationsDatabaseTypeEnum
 func GetListDatabaseConfigurationsDatabaseTypeEnumValues() []ListDatabaseConfigurationsDatabaseTypeEnum {
 	values := make([]ListDatabaseConfigurationsDatabaseTypeEnum, 0)
-	for _, v := range mappingListDatabaseConfigurationsDatabaseType {
+	for _, v := range mappingListDatabaseConfigurationsDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseConfigurationsDatabaseTypeEnumStringValues Enumerates the set of values in String for ListDatabaseConfigurationsDatabaseTypeEnum
+func GetListDatabaseConfigurationsDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"ADW-S",
+		"ATP-S",
+		"ADW-D",
+		"ATP-D",
+		"EXTERNAL-PDB",
+		"EXTERNAL-NONCDB",
+	}
 }
 
 // ListDatabaseConfigurationsSortOrderEnum Enum with underlying type: string
@@ -189,7 +230,7 @@ const (
 	ListDatabaseConfigurationsSortOrderDesc ListDatabaseConfigurationsSortOrderEnum = "DESC"
 )
 
-var mappingListDatabaseConfigurationsSortOrder = map[string]ListDatabaseConfigurationsSortOrderEnum{
+var mappingListDatabaseConfigurationsSortOrderEnum = map[string]ListDatabaseConfigurationsSortOrderEnum{
 	"ASC":  ListDatabaseConfigurationsSortOrderAsc,
 	"DESC": ListDatabaseConfigurationsSortOrderDesc,
 }
@@ -197,10 +238,18 @@ var mappingListDatabaseConfigurationsSortOrder = map[string]ListDatabaseConfigur
 // GetListDatabaseConfigurationsSortOrderEnumValues Enumerates the set of values for ListDatabaseConfigurationsSortOrderEnum
 func GetListDatabaseConfigurationsSortOrderEnumValues() []ListDatabaseConfigurationsSortOrderEnum {
 	values := make([]ListDatabaseConfigurationsSortOrderEnum, 0)
-	for _, v := range mappingListDatabaseConfigurationsSortOrder {
+	for _, v := range mappingListDatabaseConfigurationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseConfigurationsSortOrderEnumStringValues Enumerates the set of values in String for ListDatabaseConfigurationsSortOrderEnum
+func GetListDatabaseConfigurationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDatabaseConfigurationsSortByEnum Enum with underlying type: string
@@ -213,7 +262,7 @@ const (
 	ListDatabaseConfigurationsSortByDatabasetype        ListDatabaseConfigurationsSortByEnum = "databaseType"
 )
 
-var mappingListDatabaseConfigurationsSortBy = map[string]ListDatabaseConfigurationsSortByEnum{
+var mappingListDatabaseConfigurationsSortByEnum = map[string]ListDatabaseConfigurationsSortByEnum{
 	"databaseName":        ListDatabaseConfigurationsSortByDatabasename,
 	"databaseDisplayName": ListDatabaseConfigurationsSortByDatabasedisplayname,
 	"databaseType":        ListDatabaseConfigurationsSortByDatabasetype,
@@ -222,8 +271,17 @@ var mappingListDatabaseConfigurationsSortBy = map[string]ListDatabaseConfigurati
 // GetListDatabaseConfigurationsSortByEnumValues Enumerates the set of values for ListDatabaseConfigurationsSortByEnum
 func GetListDatabaseConfigurationsSortByEnumValues() []ListDatabaseConfigurationsSortByEnum {
 	values := make([]ListDatabaseConfigurationsSortByEnum, 0)
-	for _, v := range mappingListDatabaseConfigurationsSortBy {
+	for _, v := range mappingListDatabaseConfigurationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseConfigurationsSortByEnumStringValues Enumerates the set of values in String for ListDatabaseConfigurationsSortByEnum
+func GetListDatabaseConfigurationsSortByEnumStringValues() []string {
+	return []string{
+		"databaseName",
+		"databaseDisplayName",
+		"databaseType",
+	}
 }

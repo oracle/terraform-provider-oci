@@ -18,7 +18,7 @@ const (
 	ContentTypesJs   ContentTypesEnum = "JS"
 )
 
-var mappingContentTypes = map[string]ContentTypesEnum{
+var mappingContentTypesEnum = map[string]ContentTypesEnum{
 	"SIDE": ContentTypesSide,
 	"JS":   ContentTypesJs,
 }
@@ -26,8 +26,16 @@ var mappingContentTypes = map[string]ContentTypesEnum{
 // GetContentTypesEnumValues Enumerates the set of values for ContentTypesEnum
 func GetContentTypesEnumValues() []ContentTypesEnum {
 	values := make([]ContentTypesEnum, 0)
-	for _, v := range mappingContentTypes {
+	for _, v := range mappingContentTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetContentTypesEnumStringValues Enumerates the set of values in String for ContentTypesEnum
+func GetContentTypesEnumStringValues() []string {
+	return []string{
+		"SIDE",
+		"JS",
+	}
 }

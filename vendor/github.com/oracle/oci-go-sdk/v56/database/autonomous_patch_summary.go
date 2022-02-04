@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutonomousPatchSummary A patch for an Autonomous Exadata Infrastructure or Autonomous Container Database.
@@ -55,6 +57,24 @@ func (m AutonomousPatchSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousPatchSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAutonomousPatchSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousPatchSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousPatchSummaryPatchModelEnum[string(m.PatchModel)]; !ok && m.PatchModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchModel: %s. Supported values are: %s.", m.PatchModel, strings.Join(GetAutonomousPatchSummaryPatchModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousPatchSummaryLifecycleStateEnum Enum with underlying type: string
 type AutonomousPatchSummaryLifecycleStateEnum string
 
@@ -66,7 +86,7 @@ const (
 	AutonomousPatchSummaryLifecycleStateFailed     AutonomousPatchSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingAutonomousPatchSummaryLifecycleState = map[string]AutonomousPatchSummaryLifecycleStateEnum{
+var mappingAutonomousPatchSummaryLifecycleStateEnum = map[string]AutonomousPatchSummaryLifecycleStateEnum{
 	"AVAILABLE":   AutonomousPatchSummaryLifecycleStateAvailable,
 	"SUCCESS":     AutonomousPatchSummaryLifecycleStateSuccess,
 	"IN_PROGRESS": AutonomousPatchSummaryLifecycleStateInProgress,
@@ -76,10 +96,20 @@ var mappingAutonomousPatchSummaryLifecycleState = map[string]AutonomousPatchSumm
 // GetAutonomousPatchSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousPatchSummaryLifecycleStateEnum
 func GetAutonomousPatchSummaryLifecycleStateEnumValues() []AutonomousPatchSummaryLifecycleStateEnum {
 	values := make([]AutonomousPatchSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousPatchSummaryLifecycleState {
+	for _, v := range mappingAutonomousPatchSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousPatchSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousPatchSummaryLifecycleStateEnum
+func GetAutonomousPatchSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"SUCCESS",
+		"IN_PROGRESS",
+		"FAILED",
+	}
 }
 
 // AutonomousPatchSummaryPatchModelEnum Enum with underlying type: string
@@ -91,7 +121,7 @@ const (
 	AutonomousPatchSummaryPatchModelUpdateRevisions AutonomousPatchSummaryPatchModelEnum = "RELEASE_UPDATE_REVISIONS"
 )
 
-var mappingAutonomousPatchSummaryPatchModel = map[string]AutonomousPatchSummaryPatchModelEnum{
+var mappingAutonomousPatchSummaryPatchModelEnum = map[string]AutonomousPatchSummaryPatchModelEnum{
 	"RELEASE_UPDATES":          AutonomousPatchSummaryPatchModelUpdates,
 	"RELEASE_UPDATE_REVISIONS": AutonomousPatchSummaryPatchModelUpdateRevisions,
 }
@@ -99,8 +129,16 @@ var mappingAutonomousPatchSummaryPatchModel = map[string]AutonomousPatchSummaryP
 // GetAutonomousPatchSummaryPatchModelEnumValues Enumerates the set of values for AutonomousPatchSummaryPatchModelEnum
 func GetAutonomousPatchSummaryPatchModelEnumValues() []AutonomousPatchSummaryPatchModelEnum {
 	values := make([]AutonomousPatchSummaryPatchModelEnum, 0)
-	for _, v := range mappingAutonomousPatchSummaryPatchModel {
+	for _, v := range mappingAutonomousPatchSummaryPatchModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousPatchSummaryPatchModelEnumStringValues Enumerates the set of values in String for AutonomousPatchSummaryPatchModelEnum
+func GetAutonomousPatchSummaryPatchModelEnumStringValues() []string {
+	return []string{
+		"RELEASE_UPDATES",
+		"RELEASE_UPDATE_REVISIONS",
+	}
 }

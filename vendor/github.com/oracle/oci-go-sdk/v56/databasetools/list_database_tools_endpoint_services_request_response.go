@@ -5,8 +5,10 @@
 package databasetools
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDatabaseToolsEndpointServicesRequest wrapper for the ListDatabaseToolsEndpointServices operation
@@ -55,6 +57,10 @@ func (request ListDatabaseToolsEndpointServicesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDatabaseToolsEndpointServicesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListDatabaseToolsEndpointServicesRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDatabaseToolsEndpointServicesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDatabaseToolsEndpointServicesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDatabaseToolsEndpointServicesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatabaseToolsEndpointServicesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseToolsEndpointServicesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDatabaseToolsEndpointServicesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseToolsEndpointServicesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDatabaseToolsEndpointServicesLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDatabaseToolsEndpointServicesResponse wrapper for the ListDatabaseToolsEndpointServices operation
@@ -107,7 +133,7 @@ const (
 	ListDatabaseToolsEndpointServicesSortOrderDesc ListDatabaseToolsEndpointServicesSortOrderEnum = "DESC"
 )
 
-var mappingListDatabaseToolsEndpointServicesSortOrder = map[string]ListDatabaseToolsEndpointServicesSortOrderEnum{
+var mappingListDatabaseToolsEndpointServicesSortOrderEnum = map[string]ListDatabaseToolsEndpointServicesSortOrderEnum{
 	"ASC":  ListDatabaseToolsEndpointServicesSortOrderAsc,
 	"DESC": ListDatabaseToolsEndpointServicesSortOrderDesc,
 }
@@ -115,10 +141,18 @@ var mappingListDatabaseToolsEndpointServicesSortOrder = map[string]ListDatabaseT
 // GetListDatabaseToolsEndpointServicesSortOrderEnumValues Enumerates the set of values for ListDatabaseToolsEndpointServicesSortOrderEnum
 func GetListDatabaseToolsEndpointServicesSortOrderEnumValues() []ListDatabaseToolsEndpointServicesSortOrderEnum {
 	values := make([]ListDatabaseToolsEndpointServicesSortOrderEnum, 0)
-	for _, v := range mappingListDatabaseToolsEndpointServicesSortOrder {
+	for _, v := range mappingListDatabaseToolsEndpointServicesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseToolsEndpointServicesSortOrderEnumStringValues Enumerates the set of values in String for ListDatabaseToolsEndpointServicesSortOrderEnum
+func GetListDatabaseToolsEndpointServicesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDatabaseToolsEndpointServicesSortByEnum Enum with underlying type: string
@@ -130,7 +164,7 @@ const (
 	ListDatabaseToolsEndpointServicesSortByDisplayname ListDatabaseToolsEndpointServicesSortByEnum = "displayName"
 )
 
-var mappingListDatabaseToolsEndpointServicesSortBy = map[string]ListDatabaseToolsEndpointServicesSortByEnum{
+var mappingListDatabaseToolsEndpointServicesSortByEnum = map[string]ListDatabaseToolsEndpointServicesSortByEnum{
 	"timeCreated": ListDatabaseToolsEndpointServicesSortByTimecreated,
 	"displayName": ListDatabaseToolsEndpointServicesSortByDisplayname,
 }
@@ -138,10 +172,18 @@ var mappingListDatabaseToolsEndpointServicesSortBy = map[string]ListDatabaseTool
 // GetListDatabaseToolsEndpointServicesSortByEnumValues Enumerates the set of values for ListDatabaseToolsEndpointServicesSortByEnum
 func GetListDatabaseToolsEndpointServicesSortByEnumValues() []ListDatabaseToolsEndpointServicesSortByEnum {
 	values := make([]ListDatabaseToolsEndpointServicesSortByEnum, 0)
-	for _, v := range mappingListDatabaseToolsEndpointServicesSortBy {
+	for _, v := range mappingListDatabaseToolsEndpointServicesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseToolsEndpointServicesSortByEnumStringValues Enumerates the set of values in String for ListDatabaseToolsEndpointServicesSortByEnum
+func GetListDatabaseToolsEndpointServicesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListDatabaseToolsEndpointServicesLifecycleStateEnum Enum with underlying type: string
@@ -157,7 +199,7 @@ const (
 	ListDatabaseToolsEndpointServicesLifecycleStateFailed   ListDatabaseToolsEndpointServicesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListDatabaseToolsEndpointServicesLifecycleState = map[string]ListDatabaseToolsEndpointServicesLifecycleStateEnum{
+var mappingListDatabaseToolsEndpointServicesLifecycleStateEnum = map[string]ListDatabaseToolsEndpointServicesLifecycleStateEnum{
 	"CREATING": ListDatabaseToolsEndpointServicesLifecycleStateCreating,
 	"UPDATING": ListDatabaseToolsEndpointServicesLifecycleStateUpdating,
 	"ACTIVE":   ListDatabaseToolsEndpointServicesLifecycleStateActive,
@@ -169,8 +211,20 @@ var mappingListDatabaseToolsEndpointServicesLifecycleState = map[string]ListData
 // GetListDatabaseToolsEndpointServicesLifecycleStateEnumValues Enumerates the set of values for ListDatabaseToolsEndpointServicesLifecycleStateEnum
 func GetListDatabaseToolsEndpointServicesLifecycleStateEnumValues() []ListDatabaseToolsEndpointServicesLifecycleStateEnum {
 	values := make([]ListDatabaseToolsEndpointServicesLifecycleStateEnum, 0)
-	for _, v := range mappingListDatabaseToolsEndpointServicesLifecycleState {
+	for _, v := range mappingListDatabaseToolsEndpointServicesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseToolsEndpointServicesLifecycleStateEnumStringValues Enumerates the set of values in String for ListDatabaseToolsEndpointServicesLifecycleStateEnum
+func GetListDatabaseToolsEndpointServicesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

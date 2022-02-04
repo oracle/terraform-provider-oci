@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListResponderExecutionsRequest wrapper for the ListResponderExecutions operation
@@ -89,6 +91,10 @@ func (request ListResponderExecutionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListResponderExecutionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -102,6 +108,35 @@ func (request ListResponderExecutionsRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListResponderExecutionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListResponderExecutionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListResponderExecutionsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListResponderExecutionsAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResponderExecutionsResponderTypeEnum[string(request.ResponderType)]; !ok && request.ResponderType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResponderType: %s. Supported values are: %s.", request.ResponderType, strings.Join(GetListResponderExecutionsResponderTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResponderExecutionsResponderExecutionStatusEnum[string(request.ResponderExecutionStatus)]; !ok && request.ResponderExecutionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResponderExecutionStatus: %s. Supported values are: %s.", request.ResponderExecutionStatus, strings.Join(GetListResponderExecutionsResponderExecutionStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResponderExecutionsResponderExecutionModeEnum[string(request.ResponderExecutionMode)]; !ok && request.ResponderExecutionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResponderExecutionMode: %s. Supported values are: %s.", request.ResponderExecutionMode, strings.Join(GetListResponderExecutionsResponderExecutionModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResponderExecutionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListResponderExecutionsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResponderExecutionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListResponderExecutionsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListResponderExecutionsResponse wrapper for the ListResponderExecutions operation
@@ -141,7 +176,7 @@ const (
 	ListResponderExecutionsAccessLevelAccessible ListResponderExecutionsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListResponderExecutionsAccessLevel = map[string]ListResponderExecutionsAccessLevelEnum{
+var mappingListResponderExecutionsAccessLevelEnum = map[string]ListResponderExecutionsAccessLevelEnum{
 	"RESTRICTED": ListResponderExecutionsAccessLevelRestricted,
 	"ACCESSIBLE": ListResponderExecutionsAccessLevelAccessible,
 }
@@ -149,10 +184,18 @@ var mappingListResponderExecutionsAccessLevel = map[string]ListResponderExecutio
 // GetListResponderExecutionsAccessLevelEnumValues Enumerates the set of values for ListResponderExecutionsAccessLevelEnum
 func GetListResponderExecutionsAccessLevelEnumValues() []ListResponderExecutionsAccessLevelEnum {
 	values := make([]ListResponderExecutionsAccessLevelEnum, 0)
-	for _, v := range mappingListResponderExecutionsAccessLevel {
+	for _, v := range mappingListResponderExecutionsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderExecutionsAccessLevelEnumStringValues Enumerates the set of values in String for ListResponderExecutionsAccessLevelEnum
+func GetListResponderExecutionsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }
 
 // ListResponderExecutionsResponderTypeEnum Enum with underlying type: string
@@ -164,7 +207,7 @@ const (
 	ListResponderExecutionsResponderTypeNotification ListResponderExecutionsResponderTypeEnum = "NOTIFICATION"
 )
 
-var mappingListResponderExecutionsResponderType = map[string]ListResponderExecutionsResponderTypeEnum{
+var mappingListResponderExecutionsResponderTypeEnum = map[string]ListResponderExecutionsResponderTypeEnum{
 	"REMEDIATION":  ListResponderExecutionsResponderTypeRemediation,
 	"NOTIFICATION": ListResponderExecutionsResponderTypeNotification,
 }
@@ -172,10 +215,18 @@ var mappingListResponderExecutionsResponderType = map[string]ListResponderExecut
 // GetListResponderExecutionsResponderTypeEnumValues Enumerates the set of values for ListResponderExecutionsResponderTypeEnum
 func GetListResponderExecutionsResponderTypeEnumValues() []ListResponderExecutionsResponderTypeEnum {
 	values := make([]ListResponderExecutionsResponderTypeEnum, 0)
-	for _, v := range mappingListResponderExecutionsResponderType {
+	for _, v := range mappingListResponderExecutionsResponderTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderExecutionsResponderTypeEnumStringValues Enumerates the set of values in String for ListResponderExecutionsResponderTypeEnum
+func GetListResponderExecutionsResponderTypeEnumStringValues() []string {
+	return []string{
+		"REMEDIATION",
+		"NOTIFICATION",
+	}
 }
 
 // ListResponderExecutionsResponderExecutionStatusEnum Enum with underlying type: string
@@ -192,7 +243,7 @@ const (
 	ListResponderExecutionsResponderExecutionStatusAll                  ListResponderExecutionsResponderExecutionStatusEnum = "ALL"
 )
 
-var mappingListResponderExecutionsResponderExecutionStatus = map[string]ListResponderExecutionsResponderExecutionStatusEnum{
+var mappingListResponderExecutionsResponderExecutionStatusEnum = map[string]ListResponderExecutionsResponderExecutionStatusEnum{
 	"STARTED":               ListResponderExecutionsResponderExecutionStatusStarted,
 	"AWAITING_CONFIRMATION": ListResponderExecutionsResponderExecutionStatusAwaitingConfirmation,
 	"AWAITING_INPUT":        ListResponderExecutionsResponderExecutionStatusAwaitingInput,
@@ -205,10 +256,23 @@ var mappingListResponderExecutionsResponderExecutionStatus = map[string]ListResp
 // GetListResponderExecutionsResponderExecutionStatusEnumValues Enumerates the set of values for ListResponderExecutionsResponderExecutionStatusEnum
 func GetListResponderExecutionsResponderExecutionStatusEnumValues() []ListResponderExecutionsResponderExecutionStatusEnum {
 	values := make([]ListResponderExecutionsResponderExecutionStatusEnum, 0)
-	for _, v := range mappingListResponderExecutionsResponderExecutionStatus {
+	for _, v := range mappingListResponderExecutionsResponderExecutionStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderExecutionsResponderExecutionStatusEnumStringValues Enumerates the set of values in String for ListResponderExecutionsResponderExecutionStatusEnum
+func GetListResponderExecutionsResponderExecutionStatusEnumStringValues() []string {
+	return []string{
+		"STARTED",
+		"AWAITING_CONFIRMATION",
+		"AWAITING_INPUT",
+		"SUCCEEDED",
+		"FAILED",
+		"SKIPPED",
+		"ALL",
+	}
 }
 
 // ListResponderExecutionsResponderExecutionModeEnum Enum with underlying type: string
@@ -221,7 +285,7 @@ const (
 	ListResponderExecutionsResponderExecutionModeAll       ListResponderExecutionsResponderExecutionModeEnum = "ALL"
 )
 
-var mappingListResponderExecutionsResponderExecutionMode = map[string]ListResponderExecutionsResponderExecutionModeEnum{
+var mappingListResponderExecutionsResponderExecutionModeEnum = map[string]ListResponderExecutionsResponderExecutionModeEnum{
 	"MANUAL":    ListResponderExecutionsResponderExecutionModeManual,
 	"AUTOMATED": ListResponderExecutionsResponderExecutionModeAutomated,
 	"ALL":       ListResponderExecutionsResponderExecutionModeAll,
@@ -230,10 +294,19 @@ var mappingListResponderExecutionsResponderExecutionMode = map[string]ListRespon
 // GetListResponderExecutionsResponderExecutionModeEnumValues Enumerates the set of values for ListResponderExecutionsResponderExecutionModeEnum
 func GetListResponderExecutionsResponderExecutionModeEnumValues() []ListResponderExecutionsResponderExecutionModeEnum {
 	values := make([]ListResponderExecutionsResponderExecutionModeEnum, 0)
-	for _, v := range mappingListResponderExecutionsResponderExecutionMode {
+	for _, v := range mappingListResponderExecutionsResponderExecutionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderExecutionsResponderExecutionModeEnumStringValues Enumerates the set of values in String for ListResponderExecutionsResponderExecutionModeEnum
+func GetListResponderExecutionsResponderExecutionModeEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTOMATED",
+		"ALL",
+	}
 }
 
 // ListResponderExecutionsSortOrderEnum Enum with underlying type: string
@@ -245,7 +318,7 @@ const (
 	ListResponderExecutionsSortOrderDesc ListResponderExecutionsSortOrderEnum = "DESC"
 )
 
-var mappingListResponderExecutionsSortOrder = map[string]ListResponderExecutionsSortOrderEnum{
+var mappingListResponderExecutionsSortOrderEnum = map[string]ListResponderExecutionsSortOrderEnum{
 	"ASC":  ListResponderExecutionsSortOrderAsc,
 	"DESC": ListResponderExecutionsSortOrderDesc,
 }
@@ -253,10 +326,18 @@ var mappingListResponderExecutionsSortOrder = map[string]ListResponderExecutions
 // GetListResponderExecutionsSortOrderEnumValues Enumerates the set of values for ListResponderExecutionsSortOrderEnum
 func GetListResponderExecutionsSortOrderEnumValues() []ListResponderExecutionsSortOrderEnum {
 	values := make([]ListResponderExecutionsSortOrderEnum, 0)
-	for _, v := range mappingListResponderExecutionsSortOrder {
+	for _, v := range mappingListResponderExecutionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderExecutionsSortOrderEnumStringValues Enumerates the set of values in String for ListResponderExecutionsSortOrderEnum
+func GetListResponderExecutionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListResponderExecutionsSortByEnum Enum with underlying type: string
@@ -270,7 +351,7 @@ const (
 	ListResponderExecutionsSortByTimecompleted     ListResponderExecutionsSortByEnum = "timeCompleted"
 )
 
-var mappingListResponderExecutionsSortBy = map[string]ListResponderExecutionsSortByEnum{
+var mappingListResponderExecutionsSortByEnum = map[string]ListResponderExecutionsSortByEnum{
 	"timeCreated":       ListResponderExecutionsSortByTimecreated,
 	"responderRuleName": ListResponderExecutionsSortByResponderrulename,
 	"resourceName":      ListResponderExecutionsSortByResourcename,
@@ -280,8 +361,18 @@ var mappingListResponderExecutionsSortBy = map[string]ListResponderExecutionsSor
 // GetListResponderExecutionsSortByEnumValues Enumerates the set of values for ListResponderExecutionsSortByEnum
 func GetListResponderExecutionsSortByEnumValues() []ListResponderExecutionsSortByEnum {
 	values := make([]ListResponderExecutionsSortByEnum, 0)
-	for _, v := range mappingListResponderExecutionsSortBy {
+	for _, v := range mappingListResponderExecutionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderExecutionsSortByEnumStringValues Enumerates the set of values in String for ListResponderExecutionsSortByEnum
+func GetListResponderExecutionsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"responderRuleName",
+		"resourceName",
+		"timeCompleted",
+	}
 }

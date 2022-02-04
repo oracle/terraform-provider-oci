@@ -21,7 +21,7 @@ const (
 	HcxLicenseStatusDeleted     HcxLicenseStatusEnum = "DELETED"
 )
 
-var mappingHcxLicenseStatus = map[string]HcxLicenseStatusEnum{
+var mappingHcxLicenseStatusEnum = map[string]HcxLicenseStatusEnum{
 	"AVAILABLE":   HcxLicenseStatusAvailable,
 	"CONSUMED":    HcxLicenseStatusConsumed,
 	"DEACTIVATED": HcxLicenseStatusDeactivated,
@@ -31,8 +31,18 @@ var mappingHcxLicenseStatus = map[string]HcxLicenseStatusEnum{
 // GetHcxLicenseStatusEnumValues Enumerates the set of values for HcxLicenseStatusEnum
 func GetHcxLicenseStatusEnumValues() []HcxLicenseStatusEnum {
 	values := make([]HcxLicenseStatusEnum, 0)
-	for _, v := range mappingHcxLicenseStatus {
+	for _, v := range mappingHcxLicenseStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHcxLicenseStatusEnumStringValues Enumerates the set of values in String for HcxLicenseStatusEnum
+func GetHcxLicenseStatusEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"CONSUMED",
+		"DEACTIVATED",
+		"DELETED",
+	}
 }

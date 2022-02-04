@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListBuildPipelinesRequest wrapper for the ListBuildPipelines operation
@@ -58,6 +60,10 @@ func (request ListBuildPipelinesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBuildPipelinesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,26 @@ func (request ListBuildPipelinesRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBuildPipelinesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBuildPipelinesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBuildPipelineLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBuildPipelineLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBuildPipelinesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBuildPipelinesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBuildPipelinesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBuildPipelinesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBuildPipelinesResponse wrapper for the ListBuildPipelines operation
@@ -107,7 +133,7 @@ const (
 	ListBuildPipelinesSortOrderDesc ListBuildPipelinesSortOrderEnum = "DESC"
 )
 
-var mappingListBuildPipelinesSortOrder = map[string]ListBuildPipelinesSortOrderEnum{
+var mappingListBuildPipelinesSortOrderEnum = map[string]ListBuildPipelinesSortOrderEnum{
 	"ASC":  ListBuildPipelinesSortOrderAsc,
 	"DESC": ListBuildPipelinesSortOrderDesc,
 }
@@ -115,10 +141,18 @@ var mappingListBuildPipelinesSortOrder = map[string]ListBuildPipelinesSortOrderE
 // GetListBuildPipelinesSortOrderEnumValues Enumerates the set of values for ListBuildPipelinesSortOrderEnum
 func GetListBuildPipelinesSortOrderEnumValues() []ListBuildPipelinesSortOrderEnum {
 	values := make([]ListBuildPipelinesSortOrderEnum, 0)
-	for _, v := range mappingListBuildPipelinesSortOrder {
+	for _, v := range mappingListBuildPipelinesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBuildPipelinesSortOrderEnumStringValues Enumerates the set of values in String for ListBuildPipelinesSortOrderEnum
+func GetListBuildPipelinesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListBuildPipelinesSortByEnum Enum with underlying type: string
@@ -130,7 +164,7 @@ const (
 	ListBuildPipelinesSortByDisplayname ListBuildPipelinesSortByEnum = "displayName"
 )
 
-var mappingListBuildPipelinesSortBy = map[string]ListBuildPipelinesSortByEnum{
+var mappingListBuildPipelinesSortByEnum = map[string]ListBuildPipelinesSortByEnum{
 	"timeCreated": ListBuildPipelinesSortByTimecreated,
 	"displayName": ListBuildPipelinesSortByDisplayname,
 }
@@ -138,8 +172,16 @@ var mappingListBuildPipelinesSortBy = map[string]ListBuildPipelinesSortByEnum{
 // GetListBuildPipelinesSortByEnumValues Enumerates the set of values for ListBuildPipelinesSortByEnum
 func GetListBuildPipelinesSortByEnumValues() []ListBuildPipelinesSortByEnum {
 	values := make([]ListBuildPipelinesSortByEnum, 0)
-	for _, v := range mappingListBuildPipelinesSortBy {
+	for _, v := range mappingListBuildPipelinesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBuildPipelinesSortByEnumStringValues Enumerates the set of values in String for ListBuildPipelinesSortByEnum
+func GetListBuildPipelinesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

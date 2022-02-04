@@ -10,7 +10,9 @@
 package oda
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WorkRequestSummary A description of the work request's status.
@@ -39,6 +41,24 @@ func (m WorkRequestSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestSummaryRequestActionEnum[string(m.RequestAction)]; !ok && m.RequestAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequestAction: %s. Supported values are: %s.", m.RequestAction, strings.Join(GetWorkRequestSummaryRequestActionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingWorkRequestSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestSummaryRequestActionEnum Enum with underlying type: string
 type WorkRequestSummaryRequestActionEnum string
 
@@ -58,7 +78,7 @@ const (
 	WorkRequestSummaryRequestActionLookupOdaInstancesForCacct   WorkRequestSummaryRequestActionEnum = "LOOKUP_ODA_INSTANCES_FOR_CACCT"
 )
 
-var mappingWorkRequestSummaryRequestAction = map[string]WorkRequestSummaryRequestActionEnum{
+var mappingWorkRequestSummaryRequestActionEnum = map[string]WorkRequestSummaryRequestActionEnum{
 	"CREATE_ODA_INSTANCE":             WorkRequestSummaryRequestActionCreateOdaInstance,
 	"UPGRADE_ODA_INSTANCE":            WorkRequestSummaryRequestActionUpgradeOdaInstance,
 	"DELETE_ODA_INSTANCE":             WorkRequestSummaryRequestActionDeleteOdaInstance,
@@ -76,10 +96,28 @@ var mappingWorkRequestSummaryRequestAction = map[string]WorkRequestSummaryReques
 // GetWorkRequestSummaryRequestActionEnumValues Enumerates the set of values for WorkRequestSummaryRequestActionEnum
 func GetWorkRequestSummaryRequestActionEnumValues() []WorkRequestSummaryRequestActionEnum {
 	values := make([]WorkRequestSummaryRequestActionEnum, 0)
-	for _, v := range mappingWorkRequestSummaryRequestAction {
+	for _, v := range mappingWorkRequestSummaryRequestActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestSummaryRequestActionEnumStringValues Enumerates the set of values in String for WorkRequestSummaryRequestActionEnum
+func GetWorkRequestSummaryRequestActionEnumStringValues() []string {
+	return []string{
+		"CREATE_ODA_INSTANCE",
+		"UPGRADE_ODA_INSTANCE",
+		"DELETE_ODA_INSTANCE",
+		"PURGE_ODA_INSTANCE",
+		"RECOVER_ODA_INSTANCE",
+		"STOP_ODA_INSTANCE",
+		"START_ODA_INSTANCE",
+		"CHANGE_ODA_INSTANCE_COMPARTMENT",
+		"CREATE_ASSOCIATION",
+		"DELETE_ASSOCIATION",
+		"UPDATE_ENTITLEMENTS_FOR_CACCT",
+		"LOOKUP_ODA_INSTANCES_FOR_CACCT",
+	}
 }
 
 // WorkRequestSummaryStatusEnum Enum with underlying type: string
@@ -95,7 +133,7 @@ const (
 	WorkRequestSummaryStatusCanceled   WorkRequestSummaryStatusEnum = "CANCELED"
 )
 
-var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
+var mappingWorkRequestSummaryStatusEnum = map[string]WorkRequestSummaryStatusEnum{
 	"ACCEPTED":    WorkRequestSummaryStatusAccepted,
 	"IN_PROGRESS": WorkRequestSummaryStatusInProgress,
 	"SUCCEEDED":   WorkRequestSummaryStatusSucceeded,
@@ -107,8 +145,20 @@ var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
 // GetWorkRequestSummaryStatusEnumValues Enumerates the set of values for WorkRequestSummaryStatusEnum
 func GetWorkRequestSummaryStatusEnumValues() []WorkRequestSummaryStatusEnum {
 	values := make([]WorkRequestSummaryStatusEnum, 0)
-	for _, v := range mappingWorkRequestSummaryStatus {
+	for _, v := range mappingWorkRequestSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestSummaryStatusEnumStringValues Enumerates the set of values in String for WorkRequestSummaryStatusEnum
+func GetWorkRequestSummaryStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

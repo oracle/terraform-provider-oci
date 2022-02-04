@@ -13,7 +13,9 @@
 package resourcemanager
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TerraformAdvancedOptions Specifies advanced options for Terraform commands. These options are not necessary for normal usage of Terraform.
@@ -39,6 +41,21 @@ func (m TerraformAdvancedOptions) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TerraformAdvancedOptions) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTerraformAdvancedOptionsDetailedLogLevelEnum[string(m.DetailedLogLevel)]; !ok && m.DetailedLogLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DetailedLogLevel: %s. Supported values are: %s.", m.DetailedLogLevel, strings.Join(GetTerraformAdvancedOptionsDetailedLogLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TerraformAdvancedOptionsDetailedLogLevelEnum Enum with underlying type: string
 type TerraformAdvancedOptionsDetailedLogLevelEnum string
 
@@ -51,7 +68,7 @@ const (
 	TerraformAdvancedOptionsDetailedLogLevelTrace TerraformAdvancedOptionsDetailedLogLevelEnum = "TRACE"
 )
 
-var mappingTerraformAdvancedOptionsDetailedLogLevel = map[string]TerraformAdvancedOptionsDetailedLogLevelEnum{
+var mappingTerraformAdvancedOptionsDetailedLogLevelEnum = map[string]TerraformAdvancedOptionsDetailedLogLevelEnum{
 	"ERROR": TerraformAdvancedOptionsDetailedLogLevelError,
 	"WARN":  TerraformAdvancedOptionsDetailedLogLevelWarn,
 	"INFO":  TerraformAdvancedOptionsDetailedLogLevelInfo,
@@ -62,8 +79,19 @@ var mappingTerraformAdvancedOptionsDetailedLogLevel = map[string]TerraformAdvanc
 // GetTerraformAdvancedOptionsDetailedLogLevelEnumValues Enumerates the set of values for TerraformAdvancedOptionsDetailedLogLevelEnum
 func GetTerraformAdvancedOptionsDetailedLogLevelEnumValues() []TerraformAdvancedOptionsDetailedLogLevelEnum {
 	values := make([]TerraformAdvancedOptionsDetailedLogLevelEnum, 0)
-	for _, v := range mappingTerraformAdvancedOptionsDetailedLogLevel {
+	for _, v := range mappingTerraformAdvancedOptionsDetailedLogLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTerraformAdvancedOptionsDetailedLogLevelEnumStringValues Enumerates the set of values in String for TerraformAdvancedOptionsDetailedLogLevelEnum
+func GetTerraformAdvancedOptionsDetailedLogLevelEnumStringValues() []string {
+	return []string{
+		"ERROR",
+		"WARN",
+		"INFO",
+		"DEBUG",
+		"TRACE",
+	}
 }

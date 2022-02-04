@@ -20,7 +20,7 @@ const (
 	DataPumpTableExistsActionSkip     DataPumpTableExistsActionEnum = "SKIP"
 )
 
-var mappingDataPumpTableExistsAction = map[string]DataPumpTableExistsActionEnum{
+var mappingDataPumpTableExistsActionEnum = map[string]DataPumpTableExistsActionEnum{
 	"TRUNCATE": DataPumpTableExistsActionTruncate,
 	"REPLACE":  DataPumpTableExistsActionReplace,
 	"APPEND":   DataPumpTableExistsActionAppend,
@@ -30,8 +30,18 @@ var mappingDataPumpTableExistsAction = map[string]DataPumpTableExistsActionEnum{
 // GetDataPumpTableExistsActionEnumValues Enumerates the set of values for DataPumpTableExistsActionEnum
 func GetDataPumpTableExistsActionEnumValues() []DataPumpTableExistsActionEnum {
 	values := make([]DataPumpTableExistsActionEnum, 0)
-	for _, v := range mappingDataPumpTableExistsAction {
+	for _, v := range mappingDataPumpTableExistsActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataPumpTableExistsActionEnumStringValues Enumerates the set of values in String for DataPumpTableExistsActionEnum
+func GetDataPumpTableExistsActionEnumStringValues() []string {
+	return []string{
+		"TRUNCATE",
+		"REPLACE",
+		"APPEND",
+		"SKIP",
+	}
 }

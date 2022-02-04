@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPublicIpPoolsRequest wrapper for the ListPublicIpPools operation
@@ -65,6 +67,10 @@ func (request ListPublicIpPoolsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPublicIpPoolsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +84,23 @@ func (request ListPublicIpPoolsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPublicIpPoolsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPublicIpPoolsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPublicIpPoolsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPublicIpPoolsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPublicIpPoolsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPublicIpPoolsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPublicIpPoolsResponse wrapper for the ListPublicIpPools operation
@@ -117,7 +140,7 @@ const (
 	ListPublicIpPoolsSortByDisplayname ListPublicIpPoolsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListPublicIpPoolsSortBy = map[string]ListPublicIpPoolsSortByEnum{
+var mappingListPublicIpPoolsSortByEnum = map[string]ListPublicIpPoolsSortByEnum{
 	"TIMECREATED": ListPublicIpPoolsSortByTimecreated,
 	"DISPLAYNAME": ListPublicIpPoolsSortByDisplayname,
 }
@@ -125,10 +148,18 @@ var mappingListPublicIpPoolsSortBy = map[string]ListPublicIpPoolsSortByEnum{
 // GetListPublicIpPoolsSortByEnumValues Enumerates the set of values for ListPublicIpPoolsSortByEnum
 func GetListPublicIpPoolsSortByEnumValues() []ListPublicIpPoolsSortByEnum {
 	values := make([]ListPublicIpPoolsSortByEnum, 0)
-	for _, v := range mappingListPublicIpPoolsSortBy {
+	for _, v := range mappingListPublicIpPoolsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublicIpPoolsSortByEnumStringValues Enumerates the set of values in String for ListPublicIpPoolsSortByEnum
+func GetListPublicIpPoolsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListPublicIpPoolsSortOrderEnum Enum with underlying type: string
@@ -140,7 +171,7 @@ const (
 	ListPublicIpPoolsSortOrderDesc ListPublicIpPoolsSortOrderEnum = "DESC"
 )
 
-var mappingListPublicIpPoolsSortOrder = map[string]ListPublicIpPoolsSortOrderEnum{
+var mappingListPublicIpPoolsSortOrderEnum = map[string]ListPublicIpPoolsSortOrderEnum{
 	"ASC":  ListPublicIpPoolsSortOrderAsc,
 	"DESC": ListPublicIpPoolsSortOrderDesc,
 }
@@ -148,8 +179,16 @@ var mappingListPublicIpPoolsSortOrder = map[string]ListPublicIpPoolsSortOrderEnu
 // GetListPublicIpPoolsSortOrderEnumValues Enumerates the set of values for ListPublicIpPoolsSortOrderEnum
 func GetListPublicIpPoolsSortOrderEnumValues() []ListPublicIpPoolsSortOrderEnum {
 	values := make([]ListPublicIpPoolsSortOrderEnum, 0)
-	for _, v := range mappingListPublicIpPoolsSortOrder {
+	for _, v := range mappingListPublicIpPoolsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublicIpPoolsSortOrderEnumStringValues Enumerates the set of values in String for ListPublicIpPoolsSortOrderEnum
+func GetListPublicIpPoolsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -18,7 +18,7 @@ const (
 	CloudGuardStatusDisabled CloudGuardStatusEnum = "DISABLED"
 )
 
-var mappingCloudGuardStatus = map[string]CloudGuardStatusEnum{
+var mappingCloudGuardStatusEnum = map[string]CloudGuardStatusEnum{
 	"ENABLED":  CloudGuardStatusEnabled,
 	"DISABLED": CloudGuardStatusDisabled,
 }
@@ -26,8 +26,16 @@ var mappingCloudGuardStatus = map[string]CloudGuardStatusEnum{
 // GetCloudGuardStatusEnumValues Enumerates the set of values for CloudGuardStatusEnum
 func GetCloudGuardStatusEnumValues() []CloudGuardStatusEnum {
 	values := make([]CloudGuardStatusEnum, 0)
-	for _, v := range mappingCloudGuardStatus {
+	for _, v := range mappingCloudGuardStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudGuardStatusEnumStringValues Enumerates the set of values in String for CloudGuardStatusEnum
+func GetCloudGuardStatusEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }

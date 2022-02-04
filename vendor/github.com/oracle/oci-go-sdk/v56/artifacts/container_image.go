@@ -11,7 +11,9 @@
 package artifacts
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ContainerImage Container image metadata.
@@ -74,6 +76,21 @@ func (m ContainerImage) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ContainerImage) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingContainerImageLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetContainerImageLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ContainerImageLifecycleStateEnum Enum with underlying type: string
 type ContainerImageLifecycleStateEnum string
 
@@ -84,7 +101,7 @@ const (
 	ContainerImageLifecycleStateDeleting  ContainerImageLifecycleStateEnum = "DELETING"
 )
 
-var mappingContainerImageLifecycleState = map[string]ContainerImageLifecycleStateEnum{
+var mappingContainerImageLifecycleStateEnum = map[string]ContainerImageLifecycleStateEnum{
 	"AVAILABLE": ContainerImageLifecycleStateAvailable,
 	"DELETED":   ContainerImageLifecycleStateDeleted,
 	"DELETING":  ContainerImageLifecycleStateDeleting,
@@ -93,8 +110,17 @@ var mappingContainerImageLifecycleState = map[string]ContainerImageLifecycleStat
 // GetContainerImageLifecycleStateEnumValues Enumerates the set of values for ContainerImageLifecycleStateEnum
 func GetContainerImageLifecycleStateEnumValues() []ContainerImageLifecycleStateEnum {
 	values := make([]ContainerImageLifecycleStateEnum, 0)
-	for _, v := range mappingContainerImageLifecycleState {
+	for _, v := range mappingContainerImageLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetContainerImageLifecycleStateEnumStringValues Enumerates the set of values in String for ContainerImageLifecycleStateEnum
+func GetContainerImageLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"DELETED",
+		"DELETING",
+	}
 }

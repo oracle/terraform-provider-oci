@@ -21,7 +21,7 @@ const (
 	ArchivalStateRestored  ArchivalStateEnum = "Restored"
 )
 
-var mappingArchivalState = map[string]ArchivalStateEnum{
+var mappingArchivalStateEnum = map[string]ArchivalStateEnum{
 	"Archived":  ArchivalStateArchived,
 	"Restoring": ArchivalStateRestoring,
 	"Restored":  ArchivalStateRestored,
@@ -30,8 +30,17 @@ var mappingArchivalState = map[string]ArchivalStateEnum{
 // GetArchivalStateEnumValues Enumerates the set of values for ArchivalStateEnum
 func GetArchivalStateEnumValues() []ArchivalStateEnum {
 	values := make([]ArchivalStateEnum, 0)
-	for _, v := range mappingArchivalState {
+	for _, v := range mappingArchivalStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetArchivalStateEnumStringValues Enumerates the set of values in String for ArchivalStateEnum
+func GetArchivalStateEnumStringValues() []string {
+	return []string{
+		"Archived",
+		"Restoring",
+		"Restored",
+	}
 }

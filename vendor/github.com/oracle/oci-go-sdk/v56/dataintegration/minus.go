@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Minus The information about a minus object.
@@ -122,6 +124,21 @@ func (m Minus) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Minus) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMinusMinusTypeEnum[string(m.MinusType)]; !ok && m.MinusType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MinusType: %s. Supported values are: %s.", m.MinusType, strings.Join(GetMinusMinusTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m Minus) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeMinus Minus
@@ -145,7 +162,7 @@ const (
 	MinusMinusTypePosition MinusMinusTypeEnum = "POSITION"
 )
 
-var mappingMinusMinusType = map[string]MinusMinusTypeEnum{
+var mappingMinusMinusTypeEnum = map[string]MinusMinusTypeEnum{
 	"NAME":     MinusMinusTypeName,
 	"POSITION": MinusMinusTypePosition,
 }
@@ -153,8 +170,16 @@ var mappingMinusMinusType = map[string]MinusMinusTypeEnum{
 // GetMinusMinusTypeEnumValues Enumerates the set of values for MinusMinusTypeEnum
 func GetMinusMinusTypeEnumValues() []MinusMinusTypeEnum {
 	values := make([]MinusMinusTypeEnum, 0)
-	for _, v := range mappingMinusMinusType {
+	for _, v := range mappingMinusMinusTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMinusMinusTypeEnumStringValues Enumerates the set of values in String for MinusMinusTypeEnum
+func GetMinusMinusTypeEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"POSITION",
+	}
 }

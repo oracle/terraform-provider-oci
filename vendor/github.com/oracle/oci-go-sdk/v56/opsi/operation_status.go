@@ -25,7 +25,7 @@ const (
 	OperationStatusCanceled   OperationStatusEnum = "CANCELED"
 )
 
-var mappingOperationStatus = map[string]OperationStatusEnum{
+var mappingOperationStatusEnum = map[string]OperationStatusEnum{
 	"ACCEPTED":    OperationStatusAccepted,
 	"IN_PROGRESS": OperationStatusInProgress,
 	"WAITING":     OperationStatusWaiting,
@@ -38,8 +38,21 @@ var mappingOperationStatus = map[string]OperationStatusEnum{
 // GetOperationStatusEnumValues Enumerates the set of values for OperationStatusEnum
 func GetOperationStatusEnumValues() []OperationStatusEnum {
 	values := make([]OperationStatusEnum, 0)
-	for _, v := range mappingOperationStatus {
+	for _, v := range mappingOperationStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationStatusEnumStringValues Enumerates the set of values in String for OperationStatusEnum
+func GetOperationStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"WAITING",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

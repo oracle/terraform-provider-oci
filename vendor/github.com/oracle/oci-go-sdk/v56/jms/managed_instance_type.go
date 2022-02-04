@@ -17,15 +17,22 @@ const (
 	ManagedInstanceTypeOracleManagementAgent ManagedInstanceTypeEnum = "ORACLE_MANAGEMENT_AGENT"
 )
 
-var mappingManagedInstanceType = map[string]ManagedInstanceTypeEnum{
+var mappingManagedInstanceTypeEnum = map[string]ManagedInstanceTypeEnum{
 	"ORACLE_MANAGEMENT_AGENT": ManagedInstanceTypeOracleManagementAgent,
 }
 
 // GetManagedInstanceTypeEnumValues Enumerates the set of values for ManagedInstanceTypeEnum
 func GetManagedInstanceTypeEnumValues() []ManagedInstanceTypeEnum {
 	values := make([]ManagedInstanceTypeEnum, 0)
-	for _, v := range mappingManagedInstanceType {
+	for _, v := range mappingManagedInstanceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetManagedInstanceTypeEnumStringValues Enumerates the set of values in String for ManagedInstanceTypeEnum
+func GetManagedInstanceTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_MANAGEMENT_AGENT",
+	}
 }

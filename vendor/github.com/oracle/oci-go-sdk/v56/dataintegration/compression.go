@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Compression The optional compression configuration.
@@ -22,6 +24,21 @@ type Compression struct {
 
 func (m Compression) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Compression) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCompressionCodecEnum[string(m.Codec)]; !ok && m.Codec != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Codec: %s. Supported values are: %s.", m.Codec, strings.Join(GetCompressionCodecEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CompressionCodecEnum Enum with underlying type: string
@@ -38,7 +55,7 @@ const (
 	CompressionCodecSnappy  CompressionCodecEnum = "SNAPPY"
 )
 
-var mappingCompressionCodec = map[string]CompressionCodecEnum{
+var mappingCompressionCodecEnum = map[string]CompressionCodecEnum{
 	"NONE":    CompressionCodecNone,
 	"AUTO":    CompressionCodecAuto,
 	"GZIP":    CompressionCodecGzip,
@@ -51,8 +68,21 @@ var mappingCompressionCodec = map[string]CompressionCodecEnum{
 // GetCompressionCodecEnumValues Enumerates the set of values for CompressionCodecEnum
 func GetCompressionCodecEnumValues() []CompressionCodecEnum {
 	values := make([]CompressionCodecEnum, 0)
-	for _, v := range mappingCompressionCodec {
+	for _, v := range mappingCompressionCodecEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCompressionCodecEnumStringValues Enumerates the set of values in String for CompressionCodecEnum
+func GetCompressionCodecEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"AUTO",
+		"GZIP",
+		"BZIP2",
+		"DEFLATE",
+		"LZ4",
+		"SNAPPY",
+	}
 }

@@ -12,16 +12,30 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// RoleCollection A collection of Roles granted to the current User.
+// RoleCollection A collection of roles granted to the current User.
 type RoleCollection struct {
 
-	// An array of User resources.
+	// An array of roles.
 	Items []RoleSummary `mandatory:"true" json:"items"`
 }
 
 func (m RoleCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RoleCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

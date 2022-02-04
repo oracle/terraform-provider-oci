@@ -21,7 +21,7 @@ const (
 	DataSourceTypeInflux              DataSourceTypeEnum = "INFLUX"
 )
 
-var mappingDataSourceType = map[string]DataSourceTypeEnum{
+var mappingDataSourceTypeEnum = map[string]DataSourceTypeEnum{
 	"ORACLE_OBJECT_STORAGE": DataSourceTypeOracleObjectStorage,
 	"ORACLE_ATP":            DataSourceTypeOracleAtp,
 	"INFLUX":                DataSourceTypeInflux,
@@ -30,8 +30,17 @@ var mappingDataSourceType = map[string]DataSourceTypeEnum{
 // GetDataSourceTypeEnumValues Enumerates the set of values for DataSourceTypeEnum
 func GetDataSourceTypeEnumValues() []DataSourceTypeEnum {
 	values := make([]DataSourceTypeEnum, 0)
-	for _, v := range mappingDataSourceType {
+	for _, v := range mappingDataSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataSourceTypeEnumStringValues Enumerates the set of values in String for DataSourceTypeEnum
+func GetDataSourceTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_OBJECT_STORAGE",
+		"ORACLE_ATP",
+		"INFLUX",
+	}
 }

@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UserDefinedFunctionSummaryCollection This is the collection of user defined function summaries, it may be a collection of lightweight details or full definitions.
@@ -22,4 +24,16 @@ type UserDefinedFunctionSummaryCollection struct {
 
 func (m UserDefinedFunctionSummaryCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserDefinedFunctionSummaryCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

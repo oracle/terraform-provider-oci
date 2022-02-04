@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListConditionMetadataTypesRequest wrapper for the ListConditionMetadataTypes operation
@@ -49,6 +51,10 @@ func (request ListConditionMetadataTypesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListConditionMetadataTypesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +68,26 @@ func (request ListConditionMetadataTypesRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListConditionMetadataTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListConditionMetadataTypesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListConditionMetadataTypesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListConditionMetadataTypesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListConditionMetadataTypesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConditionMetadataTypesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListConditionMetadataTypesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListConditionMetadataTypesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListConditionMetadataTypesResponse wrapper for the ListConditionMetadataTypes operation
@@ -106,7 +132,7 @@ const (
 	ListConditionMetadataTypesLifecycleStateFailed   ListConditionMetadataTypesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListConditionMetadataTypesLifecycleState = map[string]ListConditionMetadataTypesLifecycleStateEnum{
+var mappingListConditionMetadataTypesLifecycleStateEnum = map[string]ListConditionMetadataTypesLifecycleStateEnum{
 	"CREATING": ListConditionMetadataTypesLifecycleStateCreating,
 	"UPDATING": ListConditionMetadataTypesLifecycleStateUpdating,
 	"ACTIVE":   ListConditionMetadataTypesLifecycleStateActive,
@@ -119,10 +145,23 @@ var mappingListConditionMetadataTypesLifecycleState = map[string]ListConditionMe
 // GetListConditionMetadataTypesLifecycleStateEnumValues Enumerates the set of values for ListConditionMetadataTypesLifecycleStateEnum
 func GetListConditionMetadataTypesLifecycleStateEnumValues() []ListConditionMetadataTypesLifecycleStateEnum {
 	values := make([]ListConditionMetadataTypesLifecycleStateEnum, 0)
-	for _, v := range mappingListConditionMetadataTypesLifecycleState {
+	for _, v := range mappingListConditionMetadataTypesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConditionMetadataTypesLifecycleStateEnumStringValues Enumerates the set of values in String for ListConditionMetadataTypesLifecycleStateEnum
+func GetListConditionMetadataTypesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListConditionMetadataTypesSortOrderEnum Enum with underlying type: string
@@ -134,7 +173,7 @@ const (
 	ListConditionMetadataTypesSortOrderDesc ListConditionMetadataTypesSortOrderEnum = "DESC"
 )
 
-var mappingListConditionMetadataTypesSortOrder = map[string]ListConditionMetadataTypesSortOrderEnum{
+var mappingListConditionMetadataTypesSortOrderEnum = map[string]ListConditionMetadataTypesSortOrderEnum{
 	"ASC":  ListConditionMetadataTypesSortOrderAsc,
 	"DESC": ListConditionMetadataTypesSortOrderDesc,
 }
@@ -142,10 +181,18 @@ var mappingListConditionMetadataTypesSortOrder = map[string]ListConditionMetadat
 // GetListConditionMetadataTypesSortOrderEnumValues Enumerates the set of values for ListConditionMetadataTypesSortOrderEnum
 func GetListConditionMetadataTypesSortOrderEnumValues() []ListConditionMetadataTypesSortOrderEnum {
 	values := make([]ListConditionMetadataTypesSortOrderEnum, 0)
-	for _, v := range mappingListConditionMetadataTypesSortOrder {
+	for _, v := range mappingListConditionMetadataTypesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConditionMetadataTypesSortOrderEnumStringValues Enumerates the set of values in String for ListConditionMetadataTypesSortOrderEnum
+func GetListConditionMetadataTypesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListConditionMetadataTypesSortByEnum Enum with underlying type: string
@@ -157,7 +204,7 @@ const (
 	ListConditionMetadataTypesSortByDisplayname ListConditionMetadataTypesSortByEnum = "displayName"
 )
 
-var mappingListConditionMetadataTypesSortBy = map[string]ListConditionMetadataTypesSortByEnum{
+var mappingListConditionMetadataTypesSortByEnum = map[string]ListConditionMetadataTypesSortByEnum{
 	"timeCreated": ListConditionMetadataTypesSortByTimecreated,
 	"displayName": ListConditionMetadataTypesSortByDisplayname,
 }
@@ -165,8 +212,16 @@ var mappingListConditionMetadataTypesSortBy = map[string]ListConditionMetadataTy
 // GetListConditionMetadataTypesSortByEnumValues Enumerates the set of values for ListConditionMetadataTypesSortByEnum
 func GetListConditionMetadataTypesSortByEnumValues() []ListConditionMetadataTypesSortByEnum {
 	values := make([]ListConditionMetadataTypesSortByEnum, 0)
-	for _, v := range mappingListConditionMetadataTypesSortBy {
+	for _, v := range mappingListConditionMetadataTypesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConditionMetadataTypesSortByEnumStringValues Enumerates the set of values in String for ListConditionMetadataTypesSortByEnum
+func GetListConditionMetadataTypesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

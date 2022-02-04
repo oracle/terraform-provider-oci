@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetVcnTopologyRequest wrapper for the GetVcnTopology operation
@@ -63,6 +65,10 @@ func (request GetVcnTopologyRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetVcnTopologyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,20 @@ func (request GetVcnTopologyRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetVcnTopologyRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetVcnTopologyRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetVcnTopologyAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetGetVcnTopologyAccessLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetVcnTopologyResponse wrapper for the GetVcnTopology operation
@@ -113,7 +133,7 @@ const (
 	GetVcnTopologyAccessLevelAccessible GetVcnTopologyAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingGetVcnTopologyAccessLevel = map[string]GetVcnTopologyAccessLevelEnum{
+var mappingGetVcnTopologyAccessLevelEnum = map[string]GetVcnTopologyAccessLevelEnum{
 	"ANY":        GetVcnTopologyAccessLevelAny,
 	"ACCESSIBLE": GetVcnTopologyAccessLevelAccessible,
 }
@@ -121,8 +141,16 @@ var mappingGetVcnTopologyAccessLevel = map[string]GetVcnTopologyAccessLevelEnum{
 // GetGetVcnTopologyAccessLevelEnumValues Enumerates the set of values for GetVcnTopologyAccessLevelEnum
 func GetGetVcnTopologyAccessLevelEnumValues() []GetVcnTopologyAccessLevelEnum {
 	values := make([]GetVcnTopologyAccessLevelEnum, 0)
-	for _, v := range mappingGetVcnTopologyAccessLevel {
+	for _, v := range mappingGetVcnTopologyAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetVcnTopologyAccessLevelEnumStringValues Enumerates the set of values in String for GetVcnTopologyAccessLevelEnum
+func GetGetVcnTopologyAccessLevelEnumStringValues() []string {
+	return []string{
+		"ANY",
+		"ACCESSIBLE",
+	}
 }

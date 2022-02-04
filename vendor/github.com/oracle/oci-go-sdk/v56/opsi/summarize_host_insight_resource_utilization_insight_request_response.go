@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeHostInsightResourceUtilizationInsightRequest wrapper for the SummarizeHostInsightResourceUtilizationInsight operation
@@ -105,6 +107,10 @@ func (request SummarizeHostInsightResourceUtilizationInsightRequest) String() st
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeHostInsightResourceUtilizationInsightRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -118,6 +124,23 @@ func (request SummarizeHostInsightResourceUtilizationInsightRequest) BinaryReque
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeHostInsightResourceUtilizationInsightRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeHostInsightResourceUtilizationInsightRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.PlatformType {
+		if _, ok := mappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeHostInsightResourceUtilizationInsightResponse wrapper for the SummarizeHostInsightResourceUtilizationInsight operation
@@ -153,7 +176,7 @@ const (
 	SummarizeHostInsightResourceUtilizationInsightPlatformTypeSunos   SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = "SUNOS"
 )
 
-var mappingSummarizeHostInsightResourceUtilizationInsightPlatformType = map[string]SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum{
+var mappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum = map[string]SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum{
 	"LINUX":   SummarizeHostInsightResourceUtilizationInsightPlatformTypeLinux,
 	"SOLARIS": SummarizeHostInsightResourceUtilizationInsightPlatformTypeSolaris,
 	"SUNOS":   SummarizeHostInsightResourceUtilizationInsightPlatformTypeSunos,
@@ -162,8 +185,17 @@ var mappingSummarizeHostInsightResourceUtilizationInsightPlatformType = map[stri
 // GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum
 func GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumValues() []SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum {
 	values := make([]SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceUtilizationInsightPlatformType {
+	for _, v := range mappingSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceUtilizationInsightPlatformTypeEnum
+func GetSummarizeHostInsightResourceUtilizationInsightPlatformTypeEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"SOLARIS",
+		"SUNOS",
+	}
 }

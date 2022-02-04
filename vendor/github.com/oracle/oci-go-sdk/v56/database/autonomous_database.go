@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutonomousDatabase An Oracle Autonomous Database.
@@ -304,6 +306,60 @@ func (m AutonomousDatabase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDatabase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousDatabaseLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAutonomousDatabaseInfrastructureTypeEnum[string(m.InfrastructureType)]; !ok && m.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", m.InfrastructureType, strings.Join(GetAutonomousDatabaseInfrastructureTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetAutonomousDatabaseLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetAutonomousDatabaseDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseDataSafeStatusEnum[string(m.DataSafeStatus)]; !ok && m.DataSafeStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSafeStatus: %s. Supported values are: %s.", m.DataSafeStatus, strings.Join(GetAutonomousDatabaseDataSafeStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseOperationsInsightsStatusEnum[string(m.OperationsInsightsStatus)]; !ok && m.OperationsInsightsStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationsInsightsStatus: %s. Supported values are: %s.", m.OperationsInsightsStatus, strings.Join(GetAutonomousDatabaseOperationsInsightsStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseDatabaseManagementStatusEnum[string(m.DatabaseManagementStatus)]; !ok && m.DatabaseManagementStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseManagementStatus: %s. Supported values are: %s.", m.DatabaseManagementStatus, strings.Join(GetAutonomousDatabaseDatabaseManagementStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseOpenModeEnum[string(m.OpenMode)]; !ok && m.OpenMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetAutonomousDatabaseOpenModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseRefreshableStatusEnum[string(m.RefreshableStatus)]; !ok && m.RefreshableStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableStatus: %s. Supported values are: %s.", m.RefreshableStatus, strings.Join(GetAutonomousDatabaseRefreshableStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseRefreshableModeEnum[string(m.RefreshableMode)]; !ok && m.RefreshableMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableMode: %s. Supported values are: %s.", m.RefreshableMode, strings.Join(GetAutonomousDatabaseRefreshableModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabasePermissionLevelEnum[string(m.PermissionLevel)]; !ok && m.PermissionLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PermissionLevel: %s. Supported values are: %s.", m.PermissionLevel, strings.Join(GetAutonomousDatabasePermissionLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetAutonomousDatabaseRoleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseDataguardRegionTypeEnum[string(m.DataguardRegionType)]; !ok && m.DataguardRegionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataguardRegionType: %s. Supported values are: %s.", m.DataguardRegionType, strings.Join(GetAutonomousDatabaseDataguardRegionTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum[string(m.AutonomousMaintenanceScheduleType)]; !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousDatabaseLifecycleStateEnum Enum with underlying type: string
 type AutonomousDatabaseLifecycleStateEnum string
 
@@ -331,7 +387,7 @@ const (
 	AutonomousDatabaseLifecycleStateInaccessible            AutonomousDatabaseLifecycleStateEnum = "INACCESSIBLE"
 )
 
-var mappingAutonomousDatabaseLifecycleState = map[string]AutonomousDatabaseLifecycleStateEnum{
+var mappingAutonomousDatabaseLifecycleStateEnum = map[string]AutonomousDatabaseLifecycleStateEnum{
 	"PROVISIONING":              AutonomousDatabaseLifecycleStateProvisioning,
 	"AVAILABLE":                 AutonomousDatabaseLifecycleStateAvailable,
 	"STOPPING":                  AutonomousDatabaseLifecycleStateStopping,
@@ -357,10 +413,36 @@ var mappingAutonomousDatabaseLifecycleState = map[string]AutonomousDatabaseLifec
 // GetAutonomousDatabaseLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseLifecycleStateEnum
 func GetAutonomousDatabaseLifecycleStateEnumValues() []AutonomousDatabaseLifecycleStateEnum {
 	values := make([]AutonomousDatabaseLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousDatabaseLifecycleState {
+	for _, v := range mappingAutonomousDatabaseLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousDatabaseLifecycleStateEnum
+func GetAutonomousDatabaseLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"STOPPING",
+		"STOPPED",
+		"STARTING",
+		"TERMINATING",
+		"TERMINATED",
+		"UNAVAILABLE",
+		"RESTORE_IN_PROGRESS",
+		"RESTORE_FAILED",
+		"BACKUP_IN_PROGRESS",
+		"SCALE_IN_PROGRESS",
+		"AVAILABLE_NEEDS_ATTENTION",
+		"UPDATING",
+		"MAINTENANCE_IN_PROGRESS",
+		"RESTARTING",
+		"RECREATING",
+		"ROLE_CHANGE_IN_PROGRESS",
+		"UPGRADING",
+		"INACCESSIBLE",
+	}
 }
 
 // AutonomousDatabaseInfrastructureTypeEnum Enum with underlying type: string
@@ -372,7 +454,7 @@ const (
 	AutonomousDatabaseInfrastructureTypeCloudAtCustomer AutonomousDatabaseInfrastructureTypeEnum = "CLOUD_AT_CUSTOMER"
 )
 
-var mappingAutonomousDatabaseInfrastructureType = map[string]AutonomousDatabaseInfrastructureTypeEnum{
+var mappingAutonomousDatabaseInfrastructureTypeEnum = map[string]AutonomousDatabaseInfrastructureTypeEnum{
 	"CLOUD":             AutonomousDatabaseInfrastructureTypeCloud,
 	"CLOUD_AT_CUSTOMER": AutonomousDatabaseInfrastructureTypeCloudAtCustomer,
 }
@@ -380,10 +462,18 @@ var mappingAutonomousDatabaseInfrastructureType = map[string]AutonomousDatabaseI
 // GetAutonomousDatabaseInfrastructureTypeEnumValues Enumerates the set of values for AutonomousDatabaseInfrastructureTypeEnum
 func GetAutonomousDatabaseInfrastructureTypeEnumValues() []AutonomousDatabaseInfrastructureTypeEnum {
 	values := make([]AutonomousDatabaseInfrastructureTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseInfrastructureType {
+	for _, v := range mappingAutonomousDatabaseInfrastructureTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseInfrastructureTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseInfrastructureTypeEnum
+func GetAutonomousDatabaseInfrastructureTypeEnumStringValues() []string {
+	return []string{
+		"CLOUD",
+		"CLOUD_AT_CUSTOMER",
+	}
 }
 
 // AutonomousDatabaseLicenseModelEnum Enum with underlying type: string
@@ -395,7 +485,7 @@ const (
 	AutonomousDatabaseLicenseModelBringYourOwnLicense AutonomousDatabaseLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingAutonomousDatabaseLicenseModel = map[string]AutonomousDatabaseLicenseModelEnum{
+var mappingAutonomousDatabaseLicenseModelEnum = map[string]AutonomousDatabaseLicenseModelEnum{
 	"LICENSE_INCLUDED":       AutonomousDatabaseLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": AutonomousDatabaseLicenseModelBringYourOwnLicense,
 }
@@ -403,10 +493,18 @@ var mappingAutonomousDatabaseLicenseModel = map[string]AutonomousDatabaseLicense
 // GetAutonomousDatabaseLicenseModelEnumValues Enumerates the set of values for AutonomousDatabaseLicenseModelEnum
 func GetAutonomousDatabaseLicenseModelEnumValues() []AutonomousDatabaseLicenseModelEnum {
 	values := make([]AutonomousDatabaseLicenseModelEnum, 0)
-	for _, v := range mappingAutonomousDatabaseLicenseModel {
+	for _, v := range mappingAutonomousDatabaseLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseLicenseModelEnumStringValues Enumerates the set of values in String for AutonomousDatabaseLicenseModelEnum
+func GetAutonomousDatabaseLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }
 
 // AutonomousDatabaseDbWorkloadEnum Enum with underlying type: string
@@ -420,7 +518,7 @@ const (
 	AutonomousDatabaseDbWorkloadApex AutonomousDatabaseDbWorkloadEnum = "APEX"
 )
 
-var mappingAutonomousDatabaseDbWorkload = map[string]AutonomousDatabaseDbWorkloadEnum{
+var mappingAutonomousDatabaseDbWorkloadEnum = map[string]AutonomousDatabaseDbWorkloadEnum{
 	"OLTP": AutonomousDatabaseDbWorkloadOltp,
 	"DW":   AutonomousDatabaseDbWorkloadDw,
 	"AJD":  AutonomousDatabaseDbWorkloadAjd,
@@ -430,10 +528,20 @@ var mappingAutonomousDatabaseDbWorkload = map[string]AutonomousDatabaseDbWorkloa
 // GetAutonomousDatabaseDbWorkloadEnumValues Enumerates the set of values for AutonomousDatabaseDbWorkloadEnum
 func GetAutonomousDatabaseDbWorkloadEnumValues() []AutonomousDatabaseDbWorkloadEnum {
 	values := make([]AutonomousDatabaseDbWorkloadEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDbWorkload {
+	for _, v := range mappingAutonomousDatabaseDbWorkloadEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseDbWorkloadEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDbWorkloadEnum
+func GetAutonomousDatabaseDbWorkloadEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DW",
+		"AJD",
+		"APEX",
+	}
 }
 
 // AutonomousDatabaseDataSafeStatusEnum Enum with underlying type: string
@@ -448,7 +556,7 @@ const (
 	AutonomousDatabaseDataSafeStatusFailed        AutonomousDatabaseDataSafeStatusEnum = "FAILED"
 )
 
-var mappingAutonomousDatabaseDataSafeStatus = map[string]AutonomousDatabaseDataSafeStatusEnum{
+var mappingAutonomousDatabaseDataSafeStatusEnum = map[string]AutonomousDatabaseDataSafeStatusEnum{
 	"REGISTERING":    AutonomousDatabaseDataSafeStatusRegistering,
 	"REGISTERED":     AutonomousDatabaseDataSafeStatusRegistered,
 	"DEREGISTERING":  AutonomousDatabaseDataSafeStatusDeregistering,
@@ -459,10 +567,21 @@ var mappingAutonomousDatabaseDataSafeStatus = map[string]AutonomousDatabaseDataS
 // GetAutonomousDatabaseDataSafeStatusEnumValues Enumerates the set of values for AutonomousDatabaseDataSafeStatusEnum
 func GetAutonomousDatabaseDataSafeStatusEnumValues() []AutonomousDatabaseDataSafeStatusEnum {
 	values := make([]AutonomousDatabaseDataSafeStatusEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDataSafeStatus {
+	for _, v := range mappingAutonomousDatabaseDataSafeStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseDataSafeStatusEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDataSafeStatusEnum
+func GetAutonomousDatabaseDataSafeStatusEnumStringValues() []string {
+	return []string{
+		"REGISTERING",
+		"REGISTERED",
+		"DEREGISTERING",
+		"NOT_REGISTERED",
+		"FAILED",
+	}
 }
 
 // AutonomousDatabaseOperationsInsightsStatusEnum Enum with underlying type: string
@@ -478,7 +597,7 @@ const (
 	AutonomousDatabaseOperationsInsightsStatusFailedDisabling AutonomousDatabaseOperationsInsightsStatusEnum = "FAILED_DISABLING"
 )
 
-var mappingAutonomousDatabaseOperationsInsightsStatus = map[string]AutonomousDatabaseOperationsInsightsStatusEnum{
+var mappingAutonomousDatabaseOperationsInsightsStatusEnum = map[string]AutonomousDatabaseOperationsInsightsStatusEnum{
 	"ENABLING":         AutonomousDatabaseOperationsInsightsStatusEnabling,
 	"ENABLED":          AutonomousDatabaseOperationsInsightsStatusEnabled,
 	"DISABLING":        AutonomousDatabaseOperationsInsightsStatusDisabling,
@@ -490,10 +609,22 @@ var mappingAutonomousDatabaseOperationsInsightsStatus = map[string]AutonomousDat
 // GetAutonomousDatabaseOperationsInsightsStatusEnumValues Enumerates the set of values for AutonomousDatabaseOperationsInsightsStatusEnum
 func GetAutonomousDatabaseOperationsInsightsStatusEnumValues() []AutonomousDatabaseOperationsInsightsStatusEnum {
 	values := make([]AutonomousDatabaseOperationsInsightsStatusEnum, 0)
-	for _, v := range mappingAutonomousDatabaseOperationsInsightsStatus {
+	for _, v := range mappingAutonomousDatabaseOperationsInsightsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseOperationsInsightsStatusEnumStringValues Enumerates the set of values in String for AutonomousDatabaseOperationsInsightsStatusEnum
+func GetAutonomousDatabaseOperationsInsightsStatusEnumStringValues() []string {
+	return []string{
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"NOT_ENABLED",
+		"FAILED_ENABLING",
+		"FAILED_DISABLING",
+	}
 }
 
 // AutonomousDatabaseDatabaseManagementStatusEnum Enum with underlying type: string
@@ -509,7 +640,7 @@ const (
 	AutonomousDatabaseDatabaseManagementStatusFailedDisabling AutonomousDatabaseDatabaseManagementStatusEnum = "FAILED_DISABLING"
 )
 
-var mappingAutonomousDatabaseDatabaseManagementStatus = map[string]AutonomousDatabaseDatabaseManagementStatusEnum{
+var mappingAutonomousDatabaseDatabaseManagementStatusEnum = map[string]AutonomousDatabaseDatabaseManagementStatusEnum{
 	"ENABLING":         AutonomousDatabaseDatabaseManagementStatusEnabling,
 	"ENABLED":          AutonomousDatabaseDatabaseManagementStatusEnabled,
 	"DISABLING":        AutonomousDatabaseDatabaseManagementStatusDisabling,
@@ -521,10 +652,22 @@ var mappingAutonomousDatabaseDatabaseManagementStatus = map[string]AutonomousDat
 // GetAutonomousDatabaseDatabaseManagementStatusEnumValues Enumerates the set of values for AutonomousDatabaseDatabaseManagementStatusEnum
 func GetAutonomousDatabaseDatabaseManagementStatusEnumValues() []AutonomousDatabaseDatabaseManagementStatusEnum {
 	values := make([]AutonomousDatabaseDatabaseManagementStatusEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDatabaseManagementStatus {
+	for _, v := range mappingAutonomousDatabaseDatabaseManagementStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseDatabaseManagementStatusEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDatabaseManagementStatusEnum
+func GetAutonomousDatabaseDatabaseManagementStatusEnumStringValues() []string {
+	return []string{
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"NOT_ENABLED",
+		"FAILED_ENABLING",
+		"FAILED_DISABLING",
+	}
 }
 
 // AutonomousDatabaseOpenModeEnum Enum with underlying type: string
@@ -536,7 +679,7 @@ const (
 	AutonomousDatabaseOpenModeWrite AutonomousDatabaseOpenModeEnum = "READ_WRITE"
 )
 
-var mappingAutonomousDatabaseOpenMode = map[string]AutonomousDatabaseOpenModeEnum{
+var mappingAutonomousDatabaseOpenModeEnum = map[string]AutonomousDatabaseOpenModeEnum{
 	"READ_ONLY":  AutonomousDatabaseOpenModeOnly,
 	"READ_WRITE": AutonomousDatabaseOpenModeWrite,
 }
@@ -544,10 +687,18 @@ var mappingAutonomousDatabaseOpenMode = map[string]AutonomousDatabaseOpenModeEnu
 // GetAutonomousDatabaseOpenModeEnumValues Enumerates the set of values for AutonomousDatabaseOpenModeEnum
 func GetAutonomousDatabaseOpenModeEnumValues() []AutonomousDatabaseOpenModeEnum {
 	values := make([]AutonomousDatabaseOpenModeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseOpenMode {
+	for _, v := range mappingAutonomousDatabaseOpenModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseOpenModeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseOpenModeEnum
+func GetAutonomousDatabaseOpenModeEnumStringValues() []string {
+	return []string{
+		"READ_ONLY",
+		"READ_WRITE",
+	}
 }
 
 // AutonomousDatabaseRefreshableStatusEnum Enum with underlying type: string
@@ -559,7 +710,7 @@ const (
 	AutonomousDatabaseRefreshableStatusNotRefreshing AutonomousDatabaseRefreshableStatusEnum = "NOT_REFRESHING"
 )
 
-var mappingAutonomousDatabaseRefreshableStatus = map[string]AutonomousDatabaseRefreshableStatusEnum{
+var mappingAutonomousDatabaseRefreshableStatusEnum = map[string]AutonomousDatabaseRefreshableStatusEnum{
 	"REFRESHING":     AutonomousDatabaseRefreshableStatusRefreshing,
 	"NOT_REFRESHING": AutonomousDatabaseRefreshableStatusNotRefreshing,
 }
@@ -567,10 +718,18 @@ var mappingAutonomousDatabaseRefreshableStatus = map[string]AutonomousDatabaseRe
 // GetAutonomousDatabaseRefreshableStatusEnumValues Enumerates the set of values for AutonomousDatabaseRefreshableStatusEnum
 func GetAutonomousDatabaseRefreshableStatusEnumValues() []AutonomousDatabaseRefreshableStatusEnum {
 	values := make([]AutonomousDatabaseRefreshableStatusEnum, 0)
-	for _, v := range mappingAutonomousDatabaseRefreshableStatus {
+	for _, v := range mappingAutonomousDatabaseRefreshableStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseRefreshableStatusEnumStringValues Enumerates the set of values in String for AutonomousDatabaseRefreshableStatusEnum
+func GetAutonomousDatabaseRefreshableStatusEnumStringValues() []string {
+	return []string{
+		"REFRESHING",
+		"NOT_REFRESHING",
+	}
 }
 
 // AutonomousDatabaseRefreshableModeEnum Enum with underlying type: string
@@ -582,7 +741,7 @@ const (
 	AutonomousDatabaseRefreshableModeManual    AutonomousDatabaseRefreshableModeEnum = "MANUAL"
 )
 
-var mappingAutonomousDatabaseRefreshableMode = map[string]AutonomousDatabaseRefreshableModeEnum{
+var mappingAutonomousDatabaseRefreshableModeEnum = map[string]AutonomousDatabaseRefreshableModeEnum{
 	"AUTOMATIC": AutonomousDatabaseRefreshableModeAutomatic,
 	"MANUAL":    AutonomousDatabaseRefreshableModeManual,
 }
@@ -590,10 +749,18 @@ var mappingAutonomousDatabaseRefreshableMode = map[string]AutonomousDatabaseRefr
 // GetAutonomousDatabaseRefreshableModeEnumValues Enumerates the set of values for AutonomousDatabaseRefreshableModeEnum
 func GetAutonomousDatabaseRefreshableModeEnumValues() []AutonomousDatabaseRefreshableModeEnum {
 	values := make([]AutonomousDatabaseRefreshableModeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseRefreshableMode {
+	for _, v := range mappingAutonomousDatabaseRefreshableModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseRefreshableModeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseRefreshableModeEnum
+func GetAutonomousDatabaseRefreshableModeEnumStringValues() []string {
+	return []string{
+		"AUTOMATIC",
+		"MANUAL",
+	}
 }
 
 // AutonomousDatabasePermissionLevelEnum Enum with underlying type: string
@@ -605,7 +772,7 @@ const (
 	AutonomousDatabasePermissionLevelUnrestricted AutonomousDatabasePermissionLevelEnum = "UNRESTRICTED"
 )
 
-var mappingAutonomousDatabasePermissionLevel = map[string]AutonomousDatabasePermissionLevelEnum{
+var mappingAutonomousDatabasePermissionLevelEnum = map[string]AutonomousDatabasePermissionLevelEnum{
 	"RESTRICTED":   AutonomousDatabasePermissionLevelRestricted,
 	"UNRESTRICTED": AutonomousDatabasePermissionLevelUnrestricted,
 }
@@ -613,10 +780,18 @@ var mappingAutonomousDatabasePermissionLevel = map[string]AutonomousDatabasePerm
 // GetAutonomousDatabasePermissionLevelEnumValues Enumerates the set of values for AutonomousDatabasePermissionLevelEnum
 func GetAutonomousDatabasePermissionLevelEnumValues() []AutonomousDatabasePermissionLevelEnum {
 	values := make([]AutonomousDatabasePermissionLevelEnum, 0)
-	for _, v := range mappingAutonomousDatabasePermissionLevel {
+	for _, v := range mappingAutonomousDatabasePermissionLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabasePermissionLevelEnumStringValues Enumerates the set of values in String for AutonomousDatabasePermissionLevelEnum
+func GetAutonomousDatabasePermissionLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"UNRESTRICTED",
+	}
 }
 
 // AutonomousDatabaseRoleEnum Enum with underlying type: string
@@ -629,7 +804,7 @@ const (
 	AutonomousDatabaseRoleDisabledStandby AutonomousDatabaseRoleEnum = "DISABLED_STANDBY"
 )
 
-var mappingAutonomousDatabaseRole = map[string]AutonomousDatabaseRoleEnum{
+var mappingAutonomousDatabaseRoleEnum = map[string]AutonomousDatabaseRoleEnum{
 	"PRIMARY":          AutonomousDatabaseRolePrimary,
 	"STANDBY":          AutonomousDatabaseRoleStandby,
 	"DISABLED_STANDBY": AutonomousDatabaseRoleDisabledStandby,
@@ -638,10 +813,19 @@ var mappingAutonomousDatabaseRole = map[string]AutonomousDatabaseRoleEnum{
 // GetAutonomousDatabaseRoleEnumValues Enumerates the set of values for AutonomousDatabaseRoleEnum
 func GetAutonomousDatabaseRoleEnumValues() []AutonomousDatabaseRoleEnum {
 	values := make([]AutonomousDatabaseRoleEnum, 0)
-	for _, v := range mappingAutonomousDatabaseRole {
+	for _, v := range mappingAutonomousDatabaseRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseRoleEnumStringValues Enumerates the set of values in String for AutonomousDatabaseRoleEnum
+func GetAutonomousDatabaseRoleEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"STANDBY",
+		"DISABLED_STANDBY",
+	}
 }
 
 // AutonomousDatabaseDataguardRegionTypeEnum Enum with underlying type: string
@@ -653,7 +837,7 @@ const (
 	AutonomousDatabaseDataguardRegionTypeRemoteStandbyDgRegion AutonomousDatabaseDataguardRegionTypeEnum = "REMOTE_STANDBY_DG_REGION"
 )
 
-var mappingAutonomousDatabaseDataguardRegionType = map[string]AutonomousDatabaseDataguardRegionTypeEnum{
+var mappingAutonomousDatabaseDataguardRegionTypeEnum = map[string]AutonomousDatabaseDataguardRegionTypeEnum{
 	"PRIMARY_DG_REGION":        AutonomousDatabaseDataguardRegionTypePrimaryDgRegion,
 	"REMOTE_STANDBY_DG_REGION": AutonomousDatabaseDataguardRegionTypeRemoteStandbyDgRegion,
 }
@@ -661,10 +845,18 @@ var mappingAutonomousDatabaseDataguardRegionType = map[string]AutonomousDatabase
 // GetAutonomousDatabaseDataguardRegionTypeEnumValues Enumerates the set of values for AutonomousDatabaseDataguardRegionTypeEnum
 func GetAutonomousDatabaseDataguardRegionTypeEnumValues() []AutonomousDatabaseDataguardRegionTypeEnum {
 	values := make([]AutonomousDatabaseDataguardRegionTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseDataguardRegionType {
+	for _, v := range mappingAutonomousDatabaseDataguardRegionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseDataguardRegionTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseDataguardRegionTypeEnum
+func GetAutonomousDatabaseDataguardRegionTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY_DG_REGION",
+		"REMOTE_STANDBY_DG_REGION",
+	}
 }
 
 // AutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum Enum with underlying type: string
@@ -676,7 +868,7 @@ const (
 	AutonomousDatabaseAutonomousMaintenanceScheduleTypeRegular AutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum = "REGULAR"
 )
 
-var mappingAutonomousDatabaseAutonomousMaintenanceScheduleType = map[string]AutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum{
+var mappingAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum = map[string]AutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum{
 	"EARLY":   AutonomousDatabaseAutonomousMaintenanceScheduleTypeEarly,
 	"REGULAR": AutonomousDatabaseAutonomousMaintenanceScheduleTypeRegular,
 }
@@ -684,8 +876,16 @@ var mappingAutonomousDatabaseAutonomousMaintenanceScheduleType = map[string]Auto
 // GetAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnumValues Enumerates the set of values for AutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum
 func GetAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnumValues() []AutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum {
 	values := make([]AutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseAutonomousMaintenanceScheduleType {
+	for _, v := range mappingAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseAutonomousMaintenanceScheduleTypeEnum
+func GetAutonomousDatabaseAutonomousMaintenanceScheduleTypeEnumStringValues() []string {
+	return []string{
+		"EARLY",
+		"REGULAR",
+	}
 }

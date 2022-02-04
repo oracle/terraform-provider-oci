@@ -5,8 +5,10 @@
 package workrequests
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListWorkRequestErrorsRequest wrapper for the ListWorkRequestErrors operation
@@ -48,6 +50,10 @@ func (request ListWorkRequestErrorsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWorkRequestErrorsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -61,6 +67,20 @@ func (request ListWorkRequestErrorsRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWorkRequestErrorsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWorkRequestErrorsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListWorkRequestErrorsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkRequestErrorsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWorkRequestErrorsResponse wrapper for the ListWorkRequestErrors operation
@@ -100,7 +120,7 @@ const (
 	ListWorkRequestErrorsSortOrderDesc ListWorkRequestErrorsSortOrderEnum = "DESC"
 )
 
-var mappingListWorkRequestErrorsSortOrder = map[string]ListWorkRequestErrorsSortOrderEnum{
+var mappingListWorkRequestErrorsSortOrderEnum = map[string]ListWorkRequestErrorsSortOrderEnum{
 	"ASC":  ListWorkRequestErrorsSortOrderAsc,
 	"DESC": ListWorkRequestErrorsSortOrderDesc,
 }
@@ -108,8 +128,16 @@ var mappingListWorkRequestErrorsSortOrder = map[string]ListWorkRequestErrorsSort
 // GetListWorkRequestErrorsSortOrderEnumValues Enumerates the set of values for ListWorkRequestErrorsSortOrderEnum
 func GetListWorkRequestErrorsSortOrderEnumValues() []ListWorkRequestErrorsSortOrderEnum {
 	values := make([]ListWorkRequestErrorsSortOrderEnum, 0)
-	for _, v := range mappingListWorkRequestErrorsSortOrder {
+	for _, v := range mappingListWorkRequestErrorsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWorkRequestErrorsSortOrderEnumStringValues Enumerates the set of values in String for ListWorkRequestErrorsSortOrderEnum
+func GetListWorkRequestErrorsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

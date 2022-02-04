@@ -34,7 +34,7 @@ const (
 	JobTypeImportDataAsset            JobTypeEnum = "IMPORT_DATA_ASSET"
 )
 
-var mappingJobType = map[string]JobTypeEnum{
+var mappingJobTypeEnum = map[string]JobTypeEnum{
 	"HARVEST":                      JobTypeHarvest,
 	"PROFILING":                    JobTypeProfiling,
 	"SAMPLING":                     JobTypeSampling,
@@ -57,8 +57,31 @@ var mappingJobType = map[string]JobTypeEnum{
 // GetJobTypeEnumValues Enumerates the set of values for JobTypeEnum
 func GetJobTypeEnumValues() []JobTypeEnum {
 	values := make([]JobTypeEnum, 0)
-	for _, v := range mappingJobType {
+	for _, v := range mappingJobTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobTypeEnumStringValues Enumerates the set of values in String for JobTypeEnum
+func GetJobTypeEnumStringValues() []string {
+	return []string{
+		"HARVEST",
+		"PROFILING",
+		"SAMPLING",
+		"PREVIEW",
+		"IMPORT",
+		"EXPORT",
+		"IMPORT_GLOSSARY",
+		"EXPORT_GLOSSARY",
+		"INTERNAL",
+		"PURGE",
+		"IMMEDIATE",
+		"SCHEDULED",
+		"IMMEDIATE_EXECUTION",
+		"SCHEDULED_EXECUTION",
+		"SCHEDULED_EXECUTION_INSTANCE",
+		"ASYNC_DELETE",
+		"IMPORT_DATA_ASSET",
+	}
 }

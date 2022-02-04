@@ -22,7 +22,7 @@ const (
 	BastionLifecycleStateFailed   BastionLifecycleStateEnum = "FAILED"
 )
 
-var mappingBastionLifecycleState = map[string]BastionLifecycleStateEnum{
+var mappingBastionLifecycleStateEnum = map[string]BastionLifecycleStateEnum{
 	"CREATING": BastionLifecycleStateCreating,
 	"UPDATING": BastionLifecycleStateUpdating,
 	"ACTIVE":   BastionLifecycleStateActive,
@@ -34,8 +34,20 @@ var mappingBastionLifecycleState = map[string]BastionLifecycleStateEnum{
 // GetBastionLifecycleStateEnumValues Enumerates the set of values for BastionLifecycleStateEnum
 func GetBastionLifecycleStateEnumValues() []BastionLifecycleStateEnum {
 	values := make([]BastionLifecycleStateEnum, 0)
-	for _, v := range mappingBastionLifecycleState {
+	for _, v := range mappingBastionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBastionLifecycleStateEnumStringValues Enumerates the set of values in String for BastionLifecycleStateEnum
+func GetBastionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

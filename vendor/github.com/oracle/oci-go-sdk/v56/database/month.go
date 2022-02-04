@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Month Month of the year.
@@ -22,6 +24,21 @@ type Month struct {
 
 func (m Month) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Month) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMonthNameEnum[string(m.Name)]; !ok && m.Name != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Name: %s. Supported values are: %s.", m.Name, strings.Join(GetMonthNameEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MonthNameEnum Enum with underlying type: string
@@ -43,7 +60,7 @@ const (
 	MonthNameDecember  MonthNameEnum = "DECEMBER"
 )
 
-var mappingMonthName = map[string]MonthNameEnum{
+var mappingMonthNameEnum = map[string]MonthNameEnum{
 	"JANUARY":   MonthNameJanuary,
 	"FEBRUARY":  MonthNameFebruary,
 	"MARCH":     MonthNameMarch,
@@ -61,8 +78,26 @@ var mappingMonthName = map[string]MonthNameEnum{
 // GetMonthNameEnumValues Enumerates the set of values for MonthNameEnum
 func GetMonthNameEnumValues() []MonthNameEnum {
 	values := make([]MonthNameEnum, 0)
-	for _, v := range mappingMonthName {
+	for _, v := range mappingMonthNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMonthNameEnumStringValues Enumerates the set of values in String for MonthNameEnum
+func GetMonthNameEnumStringValues() []string {
+	return []string{
+		"JANUARY",
+		"FEBRUARY",
+		"MARCH",
+		"APRIL",
+		"MAY",
+		"JUNE",
+		"JULY",
+		"AUGUST",
+		"SEPTEMBER",
+		"OCTOBER",
+		"NOVEMBER",
+		"DECEMBER",
+	}
 }

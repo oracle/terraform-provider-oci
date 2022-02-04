@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListMetaSourceTypesRequest wrapper for the ListMetaSourceTypes operation
@@ -46,6 +48,10 @@ func (request ListMetaSourceTypesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListMetaSourceTypesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request ListMetaSourceTypesRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListMetaSourceTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListMetaSourceTypesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListMetaSourceTypesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMetaSourceTypesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMetaSourceTypesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMetaSourceTypesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListMetaSourceTypesResponse wrapper for the ListMetaSourceTypes operation
@@ -101,17 +124,24 @@ const (
 	ListMetaSourceTypesSortByName ListMetaSourceTypesSortByEnum = "name"
 )
 
-var mappingListMetaSourceTypesSortBy = map[string]ListMetaSourceTypesSortByEnum{
+var mappingListMetaSourceTypesSortByEnum = map[string]ListMetaSourceTypesSortByEnum{
 	"name": ListMetaSourceTypesSortByName,
 }
 
 // GetListMetaSourceTypesSortByEnumValues Enumerates the set of values for ListMetaSourceTypesSortByEnum
 func GetListMetaSourceTypesSortByEnumValues() []ListMetaSourceTypesSortByEnum {
 	values := make([]ListMetaSourceTypesSortByEnum, 0)
-	for _, v := range mappingListMetaSourceTypesSortBy {
+	for _, v := range mappingListMetaSourceTypesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMetaSourceTypesSortByEnumStringValues Enumerates the set of values in String for ListMetaSourceTypesSortByEnum
+func GetListMetaSourceTypesSortByEnumStringValues() []string {
+	return []string{
+		"name",
+	}
 }
 
 // ListMetaSourceTypesSortOrderEnum Enum with underlying type: string
@@ -123,7 +153,7 @@ const (
 	ListMetaSourceTypesSortOrderDesc ListMetaSourceTypesSortOrderEnum = "DESC"
 )
 
-var mappingListMetaSourceTypesSortOrder = map[string]ListMetaSourceTypesSortOrderEnum{
+var mappingListMetaSourceTypesSortOrderEnum = map[string]ListMetaSourceTypesSortOrderEnum{
 	"ASC":  ListMetaSourceTypesSortOrderAsc,
 	"DESC": ListMetaSourceTypesSortOrderDesc,
 }
@@ -131,8 +161,16 @@ var mappingListMetaSourceTypesSortOrder = map[string]ListMetaSourceTypesSortOrde
 // GetListMetaSourceTypesSortOrderEnumValues Enumerates the set of values for ListMetaSourceTypesSortOrderEnum
 func GetListMetaSourceTypesSortOrderEnumValues() []ListMetaSourceTypesSortOrderEnum {
 	values := make([]ListMetaSourceTypesSortOrderEnum, 0)
-	for _, v := range mappingListMetaSourceTypesSortOrder {
+	for _, v := range mappingListMetaSourceTypesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMetaSourceTypesSortOrderEnumStringValues Enumerates the set of values in String for ListMetaSourceTypesSortOrderEnum
+func GetListMetaSourceTypesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

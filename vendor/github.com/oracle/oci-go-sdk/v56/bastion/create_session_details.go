@@ -11,7 +11,9 @@ package bastion
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateSessionDetails The configuration details for a new bastion session. A session lets authorized users connect to a target resource for a predetermined amount of time. The Bastion service recognizes two types of sessions, managed SSH sessions and SSH port forwarding sessions. Managed SSH sessions require that the target resource has an OpenSSH server and the Oracle Cloud Agent both running.
@@ -36,6 +38,21 @@ type CreateSessionDetails struct {
 
 func (m CreateSessionDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateSessionDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateSessionDetailsKeyTypeEnum[string(m.KeyType)]; !ok && m.KeyType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KeyType: %s. Supported values are: %s.", m.KeyType, strings.Join(GetCreateSessionDetailsKeyTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -85,15 +102,22 @@ const (
 	CreateSessionDetailsKeyTypePub CreateSessionDetailsKeyTypeEnum = "PUB"
 )
 
-var mappingCreateSessionDetailsKeyType = map[string]CreateSessionDetailsKeyTypeEnum{
+var mappingCreateSessionDetailsKeyTypeEnum = map[string]CreateSessionDetailsKeyTypeEnum{
 	"PUB": CreateSessionDetailsKeyTypePub,
 }
 
 // GetCreateSessionDetailsKeyTypeEnumValues Enumerates the set of values for CreateSessionDetailsKeyTypeEnum
 func GetCreateSessionDetailsKeyTypeEnumValues() []CreateSessionDetailsKeyTypeEnum {
 	values := make([]CreateSessionDetailsKeyTypeEnum, 0)
-	for _, v := range mappingCreateSessionDetailsKeyType {
+	for _, v := range mappingCreateSessionDetailsKeyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateSessionDetailsKeyTypeEnumStringValues Enumerates the set of values in String for CreateSessionDetailsKeyTypeEnum
+func GetCreateSessionDetailsKeyTypeEnumStringValues() []string {
+	return []string{
+		"PUB",
+	}
 }

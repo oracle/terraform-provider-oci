@@ -10,7 +10,9 @@
 package networkloadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HealthCheckResult Information about a single backend server health check result reported by a network load balancer.
@@ -28,6 +30,21 @@ func (m HealthCheckResult) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m HealthCheckResult) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingHealthCheckResultHealthCheckStatusEnum[string(m.HealthCheckStatus)]; !ok && m.HealthCheckStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HealthCheckStatus: %s. Supported values are: %s.", m.HealthCheckStatus, strings.Join(GetHealthCheckResultHealthCheckStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HealthCheckResultHealthCheckStatusEnum Enum with underlying type: string
 type HealthCheckResultHealthCheckStatusEnum string
 
@@ -41,7 +58,7 @@ const (
 	HealthCheckResultHealthCheckStatusUnknown               HealthCheckResultHealthCheckStatusEnum = "UNKNOWN"
 )
 
-var mappingHealthCheckResultHealthCheckStatus = map[string]HealthCheckResultHealthCheckStatusEnum{
+var mappingHealthCheckResultHealthCheckStatusEnum = map[string]HealthCheckResultHealthCheckStatusEnum{
 	"OK":                      HealthCheckResultHealthCheckStatusOk,
 	"INVALID_STATUS_CODE":     HealthCheckResultHealthCheckStatusInvalidStatusCode,
 	"TIMED_OUT":               HealthCheckResultHealthCheckStatusTimedOut,
@@ -53,8 +70,20 @@ var mappingHealthCheckResultHealthCheckStatus = map[string]HealthCheckResultHeal
 // GetHealthCheckResultHealthCheckStatusEnumValues Enumerates the set of values for HealthCheckResultHealthCheckStatusEnum
 func GetHealthCheckResultHealthCheckStatusEnumValues() []HealthCheckResultHealthCheckStatusEnum {
 	values := make([]HealthCheckResultHealthCheckStatusEnum, 0)
-	for _, v := range mappingHealthCheckResultHealthCheckStatus {
+	for _, v := range mappingHealthCheckResultHealthCheckStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHealthCheckResultHealthCheckStatusEnumStringValues Enumerates the set of values in String for HealthCheckResultHealthCheckStatusEnum
+func GetHealthCheckResultHealthCheckStatusEnumStringValues() []string {
+	return []string{
+		"OK",
+		"INVALID_STATUS_CODE",
+		"TIMED_OUT",
+		"HEALTH_PAYLOAD_MISMATCH",
+		"CONNECT_FAILED",
+		"UNKNOWN",
+	}
 }

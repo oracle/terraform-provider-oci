@@ -13,7 +13,9 @@ package opsi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DatabaseConfigurationMetricGroup Supported configuration metric groups for database capacity planning service.
@@ -82,6 +84,18 @@ func (m databaseconfigurationmetricgroup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m databaseconfigurationmetricgroup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseConfigurationMetricGroupMetricNameEnum Enum with underlying type: string
 type DatabaseConfigurationMetricGroupMetricNameEnum string
 
@@ -92,7 +106,7 @@ const (
 	DatabaseConfigurationMetricGroupMetricNameOsConfigInstance   DatabaseConfigurationMetricGroupMetricNameEnum = "DB_OS_CONFIG_INSTANCE"
 )
 
-var mappingDatabaseConfigurationMetricGroupMetricName = map[string]DatabaseConfigurationMetricGroupMetricNameEnum{
+var mappingDatabaseConfigurationMetricGroupMetricNameEnum = map[string]DatabaseConfigurationMetricGroupMetricNameEnum{
 	"DB_EXTERNAL_PROPERTIES": DatabaseConfigurationMetricGroupMetricNameExternalProperties,
 	"DB_EXTERNAL_INSTANCE":   DatabaseConfigurationMetricGroupMetricNameExternalInstance,
 	"DB_OS_CONFIG_INSTANCE":  DatabaseConfigurationMetricGroupMetricNameOsConfigInstance,
@@ -101,8 +115,17 @@ var mappingDatabaseConfigurationMetricGroupMetricName = map[string]DatabaseConfi
 // GetDatabaseConfigurationMetricGroupMetricNameEnumValues Enumerates the set of values for DatabaseConfigurationMetricGroupMetricNameEnum
 func GetDatabaseConfigurationMetricGroupMetricNameEnumValues() []DatabaseConfigurationMetricGroupMetricNameEnum {
 	values := make([]DatabaseConfigurationMetricGroupMetricNameEnum, 0)
-	for _, v := range mappingDatabaseConfigurationMetricGroupMetricName {
+	for _, v := range mappingDatabaseConfigurationMetricGroupMetricNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConfigurationMetricGroupMetricNameEnumStringValues Enumerates the set of values in String for DatabaseConfigurationMetricGroupMetricNameEnum
+func GetDatabaseConfigurationMetricGroupMetricNameEnumStringValues() []string {
+	return []string{
+		"DB_EXTERNAL_PROPERTIES",
+		"DB_EXTERNAL_INSTANCE",
+		"DB_OS_CONFIG_INSTANCE",
+	}
 }

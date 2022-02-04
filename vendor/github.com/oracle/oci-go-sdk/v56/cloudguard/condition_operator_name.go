@@ -25,7 +25,7 @@ const (
 	ConditionOperatorNameRange       ConditionOperatorNameEnum = "RANGE"
 )
 
-var mappingConditionOperatorName = map[string]ConditionOperatorNameEnum{
+var mappingConditionOperatorNameEnum = map[string]ConditionOperatorNameEnum{
 	"AND":          ConditionOperatorNameAnd,
 	"OR":           ConditionOperatorNameOr,
 	"IN":           ConditionOperatorNameIn,
@@ -40,8 +40,23 @@ var mappingConditionOperatorName = map[string]ConditionOperatorNameEnum{
 // GetConditionOperatorNameEnumValues Enumerates the set of values for ConditionOperatorNameEnum
 func GetConditionOperatorNameEnumValues() []ConditionOperatorNameEnum {
 	values := make([]ConditionOperatorNameEnum, 0)
-	for _, v := range mappingConditionOperatorName {
+	for _, v := range mappingConditionOperatorNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConditionOperatorNameEnumStringValues Enumerates the set of values in String for ConditionOperatorNameEnum
+func GetConditionOperatorNameEnumStringValues() []string {
+	return []string{
+		"AND",
+		"OR",
+		"IN",
+		"NOT_IN",
+		"EQUALS",
+		"NOT_EQUALS",
+		"LESS_THAN",
+		"GREATER_THAN",
+		"RANGE",
+	}
 }

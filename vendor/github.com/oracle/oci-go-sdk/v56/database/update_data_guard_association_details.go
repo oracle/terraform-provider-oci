@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateDataGuardAssociationDetails The configuration details for updating a Data Guard association for a database.
@@ -48,6 +50,24 @@ func (m UpdateDataGuardAssociationDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateDataGuardAssociationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateDataGuardAssociationDetailsProtectionModeEnum[string(m.ProtectionMode)]; !ok && m.ProtectionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetUpdateDataGuardAssociationDetailsProtectionModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateDataGuardAssociationDetailsTransportTypeEnum[string(m.TransportType)]; !ok && m.TransportType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TransportType: %s. Supported values are: %s.", m.TransportType, strings.Join(GetUpdateDataGuardAssociationDetailsTransportTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateDataGuardAssociationDetailsProtectionModeEnum Enum with underlying type: string
 type UpdateDataGuardAssociationDetailsProtectionModeEnum string
 
@@ -58,7 +78,7 @@ const (
 	UpdateDataGuardAssociationDetailsProtectionModeProtection   UpdateDataGuardAssociationDetailsProtectionModeEnum = "MAXIMUM_PROTECTION"
 )
 
-var mappingUpdateDataGuardAssociationDetailsProtectionMode = map[string]UpdateDataGuardAssociationDetailsProtectionModeEnum{
+var mappingUpdateDataGuardAssociationDetailsProtectionModeEnum = map[string]UpdateDataGuardAssociationDetailsProtectionModeEnum{
 	"MAXIMUM_AVAILABILITY": UpdateDataGuardAssociationDetailsProtectionModeAvailability,
 	"MAXIMUM_PERFORMANCE":  UpdateDataGuardAssociationDetailsProtectionModePerformance,
 	"MAXIMUM_PROTECTION":   UpdateDataGuardAssociationDetailsProtectionModeProtection,
@@ -67,10 +87,19 @@ var mappingUpdateDataGuardAssociationDetailsProtectionMode = map[string]UpdateDa
 // GetUpdateDataGuardAssociationDetailsProtectionModeEnumValues Enumerates the set of values for UpdateDataGuardAssociationDetailsProtectionModeEnum
 func GetUpdateDataGuardAssociationDetailsProtectionModeEnumValues() []UpdateDataGuardAssociationDetailsProtectionModeEnum {
 	values := make([]UpdateDataGuardAssociationDetailsProtectionModeEnum, 0)
-	for _, v := range mappingUpdateDataGuardAssociationDetailsProtectionMode {
+	for _, v := range mappingUpdateDataGuardAssociationDetailsProtectionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateDataGuardAssociationDetailsProtectionModeEnumStringValues Enumerates the set of values in String for UpdateDataGuardAssociationDetailsProtectionModeEnum
+func GetUpdateDataGuardAssociationDetailsProtectionModeEnumStringValues() []string {
+	return []string{
+		"MAXIMUM_AVAILABILITY",
+		"MAXIMUM_PERFORMANCE",
+		"MAXIMUM_PROTECTION",
+	}
 }
 
 // UpdateDataGuardAssociationDetailsTransportTypeEnum Enum with underlying type: string
@@ -83,7 +112,7 @@ const (
 	UpdateDataGuardAssociationDetailsTransportTypeFastsync UpdateDataGuardAssociationDetailsTransportTypeEnum = "FASTSYNC"
 )
 
-var mappingUpdateDataGuardAssociationDetailsTransportType = map[string]UpdateDataGuardAssociationDetailsTransportTypeEnum{
+var mappingUpdateDataGuardAssociationDetailsTransportTypeEnum = map[string]UpdateDataGuardAssociationDetailsTransportTypeEnum{
 	"SYNC":     UpdateDataGuardAssociationDetailsTransportTypeSync,
 	"ASYNC":    UpdateDataGuardAssociationDetailsTransportTypeAsync,
 	"FASTSYNC": UpdateDataGuardAssociationDetailsTransportTypeFastsync,
@@ -92,8 +121,17 @@ var mappingUpdateDataGuardAssociationDetailsTransportType = map[string]UpdateDat
 // GetUpdateDataGuardAssociationDetailsTransportTypeEnumValues Enumerates the set of values for UpdateDataGuardAssociationDetailsTransportTypeEnum
 func GetUpdateDataGuardAssociationDetailsTransportTypeEnumValues() []UpdateDataGuardAssociationDetailsTransportTypeEnum {
 	values := make([]UpdateDataGuardAssociationDetailsTransportTypeEnum, 0)
-	for _, v := range mappingUpdateDataGuardAssociationDetailsTransportType {
+	for _, v := range mappingUpdateDataGuardAssociationDetailsTransportTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateDataGuardAssociationDetailsTransportTypeEnumStringValues Enumerates the set of values in String for UpdateDataGuardAssociationDetailsTransportTypeEnum
+func GetUpdateDataGuardAssociationDetailsTransportTypeEnumStringValues() []string {
+	return []string{
+		"SYNC",
+		"ASYNC",
+		"FASTSYNC",
+	}
 }

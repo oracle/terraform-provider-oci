@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AuthToken An `AuthToken` is an Oracle-generated token string that you can use to authenticate with third-party APIs
@@ -56,6 +58,21 @@ func (m AuthToken) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AuthToken) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAuthTokenLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAuthTokenLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AuthTokenLifecycleStateEnum Enum with underlying type: string
 type AuthTokenLifecycleStateEnum string
 
@@ -68,7 +85,7 @@ const (
 	AuthTokenLifecycleStateDeleted  AuthTokenLifecycleStateEnum = "DELETED"
 )
 
-var mappingAuthTokenLifecycleState = map[string]AuthTokenLifecycleStateEnum{
+var mappingAuthTokenLifecycleStateEnum = map[string]AuthTokenLifecycleStateEnum{
 	"CREATING": AuthTokenLifecycleStateCreating,
 	"ACTIVE":   AuthTokenLifecycleStateActive,
 	"INACTIVE": AuthTokenLifecycleStateInactive,
@@ -79,8 +96,19 @@ var mappingAuthTokenLifecycleState = map[string]AuthTokenLifecycleStateEnum{
 // GetAuthTokenLifecycleStateEnumValues Enumerates the set of values for AuthTokenLifecycleStateEnum
 func GetAuthTokenLifecycleStateEnumValues() []AuthTokenLifecycleStateEnum {
 	values := make([]AuthTokenLifecycleStateEnum, 0)
-	for _, v := range mappingAuthTokenLifecycleState {
+	for _, v := range mappingAuthTokenLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAuthTokenLifecycleStateEnumStringValues Enumerates the set of values in String for AuthTokenLifecycleStateEnum
+func GetAuthTokenLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

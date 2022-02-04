@@ -5,8 +5,10 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListOnPremConnectorsRequest wrapper for the ListOnPremConnectors operation
@@ -67,6 +69,10 @@ func (request ListOnPremConnectorsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListOnPremConnectorsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -80,6 +86,29 @@ func (request ListOnPremConnectorsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListOnPremConnectorsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListOnPremConnectorsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListOnPremConnectorsOnPremConnectorLifecycleStateEnum[string(request.OnPremConnectorLifecycleState)]; !ok && request.OnPremConnectorLifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OnPremConnectorLifecycleState: %s. Supported values are: %s.", request.OnPremConnectorLifecycleState, strings.Join(GetListOnPremConnectorsOnPremConnectorLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOnPremConnectorsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOnPremConnectorsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOnPremConnectorsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListOnPremConnectorsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOnPremConnectorsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListOnPremConnectorsAccessLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListOnPremConnectorsResponse wrapper for the ListOnPremConnectors operation
@@ -121,7 +150,7 @@ const (
 	ListOnPremConnectorsOnPremConnectorLifecycleStateFailed   ListOnPremConnectorsOnPremConnectorLifecycleStateEnum = "FAILED"
 )
 
-var mappingListOnPremConnectorsOnPremConnectorLifecycleState = map[string]ListOnPremConnectorsOnPremConnectorLifecycleStateEnum{
+var mappingListOnPremConnectorsOnPremConnectorLifecycleStateEnum = map[string]ListOnPremConnectorsOnPremConnectorLifecycleStateEnum{
 	"CREATING": ListOnPremConnectorsOnPremConnectorLifecycleStateCreating,
 	"UPDATING": ListOnPremConnectorsOnPremConnectorLifecycleStateUpdating,
 	"ACTIVE":   ListOnPremConnectorsOnPremConnectorLifecycleStateActive,
@@ -134,10 +163,23 @@ var mappingListOnPremConnectorsOnPremConnectorLifecycleState = map[string]ListOn
 // GetListOnPremConnectorsOnPremConnectorLifecycleStateEnumValues Enumerates the set of values for ListOnPremConnectorsOnPremConnectorLifecycleStateEnum
 func GetListOnPremConnectorsOnPremConnectorLifecycleStateEnumValues() []ListOnPremConnectorsOnPremConnectorLifecycleStateEnum {
 	values := make([]ListOnPremConnectorsOnPremConnectorLifecycleStateEnum, 0)
-	for _, v := range mappingListOnPremConnectorsOnPremConnectorLifecycleState {
+	for _, v := range mappingListOnPremConnectorsOnPremConnectorLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOnPremConnectorsOnPremConnectorLifecycleStateEnumStringValues Enumerates the set of values in String for ListOnPremConnectorsOnPremConnectorLifecycleStateEnum
+func GetListOnPremConnectorsOnPremConnectorLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListOnPremConnectorsSortOrderEnum Enum with underlying type: string
@@ -149,7 +191,7 @@ const (
 	ListOnPremConnectorsSortOrderDesc ListOnPremConnectorsSortOrderEnum = "DESC"
 )
 
-var mappingListOnPremConnectorsSortOrder = map[string]ListOnPremConnectorsSortOrderEnum{
+var mappingListOnPremConnectorsSortOrderEnum = map[string]ListOnPremConnectorsSortOrderEnum{
 	"ASC":  ListOnPremConnectorsSortOrderAsc,
 	"DESC": ListOnPremConnectorsSortOrderDesc,
 }
@@ -157,10 +199,18 @@ var mappingListOnPremConnectorsSortOrder = map[string]ListOnPremConnectorsSortOr
 // GetListOnPremConnectorsSortOrderEnumValues Enumerates the set of values for ListOnPremConnectorsSortOrderEnum
 func GetListOnPremConnectorsSortOrderEnumValues() []ListOnPremConnectorsSortOrderEnum {
 	values := make([]ListOnPremConnectorsSortOrderEnum, 0)
-	for _, v := range mappingListOnPremConnectorsSortOrder {
+	for _, v := range mappingListOnPremConnectorsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOnPremConnectorsSortOrderEnumStringValues Enumerates the set of values in String for ListOnPremConnectorsSortOrderEnum
+func GetListOnPremConnectorsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListOnPremConnectorsSortByEnum Enum with underlying type: string
@@ -172,7 +222,7 @@ const (
 	ListOnPremConnectorsSortByDisplayname ListOnPremConnectorsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListOnPremConnectorsSortBy = map[string]ListOnPremConnectorsSortByEnum{
+var mappingListOnPremConnectorsSortByEnum = map[string]ListOnPremConnectorsSortByEnum{
 	"TIMECREATED": ListOnPremConnectorsSortByTimecreated,
 	"DISPLAYNAME": ListOnPremConnectorsSortByDisplayname,
 }
@@ -180,10 +230,18 @@ var mappingListOnPremConnectorsSortBy = map[string]ListOnPremConnectorsSortByEnu
 // GetListOnPremConnectorsSortByEnumValues Enumerates the set of values for ListOnPremConnectorsSortByEnum
 func GetListOnPremConnectorsSortByEnumValues() []ListOnPremConnectorsSortByEnum {
 	values := make([]ListOnPremConnectorsSortByEnum, 0)
-	for _, v := range mappingListOnPremConnectorsSortBy {
+	for _, v := range mappingListOnPremConnectorsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOnPremConnectorsSortByEnumStringValues Enumerates the set of values in String for ListOnPremConnectorsSortByEnum
+func GetListOnPremConnectorsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListOnPremConnectorsAccessLevelEnum Enum with underlying type: string
@@ -195,7 +253,7 @@ const (
 	ListOnPremConnectorsAccessLevelAccessible ListOnPremConnectorsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListOnPremConnectorsAccessLevel = map[string]ListOnPremConnectorsAccessLevelEnum{
+var mappingListOnPremConnectorsAccessLevelEnum = map[string]ListOnPremConnectorsAccessLevelEnum{
 	"RESTRICTED": ListOnPremConnectorsAccessLevelRestricted,
 	"ACCESSIBLE": ListOnPremConnectorsAccessLevelAccessible,
 }
@@ -203,8 +261,16 @@ var mappingListOnPremConnectorsAccessLevel = map[string]ListOnPremConnectorsAcce
 // GetListOnPremConnectorsAccessLevelEnumValues Enumerates the set of values for ListOnPremConnectorsAccessLevelEnum
 func GetListOnPremConnectorsAccessLevelEnumValues() []ListOnPremConnectorsAccessLevelEnum {
 	values := make([]ListOnPremConnectorsAccessLevelEnum, 0)
-	for _, v := range mappingListOnPremConnectorsAccessLevel {
+	for _, v := range mappingListOnPremConnectorsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOnPremConnectorsAccessLevelEnumStringValues Enumerates the set of values in String for ListOnPremConnectorsAccessLevelEnum
+func GetListOnPremConnectorsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }

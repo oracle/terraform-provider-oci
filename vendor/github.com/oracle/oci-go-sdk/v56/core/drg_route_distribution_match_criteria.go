@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DrgRouteDistributionMatchCriteria The match criteria in a route distribution statement. The match criteria outlines which routes
@@ -70,6 +72,18 @@ func (m drgroutedistributionmatchcriteria) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m drgroutedistributionmatchcriteria) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DrgRouteDistributionMatchCriteriaMatchTypeEnum Enum with underlying type: string
 type DrgRouteDistributionMatchCriteriaMatchTypeEnum string
 
@@ -79,7 +93,7 @@ const (
 	DrgRouteDistributionMatchCriteriaMatchTypeId   DrgRouteDistributionMatchCriteriaMatchTypeEnum = "DRG_ATTACHMENT_ID"
 )
 
-var mappingDrgRouteDistributionMatchCriteriaMatchType = map[string]DrgRouteDistributionMatchCriteriaMatchTypeEnum{
+var mappingDrgRouteDistributionMatchCriteriaMatchTypeEnum = map[string]DrgRouteDistributionMatchCriteriaMatchTypeEnum{
 	"DRG_ATTACHMENT_TYPE": DrgRouteDistributionMatchCriteriaMatchTypeType,
 	"DRG_ATTACHMENT_ID":   DrgRouteDistributionMatchCriteriaMatchTypeId,
 }
@@ -87,8 +101,16 @@ var mappingDrgRouteDistributionMatchCriteriaMatchType = map[string]DrgRouteDistr
 // GetDrgRouteDistributionMatchCriteriaMatchTypeEnumValues Enumerates the set of values for DrgRouteDistributionMatchCriteriaMatchTypeEnum
 func GetDrgRouteDistributionMatchCriteriaMatchTypeEnumValues() []DrgRouteDistributionMatchCriteriaMatchTypeEnum {
 	values := make([]DrgRouteDistributionMatchCriteriaMatchTypeEnum, 0)
-	for _, v := range mappingDrgRouteDistributionMatchCriteriaMatchType {
+	for _, v := range mappingDrgRouteDistributionMatchCriteriaMatchTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgRouteDistributionMatchCriteriaMatchTypeEnumStringValues Enumerates the set of values in String for DrgRouteDistributionMatchCriteriaMatchTypeEnum
+func GetDrgRouteDistributionMatchCriteriaMatchTypeEnumStringValues() []string {
+	return []string{
+		"DRG_ATTACHMENT_TYPE",
+		"DRG_ATTACHMENT_ID",
+	}
 }

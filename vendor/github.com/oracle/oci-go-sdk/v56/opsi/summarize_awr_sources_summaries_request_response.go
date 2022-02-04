@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeAwrSourcesSummariesRequest wrapper for the SummarizeAwrSourcesSummaries operation
@@ -59,6 +61,10 @@ func (request SummarizeAwrSourcesSummariesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeAwrSourcesSummariesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,23 @@ func (request SummarizeAwrSourcesSummariesRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeAwrSourcesSummariesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeAwrSourcesSummariesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeAwrSourcesSummariesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeAwrSourcesSummariesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrSourcesSummariesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeAwrSourcesSummariesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeAwrSourcesSummariesResponse wrapper for the SummarizeAwrSourcesSummaries operation
@@ -111,7 +134,7 @@ const (
 	SummarizeAwrSourcesSummariesSortByName              SummarizeAwrSourcesSummariesSortByEnum = "name"
 )
 
-var mappingSummarizeAwrSourcesSummariesSortBy = map[string]SummarizeAwrSourcesSummariesSortByEnum{
+var mappingSummarizeAwrSourcesSummariesSortByEnum = map[string]SummarizeAwrSourcesSummariesSortByEnum{
 	"snapshotsUploaded": SummarizeAwrSourcesSummariesSortBySnapshotsuploaded,
 	"name":              SummarizeAwrSourcesSummariesSortByName,
 }
@@ -119,10 +142,18 @@ var mappingSummarizeAwrSourcesSummariesSortBy = map[string]SummarizeAwrSourcesSu
 // GetSummarizeAwrSourcesSummariesSortByEnumValues Enumerates the set of values for SummarizeAwrSourcesSummariesSortByEnum
 func GetSummarizeAwrSourcesSummariesSortByEnumValues() []SummarizeAwrSourcesSummariesSortByEnum {
 	values := make([]SummarizeAwrSourcesSummariesSortByEnum, 0)
-	for _, v := range mappingSummarizeAwrSourcesSummariesSortBy {
+	for _, v := range mappingSummarizeAwrSourcesSummariesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrSourcesSummariesSortByEnumStringValues Enumerates the set of values in String for SummarizeAwrSourcesSummariesSortByEnum
+func GetSummarizeAwrSourcesSummariesSortByEnumStringValues() []string {
+	return []string{
+		"snapshotsUploaded",
+		"name",
+	}
 }
 
 // SummarizeAwrSourcesSummariesSortOrderEnum Enum with underlying type: string
@@ -134,7 +165,7 @@ const (
 	SummarizeAwrSourcesSummariesSortOrderDesc SummarizeAwrSourcesSummariesSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeAwrSourcesSummariesSortOrder = map[string]SummarizeAwrSourcesSummariesSortOrderEnum{
+var mappingSummarizeAwrSourcesSummariesSortOrderEnum = map[string]SummarizeAwrSourcesSummariesSortOrderEnum{
 	"ASC":  SummarizeAwrSourcesSummariesSortOrderAsc,
 	"DESC": SummarizeAwrSourcesSummariesSortOrderDesc,
 }
@@ -142,8 +173,16 @@ var mappingSummarizeAwrSourcesSummariesSortOrder = map[string]SummarizeAwrSource
 // GetSummarizeAwrSourcesSummariesSortOrderEnumValues Enumerates the set of values for SummarizeAwrSourcesSummariesSortOrderEnum
 func GetSummarizeAwrSourcesSummariesSortOrderEnumValues() []SummarizeAwrSourcesSummariesSortOrderEnum {
 	values := make([]SummarizeAwrSourcesSummariesSortOrderEnum, 0)
-	for _, v := range mappingSummarizeAwrSourcesSummariesSortOrder {
+	for _, v := range mappingSummarizeAwrSourcesSummariesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrSourcesSummariesSortOrderEnumStringValues Enumerates the set of values in String for SummarizeAwrSourcesSummariesSortOrderEnum
+func GetSummarizeAwrSourcesSummariesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

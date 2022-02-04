@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AbstractFrequencyDetails The model that holds the frequency details.
@@ -91,6 +93,21 @@ func (m abstractfrequencydetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m abstractfrequencydetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAbstractFrequencyDetailsFrequencyEnum[string(m.Frequency)]; !ok && m.Frequency != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Frequency: %s. Supported values are: %s.", m.Frequency, strings.Join(GetAbstractFrequencyDetailsFrequencyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AbstractFrequencyDetailsFrequencyEnum Enum with underlying type: string
 type AbstractFrequencyDetailsFrequencyEnum string
 
@@ -103,7 +120,7 @@ const (
 	AbstractFrequencyDetailsFrequencyCustom  AbstractFrequencyDetailsFrequencyEnum = "CUSTOM"
 )
 
-var mappingAbstractFrequencyDetailsFrequency = map[string]AbstractFrequencyDetailsFrequencyEnum{
+var mappingAbstractFrequencyDetailsFrequencyEnum = map[string]AbstractFrequencyDetailsFrequencyEnum{
 	"HOURLY":  AbstractFrequencyDetailsFrequencyHourly,
 	"DAILY":   AbstractFrequencyDetailsFrequencyDaily,
 	"MONTHLY": AbstractFrequencyDetailsFrequencyMonthly,
@@ -114,10 +131,21 @@ var mappingAbstractFrequencyDetailsFrequency = map[string]AbstractFrequencyDetai
 // GetAbstractFrequencyDetailsFrequencyEnumValues Enumerates the set of values for AbstractFrequencyDetailsFrequencyEnum
 func GetAbstractFrequencyDetailsFrequencyEnumValues() []AbstractFrequencyDetailsFrequencyEnum {
 	values := make([]AbstractFrequencyDetailsFrequencyEnum, 0)
-	for _, v := range mappingAbstractFrequencyDetailsFrequency {
+	for _, v := range mappingAbstractFrequencyDetailsFrequencyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAbstractFrequencyDetailsFrequencyEnumStringValues Enumerates the set of values in String for AbstractFrequencyDetailsFrequencyEnum
+func GetAbstractFrequencyDetailsFrequencyEnumStringValues() []string {
+	return []string{
+		"HOURLY",
+		"DAILY",
+		"MONTHLY",
+		"WEEKLY",
+		"CUSTOM",
+	}
 }
 
 // AbstractFrequencyDetailsModelTypeEnum Enum with underlying type: string
@@ -133,7 +161,7 @@ const (
 	AbstractFrequencyDetailsModelTypeCustom      AbstractFrequencyDetailsModelTypeEnum = "CUSTOM"
 )
 
-var mappingAbstractFrequencyDetailsModelType = map[string]AbstractFrequencyDetailsModelTypeEnum{
+var mappingAbstractFrequencyDetailsModelTypeEnum = map[string]AbstractFrequencyDetailsModelTypeEnum{
 	"HOURLY":       AbstractFrequencyDetailsModelTypeHourly,
 	"DAILY":        AbstractFrequencyDetailsModelTypeDaily,
 	"MONTHLY":      AbstractFrequencyDetailsModelTypeMonthly,
@@ -145,8 +173,20 @@ var mappingAbstractFrequencyDetailsModelType = map[string]AbstractFrequencyDetai
 // GetAbstractFrequencyDetailsModelTypeEnumValues Enumerates the set of values for AbstractFrequencyDetailsModelTypeEnum
 func GetAbstractFrequencyDetailsModelTypeEnumValues() []AbstractFrequencyDetailsModelTypeEnum {
 	values := make([]AbstractFrequencyDetailsModelTypeEnum, 0)
-	for _, v := range mappingAbstractFrequencyDetailsModelType {
+	for _, v := range mappingAbstractFrequencyDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAbstractFrequencyDetailsModelTypeEnumStringValues Enumerates the set of values in String for AbstractFrequencyDetailsModelTypeEnum
+func GetAbstractFrequencyDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"HOURLY",
+		"DAILY",
+		"MONTHLY",
+		"WEEKLY",
+		"MONTHLY_RULE",
+		"CUSTOM",
+	}
 }

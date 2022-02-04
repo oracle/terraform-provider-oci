@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Topology Defines the representation of a virtual network topology.
@@ -103,6 +105,18 @@ func (m topology) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m topology) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TopologyTypeEnum Enum with underlying type: string
 type TopologyTypeEnum string
 
@@ -113,7 +127,7 @@ const (
 	TopologyTypeSubnet     TopologyTypeEnum = "SUBNET"
 )
 
-var mappingTopologyType = map[string]TopologyTypeEnum{
+var mappingTopologyTypeEnum = map[string]TopologyTypeEnum{
 	"NETWORKING": TopologyTypeNetworking,
 	"VCN":        TopologyTypeVcn,
 	"SUBNET":     TopologyTypeSubnet,
@@ -122,8 +136,17 @@ var mappingTopologyType = map[string]TopologyTypeEnum{
 // GetTopologyTypeEnumValues Enumerates the set of values for TopologyTypeEnum
 func GetTopologyTypeEnumValues() []TopologyTypeEnum {
 	values := make([]TopologyTypeEnum, 0)
-	for _, v := range mappingTopologyType {
+	for _, v := range mappingTopologyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTopologyTypeEnumStringValues Enumerates the set of values in String for TopologyTypeEnum
+func GetTopologyTypeEnumStringValues() []string {
+	return []string{
+		"NETWORKING",
+		"VCN",
+		"SUBNET",
+	}
 }

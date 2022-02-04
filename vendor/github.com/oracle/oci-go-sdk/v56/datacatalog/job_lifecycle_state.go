@@ -20,7 +20,7 @@ const (
 	JobLifecycleStateExpired  JobLifecycleStateEnum = "EXPIRED"
 )
 
-var mappingJobLifecycleState = map[string]JobLifecycleStateEnum{
+var mappingJobLifecycleStateEnum = map[string]JobLifecycleStateEnum{
 	"ACTIVE":   JobLifecycleStateActive,
 	"INACTIVE": JobLifecycleStateInactive,
 	"EXPIRED":  JobLifecycleStateExpired,
@@ -29,8 +29,17 @@ var mappingJobLifecycleState = map[string]JobLifecycleStateEnum{
 // GetJobLifecycleStateEnumValues Enumerates the set of values for JobLifecycleStateEnum
 func GetJobLifecycleStateEnumValues() []JobLifecycleStateEnum {
 	values := make([]JobLifecycleStateEnum, 0)
-	for _, v := range mappingJobLifecycleState {
+	for _, v := range mappingJobLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobLifecycleStateEnumStringValues Enumerates the set of values in String for JobLifecycleStateEnum
+func GetJobLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+		"EXPIRED",
+	}
 }

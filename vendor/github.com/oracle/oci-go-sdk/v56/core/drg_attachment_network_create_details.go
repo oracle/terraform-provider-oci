@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DrgAttachmentNetworkCreateDetails The representation of DrgAttachmentNetworkCreateDetails
@@ -75,6 +77,18 @@ func (m drgattachmentnetworkcreatedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m drgattachmentnetworkcreatedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DrgAttachmentNetworkCreateDetailsTypeEnum Enum with underlying type: string
 type DrgAttachmentNetworkCreateDetailsTypeEnum string
 
@@ -83,15 +97,22 @@ const (
 	DrgAttachmentNetworkCreateDetailsTypeVcn DrgAttachmentNetworkCreateDetailsTypeEnum = "VCN"
 )
 
-var mappingDrgAttachmentNetworkCreateDetailsType = map[string]DrgAttachmentNetworkCreateDetailsTypeEnum{
+var mappingDrgAttachmentNetworkCreateDetailsTypeEnum = map[string]DrgAttachmentNetworkCreateDetailsTypeEnum{
 	"VCN": DrgAttachmentNetworkCreateDetailsTypeVcn,
 }
 
 // GetDrgAttachmentNetworkCreateDetailsTypeEnumValues Enumerates the set of values for DrgAttachmentNetworkCreateDetailsTypeEnum
 func GetDrgAttachmentNetworkCreateDetailsTypeEnumValues() []DrgAttachmentNetworkCreateDetailsTypeEnum {
 	values := make([]DrgAttachmentNetworkCreateDetailsTypeEnum, 0)
-	for _, v := range mappingDrgAttachmentNetworkCreateDetailsType {
+	for _, v := range mappingDrgAttachmentNetworkCreateDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgAttachmentNetworkCreateDetailsTypeEnumStringValues Enumerates the set of values in String for DrgAttachmentNetworkCreateDetailsTypeEnum
+func GetDrgAttachmentNetworkCreateDetailsTypeEnumStringValues() []string {
+	return []string{
+		"VCN",
+	}
 }

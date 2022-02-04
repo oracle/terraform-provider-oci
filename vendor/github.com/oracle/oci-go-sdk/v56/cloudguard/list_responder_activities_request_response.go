@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListResponderActivitiesRequest wrapper for the ListResponderActivities operation
@@ -46,6 +48,10 @@ func (request ListResponderActivitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListResponderActivitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request ListResponderActivitiesRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListResponderActivitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListResponderActivitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListResponderActivitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListResponderActivitiesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResponderActivitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListResponderActivitiesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListResponderActivitiesResponse wrapper for the ListResponderActivities operation
@@ -98,7 +121,7 @@ const (
 	ListResponderActivitiesSortOrderDesc ListResponderActivitiesSortOrderEnum = "DESC"
 )
 
-var mappingListResponderActivitiesSortOrder = map[string]ListResponderActivitiesSortOrderEnum{
+var mappingListResponderActivitiesSortOrderEnum = map[string]ListResponderActivitiesSortOrderEnum{
 	"ASC":  ListResponderActivitiesSortOrderAsc,
 	"DESC": ListResponderActivitiesSortOrderDesc,
 }
@@ -106,10 +129,18 @@ var mappingListResponderActivitiesSortOrder = map[string]ListResponderActivities
 // GetListResponderActivitiesSortOrderEnumValues Enumerates the set of values for ListResponderActivitiesSortOrderEnum
 func GetListResponderActivitiesSortOrderEnumValues() []ListResponderActivitiesSortOrderEnum {
 	values := make([]ListResponderActivitiesSortOrderEnum, 0)
-	for _, v := range mappingListResponderActivitiesSortOrder {
+	for _, v := range mappingListResponderActivitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderActivitiesSortOrderEnumStringValues Enumerates the set of values in String for ListResponderActivitiesSortOrderEnum
+func GetListResponderActivitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListResponderActivitiesSortByEnum Enum with underlying type: string
@@ -121,7 +152,7 @@ const (
 	ListResponderActivitiesSortByResponderrulename ListResponderActivitiesSortByEnum = "responderRuleName"
 )
 
-var mappingListResponderActivitiesSortBy = map[string]ListResponderActivitiesSortByEnum{
+var mappingListResponderActivitiesSortByEnum = map[string]ListResponderActivitiesSortByEnum{
 	"timeCreated":       ListResponderActivitiesSortByTimecreated,
 	"responderRuleName": ListResponderActivitiesSortByResponderrulename,
 }
@@ -129,8 +160,16 @@ var mappingListResponderActivitiesSortBy = map[string]ListResponderActivitiesSor
 // GetListResponderActivitiesSortByEnumValues Enumerates the set of values for ListResponderActivitiesSortByEnum
 func GetListResponderActivitiesSortByEnumValues() []ListResponderActivitiesSortByEnum {
 	values := make([]ListResponderActivitiesSortByEnum, 0)
-	for _, v := range mappingListResponderActivitiesSortBy {
+	for _, v := range mappingListResponderActivitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResponderActivitiesSortByEnumStringValues Enumerates the set of values in String for ListResponderActivitiesSortByEnum
+func GetListResponderActivitiesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"responderRuleName",
+	}
 }

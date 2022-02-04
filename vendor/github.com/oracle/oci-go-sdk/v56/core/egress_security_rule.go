@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // EgressSecurityRule A rule for allowing outbound IP packets.
@@ -66,6 +68,21 @@ func (m EgressSecurityRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EgressSecurityRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingEgressSecurityRuleDestinationTypeEnum[string(m.DestinationType)]; !ok && m.DestinationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DestinationType: %s. Supported values are: %s.", m.DestinationType, strings.Join(GetEgressSecurityRuleDestinationTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // EgressSecurityRuleDestinationTypeEnum Enum with underlying type: string
 type EgressSecurityRuleDestinationTypeEnum string
 
@@ -75,7 +92,7 @@ const (
 	EgressSecurityRuleDestinationTypeServiceCidrBlock EgressSecurityRuleDestinationTypeEnum = "SERVICE_CIDR_BLOCK"
 )
 
-var mappingEgressSecurityRuleDestinationType = map[string]EgressSecurityRuleDestinationTypeEnum{
+var mappingEgressSecurityRuleDestinationTypeEnum = map[string]EgressSecurityRuleDestinationTypeEnum{
 	"CIDR_BLOCK":         EgressSecurityRuleDestinationTypeCidrBlock,
 	"SERVICE_CIDR_BLOCK": EgressSecurityRuleDestinationTypeServiceCidrBlock,
 }
@@ -83,8 +100,16 @@ var mappingEgressSecurityRuleDestinationType = map[string]EgressSecurityRuleDest
 // GetEgressSecurityRuleDestinationTypeEnumValues Enumerates the set of values for EgressSecurityRuleDestinationTypeEnum
 func GetEgressSecurityRuleDestinationTypeEnumValues() []EgressSecurityRuleDestinationTypeEnum {
 	values := make([]EgressSecurityRuleDestinationTypeEnum, 0)
-	for _, v := range mappingEgressSecurityRuleDestinationType {
+	for _, v := range mappingEgressSecurityRuleDestinationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEgressSecurityRuleDestinationTypeEnumStringValues Enumerates the set of values in String for EgressSecurityRuleDestinationTypeEnum
+func GetEgressSecurityRuleDestinationTypeEnumStringValues() []string {
+	return []string{
+		"CIDR_BLOCK",
+		"SERVICE_CIDR_BLOCK",
+	}
 }

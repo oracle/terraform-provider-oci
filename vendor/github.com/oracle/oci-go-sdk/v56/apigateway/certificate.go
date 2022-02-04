@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Certificate A certificate contains information to be installed on a gateway to secure the traffic going
@@ -76,6 +78,21 @@ func (m Certificate) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Certificate) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCertificateLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCertificateLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CertificateLifecycleStateEnum Enum with underlying type: string
 type CertificateLifecycleStateEnum string
 
@@ -89,7 +106,7 @@ const (
 	CertificateLifecycleStateFailed   CertificateLifecycleStateEnum = "FAILED"
 )
 
-var mappingCertificateLifecycleState = map[string]CertificateLifecycleStateEnum{
+var mappingCertificateLifecycleStateEnum = map[string]CertificateLifecycleStateEnum{
 	"CREATING": CertificateLifecycleStateCreating,
 	"ACTIVE":   CertificateLifecycleStateActive,
 	"UPDATING": CertificateLifecycleStateUpdating,
@@ -101,8 +118,20 @@ var mappingCertificateLifecycleState = map[string]CertificateLifecycleStateEnum{
 // GetCertificateLifecycleStateEnumValues Enumerates the set of values for CertificateLifecycleStateEnum
 func GetCertificateLifecycleStateEnumValues() []CertificateLifecycleStateEnum {
 	values := make([]CertificateLifecycleStateEnum, 0)
-	for _, v := range mappingCertificateLifecycleState {
+	for _, v := range mappingCertificateLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCertificateLifecycleStateEnumStringValues Enumerates the set of values in String for CertificateLifecycleStateEnum
+func GetCertificateLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

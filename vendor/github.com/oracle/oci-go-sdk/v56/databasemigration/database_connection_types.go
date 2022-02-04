@@ -19,7 +19,7 @@ const (
 	DatabaseConnectionTypesUserManagedOci DatabaseConnectionTypesEnum = "USER_MANAGED_OCI"
 )
 
-var mappingDatabaseConnectionTypes = map[string]DatabaseConnectionTypesEnum{
+var mappingDatabaseConnectionTypesEnum = map[string]DatabaseConnectionTypesEnum{
 	"MANUAL":           DatabaseConnectionTypesManual,
 	"AUTONOMOUS":       DatabaseConnectionTypesAutonomous,
 	"USER_MANAGED_OCI": DatabaseConnectionTypesUserManagedOci,
@@ -28,8 +28,17 @@ var mappingDatabaseConnectionTypes = map[string]DatabaseConnectionTypesEnum{
 // GetDatabaseConnectionTypesEnumValues Enumerates the set of values for DatabaseConnectionTypesEnum
 func GetDatabaseConnectionTypesEnumValues() []DatabaseConnectionTypesEnum {
 	values := make([]DatabaseConnectionTypesEnum, 0)
-	for _, v := range mappingDatabaseConnectionTypes {
+	for _, v := range mappingDatabaseConnectionTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseConnectionTypesEnumStringValues Enumerates the set of values in String for DatabaseConnectionTypesEnum
+func GetDatabaseConnectionTypesEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTONOMOUS",
+		"USER_MANAGED_OCI",
+	}
 }

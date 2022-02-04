@@ -5,8 +5,10 @@
 package dataflow
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListRunsRequest wrapper for the ListRuns operation
@@ -66,6 +68,10 @@ func (request ListRunsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRunsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,26 @@ func (request ListRunsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRunsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRunsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRunsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListRunsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRunsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRunsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRunsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRunsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRunsResponse wrapper for the ListRuns operation
@@ -128,7 +154,7 @@ const (
 	ListRunsLifecycleStateStopped    ListRunsLifecycleStateEnum = "STOPPED"
 )
 
-var mappingListRunsLifecycleState = map[string]ListRunsLifecycleStateEnum{
+var mappingListRunsLifecycleStateEnum = map[string]ListRunsLifecycleStateEnum{
 	"ACCEPTED":    ListRunsLifecycleStateAccepted,
 	"IN_PROGRESS": ListRunsLifecycleStateInProgress,
 	"CANCELING":   ListRunsLifecycleStateCanceling,
@@ -142,10 +168,24 @@ var mappingListRunsLifecycleState = map[string]ListRunsLifecycleStateEnum{
 // GetListRunsLifecycleStateEnumValues Enumerates the set of values for ListRunsLifecycleStateEnum
 func GetListRunsLifecycleStateEnumValues() []ListRunsLifecycleStateEnum {
 	values := make([]ListRunsLifecycleStateEnum, 0)
-	for _, v := range mappingListRunsLifecycleState {
+	for _, v := range mappingListRunsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRunsLifecycleStateEnumStringValues Enumerates the set of values in String for ListRunsLifecycleStateEnum
+func GetListRunsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"CANCELING",
+		"CANCELED",
+		"FAILED",
+		"SUCCEEDED",
+		"STOPPING",
+		"STOPPED",
+	}
 }
 
 // ListRunsSortByEnum Enum with underlying type: string
@@ -163,7 +203,7 @@ const (
 	ListRunsSortByDatawritteninbytes        ListRunsSortByEnum = "dataWrittenInBytes"
 )
 
-var mappingListRunsSortBy = map[string]ListRunsSortByEnum{
+var mappingListRunsSortByEnum = map[string]ListRunsSortByEnum{
 	"timeCreated":               ListRunsSortByTimecreated,
 	"displayName":               ListRunsSortByDisplayname,
 	"language":                  ListRunsSortByLanguage,
@@ -177,10 +217,24 @@ var mappingListRunsSortBy = map[string]ListRunsSortByEnum{
 // GetListRunsSortByEnumValues Enumerates the set of values for ListRunsSortByEnum
 func GetListRunsSortByEnumValues() []ListRunsSortByEnum {
 	values := make([]ListRunsSortByEnum, 0)
-	for _, v := range mappingListRunsSortBy {
+	for _, v := range mappingListRunsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRunsSortByEnumStringValues Enumerates the set of values in String for ListRunsSortByEnum
+func GetListRunsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+		"language",
+		"runDurationInMilliseconds",
+		"lifecycleState",
+		"totalOCpu",
+		"dataReadInBytes",
+		"dataWrittenInBytes",
+	}
 }
 
 // ListRunsSortOrderEnum Enum with underlying type: string
@@ -192,7 +246,7 @@ const (
 	ListRunsSortOrderDesc ListRunsSortOrderEnum = "DESC"
 )
 
-var mappingListRunsSortOrder = map[string]ListRunsSortOrderEnum{
+var mappingListRunsSortOrderEnum = map[string]ListRunsSortOrderEnum{
 	"ASC":  ListRunsSortOrderAsc,
 	"DESC": ListRunsSortOrderDesc,
 }
@@ -200,8 +254,16 @@ var mappingListRunsSortOrder = map[string]ListRunsSortOrderEnum{
 // GetListRunsSortOrderEnumValues Enumerates the set of values for ListRunsSortOrderEnum
 func GetListRunsSortOrderEnumValues() []ListRunsSortOrderEnum {
 	values := make([]ListRunsSortOrderEnum, 0)
-	for _, v := range mappingListRunsSortOrder {
+	for _, v := range mappingListRunsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRunsSortOrderEnumStringValues Enumerates the set of values in String for ListRunsSortOrderEnum
+func GetListRunsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

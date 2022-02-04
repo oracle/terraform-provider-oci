@@ -19,7 +19,7 @@ const (
 	ListingTypePrivate   ListingTypeEnum = "PRIVATE"
 )
 
-var mappingListingType = map[string]ListingTypeEnum{
+var mappingListingTypeEnum = map[string]ListingTypeEnum{
 	"COMMUNITY": ListingTypeCommunity,
 	"PARTNER":   ListingTypePartner,
 	"PRIVATE":   ListingTypePrivate,
@@ -28,8 +28,17 @@ var mappingListingType = map[string]ListingTypeEnum{
 // GetListingTypeEnumValues Enumerates the set of values for ListingTypeEnum
 func GetListingTypeEnumValues() []ListingTypeEnum {
 	values := make([]ListingTypeEnum, 0)
-	for _, v := range mappingListingType {
+	for _, v := range mappingListingTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListingTypeEnumStringValues Enumerates the set of values in String for ListingTypeEnum
+func GetListingTypeEnumStringValues() []string {
+	return []string{
+		"COMMUNITY",
+		"PARTNER",
+		"PRIVATE",
+	}
 }

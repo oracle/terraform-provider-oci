@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // EnableDatabaseManagementDetails Data to enable the Database Management service for the database.
@@ -31,6 +33,21 @@ func (m EnableDatabaseManagementDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EnableDatabaseManagementDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingEnableDatabaseManagementDetailsManagementTypeEnum[string(m.ManagementType)]; !ok && m.ManagementType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementType: %s. Supported values are: %s.", m.ManagementType, strings.Join(GetEnableDatabaseManagementDetailsManagementTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // EnableDatabaseManagementDetailsManagementTypeEnum Enum with underlying type: string
 type EnableDatabaseManagementDetailsManagementTypeEnum string
 
@@ -40,7 +57,7 @@ const (
 	EnableDatabaseManagementDetailsManagementTypeAdvanced EnableDatabaseManagementDetailsManagementTypeEnum = "ADVANCED"
 )
 
-var mappingEnableDatabaseManagementDetailsManagementType = map[string]EnableDatabaseManagementDetailsManagementTypeEnum{
+var mappingEnableDatabaseManagementDetailsManagementTypeEnum = map[string]EnableDatabaseManagementDetailsManagementTypeEnum{
 	"BASIC":    EnableDatabaseManagementDetailsManagementTypeBasic,
 	"ADVANCED": EnableDatabaseManagementDetailsManagementTypeAdvanced,
 }
@@ -48,8 +65,16 @@ var mappingEnableDatabaseManagementDetailsManagementType = map[string]EnableData
 // GetEnableDatabaseManagementDetailsManagementTypeEnumValues Enumerates the set of values for EnableDatabaseManagementDetailsManagementTypeEnum
 func GetEnableDatabaseManagementDetailsManagementTypeEnumValues() []EnableDatabaseManagementDetailsManagementTypeEnum {
 	values := make([]EnableDatabaseManagementDetailsManagementTypeEnum, 0)
-	for _, v := range mappingEnableDatabaseManagementDetailsManagementType {
+	for _, v := range mappingEnableDatabaseManagementDetailsManagementTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEnableDatabaseManagementDetailsManagementTypeEnumStringValues Enumerates the set of values in String for EnableDatabaseManagementDetailsManagementTypeEnum
+func GetEnableDatabaseManagementDetailsManagementTypeEnumStringValues() []string {
+	return []string{
+		"BASIC",
+		"ADVANCED",
+	}
 }

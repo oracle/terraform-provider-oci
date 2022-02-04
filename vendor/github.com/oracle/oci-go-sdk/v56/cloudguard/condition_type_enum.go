@@ -19,7 +19,7 @@ const (
 	ConditionTypeEnumCloudGuardCondition ConditionTypeEnumEnum = "CloudGuardCondition"
 )
 
-var mappingConditionTypeEnum = map[string]ConditionTypeEnumEnum{
+var mappingConditionTypeEnumEnum = map[string]ConditionTypeEnumEnum{
 	"ActivityCondition":   ConditionTypeEnumActivityCondition,
 	"SecurityCondition":   ConditionTypeEnumSecurityCondition,
 	"CloudGuardCondition": ConditionTypeEnumCloudGuardCondition,
@@ -28,8 +28,17 @@ var mappingConditionTypeEnum = map[string]ConditionTypeEnumEnum{
 // GetConditionTypeEnumEnumValues Enumerates the set of values for ConditionTypeEnumEnum
 func GetConditionTypeEnumEnumValues() []ConditionTypeEnumEnum {
 	values := make([]ConditionTypeEnumEnum, 0)
-	for _, v := range mappingConditionTypeEnum {
+	for _, v := range mappingConditionTypeEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConditionTypeEnumEnumStringValues Enumerates the set of values in String for ConditionTypeEnumEnum
+func GetConditionTypeEnumEnumStringValues() []string {
+	return []string{
+		"ActivityCondition",
+		"SecurityCondition",
+		"CloudGuardCondition",
+	}
 }

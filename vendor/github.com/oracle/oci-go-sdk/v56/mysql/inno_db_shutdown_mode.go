@@ -19,7 +19,7 @@ const (
 	InnoDbShutdownModeSlow      InnoDbShutdownModeEnum = "SLOW"
 )
 
-var mappingInnoDbShutdownMode = map[string]InnoDbShutdownModeEnum{
+var mappingInnoDbShutdownModeEnum = map[string]InnoDbShutdownModeEnum{
 	"IMMEDIATE": InnoDbShutdownModeImmediate,
 	"FAST":      InnoDbShutdownModeFast,
 	"SLOW":      InnoDbShutdownModeSlow,
@@ -28,8 +28,17 @@ var mappingInnoDbShutdownMode = map[string]InnoDbShutdownModeEnum{
 // GetInnoDbShutdownModeEnumValues Enumerates the set of values for InnoDbShutdownModeEnum
 func GetInnoDbShutdownModeEnumValues() []InnoDbShutdownModeEnum {
 	values := make([]InnoDbShutdownModeEnum, 0)
-	for _, v := range mappingInnoDbShutdownMode {
+	for _, v := range mappingInnoDbShutdownModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInnoDbShutdownModeEnumStringValues Enumerates the set of values in String for InnoDbShutdownModeEnum
+func GetInnoDbShutdownModeEnumStringValues() []string {
+	return []string{
+		"IMMEDIATE",
+		"FAST",
+		"SLOW",
+	}
 }

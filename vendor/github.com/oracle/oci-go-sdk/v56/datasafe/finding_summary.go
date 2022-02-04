@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FindingSummary The particular finding reported by the security assessment.
@@ -48,6 +50,21 @@ func (m FindingSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FindingSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingFindingSummarySeverityEnum[string(m.Severity)]; !ok && m.Severity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetFindingSummarySeverityEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FindingSummarySeverityEnum Enum with underlying type: string
 type FindingSummarySeverityEnum string
 
@@ -61,7 +78,7 @@ const (
 	FindingSummarySeverityPass     FindingSummarySeverityEnum = "PASS"
 )
 
-var mappingFindingSummarySeverity = map[string]FindingSummarySeverityEnum{
+var mappingFindingSummarySeverityEnum = map[string]FindingSummarySeverityEnum{
 	"HIGH":     FindingSummarySeverityHigh,
 	"MEDIUM":   FindingSummarySeverityMedium,
 	"LOW":      FindingSummarySeverityLow,
@@ -73,8 +90,20 @@ var mappingFindingSummarySeverity = map[string]FindingSummarySeverityEnum{
 // GetFindingSummarySeverityEnumValues Enumerates the set of values for FindingSummarySeverityEnum
 func GetFindingSummarySeverityEnumValues() []FindingSummarySeverityEnum {
 	values := make([]FindingSummarySeverityEnum, 0)
-	for _, v := range mappingFindingSummarySeverity {
+	for _, v := range mappingFindingSummarySeverityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFindingSummarySeverityEnumStringValues Enumerates the set of values in String for FindingSummarySeverityEnum
+func GetFindingSummarySeverityEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"EVALUATE",
+		"ADVISORY",
+		"PASS",
+	}
 }

@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DownloadUserAssessmentReportDetails The details used to download a user assessment report.
@@ -24,6 +26,21 @@ func (m DownloadUserAssessmentReportDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DownloadUserAssessmentReportDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDownloadUserAssessmentReportDetailsFormatEnum[string(m.Format)]; !ok && m.Format != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Format: %s. Supported values are: %s.", m.Format, strings.Join(GetDownloadUserAssessmentReportDetailsFormatEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DownloadUserAssessmentReportDetailsFormatEnum Enum with underlying type: string
 type DownloadUserAssessmentReportDetailsFormatEnum string
 
@@ -33,7 +50,7 @@ const (
 	DownloadUserAssessmentReportDetailsFormatXls DownloadUserAssessmentReportDetailsFormatEnum = "XLS"
 )
 
-var mappingDownloadUserAssessmentReportDetailsFormat = map[string]DownloadUserAssessmentReportDetailsFormatEnum{
+var mappingDownloadUserAssessmentReportDetailsFormatEnum = map[string]DownloadUserAssessmentReportDetailsFormatEnum{
 	"PDF": DownloadUserAssessmentReportDetailsFormatPdf,
 	"XLS": DownloadUserAssessmentReportDetailsFormatXls,
 }
@@ -41,8 +58,16 @@ var mappingDownloadUserAssessmentReportDetailsFormat = map[string]DownloadUserAs
 // GetDownloadUserAssessmentReportDetailsFormatEnumValues Enumerates the set of values for DownloadUserAssessmentReportDetailsFormatEnum
 func GetDownloadUserAssessmentReportDetailsFormatEnumValues() []DownloadUserAssessmentReportDetailsFormatEnum {
 	values := make([]DownloadUserAssessmentReportDetailsFormatEnum, 0)
-	for _, v := range mappingDownloadUserAssessmentReportDetailsFormat {
+	for _, v := range mappingDownloadUserAssessmentReportDetailsFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDownloadUserAssessmentReportDetailsFormatEnumStringValues Enumerates the set of values in String for DownloadUserAssessmentReportDetailsFormatEnum
+func GetDownloadUserAssessmentReportDetailsFormatEnumStringValues() []string {
+	return []string{
+		"PDF",
+		"XLS",
+	}
 }

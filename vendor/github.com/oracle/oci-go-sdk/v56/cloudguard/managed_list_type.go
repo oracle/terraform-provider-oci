@@ -28,7 +28,7 @@ const (
 	ManagedListTypeGeneric      ManagedListTypeEnum = "GENERIC"
 )
 
-var mappingManagedListType = map[string]ManagedListTypeEnum{
+var mappingManagedListTypeEnum = map[string]ManagedListTypeEnum{
 	"CIDR_BLOCK":    ManagedListTypeCidrBlock,
 	"USERS":         ManagedListTypeUsers,
 	"GROUPS":        ManagedListTypeGroups,
@@ -46,8 +46,26 @@ var mappingManagedListType = map[string]ManagedListTypeEnum{
 // GetManagedListTypeEnumValues Enumerates the set of values for ManagedListTypeEnum
 func GetManagedListTypeEnumValues() []ManagedListTypeEnum {
 	values := make([]ManagedListTypeEnum, 0)
-	for _, v := range mappingManagedListType {
+	for _, v := range mappingManagedListTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetManagedListTypeEnumStringValues Enumerates the set of values in String for ManagedListTypeEnum
+func GetManagedListTypeEnumStringValues() []string {
+	return []string{
+		"CIDR_BLOCK",
+		"USERS",
+		"GROUPS",
+		"IPV4ADDRESS",
+		"IPV6ADDRESS",
+		"RESOURCE_OCID",
+		"REGION",
+		"COUNTRY",
+		"STATE",
+		"CITY",
+		"TAGS",
+		"GENERIC",
+	}
 }

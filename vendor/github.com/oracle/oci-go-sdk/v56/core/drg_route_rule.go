@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DrgRouteRule A DRG route rule is a mapping between a destination IP address range and a DRG attachment.
@@ -71,6 +73,27 @@ func (m DrgRouteRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DrgRouteRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDrgRouteRuleDestinationTypeEnum[string(m.DestinationType)]; !ok && m.DestinationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DestinationType: %s. Supported values are: %s.", m.DestinationType, strings.Join(GetDrgRouteRuleDestinationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDrgRouteRuleRouteProvenanceEnum[string(m.RouteProvenance)]; !ok && m.RouteProvenance != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RouteProvenance: %s. Supported values are: %s.", m.RouteProvenance, strings.Join(GetDrgRouteRuleRouteProvenanceEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDrgRouteRuleRouteTypeEnum[string(m.RouteType)]; !ok && m.RouteType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RouteType: %s. Supported values are: %s.", m.RouteType, strings.Join(GetDrgRouteRuleRouteTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DrgRouteRuleDestinationTypeEnum Enum with underlying type: string
 type DrgRouteRuleDestinationTypeEnum string
 
@@ -80,7 +103,7 @@ const (
 	DrgRouteRuleDestinationTypeServiceCidrBlock DrgRouteRuleDestinationTypeEnum = "SERVICE_CIDR_BLOCK"
 )
 
-var mappingDrgRouteRuleDestinationType = map[string]DrgRouteRuleDestinationTypeEnum{
+var mappingDrgRouteRuleDestinationTypeEnum = map[string]DrgRouteRuleDestinationTypeEnum{
 	"CIDR_BLOCK":         DrgRouteRuleDestinationTypeCidrBlock,
 	"SERVICE_CIDR_BLOCK": DrgRouteRuleDestinationTypeServiceCidrBlock,
 }
@@ -88,10 +111,18 @@ var mappingDrgRouteRuleDestinationType = map[string]DrgRouteRuleDestinationTypeE
 // GetDrgRouteRuleDestinationTypeEnumValues Enumerates the set of values for DrgRouteRuleDestinationTypeEnum
 func GetDrgRouteRuleDestinationTypeEnumValues() []DrgRouteRuleDestinationTypeEnum {
 	values := make([]DrgRouteRuleDestinationTypeEnum, 0)
-	for _, v := range mappingDrgRouteRuleDestinationType {
+	for _, v := range mappingDrgRouteRuleDestinationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgRouteRuleDestinationTypeEnumStringValues Enumerates the set of values in String for DrgRouteRuleDestinationTypeEnum
+func GetDrgRouteRuleDestinationTypeEnumStringValues() []string {
+	return []string{
+		"CIDR_BLOCK",
+		"SERVICE_CIDR_BLOCK",
+	}
 }
 
 // DrgRouteRuleRouteTypeEnum Enum with underlying type: string
@@ -103,7 +134,7 @@ const (
 	DrgRouteRuleRouteTypeDynamic DrgRouteRuleRouteTypeEnum = "DYNAMIC"
 )
 
-var mappingDrgRouteRuleRouteType = map[string]DrgRouteRuleRouteTypeEnum{
+var mappingDrgRouteRuleRouteTypeEnum = map[string]DrgRouteRuleRouteTypeEnum{
 	"STATIC":  DrgRouteRuleRouteTypeStatic,
 	"DYNAMIC": DrgRouteRuleRouteTypeDynamic,
 }
@@ -111,10 +142,18 @@ var mappingDrgRouteRuleRouteType = map[string]DrgRouteRuleRouteTypeEnum{
 // GetDrgRouteRuleRouteTypeEnumValues Enumerates the set of values for DrgRouteRuleRouteTypeEnum
 func GetDrgRouteRuleRouteTypeEnumValues() []DrgRouteRuleRouteTypeEnum {
 	values := make([]DrgRouteRuleRouteTypeEnum, 0)
-	for _, v := range mappingDrgRouteRuleRouteType {
+	for _, v := range mappingDrgRouteRuleRouteTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgRouteRuleRouteTypeEnumStringValues Enumerates the set of values in String for DrgRouteRuleRouteTypeEnum
+func GetDrgRouteRuleRouteTypeEnumStringValues() []string {
+	return []string{
+		"STATIC",
+		"DYNAMIC",
+	}
 }
 
 // DrgRouteRuleRouteProvenanceEnum Enum with underlying type: string
@@ -128,7 +167,7 @@ const (
 	DrgRouteRuleRouteProvenanceIpsecTunnel    DrgRouteRuleRouteProvenanceEnum = "IPSEC_TUNNEL"
 )
 
-var mappingDrgRouteRuleRouteProvenance = map[string]DrgRouteRuleRouteProvenanceEnum{
+var mappingDrgRouteRuleRouteProvenanceEnum = map[string]DrgRouteRuleRouteProvenanceEnum{
 	"STATIC":          DrgRouteRuleRouteProvenanceStatic,
 	"VCN":             DrgRouteRuleRouteProvenanceVcn,
 	"VIRTUAL_CIRCUIT": DrgRouteRuleRouteProvenanceVirtualCircuit,
@@ -138,8 +177,18 @@ var mappingDrgRouteRuleRouteProvenance = map[string]DrgRouteRuleRouteProvenanceE
 // GetDrgRouteRuleRouteProvenanceEnumValues Enumerates the set of values for DrgRouteRuleRouteProvenanceEnum
 func GetDrgRouteRuleRouteProvenanceEnumValues() []DrgRouteRuleRouteProvenanceEnum {
 	values := make([]DrgRouteRuleRouteProvenanceEnum, 0)
-	for _, v := range mappingDrgRouteRuleRouteProvenance {
+	for _, v := range mappingDrgRouteRuleRouteProvenanceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgRouteRuleRouteProvenanceEnumStringValues Enumerates the set of values in String for DrgRouteRuleRouteProvenanceEnum
+func GetDrgRouteRuleRouteProvenanceEnumStringValues() []string {
+	return []string{
+		"STATIC",
+		"VCN",
+		"VIRTUAL_CIRCUIT",
+		"IPSEC_TUNNEL",
+	}
 }

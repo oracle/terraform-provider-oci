@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // RequestSummarizedActivityProblemsRequest wrapper for the RequestSummarizedActivityProblems operation
@@ -58,6 +60,10 @@ func (request RequestSummarizedActivityProblemsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request RequestSummarizedActivityProblemsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,20 @@ func (request RequestSummarizedActivityProblemsRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request RequestSummarizedActivityProblemsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request RequestSummarizedActivityProblemsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRequestSummarizedActivityProblemsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetRequestSummarizedActivityProblemsAccessLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // RequestSummarizedActivityProblemsResponse wrapper for the RequestSummarizedActivityProblems operation
@@ -110,7 +130,7 @@ const (
 	RequestSummarizedActivityProblemsAccessLevelAccessible RequestSummarizedActivityProblemsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingRequestSummarizedActivityProblemsAccessLevel = map[string]RequestSummarizedActivityProblemsAccessLevelEnum{
+var mappingRequestSummarizedActivityProblemsAccessLevelEnum = map[string]RequestSummarizedActivityProblemsAccessLevelEnum{
 	"RESTRICTED": RequestSummarizedActivityProblemsAccessLevelRestricted,
 	"ACCESSIBLE": RequestSummarizedActivityProblemsAccessLevelAccessible,
 }
@@ -118,8 +138,16 @@ var mappingRequestSummarizedActivityProblemsAccessLevel = map[string]RequestSumm
 // GetRequestSummarizedActivityProblemsAccessLevelEnumValues Enumerates the set of values for RequestSummarizedActivityProblemsAccessLevelEnum
 func GetRequestSummarizedActivityProblemsAccessLevelEnumValues() []RequestSummarizedActivityProblemsAccessLevelEnum {
 	values := make([]RequestSummarizedActivityProblemsAccessLevelEnum, 0)
-	for _, v := range mappingRequestSummarizedActivityProblemsAccessLevel {
+	for _, v := range mappingRequestSummarizedActivityProblemsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRequestSummarizedActivityProblemsAccessLevelEnumStringValues Enumerates the set of values in String for RequestSummarizedActivityProblemsAccessLevelEnum
+func GetRequestSummarizedActivityProblemsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }

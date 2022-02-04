@@ -19,7 +19,7 @@ const (
 	EditModesExtensible EditModesEnum = "EXTENSIBLE"
 )
 
-var mappingEditModes = map[string]EditModesEnum{
+var mappingEditModesEnum = map[string]EditModesEnum{
 	"READ_ONLY":  EditModesReadOnly,
 	"WRITABLE":   EditModesWritable,
 	"EXTENSIBLE": EditModesExtensible,
@@ -28,8 +28,17 @@ var mappingEditModes = map[string]EditModesEnum{
 // GetEditModesEnumValues Enumerates the set of values for EditModesEnum
 func GetEditModesEnumValues() []EditModesEnum {
 	values := make([]EditModesEnum, 0)
-	for _, v := range mappingEditModes {
+	for _, v := range mappingEditModesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEditModesEnumStringValues Enumerates the set of values in String for EditModesEnum
+func GetEditModesEnumStringValues() []string {
+	return []string{
+		"READ_ONLY",
+		"WRITABLE",
+		"EXTENSIBLE",
+	}
 }

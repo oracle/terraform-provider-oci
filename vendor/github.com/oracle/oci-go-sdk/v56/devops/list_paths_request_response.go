@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPathsRequest wrapper for the ListPaths operation
@@ -59,6 +61,10 @@ func (request ListPathsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPathsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,23 @@ func (request ListPathsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPathsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPathsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPathsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPathsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPathsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPathsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPathsResponse wrapper for the ListPaths operation
@@ -108,7 +131,7 @@ const (
 	ListPathsSortOrderDesc ListPathsSortOrderEnum = "DESC"
 )
 
-var mappingListPathsSortOrder = map[string]ListPathsSortOrderEnum{
+var mappingListPathsSortOrderEnum = map[string]ListPathsSortOrderEnum{
 	"ASC":  ListPathsSortOrderAsc,
 	"DESC": ListPathsSortOrderDesc,
 }
@@ -116,10 +139,18 @@ var mappingListPathsSortOrder = map[string]ListPathsSortOrderEnum{
 // GetListPathsSortOrderEnumValues Enumerates the set of values for ListPathsSortOrderEnum
 func GetListPathsSortOrderEnumValues() []ListPathsSortOrderEnum {
 	values := make([]ListPathsSortOrderEnum, 0)
-	for _, v := range mappingListPathsSortOrder {
+	for _, v := range mappingListPathsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPathsSortOrderEnumStringValues Enumerates the set of values in String for ListPathsSortOrderEnum
+func GetListPathsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListPathsSortByEnum Enum with underlying type: string
@@ -132,7 +163,7 @@ const (
 	ListPathsSortByName        ListPathsSortByEnum = "name"
 )
 
-var mappingListPathsSortBy = map[string]ListPathsSortByEnum{
+var mappingListPathsSortByEnum = map[string]ListPathsSortByEnum{
 	"type":        ListPathsSortByType,
 	"sizeInBytes": ListPathsSortBySizeinbytes,
 	"name":        ListPathsSortByName,
@@ -141,8 +172,17 @@ var mappingListPathsSortBy = map[string]ListPathsSortByEnum{
 // GetListPathsSortByEnumValues Enumerates the set of values for ListPathsSortByEnum
 func GetListPathsSortByEnumValues() []ListPathsSortByEnum {
 	values := make([]ListPathsSortByEnum, 0)
-	for _, v := range mappingListPathsSortBy {
+	for _, v := range mappingListPathsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPathsSortByEnumStringValues Enumerates the set of values in String for ListPathsSortByEnum
+func GetListPathsSortByEnumStringValues() []string {
+	return []string{
+		"type",
+		"sizeInBytes",
+		"name",
+	}
 }

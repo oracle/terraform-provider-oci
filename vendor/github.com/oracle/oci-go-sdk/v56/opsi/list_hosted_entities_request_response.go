@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListHostedEntitiesRequest wrapper for the ListHostedEntities operation
@@ -83,6 +85,10 @@ func (request ListHostedEntitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListHostedEntitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -96,6 +102,29 @@ func (request ListHostedEntitiesRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListHostedEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListHostedEntitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.PlatformType {
+		if _, ok := mappingListHostedEntitiesPlatformTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetListHostedEntitiesPlatformTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListHostedEntitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListHostedEntitiesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListHostedEntitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListHostedEntitiesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListHostedEntitiesResponse wrapper for the ListHostedEntities operation
@@ -136,7 +165,7 @@ const (
 	ListHostedEntitiesPlatformTypeSunos   ListHostedEntitiesPlatformTypeEnum = "SUNOS"
 )
 
-var mappingListHostedEntitiesPlatformType = map[string]ListHostedEntitiesPlatformTypeEnum{
+var mappingListHostedEntitiesPlatformTypeEnum = map[string]ListHostedEntitiesPlatformTypeEnum{
 	"LINUX":   ListHostedEntitiesPlatformTypeLinux,
 	"SOLARIS": ListHostedEntitiesPlatformTypeSolaris,
 	"SUNOS":   ListHostedEntitiesPlatformTypeSunos,
@@ -145,10 +174,19 @@ var mappingListHostedEntitiesPlatformType = map[string]ListHostedEntitiesPlatfor
 // GetListHostedEntitiesPlatformTypeEnumValues Enumerates the set of values for ListHostedEntitiesPlatformTypeEnum
 func GetListHostedEntitiesPlatformTypeEnumValues() []ListHostedEntitiesPlatformTypeEnum {
 	values := make([]ListHostedEntitiesPlatformTypeEnum, 0)
-	for _, v := range mappingListHostedEntitiesPlatformType {
+	for _, v := range mappingListHostedEntitiesPlatformTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHostedEntitiesPlatformTypeEnumStringValues Enumerates the set of values in String for ListHostedEntitiesPlatformTypeEnum
+func GetListHostedEntitiesPlatformTypeEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"SOLARIS",
+		"SUNOS",
+	}
 }
 
 // ListHostedEntitiesSortOrderEnum Enum with underlying type: string
@@ -160,7 +198,7 @@ const (
 	ListHostedEntitiesSortOrderDesc ListHostedEntitiesSortOrderEnum = "DESC"
 )
 
-var mappingListHostedEntitiesSortOrder = map[string]ListHostedEntitiesSortOrderEnum{
+var mappingListHostedEntitiesSortOrderEnum = map[string]ListHostedEntitiesSortOrderEnum{
 	"ASC":  ListHostedEntitiesSortOrderAsc,
 	"DESC": ListHostedEntitiesSortOrderDesc,
 }
@@ -168,10 +206,18 @@ var mappingListHostedEntitiesSortOrder = map[string]ListHostedEntitiesSortOrderE
 // GetListHostedEntitiesSortOrderEnumValues Enumerates the set of values for ListHostedEntitiesSortOrderEnum
 func GetListHostedEntitiesSortOrderEnumValues() []ListHostedEntitiesSortOrderEnum {
 	values := make([]ListHostedEntitiesSortOrderEnum, 0)
-	for _, v := range mappingListHostedEntitiesSortOrder {
+	for _, v := range mappingListHostedEntitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHostedEntitiesSortOrderEnumStringValues Enumerates the set of values in String for ListHostedEntitiesSortOrderEnum
+func GetListHostedEntitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListHostedEntitiesSortByEnum Enum with underlying type: string
@@ -183,7 +229,7 @@ const (
 	ListHostedEntitiesSortByEntitytype ListHostedEntitiesSortByEnum = "entityType"
 )
 
-var mappingListHostedEntitiesSortBy = map[string]ListHostedEntitiesSortByEnum{
+var mappingListHostedEntitiesSortByEnum = map[string]ListHostedEntitiesSortByEnum{
 	"entityName": ListHostedEntitiesSortByEntityname,
 	"entityType": ListHostedEntitiesSortByEntitytype,
 }
@@ -191,8 +237,16 @@ var mappingListHostedEntitiesSortBy = map[string]ListHostedEntitiesSortByEnum{
 // GetListHostedEntitiesSortByEnumValues Enumerates the set of values for ListHostedEntitiesSortByEnum
 func GetListHostedEntitiesSortByEnumValues() []ListHostedEntitiesSortByEnum {
 	values := make([]ListHostedEntitiesSortByEnum, 0)
-	for _, v := range mappingListHostedEntitiesSortBy {
+	for _, v := range mappingListHostedEntitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHostedEntitiesSortByEnumStringValues Enumerates the set of values in String for ListHostedEntitiesSortByEnum
+func GetListHostedEntitiesSortByEnumStringValues() []string {
+	return []string{
+		"entityName",
+		"entityType",
+	}
 }

@@ -11,7 +11,9 @@ package analytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateAnalyticsInstanceDetails Input payload to create an Anaytics instance.
@@ -55,6 +57,24 @@ type CreateAnalyticsInstanceDetails struct {
 
 func (m CreateAnalyticsInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateAnalyticsInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFeatureSetEnum[string(m.FeatureSet)]; !ok && m.FeatureSet != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeatureSet: %s. Supported values are: %s.", m.FeatureSet, strings.Join(GetFeatureSetEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLicenseTypeEnum[string(m.LicenseType)]; !ok && m.LicenseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json

@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListExadataConfigurationsRequest wrapper for the ListExadataConfigurations operation
@@ -85,6 +87,10 @@ func (request ListExadataConfigurationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListExadataConfigurationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -98,6 +104,23 @@ func (request ListExadataConfigurationsRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListExadataConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListExadataConfigurationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListExadataConfigurationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListExadataConfigurationsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListExadataConfigurationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListExadataConfigurationsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListExadataConfigurationsResponse wrapper for the ListExadataConfigurations operation
@@ -140,7 +163,7 @@ const (
 	ListExadataConfigurationsSortOrderDesc ListExadataConfigurationsSortOrderEnum = "DESC"
 )
 
-var mappingListExadataConfigurationsSortOrder = map[string]ListExadataConfigurationsSortOrderEnum{
+var mappingListExadataConfigurationsSortOrderEnum = map[string]ListExadataConfigurationsSortOrderEnum{
 	"ASC":  ListExadataConfigurationsSortOrderAsc,
 	"DESC": ListExadataConfigurationsSortOrderDesc,
 }
@@ -148,10 +171,18 @@ var mappingListExadataConfigurationsSortOrder = map[string]ListExadataConfigurat
 // GetListExadataConfigurationsSortOrderEnumValues Enumerates the set of values for ListExadataConfigurationsSortOrderEnum
 func GetListExadataConfigurationsSortOrderEnumValues() []ListExadataConfigurationsSortOrderEnum {
 	values := make([]ListExadataConfigurationsSortOrderEnum, 0)
-	for _, v := range mappingListExadataConfigurationsSortOrder {
+	for _, v := range mappingListExadataConfigurationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExadataConfigurationsSortOrderEnumStringValues Enumerates the set of values in String for ListExadataConfigurationsSortOrderEnum
+func GetListExadataConfigurationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListExadataConfigurationsSortByEnum Enum with underlying type: string
@@ -164,7 +195,7 @@ const (
 	ListExadataConfigurationsSortByExadatatype        ListExadataConfigurationsSortByEnum = "exadataType"
 )
 
-var mappingListExadataConfigurationsSortBy = map[string]ListExadataConfigurationsSortByEnum{
+var mappingListExadataConfigurationsSortByEnum = map[string]ListExadataConfigurationsSortByEnum{
 	"exadataName":        ListExadataConfigurationsSortByExadataname,
 	"exadataDisplayName": ListExadataConfigurationsSortByExadatadisplayname,
 	"exadataType":        ListExadataConfigurationsSortByExadatatype,
@@ -173,8 +204,17 @@ var mappingListExadataConfigurationsSortBy = map[string]ListExadataConfiguration
 // GetListExadataConfigurationsSortByEnumValues Enumerates the set of values for ListExadataConfigurationsSortByEnum
 func GetListExadataConfigurationsSortByEnumValues() []ListExadataConfigurationsSortByEnum {
 	values := make([]ListExadataConfigurationsSortByEnum, 0)
-	for _, v := range mappingListExadataConfigurationsSortBy {
+	for _, v := range mappingListExadataConfigurationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExadataConfigurationsSortByEnumStringValues Enumerates the set of values in String for ListExadataConfigurationsSortByEnum
+func GetListExadataConfigurationsSortByEnumStringValues() []string {
+	return []string{
+		"exadataName",
+		"exadataDisplayName",
+		"exadataType",
+	}
 }

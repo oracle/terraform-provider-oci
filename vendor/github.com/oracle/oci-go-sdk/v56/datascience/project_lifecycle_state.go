@@ -19,7 +19,7 @@ const (
 	ProjectLifecycleStateDeleted  ProjectLifecycleStateEnum = "DELETED"
 )
 
-var mappingProjectLifecycleState = map[string]ProjectLifecycleStateEnum{
+var mappingProjectLifecycleStateEnum = map[string]ProjectLifecycleStateEnum{
 	"ACTIVE":   ProjectLifecycleStateActive,
 	"DELETING": ProjectLifecycleStateDeleting,
 	"DELETED":  ProjectLifecycleStateDeleted,
@@ -28,8 +28,17 @@ var mappingProjectLifecycleState = map[string]ProjectLifecycleStateEnum{
 // GetProjectLifecycleStateEnumValues Enumerates the set of values for ProjectLifecycleStateEnum
 func GetProjectLifecycleStateEnumValues() []ProjectLifecycleStateEnum {
 	values := make([]ProjectLifecycleStateEnum, 0)
-	for _, v := range mappingProjectLifecycleState {
+	for _, v := range mappingProjectLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProjectLifecycleStateEnumStringValues Enumerates the set of values in String for ProjectLifecycleStateEnum
+func GetProjectLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

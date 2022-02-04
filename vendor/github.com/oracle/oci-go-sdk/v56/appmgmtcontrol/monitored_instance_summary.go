@@ -10,7 +10,9 @@
 package appmgmtcontrol
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MonitoredInstanceSummary Summary of the monitored instance.
@@ -38,4 +40,22 @@ type MonitoredInstanceSummary struct {
 
 func (m MonitoredInstanceSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MonitoredInstanceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingMonitoredInstanceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMonitoredInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMonitoredInstanceMonitoringStateEnum[string(m.MonitoringState)]; !ok && m.MonitoringState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MonitoringState: %s. Supported values are: %s.", m.MonitoringState, strings.Join(GetMonitoredInstanceMonitoringStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -5,8 +5,10 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSnapshotsRequest wrapper for the ListSnapshots operation
@@ -62,6 +64,10 @@ func (request ListSnapshotsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSnapshotsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +81,23 @@ func (request ListSnapshotsRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSnapshotsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSnapshotsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSnapshotsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListSnapshotsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSnapshotsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSnapshotsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSnapshotsResponse wrapper for the ListSnapshots operation
@@ -119,7 +142,7 @@ const (
 	ListSnapshotsLifecycleStateFailed   ListSnapshotsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListSnapshotsLifecycleState = map[string]ListSnapshotsLifecycleStateEnum{
+var mappingListSnapshotsLifecycleStateEnum = map[string]ListSnapshotsLifecycleStateEnum{
 	"CREATING": ListSnapshotsLifecycleStateCreating,
 	"ACTIVE":   ListSnapshotsLifecycleStateActive,
 	"DELETING": ListSnapshotsLifecycleStateDeleting,
@@ -130,10 +153,21 @@ var mappingListSnapshotsLifecycleState = map[string]ListSnapshotsLifecycleStateE
 // GetListSnapshotsLifecycleStateEnumValues Enumerates the set of values for ListSnapshotsLifecycleStateEnum
 func GetListSnapshotsLifecycleStateEnumValues() []ListSnapshotsLifecycleStateEnum {
 	values := make([]ListSnapshotsLifecycleStateEnum, 0)
-	for _, v := range mappingListSnapshotsLifecycleState {
+	for _, v := range mappingListSnapshotsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSnapshotsLifecycleStateEnumStringValues Enumerates the set of values in String for ListSnapshotsLifecycleStateEnum
+func GetListSnapshotsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListSnapshotsSortOrderEnum Enum with underlying type: string
@@ -145,7 +179,7 @@ const (
 	ListSnapshotsSortOrderDesc ListSnapshotsSortOrderEnum = "DESC"
 )
 
-var mappingListSnapshotsSortOrder = map[string]ListSnapshotsSortOrderEnum{
+var mappingListSnapshotsSortOrderEnum = map[string]ListSnapshotsSortOrderEnum{
 	"ASC":  ListSnapshotsSortOrderAsc,
 	"DESC": ListSnapshotsSortOrderDesc,
 }
@@ -153,8 +187,16 @@ var mappingListSnapshotsSortOrder = map[string]ListSnapshotsSortOrderEnum{
 // GetListSnapshotsSortOrderEnumValues Enumerates the set of values for ListSnapshotsSortOrderEnum
 func GetListSnapshotsSortOrderEnumValues() []ListSnapshotsSortOrderEnum {
 	values := make([]ListSnapshotsSortOrderEnum, 0)
-	for _, v := range mappingListSnapshotsSortOrder {
+	for _, v := range mappingListSnapshotsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSnapshotsSortOrderEnumStringValues Enumerates the set of values in String for ListSnapshotsSortOrderEnum
+func GetListSnapshotsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

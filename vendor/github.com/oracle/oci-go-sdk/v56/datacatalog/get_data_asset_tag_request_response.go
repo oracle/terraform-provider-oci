@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetDataAssetTagRequest wrapper for the GetDataAssetTag operation
@@ -43,6 +45,10 @@ func (request GetDataAssetTagRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetDataAssetTagRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +62,23 @@ func (request GetDataAssetTagRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetDataAssetTagRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetDataAssetTagRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetDataAssetTagFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetDataAssetTagFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetDataAssetTagResponse wrapper for the GetDataAssetTag operation
@@ -101,7 +124,7 @@ const (
 	GetDataAssetTagFieldsDataassetkey    GetDataAssetTagFieldsEnum = "dataAssetKey"
 )
 
-var mappingGetDataAssetTagFields = map[string]GetDataAssetTagFieldsEnum{
+var mappingGetDataAssetTagFieldsEnum = map[string]GetDataAssetTagFieldsEnum{
 	"key":             GetDataAssetTagFieldsKey,
 	"name":            GetDataAssetTagFieldsName,
 	"termKey":         GetDataAssetTagFieldsTermkey,
@@ -117,8 +140,24 @@ var mappingGetDataAssetTagFields = map[string]GetDataAssetTagFieldsEnum{
 // GetGetDataAssetTagFieldsEnumValues Enumerates the set of values for GetDataAssetTagFieldsEnum
 func GetGetDataAssetTagFieldsEnumValues() []GetDataAssetTagFieldsEnum {
 	values := make([]GetDataAssetTagFieldsEnum, 0)
-	for _, v := range mappingGetDataAssetTagFields {
+	for _, v := range mappingGetDataAssetTagFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetDataAssetTagFieldsEnumStringValues Enumerates the set of values in String for GetDataAssetTagFieldsEnum
+func GetGetDataAssetTagFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"name",
+		"termKey",
+		"termPath",
+		"termDescription",
+		"lifecycleState",
+		"timeCreated",
+		"createdById",
+		"uri",
+		"dataAssetKey",
+	}
 }

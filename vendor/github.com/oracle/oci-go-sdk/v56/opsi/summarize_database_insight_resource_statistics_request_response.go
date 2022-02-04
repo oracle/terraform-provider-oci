@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeDatabaseInsightResourceStatisticsRequest wrapper for the SummarizeDatabaseInsightResourceStatistics operation
@@ -139,6 +141,10 @@ func (request SummarizeDatabaseInsightResourceStatisticsRequest) String() string
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeDatabaseInsightResourceStatisticsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -152,6 +158,29 @@ func (request SummarizeDatabaseInsightResourceStatisticsRequest) BinaryRequestBo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeDatabaseInsightResourceStatisticsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeDatabaseInsightResourceStatisticsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.DatabaseType {
+		if _, ok := mappingSummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeDatabaseInsightResourceStatisticsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeDatabaseInsightResourceStatisticsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeDatabaseInsightResourceStatisticsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeDatabaseInsightResourceStatisticsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeDatabaseInsightResourceStatisticsResponse wrapper for the SummarizeDatabaseInsightResourceStatistics operation
@@ -195,7 +224,7 @@ const (
 	SummarizeDatabaseInsightResourceStatisticsDatabaseTypeExternalNoncdb SummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum = "EXTERNAL-NONCDB"
 )
 
-var mappingSummarizeDatabaseInsightResourceStatisticsDatabaseType = map[string]SummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum{
+var mappingSummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum{
 	"ADW-S":           SummarizeDatabaseInsightResourceStatisticsDatabaseTypeAdwS,
 	"ATP-S":           SummarizeDatabaseInsightResourceStatisticsDatabaseTypeAtpS,
 	"ADW-D":           SummarizeDatabaseInsightResourceStatisticsDatabaseTypeAdwD,
@@ -207,10 +236,22 @@ var mappingSummarizeDatabaseInsightResourceStatisticsDatabaseType = map[string]S
 // GetSummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum
 func GetSummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnumValues() []SummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum {
 	values := make([]SummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceStatisticsDatabaseType {
+	for _, v := range mappingSummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnum
+func GetSummarizeDatabaseInsightResourceStatisticsDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"ADW-S",
+		"ATP-S",
+		"ADW-D",
+		"ATP-D",
+		"EXTERNAL-PDB",
+		"EXTERNAL-NONCDB",
+	}
 }
 
 // SummarizeDatabaseInsightResourceStatisticsSortOrderEnum Enum with underlying type: string
@@ -222,7 +263,7 @@ const (
 	SummarizeDatabaseInsightResourceStatisticsSortOrderDesc SummarizeDatabaseInsightResourceStatisticsSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeDatabaseInsightResourceStatisticsSortOrder = map[string]SummarizeDatabaseInsightResourceStatisticsSortOrderEnum{
+var mappingSummarizeDatabaseInsightResourceStatisticsSortOrderEnum = map[string]SummarizeDatabaseInsightResourceStatisticsSortOrderEnum{
 	"ASC":  SummarizeDatabaseInsightResourceStatisticsSortOrderAsc,
 	"DESC": SummarizeDatabaseInsightResourceStatisticsSortOrderDesc,
 }
@@ -230,10 +271,18 @@ var mappingSummarizeDatabaseInsightResourceStatisticsSortOrder = map[string]Summ
 // GetSummarizeDatabaseInsightResourceStatisticsSortOrderEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceStatisticsSortOrderEnum
 func GetSummarizeDatabaseInsightResourceStatisticsSortOrderEnumValues() []SummarizeDatabaseInsightResourceStatisticsSortOrderEnum {
 	values := make([]SummarizeDatabaseInsightResourceStatisticsSortOrderEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceStatisticsSortOrder {
+	for _, v := range mappingSummarizeDatabaseInsightResourceStatisticsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceStatisticsSortOrderEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceStatisticsSortOrderEnum
+func GetSummarizeDatabaseInsightResourceStatisticsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeDatabaseInsightResourceStatisticsSortByEnum Enum with underlying type: string
@@ -248,7 +297,7 @@ const (
 	SummarizeDatabaseInsightResourceStatisticsSortByDatabasetype       SummarizeDatabaseInsightResourceStatisticsSortByEnum = "databaseType"
 )
 
-var mappingSummarizeDatabaseInsightResourceStatisticsSortBy = map[string]SummarizeDatabaseInsightResourceStatisticsSortByEnum{
+var mappingSummarizeDatabaseInsightResourceStatisticsSortByEnum = map[string]SummarizeDatabaseInsightResourceStatisticsSortByEnum{
 	"utilizationPercent": SummarizeDatabaseInsightResourceStatisticsSortByUtilizationpercent,
 	"usage":              SummarizeDatabaseInsightResourceStatisticsSortByUsage,
 	"usageChangePercent": SummarizeDatabaseInsightResourceStatisticsSortByUsagechangepercent,
@@ -259,8 +308,19 @@ var mappingSummarizeDatabaseInsightResourceStatisticsSortBy = map[string]Summari
 // GetSummarizeDatabaseInsightResourceStatisticsSortByEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceStatisticsSortByEnum
 func GetSummarizeDatabaseInsightResourceStatisticsSortByEnumValues() []SummarizeDatabaseInsightResourceStatisticsSortByEnum {
 	values := make([]SummarizeDatabaseInsightResourceStatisticsSortByEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceStatisticsSortBy {
+	for _, v := range mappingSummarizeDatabaseInsightResourceStatisticsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceStatisticsSortByEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceStatisticsSortByEnum
+func GetSummarizeDatabaseInsightResourceStatisticsSortByEnumStringValues() []string {
+	return []string{
+		"utilizationPercent",
+		"usage",
+		"usageChangePercent",
+		"databaseName",
+		"databaseType",
+	}
 }

@@ -20,7 +20,7 @@ const (
 	NetworkLoadBalancersProtocolSummaryTcpAndUdp NetworkLoadBalancersProtocolSummaryEnum = "TCP_AND_UDP"
 )
 
-var mappingNetworkLoadBalancersProtocolSummary = map[string]NetworkLoadBalancersProtocolSummaryEnum{
+var mappingNetworkLoadBalancersProtocolSummaryEnum = map[string]NetworkLoadBalancersProtocolSummaryEnum{
 	"ANY":         NetworkLoadBalancersProtocolSummaryAny,
 	"TCP":         NetworkLoadBalancersProtocolSummaryTcp,
 	"UDP":         NetworkLoadBalancersProtocolSummaryUdp,
@@ -30,8 +30,18 @@ var mappingNetworkLoadBalancersProtocolSummary = map[string]NetworkLoadBalancers
 // GetNetworkLoadBalancersProtocolSummaryEnumValues Enumerates the set of values for NetworkLoadBalancersProtocolSummaryEnum
 func GetNetworkLoadBalancersProtocolSummaryEnumValues() []NetworkLoadBalancersProtocolSummaryEnum {
 	values := make([]NetworkLoadBalancersProtocolSummaryEnum, 0)
-	for _, v := range mappingNetworkLoadBalancersProtocolSummary {
+	for _, v := range mappingNetworkLoadBalancersProtocolSummaryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkLoadBalancersProtocolSummaryEnumStringValues Enumerates the set of values in String for NetworkLoadBalancersProtocolSummaryEnum
+func GetNetworkLoadBalancersProtocolSummaryEnumStringValues() []string {
+	return []string{
+		"ANY",
+		"TCP",
+		"UDP",
+		"TCP_AND_UDP",
+	}
 }

@@ -11,7 +11,9 @@
 package computeinstanceagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InstanceAgentPlugin The agent plugin
@@ -34,6 +36,21 @@ func (m InstanceAgentPlugin) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceAgentPlugin) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstanceAgentPluginStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetInstanceAgentPluginStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceAgentPluginStatusEnum Enum with underlying type: string
 type InstanceAgentPluginStatusEnum string
 
@@ -45,7 +62,7 @@ const (
 	InstanceAgentPluginStatusInvalid      InstanceAgentPluginStatusEnum = "INVALID"
 )
 
-var mappingInstanceAgentPluginStatus = map[string]InstanceAgentPluginStatusEnum{
+var mappingInstanceAgentPluginStatusEnum = map[string]InstanceAgentPluginStatusEnum{
 	"RUNNING":       InstanceAgentPluginStatusRunning,
 	"STOPPED":       InstanceAgentPluginStatusStopped,
 	"NOT_SUPPORTED": InstanceAgentPluginStatusNotSupported,
@@ -55,8 +72,18 @@ var mappingInstanceAgentPluginStatus = map[string]InstanceAgentPluginStatusEnum{
 // GetInstanceAgentPluginStatusEnumValues Enumerates the set of values for InstanceAgentPluginStatusEnum
 func GetInstanceAgentPluginStatusEnumValues() []InstanceAgentPluginStatusEnum {
 	values := make([]InstanceAgentPluginStatusEnum, 0)
-	for _, v := range mappingInstanceAgentPluginStatus {
+	for _, v := range mappingInstanceAgentPluginStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceAgentPluginStatusEnumStringValues Enumerates the set of values in String for InstanceAgentPluginStatusEnum
+func GetInstanceAgentPluginStatusEnumStringValues() []string {
+	return []string{
+		"RUNNING",
+		"STOPPED",
+		"NOT_SUPPORTED",
+		"INVALID",
+	}
 }

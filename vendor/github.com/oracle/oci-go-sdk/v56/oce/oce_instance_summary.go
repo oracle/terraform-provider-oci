@@ -10,7 +10,9 @@
 package oce
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // OceInstanceSummary Summary of the OceInstance.
@@ -95,6 +97,33 @@ func (m OceInstanceSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OceInstanceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingOceInstanceSummaryInstanceUsageTypeEnum[string(m.InstanceUsageType)]; !ok && m.InstanceUsageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceUsageType: %s. Supported values are: %s.", m.InstanceUsageType, strings.Join(GetOceInstanceSummaryInstanceUsageTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOceInstanceUpgradeScheduleEnum[string(m.UpgradeSchedule)]; !ok && m.UpgradeSchedule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpgradeSchedule: %s. Supported values are: %s.", m.UpgradeSchedule, strings.Join(GetOceInstanceUpgradeScheduleEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOceInstanceSummaryInstanceAccessTypeEnum[string(m.InstanceAccessType)]; !ok && m.InstanceAccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceAccessType: %s. Supported values are: %s.", m.InstanceAccessType, strings.Join(GetOceInstanceSummaryInstanceAccessTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLicenseTypeEnum[string(m.InstanceLicenseType)]; !ok && m.InstanceLicenseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceLicenseType: %s. Supported values are: %s.", m.InstanceLicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOceInstanceSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOceInstanceSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // OceInstanceSummaryInstanceUsageTypeEnum Enum with underlying type: string
 type OceInstanceSummaryInstanceUsageTypeEnum string
 
@@ -104,7 +133,7 @@ const (
 	OceInstanceSummaryInstanceUsageTypeNonprimary OceInstanceSummaryInstanceUsageTypeEnum = "NONPRIMARY"
 )
 
-var mappingOceInstanceSummaryInstanceUsageType = map[string]OceInstanceSummaryInstanceUsageTypeEnum{
+var mappingOceInstanceSummaryInstanceUsageTypeEnum = map[string]OceInstanceSummaryInstanceUsageTypeEnum{
 	"PRIMARY":    OceInstanceSummaryInstanceUsageTypePrimary,
 	"NONPRIMARY": OceInstanceSummaryInstanceUsageTypeNonprimary,
 }
@@ -112,10 +141,18 @@ var mappingOceInstanceSummaryInstanceUsageType = map[string]OceInstanceSummaryIn
 // GetOceInstanceSummaryInstanceUsageTypeEnumValues Enumerates the set of values for OceInstanceSummaryInstanceUsageTypeEnum
 func GetOceInstanceSummaryInstanceUsageTypeEnumValues() []OceInstanceSummaryInstanceUsageTypeEnum {
 	values := make([]OceInstanceSummaryInstanceUsageTypeEnum, 0)
-	for _, v := range mappingOceInstanceSummaryInstanceUsageType {
+	for _, v := range mappingOceInstanceSummaryInstanceUsageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOceInstanceSummaryInstanceUsageTypeEnumStringValues Enumerates the set of values in String for OceInstanceSummaryInstanceUsageTypeEnum
+func GetOceInstanceSummaryInstanceUsageTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"NONPRIMARY",
+	}
 }
 
 // OceInstanceSummaryInstanceAccessTypeEnum Enum with underlying type: string
@@ -127,7 +164,7 @@ const (
 	OceInstanceSummaryInstanceAccessTypePrivate OceInstanceSummaryInstanceAccessTypeEnum = "PRIVATE"
 )
 
-var mappingOceInstanceSummaryInstanceAccessType = map[string]OceInstanceSummaryInstanceAccessTypeEnum{
+var mappingOceInstanceSummaryInstanceAccessTypeEnum = map[string]OceInstanceSummaryInstanceAccessTypeEnum{
 	"PUBLIC":  OceInstanceSummaryInstanceAccessTypePublic,
 	"PRIVATE": OceInstanceSummaryInstanceAccessTypePrivate,
 }
@@ -135,10 +172,18 @@ var mappingOceInstanceSummaryInstanceAccessType = map[string]OceInstanceSummaryI
 // GetOceInstanceSummaryInstanceAccessTypeEnumValues Enumerates the set of values for OceInstanceSummaryInstanceAccessTypeEnum
 func GetOceInstanceSummaryInstanceAccessTypeEnumValues() []OceInstanceSummaryInstanceAccessTypeEnum {
 	values := make([]OceInstanceSummaryInstanceAccessTypeEnum, 0)
-	for _, v := range mappingOceInstanceSummaryInstanceAccessType {
+	for _, v := range mappingOceInstanceSummaryInstanceAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOceInstanceSummaryInstanceAccessTypeEnumStringValues Enumerates the set of values in String for OceInstanceSummaryInstanceAccessTypeEnum
+func GetOceInstanceSummaryInstanceAccessTypeEnumStringValues() []string {
+	return []string{
+		"PUBLIC",
+		"PRIVATE",
+	}
 }
 
 // OceInstanceSummaryLifecycleStateEnum Enum with underlying type: string
@@ -154,7 +199,7 @@ const (
 	OceInstanceSummaryLifecycleStateFailed   OceInstanceSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingOceInstanceSummaryLifecycleState = map[string]OceInstanceSummaryLifecycleStateEnum{
+var mappingOceInstanceSummaryLifecycleStateEnum = map[string]OceInstanceSummaryLifecycleStateEnum{
 	"CREATING": OceInstanceSummaryLifecycleStateCreating,
 	"UPDATING": OceInstanceSummaryLifecycleStateUpdating,
 	"ACTIVE":   OceInstanceSummaryLifecycleStateActive,
@@ -166,8 +211,20 @@ var mappingOceInstanceSummaryLifecycleState = map[string]OceInstanceSummaryLifec
 // GetOceInstanceSummaryLifecycleStateEnumValues Enumerates the set of values for OceInstanceSummaryLifecycleStateEnum
 func GetOceInstanceSummaryLifecycleStateEnumValues() []OceInstanceSummaryLifecycleStateEnum {
 	values := make([]OceInstanceSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingOceInstanceSummaryLifecycleState {
+	for _, v := range mappingOceInstanceSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOceInstanceSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for OceInstanceSummaryLifecycleStateEnum
+func GetOceInstanceSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

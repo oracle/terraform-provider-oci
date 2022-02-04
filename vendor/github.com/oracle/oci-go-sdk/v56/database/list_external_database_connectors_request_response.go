@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListExternalDatabaseConnectorsRequest wrapper for the ListExternalDatabaseConnectors operation
@@ -58,6 +60,10 @@ func (request ListExternalDatabaseConnectorsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListExternalDatabaseConnectorsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,26 @@ func (request ListExternalDatabaseConnectorsRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListExternalDatabaseConnectorsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListExternalDatabaseConnectorsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListExternalDatabaseConnectorsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListExternalDatabaseConnectorsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListExternalDatabaseConnectorsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListExternalDatabaseConnectorsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExternalDatabaseConnectorLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetExternalDatabaseConnectorLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListExternalDatabaseConnectorsResponse wrapper for the ListExternalDatabaseConnectors operation
@@ -111,7 +137,7 @@ const (
 	ListExternalDatabaseConnectorsSortByTimecreated ListExternalDatabaseConnectorsSortByEnum = "TIMECREATED"
 )
 
-var mappingListExternalDatabaseConnectorsSortBy = map[string]ListExternalDatabaseConnectorsSortByEnum{
+var mappingListExternalDatabaseConnectorsSortByEnum = map[string]ListExternalDatabaseConnectorsSortByEnum{
 	"DISPLAYNAME": ListExternalDatabaseConnectorsSortByDisplayname,
 	"TIMECREATED": ListExternalDatabaseConnectorsSortByTimecreated,
 }
@@ -119,10 +145,18 @@ var mappingListExternalDatabaseConnectorsSortBy = map[string]ListExternalDatabas
 // GetListExternalDatabaseConnectorsSortByEnumValues Enumerates the set of values for ListExternalDatabaseConnectorsSortByEnum
 func GetListExternalDatabaseConnectorsSortByEnumValues() []ListExternalDatabaseConnectorsSortByEnum {
 	values := make([]ListExternalDatabaseConnectorsSortByEnum, 0)
-	for _, v := range mappingListExternalDatabaseConnectorsSortBy {
+	for _, v := range mappingListExternalDatabaseConnectorsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExternalDatabaseConnectorsSortByEnumStringValues Enumerates the set of values in String for ListExternalDatabaseConnectorsSortByEnum
+func GetListExternalDatabaseConnectorsSortByEnumStringValues() []string {
+	return []string{
+		"DISPLAYNAME",
+		"TIMECREATED",
+	}
 }
 
 // ListExternalDatabaseConnectorsSortOrderEnum Enum with underlying type: string
@@ -134,7 +168,7 @@ const (
 	ListExternalDatabaseConnectorsSortOrderDesc ListExternalDatabaseConnectorsSortOrderEnum = "DESC"
 )
 
-var mappingListExternalDatabaseConnectorsSortOrder = map[string]ListExternalDatabaseConnectorsSortOrderEnum{
+var mappingListExternalDatabaseConnectorsSortOrderEnum = map[string]ListExternalDatabaseConnectorsSortOrderEnum{
 	"ASC":  ListExternalDatabaseConnectorsSortOrderAsc,
 	"DESC": ListExternalDatabaseConnectorsSortOrderDesc,
 }
@@ -142,8 +176,16 @@ var mappingListExternalDatabaseConnectorsSortOrder = map[string]ListExternalData
 // GetListExternalDatabaseConnectorsSortOrderEnumValues Enumerates the set of values for ListExternalDatabaseConnectorsSortOrderEnum
 func GetListExternalDatabaseConnectorsSortOrderEnumValues() []ListExternalDatabaseConnectorsSortOrderEnum {
 	values := make([]ListExternalDatabaseConnectorsSortOrderEnum, 0)
-	for _, v := range mappingListExternalDatabaseConnectorsSortOrder {
+	for _, v := range mappingListExternalDatabaseConnectorsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExternalDatabaseConnectorsSortOrderEnumStringValues Enumerates the set of values in String for ListExternalDatabaseConnectorsSortOrderEnum
+func GetListExternalDatabaseConnectorsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

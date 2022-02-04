@@ -18,7 +18,7 @@ const (
 	JobTypesMigration  JobTypesEnum = "MIGRATION"
 )
 
-var mappingJobTypes = map[string]JobTypesEnum{
+var mappingJobTypesEnum = map[string]JobTypesEnum{
 	"EVALUATION": JobTypesEvaluation,
 	"MIGRATION":  JobTypesMigration,
 }
@@ -26,8 +26,16 @@ var mappingJobTypes = map[string]JobTypesEnum{
 // GetJobTypesEnumValues Enumerates the set of values for JobTypesEnum
 func GetJobTypesEnumValues() []JobTypesEnum {
 	values := make([]JobTypesEnum, 0)
-	for _, v := range mappingJobTypes {
+	for _, v := range mappingJobTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobTypesEnumStringValues Enumerates the set of values in String for JobTypesEnum
+func GetJobTypesEnumStringValues() []string {
+	return []string{
+		"EVALUATION",
+		"MIGRATION",
+	}
 }

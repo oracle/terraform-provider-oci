@@ -22,7 +22,7 @@ const (
 	VersionStageFailed     VersionStageEnum = "FAILED"
 )
 
-var mappingVersionStage = map[string]VersionStageEnum{
+var mappingVersionStageEnum = map[string]VersionStageEnum{
 	"CURRENT":    VersionStageCurrent,
 	"PENDING":    VersionStagePending,
 	"LATEST":     VersionStageLatest,
@@ -34,8 +34,20 @@ var mappingVersionStage = map[string]VersionStageEnum{
 // GetVersionStageEnumValues Enumerates the set of values for VersionStageEnum
 func GetVersionStageEnumValues() []VersionStageEnum {
 	values := make([]VersionStageEnum, 0)
-	for _, v := range mappingVersionStage {
+	for _, v := range mappingVersionStageEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVersionStageEnumStringValues Enumerates the set of values in String for VersionStageEnum
+func GetVersionStageEnumStringValues() []string {
+	return []string{
+		"CURRENT",
+		"PENDING",
+		"LATEST",
+		"PREVIOUS",
+		"DEPRECATED",
+		"FAILED",
+	}
 }

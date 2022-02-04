@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateImageDetails Either instanceId or imageSourceDetails must be provided in addition to other required parameters.
@@ -55,6 +57,21 @@ type CreateImageDetails struct {
 
 func (m CreateImageDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateImageDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateImageDetailsLaunchModeEnum[string(m.LaunchMode)]; !ok && m.LaunchMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LaunchMode: %s. Supported values are: %s.", m.LaunchMode, strings.Join(GetCreateImageDetailsLaunchModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -110,7 +127,7 @@ const (
 	CreateImageDetailsLaunchModeCustom          CreateImageDetailsLaunchModeEnum = "CUSTOM"
 )
 
-var mappingCreateImageDetailsLaunchMode = map[string]CreateImageDetailsLaunchModeEnum{
+var mappingCreateImageDetailsLaunchModeEnum = map[string]CreateImageDetailsLaunchModeEnum{
 	"NATIVE":          CreateImageDetailsLaunchModeNative,
 	"EMULATED":        CreateImageDetailsLaunchModeEmulated,
 	"PARAVIRTUALIZED": CreateImageDetailsLaunchModeParavirtualized,
@@ -120,8 +137,18 @@ var mappingCreateImageDetailsLaunchMode = map[string]CreateImageDetailsLaunchMod
 // GetCreateImageDetailsLaunchModeEnumValues Enumerates the set of values for CreateImageDetailsLaunchModeEnum
 func GetCreateImageDetailsLaunchModeEnumValues() []CreateImageDetailsLaunchModeEnum {
 	values := make([]CreateImageDetailsLaunchModeEnum, 0)
-	for _, v := range mappingCreateImageDetailsLaunchMode {
+	for _, v := range mappingCreateImageDetailsLaunchModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateImageDetailsLaunchModeEnumStringValues Enumerates the set of values in String for CreateImageDetailsLaunchModeEnum
+func GetCreateImageDetailsLaunchModeEnumStringValues() []string {
+	return []string{
+		"NATIVE",
+		"EMULATED",
+		"PARAVIRTUALIZED",
+		"CUSTOM",
+	}
 }

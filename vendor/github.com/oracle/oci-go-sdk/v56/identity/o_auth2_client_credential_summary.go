@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // OAuth2ClientCredentialSummary User can define Oauth clients in IAM, then use it to generate a token to grant access to app resources.
@@ -52,6 +54,21 @@ func (m OAuth2ClientCredentialSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OAuth2ClientCredentialSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingOAuth2ClientCredentialSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOAuth2ClientCredentialSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // OAuth2ClientCredentialSummaryLifecycleStateEnum Enum with underlying type: string
 type OAuth2ClientCredentialSummaryLifecycleStateEnum string
 
@@ -64,7 +81,7 @@ const (
 	OAuth2ClientCredentialSummaryLifecycleStateDeleted  OAuth2ClientCredentialSummaryLifecycleStateEnum = "DELETED"
 )
 
-var mappingOAuth2ClientCredentialSummaryLifecycleState = map[string]OAuth2ClientCredentialSummaryLifecycleStateEnum{
+var mappingOAuth2ClientCredentialSummaryLifecycleStateEnum = map[string]OAuth2ClientCredentialSummaryLifecycleStateEnum{
 	"CREATING": OAuth2ClientCredentialSummaryLifecycleStateCreating,
 	"ACTIVE":   OAuth2ClientCredentialSummaryLifecycleStateActive,
 	"INACTIVE": OAuth2ClientCredentialSummaryLifecycleStateInactive,
@@ -75,8 +92,19 @@ var mappingOAuth2ClientCredentialSummaryLifecycleState = map[string]OAuth2Client
 // GetOAuth2ClientCredentialSummaryLifecycleStateEnumValues Enumerates the set of values for OAuth2ClientCredentialSummaryLifecycleStateEnum
 func GetOAuth2ClientCredentialSummaryLifecycleStateEnumValues() []OAuth2ClientCredentialSummaryLifecycleStateEnum {
 	values := make([]OAuth2ClientCredentialSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingOAuth2ClientCredentialSummaryLifecycleState {
+	for _, v := range mappingOAuth2ClientCredentialSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOAuth2ClientCredentialSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for OAuth2ClientCredentialSummaryLifecycleStateEnum
+func GetOAuth2ClientCredentialSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

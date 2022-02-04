@@ -5,8 +5,10 @@
 package servicecatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListServiceCatalogsRequest wrapper for the ListServiceCatalogs operation
@@ -53,6 +55,10 @@ func (request ListServiceCatalogsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListServiceCatalogsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,23 @@ func (request ListServiceCatalogsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListServiceCatalogsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListServiceCatalogsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListServiceCatalogsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListServiceCatalogsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListServiceCatalogsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListServiceCatalogsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListServiceCatalogsResponse wrapper for the ListServiceCatalogs operation
@@ -104,17 +127,24 @@ const (
 	ListServiceCatalogsSortByTimecreated ListServiceCatalogsSortByEnum = "TIMECREATED"
 )
 
-var mappingListServiceCatalogsSortBy = map[string]ListServiceCatalogsSortByEnum{
+var mappingListServiceCatalogsSortByEnum = map[string]ListServiceCatalogsSortByEnum{
 	"TIMECREATED": ListServiceCatalogsSortByTimecreated,
 }
 
 // GetListServiceCatalogsSortByEnumValues Enumerates the set of values for ListServiceCatalogsSortByEnum
 func GetListServiceCatalogsSortByEnumValues() []ListServiceCatalogsSortByEnum {
 	values := make([]ListServiceCatalogsSortByEnum, 0)
-	for _, v := range mappingListServiceCatalogsSortBy {
+	for _, v := range mappingListServiceCatalogsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServiceCatalogsSortByEnumStringValues Enumerates the set of values in String for ListServiceCatalogsSortByEnum
+func GetListServiceCatalogsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+	}
 }
 
 // ListServiceCatalogsSortOrderEnum Enum with underlying type: string
@@ -126,7 +156,7 @@ const (
 	ListServiceCatalogsSortOrderDesc ListServiceCatalogsSortOrderEnum = "DESC"
 )
 
-var mappingListServiceCatalogsSortOrder = map[string]ListServiceCatalogsSortOrderEnum{
+var mappingListServiceCatalogsSortOrderEnum = map[string]ListServiceCatalogsSortOrderEnum{
 	"ASC":  ListServiceCatalogsSortOrderAsc,
 	"DESC": ListServiceCatalogsSortOrderDesc,
 }
@@ -134,8 +164,16 @@ var mappingListServiceCatalogsSortOrder = map[string]ListServiceCatalogsSortOrde
 // GetListServiceCatalogsSortOrderEnumValues Enumerates the set of values for ListServiceCatalogsSortOrderEnum
 func GetListServiceCatalogsSortOrderEnumValues() []ListServiceCatalogsSortOrderEnum {
 	values := make([]ListServiceCatalogsSortOrderEnum, 0)
-	for _, v := range mappingListServiceCatalogsSortOrder {
+	for _, v := range mappingListServiceCatalogsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServiceCatalogsSortOrderEnumStringValues Enumerates the set of values in String for ListServiceCatalogsSortOrderEnum
+func GetListServiceCatalogsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

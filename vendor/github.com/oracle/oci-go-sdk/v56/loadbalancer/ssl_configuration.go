@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SslConfiguration A listener's SSL handling configuration.
@@ -93,6 +95,21 @@ func (m SslConfiguration) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SslConfiguration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSslConfigurationServerOrderPreferenceEnum[string(m.ServerOrderPreference)]; !ok && m.ServerOrderPreference != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServerOrderPreference: %s. Supported values are: %s.", m.ServerOrderPreference, strings.Join(GetSslConfigurationServerOrderPreferenceEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SslConfigurationServerOrderPreferenceEnum Enum with underlying type: string
 type SslConfigurationServerOrderPreferenceEnum string
 
@@ -102,7 +119,7 @@ const (
 	SslConfigurationServerOrderPreferenceDisabled SslConfigurationServerOrderPreferenceEnum = "DISABLED"
 )
 
-var mappingSslConfigurationServerOrderPreference = map[string]SslConfigurationServerOrderPreferenceEnum{
+var mappingSslConfigurationServerOrderPreferenceEnum = map[string]SslConfigurationServerOrderPreferenceEnum{
 	"ENABLED":  SslConfigurationServerOrderPreferenceEnabled,
 	"DISABLED": SslConfigurationServerOrderPreferenceDisabled,
 }
@@ -110,8 +127,16 @@ var mappingSslConfigurationServerOrderPreference = map[string]SslConfigurationSe
 // GetSslConfigurationServerOrderPreferenceEnumValues Enumerates the set of values for SslConfigurationServerOrderPreferenceEnum
 func GetSslConfigurationServerOrderPreferenceEnumValues() []SslConfigurationServerOrderPreferenceEnum {
 	values := make([]SslConfigurationServerOrderPreferenceEnum, 0)
-	for _, v := range mappingSslConfigurationServerOrderPreference {
+	for _, v := range mappingSslConfigurationServerOrderPreferenceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSslConfigurationServerOrderPreferenceEnumStringValues Enumerates the set of values in String for SslConfigurationServerOrderPreferenceEnum
+func GetSslConfigurationServerOrderPreferenceEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }

@@ -18,7 +18,7 @@ const (
 	SearchDetailsTypeEnumStructured SearchDetailsTypeEnumEnum = "Structured"
 )
 
-var mappingSearchDetailsTypeEnum = map[string]SearchDetailsTypeEnumEnum{
+var mappingSearchDetailsTypeEnumEnum = map[string]SearchDetailsTypeEnumEnum{
 	"FreeText":   SearchDetailsTypeEnumFreeText,
 	"Structured": SearchDetailsTypeEnumStructured,
 }
@@ -26,8 +26,16 @@ var mappingSearchDetailsTypeEnum = map[string]SearchDetailsTypeEnumEnum{
 // GetSearchDetailsTypeEnumEnumValues Enumerates the set of values for SearchDetailsTypeEnumEnum
 func GetSearchDetailsTypeEnumEnumValues() []SearchDetailsTypeEnumEnum {
 	values := make([]SearchDetailsTypeEnumEnum, 0)
-	for _, v := range mappingSearchDetailsTypeEnum {
+	for _, v := range mappingSearchDetailsTypeEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSearchDetailsTypeEnumEnumStringValues Enumerates the set of values in String for SearchDetailsTypeEnumEnum
+func GetSearchDetailsTypeEnumEnumStringValues() []string {
+	return []string{
+		"FreeText",
+		"Structured",
+	}
 }

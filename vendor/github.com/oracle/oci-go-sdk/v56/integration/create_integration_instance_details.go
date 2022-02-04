@@ -11,7 +11,9 @@ package integration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateIntegrationInstanceDetails The information about new IntegrationInstance.
@@ -65,6 +67,24 @@ type CreateIntegrationInstanceDetails struct {
 
 func (m CreateIntegrationInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateIntegrationInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum[string(m.IntegrationInstanceType)]; !ok && m.IntegrationInstanceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IntegrationInstanceType: %s. Supported values are: %s.", m.IntegrationInstanceType, strings.Join(GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCreateIntegrationInstanceDetailsConsumptionModelEnum[string(m.ConsumptionModel)]; !ok && m.ConsumptionModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConsumptionModel: %s. Supported values are: %s.", m.ConsumptionModel, strings.Join(GetCreateIntegrationInstanceDetailsConsumptionModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -142,7 +162,7 @@ const (
 	CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISE"
 )
 
-var mappingCreateIntegrationInstanceDetailsIntegrationInstanceType = map[string]CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
+var mappingCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = map[string]CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
 	"STANDARD":   CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandard,
 	"ENTERPRISE": CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
 }
@@ -150,10 +170,18 @@ var mappingCreateIntegrationInstanceDetailsIntegrationInstanceType = map[string]
 // GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumValues Enumerates the set of values for CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
 func GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumValues() []CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum {
 	values := make([]CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum, 0)
-	for _, v := range mappingCreateIntegrationInstanceDetailsIntegrationInstanceType {
+	for _, v := range mappingCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues Enumerates the set of values in String for CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
+func GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"ENTERPRISE",
+	}
 }
 
 // CreateIntegrationInstanceDetailsConsumptionModelEnum Enum with underlying type: string
@@ -166,7 +194,7 @@ const (
 	CreateIntegrationInstanceDetailsConsumptionModelOic4saas CreateIntegrationInstanceDetailsConsumptionModelEnum = "OIC4SAAS"
 )
 
-var mappingCreateIntegrationInstanceDetailsConsumptionModel = map[string]CreateIntegrationInstanceDetailsConsumptionModelEnum{
+var mappingCreateIntegrationInstanceDetailsConsumptionModelEnum = map[string]CreateIntegrationInstanceDetailsConsumptionModelEnum{
 	"UCM":      CreateIntegrationInstanceDetailsConsumptionModelUcm,
 	"GOV":      CreateIntegrationInstanceDetailsConsumptionModelGov,
 	"OIC4SAAS": CreateIntegrationInstanceDetailsConsumptionModelOic4saas,
@@ -175,8 +203,17 @@ var mappingCreateIntegrationInstanceDetailsConsumptionModel = map[string]CreateI
 // GetCreateIntegrationInstanceDetailsConsumptionModelEnumValues Enumerates the set of values for CreateIntegrationInstanceDetailsConsumptionModelEnum
 func GetCreateIntegrationInstanceDetailsConsumptionModelEnumValues() []CreateIntegrationInstanceDetailsConsumptionModelEnum {
 	values := make([]CreateIntegrationInstanceDetailsConsumptionModelEnum, 0)
-	for _, v := range mappingCreateIntegrationInstanceDetailsConsumptionModel {
+	for _, v := range mappingCreateIntegrationInstanceDetailsConsumptionModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateIntegrationInstanceDetailsConsumptionModelEnumStringValues Enumerates the set of values in String for CreateIntegrationInstanceDetailsConsumptionModelEnum
+func GetCreateIntegrationInstanceDetailsConsumptionModelEnumStringValues() []string {
+	return []string{
+		"UCM",
+		"GOV",
+		"OIC4SAAS",
+	}
 }

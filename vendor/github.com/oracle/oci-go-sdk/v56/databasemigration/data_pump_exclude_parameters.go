@@ -19,7 +19,7 @@ const (
 	DataPumpExcludeParametersMaterializedViewLog DataPumpExcludeParametersEnum = "MATERIALIZED_VIEW_LOG"
 )
 
-var mappingDataPumpExcludeParameters = map[string]DataPumpExcludeParametersEnum{
+var mappingDataPumpExcludeParametersEnum = map[string]DataPumpExcludeParametersEnum{
 	"INDEX":                 DataPumpExcludeParametersIndex,
 	"MATERIALIZED_VIEW":     DataPumpExcludeParametersMaterializedView,
 	"MATERIALIZED_VIEW_LOG": DataPumpExcludeParametersMaterializedViewLog,
@@ -28,8 +28,17 @@ var mappingDataPumpExcludeParameters = map[string]DataPumpExcludeParametersEnum{
 // GetDataPumpExcludeParametersEnumValues Enumerates the set of values for DataPumpExcludeParametersEnum
 func GetDataPumpExcludeParametersEnumValues() []DataPumpExcludeParametersEnum {
 	values := make([]DataPumpExcludeParametersEnum, 0)
-	for _, v := range mappingDataPumpExcludeParameters {
+	for _, v := range mappingDataPumpExcludeParametersEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataPumpExcludeParametersEnumStringValues Enumerates the set of values in String for DataPumpExcludeParametersEnum
+func GetDataPumpExcludeParametersEnumStringValues() []string {
+	return []string{
+		"INDEX",
+		"MATERIALIZED_VIEW",
+		"MATERIALIZED_VIEW_LOG",
+	}
 }

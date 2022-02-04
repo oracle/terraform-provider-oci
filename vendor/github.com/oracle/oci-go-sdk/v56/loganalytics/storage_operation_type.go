@@ -22,7 +22,7 @@ const (
 	StorageOperationTypeCleanupArchivalStorageData StorageOperationTypeEnum = "CLEANUP_ARCHIVAL_STORAGE_DATA"
 )
 
-var mappingStorageOperationType = map[string]StorageOperationTypeEnum{
+var mappingStorageOperationTypeEnum = map[string]StorageOperationTypeEnum{
 	"OFFBOARD_TENANCY":              StorageOperationTypeOffboardTenancy,
 	"PURGE_STORAGE_DATA":            StorageOperationTypePurgeStorageData,
 	"RECALL_ARCHIVED_STORAGE_DATA":  StorageOperationTypeRecallArchivedStorageData,
@@ -34,8 +34,20 @@ var mappingStorageOperationType = map[string]StorageOperationTypeEnum{
 // GetStorageOperationTypeEnumValues Enumerates the set of values for StorageOperationTypeEnum
 func GetStorageOperationTypeEnumValues() []StorageOperationTypeEnum {
 	values := make([]StorageOperationTypeEnum, 0)
-	for _, v := range mappingStorageOperationType {
+	for _, v := range mappingStorageOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStorageOperationTypeEnumStringValues Enumerates the set of values in String for StorageOperationTypeEnum
+func GetStorageOperationTypeEnumStringValues() []string {
+	return []string{
+		"OFFBOARD_TENANCY",
+		"PURGE_STORAGE_DATA",
+		"RECALL_ARCHIVED_STORAGE_DATA",
+		"RELEASE_RECALLED_STORAGE_DATA",
+		"ARCHIVE_STORAGE_DATA",
+		"CLEANUP_ARCHIVAL_STORAGE_DATA",
+	}
 }

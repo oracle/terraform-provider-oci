@@ -19,7 +19,7 @@ const (
 	DatabaseTypeInstalledDatabase    DatabaseTypeEnum = "INSTALLED_DATABASE"
 )
 
-var mappingDatabaseType = map[string]DatabaseTypeEnum{
+var mappingDatabaseTypeEnum = map[string]DatabaseTypeEnum{
 	"DATABASE_CLOUD_SERVICE": DatabaseTypeDatabaseCloudService,
 	"AUTONOMOUS_DATABASE":    DatabaseTypeAutonomousDatabase,
 	"INSTALLED_DATABASE":     DatabaseTypeInstalledDatabase,
@@ -28,8 +28,17 @@ var mappingDatabaseType = map[string]DatabaseTypeEnum{
 // GetDatabaseTypeEnumValues Enumerates the set of values for DatabaseTypeEnum
 func GetDatabaseTypeEnumValues() []DatabaseTypeEnum {
 	values := make([]DatabaseTypeEnum, 0)
-	for _, v := range mappingDatabaseType {
+	for _, v := range mappingDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseTypeEnumStringValues Enumerates the set of values in String for DatabaseTypeEnum
+func GetDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"DATABASE_CLOUD_SERVICE",
+		"AUTONOMOUS_DATABASE",
+		"INSTALLED_DATABASE",
+	}
 }

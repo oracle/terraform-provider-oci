@@ -5,8 +5,10 @@
 package certificatesmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListCertificateAuthoritiesRequest wrapper for the ListCertificateAuthorities operation
@@ -63,6 +65,10 @@ func (request ListCertificateAuthoritiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListCertificateAuthoritiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,26 @@ func (request ListCertificateAuthoritiesRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListCertificateAuthoritiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListCertificateAuthoritiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListCertificateAuthoritiesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListCertificateAuthoritiesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCertificateAuthoritiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCertificateAuthoritiesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCertificateAuthoritiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCertificateAuthoritiesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListCertificateAuthoritiesResponse wrapper for the ListCertificateAuthorities operation
@@ -123,7 +149,7 @@ const (
 	ListCertificateAuthoritiesLifecycleStateFailed             ListCertificateAuthoritiesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListCertificateAuthoritiesLifecycleState = map[string]ListCertificateAuthoritiesLifecycleStateEnum{
+var mappingListCertificateAuthoritiesLifecycleStateEnum = map[string]ListCertificateAuthoritiesLifecycleStateEnum{
 	"CREATING":            ListCertificateAuthoritiesLifecycleStateCreating,
 	"ACTIVE":              ListCertificateAuthoritiesLifecycleStateActive,
 	"UPDATING":            ListCertificateAuthoritiesLifecycleStateUpdating,
@@ -138,10 +164,25 @@ var mappingListCertificateAuthoritiesLifecycleState = map[string]ListCertificate
 // GetListCertificateAuthoritiesLifecycleStateEnumValues Enumerates the set of values for ListCertificateAuthoritiesLifecycleStateEnum
 func GetListCertificateAuthoritiesLifecycleStateEnumValues() []ListCertificateAuthoritiesLifecycleStateEnum {
 	values := make([]ListCertificateAuthoritiesLifecycleStateEnum, 0)
-	for _, v := range mappingListCertificateAuthoritiesLifecycleState {
+	for _, v := range mappingListCertificateAuthoritiesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCertificateAuthoritiesLifecycleStateEnumStringValues Enumerates the set of values in String for ListCertificateAuthoritiesLifecycleStateEnum
+func GetListCertificateAuthoritiesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"SCHEDULING_DELETION",
+		"PENDING_DELETION",
+		"CANCELLING_DELETION",
+		"FAILED",
+	}
 }
 
 // ListCertificateAuthoritiesSortByEnum Enum with underlying type: string
@@ -154,7 +195,7 @@ const (
 	ListCertificateAuthoritiesSortByTimecreated    ListCertificateAuthoritiesSortByEnum = "TIMECREATED"
 )
 
-var mappingListCertificateAuthoritiesSortBy = map[string]ListCertificateAuthoritiesSortByEnum{
+var mappingListCertificateAuthoritiesSortByEnum = map[string]ListCertificateAuthoritiesSortByEnum{
 	"NAME":           ListCertificateAuthoritiesSortByName,
 	"EXPIRATIONDATE": ListCertificateAuthoritiesSortByExpirationdate,
 	"TIMECREATED":    ListCertificateAuthoritiesSortByTimecreated,
@@ -163,10 +204,19 @@ var mappingListCertificateAuthoritiesSortBy = map[string]ListCertificateAuthorit
 // GetListCertificateAuthoritiesSortByEnumValues Enumerates the set of values for ListCertificateAuthoritiesSortByEnum
 func GetListCertificateAuthoritiesSortByEnumValues() []ListCertificateAuthoritiesSortByEnum {
 	values := make([]ListCertificateAuthoritiesSortByEnum, 0)
-	for _, v := range mappingListCertificateAuthoritiesSortBy {
+	for _, v := range mappingListCertificateAuthoritiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCertificateAuthoritiesSortByEnumStringValues Enumerates the set of values in String for ListCertificateAuthoritiesSortByEnum
+func GetListCertificateAuthoritiesSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"EXPIRATIONDATE",
+		"TIMECREATED",
+	}
 }
 
 // ListCertificateAuthoritiesSortOrderEnum Enum with underlying type: string
@@ -178,7 +228,7 @@ const (
 	ListCertificateAuthoritiesSortOrderDesc ListCertificateAuthoritiesSortOrderEnum = "DESC"
 )
 
-var mappingListCertificateAuthoritiesSortOrder = map[string]ListCertificateAuthoritiesSortOrderEnum{
+var mappingListCertificateAuthoritiesSortOrderEnum = map[string]ListCertificateAuthoritiesSortOrderEnum{
 	"ASC":  ListCertificateAuthoritiesSortOrderAsc,
 	"DESC": ListCertificateAuthoritiesSortOrderDesc,
 }
@@ -186,8 +236,16 @@ var mappingListCertificateAuthoritiesSortOrder = map[string]ListCertificateAutho
 // GetListCertificateAuthoritiesSortOrderEnumValues Enumerates the set of values for ListCertificateAuthoritiesSortOrderEnum
 func GetListCertificateAuthoritiesSortOrderEnumValues() []ListCertificateAuthoritiesSortOrderEnum {
 	values := make([]ListCertificateAuthoritiesSortOrderEnum, 0)
-	for _, v := range mappingListCertificateAuthoritiesSortOrder {
+	for _, v := range mappingListCertificateAuthoritiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCertificateAuthoritiesSortOrderEnumStringValues Enumerates the set of values in String for ListCertificateAuthoritiesSortOrderEnum
+func GetListCertificateAuthoritiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -12,7 +12,9 @@ package events
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Action An object that represents an action to trigger for events that match a rule.
@@ -122,6 +124,21 @@ func (m action) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m action) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingActionLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetActionLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ActionLifecycleStateEnum Enum with underlying type: string
 type ActionLifecycleStateEnum string
 
@@ -136,7 +153,7 @@ const (
 	ActionLifecycleStateFailed   ActionLifecycleStateEnum = "FAILED"
 )
 
-var mappingActionLifecycleState = map[string]ActionLifecycleStateEnum{
+var mappingActionLifecycleStateEnum = map[string]ActionLifecycleStateEnum{
 	"CREATING": ActionLifecycleStateCreating,
 	"ACTIVE":   ActionLifecycleStateActive,
 	"INACTIVE": ActionLifecycleStateInactive,
@@ -149,10 +166,23 @@ var mappingActionLifecycleState = map[string]ActionLifecycleStateEnum{
 // GetActionLifecycleStateEnumValues Enumerates the set of values for ActionLifecycleStateEnum
 func GetActionLifecycleStateEnumValues() []ActionLifecycleStateEnum {
 	values := make([]ActionLifecycleStateEnum, 0)
-	for _, v := range mappingActionLifecycleState {
+	for _, v := range mappingActionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetActionLifecycleStateEnumStringValues Enumerates the set of values in String for ActionLifecycleStateEnum
+func GetActionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ActionActionTypeEnum Enum with underlying type: string
@@ -165,7 +195,7 @@ const (
 	ActionActionTypeFaas ActionActionTypeEnum = "FAAS"
 )
 
-var mappingActionActionType = map[string]ActionActionTypeEnum{
+var mappingActionActionTypeEnum = map[string]ActionActionTypeEnum{
 	"ONS":  ActionActionTypeOns,
 	"OSS":  ActionActionTypeOss,
 	"FAAS": ActionActionTypeFaas,
@@ -174,8 +204,17 @@ var mappingActionActionType = map[string]ActionActionTypeEnum{
 // GetActionActionTypeEnumValues Enumerates the set of values for ActionActionTypeEnum
 func GetActionActionTypeEnumValues() []ActionActionTypeEnum {
 	values := make([]ActionActionTypeEnum, 0)
-	for _, v := range mappingActionActionType {
+	for _, v := range mappingActionActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetActionActionTypeEnumStringValues Enumerates the set of values in String for ActionActionTypeEnum
+func GetActionActionTypeEnumStringValues() []string {
+	return []string{
+		"ONS",
+		"OSS",
+		"FAAS",
+	}
 }

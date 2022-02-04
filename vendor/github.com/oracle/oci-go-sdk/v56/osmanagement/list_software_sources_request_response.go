@@ -5,8 +5,10 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSoftwareSourcesRequest wrapper for the ListSoftwareSources operation
@@ -53,6 +55,10 @@ func (request ListSoftwareSourcesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSoftwareSourcesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,26 @@ func (request ListSoftwareSourcesRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSoftwareSourcesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSoftwareSourcesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSoftwareSourcesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSoftwareSourcesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSoftwareSourcesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSoftwareSourcesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSoftwareSourcesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListSoftwareSourcesLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSoftwareSourcesResponse wrapper for the ListSoftwareSources operation
@@ -106,7 +132,7 @@ const (
 	ListSoftwareSourcesSortOrderDesc ListSoftwareSourcesSortOrderEnum = "DESC"
 )
 
-var mappingListSoftwareSourcesSortOrder = map[string]ListSoftwareSourcesSortOrderEnum{
+var mappingListSoftwareSourcesSortOrderEnum = map[string]ListSoftwareSourcesSortOrderEnum{
 	"ASC":  ListSoftwareSourcesSortOrderAsc,
 	"DESC": ListSoftwareSourcesSortOrderDesc,
 }
@@ -114,10 +140,18 @@ var mappingListSoftwareSourcesSortOrder = map[string]ListSoftwareSourcesSortOrde
 // GetListSoftwareSourcesSortOrderEnumValues Enumerates the set of values for ListSoftwareSourcesSortOrderEnum
 func GetListSoftwareSourcesSortOrderEnumValues() []ListSoftwareSourcesSortOrderEnum {
 	values := make([]ListSoftwareSourcesSortOrderEnum, 0)
-	for _, v := range mappingListSoftwareSourcesSortOrder {
+	for _, v := range mappingListSoftwareSourcesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSoftwareSourcesSortOrderEnumStringValues Enumerates the set of values in String for ListSoftwareSourcesSortOrderEnum
+func GetListSoftwareSourcesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListSoftwareSourcesSortByEnum Enum with underlying type: string
@@ -129,7 +163,7 @@ const (
 	ListSoftwareSourcesSortByDisplayname ListSoftwareSourcesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListSoftwareSourcesSortBy = map[string]ListSoftwareSourcesSortByEnum{
+var mappingListSoftwareSourcesSortByEnum = map[string]ListSoftwareSourcesSortByEnum{
 	"TIMECREATED": ListSoftwareSourcesSortByTimecreated,
 	"DISPLAYNAME": ListSoftwareSourcesSortByDisplayname,
 }
@@ -137,10 +171,18 @@ var mappingListSoftwareSourcesSortBy = map[string]ListSoftwareSourcesSortByEnum{
 // GetListSoftwareSourcesSortByEnumValues Enumerates the set of values for ListSoftwareSourcesSortByEnum
 func GetListSoftwareSourcesSortByEnumValues() []ListSoftwareSourcesSortByEnum {
 	values := make([]ListSoftwareSourcesSortByEnum, 0)
-	for _, v := range mappingListSoftwareSourcesSortBy {
+	for _, v := range mappingListSoftwareSourcesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSoftwareSourcesSortByEnumStringValues Enumerates the set of values in String for ListSoftwareSourcesSortByEnum
+func GetListSoftwareSourcesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListSoftwareSourcesLifecycleStateEnum Enum with underlying type: string
@@ -156,7 +198,7 @@ const (
 	ListSoftwareSourcesLifecycleStateFailed   ListSoftwareSourcesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListSoftwareSourcesLifecycleState = map[string]ListSoftwareSourcesLifecycleStateEnum{
+var mappingListSoftwareSourcesLifecycleStateEnum = map[string]ListSoftwareSourcesLifecycleStateEnum{
 	"CREATING": ListSoftwareSourcesLifecycleStateCreating,
 	"UPDATING": ListSoftwareSourcesLifecycleStateUpdating,
 	"ACTIVE":   ListSoftwareSourcesLifecycleStateActive,
@@ -168,8 +210,20 @@ var mappingListSoftwareSourcesLifecycleState = map[string]ListSoftwareSourcesLif
 // GetListSoftwareSourcesLifecycleStateEnumValues Enumerates the set of values for ListSoftwareSourcesLifecycleStateEnum
 func GetListSoftwareSourcesLifecycleStateEnumValues() []ListSoftwareSourcesLifecycleStateEnum {
 	values := make([]ListSoftwareSourcesLifecycleStateEnum, 0)
-	for _, v := range mappingListSoftwareSourcesLifecycleState {
+	for _, v := range mappingListSoftwareSourcesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSoftwareSourcesLifecycleStateEnumStringValues Enumerates the set of values in String for ListSoftwareSourcesLifecycleStateEnum
+func GetListSoftwareSourcesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

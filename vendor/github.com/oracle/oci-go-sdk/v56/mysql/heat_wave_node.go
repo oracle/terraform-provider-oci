@@ -10,7 +10,9 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HeatWaveNode A HeatWave node is a compute host that is part of a HeatWave cluster.
@@ -35,6 +37,21 @@ func (m HeatWaveNode) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m HeatWaveNode) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingHeatWaveNodeLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetHeatWaveNodeLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HeatWaveNodeLifecycleStateEnum Enum with underlying type: string
 type HeatWaveNodeLifecycleStateEnum string
 
@@ -49,7 +66,7 @@ const (
 	HeatWaveNodeLifecycleStateFailed   HeatWaveNodeLifecycleStateEnum = "FAILED"
 )
 
-var mappingHeatWaveNodeLifecycleState = map[string]HeatWaveNodeLifecycleStateEnum{
+var mappingHeatWaveNodeLifecycleStateEnum = map[string]HeatWaveNodeLifecycleStateEnum{
 	"CREATING": HeatWaveNodeLifecycleStateCreating,
 	"ACTIVE":   HeatWaveNodeLifecycleStateActive,
 	"INACTIVE": HeatWaveNodeLifecycleStateInactive,
@@ -62,8 +79,21 @@ var mappingHeatWaveNodeLifecycleState = map[string]HeatWaveNodeLifecycleStateEnu
 // GetHeatWaveNodeLifecycleStateEnumValues Enumerates the set of values for HeatWaveNodeLifecycleStateEnum
 func GetHeatWaveNodeLifecycleStateEnumValues() []HeatWaveNodeLifecycleStateEnum {
 	values := make([]HeatWaveNodeLifecycleStateEnum, 0)
-	for _, v := range mappingHeatWaveNodeLifecycleState {
+	for _, v := range mappingHeatWaveNodeLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHeatWaveNodeLifecycleStateEnumStringValues Enumerates the set of values in String for HeatWaveNodeLifecycleStateEnum
+func GetHeatWaveNodeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

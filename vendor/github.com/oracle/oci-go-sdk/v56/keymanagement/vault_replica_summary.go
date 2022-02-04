@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VaultReplicaSummary Summary of vault replicas
@@ -33,6 +35,21 @@ func (m VaultReplicaSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VaultReplicaSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingVaultReplicaSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetVaultReplicaSummaryStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VaultReplicaSummaryStatusEnum Enum with underlying type: string
 type VaultReplicaSummaryStatusEnum string
 
@@ -44,7 +61,7 @@ const (
 	VaultReplicaSummaryStatusDeleted  VaultReplicaSummaryStatusEnum = "DELETED"
 )
 
-var mappingVaultReplicaSummaryStatus = map[string]VaultReplicaSummaryStatusEnum{
+var mappingVaultReplicaSummaryStatusEnum = map[string]VaultReplicaSummaryStatusEnum{
 	"CREATING": VaultReplicaSummaryStatusCreating,
 	"CREATED":  VaultReplicaSummaryStatusCreated,
 	"DELETING": VaultReplicaSummaryStatusDeleting,
@@ -54,8 +71,18 @@ var mappingVaultReplicaSummaryStatus = map[string]VaultReplicaSummaryStatusEnum{
 // GetVaultReplicaSummaryStatusEnumValues Enumerates the set of values for VaultReplicaSummaryStatusEnum
 func GetVaultReplicaSummaryStatusEnumValues() []VaultReplicaSummaryStatusEnum {
 	values := make([]VaultReplicaSummaryStatusEnum, 0)
-	for _, v := range mappingVaultReplicaSummaryStatus {
+	for _, v := range mappingVaultReplicaSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVaultReplicaSummaryStatusEnumStringValues Enumerates the set of values in String for VaultReplicaSummaryStatusEnum
+func GetVaultReplicaSummaryStatusEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"CREATED",
+		"DELETING",
+		"DELETED",
+	}
 }

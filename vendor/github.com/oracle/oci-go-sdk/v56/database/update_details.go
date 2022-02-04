@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateDetails Details specifying which maintenance update to apply to the cloud VM cluster and which actions are to be performed by the maintenance update. Applies to Exadata Cloud Service instances only.
@@ -27,6 +29,21 @@ func (m UpdateDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateDetailsUpdateActionEnum[string(m.UpdateAction)]; !ok && m.UpdateAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateAction: %s. Supported values are: %s.", m.UpdateAction, strings.Join(GetUpdateDetailsUpdateActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateDetailsUpdateActionEnum Enum with underlying type: string
 type UpdateDetailsUpdateActionEnum string
 
@@ -38,7 +55,7 @@ const (
 	UpdateDetailsUpdateActionRollback        UpdateDetailsUpdateActionEnum = "ROLLBACK"
 )
 
-var mappingUpdateDetailsUpdateAction = map[string]UpdateDetailsUpdateActionEnum{
+var mappingUpdateDetailsUpdateActionEnum = map[string]UpdateDetailsUpdateActionEnum{
 	"ROLLING_APPLY":     UpdateDetailsUpdateActionRollingApply,
 	"NON_ROLLING_APPLY": UpdateDetailsUpdateActionNonRollingApply,
 	"PRECHECK":          UpdateDetailsUpdateActionPrecheck,
@@ -48,8 +65,18 @@ var mappingUpdateDetailsUpdateAction = map[string]UpdateDetailsUpdateActionEnum{
 // GetUpdateDetailsUpdateActionEnumValues Enumerates the set of values for UpdateDetailsUpdateActionEnum
 func GetUpdateDetailsUpdateActionEnumValues() []UpdateDetailsUpdateActionEnum {
 	values := make([]UpdateDetailsUpdateActionEnum, 0)
-	for _, v := range mappingUpdateDetailsUpdateAction {
+	for _, v := range mappingUpdateDetailsUpdateActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateDetailsUpdateActionEnumStringValues Enumerates the set of values in String for UpdateDetailsUpdateActionEnum
+func GetUpdateDetailsUpdateActionEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"NON_ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
 }

@@ -13,13 +13,15 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// SqlTuningTaskCredentialDetails The credential to be used to connect to the database.
+// SqlTuningTaskCredentialDetails The credential used to connect to the database.
 type SqlTuningTaskCredentialDetails interface {
 
-	// The user to connect to the database.
+	// The user name used to connect to the database.
 	GetUsername() *string
 
 	// The role of the database user.
@@ -87,6 +89,21 @@ func (m sqltuningtaskcredentialdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m sqltuningtaskcredentialdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSqlTuningTaskCredentialDetailsRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetSqlTuningTaskCredentialDetailsRoleEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SqlTuningTaskCredentialDetailsRoleEnum Enum with underlying type: string
 type SqlTuningTaskCredentialDetailsRoleEnum string
 
@@ -96,7 +113,7 @@ const (
 	SqlTuningTaskCredentialDetailsRoleSysdba SqlTuningTaskCredentialDetailsRoleEnum = "SYSDBA"
 )
 
-var mappingSqlTuningTaskCredentialDetailsRole = map[string]SqlTuningTaskCredentialDetailsRoleEnum{
+var mappingSqlTuningTaskCredentialDetailsRoleEnum = map[string]SqlTuningTaskCredentialDetailsRoleEnum{
 	"NORMAL": SqlTuningTaskCredentialDetailsRoleNormal,
 	"SYSDBA": SqlTuningTaskCredentialDetailsRoleSysdba,
 }
@@ -104,8 +121,16 @@ var mappingSqlTuningTaskCredentialDetailsRole = map[string]SqlTuningTaskCredenti
 // GetSqlTuningTaskCredentialDetailsRoleEnumValues Enumerates the set of values for SqlTuningTaskCredentialDetailsRoleEnum
 func GetSqlTuningTaskCredentialDetailsRoleEnumValues() []SqlTuningTaskCredentialDetailsRoleEnum {
 	values := make([]SqlTuningTaskCredentialDetailsRoleEnum, 0)
-	for _, v := range mappingSqlTuningTaskCredentialDetailsRole {
+	for _, v := range mappingSqlTuningTaskCredentialDetailsRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSqlTuningTaskCredentialDetailsRoleEnumStringValues Enumerates the set of values in String for SqlTuningTaskCredentialDetailsRoleEnum
+func GetSqlTuningTaskCredentialDetailsRoleEnumStringValues() []string {
+	return []string{
+		"NORMAL",
+		"SYSDBA",
+	}
 }

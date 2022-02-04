@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // RouteRule A mapping between a destination IP address range and a virtual device to route matching
@@ -62,6 +64,21 @@ func (m RouteRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RouteRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingRouteRuleDestinationTypeEnum[string(m.DestinationType)]; !ok && m.DestinationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DestinationType: %s. Supported values are: %s.", m.DestinationType, strings.Join(GetRouteRuleDestinationTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RouteRuleDestinationTypeEnum Enum with underlying type: string
 type RouteRuleDestinationTypeEnum string
 
@@ -71,7 +88,7 @@ const (
 	RouteRuleDestinationTypeServiceCidrBlock RouteRuleDestinationTypeEnum = "SERVICE_CIDR_BLOCK"
 )
 
-var mappingRouteRuleDestinationType = map[string]RouteRuleDestinationTypeEnum{
+var mappingRouteRuleDestinationTypeEnum = map[string]RouteRuleDestinationTypeEnum{
 	"CIDR_BLOCK":         RouteRuleDestinationTypeCidrBlock,
 	"SERVICE_CIDR_BLOCK": RouteRuleDestinationTypeServiceCidrBlock,
 }
@@ -79,8 +96,16 @@ var mappingRouteRuleDestinationType = map[string]RouteRuleDestinationTypeEnum{
 // GetRouteRuleDestinationTypeEnumValues Enumerates the set of values for RouteRuleDestinationTypeEnum
 func GetRouteRuleDestinationTypeEnumValues() []RouteRuleDestinationTypeEnum {
 	values := make([]RouteRuleDestinationTypeEnum, 0)
-	for _, v := range mappingRouteRuleDestinationType {
+	for _, v := range mappingRouteRuleDestinationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRouteRuleDestinationTypeEnumStringValues Enumerates the set of values in String for RouteRuleDestinationTypeEnum
+func GetRouteRuleDestinationTypeEnumStringValues() []string {
+	return []string{
+		"CIDR_BLOCK",
+		"SERVICE_CIDR_BLOCK",
+	}
 }

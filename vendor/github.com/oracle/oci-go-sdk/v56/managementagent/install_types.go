@@ -18,7 +18,7 @@ const (
 	InstallTypesGateway InstallTypesEnum = "GATEWAY"
 )
 
-var mappingInstallTypes = map[string]InstallTypesEnum{
+var mappingInstallTypesEnum = map[string]InstallTypesEnum{
 	"AGENT":   InstallTypesAgent,
 	"GATEWAY": InstallTypesGateway,
 }
@@ -26,8 +26,16 @@ var mappingInstallTypes = map[string]InstallTypesEnum{
 // GetInstallTypesEnumValues Enumerates the set of values for InstallTypesEnum
 func GetInstallTypesEnumValues() []InstallTypesEnum {
 	values := make([]InstallTypesEnum, 0)
-	for _, v := range mappingInstallTypes {
+	for _, v := range mappingInstallTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstallTypesEnumStringValues Enumerates the set of values in String for InstallTypesEnum
+func GetInstallTypesEnumStringValues() []string {
+	return []string{
+		"AGENT",
+		"GATEWAY",
+	}
 }

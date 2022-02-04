@@ -5,8 +5,10 @@
 package goldengate
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDeploymentsRequest wrapper for the ListDeployments operation
@@ -58,6 +60,10 @@ func (request ListDeploymentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDeploymentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,29 @@ func (request ListDeploymentsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDeploymentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDeploymentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDeploymentsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDeploymentsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDeploymentsLifecycleSubStateEnum[string(request.LifecycleSubState)]; !ok && request.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", request.LifecycleSubState, strings.Join(GetListDeploymentsLifecycleSubStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDeploymentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDeploymentsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDeploymentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDeploymentsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDeploymentsResponse wrapper for the ListDeployments operation
@@ -117,7 +146,7 @@ const (
 	ListDeploymentsLifecycleStateSucceeded      ListDeploymentsLifecycleStateEnum = "SUCCEEDED"
 )
 
-var mappingListDeploymentsLifecycleState = map[string]ListDeploymentsLifecycleStateEnum{
+var mappingListDeploymentsLifecycleStateEnum = map[string]ListDeploymentsLifecycleStateEnum{
 	"CREATING":        ListDeploymentsLifecycleStateCreating,
 	"UPDATING":        ListDeploymentsLifecycleStateUpdating,
 	"ACTIVE":          ListDeploymentsLifecycleStateActive,
@@ -135,10 +164,28 @@ var mappingListDeploymentsLifecycleState = map[string]ListDeploymentsLifecycleSt
 // GetListDeploymentsLifecycleStateEnumValues Enumerates the set of values for ListDeploymentsLifecycleStateEnum
 func GetListDeploymentsLifecycleStateEnumValues() []ListDeploymentsLifecycleStateEnum {
 	values := make([]ListDeploymentsLifecycleStateEnum, 0)
-	for _, v := range mappingListDeploymentsLifecycleState {
+	for _, v := range mappingListDeploymentsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDeploymentsLifecycleStateEnumStringValues Enumerates the set of values in String for ListDeploymentsLifecycleStateEnum
+func GetListDeploymentsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"NEEDS_ATTENTION",
+		"IN_PROGRESS",
+		"CANCELING",
+		"CANCELED",
+		"SUCCEEDED",
+	}
 }
 
 // ListDeploymentsLifecycleSubStateEnum Enum with underlying type: string
@@ -155,7 +202,7 @@ const (
 	ListDeploymentsLifecycleSubStateBackupInProgress ListDeploymentsLifecycleSubStateEnum = "BACKUP_IN_PROGRESS"
 )
 
-var mappingListDeploymentsLifecycleSubState = map[string]ListDeploymentsLifecycleSubStateEnum{
+var mappingListDeploymentsLifecycleSubStateEnum = map[string]ListDeploymentsLifecycleSubStateEnum{
 	"RECOVERING":         ListDeploymentsLifecycleSubStateRecovering,
 	"STARTING":           ListDeploymentsLifecycleSubStateStarting,
 	"STOPPING":           ListDeploymentsLifecycleSubStateStopping,
@@ -168,10 +215,23 @@ var mappingListDeploymentsLifecycleSubState = map[string]ListDeploymentsLifecycl
 // GetListDeploymentsLifecycleSubStateEnumValues Enumerates the set of values for ListDeploymentsLifecycleSubStateEnum
 func GetListDeploymentsLifecycleSubStateEnumValues() []ListDeploymentsLifecycleSubStateEnum {
 	values := make([]ListDeploymentsLifecycleSubStateEnum, 0)
-	for _, v := range mappingListDeploymentsLifecycleSubState {
+	for _, v := range mappingListDeploymentsLifecycleSubStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDeploymentsLifecycleSubStateEnumStringValues Enumerates the set of values in String for ListDeploymentsLifecycleSubStateEnum
+func GetListDeploymentsLifecycleSubStateEnumStringValues() []string {
+	return []string{
+		"RECOVERING",
+		"STARTING",
+		"STOPPING",
+		"MOVING",
+		"UPGRADING",
+		"RESTORING",
+		"BACKUP_IN_PROGRESS",
+	}
 }
 
 // ListDeploymentsSortOrderEnum Enum with underlying type: string
@@ -183,7 +243,7 @@ const (
 	ListDeploymentsSortOrderDesc ListDeploymentsSortOrderEnum = "DESC"
 )
 
-var mappingListDeploymentsSortOrder = map[string]ListDeploymentsSortOrderEnum{
+var mappingListDeploymentsSortOrderEnum = map[string]ListDeploymentsSortOrderEnum{
 	"ASC":  ListDeploymentsSortOrderAsc,
 	"DESC": ListDeploymentsSortOrderDesc,
 }
@@ -191,10 +251,18 @@ var mappingListDeploymentsSortOrder = map[string]ListDeploymentsSortOrderEnum{
 // GetListDeploymentsSortOrderEnumValues Enumerates the set of values for ListDeploymentsSortOrderEnum
 func GetListDeploymentsSortOrderEnumValues() []ListDeploymentsSortOrderEnum {
 	values := make([]ListDeploymentsSortOrderEnum, 0)
-	for _, v := range mappingListDeploymentsSortOrder {
+	for _, v := range mappingListDeploymentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDeploymentsSortOrderEnumStringValues Enumerates the set of values in String for ListDeploymentsSortOrderEnum
+func GetListDeploymentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDeploymentsSortByEnum Enum with underlying type: string
@@ -206,7 +274,7 @@ const (
 	ListDeploymentsSortByDisplayname ListDeploymentsSortByEnum = "displayName"
 )
 
-var mappingListDeploymentsSortBy = map[string]ListDeploymentsSortByEnum{
+var mappingListDeploymentsSortByEnum = map[string]ListDeploymentsSortByEnum{
 	"timeCreated": ListDeploymentsSortByTimecreated,
 	"displayName": ListDeploymentsSortByDisplayname,
 }
@@ -214,8 +282,16 @@ var mappingListDeploymentsSortBy = map[string]ListDeploymentsSortByEnum{
 // GetListDeploymentsSortByEnumValues Enumerates the set of values for ListDeploymentsSortByEnum
 func GetListDeploymentsSortByEnumValues() []ListDeploymentsSortByEnum {
 	values := make([]ListDeploymentsSortByEnum, 0)
-	for _, v := range mappingListDeploymentsSortBy {
+	for _, v := range mappingListDeploymentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDeploymentsSortByEnumStringValues Enumerates the set of values in String for ListDeploymentsSortByEnum
+func GetListDeploymentsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

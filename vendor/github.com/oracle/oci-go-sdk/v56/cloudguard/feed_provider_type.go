@@ -18,7 +18,7 @@ const (
 	FeedProviderTypeOracle   FeedProviderTypeEnum = "ORACLE"
 )
 
-var mappingFeedProviderType = map[string]FeedProviderTypeEnum{
+var mappingFeedProviderTypeEnum = map[string]FeedProviderTypeEnum{
 	"CUSTOMER": FeedProviderTypeCustomer,
 	"ORACLE":   FeedProviderTypeOracle,
 }
@@ -26,8 +26,16 @@ var mappingFeedProviderType = map[string]FeedProviderTypeEnum{
 // GetFeedProviderTypeEnumValues Enumerates the set of values for FeedProviderTypeEnum
 func GetFeedProviderTypeEnumValues() []FeedProviderTypeEnum {
 	values := make([]FeedProviderTypeEnum, 0)
-	for _, v := range mappingFeedProviderType {
+	for _, v := range mappingFeedProviderTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFeedProviderTypeEnumStringValues Enumerates the set of values in String for FeedProviderTypeEnum
+func GetFeedProviderTypeEnumStringValues() []string {
+	return []string{
+		"CUSTOMER",
+		"ORACLE",
+	}
 }

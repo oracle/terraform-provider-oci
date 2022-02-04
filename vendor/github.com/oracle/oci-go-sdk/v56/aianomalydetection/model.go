@@ -12,7 +12,9 @@
 package aianomalydetection
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Model Description of Model.
@@ -66,6 +68,21 @@ func (m Model) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Model) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingModelLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetModelLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ModelLifecycleStateEnum Enum with underlying type: string
 type ModelLifecycleStateEnum string
 
@@ -79,7 +96,7 @@ const (
 	ModelLifecycleStateUpdating ModelLifecycleStateEnum = "UPDATING"
 )
 
-var mappingModelLifecycleState = map[string]ModelLifecycleStateEnum{
+var mappingModelLifecycleStateEnum = map[string]ModelLifecycleStateEnum{
 	"DELETING": ModelLifecycleStateDeleting,
 	"DELETED":  ModelLifecycleStateDeleted,
 	"FAILED":   ModelLifecycleStateFailed,
@@ -91,8 +108,20 @@ var mappingModelLifecycleState = map[string]ModelLifecycleStateEnum{
 // GetModelLifecycleStateEnumValues Enumerates the set of values for ModelLifecycleStateEnum
 func GetModelLifecycleStateEnumValues() []ModelLifecycleStateEnum {
 	values := make([]ModelLifecycleStateEnum, 0)
-	for _, v := range mappingModelLifecycleState {
+	for _, v := range mappingModelLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetModelLifecycleStateEnumStringValues Enumerates the set of values in String for ModelLifecycleStateEnum
+func GetModelLifecycleStateEnumStringValues() []string {
+	return []string{
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+	}
 }

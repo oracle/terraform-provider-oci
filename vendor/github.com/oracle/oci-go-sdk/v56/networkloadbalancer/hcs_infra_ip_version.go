@@ -18,7 +18,7 @@ const (
 	HcsInfraIpVersionIpv4AndIpv6 HcsInfraIpVersionEnum = "IPV4_AND_IPV6"
 )
 
-var mappingHcsInfraIpVersion = map[string]HcsInfraIpVersionEnum{
+var mappingHcsInfraIpVersionEnum = map[string]HcsInfraIpVersionEnum{
 	"IPV4":          HcsInfraIpVersionIpv4,
 	"IPV4_AND_IPV6": HcsInfraIpVersionIpv4AndIpv6,
 }
@@ -26,8 +26,16 @@ var mappingHcsInfraIpVersion = map[string]HcsInfraIpVersionEnum{
 // GetHcsInfraIpVersionEnumValues Enumerates the set of values for HcsInfraIpVersionEnum
 func GetHcsInfraIpVersionEnumValues() []HcsInfraIpVersionEnum {
 	values := make([]HcsInfraIpVersionEnum, 0)
-	for _, v := range mappingHcsInfraIpVersion {
+	for _, v := range mappingHcsInfraIpVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHcsInfraIpVersionEnumStringValues Enumerates the set of values in String for HcsInfraIpVersionEnum
+func GetHcsInfraIpVersionEnumStringValues() []string {
+	return []string{
+		"IPV4",
+		"IPV4_AND_IPV6",
+	}
 }

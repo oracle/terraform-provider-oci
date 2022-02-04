@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateAutonomousDatabaseFromBackupTimestampDetails Details to create a point-in-time clone of an Oracle Autonomous Database by specifying a timestamp. Point-in-time clones use backups as the source of the data for the clone.
@@ -339,6 +341,30 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum[string(m.CloneType)]; !ok && m.CloneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneType: %s. Supported values are: %s.", m.CloneType, strings.Join(GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCreateAutonomousDatabaseBaseDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum[string(m.AutonomousMaintenanceScheduleType)]; !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeCreateAutonomousDatabaseFromBackupTimestampDetails CreateAutonomousDatabaseFromBackupTimestampDetails
@@ -362,7 +388,7 @@ const (
 	CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeMetadata CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum = "METADATA"
 )
 
-var mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneType = map[string]CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum{
+var mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum = map[string]CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum{
 	"FULL":     CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeFull,
 	"METADATA": CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeMetadata,
 }
@@ -370,8 +396,16 @@ var mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneType = map[str
 // GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum
 func GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumValues() []CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum {
 	values := make([]CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneType {
+	for _, v := range mappingCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum
+func GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"METADATA",
+	}
 }

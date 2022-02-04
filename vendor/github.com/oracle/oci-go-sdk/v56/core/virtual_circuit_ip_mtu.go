@@ -22,7 +22,7 @@ const (
 	VirtualCircuitIpMtuMtu9000 VirtualCircuitIpMtuEnum = "MTU_9000"
 )
 
-var mappingVirtualCircuitIpMtu = map[string]VirtualCircuitIpMtuEnum{
+var mappingVirtualCircuitIpMtuEnum = map[string]VirtualCircuitIpMtuEnum{
 	"MTU_1500": VirtualCircuitIpMtuMtu1500,
 	"MTU_9000": VirtualCircuitIpMtuMtu9000,
 }
@@ -30,8 +30,16 @@ var mappingVirtualCircuitIpMtu = map[string]VirtualCircuitIpMtuEnum{
 // GetVirtualCircuitIpMtuEnumValues Enumerates the set of values for VirtualCircuitIpMtuEnum
 func GetVirtualCircuitIpMtuEnumValues() []VirtualCircuitIpMtuEnum {
 	values := make([]VirtualCircuitIpMtuEnum, 0)
-	for _, v := range mappingVirtualCircuitIpMtu {
+	for _, v := range mappingVirtualCircuitIpMtuEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitIpMtuEnumStringValues Enumerates the set of values in String for VirtualCircuitIpMtuEnum
+func GetVirtualCircuitIpMtuEnumStringValues() []string {
+	return []string{
+		"MTU_1500",
+		"MTU_9000",
+	}
 }

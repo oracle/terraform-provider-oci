@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DedicatedVmHost A dedicated virtual machine host lets you host multiple VM instances
@@ -81,6 +83,21 @@ func (m DedicatedVmHost) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DedicatedVmHost) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDedicatedVmHostLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDedicatedVmHostLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DedicatedVmHostLifecycleStateEnum Enum with underlying type: string
 type DedicatedVmHostLifecycleStateEnum string
 
@@ -94,7 +111,7 @@ const (
 	DedicatedVmHostLifecycleStateFailed   DedicatedVmHostLifecycleStateEnum = "FAILED"
 )
 
-var mappingDedicatedVmHostLifecycleState = map[string]DedicatedVmHostLifecycleStateEnum{
+var mappingDedicatedVmHostLifecycleStateEnum = map[string]DedicatedVmHostLifecycleStateEnum{
 	"CREATING": DedicatedVmHostLifecycleStateCreating,
 	"ACTIVE":   DedicatedVmHostLifecycleStateActive,
 	"UPDATING": DedicatedVmHostLifecycleStateUpdating,
@@ -106,8 +123,20 @@ var mappingDedicatedVmHostLifecycleState = map[string]DedicatedVmHostLifecycleSt
 // GetDedicatedVmHostLifecycleStateEnumValues Enumerates the set of values for DedicatedVmHostLifecycleStateEnum
 func GetDedicatedVmHostLifecycleStateEnumValues() []DedicatedVmHostLifecycleStateEnum {
 	values := make([]DedicatedVmHostLifecycleStateEnum, 0)
-	for _, v := range mappingDedicatedVmHostLifecycleState {
+	for _, v := range mappingDedicatedVmHostLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDedicatedVmHostLifecycleStateEnumStringValues Enumerates the set of values in String for DedicatedVmHostLifecycleStateEnum
+func GetDedicatedVmHostLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

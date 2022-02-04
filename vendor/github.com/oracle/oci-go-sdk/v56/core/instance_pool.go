@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InstancePool An instance pool is a set of instances within the same region that are managed as a group.
@@ -68,6 +70,21 @@ func (m InstancePool) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstancePool) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstancePoolLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstancePoolLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstancePoolLifecycleStateEnum Enum with underlying type: string
 type InstancePoolLifecycleStateEnum string
 
@@ -83,7 +100,7 @@ const (
 	InstancePoolLifecycleStateRunning      InstancePoolLifecycleStateEnum = "RUNNING"
 )
 
-var mappingInstancePoolLifecycleState = map[string]InstancePoolLifecycleStateEnum{
+var mappingInstancePoolLifecycleStateEnum = map[string]InstancePoolLifecycleStateEnum{
 	"PROVISIONING": InstancePoolLifecycleStateProvisioning,
 	"SCALING":      InstancePoolLifecycleStateScaling,
 	"STARTING":     InstancePoolLifecycleStateStarting,
@@ -97,8 +114,22 @@ var mappingInstancePoolLifecycleState = map[string]InstancePoolLifecycleStateEnu
 // GetInstancePoolLifecycleStateEnumValues Enumerates the set of values for InstancePoolLifecycleStateEnum
 func GetInstancePoolLifecycleStateEnumValues() []InstancePoolLifecycleStateEnum {
 	values := make([]InstancePoolLifecycleStateEnum, 0)
-	for _, v := range mappingInstancePoolLifecycleState {
+	for _, v := range mappingInstancePoolLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstancePoolLifecycleStateEnumStringValues Enumerates the set of values in String for InstancePoolLifecycleStateEnum
+func GetInstancePoolLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"SCALING",
+		"STARTING",
+		"STOPPING",
+		"TERMINATING",
+		"STOPPED",
+		"TERMINATED",
+		"RUNNING",
+	}
 }

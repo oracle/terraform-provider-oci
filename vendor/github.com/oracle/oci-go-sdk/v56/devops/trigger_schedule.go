@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TriggerSchedule Specifies a trigger schedule. Timing information for when to initiate automated syncs.
@@ -32,6 +34,21 @@ func (m TriggerSchedule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TriggerSchedule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTriggerScheduleScheduleTypeEnum[string(m.ScheduleType)]; !ok && m.ScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduleType: %s. Supported values are: %s.", m.ScheduleType, strings.Join(GetTriggerScheduleScheduleTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TriggerScheduleScheduleTypeEnum Enum with underlying type: string
 type TriggerScheduleScheduleTypeEnum string
 
@@ -42,7 +59,7 @@ const (
 	TriggerScheduleScheduleTypeCustom  TriggerScheduleScheduleTypeEnum = "CUSTOM"
 )
 
-var mappingTriggerScheduleScheduleType = map[string]TriggerScheduleScheduleTypeEnum{
+var mappingTriggerScheduleScheduleTypeEnum = map[string]TriggerScheduleScheduleTypeEnum{
 	"NONE":    TriggerScheduleScheduleTypeNone,
 	"DEFAULT": TriggerScheduleScheduleTypeDefault,
 	"CUSTOM":  TriggerScheduleScheduleTypeCustom,
@@ -51,8 +68,17 @@ var mappingTriggerScheduleScheduleType = map[string]TriggerScheduleScheduleTypeE
 // GetTriggerScheduleScheduleTypeEnumValues Enumerates the set of values for TriggerScheduleScheduleTypeEnum
 func GetTriggerScheduleScheduleTypeEnumValues() []TriggerScheduleScheduleTypeEnum {
 	values := make([]TriggerScheduleScheduleTypeEnum, 0)
-	for _, v := range mappingTriggerScheduleScheduleType {
+	for _, v := range mappingTriggerScheduleScheduleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTriggerScheduleScheduleTypeEnumStringValues Enumerates the set of values in String for TriggerScheduleScheduleTypeEnum
+func GetTriggerScheduleScheduleTypeEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"DEFAULT",
+		"CUSTOM",
+	}
 }

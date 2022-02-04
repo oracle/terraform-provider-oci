@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LocalPeeringGateway A local peering gateway (LPG) is an object on a VCN that lets that VCN peer
@@ -95,6 +97,24 @@ func (m LocalPeeringGateway) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LocalPeeringGateway) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLocalPeeringGatewayLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLocalPeeringGatewayLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLocalPeeringGatewayPeeringStatusEnum[string(m.PeeringStatus)]; !ok && m.PeeringStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PeeringStatus: %s. Supported values are: %s.", m.PeeringStatus, strings.Join(GetLocalPeeringGatewayPeeringStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LocalPeeringGatewayLifecycleStateEnum Enum with underlying type: string
 type LocalPeeringGatewayLifecycleStateEnum string
 
@@ -106,7 +126,7 @@ const (
 	LocalPeeringGatewayLifecycleStateTerminated   LocalPeeringGatewayLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingLocalPeeringGatewayLifecycleState = map[string]LocalPeeringGatewayLifecycleStateEnum{
+var mappingLocalPeeringGatewayLifecycleStateEnum = map[string]LocalPeeringGatewayLifecycleStateEnum{
 	"PROVISIONING": LocalPeeringGatewayLifecycleStateProvisioning,
 	"AVAILABLE":    LocalPeeringGatewayLifecycleStateAvailable,
 	"TERMINATING":  LocalPeeringGatewayLifecycleStateTerminating,
@@ -116,10 +136,20 @@ var mappingLocalPeeringGatewayLifecycleState = map[string]LocalPeeringGatewayLif
 // GetLocalPeeringGatewayLifecycleStateEnumValues Enumerates the set of values for LocalPeeringGatewayLifecycleStateEnum
 func GetLocalPeeringGatewayLifecycleStateEnumValues() []LocalPeeringGatewayLifecycleStateEnum {
 	values := make([]LocalPeeringGatewayLifecycleStateEnum, 0)
-	for _, v := range mappingLocalPeeringGatewayLifecycleState {
+	for _, v := range mappingLocalPeeringGatewayLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLocalPeeringGatewayLifecycleStateEnumStringValues Enumerates the set of values in String for LocalPeeringGatewayLifecycleStateEnum
+func GetLocalPeeringGatewayLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }
 
 // LocalPeeringGatewayPeeringStatusEnum Enum with underlying type: string
@@ -134,7 +164,7 @@ const (
 	LocalPeeringGatewayPeeringStatusRevoked LocalPeeringGatewayPeeringStatusEnum = "REVOKED"
 )
 
-var mappingLocalPeeringGatewayPeeringStatus = map[string]LocalPeeringGatewayPeeringStatusEnum{
+var mappingLocalPeeringGatewayPeeringStatusEnum = map[string]LocalPeeringGatewayPeeringStatusEnum{
 	"INVALID": LocalPeeringGatewayPeeringStatusInvalid,
 	"NEW":     LocalPeeringGatewayPeeringStatusNew,
 	"PEERED":  LocalPeeringGatewayPeeringStatusPeered,
@@ -145,8 +175,19 @@ var mappingLocalPeeringGatewayPeeringStatus = map[string]LocalPeeringGatewayPeer
 // GetLocalPeeringGatewayPeeringStatusEnumValues Enumerates the set of values for LocalPeeringGatewayPeeringStatusEnum
 func GetLocalPeeringGatewayPeeringStatusEnumValues() []LocalPeeringGatewayPeeringStatusEnum {
 	values := make([]LocalPeeringGatewayPeeringStatusEnum, 0)
-	for _, v := range mappingLocalPeeringGatewayPeeringStatus {
+	for _, v := range mappingLocalPeeringGatewayPeeringStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLocalPeeringGatewayPeeringStatusEnumStringValues Enumerates the set of values in String for LocalPeeringGatewayPeeringStatusEnum
+func GetLocalPeeringGatewayPeeringStatusEnumStringValues() []string {
+	return []string{
+		"INVALID",
+		"NEW",
+		"PEERED",
+		"PENDING",
+		"REVOKED",
+	}
 }

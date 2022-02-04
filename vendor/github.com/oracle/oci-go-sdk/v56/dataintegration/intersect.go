@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Intersect The information about a intersect object.
@@ -122,6 +124,21 @@ func (m Intersect) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Intersect) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIntersectIntersectTypeEnum[string(m.IntersectType)]; !ok && m.IntersectType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IntersectType: %s. Supported values are: %s.", m.IntersectType, strings.Join(GetIntersectIntersectTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m Intersect) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeIntersect Intersect
@@ -145,7 +162,7 @@ const (
 	IntersectIntersectTypePosition IntersectIntersectTypeEnum = "POSITION"
 )
 
-var mappingIntersectIntersectType = map[string]IntersectIntersectTypeEnum{
+var mappingIntersectIntersectTypeEnum = map[string]IntersectIntersectTypeEnum{
 	"NAME":     IntersectIntersectTypeName,
 	"POSITION": IntersectIntersectTypePosition,
 }
@@ -153,8 +170,16 @@ var mappingIntersectIntersectType = map[string]IntersectIntersectTypeEnum{
 // GetIntersectIntersectTypeEnumValues Enumerates the set of values for IntersectIntersectTypeEnum
 func GetIntersectIntersectTypeEnumValues() []IntersectIntersectTypeEnum {
 	values := make([]IntersectIntersectTypeEnum, 0)
-	for _, v := range mappingIntersectIntersectType {
+	for _, v := range mappingIntersectIntersectTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIntersectIntersectTypeEnumStringValues Enumerates the set of values in String for IntersectIntersectTypeEnum
+func GetIntersectIntersectTypeEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"POSITION",
+	}
 }
