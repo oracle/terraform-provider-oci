@@ -13,7 +13,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	oci_common "github.com/oracle/oci-go-sdk/v59/common"
 	oci_core "github.com/oracle/oci-go-sdk/v59/core"
@@ -66,14 +65,14 @@ func CoreRemotePeeringConnectionResource() *schema.Resource {
 				Optional:     true,
 				Computed:     true,
 				ForceNew:     true,
-				ValidateFunc: utils.ValidateNotEmptyString(), //Don't allow empty string, it results in a terraform error when switching from valid value to empty string
+				ValidateFunc: tfresource.ValidateNotEmptyString(), //Don't allow empty string, it results in a terraform error when switching from valid value to empty string
 			},
 			"peer_region_name": {
 				Type:         schema.TypeString,
 				Optional:     true,
 				Computed:     true,
 				ForceNew:     true,
-				ValidateFunc: utils.ValidateNotEmptyString(), //Don't allow empty string, it results in a terraform error when switching from valid value to empty string
+				ValidateFunc: tfresource.ValidateNotEmptyString(), //Don't allow empty string, it results in a terraform error when switching from valid value to empty string
 			},
 
 			// Computed
@@ -258,7 +257,7 @@ func (s *CoreRemotePeeringConnectionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -315,7 +314,7 @@ func (s *CoreRemotePeeringConnectionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()

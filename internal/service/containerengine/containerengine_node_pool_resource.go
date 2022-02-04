@@ -14,7 +14,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -175,7 +174,7 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
-							Set:      utils.LiteralTypeHashCodeForSets,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -261,8 +260,8 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ValidateFunc:     utils.ValidateInt64TypeString,
-							DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 
 						// Computed
@@ -285,7 +284,7 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Optional:      true,
 				Computed:      true,
 				ConflictsWith: []string{"node_config_details"},
-				Set:           utils.LiteralTypeHashCodeForSets,
+				Set:           tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -493,7 +492,7 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if initialNodeLabels, ok := s.D.GetOkExists("initial_node_labels"); ok {
@@ -545,7 +544,7 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	}
 
 	if nodeMetadata, ok := s.D.GetOkExists("node_metadata"); ok {
-		request.NodeMetadata = utils.ObjectMapToStringMap(nodeMetadata.(map[string]interface{}))
+		request.NodeMetadata = tfresource.ObjectMapToStringMap(nodeMetadata.(map[string]interface{}))
 	}
 
 	if nodeShape, ok := s.D.GetOkExists("node_shape"); ok {
@@ -800,7 +799,7 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if initialNodeLabels, ok := s.D.GetOkExists("initial_node_labels"); ok {
@@ -846,7 +845,7 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	}
 
 	if nodeMetadata, ok := s.D.GetOkExists("node_metadata"); ok {
-		request.NodeMetadata = utils.ObjectMapToStringMap(nodeMetadata.(map[string]interface{}))
+		request.NodeMetadata = tfresource.ObjectMapToStringMap(nodeMetadata.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -1026,7 +1025,7 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		for _, item := range s.Res.SubnetIds {
 			subnetIds = append(subnetIds, item)
 		}
-		s.D.Set("subnet_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, subnetIds))
+		s.D.Set("subnet_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, subnetIds))
 	} else {
 		s.D.Set("subnet_ids", nil)
 	}
@@ -1059,7 +1058,7 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
@@ -1125,7 +1124,7 @@ func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigD
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	placementConfigs := []interface{}{}

@@ -8,7 +8,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v59/monitoring"
@@ -143,7 +142,7 @@ func (s *MonitoringMetricsDataSourceCrud) Get() error {
 	}
 
 	if dimensionFilters, ok := s.D.GetOkExists("dimension_filters"); ok {
-		request.DimensionFilters = utils.ObjectMapToStringMap(dimensionFilters.(map[string]interface{}))
+		request.DimensionFilters = tfresource.ObjectMapToStringMap(dimensionFilters.(map[string]interface{}))
 	}
 
 	if groupBy, ok := s.D.GetOkExists("group_by"); ok {

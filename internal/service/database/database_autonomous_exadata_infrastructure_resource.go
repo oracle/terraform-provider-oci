@@ -9,7 +9,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
 
@@ -190,7 +189,7 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -450,7 +449,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
@@ -556,7 +555,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.UpdateAutonomousExadataInfrastructuresDetails.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.UpdateAutonomousExadataInfrastructuresDetails.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
@@ -667,7 +666,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) SetData() error {
 		for _, item := range s.Res.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 	}
 
 	if s.Res.ScanDnsName != nil {

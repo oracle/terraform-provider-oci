@@ -10,7 +10,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	oci_core "github.com/oracle/oci-go-sdk/v59/core"
 )
@@ -71,7 +70,7 @@ func CoreVlanResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -201,7 +200,7 @@ func (s *CoreVlanResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -292,7 +291,7 @@ func (s *CoreVlanResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -367,7 +366,7 @@ func (s *CoreVlanResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.RouteTableId != nil {
 		s.D.Set("route_table_id", *s.Res.RouteTableId)

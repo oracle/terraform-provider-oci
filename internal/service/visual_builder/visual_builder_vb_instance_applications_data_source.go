@@ -7,7 +7,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	oci_visual_builder "github.com/oracle/oci-go-sdk/v59/visualbuilder"
 )
@@ -26,7 +25,7 @@ func VisualBuilderVbInstanceApplicationsDataSource() *schema.Resource {
 			"idcs_open_id": {
 				Type:      schema.TypeString,
 				Optional:  true,
-				StateFunc: utils.GetMd5Hash,
+				StateFunc: tfresource.GetMd5Hash,
 				Sensitive: true,
 			},
 			"application_summary_collection": {

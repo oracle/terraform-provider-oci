@@ -8,13 +8,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_audit "github.com/oracle/oci-go-sdk/v59/audit"
 	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
 func AuditAuditEventsDataSource() *schema.Resource {
@@ -530,13 +528,13 @@ func requestToMap(obj *oci_audit.Request) map[string]interface{} {
 		result["action"] = string(*obj.Action)
 	}
 
-	result["headers"], _ = utils.ConvertMapOfStringSlicesToMapOfStrings(obj.Headers)
+	result["headers"], _ = tfresource.ConvertMapOfStringSlicesToMapOfStrings(obj.Headers)
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
 
-	result["parameters"], _ = utils.ConvertMapOfStringSlicesToMapOfStrings(obj.Parameters)
+	result["parameters"], _ = tfresource.ConvertMapOfStringSlicesToMapOfStrings(obj.Parameters)
 
 	if obj.Path != nil {
 		result["path"] = string(*obj.Path)
@@ -548,7 +546,7 @@ func requestToMap(obj *oci_audit.Request) map[string]interface{} {
 func responseToMap(obj *oci_audit.Response) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["headers"], _ = utils.ConvertMapOfStringSlicesToMapOfStrings(obj.Headers)
+	result["headers"], _ = tfresource.ConvertMapOfStringSlicesToMapOfStrings(obj.Headers)
 
 	if obj.Message != nil {
 		result["message"] = string(*obj.Message)

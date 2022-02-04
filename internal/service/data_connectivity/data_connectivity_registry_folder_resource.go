@@ -11,11 +11,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_data_connectivity "github.com/oracle/oci-go-sdk/v59/dataconnectivity"
 )
@@ -231,13 +229,13 @@ func DataConnectivityRegistryFolderResource() *schema.Resource {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+													DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 												},
 												"time_updated": {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+													DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 												},
 												"updated_by": {
 													Type:     schema.TypeString,
@@ -421,13 +419,13 @@ func DataConnectivityRegistryFolderResource() *schema.Resource {
 																Type:             schema.TypeString,
 																Optional:         true,
 																Computed:         true,
-																DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+																DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 															},
 															"time_updated": {
 																Type:             schema.TypeString,
 																Optional:         true,
 																Computed:         true,
-																DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+																DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 															},
 															"updated_by": {
 																Type:     schema.TypeString,
@@ -549,13 +547,13 @@ func DataConnectivityRegistryFolderResource() *schema.Resource {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+													DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 												},
 												"time_updated": {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+													DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 												},
 												"updated_by_user_id": {
 													Type:     schema.TypeString,
@@ -692,13 +690,13 @@ func DataConnectivityRegistryFolderResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									"time_updated": {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									"updated_by": {
 										Type:     schema.TypeString,
@@ -1030,13 +1028,13 @@ func DataConnectivityRegistryFolderResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									"time_updated": {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									"updated_by_user_id": {
 										Type:     schema.TypeString,

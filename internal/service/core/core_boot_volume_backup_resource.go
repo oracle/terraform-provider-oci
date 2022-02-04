@@ -11,7 +11,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
@@ -297,7 +296,7 @@ func (s *CoreBootVolumeBackupResourceCrud) createBootVolumeBackup() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {
@@ -429,7 +428,7 @@ func (s *CoreBootVolumeBackupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		hasAttributeSet = true
 	}
 	if !hasAttributeSet {

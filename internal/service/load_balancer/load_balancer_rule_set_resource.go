@@ -12,8 +12,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -66,7 +64,7 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
-							Set:      utils.LiteralTypeHashCodeForSets,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -804,7 +802,7 @@ func RuleToMap(obj oci_load_balancer.Rule, datasource bool) map[string]interface
 				for _, item := range v.AllowedMethods {
 					allowedMethods = append(allowedMethods, item)
 				}
-				result["allowed_methods"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, allowedMethods)
+				result["allowed_methods"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, allowedMethods)
 			}
 		}
 

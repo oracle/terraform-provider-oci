@@ -59,7 +59,7 @@ func TokenizeWithHttpReplay(defaultString string) (string, TokenFn) {
 	if httpreplay.ModeRecordReplay() {
 		ts = defaultString
 	} else {
-		ts = utils.Timestamp()
+		ts = tf_resource.Timestamp()
 	}
 	return ts, func(template string, values map[string]string) string {
 		if values == nil {

@@ -19,7 +19,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func GenericArtifactsContentArtifactByPathResource() *schema.Resource {
@@ -66,8 +65,8 @@ func GenericArtifactsContentArtifactByPathResource() *schema.Resource {
 				Optional:      true,
 				ForceNew:      true,
 				ConflictsWith: []string{"content"},
-				StateFunc:     utils.GetSourceFileState,
-				ValidateFunc:  utils.ValidateSourceValue,
+				StateFunc:     tfresource.GetSourceFileState,
+				ValidateFunc:  tfresource.ValidateSourceValue,
 			},
 
 			// Computed
@@ -253,7 +252,7 @@ func (s *GenericArtifactsContentArtifactByPathResourceCrud) createArtifactBySour
 		return fmt.Errorf("the specified source is not available: %q", err)
 	}
 
-	defer utils.SafeClose(sourceFile, &err)
+	defer tfresource.SafeClose(sourceFile, &err)
 
 	request.GenericArtifactContentBody = sourceFile
 

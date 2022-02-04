@@ -12,8 +12,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -70,8 +68,8 @@ func LoadBalancerListenerResource() *schema.Resource {
 						"idle_timeout_in_seconds": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateFunc:     utils.ValidateInt64TypeString,
-							DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 
 						// Optional

@@ -8,8 +8,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -80,7 +78,7 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 			"network_security_group_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -301,7 +299,7 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ipMode, ok := s.D.GetOkExists("ip_mode"); ok {
@@ -477,7 +475,7 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -584,7 +582,7 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 	for _, item := range s.Res.NetworkSecurityGroupIds {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
-	s.D.Set("network_security_group_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
+	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
 
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape", *s.Res.ShapeName)
