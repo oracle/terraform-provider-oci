@@ -179,15 +179,13 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
         display_name        = "TestCreateVolumeDetails-1"
         availability_domain = data.oci_identity_availability_domain.ad.name
         size_in_gbs         = 50
-        vpus_per_gb         = 2
+        vpus_per_gb         = 20 // min vpus
       }
 
       attach_details {
         type                                = "paravirtualized"
         display_name                        = "TestAttachVolumeDetails-1"
         is_read_only                        = true
-        device                              = "TestDeviceName-1"
-        is_pv_encryption_in_transit_enabled = true
         is_shareable                        = true
       }
     }
@@ -198,15 +196,13 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
         display_name        = "TestCreateVolumeDetails-2"
         availability_domain = data.oci_identity_availability_domain.ad.name
         size_in_gbs         = 50
-        vpus_per_gb         = 2
+        vpus_per_gb         = 20 // min vpus
       }
 
       attach_details {
         type                                = "paravirtualized"
         display_name                        = "TestAttachVolumeDetails-2"
         is_read_only                        = true
-        device                              = "TestDeviceName-2"
-        is_pv_encryption_in_transit_enabled = true
         is_shareable                        = true
       }
     }
@@ -327,7 +323,6 @@ data "oci_core_instance_pools" "test_instance_pools_datasource" {
 data "oci_core_instance_pool_instances" "test_instance_pool_instances_datasource" {
   compartment_id   = var.compartment_ocid
   instance_pool_id = oci_core_instance_pool.test_instance_pool.id
-  display_name     = "TestInstancePool"
 }
 
 # Usage of singular instance datasources to show the public_ips, private_ips, and hostname_labels for the instances in the pool
