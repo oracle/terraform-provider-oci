@@ -10,7 +10,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
@@ -127,12 +126,12 @@ func MonitoringAlarmResource() *schema.Resource {
 						"time_suppress_from": {
 							Type:             schema.TypeString,
 							Required:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 						"time_suppress_until": {
 							Type:             schema.TypeString,
 							Required:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 
 						// Optional
@@ -270,7 +269,7 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -417,7 +416,7 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {

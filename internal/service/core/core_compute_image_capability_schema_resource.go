@@ -12,7 +12,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	oci_core "github.com/oracle/oci-go-sdk/v59/core"
 )
@@ -46,7 +45,7 @@ func CoreComputeImageCapabilitySchemaResource() *schema.Resource {
 			"schema_data": {
 				Type:             schema.TypeMap,
 				Required:         true,
-				DiffSuppressFunc: utils.JsonStringDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
 
@@ -154,7 +153,7 @@ func (s *CoreComputeImageCapabilitySchemaResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if imageId, ok := s.D.GetOkExists("image_id"); ok {
@@ -232,7 +231,7 @@ func (s *CoreComputeImageCapabilitySchemaResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if schemaData, ok := s.D.GetOkExists("schema_data"); ok {

@@ -14,7 +14,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func OptimizerResourceActionResource() *schema.Resource {
@@ -44,7 +43,7 @@ func OptimizerResourceActionResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			// Computed
 			"action": {

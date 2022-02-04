@@ -12,7 +12,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -1379,7 +1378,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicCreate
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateBuildPipelineStageDetails = details
 	case strings.ToLower("DELIVER_ARTIFACT"):
@@ -1424,7 +1423,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicCreate
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateBuildPipelineStageDetails = details
 	case strings.ToLower("TRIGGER_DEPLOYMENT_PIPELINE"):
@@ -1467,7 +1466,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicCreate
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateBuildPipelineStageDetails = details
 	case strings.ToLower("WAIT"):
@@ -1512,7 +1511,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicCreate
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateBuildPipelineStageDetails = details
 	default:
@@ -1586,7 +1585,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicUpdate
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateBuildPipelineStageDetails = details
 	case strings.ToLower("DELIVER_ARTIFACT"):
@@ -1629,7 +1628,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicUpdate
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateBuildPipelineStageDetails = details
 	case strings.ToLower("TRIGGER_DEPLOYMENT_PIPELINE"):
@@ -1670,7 +1669,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicUpdate
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateBuildPipelineStageDetails = details
 	case strings.ToLower("WAIT"):
@@ -1713,7 +1712,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicUpdate
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateBuildPipelineStageDetails = details
 	default:

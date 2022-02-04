@@ -20,7 +20,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func ApigatewayGatewayResource() *schema.Resource {
@@ -111,7 +110,7 @@ func ApigatewayGatewayResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -145,8 +144,8 @@ func ApigatewayGatewayResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ValidateFunc:     utils.ValidateInt64TypeString,
-							DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 						"connect_timeout_in_ms": {
 							Type:     schema.TypeInt,
@@ -365,7 +364,7 @@ func (s *ApigatewayGatewayResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
@@ -601,7 +600,7 @@ func (s *ApigatewayGatewayResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -708,7 +707,7 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 	for _, item := range s.Res.NetworkSecurityGroupIds {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
-	s.D.Set("network_security_group_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
+	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
 
 	if s.Res.ResponseCacheDetails != nil {
 		responseCacheDetailsArray := []interface{}{}
@@ -827,7 +826,7 @@ func GatewaySummaryToMap(obj oci_apigateway.GatewaySummary, datasource bool) map
 	if datasource {
 		result["network_security_group_ids"] = networkSecurityGroupIds
 	} else {
-		result["network_security_group_ids"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, networkSecurityGroupIds)
+		result["network_security_group_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds)
 	}
 
 	result["state"] = string(obj.LifecycleState)

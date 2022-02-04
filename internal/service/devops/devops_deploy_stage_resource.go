@@ -13,7 +13,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -320,8 +319,8 @@ func DevopsDeployStageResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateFunc:     utils.ValidateInt64TypeString,
-				DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 			},
 			"namespace": {
 				Type:     schema.TypeString,
@@ -2007,13 +2006,13 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeployStageDetails = details
 	case strings.ToLower("DEPLOY_FUNCTION"):
 		details := oci_devops.CreateFunctionDeployStageDetails{}
 		if config, ok := s.D.GetOkExists("config"); ok {
-			details.Config = utils.ObjectMapToStringMap(config.(map[string]interface{}))
+			details.Config = tfresource.ObjectMapToStringMap(config.(map[string]interface{}))
 		}
 		if dockerImageDeployArtifactId, ok := s.D.GetOkExists("docker_image_deploy_artifact_id"); ok {
 			tmp := dockerImageDeployArtifactId.(string)
@@ -2065,7 +2064,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeployStageDetails = details
 	case strings.ToLower("INVOKE_FUNCTION"):
@@ -2116,7 +2115,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeployStageDetails = details
 	case strings.ToLower("LOAD_BALANCER_TRAFFIC_SHIFT"):
@@ -2204,7 +2203,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeployStageDetails = details
 	case strings.ToLower("MANUAL_APPROVAL"):
@@ -2249,7 +2248,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeployStageDetails = details
 	case strings.ToLower("OKE_DEPLOYMENT"):
@@ -2314,7 +2313,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeployStageDetails = details
 	case strings.ToLower("WAIT"):
@@ -2359,7 +2358,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeployStageDetails = details
 	default:
@@ -2468,13 +2467,13 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployStageDetails = details
 	case strings.ToLower("DEPLOY_FUNCTION"):
 		details := oci_devops.UpdateFunctionDeployStageDetails{}
 		if config, ok := s.D.GetOkExists("config"); ok {
-			details.Config = utils.ObjectMapToStringMap(config.(map[string]interface{}))
+			details.Config = tfresource.ObjectMapToStringMap(config.(map[string]interface{}))
 		}
 		if dockerImageDeployArtifactId, ok := s.D.GetOkExists("docker_image_deploy_artifact_id"); ok {
 			tmp := dockerImageDeployArtifactId.(string)
@@ -2524,7 +2523,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployStageDetails = details
 	case strings.ToLower("INVOKE_FUNCTION"):
@@ -2573,7 +2572,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployStageDetails = details
 	case strings.ToLower("LOAD_BALANCER_TRAFFIC_SHIFT"):
@@ -2659,7 +2658,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployStageDetails = details
 	case strings.ToLower("MANUAL_APPROVAL"):
@@ -2702,7 +2701,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployStageDetails = details
 	case strings.ToLower("OKE_DEPLOYMENT"):
@@ -2765,7 +2764,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployStageDetails = details
 	case strings.ToLower("WAIT"):
@@ -2808,7 +2807,7 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployStageDetails = details
 	default:

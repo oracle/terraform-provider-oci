@@ -14,7 +14,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
@@ -66,7 +65,7 @@ func FunctionsInvokeFunctionResource() *schema.Resource {
 				Type:          schema.TypeString,
 				Optional:      true,
 				ForceNew:      true,
-				StateFunc:     utils.GetSourceFileState,
+				StateFunc:     tfresource.GetSourceFileState,
 				ConflictsWith: []string{"invoke_function_body", "invoke_function_body_base64_encoded"},
 				ValidateFunc:  validateFunctionSourceValue,
 			},
@@ -149,7 +148,7 @@ type FunctionsInvokeFunctionResourceCrud struct {
 }
 
 func (s *FunctionsInvokeFunctionResourceCrud) ID() string {
-	return utils.Timestamp()
+	return tfresource.Timestamp()
 }
 
 func (s *FunctionsInvokeFunctionResourceCrud) Create() error {
@@ -174,7 +173,7 @@ func (s *FunctionsInvokeFunctionResourceCrud) Create() error {
 		if err != nil {
 			return err
 		}
-		defer utils.SafeClose(sourceFile, &err)
+		defer tfresource.SafeClose(sourceFile, &err)
 		request.InvokeFunctionBody = ioutil.NopCloser(sourceFile)
 	}
 

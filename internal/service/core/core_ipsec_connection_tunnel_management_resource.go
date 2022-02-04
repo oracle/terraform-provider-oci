@@ -7,8 +7,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -267,7 +265,7 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Type:         schema.TypeString,
 				Optional:     true,
 				Computed:     true,
-				ValidateFunc: utils.ValidateNotEmptyString(),
+				ValidateFunc: tfresource.ValidateNotEmptyString(),
 			},
 			// Computed
 			"compartment_id": {

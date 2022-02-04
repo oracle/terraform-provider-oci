@@ -6,8 +6,6 @@ package mysql
 import (
 	"context"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
 
@@ -176,8 +174,8 @@ func MysqlMysqlConfigurationsDataSource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										ValidateFunc:     utils.ValidateInt64TypeString,
-										DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+										ValidateFunc:     tfresource.ValidateInt64TypeString,
+										DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 									},
 									"innodb_ft_enable_stopword": {
 										Type:     schema.TypeBool,

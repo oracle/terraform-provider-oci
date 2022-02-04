@@ -12,7 +12,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -75,7 +74,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
-				StateFunc: utils.GetMd5Hash,
+				StateFunc: tfresource.GetMd5Hash,
 			},
 			"license_type": {
 				Type:     schema.TypeString,
@@ -384,7 +383,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if idcsAccessToken, ok := s.D.GetOkExists("idcs_access_token"); ok {
@@ -606,7 +605,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseType, ok := s.D.GetOkExists("license_type"); ok {

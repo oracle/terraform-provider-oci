@@ -6,11 +6,10 @@ package kms
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"fmt"
 
@@ -128,7 +127,7 @@ func (s *KmsEncryptedDataResourceCrud) Create() error {
 	request := oci_kms.EncryptRequest{}
 
 	if associatedData, ok := s.D.GetOkExists("associated_data"); ok {
-		request.AssociatedData = utils.ObjectMapToStringMap(associatedData.(map[string]interface{}))
+		request.AssociatedData = tfresource.ObjectMapToStringMap(associatedData.(map[string]interface{}))
 	}
 
 	if encryptionAlgorithm, ok := s.D.GetOkExists("encryption_algorithm"); ok {
@@ -146,7 +145,7 @@ func (s *KmsEncryptedDataResourceCrud) Create() error {
 	}
 
 	if loggingContext, ok := s.D.GetOkExists("logging_context"); ok {
-		request.LoggingContext = utils.ObjectMapToStringMap(loggingContext.(map[string]interface{}))
+		request.LoggingContext = tfresource.ObjectMapToStringMap(loggingContext.(map[string]interface{}))
 	}
 
 	if plaintext, ok := s.D.GetOkExists("plaintext"); ok {

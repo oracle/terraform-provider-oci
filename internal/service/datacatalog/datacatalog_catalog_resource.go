@@ -11,7 +11,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -42,7 +41,7 @@ func DatacatalogCatalogResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -189,7 +188,7 @@ func (s *DatacatalogCatalogResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
@@ -432,7 +431,7 @@ func (s *DatacatalogCatalogResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
@@ -489,7 +488,7 @@ func (s *DatacatalogCatalogResourceCrud) SetData() error {
 	for _, item := range s.Res.AttachedCatalogPrivateEndpoints {
 		attachedCatalogPrivateEndpoints = append(attachedCatalogPrivateEndpoints, item)
 	}
-	s.D.Set("attached_catalog_private_endpoints", schema.NewSet(utils.LiteralTypeHashCodeForSets, attachedCatalogPrivateEndpoints))
+	s.D.Set("attached_catalog_private_endpoints", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, attachedCatalogPrivateEndpoints))
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

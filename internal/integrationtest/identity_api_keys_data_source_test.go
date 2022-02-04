@@ -7,10 +7,9 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -45,7 +44,7 @@ func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	resource "oci_identity_api_key" "u" {
 		user_id = "${oci_identity_user.t.id}"
 		key_value = "${var.api_key_update_value}"
-	}`, map[string]string{"userName": "user_" + utils.Timestamp()})
+	}`, map[string]string{"userName": "user_" + tfresource.Timestamp()})
 	s.ResourceName = "data.oci_identity_api_keys.t"
 }
 

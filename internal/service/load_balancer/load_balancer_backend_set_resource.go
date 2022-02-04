@@ -13,8 +13,6 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
@@ -132,7 +130,7 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 							Type:         schema.TypeString,
 							Optional:     true,
 							Computed:     true,
-							ValidateFunc: utils.ValidateNotEmptyString(),
+							ValidateFunc: tfresource.ValidateNotEmptyString(),
 						},
 						"is_http_only": {
 							Type:     schema.TypeBool,

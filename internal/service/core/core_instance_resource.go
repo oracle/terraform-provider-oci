@@ -17,7 +17,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -211,7 +210,7 @@ func CoreInstanceResource() *schema.Resource {
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
-							Set:      utils.LiteralTypeHashCodeForSets,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -265,7 +264,7 @@ func CoreInstanceResource() *schema.Resource {
 			"extended_metadata": {
 				Type:             schema.TypeMap,
 				Optional:         true,
-				DiffSuppressFunc: utils.JsonStringDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
 			"fault_domain": {
@@ -581,8 +580,8 @@ func CoreInstanceResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ValidateFunc:     utils.ValidateInt64TypeString,
-							DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
@@ -655,8 +654,8 @@ func CoreInstanceResource() *schema.Resource {
 		// Updates of 'ssh_authorized_keys' and 'user_data' in Instance 'metadata' should result in Force New
 		CustomizeDiff: customdiff.All(
 			customdiff.ForceNewIfChange("metadata", func(old, new, meta interface{}) bool {
-				oldMetadataMap := utils.ObjectMapToStringMap(old.(map[string]interface{}))
-				newMetadataMap := utils.ObjectMapToStringMap(new.(map[string]interface{}))
+				oldMetadataMap := tfresource.ObjectMapToStringMap(old.(map[string]interface{}))
+				newMetadataMap := tfresource.ObjectMapToStringMap(new.(map[string]interface{}))
 				return (oldMetadataMap["ssh_authorized_keys"] != newMetadataMap["ssh_authorized_keys"]) || (oldMetadataMap["user_data"] != newMetadataMap["user_data"])
 			}),
 		),
@@ -902,7 +901,7 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok {
@@ -948,7 +947,7 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
-		request.Metadata = utils.ObjectMapToStringMap(metadata.(map[string]interface{}))
+		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
 	if platformConfig, ok := s.D.GetOkExists("platform_config"); ok {
@@ -1120,7 +1119,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -1138,7 +1137,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
-		request.Metadata = utils.ObjectMapToStringMap(metadata.(map[string]interface{}))
+		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -1450,7 +1449,7 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
@@ -1533,7 +1532,7 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateIp != nil {
@@ -1598,7 +1597,7 @@ func (s *CoreInstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok && hostnameLabel != "" {

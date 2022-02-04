@@ -8,7 +8,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
@@ -73,7 +72,7 @@ type WaasPurgeCacheResourceCrud struct {
 }
 
 func (s *WaasPurgeCacheResourceCrud) ID() string {
-	return utils.Timestamp()
+	return tfresource.Timestamp()
 }
 
 func (s *WaasPurgeCacheResourceCrud) Create() error {

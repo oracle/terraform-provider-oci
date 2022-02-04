@@ -19,7 +19,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func ServiceCatalogPrivateApplicationResource() *schema.Resource {
@@ -246,7 +245,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if logoFileBase64Encoded, ok := s.D.GetOkExists("logo_file_base64encoded"); ok {
@@ -453,7 +452,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if logoFileBase64Encoded, ok := s.D.GetOkExists("logo_file_base64encoded"); ok {

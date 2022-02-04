@@ -239,7 +239,7 @@ func testParentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 				ForceNew: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 			},
 			"a_nested": {
 				Type:     schema.TypeList,
