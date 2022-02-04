@@ -10,7 +10,9 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DetectorRecipeDetectorRule Detector Recipe Rule
@@ -62,6 +64,30 @@ func (m DetectorRecipeDetectorRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DetectorRecipeDetectorRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDetectorEnumEnum[string(m.Detector)]; !ok && m.Detector != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Detector: %s. Supported values are: %s.", m.Detector, strings.Join(GetDetectorEnumEnumStringValues(), ",")))
+	}
+
+	for _, val := range m.ManagedListTypes {
+		if _, ok := mappingDetectorRecipeDetectorRuleManagedListTypesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedListTypes: %s. Supported values are: %s.", val, strings.Join(GetDetectorRecipeDetectorRuleManagedListTypesEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DetectorRecipeDetectorRuleManagedListTypesEnum Enum with underlying type: string
 type DetectorRecipeDetectorRuleManagedListTypesEnum string
 
@@ -81,7 +107,7 @@ const (
 	DetectorRecipeDetectorRuleManagedListTypesGeneric      DetectorRecipeDetectorRuleManagedListTypesEnum = "GENERIC"
 )
 
-var mappingDetectorRecipeDetectorRuleManagedListTypes = map[string]DetectorRecipeDetectorRuleManagedListTypesEnum{
+var mappingDetectorRecipeDetectorRuleManagedListTypesEnum = map[string]DetectorRecipeDetectorRuleManagedListTypesEnum{
 	"CIDR_BLOCK":    DetectorRecipeDetectorRuleManagedListTypesCidrBlock,
 	"USERS":         DetectorRecipeDetectorRuleManagedListTypesUsers,
 	"GROUPS":        DetectorRecipeDetectorRuleManagedListTypesGroups,
@@ -99,8 +125,26 @@ var mappingDetectorRecipeDetectorRuleManagedListTypes = map[string]DetectorRecip
 // GetDetectorRecipeDetectorRuleManagedListTypesEnumValues Enumerates the set of values for DetectorRecipeDetectorRuleManagedListTypesEnum
 func GetDetectorRecipeDetectorRuleManagedListTypesEnumValues() []DetectorRecipeDetectorRuleManagedListTypesEnum {
 	values := make([]DetectorRecipeDetectorRuleManagedListTypesEnum, 0)
-	for _, v := range mappingDetectorRecipeDetectorRuleManagedListTypes {
+	for _, v := range mappingDetectorRecipeDetectorRuleManagedListTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDetectorRecipeDetectorRuleManagedListTypesEnumStringValues Enumerates the set of values in String for DetectorRecipeDetectorRuleManagedListTypesEnum
+func GetDetectorRecipeDetectorRuleManagedListTypesEnumStringValues() []string {
+	return []string{
+		"CIDR_BLOCK",
+		"USERS",
+		"GROUPS",
+		"IPV4ADDRESS",
+		"IPV6ADDRESS",
+		"RESOURCE_OCID",
+		"REGION",
+		"COUNTRY",
+		"STATE",
+		"CITY",
+		"TAGS",
+		"GENERIC",
+	}
 }

@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetAwrDbReportRequest wrapper for the GetAwrDbReport operation
@@ -72,6 +74,10 @@ func (request GetAwrDbReportRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetAwrDbReportRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +91,23 @@ func (request GetAwrDbReportRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetAwrDbReportRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetAwrDbReportRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetAwrDbReportReportTypeEnum[string(request.ReportType)]; !ok && request.ReportType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReportType: %s. Supported values are: %s.", request.ReportType, strings.Join(GetGetAwrDbReportReportTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingGetAwrDbReportReportFormatEnum[string(request.ReportFormat)]; !ok && request.ReportFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReportFormat: %s. Supported values are: %s.", request.ReportFormat, strings.Join(GetGetAwrDbReportReportFormatEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetAwrDbReportResponse wrapper for the GetAwrDbReport operation
@@ -119,7 +142,7 @@ const (
 	GetAwrDbReportReportTypeAsh GetAwrDbReportReportTypeEnum = "ASH"
 )
 
-var mappingGetAwrDbReportReportType = map[string]GetAwrDbReportReportTypeEnum{
+var mappingGetAwrDbReportReportTypeEnum = map[string]GetAwrDbReportReportTypeEnum{
 	"AWR": GetAwrDbReportReportTypeAwr,
 	"ASH": GetAwrDbReportReportTypeAsh,
 }
@@ -127,10 +150,18 @@ var mappingGetAwrDbReportReportType = map[string]GetAwrDbReportReportTypeEnum{
 // GetGetAwrDbReportReportTypeEnumValues Enumerates the set of values for GetAwrDbReportReportTypeEnum
 func GetGetAwrDbReportReportTypeEnumValues() []GetAwrDbReportReportTypeEnum {
 	values := make([]GetAwrDbReportReportTypeEnum, 0)
-	for _, v := range mappingGetAwrDbReportReportType {
+	for _, v := range mappingGetAwrDbReportReportTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetAwrDbReportReportTypeEnumStringValues Enumerates the set of values in String for GetAwrDbReportReportTypeEnum
+func GetGetAwrDbReportReportTypeEnumStringValues() []string {
+	return []string{
+		"AWR",
+		"ASH",
+	}
 }
 
 // GetAwrDbReportReportFormatEnum Enum with underlying type: string
@@ -142,7 +173,7 @@ const (
 	GetAwrDbReportReportFormatText GetAwrDbReportReportFormatEnum = "TEXT"
 )
 
-var mappingGetAwrDbReportReportFormat = map[string]GetAwrDbReportReportFormatEnum{
+var mappingGetAwrDbReportReportFormatEnum = map[string]GetAwrDbReportReportFormatEnum{
 	"HTML": GetAwrDbReportReportFormatHtml,
 	"TEXT": GetAwrDbReportReportFormatText,
 }
@@ -150,8 +181,16 @@ var mappingGetAwrDbReportReportFormat = map[string]GetAwrDbReportReportFormatEnu
 // GetGetAwrDbReportReportFormatEnumValues Enumerates the set of values for GetAwrDbReportReportFormatEnum
 func GetGetAwrDbReportReportFormatEnumValues() []GetAwrDbReportReportFormatEnum {
 	values := make([]GetAwrDbReportReportFormatEnum, 0)
-	for _, v := range mappingGetAwrDbReportReportFormat {
+	for _, v := range mappingGetAwrDbReportReportFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetAwrDbReportReportFormatEnumStringValues Enumerates the set of values in String for GetAwrDbReportReportFormatEnum
+func GetGetAwrDbReportReportFormatEnumStringValues() []string {
+	return []string{
+		"HTML",
+		"TEXT",
+	}
 }

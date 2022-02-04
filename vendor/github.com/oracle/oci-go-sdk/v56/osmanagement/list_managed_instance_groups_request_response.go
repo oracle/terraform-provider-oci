@@ -5,8 +5,10 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListManagedInstanceGroupsRequest wrapper for the ListManagedInstanceGroups operation
@@ -56,6 +58,10 @@ func (request ListManagedInstanceGroupsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListManagedInstanceGroupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,29 @@ func (request ListManagedInstanceGroupsRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListManagedInstanceGroupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListManagedInstanceGroupsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListManagedInstanceGroupsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagedInstanceGroupsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedInstanceGroupsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagedInstanceGroupsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedInstanceGroupsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListManagedInstanceGroupsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedInstanceGroupsOsFamilyEnum[string(request.OsFamily)]; !ok && request.OsFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", request.OsFamily, strings.Join(GetListManagedInstanceGroupsOsFamilyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListManagedInstanceGroupsResponse wrapper for the ListManagedInstanceGroups operation
@@ -109,7 +138,7 @@ const (
 	ListManagedInstanceGroupsSortOrderDesc ListManagedInstanceGroupsSortOrderEnum = "DESC"
 )
 
-var mappingListManagedInstanceGroupsSortOrder = map[string]ListManagedInstanceGroupsSortOrderEnum{
+var mappingListManagedInstanceGroupsSortOrderEnum = map[string]ListManagedInstanceGroupsSortOrderEnum{
 	"ASC":  ListManagedInstanceGroupsSortOrderAsc,
 	"DESC": ListManagedInstanceGroupsSortOrderDesc,
 }
@@ -117,10 +146,18 @@ var mappingListManagedInstanceGroupsSortOrder = map[string]ListManagedInstanceGr
 // GetListManagedInstanceGroupsSortOrderEnumValues Enumerates the set of values for ListManagedInstanceGroupsSortOrderEnum
 func GetListManagedInstanceGroupsSortOrderEnumValues() []ListManagedInstanceGroupsSortOrderEnum {
 	values := make([]ListManagedInstanceGroupsSortOrderEnum, 0)
-	for _, v := range mappingListManagedInstanceGroupsSortOrder {
+	for _, v := range mappingListManagedInstanceGroupsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedInstanceGroupsSortOrderEnumStringValues Enumerates the set of values in String for ListManagedInstanceGroupsSortOrderEnum
+func GetListManagedInstanceGroupsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListManagedInstanceGroupsSortByEnum Enum with underlying type: string
@@ -132,7 +169,7 @@ const (
 	ListManagedInstanceGroupsSortByDisplayname ListManagedInstanceGroupsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListManagedInstanceGroupsSortBy = map[string]ListManagedInstanceGroupsSortByEnum{
+var mappingListManagedInstanceGroupsSortByEnum = map[string]ListManagedInstanceGroupsSortByEnum{
 	"TIMECREATED": ListManagedInstanceGroupsSortByTimecreated,
 	"DISPLAYNAME": ListManagedInstanceGroupsSortByDisplayname,
 }
@@ -140,10 +177,18 @@ var mappingListManagedInstanceGroupsSortBy = map[string]ListManagedInstanceGroup
 // GetListManagedInstanceGroupsSortByEnumValues Enumerates the set of values for ListManagedInstanceGroupsSortByEnum
 func GetListManagedInstanceGroupsSortByEnumValues() []ListManagedInstanceGroupsSortByEnum {
 	values := make([]ListManagedInstanceGroupsSortByEnum, 0)
-	for _, v := range mappingListManagedInstanceGroupsSortBy {
+	for _, v := range mappingListManagedInstanceGroupsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedInstanceGroupsSortByEnumStringValues Enumerates the set of values in String for ListManagedInstanceGroupsSortByEnum
+func GetListManagedInstanceGroupsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListManagedInstanceGroupsLifecycleStateEnum Enum with underlying type: string
@@ -159,7 +204,7 @@ const (
 	ListManagedInstanceGroupsLifecycleStateFailed   ListManagedInstanceGroupsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListManagedInstanceGroupsLifecycleState = map[string]ListManagedInstanceGroupsLifecycleStateEnum{
+var mappingListManagedInstanceGroupsLifecycleStateEnum = map[string]ListManagedInstanceGroupsLifecycleStateEnum{
 	"CREATING": ListManagedInstanceGroupsLifecycleStateCreating,
 	"UPDATING": ListManagedInstanceGroupsLifecycleStateUpdating,
 	"ACTIVE":   ListManagedInstanceGroupsLifecycleStateActive,
@@ -171,10 +216,22 @@ var mappingListManagedInstanceGroupsLifecycleState = map[string]ListManagedInsta
 // GetListManagedInstanceGroupsLifecycleStateEnumValues Enumerates the set of values for ListManagedInstanceGroupsLifecycleStateEnum
 func GetListManagedInstanceGroupsLifecycleStateEnumValues() []ListManagedInstanceGroupsLifecycleStateEnum {
 	values := make([]ListManagedInstanceGroupsLifecycleStateEnum, 0)
-	for _, v := range mappingListManagedInstanceGroupsLifecycleState {
+	for _, v := range mappingListManagedInstanceGroupsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedInstanceGroupsLifecycleStateEnumStringValues Enumerates the set of values in String for ListManagedInstanceGroupsLifecycleStateEnum
+func GetListManagedInstanceGroupsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListManagedInstanceGroupsOsFamilyEnum Enum with underlying type: string
@@ -187,7 +244,7 @@ const (
 	ListManagedInstanceGroupsOsFamilyAll     ListManagedInstanceGroupsOsFamilyEnum = "ALL"
 )
 
-var mappingListManagedInstanceGroupsOsFamily = map[string]ListManagedInstanceGroupsOsFamilyEnum{
+var mappingListManagedInstanceGroupsOsFamilyEnum = map[string]ListManagedInstanceGroupsOsFamilyEnum{
 	"LINUX":   ListManagedInstanceGroupsOsFamilyLinux,
 	"WINDOWS": ListManagedInstanceGroupsOsFamilyWindows,
 	"ALL":     ListManagedInstanceGroupsOsFamilyAll,
@@ -196,8 +253,17 @@ var mappingListManagedInstanceGroupsOsFamily = map[string]ListManagedInstanceGro
 // GetListManagedInstanceGroupsOsFamilyEnumValues Enumerates the set of values for ListManagedInstanceGroupsOsFamilyEnum
 func GetListManagedInstanceGroupsOsFamilyEnumValues() []ListManagedInstanceGroupsOsFamilyEnum {
 	values := make([]ListManagedInstanceGroupsOsFamilyEnum, 0)
-	for _, v := range mappingListManagedInstanceGroupsOsFamily {
+	for _, v := range mappingListManagedInstanceGroupsOsFamilyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedInstanceGroupsOsFamilyEnumStringValues Enumerates the set of values in String for ListManagedInstanceGroupsOsFamilyEnum
+func GetListManagedInstanceGroupsOsFamilyEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"WINDOWS",
+		"ALL",
+	}
 }

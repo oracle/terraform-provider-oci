@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ResponseCacheStorePolicy Base policy for how a response from a backend is cached in the Response Cache.
@@ -63,6 +65,18 @@ func (m responsecachestorepolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m responsecachestorepolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ResponseCacheStorePolicyTypeEnum Enum with underlying type: string
 type ResponseCacheStorePolicyTypeEnum string
 
@@ -71,15 +85,22 @@ const (
 	ResponseCacheStorePolicyTypeFixedTtlStorePolicy ResponseCacheStorePolicyTypeEnum = "FIXED_TTL_STORE_POLICY"
 )
 
-var mappingResponseCacheStorePolicyType = map[string]ResponseCacheStorePolicyTypeEnum{
+var mappingResponseCacheStorePolicyTypeEnum = map[string]ResponseCacheStorePolicyTypeEnum{
 	"FIXED_TTL_STORE_POLICY": ResponseCacheStorePolicyTypeFixedTtlStorePolicy,
 }
 
 // GetResponseCacheStorePolicyTypeEnumValues Enumerates the set of values for ResponseCacheStorePolicyTypeEnum
 func GetResponseCacheStorePolicyTypeEnumValues() []ResponseCacheStorePolicyTypeEnum {
 	values := make([]ResponseCacheStorePolicyTypeEnum, 0)
-	for _, v := range mappingResponseCacheStorePolicyType {
+	for _, v := range mappingResponseCacheStorePolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResponseCacheStorePolicyTypeEnumStringValues Enumerates the set of values in String for ResponseCacheStorePolicyTypeEnum
+func GetResponseCacheStorePolicyTypeEnumStringValues() []string {
+	return []string{
+		"FIXED_TTL_STORE_POLICY",
+	}
 }

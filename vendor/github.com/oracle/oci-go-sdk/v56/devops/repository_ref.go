@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // RepositoryRef Reference object with name and commit ID.
@@ -95,6 +97,18 @@ func (m repositoryref) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m repositoryref) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RepositoryRefRefTypeEnum Enum with underlying type: string
 type RepositoryRefRefTypeEnum string
 
@@ -104,7 +118,7 @@ const (
 	RepositoryRefRefTypeTag    RepositoryRefRefTypeEnum = "TAG"
 )
 
-var mappingRepositoryRefRefType = map[string]RepositoryRefRefTypeEnum{
+var mappingRepositoryRefRefTypeEnum = map[string]RepositoryRefRefTypeEnum{
 	"BRANCH": RepositoryRefRefTypeBranch,
 	"TAG":    RepositoryRefRefTypeTag,
 }
@@ -112,8 +126,16 @@ var mappingRepositoryRefRefType = map[string]RepositoryRefRefTypeEnum{
 // GetRepositoryRefRefTypeEnumValues Enumerates the set of values for RepositoryRefRefTypeEnum
 func GetRepositoryRefRefTypeEnumValues() []RepositoryRefRefTypeEnum {
 	values := make([]RepositoryRefRefTypeEnum, 0)
-	for _, v := range mappingRepositoryRefRefType {
+	for _, v := range mappingRepositoryRefRefTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRepositoryRefRefTypeEnumStringValues Enumerates the set of values in String for RepositoryRefRefTypeEnum
+func GetRepositoryRefRefTypeEnumStringValues() []string {
+	return []string{
+		"BRANCH",
+		"TAG",
+	}
 }

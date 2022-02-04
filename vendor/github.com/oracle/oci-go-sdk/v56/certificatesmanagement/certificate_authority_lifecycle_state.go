@@ -25,7 +25,7 @@ const (
 	CertificateAuthorityLifecycleStateFailed             CertificateAuthorityLifecycleStateEnum = "FAILED"
 )
 
-var mappingCertificateAuthorityLifecycleState = map[string]CertificateAuthorityLifecycleStateEnum{
+var mappingCertificateAuthorityLifecycleStateEnum = map[string]CertificateAuthorityLifecycleStateEnum{
 	"CREATING":            CertificateAuthorityLifecycleStateCreating,
 	"ACTIVE":              CertificateAuthorityLifecycleStateActive,
 	"UPDATING":            CertificateAuthorityLifecycleStateUpdating,
@@ -40,8 +40,23 @@ var mappingCertificateAuthorityLifecycleState = map[string]CertificateAuthorityL
 // GetCertificateAuthorityLifecycleStateEnumValues Enumerates the set of values for CertificateAuthorityLifecycleStateEnum
 func GetCertificateAuthorityLifecycleStateEnumValues() []CertificateAuthorityLifecycleStateEnum {
 	values := make([]CertificateAuthorityLifecycleStateEnum, 0)
-	for _, v := range mappingCertificateAuthorityLifecycleState {
+	for _, v := range mappingCertificateAuthorityLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCertificateAuthorityLifecycleStateEnumStringValues Enumerates the set of values in String for CertificateAuthorityLifecycleStateEnum
+func GetCertificateAuthorityLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"SCHEDULING_DELETION",
+		"PENDING_DELETION",
+		"CANCELLING_DELETION",
+		"FAILED",
+	}
 }

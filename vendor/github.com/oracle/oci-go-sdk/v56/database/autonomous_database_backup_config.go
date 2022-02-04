@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutonomousDatabaseBackupConfig Autonomous Database configuration details for storing manual backups (https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/backup-restore.html#GUID-9035DFB8-4702-4CEB-8281-C2A303820809) in the Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) service.
@@ -27,6 +29,21 @@ func (m AutonomousDatabaseBackupConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDatabaseBackupConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAutonomousDatabaseBackupConfigManualBackupTypeEnum[string(m.ManualBackupType)]; !ok && m.ManualBackupType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManualBackupType: %s. Supported values are: %s.", m.ManualBackupType, strings.Join(GetAutonomousDatabaseBackupConfigManualBackupTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousDatabaseBackupConfigManualBackupTypeEnum Enum with underlying type: string
 type AutonomousDatabaseBackupConfigManualBackupTypeEnum string
 
@@ -36,7 +53,7 @@ const (
 	AutonomousDatabaseBackupConfigManualBackupTypeObjectStore AutonomousDatabaseBackupConfigManualBackupTypeEnum = "OBJECT_STORE"
 )
 
-var mappingAutonomousDatabaseBackupConfigManualBackupType = map[string]AutonomousDatabaseBackupConfigManualBackupTypeEnum{
+var mappingAutonomousDatabaseBackupConfigManualBackupTypeEnum = map[string]AutonomousDatabaseBackupConfigManualBackupTypeEnum{
 	"NONE":         AutonomousDatabaseBackupConfigManualBackupTypeNone,
 	"OBJECT_STORE": AutonomousDatabaseBackupConfigManualBackupTypeObjectStore,
 }
@@ -44,8 +61,16 @@ var mappingAutonomousDatabaseBackupConfigManualBackupType = map[string]Autonomou
 // GetAutonomousDatabaseBackupConfigManualBackupTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupConfigManualBackupTypeEnum
 func GetAutonomousDatabaseBackupConfigManualBackupTypeEnumValues() []AutonomousDatabaseBackupConfigManualBackupTypeEnum {
 	values := make([]AutonomousDatabaseBackupConfigManualBackupTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseBackupConfigManualBackupType {
+	for _, v := range mappingAutonomousDatabaseBackupConfigManualBackupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDatabaseBackupConfigManualBackupTypeEnumStringValues Enumerates the set of values in String for AutonomousDatabaseBackupConfigManualBackupTypeEnum
+func GetAutonomousDatabaseBackupConfigManualBackupTypeEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"OBJECT_STORE",
+	}
 }

@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDetectorRulesRequest wrapper for the ListDetectorRules operation
@@ -55,6 +57,10 @@ func (request ListDetectorRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDetectorRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListDetectorRulesRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDetectorRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDetectorRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDetectorRulesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDetectorRulesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDetectorRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDetectorRulesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDetectorRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDetectorRulesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDetectorRulesResponse wrapper for the ListDetectorRules operation
@@ -112,7 +138,7 @@ const (
 	ListDetectorRulesLifecycleStateFailed   ListDetectorRulesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListDetectorRulesLifecycleState = map[string]ListDetectorRulesLifecycleStateEnum{
+var mappingListDetectorRulesLifecycleStateEnum = map[string]ListDetectorRulesLifecycleStateEnum{
 	"CREATING": ListDetectorRulesLifecycleStateCreating,
 	"UPDATING": ListDetectorRulesLifecycleStateUpdating,
 	"ACTIVE":   ListDetectorRulesLifecycleStateActive,
@@ -125,10 +151,23 @@ var mappingListDetectorRulesLifecycleState = map[string]ListDetectorRulesLifecyc
 // GetListDetectorRulesLifecycleStateEnumValues Enumerates the set of values for ListDetectorRulesLifecycleStateEnum
 func GetListDetectorRulesLifecycleStateEnumValues() []ListDetectorRulesLifecycleStateEnum {
 	values := make([]ListDetectorRulesLifecycleStateEnum, 0)
-	for _, v := range mappingListDetectorRulesLifecycleState {
+	for _, v := range mappingListDetectorRulesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDetectorRulesLifecycleStateEnumStringValues Enumerates the set of values in String for ListDetectorRulesLifecycleStateEnum
+func GetListDetectorRulesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListDetectorRulesSortOrderEnum Enum with underlying type: string
@@ -140,7 +179,7 @@ const (
 	ListDetectorRulesSortOrderDesc ListDetectorRulesSortOrderEnum = "DESC"
 )
 
-var mappingListDetectorRulesSortOrder = map[string]ListDetectorRulesSortOrderEnum{
+var mappingListDetectorRulesSortOrderEnum = map[string]ListDetectorRulesSortOrderEnum{
 	"ASC":  ListDetectorRulesSortOrderAsc,
 	"DESC": ListDetectorRulesSortOrderDesc,
 }
@@ -148,10 +187,18 @@ var mappingListDetectorRulesSortOrder = map[string]ListDetectorRulesSortOrderEnu
 // GetListDetectorRulesSortOrderEnumValues Enumerates the set of values for ListDetectorRulesSortOrderEnum
 func GetListDetectorRulesSortOrderEnumValues() []ListDetectorRulesSortOrderEnum {
 	values := make([]ListDetectorRulesSortOrderEnum, 0)
-	for _, v := range mappingListDetectorRulesSortOrder {
+	for _, v := range mappingListDetectorRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDetectorRulesSortOrderEnumStringValues Enumerates the set of values in String for ListDetectorRulesSortOrderEnum
+func GetListDetectorRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDetectorRulesSortByEnum Enum with underlying type: string
@@ -163,7 +210,7 @@ const (
 	ListDetectorRulesSortByDisplayname ListDetectorRulesSortByEnum = "displayName"
 )
 
-var mappingListDetectorRulesSortBy = map[string]ListDetectorRulesSortByEnum{
+var mappingListDetectorRulesSortByEnum = map[string]ListDetectorRulesSortByEnum{
 	"timeCreated": ListDetectorRulesSortByTimecreated,
 	"displayName": ListDetectorRulesSortByDisplayname,
 }
@@ -171,8 +218,16 @@ var mappingListDetectorRulesSortBy = map[string]ListDetectorRulesSortByEnum{
 // GetListDetectorRulesSortByEnumValues Enumerates the set of values for ListDetectorRulesSortByEnum
 func GetListDetectorRulesSortByEnumValues() []ListDetectorRulesSortByEnum {
 	values := make([]ListDetectorRulesSortByEnum, 0)
-	for _, v := range mappingListDetectorRulesSortBy {
+	for _, v := range mappingListDetectorRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDetectorRulesSortByEnumStringValues Enumerates the set of values in String for ListDetectorRulesSortByEnum
+func GetListDetectorRulesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

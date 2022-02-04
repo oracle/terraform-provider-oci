@@ -19,7 +19,7 @@ const (
 	ScopePrivate ScopeEnum = "PRIVATE"
 )
 
-var mappingScope = map[string]ScopeEnum{
+var mappingScopeEnum = map[string]ScopeEnum{
 	"GLOBAL":  ScopeGlobal,
 	"PRIVATE": ScopePrivate,
 }
@@ -27,8 +27,16 @@ var mappingScope = map[string]ScopeEnum{
 // GetScopeEnumValues Enumerates the set of values for ScopeEnum
 func GetScopeEnumValues() []ScopeEnum {
 	values := make([]ScopeEnum, 0)
-	for _, v := range mappingScope {
+	for _, v := range mappingScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScopeEnumStringValues Enumerates the set of values in String for ScopeEnum
+func GetScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

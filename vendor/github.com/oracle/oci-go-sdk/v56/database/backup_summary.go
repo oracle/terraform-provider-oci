@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BackupSummary A database backup.
@@ -68,6 +70,27 @@ func (m BackupSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BackupSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBackupSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetBackupSummaryTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBackupSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBackupSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBackupSummaryDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetBackupSummaryDatabaseEditionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BackupSummaryTypeEnum Enum with underlying type: string
 type BackupSummaryTypeEnum string
 
@@ -78,7 +101,7 @@ const (
 	BackupSummaryTypeVirtualFull BackupSummaryTypeEnum = "VIRTUAL_FULL"
 )
 
-var mappingBackupSummaryType = map[string]BackupSummaryTypeEnum{
+var mappingBackupSummaryTypeEnum = map[string]BackupSummaryTypeEnum{
 	"INCREMENTAL":  BackupSummaryTypeIncremental,
 	"FULL":         BackupSummaryTypeFull,
 	"VIRTUAL_FULL": BackupSummaryTypeVirtualFull,
@@ -87,10 +110,19 @@ var mappingBackupSummaryType = map[string]BackupSummaryTypeEnum{
 // GetBackupSummaryTypeEnumValues Enumerates the set of values for BackupSummaryTypeEnum
 func GetBackupSummaryTypeEnumValues() []BackupSummaryTypeEnum {
 	values := make([]BackupSummaryTypeEnum, 0)
-	for _, v := range mappingBackupSummaryType {
+	for _, v := range mappingBackupSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupSummaryTypeEnumStringValues Enumerates the set of values in String for BackupSummaryTypeEnum
+func GetBackupSummaryTypeEnumStringValues() []string {
+	return []string{
+		"INCREMENTAL",
+		"FULL",
+		"VIRTUAL_FULL",
+	}
 }
 
 // BackupSummaryLifecycleStateEnum Enum with underlying type: string
@@ -106,7 +138,7 @@ const (
 	BackupSummaryLifecycleStateRestoring BackupSummaryLifecycleStateEnum = "RESTORING"
 )
 
-var mappingBackupSummaryLifecycleState = map[string]BackupSummaryLifecycleStateEnum{
+var mappingBackupSummaryLifecycleStateEnum = map[string]BackupSummaryLifecycleStateEnum{
 	"CREATING":  BackupSummaryLifecycleStateCreating,
 	"ACTIVE":    BackupSummaryLifecycleStateActive,
 	"DELETING":  BackupSummaryLifecycleStateDeleting,
@@ -118,10 +150,22 @@ var mappingBackupSummaryLifecycleState = map[string]BackupSummaryLifecycleStateE
 // GetBackupSummaryLifecycleStateEnumValues Enumerates the set of values for BackupSummaryLifecycleStateEnum
 func GetBackupSummaryLifecycleStateEnumValues() []BackupSummaryLifecycleStateEnum {
 	values := make([]BackupSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingBackupSummaryLifecycleState {
+	for _, v := range mappingBackupSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for BackupSummaryLifecycleStateEnum
+func GetBackupSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"RESTORING",
+	}
 }
 
 // BackupSummaryDatabaseEditionEnum Enum with underlying type: string
@@ -135,7 +179,7 @@ const (
 	BackupSummaryDatabaseEditionEnterpriseEditionExtremePerformance BackupSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 )
 
-var mappingBackupSummaryDatabaseEdition = map[string]BackupSummaryDatabaseEditionEnum{
+var mappingBackupSummaryDatabaseEditionEnum = map[string]BackupSummaryDatabaseEditionEnum{
 	"STANDARD_EDITION":                       BackupSummaryDatabaseEditionStandardEdition,
 	"ENTERPRISE_EDITION":                     BackupSummaryDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    BackupSummaryDatabaseEditionEnterpriseEditionHighPerformance,
@@ -145,8 +189,18 @@ var mappingBackupSummaryDatabaseEdition = map[string]BackupSummaryDatabaseEditio
 // GetBackupSummaryDatabaseEditionEnumValues Enumerates the set of values for BackupSummaryDatabaseEditionEnum
 func GetBackupSummaryDatabaseEditionEnumValues() []BackupSummaryDatabaseEditionEnum {
 	values := make([]BackupSummaryDatabaseEditionEnum, 0)
-	for _, v := range mappingBackupSummaryDatabaseEdition {
+	for _, v := range mappingBackupSummaryDatabaseEditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupSummaryDatabaseEditionEnumStringValues Enumerates the set of values in String for BackupSummaryDatabaseEditionEnum
+func GetBackupSummaryDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+	}
 }

@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateBucketDetails To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
@@ -77,6 +79,30 @@ func (m CreateBucketDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateBucketDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateBucketDetailsPublicAccessTypeEnum[string(m.PublicAccessType)]; !ok && m.PublicAccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PublicAccessType: %s. Supported values are: %s.", m.PublicAccessType, strings.Join(GetCreateBucketDetailsPublicAccessTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateBucketDetailsStorageTierEnum[string(m.StorageTier)]; !ok && m.StorageTier != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageTier: %s. Supported values are: %s.", m.StorageTier, strings.Join(GetCreateBucketDetailsStorageTierEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateBucketDetailsVersioningEnum[string(m.Versioning)]; !ok && m.Versioning != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Versioning: %s. Supported values are: %s.", m.Versioning, strings.Join(GetCreateBucketDetailsVersioningEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBucketAutoTieringEnum[string(m.AutoTiering)]; !ok && m.AutoTiering != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoTiering: %s. Supported values are: %s.", m.AutoTiering, strings.Join(GetBucketAutoTieringEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateBucketDetailsPublicAccessTypeEnum Enum with underlying type: string
 type CreateBucketDetailsPublicAccessTypeEnum string
 
@@ -87,7 +113,7 @@ const (
 	CreateBucketDetailsPublicAccessTypeObjectreadwithoutlist CreateBucketDetailsPublicAccessTypeEnum = "ObjectReadWithoutList"
 )
 
-var mappingCreateBucketDetailsPublicAccessType = map[string]CreateBucketDetailsPublicAccessTypeEnum{
+var mappingCreateBucketDetailsPublicAccessTypeEnum = map[string]CreateBucketDetailsPublicAccessTypeEnum{
 	"NoPublicAccess":        CreateBucketDetailsPublicAccessTypeNopublicaccess,
 	"ObjectRead":            CreateBucketDetailsPublicAccessTypeObjectread,
 	"ObjectReadWithoutList": CreateBucketDetailsPublicAccessTypeObjectreadwithoutlist,
@@ -96,10 +122,19 @@ var mappingCreateBucketDetailsPublicAccessType = map[string]CreateBucketDetailsP
 // GetCreateBucketDetailsPublicAccessTypeEnumValues Enumerates the set of values for CreateBucketDetailsPublicAccessTypeEnum
 func GetCreateBucketDetailsPublicAccessTypeEnumValues() []CreateBucketDetailsPublicAccessTypeEnum {
 	values := make([]CreateBucketDetailsPublicAccessTypeEnum, 0)
-	for _, v := range mappingCreateBucketDetailsPublicAccessType {
+	for _, v := range mappingCreateBucketDetailsPublicAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateBucketDetailsPublicAccessTypeEnumStringValues Enumerates the set of values in String for CreateBucketDetailsPublicAccessTypeEnum
+func GetCreateBucketDetailsPublicAccessTypeEnumStringValues() []string {
+	return []string{
+		"NoPublicAccess",
+		"ObjectRead",
+		"ObjectReadWithoutList",
+	}
 }
 
 // CreateBucketDetailsStorageTierEnum Enum with underlying type: string
@@ -111,7 +146,7 @@ const (
 	CreateBucketDetailsStorageTierArchive  CreateBucketDetailsStorageTierEnum = "Archive"
 )
 
-var mappingCreateBucketDetailsStorageTier = map[string]CreateBucketDetailsStorageTierEnum{
+var mappingCreateBucketDetailsStorageTierEnum = map[string]CreateBucketDetailsStorageTierEnum{
 	"Standard": CreateBucketDetailsStorageTierStandard,
 	"Archive":  CreateBucketDetailsStorageTierArchive,
 }
@@ -119,10 +154,18 @@ var mappingCreateBucketDetailsStorageTier = map[string]CreateBucketDetailsStorag
 // GetCreateBucketDetailsStorageTierEnumValues Enumerates the set of values for CreateBucketDetailsStorageTierEnum
 func GetCreateBucketDetailsStorageTierEnumValues() []CreateBucketDetailsStorageTierEnum {
 	values := make([]CreateBucketDetailsStorageTierEnum, 0)
-	for _, v := range mappingCreateBucketDetailsStorageTier {
+	for _, v := range mappingCreateBucketDetailsStorageTierEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateBucketDetailsStorageTierEnumStringValues Enumerates the set of values in String for CreateBucketDetailsStorageTierEnum
+func GetCreateBucketDetailsStorageTierEnumStringValues() []string {
+	return []string{
+		"Standard",
+		"Archive",
+	}
 }
 
 // CreateBucketDetailsVersioningEnum Enum with underlying type: string
@@ -134,7 +177,7 @@ const (
 	CreateBucketDetailsVersioningDisabled CreateBucketDetailsVersioningEnum = "Disabled"
 )
 
-var mappingCreateBucketDetailsVersioning = map[string]CreateBucketDetailsVersioningEnum{
+var mappingCreateBucketDetailsVersioningEnum = map[string]CreateBucketDetailsVersioningEnum{
 	"Enabled":  CreateBucketDetailsVersioningEnabled,
 	"Disabled": CreateBucketDetailsVersioningDisabled,
 }
@@ -142,8 +185,16 @@ var mappingCreateBucketDetailsVersioning = map[string]CreateBucketDetailsVersion
 // GetCreateBucketDetailsVersioningEnumValues Enumerates the set of values for CreateBucketDetailsVersioningEnum
 func GetCreateBucketDetailsVersioningEnumValues() []CreateBucketDetailsVersioningEnum {
 	values := make([]CreateBucketDetailsVersioningEnum, 0)
-	for _, v := range mappingCreateBucketDetailsVersioning {
+	for _, v := range mappingCreateBucketDetailsVersioningEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateBucketDetailsVersioningEnumStringValues Enumerates the set of values in String for CreateBucketDetailsVersioningEnum
+func GetCreateBucketDetailsVersioningEnumStringValues() []string {
+	return []string{
+		"Enabled",
+		"Disabled",
+	}
 }

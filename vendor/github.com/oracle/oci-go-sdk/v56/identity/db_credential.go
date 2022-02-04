@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DbCredential Database credentials are needed for onboarding cloud database to identity.
@@ -44,6 +46,21 @@ func (m DbCredential) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbCredential) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDbCredentialLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbCredentialLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DbCredentialLifecycleStateEnum Enum with underlying type: string
 type DbCredentialLifecycleStateEnum string
 
@@ -55,7 +72,7 @@ const (
 	DbCredentialLifecycleStateDeleted  DbCredentialLifecycleStateEnum = "DELETED"
 )
 
-var mappingDbCredentialLifecycleState = map[string]DbCredentialLifecycleStateEnum{
+var mappingDbCredentialLifecycleStateEnum = map[string]DbCredentialLifecycleStateEnum{
 	"CREATING": DbCredentialLifecycleStateCreating,
 	"ACTIVE":   DbCredentialLifecycleStateActive,
 	"DELETING": DbCredentialLifecycleStateDeleting,
@@ -65,8 +82,18 @@ var mappingDbCredentialLifecycleState = map[string]DbCredentialLifecycleStateEnu
 // GetDbCredentialLifecycleStateEnumValues Enumerates the set of values for DbCredentialLifecycleStateEnum
 func GetDbCredentialLifecycleStateEnumValues() []DbCredentialLifecycleStateEnum {
 	values := make([]DbCredentialLifecycleStateEnum, 0)
-	for _, v := range mappingDbCredentialLifecycleState {
+	for _, v := range mappingDbCredentialLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbCredentialLifecycleStateEnumStringValues Enumerates the set of values in String for DbCredentialLifecycleStateEnum
+func GetDbCredentialLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

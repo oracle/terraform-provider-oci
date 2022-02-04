@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListTermsRequest wrapper for the ListTerms operation
@@ -75,6 +77,10 @@ func (request ListTermsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListTermsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -88,6 +94,35 @@ func (request ListTermsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTermsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListTermsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListTermsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListTermsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTermsWorkflowStatusEnum[string(request.WorkflowStatus)]; !ok && request.WorkflowStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WorkflowStatus: %s. Supported values are: %s.", request.WorkflowStatus, strings.Join(GetListTermsWorkflowStatusEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListTermsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListTermsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListTermsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTermsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTermsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListTermsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListTermsResponse wrapper for the ListTerms operation
@@ -131,7 +166,7 @@ const (
 	ListTermsLifecycleStateMoving   ListTermsLifecycleStateEnum = "MOVING"
 )
 
-var mappingListTermsLifecycleState = map[string]ListTermsLifecycleStateEnum{
+var mappingListTermsLifecycleStateEnum = map[string]ListTermsLifecycleStateEnum{
 	"CREATING": ListTermsLifecycleStateCreating,
 	"ACTIVE":   ListTermsLifecycleStateActive,
 	"INACTIVE": ListTermsLifecycleStateInactive,
@@ -145,10 +180,24 @@ var mappingListTermsLifecycleState = map[string]ListTermsLifecycleStateEnum{
 // GetListTermsLifecycleStateEnumValues Enumerates the set of values for ListTermsLifecycleStateEnum
 func GetListTermsLifecycleStateEnumValues() []ListTermsLifecycleStateEnum {
 	values := make([]ListTermsLifecycleStateEnum, 0)
-	for _, v := range mappingListTermsLifecycleState {
+	for _, v := range mappingListTermsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTermsLifecycleStateEnumStringValues Enumerates the set of values in String for ListTermsLifecycleStateEnum
+func GetListTermsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListTermsWorkflowStatusEnum Enum with underlying type: string
@@ -162,7 +211,7 @@ const (
 	ListTermsWorkflowStatusEscalated   ListTermsWorkflowStatusEnum = "ESCALATED"
 )
 
-var mappingListTermsWorkflowStatus = map[string]ListTermsWorkflowStatusEnum{
+var mappingListTermsWorkflowStatusEnum = map[string]ListTermsWorkflowStatusEnum{
 	"NEW":          ListTermsWorkflowStatusNew,
 	"APPROVED":     ListTermsWorkflowStatusApproved,
 	"UNDER_REVIEW": ListTermsWorkflowStatusUnderReview,
@@ -172,10 +221,20 @@ var mappingListTermsWorkflowStatus = map[string]ListTermsWorkflowStatusEnum{
 // GetListTermsWorkflowStatusEnumValues Enumerates the set of values for ListTermsWorkflowStatusEnum
 func GetListTermsWorkflowStatusEnumValues() []ListTermsWorkflowStatusEnum {
 	values := make([]ListTermsWorkflowStatusEnum, 0)
-	for _, v := range mappingListTermsWorkflowStatus {
+	for _, v := range mappingListTermsWorkflowStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTermsWorkflowStatusEnumStringValues Enumerates the set of values in String for ListTermsWorkflowStatusEnum
+func GetListTermsWorkflowStatusEnumStringValues() []string {
+	return []string{
+		"NEW",
+		"APPROVED",
+		"UNDER_REVIEW",
+		"ESCALATED",
+	}
 }
 
 // ListTermsFieldsEnum Enum with underlying type: string
@@ -197,7 +256,7 @@ const (
 	ListTermsFieldsUri                       ListTermsFieldsEnum = "uri"
 )
 
-var mappingListTermsFields = map[string]ListTermsFieldsEnum{
+var mappingListTermsFieldsEnum = map[string]ListTermsFieldsEnum{
 	"key":                       ListTermsFieldsKey,
 	"displayName":               ListTermsFieldsDisplayname,
 	"description":               ListTermsFieldsDescription,
@@ -215,10 +274,28 @@ var mappingListTermsFields = map[string]ListTermsFieldsEnum{
 // GetListTermsFieldsEnumValues Enumerates the set of values for ListTermsFieldsEnum
 func GetListTermsFieldsEnumValues() []ListTermsFieldsEnum {
 	values := make([]ListTermsFieldsEnum, 0)
-	for _, v := range mappingListTermsFields {
+	for _, v := range mappingListTermsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTermsFieldsEnumStringValues Enumerates the set of values in String for ListTermsFieldsEnum
+func GetListTermsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"glossaryKey",
+		"parentTermKey",
+		"isAllowedToHaveChildTerms",
+		"path",
+		"lifecycleState",
+		"timeCreated",
+		"workflowStatus",
+		"associatedObjectCount",
+		"uri",
+	}
 }
 
 // ListTermsSortByEnum Enum with underlying type: string
@@ -230,7 +307,7 @@ const (
 	ListTermsSortByDisplayname ListTermsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListTermsSortBy = map[string]ListTermsSortByEnum{
+var mappingListTermsSortByEnum = map[string]ListTermsSortByEnum{
 	"TIMECREATED": ListTermsSortByTimecreated,
 	"DISPLAYNAME": ListTermsSortByDisplayname,
 }
@@ -238,10 +315,18 @@ var mappingListTermsSortBy = map[string]ListTermsSortByEnum{
 // GetListTermsSortByEnumValues Enumerates the set of values for ListTermsSortByEnum
 func GetListTermsSortByEnumValues() []ListTermsSortByEnum {
 	values := make([]ListTermsSortByEnum, 0)
-	for _, v := range mappingListTermsSortBy {
+	for _, v := range mappingListTermsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTermsSortByEnumStringValues Enumerates the set of values in String for ListTermsSortByEnum
+func GetListTermsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListTermsSortOrderEnum Enum with underlying type: string
@@ -253,7 +338,7 @@ const (
 	ListTermsSortOrderDesc ListTermsSortOrderEnum = "DESC"
 )
 
-var mappingListTermsSortOrder = map[string]ListTermsSortOrderEnum{
+var mappingListTermsSortOrderEnum = map[string]ListTermsSortOrderEnum{
 	"ASC":  ListTermsSortOrderAsc,
 	"DESC": ListTermsSortOrderDesc,
 }
@@ -261,8 +346,16 @@ var mappingListTermsSortOrder = map[string]ListTermsSortOrderEnum{
 // GetListTermsSortOrderEnumValues Enumerates the set of values for ListTermsSortOrderEnum
 func GetListTermsSortOrderEnumValues() []ListTermsSortOrderEnum {
 	values := make([]ListTermsSortOrderEnum, 0)
-	for _, v := range mappingListTermsSortOrder {
+	for _, v := range mappingListTermsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTermsSortOrderEnumStringValues Enumerates the set of values in String for ListTermsSortOrderEnum
+func GetListTermsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

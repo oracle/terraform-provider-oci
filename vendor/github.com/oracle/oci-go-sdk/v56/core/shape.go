@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Shape A compute instance shape that can be used in LaunchInstance.
@@ -84,6 +86,24 @@ func (m Shape) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Shape) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.BaselineOcpuUtilizations {
+		if _, ok := mappingShapeBaselineOcpuUtilizationsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BaselineOcpuUtilizations: %s. Supported values are: %s.", val, strings.Join(GetShapeBaselineOcpuUtilizationsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ShapeBaselineOcpuUtilizationsEnum Enum with underlying type: string
 type ShapeBaselineOcpuUtilizationsEnum string
 
@@ -94,7 +114,7 @@ const (
 	ShapeBaselineOcpuUtilizations1 ShapeBaselineOcpuUtilizationsEnum = "BASELINE_1_1"
 )
 
-var mappingShapeBaselineOcpuUtilizations = map[string]ShapeBaselineOcpuUtilizationsEnum{
+var mappingShapeBaselineOcpuUtilizationsEnum = map[string]ShapeBaselineOcpuUtilizationsEnum{
 	"BASELINE_1_8": ShapeBaselineOcpuUtilizations8,
 	"BASELINE_1_2": ShapeBaselineOcpuUtilizations2,
 	"BASELINE_1_1": ShapeBaselineOcpuUtilizations1,
@@ -103,8 +123,17 @@ var mappingShapeBaselineOcpuUtilizations = map[string]ShapeBaselineOcpuUtilizati
 // GetShapeBaselineOcpuUtilizationsEnumValues Enumerates the set of values for ShapeBaselineOcpuUtilizationsEnum
 func GetShapeBaselineOcpuUtilizationsEnumValues() []ShapeBaselineOcpuUtilizationsEnum {
 	values := make([]ShapeBaselineOcpuUtilizationsEnum, 0)
-	for _, v := range mappingShapeBaselineOcpuUtilizations {
+	for _, v := range mappingShapeBaselineOcpuUtilizationsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetShapeBaselineOcpuUtilizationsEnumStringValues Enumerates the set of values in String for ShapeBaselineOcpuUtilizationsEnum
+func GetShapeBaselineOcpuUtilizationsEnumStringValues() []string {
+	return []string{
+		"BASELINE_1_8",
+		"BASELINE_1_2",
+		"BASELINE_1_1",
+	}
 }

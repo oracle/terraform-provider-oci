@@ -20,7 +20,7 @@ const (
 	ModelLifecycleStateInactive ModelLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingModelLifecycleState = map[string]ModelLifecycleStateEnum{
+var mappingModelLifecycleStateEnum = map[string]ModelLifecycleStateEnum{
 	"ACTIVE":   ModelLifecycleStateActive,
 	"DELETED":  ModelLifecycleStateDeleted,
 	"FAILED":   ModelLifecycleStateFailed,
@@ -30,8 +30,18 @@ var mappingModelLifecycleState = map[string]ModelLifecycleStateEnum{
 // GetModelLifecycleStateEnumValues Enumerates the set of values for ModelLifecycleStateEnum
 func GetModelLifecycleStateEnumValues() []ModelLifecycleStateEnum {
 	values := make([]ModelLifecycleStateEnum, 0)
-	for _, v := range mappingModelLifecycleState {
+	for _, v := range mappingModelLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetModelLifecycleStateEnumStringValues Enumerates the set of values in String for ModelLifecycleStateEnum
+func GetModelLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+		"FAILED",
+		"INACTIVE",
+	}
 }

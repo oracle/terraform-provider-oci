@@ -13,7 +13,9 @@ package opsi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HostConfigurationMetricGroup Base Metric Group for Host configuration metrics
@@ -98,6 +100,18 @@ func (m hostconfigurationmetricgroup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m hostconfigurationmetricgroup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HostConfigurationMetricGroupMetricNameEnum Enum with underlying type: string
 type HostConfigurationMetricGroupMetricNameEnum string
 
@@ -112,7 +126,7 @@ const (
 	HostConfigurationMetricGroupMetricNameEntites                  HostConfigurationMetricGroupMetricNameEnum = "HOST_ENTITES"
 )
 
-var mappingHostConfigurationMetricGroupMetricName = map[string]HostConfigurationMetricGroupMetricNameEnum{
+var mappingHostConfigurationMetricGroupMetricNameEnum = map[string]HostConfigurationMetricGroupMetricNameEnum{
 	"HOST_PRODUCT":                    HostConfigurationMetricGroupMetricNameProduct,
 	"HOST_RESOURCE_ALLOCATION":        HostConfigurationMetricGroupMetricNameResourceAllocation,
 	"HOST_MEMORY_CONFIGURATION":       HostConfigurationMetricGroupMetricNameMemoryConfiguration,
@@ -125,8 +139,21 @@ var mappingHostConfigurationMetricGroupMetricName = map[string]HostConfiguration
 // GetHostConfigurationMetricGroupMetricNameEnumValues Enumerates the set of values for HostConfigurationMetricGroupMetricNameEnum
 func GetHostConfigurationMetricGroupMetricNameEnumValues() []HostConfigurationMetricGroupMetricNameEnum {
 	values := make([]HostConfigurationMetricGroupMetricNameEnum, 0)
-	for _, v := range mappingHostConfigurationMetricGroupMetricName {
+	for _, v := range mappingHostConfigurationMetricGroupMetricNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHostConfigurationMetricGroupMetricNameEnumStringValues Enumerates the set of values in String for HostConfigurationMetricGroupMetricNameEnum
+func GetHostConfigurationMetricGroupMetricNameEnumStringValues() []string {
+	return []string{
+		"HOST_PRODUCT",
+		"HOST_RESOURCE_ALLOCATION",
+		"HOST_MEMORY_CONFIGURATION",
+		"HOST_HARDWARE_CONFIGURATION",
+		"HOST_CPU_HARDWARE_CONFIGURATION",
+		"HOST_NETWORK_CONFIGURATION",
+		"HOST_ENTITES",
+	}
 }

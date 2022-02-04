@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListIPSecConnectionTunnelRoutesRequest wrapper for the ListIPSecConnectionTunnelRoutes operation
@@ -54,6 +56,10 @@ func (request ListIPSecConnectionTunnelRoutesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListIPSecConnectionTunnelRoutesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +73,20 @@ func (request ListIPSecConnectionTunnelRoutesRequest) BinaryRequestBody() (*comm
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListIPSecConnectionTunnelRoutesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListIPSecConnectionTunnelRoutesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTunnelRouteSummaryAdvertiserEnum[string(request.Advertiser)]; !ok && request.Advertiser != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Advertiser: %s. Supported values are: %s.", request.Advertiser, strings.Join(GetTunnelRouteSummaryAdvertiserEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListIPSecConnectionTunnelRoutesResponse wrapper for the ListIPSecConnectionTunnelRoutes operation

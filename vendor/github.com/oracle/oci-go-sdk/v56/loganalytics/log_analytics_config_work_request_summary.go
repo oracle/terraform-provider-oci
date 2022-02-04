@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LogAnalyticsConfigWorkRequestSummary LogAnalyticsConfigWorkRequestSummary
@@ -45,6 +47,24 @@ func (m LogAnalyticsConfigWorkRequestSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsConfigWorkRequestSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsConfigWorkRequestSummaryOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLogAnalyticsConfigWorkRequestSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum Enum with underlying type: string
 type LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum string
 
@@ -57,7 +77,7 @@ const (
 	LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup       LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "DELETE_LOOKUP"
 )
 
-var mappingLogAnalyticsConfigWorkRequestSummaryOperationType = map[string]LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum{
+var mappingLogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = map[string]LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum{
 	"CREATE_ASSOCIATIONS": LogAnalyticsConfigWorkRequestSummaryOperationTypeCreateAssociations,
 	"DELETE_ASSOCIATIONS": LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteAssociations,
 	"APPEND_LOOKUP_DATA":  LogAnalyticsConfigWorkRequestSummaryOperationTypeAppendLookupData,
@@ -68,10 +88,21 @@ var mappingLogAnalyticsConfigWorkRequestSummaryOperationType = map[string]LogAna
 // GetLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum
 func GetLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumValues() []LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum {
 	values := make([]LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum, 0)
-	for _, v := range mappingLogAnalyticsConfigWorkRequestSummaryOperationType {
+	for _, v := range mappingLogAnalyticsConfigWorkRequestSummaryOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumStringValues Enumerates the set of values in String for LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum
+func GetLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_ASSOCIATIONS",
+		"DELETE_ASSOCIATIONS",
+		"APPEND_LOOKUP_DATA",
+		"UPDATE_LOOKUP_DATA",
+		"DELETE_LOOKUP",
+	}
 }
 
 // LogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum Enum with underlying type: string
@@ -85,7 +116,7 @@ const (
 	LogAnalyticsConfigWorkRequestSummaryLifecycleStateFailed     LogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingLogAnalyticsConfigWorkRequestSummaryLifecycleState = map[string]LogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum{
+var mappingLogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum = map[string]LogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum{
 	"ACCEPTED":    LogAnalyticsConfigWorkRequestSummaryLifecycleStateAccepted,
 	"IN_PROGRESS": LogAnalyticsConfigWorkRequestSummaryLifecycleStateInProgress,
 	"SUCCEEDED":   LogAnalyticsConfigWorkRequestSummaryLifecycleStateSucceeded,
@@ -95,8 +126,18 @@ var mappingLogAnalyticsConfigWorkRequestSummaryLifecycleState = map[string]LogAn
 // GetLogAnalyticsConfigWorkRequestSummaryLifecycleStateEnumValues Enumerates the set of values for LogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum
 func GetLogAnalyticsConfigWorkRequestSummaryLifecycleStateEnumValues() []LogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum {
 	values := make([]LogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingLogAnalyticsConfigWorkRequestSummaryLifecycleState {
+	for _, v := range mappingLogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsConfigWorkRequestSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for LogAnalyticsConfigWorkRequestSummaryLifecycleStateEnum
+func GetLogAnalyticsConfigWorkRequestSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

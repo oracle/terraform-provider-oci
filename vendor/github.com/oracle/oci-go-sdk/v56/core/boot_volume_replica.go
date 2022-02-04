@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BootVolumeReplica An asynchronous replica of a boot volume that can then be used to create
@@ -83,6 +85,21 @@ func (m BootVolumeReplica) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BootVolumeReplica) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBootVolumeReplicaLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBootVolumeReplicaLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BootVolumeReplicaLifecycleStateEnum Enum with underlying type: string
 type BootVolumeReplicaLifecycleStateEnum string
 
@@ -96,7 +113,7 @@ const (
 	BootVolumeReplicaLifecycleStateFaulty       BootVolumeReplicaLifecycleStateEnum = "FAULTY"
 )
 
-var mappingBootVolumeReplicaLifecycleState = map[string]BootVolumeReplicaLifecycleStateEnum{
+var mappingBootVolumeReplicaLifecycleStateEnum = map[string]BootVolumeReplicaLifecycleStateEnum{
 	"PROVISIONING": BootVolumeReplicaLifecycleStateProvisioning,
 	"AVAILABLE":    BootVolumeReplicaLifecycleStateAvailable,
 	"ACTIVATING":   BootVolumeReplicaLifecycleStateActivating,
@@ -108,8 +125,20 @@ var mappingBootVolumeReplicaLifecycleState = map[string]BootVolumeReplicaLifecyc
 // GetBootVolumeReplicaLifecycleStateEnumValues Enumerates the set of values for BootVolumeReplicaLifecycleStateEnum
 func GetBootVolumeReplicaLifecycleStateEnumValues() []BootVolumeReplicaLifecycleStateEnum {
 	values := make([]BootVolumeReplicaLifecycleStateEnum, 0)
-	for _, v := range mappingBootVolumeReplicaLifecycleState {
+	for _, v := range mappingBootVolumeReplicaLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBootVolumeReplicaLifecycleStateEnumStringValues Enumerates the set of values in String for BootVolumeReplicaLifecycleStateEnum
+func GetBootVolumeReplicaLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"ACTIVATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAULTY",
+	}
 }

@@ -5,8 +5,10 @@
 package waf
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListNetworkAddressListsRequest wrapper for the ListNetworkAddressLists operation
@@ -59,6 +61,10 @@ func (request ListNetworkAddressListsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListNetworkAddressListsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,29 @@ func (request ListNetworkAddressListsRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListNetworkAddressListsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListNetworkAddressListsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingNetworkAddressListLifecycleStateEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetNetworkAddressListLifecycleStateEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListNetworkAddressListsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNetworkAddressListsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListNetworkAddressListsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNetworkAddressListsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListNetworkAddressListsResponse wrapper for the ListNetworkAddressLists operation
@@ -111,7 +140,7 @@ const (
 	ListNetworkAddressListsSortOrderDesc ListNetworkAddressListsSortOrderEnum = "DESC"
 )
 
-var mappingListNetworkAddressListsSortOrder = map[string]ListNetworkAddressListsSortOrderEnum{
+var mappingListNetworkAddressListsSortOrderEnum = map[string]ListNetworkAddressListsSortOrderEnum{
 	"ASC":  ListNetworkAddressListsSortOrderAsc,
 	"DESC": ListNetworkAddressListsSortOrderDesc,
 }
@@ -119,10 +148,18 @@ var mappingListNetworkAddressListsSortOrder = map[string]ListNetworkAddressLists
 // GetListNetworkAddressListsSortOrderEnumValues Enumerates the set of values for ListNetworkAddressListsSortOrderEnum
 func GetListNetworkAddressListsSortOrderEnumValues() []ListNetworkAddressListsSortOrderEnum {
 	values := make([]ListNetworkAddressListsSortOrderEnum, 0)
-	for _, v := range mappingListNetworkAddressListsSortOrder {
+	for _, v := range mappingListNetworkAddressListsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkAddressListsSortOrderEnumStringValues Enumerates the set of values in String for ListNetworkAddressListsSortOrderEnum
+func GetListNetworkAddressListsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListNetworkAddressListsSortByEnum Enum with underlying type: string
@@ -134,7 +171,7 @@ const (
 	ListNetworkAddressListsSortByDisplayname ListNetworkAddressListsSortByEnum = "displayName"
 )
 
-var mappingListNetworkAddressListsSortBy = map[string]ListNetworkAddressListsSortByEnum{
+var mappingListNetworkAddressListsSortByEnum = map[string]ListNetworkAddressListsSortByEnum{
 	"timeCreated": ListNetworkAddressListsSortByTimecreated,
 	"displayName": ListNetworkAddressListsSortByDisplayname,
 }
@@ -142,8 +179,16 @@ var mappingListNetworkAddressListsSortBy = map[string]ListNetworkAddressListsSor
 // GetListNetworkAddressListsSortByEnumValues Enumerates the set of values for ListNetworkAddressListsSortByEnum
 func GetListNetworkAddressListsSortByEnumValues() []ListNetworkAddressListsSortByEnum {
 	values := make([]ListNetworkAddressListsSortByEnum, 0)
-	for _, v := range mappingListNetworkAddressListsSortBy {
+	for _, v := range mappingListNetworkAddressListsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListNetworkAddressListsSortByEnumStringValues Enumerates the set of values in String for ListNetworkAddressListsSortByEnum
+func GetListNetworkAddressListsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // PatchRRSetRequest wrapper for the PatchRRSet operation
@@ -68,6 +70,10 @@ func (request PatchRRSetRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request PatchRRSetRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -81,6 +87,20 @@ func (request PatchRRSetRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request PatchRRSetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request PatchRRSetRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingPatchRRSetScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetPatchRRSetScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // PatchRRSetResponse wrapper for the PatchRRSet operation
@@ -128,7 +148,7 @@ const (
 	PatchRRSetScopePrivate PatchRRSetScopeEnum = "PRIVATE"
 )
 
-var mappingPatchRRSetScope = map[string]PatchRRSetScopeEnum{
+var mappingPatchRRSetScopeEnum = map[string]PatchRRSetScopeEnum{
 	"GLOBAL":  PatchRRSetScopeGlobal,
 	"PRIVATE": PatchRRSetScopePrivate,
 }
@@ -136,8 +156,16 @@ var mappingPatchRRSetScope = map[string]PatchRRSetScopeEnum{
 // GetPatchRRSetScopeEnumValues Enumerates the set of values for PatchRRSetScopeEnum
 func GetPatchRRSetScopeEnumValues() []PatchRRSetScopeEnum {
 	values := make([]PatchRRSetScopeEnum, 0)
-	for _, v := range mappingPatchRRSetScope {
+	for _, v := range mappingPatchRRSetScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchRRSetScopeEnumStringValues Enumerates the set of values in String for PatchRRSetScopeEnum
+func GetPatchRRSetScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

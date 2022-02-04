@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetSqlTuningAdvisorTaskSummaryReportRequest wrapper for the GetSqlTuningAdvisorTaskSummaryReport operation
@@ -52,6 +54,10 @@ func (request GetSqlTuningAdvisorTaskSummaryReportRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetSqlTuningAdvisorTaskSummaryReportRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +71,20 @@ func (request GetSqlTuningAdvisorTaskSummaryReportRequest) BinaryRequestBody() (
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetSqlTuningAdvisorTaskSummaryReportRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetSqlTuningAdvisorTaskSummaryReportRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum[string(request.SearchPeriod)]; !ok && request.SearchPeriod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SearchPeriod: %s. Supported values are: %s.", request.SearchPeriod, strings.Join(GetGetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetSqlTuningAdvisorTaskSummaryReportResponse wrapper for the GetSqlTuningAdvisorTaskSummaryReport operation
@@ -102,7 +122,7 @@ const (
 	GetSqlTuningAdvisorTaskSummaryReportSearchPeriodAll       GetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum = "ALL"
 )
 
-var mappingGetSqlTuningAdvisorTaskSummaryReportSearchPeriod = map[string]GetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum{
+var mappingGetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum = map[string]GetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum{
 	"LAST_24HR":  GetSqlTuningAdvisorTaskSummaryReportSearchPeriodLast24hr,
 	"LAST_7DAY":  GetSqlTuningAdvisorTaskSummaryReportSearchPeriodLast7day,
 	"LAST_31DAY": GetSqlTuningAdvisorTaskSummaryReportSearchPeriodLast31day,
@@ -113,8 +133,19 @@ var mappingGetSqlTuningAdvisorTaskSummaryReportSearchPeriod = map[string]GetSqlT
 // GetGetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnumValues Enumerates the set of values for GetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum
 func GetGetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnumValues() []GetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum {
 	values := make([]GetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum, 0)
-	for _, v := range mappingGetSqlTuningAdvisorTaskSummaryReportSearchPeriod {
+	for _, v := range mappingGetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnumStringValues Enumerates the set of values in String for GetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnum
+func GetGetSqlTuningAdvisorTaskSummaryReportSearchPeriodEnumStringValues() []string {
+	return []string{
+		"LAST_24HR",
+		"LAST_7DAY",
+		"LAST_31DAY",
+		"SINCE_LAST",
+		"ALL",
+	}
 }

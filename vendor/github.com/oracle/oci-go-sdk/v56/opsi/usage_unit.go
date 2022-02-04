@@ -23,7 +23,7 @@ const (
 	UsageUnitPercent UsageUnitEnum = "PERCENT"
 )
 
-var mappingUsageUnit = map[string]UsageUnitEnum{
+var mappingUsageUnitEnum = map[string]UsageUnitEnum{
 	"CORES":   UsageUnitCores,
 	"GB":      UsageUnitGb,
 	"MBPS":    UsageUnitMbps,
@@ -34,8 +34,19 @@ var mappingUsageUnit = map[string]UsageUnitEnum{
 // GetUsageUnitEnumValues Enumerates the set of values for UsageUnitEnum
 func GetUsageUnitEnumValues() []UsageUnitEnum {
 	values := make([]UsageUnitEnum, 0)
-	for _, v := range mappingUsageUnit {
+	for _, v := range mappingUsageUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUsageUnitEnumStringValues Enumerates the set of values in String for UsageUnitEnum
+func GetUsageUnitEnumStringValues() []string {
+	return []string{
+		"CORES",
+		"GB",
+		"MBPS",
+		"IOPS",
+		"PERCENT",
+	}
 }

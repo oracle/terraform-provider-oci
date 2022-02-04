@@ -19,15 +19,22 @@ const (
 	ImportableAgentEntitySourceMacsManagedExternalHost ImportableAgentEntitySourceEnum = "MACS_MANAGED_EXTERNAL_HOST"
 )
 
-var mappingImportableAgentEntitySource = map[string]ImportableAgentEntitySourceEnum{
+var mappingImportableAgentEntitySourceEnum = map[string]ImportableAgentEntitySourceEnum{
 	"MACS_MANAGED_EXTERNAL_HOST": ImportableAgentEntitySourceMacsManagedExternalHost,
 }
 
 // GetImportableAgentEntitySourceEnumValues Enumerates the set of values for ImportableAgentEntitySourceEnum
 func GetImportableAgentEntitySourceEnumValues() []ImportableAgentEntitySourceEnum {
 	values := make([]ImportableAgentEntitySourceEnum, 0)
-	for _, v := range mappingImportableAgentEntitySource {
+	for _, v := range mappingImportableAgentEntitySourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetImportableAgentEntitySourceEnumStringValues Enumerates the set of values in String for ImportableAgentEntitySourceEnum
+func GetImportableAgentEntitySourceEnumStringValues() []string {
+	return []string{
+		"MACS_MANAGED_EXTERNAL_HOST",
+	}
 }

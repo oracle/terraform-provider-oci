@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ApprovalAction Information about the approval action of DevOps deployment stages.
@@ -27,6 +29,21 @@ func (m ApprovalAction) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ApprovalAction) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingApprovalActionActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetApprovalActionActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ApprovalActionActionEnum Enum with underlying type: string
 type ApprovalActionActionEnum string
 
@@ -36,7 +53,7 @@ const (
 	ApprovalActionActionReject  ApprovalActionActionEnum = "REJECT"
 )
 
-var mappingApprovalActionAction = map[string]ApprovalActionActionEnum{
+var mappingApprovalActionActionEnum = map[string]ApprovalActionActionEnum{
 	"APPROVE": ApprovalActionActionApprove,
 	"REJECT":  ApprovalActionActionReject,
 }
@@ -44,8 +61,16 @@ var mappingApprovalActionAction = map[string]ApprovalActionActionEnum{
 // GetApprovalActionActionEnumValues Enumerates the set of values for ApprovalActionActionEnum
 func GetApprovalActionActionEnumValues() []ApprovalActionActionEnum {
 	values := make([]ApprovalActionActionEnum, 0)
-	for _, v := range mappingApprovalActionAction {
+	for _, v := range mappingApprovalActionActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApprovalActionActionEnumStringValues Enumerates the set of values in String for ApprovalActionActionEnum
+func GetApprovalActionActionEnumStringValues() []string {
+	return []string{
+		"APPROVE",
+		"REJECT",
+	}
 }

@@ -10,7 +10,9 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FileSystemSummary Summary information for a file system.
@@ -80,6 +82,21 @@ func (m FileSystemSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FileSystemSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFileSystemSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFileSystemSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FileSystemSummaryLifecycleStateEnum Enum with underlying type: string
 type FileSystemSummaryLifecycleStateEnum string
 
@@ -91,7 +108,7 @@ const (
 	FileSystemSummaryLifecycleStateDeleted  FileSystemSummaryLifecycleStateEnum = "DELETED"
 )
 
-var mappingFileSystemSummaryLifecycleState = map[string]FileSystemSummaryLifecycleStateEnum{
+var mappingFileSystemSummaryLifecycleStateEnum = map[string]FileSystemSummaryLifecycleStateEnum{
 	"CREATING": FileSystemSummaryLifecycleStateCreating,
 	"ACTIVE":   FileSystemSummaryLifecycleStateActive,
 	"DELETING": FileSystemSummaryLifecycleStateDeleting,
@@ -101,8 +118,18 @@ var mappingFileSystemSummaryLifecycleState = map[string]FileSystemSummaryLifecyc
 // GetFileSystemSummaryLifecycleStateEnumValues Enumerates the set of values for FileSystemSummaryLifecycleStateEnum
 func GetFileSystemSummaryLifecycleStateEnumValues() []FileSystemSummaryLifecycleStateEnum {
 	values := make([]FileSystemSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingFileSystemSummaryLifecycleState {
+	for _, v := range mappingFileSystemSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFileSystemSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for FileSystemSummaryLifecycleStateEnum
+func GetFileSystemSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

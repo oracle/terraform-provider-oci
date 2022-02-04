@@ -10,7 +10,9 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutoScalePolicyMetricRule Metric and threshold details for triggering an autoscale action.
@@ -26,6 +28,21 @@ func (m AutoScalePolicyMetricRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutoScalePolicyMetricRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutoScalePolicyMetricRuleMetricTypeEnum[string(m.MetricType)]; !ok && m.MetricType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MetricType: %s. Supported values are: %s.", m.MetricType, strings.Join(GetAutoScalePolicyMetricRuleMetricTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutoScalePolicyMetricRuleMetricTypeEnum Enum with underlying type: string
 type AutoScalePolicyMetricRuleMetricTypeEnum string
 
@@ -34,15 +51,22 @@ const (
 	AutoScalePolicyMetricRuleMetricTypeCpuUtilization AutoScalePolicyMetricRuleMetricTypeEnum = "CPU_UTILIZATION"
 )
 
-var mappingAutoScalePolicyMetricRuleMetricType = map[string]AutoScalePolicyMetricRuleMetricTypeEnum{
+var mappingAutoScalePolicyMetricRuleMetricTypeEnum = map[string]AutoScalePolicyMetricRuleMetricTypeEnum{
 	"CPU_UTILIZATION": AutoScalePolicyMetricRuleMetricTypeCpuUtilization,
 }
 
 // GetAutoScalePolicyMetricRuleMetricTypeEnumValues Enumerates the set of values for AutoScalePolicyMetricRuleMetricTypeEnum
 func GetAutoScalePolicyMetricRuleMetricTypeEnumValues() []AutoScalePolicyMetricRuleMetricTypeEnum {
 	values := make([]AutoScalePolicyMetricRuleMetricTypeEnum, 0)
-	for _, v := range mappingAutoScalePolicyMetricRuleMetricType {
+	for _, v := range mappingAutoScalePolicyMetricRuleMetricTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutoScalePolicyMetricRuleMetricTypeEnumStringValues Enumerates the set of values in String for AutoScalePolicyMetricRuleMetricTypeEnum
+func GetAutoScalePolicyMetricRuleMetricTypeEnumStringValues() []string {
+	return []string{
+		"CPU_UTILIZATION",
+	}
 }

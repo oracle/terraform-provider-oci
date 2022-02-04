@@ -22,7 +22,7 @@ const (
 	ContentAvailabilityAvailableOnInstanceUploadInProgress ContentAvailabilityEnum = "AVAILABLE_ON_INSTANCE_UPLOAD_IN_PROGRESS"
 )
 
-var mappingContentAvailability = map[string]ContentAvailabilityEnum{
+var mappingContentAvailabilityEnum = map[string]ContentAvailabilityEnum{
 	"NOT_AVAILABLE":                            ContentAvailabilityNotAvailable,
 	"AVAILABLE_ON_INSTANCE":                    ContentAvailabilityAvailableOnInstance,
 	"AVAILABLE_ON_SERVICE":                     ContentAvailabilityAvailableOnService,
@@ -33,8 +33,19 @@ var mappingContentAvailability = map[string]ContentAvailabilityEnum{
 // GetContentAvailabilityEnumValues Enumerates the set of values for ContentAvailabilityEnum
 func GetContentAvailabilityEnumValues() []ContentAvailabilityEnum {
 	values := make([]ContentAvailabilityEnum, 0)
-	for _, v := range mappingContentAvailability {
+	for _, v := range mappingContentAvailabilityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetContentAvailabilityEnumStringValues Enumerates the set of values in String for ContentAvailabilityEnum
+func GetContentAvailabilityEnumStringValues() []string {
+	return []string{
+		"NOT_AVAILABLE",
+		"AVAILABLE_ON_INSTANCE",
+		"AVAILABLE_ON_SERVICE",
+		"AVAILABLE_ON_INSTANCE_AND_SERVICE",
+		"AVAILABLE_ON_INSTANCE_UPLOAD_IN_PROGRESS",
+	}
 }

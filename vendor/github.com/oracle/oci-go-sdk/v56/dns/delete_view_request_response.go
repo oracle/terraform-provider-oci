@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteViewRequest wrapper for the DeleteView operation
@@ -53,6 +55,10 @@ func (request DeleteViewRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteViewRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,20 @@ func (request DeleteViewRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteViewRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteViewRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDeleteViewScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetDeleteViewScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteViewResponse wrapper for the DeleteView operation
@@ -101,7 +121,7 @@ const (
 	DeleteViewScopePrivate DeleteViewScopeEnum = "PRIVATE"
 )
 
-var mappingDeleteViewScope = map[string]DeleteViewScopeEnum{
+var mappingDeleteViewScopeEnum = map[string]DeleteViewScopeEnum{
 	"GLOBAL":  DeleteViewScopeGlobal,
 	"PRIVATE": DeleteViewScopePrivate,
 }
@@ -109,8 +129,16 @@ var mappingDeleteViewScope = map[string]DeleteViewScopeEnum{
 // GetDeleteViewScopeEnumValues Enumerates the set of values for DeleteViewScopeEnum
 func GetDeleteViewScopeEnumValues() []DeleteViewScopeEnum {
 	values := make([]DeleteViewScopeEnum, 0)
-	for _, v := range mappingDeleteViewScope {
+	for _, v := range mappingDeleteViewScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeleteViewScopeEnumStringValues Enumerates the set of values in String for DeleteViewScopeEnum
+func GetDeleteViewScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

@@ -10,7 +10,9 @@
 package databasemigration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MigrationPhaseSummary Migration Phase Summary of details.
@@ -28,4 +30,22 @@ type MigrationPhaseSummary struct {
 
 func (m MigrationPhaseSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MigrationPhaseSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingOdmsJobPhasesEnum[string(m.Name)]; !ok && m.Name != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Name: %s. Supported values are: %s.", m.Name, strings.Join(GetOdmsJobPhasesEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingOdmsPhaseActionsEnum[string(m.RecommendedAction)]; !ok && m.RecommendedAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecommendedAction: %s. Supported values are: %s.", m.RecommendedAction, strings.Join(GetOdmsPhaseActionsEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

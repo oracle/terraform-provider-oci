@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DrgAttachmentTypeDrgRouteDistributionMatchCriteria The attachment type from which the DRG will import routes. Routes will be imported from
@@ -29,6 +31,21 @@ type DrgAttachmentTypeDrgRouteDistributionMatchCriteria struct {
 
 func (m DrgAttachmentTypeDrgRouteDistributionMatchCriteria) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DrgAttachmentTypeDrgRouteDistributionMatchCriteria) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum[string(m.AttachmentType)]; !ok && m.AttachmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttachmentType: %s. Supported values are: %s.", m.AttachmentType, strings.Join(GetDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -56,7 +73,7 @@ const (
 	DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeIpsecTunnel             DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum = "IPSEC_TUNNEL"
 )
 
-var mappingDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentType = map[string]DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum{
+var mappingDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum = map[string]DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum{
 	"VCN":                       DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeVcn,
 	"VIRTUAL_CIRCUIT":           DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeVirtualCircuit,
 	"REMOTE_PEERING_CONNECTION": DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeRemotePeeringConnection,
@@ -66,8 +83,18 @@ var mappingDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentType = ma
 // GetDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnumValues Enumerates the set of values for DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum
 func GetDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnumValues() []DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum {
 	values := make([]DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum, 0)
-	for _, v := range mappingDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentType {
+	for _, v := range mappingDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnumStringValues Enumerates the set of values in String for DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum
+func GetDrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnumStringValues() []string {
+	return []string{
+		"VCN",
+		"VIRTUAL_CIRCUIT",
+		"REMOTE_PEERING_CONNECTION",
+		"IPSEC_TUNNEL",
+	}
 }

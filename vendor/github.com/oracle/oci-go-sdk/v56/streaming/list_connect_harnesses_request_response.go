@@ -5,8 +5,10 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListConnectHarnessesRequest wrapper for the ListConnectHarnesses operation
@@ -56,6 +58,10 @@ func (request ListConnectHarnessesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListConnectHarnessesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,26 @@ func (request ListConnectHarnessesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListConnectHarnessesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListConnectHarnessesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListConnectHarnessesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListConnectHarnessesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListConnectHarnessesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConnectHarnessesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingConnectHarnessSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetConnectHarnessSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListConnectHarnessesResponse wrapper for the ListConnectHarnesses operation
@@ -109,7 +135,7 @@ const (
 	ListConnectHarnessesSortByTimecreated ListConnectHarnessesSortByEnum = "TIMECREATED"
 )
 
-var mappingListConnectHarnessesSortBy = map[string]ListConnectHarnessesSortByEnum{
+var mappingListConnectHarnessesSortByEnum = map[string]ListConnectHarnessesSortByEnum{
 	"NAME":        ListConnectHarnessesSortByName,
 	"TIMECREATED": ListConnectHarnessesSortByTimecreated,
 }
@@ -117,10 +143,18 @@ var mappingListConnectHarnessesSortBy = map[string]ListConnectHarnessesSortByEnu
 // GetListConnectHarnessesSortByEnumValues Enumerates the set of values for ListConnectHarnessesSortByEnum
 func GetListConnectHarnessesSortByEnumValues() []ListConnectHarnessesSortByEnum {
 	values := make([]ListConnectHarnessesSortByEnum, 0)
-	for _, v := range mappingListConnectHarnessesSortBy {
+	for _, v := range mappingListConnectHarnessesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConnectHarnessesSortByEnumStringValues Enumerates the set of values in String for ListConnectHarnessesSortByEnum
+func GetListConnectHarnessesSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }
 
 // ListConnectHarnessesSortOrderEnum Enum with underlying type: string
@@ -132,7 +166,7 @@ const (
 	ListConnectHarnessesSortOrderDesc ListConnectHarnessesSortOrderEnum = "DESC"
 )
 
-var mappingListConnectHarnessesSortOrder = map[string]ListConnectHarnessesSortOrderEnum{
+var mappingListConnectHarnessesSortOrderEnum = map[string]ListConnectHarnessesSortOrderEnum{
 	"ASC":  ListConnectHarnessesSortOrderAsc,
 	"DESC": ListConnectHarnessesSortOrderDesc,
 }
@@ -140,8 +174,16 @@ var mappingListConnectHarnessesSortOrder = map[string]ListConnectHarnessesSortOr
 // GetListConnectHarnessesSortOrderEnumValues Enumerates the set of values for ListConnectHarnessesSortOrderEnum
 func GetListConnectHarnessesSortOrderEnumValues() []ListConnectHarnessesSortOrderEnum {
 	values := make([]ListConnectHarnessesSortOrderEnum, 0)
-	for _, v := range mappingListConnectHarnessesSortOrder {
+	for _, v := range mappingListConnectHarnessesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConnectHarnessesSortOrderEnumStringValues Enumerates the set of values in String for ListConnectHarnessesSortOrderEnum
+func GetListConnectHarnessesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

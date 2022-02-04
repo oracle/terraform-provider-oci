@@ -11,7 +11,9 @@ package logging
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UnifiedAgentLoggingSource Logging source object.
@@ -75,6 +77,18 @@ func (m unifiedagentloggingsource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m unifiedagentloggingsource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnifiedAgentLoggingSourceSourceTypeEnum Enum with underlying type: string
 type UnifiedAgentLoggingSourceSourceTypeEnum string
 
@@ -84,7 +98,7 @@ const (
 	UnifiedAgentLoggingSourceSourceTypeWindowsEventLog UnifiedAgentLoggingSourceSourceTypeEnum = "WINDOWS_EVENT_LOG"
 )
 
-var mappingUnifiedAgentLoggingSourceSourceType = map[string]UnifiedAgentLoggingSourceSourceTypeEnum{
+var mappingUnifiedAgentLoggingSourceSourceTypeEnum = map[string]UnifiedAgentLoggingSourceSourceTypeEnum{
 	"LOG_TAIL":          UnifiedAgentLoggingSourceSourceTypeLogTail,
 	"WINDOWS_EVENT_LOG": UnifiedAgentLoggingSourceSourceTypeWindowsEventLog,
 }
@@ -92,8 +106,16 @@ var mappingUnifiedAgentLoggingSourceSourceType = map[string]UnifiedAgentLoggingS
 // GetUnifiedAgentLoggingSourceSourceTypeEnumValues Enumerates the set of values for UnifiedAgentLoggingSourceSourceTypeEnum
 func GetUnifiedAgentLoggingSourceSourceTypeEnumValues() []UnifiedAgentLoggingSourceSourceTypeEnum {
 	values := make([]UnifiedAgentLoggingSourceSourceTypeEnum, 0)
-	for _, v := range mappingUnifiedAgentLoggingSourceSourceType {
+	for _, v := range mappingUnifiedAgentLoggingSourceSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUnifiedAgentLoggingSourceSourceTypeEnumStringValues Enumerates the set of values in String for UnifiedAgentLoggingSourceSourceTypeEnum
+func GetUnifiedAgentLoggingSourceSourceTypeEnumStringValues() []string {
+	return []string{
+		"LOG_TAIL",
+		"WINDOWS_EVENT_LOG",
+	}
 }

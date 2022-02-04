@@ -5,8 +5,10 @@
 package monitoring
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetAlarmHistoryRequest wrapper for the GetAlarmHistory operation
@@ -58,6 +60,10 @@ func (request GetAlarmHistoryRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetAlarmHistoryRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,20 @@ func (request GetAlarmHistoryRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetAlarmHistoryRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetAlarmHistoryRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetAlarmHistoryAlarmHistorytypeEnum[string(request.AlarmHistorytype)]; !ok && request.AlarmHistorytype != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AlarmHistorytype: %s. Supported values are: %s.", request.AlarmHistorytype, strings.Join(GetGetAlarmHistoryAlarmHistorytypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetAlarmHistoryResponse wrapper for the GetAlarmHistory operation
@@ -109,7 +129,7 @@ const (
 	GetAlarmHistoryAlarmHistorytypeTransitionHistory GetAlarmHistoryAlarmHistorytypeEnum = "STATE_TRANSITION_HISTORY"
 )
 
-var mappingGetAlarmHistoryAlarmHistorytype = map[string]GetAlarmHistoryAlarmHistorytypeEnum{
+var mappingGetAlarmHistoryAlarmHistorytypeEnum = map[string]GetAlarmHistoryAlarmHistorytypeEnum{
 	"STATE_HISTORY":            GetAlarmHistoryAlarmHistorytypeHistory,
 	"STATE_TRANSITION_HISTORY": GetAlarmHistoryAlarmHistorytypeTransitionHistory,
 }
@@ -117,8 +137,16 @@ var mappingGetAlarmHistoryAlarmHistorytype = map[string]GetAlarmHistoryAlarmHist
 // GetGetAlarmHistoryAlarmHistorytypeEnumValues Enumerates the set of values for GetAlarmHistoryAlarmHistorytypeEnum
 func GetGetAlarmHistoryAlarmHistorytypeEnumValues() []GetAlarmHistoryAlarmHistorytypeEnum {
 	values := make([]GetAlarmHistoryAlarmHistorytypeEnum, 0)
-	for _, v := range mappingGetAlarmHistoryAlarmHistorytype {
+	for _, v := range mappingGetAlarmHistoryAlarmHistorytypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetAlarmHistoryAlarmHistorytypeEnumStringValues Enumerates the set of values in String for GetAlarmHistoryAlarmHistorytypeEnum
+func GetGetAlarmHistoryAlarmHistorytypeEnumStringValues() []string {
+	return []string{
+		"STATE_HISTORY",
+		"STATE_TRANSITION_HISTORY",
+	}
 }

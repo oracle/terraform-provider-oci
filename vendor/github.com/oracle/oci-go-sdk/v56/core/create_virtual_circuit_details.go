@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateVirtualCircuitDetails The representation of CreateVirtualCircuitDetails
@@ -108,6 +110,30 @@ func (m CreateVirtualCircuitDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateVirtualCircuitDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateVirtualCircuitDetailsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCreateVirtualCircuitDetailsTypeEnumStringValues(), ",")))
+	}
+
+	for _, val := range m.RoutingPolicy {
+		if _, ok := mappingCreateVirtualCircuitDetailsRoutingPolicyEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingPolicy: %s. Supported values are: %s.", val, strings.Join(GetCreateVirtualCircuitDetailsRoutingPolicyEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingVirtualCircuitIpMtuEnum[string(m.IpMtu)]; !ok && m.IpMtu != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMtu: %s. Supported values are: %s.", m.IpMtu, strings.Join(GetVirtualCircuitIpMtuEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateVirtualCircuitDetailsRoutingPolicyEnum Enum with underlying type: string
 type CreateVirtualCircuitDetailsRoutingPolicyEnum string
 
@@ -119,7 +145,7 @@ const (
 	CreateVirtualCircuitDetailsRoutingPolicyGlobal               CreateVirtualCircuitDetailsRoutingPolicyEnum = "GLOBAL"
 )
 
-var mappingCreateVirtualCircuitDetailsRoutingPolicy = map[string]CreateVirtualCircuitDetailsRoutingPolicyEnum{
+var mappingCreateVirtualCircuitDetailsRoutingPolicyEnum = map[string]CreateVirtualCircuitDetailsRoutingPolicyEnum{
 	"ORACLE_SERVICE_NETWORK": CreateVirtualCircuitDetailsRoutingPolicyOracleServiceNetwork,
 	"REGIONAL":               CreateVirtualCircuitDetailsRoutingPolicyRegional,
 	"MARKET_LEVEL":           CreateVirtualCircuitDetailsRoutingPolicyMarketLevel,
@@ -129,10 +155,20 @@ var mappingCreateVirtualCircuitDetailsRoutingPolicy = map[string]CreateVirtualCi
 // GetCreateVirtualCircuitDetailsRoutingPolicyEnumValues Enumerates the set of values for CreateVirtualCircuitDetailsRoutingPolicyEnum
 func GetCreateVirtualCircuitDetailsRoutingPolicyEnumValues() []CreateVirtualCircuitDetailsRoutingPolicyEnum {
 	values := make([]CreateVirtualCircuitDetailsRoutingPolicyEnum, 0)
-	for _, v := range mappingCreateVirtualCircuitDetailsRoutingPolicy {
+	for _, v := range mappingCreateVirtualCircuitDetailsRoutingPolicyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateVirtualCircuitDetailsRoutingPolicyEnumStringValues Enumerates the set of values in String for CreateVirtualCircuitDetailsRoutingPolicyEnum
+func GetCreateVirtualCircuitDetailsRoutingPolicyEnumStringValues() []string {
+	return []string{
+		"ORACLE_SERVICE_NETWORK",
+		"REGIONAL",
+		"MARKET_LEVEL",
+		"GLOBAL",
+	}
 }
 
 // CreateVirtualCircuitDetailsTypeEnum Enum with underlying type: string
@@ -144,7 +180,7 @@ const (
 	CreateVirtualCircuitDetailsTypePrivate CreateVirtualCircuitDetailsTypeEnum = "PRIVATE"
 )
 
-var mappingCreateVirtualCircuitDetailsType = map[string]CreateVirtualCircuitDetailsTypeEnum{
+var mappingCreateVirtualCircuitDetailsTypeEnum = map[string]CreateVirtualCircuitDetailsTypeEnum{
 	"PUBLIC":  CreateVirtualCircuitDetailsTypePublic,
 	"PRIVATE": CreateVirtualCircuitDetailsTypePrivate,
 }
@@ -152,8 +188,16 @@ var mappingCreateVirtualCircuitDetailsType = map[string]CreateVirtualCircuitDeta
 // GetCreateVirtualCircuitDetailsTypeEnumValues Enumerates the set of values for CreateVirtualCircuitDetailsTypeEnum
 func GetCreateVirtualCircuitDetailsTypeEnumValues() []CreateVirtualCircuitDetailsTypeEnum {
 	values := make([]CreateVirtualCircuitDetailsTypeEnum, 0)
-	for _, v := range mappingCreateVirtualCircuitDetailsType {
+	for _, v := range mappingCreateVirtualCircuitDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateVirtualCircuitDetailsTypeEnumStringValues Enumerates the set of values in String for CreateVirtualCircuitDetailsTypeEnum
+func GetCreateVirtualCircuitDetailsTypeEnumStringValues() []string {
+	return []string{
+		"PUBLIC",
+		"PRIVATE",
+	}
 }

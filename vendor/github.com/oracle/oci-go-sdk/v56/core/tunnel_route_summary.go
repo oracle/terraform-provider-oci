@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TunnelRouteSummary The routes advertised to the Customer and the routes received from the Customer
@@ -40,6 +42,21 @@ func (m TunnelRouteSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TunnelRouteSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTunnelRouteSummaryAdvertiserEnum[string(m.Advertiser)]; !ok && m.Advertiser != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Advertiser: %s. Supported values are: %s.", m.Advertiser, strings.Join(GetTunnelRouteSummaryAdvertiserEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TunnelRouteSummaryAdvertiserEnum Enum with underlying type: string
 type TunnelRouteSummaryAdvertiserEnum string
 
@@ -49,7 +66,7 @@ const (
 	TunnelRouteSummaryAdvertiserOracle   TunnelRouteSummaryAdvertiserEnum = "ORACLE"
 )
 
-var mappingTunnelRouteSummaryAdvertiser = map[string]TunnelRouteSummaryAdvertiserEnum{
+var mappingTunnelRouteSummaryAdvertiserEnum = map[string]TunnelRouteSummaryAdvertiserEnum{
 	"CUSTOMER": TunnelRouteSummaryAdvertiserCustomer,
 	"ORACLE":   TunnelRouteSummaryAdvertiserOracle,
 }
@@ -57,8 +74,16 @@ var mappingTunnelRouteSummaryAdvertiser = map[string]TunnelRouteSummaryAdvertise
 // GetTunnelRouteSummaryAdvertiserEnumValues Enumerates the set of values for TunnelRouteSummaryAdvertiserEnum
 func GetTunnelRouteSummaryAdvertiserEnumValues() []TunnelRouteSummaryAdvertiserEnum {
 	values := make([]TunnelRouteSummaryAdvertiserEnum, 0)
-	for _, v := range mappingTunnelRouteSummaryAdvertiser {
+	for _, v := range mappingTunnelRouteSummaryAdvertiserEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTunnelRouteSummaryAdvertiserEnumStringValues Enumerates the set of values in String for TunnelRouteSummaryAdvertiserEnum
+func GetTunnelRouteSummaryAdvertiserEnumStringValues() []string {
+	return []string{
+		"CUSTOMER",
+		"ORACLE",
+	}
 }

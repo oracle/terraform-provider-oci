@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Instance A compute host. The image used to launch the instance determines its operating system and other
@@ -164,6 +166,24 @@ func (m Instance) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Instance) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstanceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingInstanceLaunchModeEnum[string(m.LaunchMode)]; !ok && m.LaunchMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LaunchMode: %s. Supported values are: %s.", m.LaunchMode, strings.Join(GetInstanceLaunchModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnmarshalJSON unmarshals from json
 func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
@@ -288,7 +308,7 @@ const (
 	InstanceLaunchModeCustom          InstanceLaunchModeEnum = "CUSTOM"
 )
 
-var mappingInstanceLaunchMode = map[string]InstanceLaunchModeEnum{
+var mappingInstanceLaunchModeEnum = map[string]InstanceLaunchModeEnum{
 	"NATIVE":          InstanceLaunchModeNative,
 	"EMULATED":        InstanceLaunchModeEmulated,
 	"PARAVIRTUALIZED": InstanceLaunchModeParavirtualized,
@@ -298,10 +318,20 @@ var mappingInstanceLaunchMode = map[string]InstanceLaunchModeEnum{
 // GetInstanceLaunchModeEnumValues Enumerates the set of values for InstanceLaunchModeEnum
 func GetInstanceLaunchModeEnumValues() []InstanceLaunchModeEnum {
 	values := make([]InstanceLaunchModeEnum, 0)
-	for _, v := range mappingInstanceLaunchMode {
+	for _, v := range mappingInstanceLaunchModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceLaunchModeEnumStringValues Enumerates the set of values in String for InstanceLaunchModeEnum
+func GetInstanceLaunchModeEnumStringValues() []string {
+	return []string{
+		"NATIVE",
+		"EMULATED",
+		"PARAVIRTUALIZED",
+		"CUSTOM",
+	}
 }
 
 // InstanceLifecycleStateEnum Enum with underlying type: string
@@ -320,7 +350,7 @@ const (
 	InstanceLifecycleStateTerminated    InstanceLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingInstanceLifecycleState = map[string]InstanceLifecycleStateEnum{
+var mappingInstanceLifecycleStateEnum = map[string]InstanceLifecycleStateEnum{
 	"MOVING":         InstanceLifecycleStateMoving,
 	"PROVISIONING":   InstanceLifecycleStateProvisioning,
 	"RUNNING":        InstanceLifecycleStateRunning,
@@ -335,8 +365,23 @@ var mappingInstanceLifecycleState = map[string]InstanceLifecycleStateEnum{
 // GetInstanceLifecycleStateEnumValues Enumerates the set of values for InstanceLifecycleStateEnum
 func GetInstanceLifecycleStateEnumValues() []InstanceLifecycleStateEnum {
 	values := make([]InstanceLifecycleStateEnum, 0)
-	for _, v := range mappingInstanceLifecycleState {
+	for _, v := range mappingInstanceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceLifecycleStateEnumStringValues Enumerates the set of values in String for InstanceLifecycleStateEnum
+func GetInstanceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"MOVING",
+		"PROVISIONING",
+		"RUNNING",
+		"STARTING",
+		"STOPPING",
+		"STOPPED",
+		"CREATING_IMAGE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

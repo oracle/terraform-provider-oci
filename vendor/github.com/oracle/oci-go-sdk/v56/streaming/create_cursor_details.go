@@ -10,7 +10,9 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateCursorDetails Object used to create a cursor to consume messages in a stream.
@@ -38,6 +40,21 @@ func (m CreateCursorDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateCursorDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateCursorDetailsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCreateCursorDetailsTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateCursorDetailsTypeEnum Enum with underlying type: string
 type CreateCursorDetailsTypeEnum string
 
@@ -50,7 +67,7 @@ const (
 	CreateCursorDetailsTypeTrimHorizon CreateCursorDetailsTypeEnum = "TRIM_HORIZON"
 )
 
-var mappingCreateCursorDetailsType = map[string]CreateCursorDetailsTypeEnum{
+var mappingCreateCursorDetailsTypeEnum = map[string]CreateCursorDetailsTypeEnum{
 	"AFTER_OFFSET": CreateCursorDetailsTypeAfterOffset,
 	"AT_OFFSET":    CreateCursorDetailsTypeAtOffset,
 	"AT_TIME":      CreateCursorDetailsTypeAtTime,
@@ -61,8 +78,19 @@ var mappingCreateCursorDetailsType = map[string]CreateCursorDetailsTypeEnum{
 // GetCreateCursorDetailsTypeEnumValues Enumerates the set of values for CreateCursorDetailsTypeEnum
 func GetCreateCursorDetailsTypeEnumValues() []CreateCursorDetailsTypeEnum {
 	values := make([]CreateCursorDetailsTypeEnum, 0)
-	for _, v := range mappingCreateCursorDetailsType {
+	for _, v := range mappingCreateCursorDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateCursorDetailsTypeEnumStringValues Enumerates the set of values in String for CreateCursorDetailsTypeEnum
+func GetCreateCursorDetailsTypeEnumStringValues() []string {
+	return []string{
+		"AFTER_OFFSET",
+		"AT_OFFSET",
+		"AT_TIME",
+		"LATEST",
+		"TRIM_HORIZON",
+	}
 }

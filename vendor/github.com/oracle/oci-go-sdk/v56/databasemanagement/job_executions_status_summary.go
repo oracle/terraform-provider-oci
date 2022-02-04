@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // JobExecutionsStatusSummary A summary of the status of the job executions.
@@ -29,6 +31,21 @@ func (m JobExecutionsStatusSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m JobExecutionsStatusSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJobExecutionsStatusSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetJobExecutionsStatusSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // JobExecutionsStatusSummaryStatusEnum Enum with underlying type: string
 type JobExecutionsStatusSummaryStatusEnum string
 
@@ -39,7 +56,7 @@ const (
 	JobExecutionsStatusSummaryStatusInProgress JobExecutionsStatusSummaryStatusEnum = "IN_PROGRESS"
 )
 
-var mappingJobExecutionsStatusSummaryStatus = map[string]JobExecutionsStatusSummaryStatusEnum{
+var mappingJobExecutionsStatusSummaryStatusEnum = map[string]JobExecutionsStatusSummaryStatusEnum{
 	"SUCCEEDED":   JobExecutionsStatusSummaryStatusSucceeded,
 	"FAILED":      JobExecutionsStatusSummaryStatusFailed,
 	"IN_PROGRESS": JobExecutionsStatusSummaryStatusInProgress,
@@ -48,8 +65,17 @@ var mappingJobExecutionsStatusSummaryStatus = map[string]JobExecutionsStatusSumm
 // GetJobExecutionsStatusSummaryStatusEnumValues Enumerates the set of values for JobExecutionsStatusSummaryStatusEnum
 func GetJobExecutionsStatusSummaryStatusEnumValues() []JobExecutionsStatusSummaryStatusEnum {
 	values := make([]JobExecutionsStatusSummaryStatusEnum, 0)
-	for _, v := range mappingJobExecutionsStatusSummaryStatus {
+	for _, v := range mappingJobExecutionsStatusSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobExecutionsStatusSummaryStatusEnumStringValues Enumerates the set of values in String for JobExecutionsStatusSummaryStatusEnum
+func GetJobExecutionsStatusSummaryStatusEnumStringValues() []string {
+	return []string{
+		"SUCCEEDED",
+		"FAILED",
+		"IN_PROGRESS",
+	}
 }

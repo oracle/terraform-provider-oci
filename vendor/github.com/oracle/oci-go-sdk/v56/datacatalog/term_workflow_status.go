@@ -21,7 +21,7 @@ const (
 	TermWorkflowStatusEscalated   TermWorkflowStatusEnum = "ESCALATED"
 )
 
-var mappingTermWorkflowStatus = map[string]TermWorkflowStatusEnum{
+var mappingTermWorkflowStatusEnum = map[string]TermWorkflowStatusEnum{
 	"NEW":          TermWorkflowStatusNew,
 	"APPROVED":     TermWorkflowStatusApproved,
 	"UNDER_REVIEW": TermWorkflowStatusUnderReview,
@@ -31,8 +31,18 @@ var mappingTermWorkflowStatus = map[string]TermWorkflowStatusEnum{
 // GetTermWorkflowStatusEnumValues Enumerates the set of values for TermWorkflowStatusEnum
 func GetTermWorkflowStatusEnumValues() []TermWorkflowStatusEnum {
 	values := make([]TermWorkflowStatusEnum, 0)
-	for _, v := range mappingTermWorkflowStatus {
+	for _, v := range mappingTermWorkflowStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTermWorkflowStatusEnumStringValues Enumerates the set of values in String for TermWorkflowStatusEnum
+func GetTermWorkflowStatusEnumStringValues() []string {
+	return []string{
+		"NEW",
+		"APPROVED",
+		"UNDER_REVIEW",
+		"ESCALATED",
+	}
 }

@@ -25,7 +25,7 @@ const (
 	OperationTypesRefreshHcxLicenseStatus OperationTypesEnum = "REFRESH_HCX_LICENSE_STATUS"
 )
 
-var mappingOperationTypes = map[string]OperationTypesEnum{
+var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CREATE_SDDC":                OperationTypesCreateSddc,
 	"DELETE_SDDC":                OperationTypesDeleteSddc,
 	"CREATE_ESXI_HOST":           OperationTypesCreateEsxiHost,
@@ -39,8 +39,22 @@ var mappingOperationTypes = map[string]OperationTypesEnum{
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
 func GetOperationTypesEnumValues() []OperationTypesEnum {
 	values := make([]OperationTypesEnum, 0)
-	for _, v := range mappingOperationTypes {
+	for _, v := range mappingOperationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypesEnumStringValues Enumerates the set of values in String for OperationTypesEnum
+func GetOperationTypesEnumStringValues() []string {
+	return []string{
+		"CREATE_SDDC",
+		"DELETE_SDDC",
+		"CREATE_ESXI_HOST",
+		"DELETE_ESXI_HOST",
+		"UPGRADE_HCX",
+		"DOWNGRADE_HCX",
+		"CANCEL_DOWNGRADE_HCX",
+		"REFRESH_HCX_LICENSE_STATUS",
+	}
 }

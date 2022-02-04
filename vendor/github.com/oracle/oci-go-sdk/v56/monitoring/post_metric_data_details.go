@@ -12,7 +12,9 @@
 package monitoring
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PostMetricDataDetails An array of metric objects containing raw metric data points to be posted to the Monitoring service.
@@ -35,6 +37,21 @@ func (m PostMetricDataDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PostMetricDataDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPostMetricDataDetailsBatchAtomicityEnum[string(m.BatchAtomicity)]; !ok && m.BatchAtomicity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BatchAtomicity: %s. Supported values are: %s.", m.BatchAtomicity, strings.Join(GetPostMetricDataDetailsBatchAtomicityEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PostMetricDataDetailsBatchAtomicityEnum Enum with underlying type: string
 type PostMetricDataDetailsBatchAtomicityEnum string
 
@@ -44,7 +61,7 @@ const (
 	PostMetricDataDetailsBatchAtomicityNonAtomic PostMetricDataDetailsBatchAtomicityEnum = "NON_ATOMIC"
 )
 
-var mappingPostMetricDataDetailsBatchAtomicity = map[string]PostMetricDataDetailsBatchAtomicityEnum{
+var mappingPostMetricDataDetailsBatchAtomicityEnum = map[string]PostMetricDataDetailsBatchAtomicityEnum{
 	"ATOMIC":     PostMetricDataDetailsBatchAtomicityAtomic,
 	"NON_ATOMIC": PostMetricDataDetailsBatchAtomicityNonAtomic,
 }
@@ -52,8 +69,16 @@ var mappingPostMetricDataDetailsBatchAtomicity = map[string]PostMetricDataDetail
 // GetPostMetricDataDetailsBatchAtomicityEnumValues Enumerates the set of values for PostMetricDataDetailsBatchAtomicityEnum
 func GetPostMetricDataDetailsBatchAtomicityEnumValues() []PostMetricDataDetailsBatchAtomicityEnum {
 	values := make([]PostMetricDataDetailsBatchAtomicityEnum, 0)
-	for _, v := range mappingPostMetricDataDetailsBatchAtomicity {
+	for _, v := range mappingPostMetricDataDetailsBatchAtomicityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPostMetricDataDetailsBatchAtomicityEnumStringValues Enumerates the set of values in String for PostMetricDataDetailsBatchAtomicityEnum
+func GetPostMetricDataDetailsBatchAtomicityEnumStringValues() []string {
+	return []string{
+		"ATOMIC",
+		"NON_ATOMIC",
+	}
 }

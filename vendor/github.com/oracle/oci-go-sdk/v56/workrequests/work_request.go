@@ -14,7 +14,9 @@
 package workrequests
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WorkRequest An asynchronous work request.
@@ -55,6 +57,21 @@ func (m WorkRequest) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestStatusEnum Enum with underlying type: string
 type WorkRequestStatusEnum string
 
@@ -68,7 +85,7 @@ const (
 	WorkRequestStatusCanceled   WorkRequestStatusEnum = "CANCELED"
 )
 
-var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
+var mappingWorkRequestStatusEnum = map[string]WorkRequestStatusEnum{
 	"ACCEPTED":    WorkRequestStatusAccepted,
 	"IN_PROGRESS": WorkRequestStatusInProgress,
 	"FAILED":      WorkRequestStatusFailed,
@@ -80,8 +97,20 @@ var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
 // GetWorkRequestStatusEnumValues Enumerates the set of values for WorkRequestStatusEnum
 func GetWorkRequestStatusEnumValues() []WorkRequestStatusEnum {
 	values := make([]WorkRequestStatusEnum, 0)
-	for _, v := range mappingWorkRequestStatus {
+	for _, v := range mappingWorkRequestStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestStatusEnumStringValues Enumerates the set of values in String for WorkRequestStatusEnum
+func GetWorkRequestStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

@@ -20,7 +20,7 @@ const (
 	RecommendationStatusInferred RecommendationStatusEnum = "INFERRED"
 )
 
-var mappingRecommendationStatus = map[string]RecommendationStatusEnum{
+var mappingRecommendationStatusEnum = map[string]RecommendationStatusEnum{
 	"ACCEPTED": RecommendationStatusAccepted,
 	"REJECTED": RecommendationStatusRejected,
 	"INFERRED": RecommendationStatusInferred,
@@ -29,8 +29,17 @@ var mappingRecommendationStatus = map[string]RecommendationStatusEnum{
 // GetRecommendationStatusEnumValues Enumerates the set of values for RecommendationStatusEnum
 func GetRecommendationStatusEnumValues() []RecommendationStatusEnum {
 	values := make([]RecommendationStatusEnum, 0)
-	for _, v := range mappingRecommendationStatus {
+	for _, v := range mappingRecommendationStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecommendationStatusEnumStringValues Enumerates the set of values in String for RecommendationStatusEnum
+func GetRecommendationStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"REJECTED",
+		"INFERRED",
+	}
 }

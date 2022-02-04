@@ -19,7 +19,7 @@ const (
 	TargetResourceTypeHcmcloud    TargetResourceTypeEnum = "HCMCLOUD"
 )
 
-var mappingTargetResourceType = map[string]TargetResourceTypeEnum{
+var mappingTargetResourceTypeEnum = map[string]TargetResourceTypeEnum{
 	"COMPARTMENT": TargetResourceTypeCompartment,
 	"ERPCLOUD":    TargetResourceTypeErpcloud,
 	"HCMCLOUD":    TargetResourceTypeHcmcloud,
@@ -28,8 +28,17 @@ var mappingTargetResourceType = map[string]TargetResourceTypeEnum{
 // GetTargetResourceTypeEnumValues Enumerates the set of values for TargetResourceTypeEnum
 func GetTargetResourceTypeEnumValues() []TargetResourceTypeEnum {
 	values := make([]TargetResourceTypeEnum, 0)
-	for _, v := range mappingTargetResourceType {
+	for _, v := range mappingTargetResourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTargetResourceTypeEnumStringValues Enumerates the set of values in String for TargetResourceTypeEnum
+func GetTargetResourceTypeEnumStringValues() []string {
+	return []string{
+		"COMPARTMENT",
+		"ERPCLOUD",
+		"HCMCLOUD",
+	}
 }

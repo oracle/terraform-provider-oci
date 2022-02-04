@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TsigKey A TSIG key.
@@ -67,6 +69,21 @@ func (m TsigKey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TsigKey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTsigKeyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTsigKeyLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TsigKeyLifecycleStateEnum Enum with underlying type: string
 type TsigKeyLifecycleStateEnum string
 
@@ -80,7 +97,7 @@ const (
 	TsigKeyLifecycleStateUpdating TsigKeyLifecycleStateEnum = "UPDATING"
 )
 
-var mappingTsigKeyLifecycleState = map[string]TsigKeyLifecycleStateEnum{
+var mappingTsigKeyLifecycleStateEnum = map[string]TsigKeyLifecycleStateEnum{
 	"ACTIVE":   TsigKeyLifecycleStateActive,
 	"CREATING": TsigKeyLifecycleStateCreating,
 	"DELETED":  TsigKeyLifecycleStateDeleted,
@@ -92,8 +109,20 @@ var mappingTsigKeyLifecycleState = map[string]TsigKeyLifecycleStateEnum{
 // GetTsigKeyLifecycleStateEnumValues Enumerates the set of values for TsigKeyLifecycleStateEnum
 func GetTsigKeyLifecycleStateEnumValues() []TsigKeyLifecycleStateEnum {
 	values := make([]TsigKeyLifecycleStateEnum, 0)
-	for _, v := range mappingTsigKeyLifecycleState {
+	for _, v := range mappingTsigKeyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTsigKeyLifecycleStateEnumStringValues Enumerates the set of values in String for TsigKeyLifecycleStateEnum
+func GetTsigKeyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"UPDATING",
+	}
 }

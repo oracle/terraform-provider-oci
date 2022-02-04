@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeAwrDbSnapshotRangesRequest wrapper for the SummarizeAwrDbSnapshotRanges operation
@@ -63,6 +65,10 @@ func (request SummarizeAwrDbSnapshotRangesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeAwrDbSnapshotRangesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,23 @@ func (request SummarizeAwrDbSnapshotRangesRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeAwrDbSnapshotRangesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeAwrDbSnapshotRangesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeAwrDbSnapshotRangesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeAwrDbSnapshotRangesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbSnapshotRangesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeAwrDbSnapshotRangesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeAwrDbSnapshotRangesResponse wrapper for the SummarizeAwrDbSnapshotRanges operation
@@ -115,7 +138,7 @@ const (
 	SummarizeAwrDbSnapshotRangesSortByName            SummarizeAwrDbSnapshotRangesSortByEnum = "NAME"
 )
 
-var mappingSummarizeAwrDbSnapshotRangesSortBy = map[string]SummarizeAwrDbSnapshotRangesSortByEnum{
+var mappingSummarizeAwrDbSnapshotRangesSortByEnum = map[string]SummarizeAwrDbSnapshotRangesSortByEnum{
 	"END_INTERVAL_TIME": SummarizeAwrDbSnapshotRangesSortByEndIntervalTime,
 	"NAME":              SummarizeAwrDbSnapshotRangesSortByName,
 }
@@ -123,10 +146,18 @@ var mappingSummarizeAwrDbSnapshotRangesSortBy = map[string]SummarizeAwrDbSnapsho
 // GetSummarizeAwrDbSnapshotRangesSortByEnumValues Enumerates the set of values for SummarizeAwrDbSnapshotRangesSortByEnum
 func GetSummarizeAwrDbSnapshotRangesSortByEnumValues() []SummarizeAwrDbSnapshotRangesSortByEnum {
 	values := make([]SummarizeAwrDbSnapshotRangesSortByEnum, 0)
-	for _, v := range mappingSummarizeAwrDbSnapshotRangesSortBy {
+	for _, v := range mappingSummarizeAwrDbSnapshotRangesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbSnapshotRangesSortByEnumStringValues Enumerates the set of values in String for SummarizeAwrDbSnapshotRangesSortByEnum
+func GetSummarizeAwrDbSnapshotRangesSortByEnumStringValues() []string {
+	return []string{
+		"END_INTERVAL_TIME",
+		"NAME",
+	}
 }
 
 // SummarizeAwrDbSnapshotRangesSortOrderEnum Enum with underlying type: string
@@ -138,7 +169,7 @@ const (
 	SummarizeAwrDbSnapshotRangesSortOrderDesc SummarizeAwrDbSnapshotRangesSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeAwrDbSnapshotRangesSortOrder = map[string]SummarizeAwrDbSnapshotRangesSortOrderEnum{
+var mappingSummarizeAwrDbSnapshotRangesSortOrderEnum = map[string]SummarizeAwrDbSnapshotRangesSortOrderEnum{
 	"ASC":  SummarizeAwrDbSnapshotRangesSortOrderAsc,
 	"DESC": SummarizeAwrDbSnapshotRangesSortOrderDesc,
 }
@@ -146,8 +177,16 @@ var mappingSummarizeAwrDbSnapshotRangesSortOrder = map[string]SummarizeAwrDbSnap
 // GetSummarizeAwrDbSnapshotRangesSortOrderEnumValues Enumerates the set of values for SummarizeAwrDbSnapshotRangesSortOrderEnum
 func GetSummarizeAwrDbSnapshotRangesSortOrderEnumValues() []SummarizeAwrDbSnapshotRangesSortOrderEnum {
 	values := make([]SummarizeAwrDbSnapshotRangesSortOrderEnum, 0)
-	for _, v := range mappingSummarizeAwrDbSnapshotRangesSortOrder {
+	for _, v := range mappingSummarizeAwrDbSnapshotRangesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbSnapshotRangesSortOrderEnumStringValues Enumerates the set of values in String for SummarizeAwrDbSnapshotRangesSortOrderEnum
+func GetSummarizeAwrDbSnapshotRangesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // JobRun The details of a specific job run.
@@ -53,6 +55,21 @@ func (m JobRun) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m JobRun) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJobRunRunStatusEnum[string(m.RunStatus)]; !ok && m.RunStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RunStatus: %s. Supported values are: %s.", m.RunStatus, strings.Join(GetJobRunRunStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // JobRunRunStatusEnum Enum with underlying type: string
 type JobRunRunStatusEnum string
 
@@ -63,7 +80,7 @@ const (
 	JobRunRunStatusInProgress JobRunRunStatusEnum = "IN_PROGRESS"
 )
 
-var mappingJobRunRunStatus = map[string]JobRunRunStatusEnum{
+var mappingJobRunRunStatusEnum = map[string]JobRunRunStatusEnum{
 	"COMPLETED":   JobRunRunStatusCompleted,
 	"FAILED":      JobRunRunStatusFailed,
 	"IN_PROGRESS": JobRunRunStatusInProgress,
@@ -72,8 +89,17 @@ var mappingJobRunRunStatus = map[string]JobRunRunStatusEnum{
 // GetJobRunRunStatusEnumValues Enumerates the set of values for JobRunRunStatusEnum
 func GetJobRunRunStatusEnumValues() []JobRunRunStatusEnum {
 	values := make([]JobRunRunStatusEnum, 0)
-	for _, v := range mappingJobRunRunStatus {
+	for _, v := range mappingJobRunRunStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobRunRunStatusEnumStringValues Enumerates the set of values in String for JobRunRunStatusEnum
+func GetJobRunRunStatusEnumStringValues() []string {
+	return []string{
+		"COMPLETED",
+		"FAILED",
+		"IN_PROGRESS",
+	}
 }

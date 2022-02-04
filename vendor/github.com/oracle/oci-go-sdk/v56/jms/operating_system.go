@@ -10,7 +10,9 @@
 package jms
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // OperatingSystem Operating System of the platform on which the Java Runtime was reported.
@@ -31,4 +33,19 @@ type OperatingSystem struct {
 
 func (m OperatingSystem) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OperatingSystem) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingOsFamilyEnum[string(m.Family)]; !ok && m.Family != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Family: %s. Supported values are: %s.", m.Family, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ShapePlatformConfigOptions The list of supported platform configuration options for this shape.
@@ -36,6 +38,21 @@ func (m ShapePlatformConfigOptions) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ShapePlatformConfigOptions) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingShapePlatformConfigOptionsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetShapePlatformConfigOptionsTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ShapePlatformConfigOptionsTypeEnum Enum with underlying type: string
 type ShapePlatformConfigOptionsTypeEnum string
 
@@ -48,7 +65,7 @@ const (
 	ShapePlatformConfigOptionsTypeIntelVm        ShapePlatformConfigOptionsTypeEnum = "INTEL_VM"
 )
 
-var mappingShapePlatformConfigOptionsType = map[string]ShapePlatformConfigOptionsTypeEnum{
+var mappingShapePlatformConfigOptionsTypeEnum = map[string]ShapePlatformConfigOptionsTypeEnum{
 	"AMD_MILAN_BM":     ShapePlatformConfigOptionsTypeAmdMilanBm,
 	"AMD_ROME_BM":      ShapePlatformConfigOptionsTypeAmdRomeBm,
 	"INTEL_SKYLAKE_BM": ShapePlatformConfigOptionsTypeIntelSkylakeBm,
@@ -59,8 +76,19 @@ var mappingShapePlatformConfigOptionsType = map[string]ShapePlatformConfigOption
 // GetShapePlatformConfigOptionsTypeEnumValues Enumerates the set of values for ShapePlatformConfigOptionsTypeEnum
 func GetShapePlatformConfigOptionsTypeEnumValues() []ShapePlatformConfigOptionsTypeEnum {
 	values := make([]ShapePlatformConfigOptionsTypeEnum, 0)
-	for _, v := range mappingShapePlatformConfigOptionsType {
+	for _, v := range mappingShapePlatformConfigOptionsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetShapePlatformConfigOptionsTypeEnumStringValues Enumerates the set of values in String for ShapePlatformConfigOptionsTypeEnum
+func GetShapePlatformConfigOptionsTypeEnumStringValues() []string {
+	return []string{
+		"AMD_MILAN_BM",
+		"AMD_ROME_BM",
+		"INTEL_SKYLAKE_BM",
+		"AMD_VM",
+		"INTEL_VM",
+	}
 }

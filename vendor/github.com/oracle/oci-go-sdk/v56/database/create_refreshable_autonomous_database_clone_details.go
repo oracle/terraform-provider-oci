@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateRefreshableAutonomousDatabaseCloneDetails Details to create an Oracle Autonomous Database refreshable clone.
@@ -336,6 +338,30 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum[string(m.RefreshableMode)]; !ok && m.RefreshableMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableMode: %s. Supported values are: %s.", m.RefreshableMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCreateAutonomousDatabaseBaseDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum[string(m.AutonomousMaintenanceScheduleType)]; !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeCreateRefreshableAutonomousDatabaseCloneDetails CreateRefreshableAutonomousDatabaseCloneDetails
@@ -359,7 +385,7 @@ const (
 	CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual    CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum = "MANUAL"
 )
 
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableMode = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum{
+var mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum{
 	"AUTOMATIC": CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeAutomatic,
 	"MANUAL":    CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeManual,
 }
@@ -367,8 +393,16 @@ var mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableMode = map[
 // GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum
 func GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum {
 	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum, 0)
-	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableMode {
+	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum
+func GetCreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnumStringValues() []string {
+	return []string{
+		"AUTOMATIC",
+		"MANUAL",
+	}
 }

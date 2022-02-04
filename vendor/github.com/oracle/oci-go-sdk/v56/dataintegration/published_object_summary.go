@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PublishedObjectSummary The published obect summary.
@@ -157,6 +159,18 @@ func (m publishedobjectsummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m publishedobjectsummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PublishedObjectSummaryModelTypeEnum Enum with underlying type: string
 type PublishedObjectSummaryModelTypeEnum string
 
@@ -170,7 +184,7 @@ const (
 	PublishedObjectSummaryModelTypeRestTask        PublishedObjectSummaryModelTypeEnum = "REST_TASK"
 )
 
-var mappingPublishedObjectSummaryModelType = map[string]PublishedObjectSummaryModelTypeEnum{
+var mappingPublishedObjectSummaryModelTypeEnum = map[string]PublishedObjectSummaryModelTypeEnum{
 	"INTEGRATION_TASK":  PublishedObjectSummaryModelTypeIntegrationTask,
 	"DATA_LOADER_TASK":  PublishedObjectSummaryModelTypeDataLoaderTask,
 	"PIPELINE_TASK":     PublishedObjectSummaryModelTypePipelineTask,
@@ -182,8 +196,20 @@ var mappingPublishedObjectSummaryModelType = map[string]PublishedObjectSummaryMo
 // GetPublishedObjectSummaryModelTypeEnumValues Enumerates the set of values for PublishedObjectSummaryModelTypeEnum
 func GetPublishedObjectSummaryModelTypeEnumValues() []PublishedObjectSummaryModelTypeEnum {
 	values := make([]PublishedObjectSummaryModelTypeEnum, 0)
-	for _, v := range mappingPublishedObjectSummaryModelType {
+	for _, v := range mappingPublishedObjectSummaryModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPublishedObjectSummaryModelTypeEnumStringValues Enumerates the set of values in String for PublishedObjectSummaryModelTypeEnum
+func GetPublishedObjectSummaryModelTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }

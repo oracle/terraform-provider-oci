@@ -20,7 +20,7 @@ const (
 	CompareTypeDay  CompareTypeEnum = "DAY"
 )
 
-var mappingCompareType = map[string]CompareTypeEnum{
+var mappingCompareTypeEnum = map[string]CompareTypeEnum{
 	"HOUR": CompareTypeHour,
 	"DAY":  CompareTypeDay,
 }
@@ -28,8 +28,16 @@ var mappingCompareType = map[string]CompareTypeEnum{
 // GetCompareTypeEnumValues Enumerates the set of values for CompareTypeEnum
 func GetCompareTypeEnumValues() []CompareTypeEnum {
 	values := make([]CompareTypeEnum, 0)
-	for _, v := range mappingCompareType {
+	for _, v := range mappingCompareTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCompareTypeEnumStringValues Enumerates the set of values in String for CompareTypeEnum
+func GetCompareTypeEnumStringValues() []string {
+	return []string{
+		"HOUR",
+		"DAY",
+	}
 }

@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CloudVmCluster Details of the cloud VM cluster. Applies to Exadata Cloud Service instances only.
@@ -163,6 +165,27 @@ func (m CloudVmCluster) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CloudVmCluster) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCloudVmClusterLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCloudVmClusterLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCloudVmClusterLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCloudVmClusterLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCloudVmClusterDiskRedundancyEnum[string(m.DiskRedundancy)]; !ok && m.DiskRedundancy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiskRedundancy: %s. Supported values are: %s.", m.DiskRedundancy, strings.Join(GetCloudVmClusterDiskRedundancyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CloudVmClusterLifecycleStateEnum Enum with underlying type: string
 type CloudVmClusterLifecycleStateEnum string
 
@@ -177,7 +200,7 @@ const (
 	CloudVmClusterLifecycleStateMaintenanceInProgress CloudVmClusterLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingCloudVmClusterLifecycleState = map[string]CloudVmClusterLifecycleStateEnum{
+var mappingCloudVmClusterLifecycleStateEnum = map[string]CloudVmClusterLifecycleStateEnum{
 	"PROVISIONING":            CloudVmClusterLifecycleStateProvisioning,
 	"AVAILABLE":               CloudVmClusterLifecycleStateAvailable,
 	"UPDATING":                CloudVmClusterLifecycleStateUpdating,
@@ -190,10 +213,23 @@ var mappingCloudVmClusterLifecycleState = map[string]CloudVmClusterLifecycleStat
 // GetCloudVmClusterLifecycleStateEnumValues Enumerates the set of values for CloudVmClusterLifecycleStateEnum
 func GetCloudVmClusterLifecycleStateEnumValues() []CloudVmClusterLifecycleStateEnum {
 	values := make([]CloudVmClusterLifecycleStateEnum, 0)
-	for _, v := range mappingCloudVmClusterLifecycleState {
+	for _, v := range mappingCloudVmClusterLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudVmClusterLifecycleStateEnumStringValues Enumerates the set of values in String for CloudVmClusterLifecycleStateEnum
+func GetCloudVmClusterLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }
 
 // CloudVmClusterLicenseModelEnum Enum with underlying type: string
@@ -205,7 +241,7 @@ const (
 	CloudVmClusterLicenseModelBringYourOwnLicense CloudVmClusterLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingCloudVmClusterLicenseModel = map[string]CloudVmClusterLicenseModelEnum{
+var mappingCloudVmClusterLicenseModelEnum = map[string]CloudVmClusterLicenseModelEnum{
 	"LICENSE_INCLUDED":       CloudVmClusterLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": CloudVmClusterLicenseModelBringYourOwnLicense,
 }
@@ -213,10 +249,18 @@ var mappingCloudVmClusterLicenseModel = map[string]CloudVmClusterLicenseModelEnu
 // GetCloudVmClusterLicenseModelEnumValues Enumerates the set of values for CloudVmClusterLicenseModelEnum
 func GetCloudVmClusterLicenseModelEnumValues() []CloudVmClusterLicenseModelEnum {
 	values := make([]CloudVmClusterLicenseModelEnum, 0)
-	for _, v := range mappingCloudVmClusterLicenseModel {
+	for _, v := range mappingCloudVmClusterLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudVmClusterLicenseModelEnumStringValues Enumerates the set of values in String for CloudVmClusterLicenseModelEnum
+func GetCloudVmClusterLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }
 
 // CloudVmClusterDiskRedundancyEnum Enum with underlying type: string
@@ -228,7 +272,7 @@ const (
 	CloudVmClusterDiskRedundancyNormal CloudVmClusterDiskRedundancyEnum = "NORMAL"
 )
 
-var mappingCloudVmClusterDiskRedundancy = map[string]CloudVmClusterDiskRedundancyEnum{
+var mappingCloudVmClusterDiskRedundancyEnum = map[string]CloudVmClusterDiskRedundancyEnum{
 	"HIGH":   CloudVmClusterDiskRedundancyHigh,
 	"NORMAL": CloudVmClusterDiskRedundancyNormal,
 }
@@ -236,8 +280,16 @@ var mappingCloudVmClusterDiskRedundancy = map[string]CloudVmClusterDiskRedundanc
 // GetCloudVmClusterDiskRedundancyEnumValues Enumerates the set of values for CloudVmClusterDiskRedundancyEnum
 func GetCloudVmClusterDiskRedundancyEnumValues() []CloudVmClusterDiskRedundancyEnum {
 	values := make([]CloudVmClusterDiskRedundancyEnum, 0)
-	for _, v := range mappingCloudVmClusterDiskRedundancy {
+	for _, v := range mappingCloudVmClusterDiskRedundancyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudVmClusterDiskRedundancyEnumStringValues Enumerates the set of values in String for CloudVmClusterDiskRedundancyEnum
+func GetCloudVmClusterDiskRedundancyEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"NORMAL",
+	}
 }

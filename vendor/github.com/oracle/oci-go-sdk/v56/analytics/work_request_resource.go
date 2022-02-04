@@ -10,7 +10,9 @@
 package analytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WorkRequestResource The representation of WorkRequestResource
@@ -34,4 +36,22 @@ type WorkRequestResource struct {
 
 func (m WorkRequestResource) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestResource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestActionResultEnum[string(m.ActionResult)]; !ok && m.ActionResult != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionResult: %s. Supported values are: %s.", m.ActionResult, strings.Join(GetWorkRequestActionResultEnumStringValues(), ",")))
+	}
+	if _, ok := mappingWorkRequestResourceTypeEnum[string(m.ResourceType)]; !ok && m.ResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetWorkRequestResourceTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

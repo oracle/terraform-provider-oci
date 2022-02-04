@@ -19,7 +19,7 @@ const (
 	PayloadTypeZip  PayloadTypeEnum = "ZIP"
 )
 
-var mappingPayloadType = map[string]PayloadTypeEnum{
+var mappingPayloadTypeEnum = map[string]PayloadTypeEnum{
 	"JSON": PayloadTypeJson,
 	"GZIP": PayloadTypeGzip,
 	"ZIP":  PayloadTypeZip,
@@ -28,8 +28,17 @@ var mappingPayloadType = map[string]PayloadTypeEnum{
 // GetPayloadTypeEnumValues Enumerates the set of values for PayloadTypeEnum
 func GetPayloadTypeEnumValues() []PayloadTypeEnum {
 	values := make([]PayloadTypeEnum, 0)
-	for _, v := range mappingPayloadType {
+	for _, v := range mappingPayloadTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPayloadTypeEnumStringValues Enumerates the set of values in String for PayloadTypeEnum
+func GetPayloadTypeEnumStringValues() []string {
+	return []string{
+		"JSON",
+		"GZIP",
+		"ZIP",
+	}
 }

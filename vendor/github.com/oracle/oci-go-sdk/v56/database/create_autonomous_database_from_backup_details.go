@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateAutonomousDatabaseFromBackupDetails Details to create an Oracle Autonomous Database by cloning from a backup of an existing Autonomous Database.
@@ -336,6 +338,30 @@ func (m CreateAutonomousDatabaseFromBackupDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateAutonomousDatabaseFromBackupDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum[string(m.CloneType)]; !ok && m.CloneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneType: %s. Supported values are: %s.", m.CloneType, strings.Join(GetCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCreateAutonomousDatabaseBaseDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum[string(m.AutonomousMaintenanceScheduleType)]; !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m CreateAutonomousDatabaseFromBackupDetails) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeCreateAutonomousDatabaseFromBackupDetails CreateAutonomousDatabaseFromBackupDetails
@@ -359,7 +385,7 @@ const (
 	CreateAutonomousDatabaseFromBackupDetailsCloneTypeMetadata CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum = "METADATA"
 )
 
-var mappingCreateAutonomousDatabaseFromBackupDetailsCloneType = map[string]CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum{
+var mappingCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum = map[string]CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum{
 	"FULL":     CreateAutonomousDatabaseFromBackupDetailsCloneTypeFull,
 	"METADATA": CreateAutonomousDatabaseFromBackupDetailsCloneTypeMetadata,
 }
@@ -367,8 +393,16 @@ var mappingCreateAutonomousDatabaseFromBackupDetailsCloneType = map[string]Creat
 // GetCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum
 func GetCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnumValues() []CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum {
 	values := make([]CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseFromBackupDetailsCloneType {
+	for _, v := range mappingCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum
+func GetCreateAutonomousDatabaseFromBackupDetailsCloneTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"METADATA",
+	}
 }

@@ -25,7 +25,7 @@ const (
 	LifecycleStateMoving   LifecycleStateEnum = "MOVING"
 )
 
-var mappingLifecycleState = map[string]LifecycleStateEnum{
+var mappingLifecycleStateEnum = map[string]LifecycleStateEnum{
 	"CREATING": LifecycleStateCreating,
 	"ACTIVE":   LifecycleStateActive,
 	"INACTIVE": LifecycleStateInactive,
@@ -39,8 +39,22 @@ var mappingLifecycleState = map[string]LifecycleStateEnum{
 // GetLifecycleStateEnumValues Enumerates the set of values for LifecycleStateEnum
 func GetLifecycleStateEnumValues() []LifecycleStateEnum {
 	values := make([]LifecycleStateEnum, 0)
-	for _, v := range mappingLifecycleState {
+	for _, v := range mappingLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLifecycleStateEnumStringValues Enumerates the set of values in String for LifecycleStateEnum
+func GetLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MacsecProperties Properties used for MACsec (if capable).
@@ -31,4 +33,22 @@ type MacsecProperties struct {
 
 func (m MacsecProperties) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MacsecProperties) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMacsecStateEnum[string(m.State)]; !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetMacsecStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingMacsecEncryptionCipherEnum[string(m.EncryptionCipher)]; !ok && m.EncryptionCipher != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EncryptionCipher: %s. Supported values are: %s.", m.EncryptionCipher, strings.Join(GetMacsecEncryptionCipherEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

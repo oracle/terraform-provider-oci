@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // NatGateway A NAT (Network Address Translation) gateway, which represents a router that lets instances
@@ -76,6 +78,21 @@ func (m NatGateway) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m NatGateway) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingNatGatewayLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNatGatewayLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // NatGatewayLifecycleStateEnum Enum with underlying type: string
 type NatGatewayLifecycleStateEnum string
 
@@ -87,7 +104,7 @@ const (
 	NatGatewayLifecycleStateTerminated   NatGatewayLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingNatGatewayLifecycleState = map[string]NatGatewayLifecycleStateEnum{
+var mappingNatGatewayLifecycleStateEnum = map[string]NatGatewayLifecycleStateEnum{
 	"PROVISIONING": NatGatewayLifecycleStateProvisioning,
 	"AVAILABLE":    NatGatewayLifecycleStateAvailable,
 	"TERMINATING":  NatGatewayLifecycleStateTerminating,
@@ -97,8 +114,18 @@ var mappingNatGatewayLifecycleState = map[string]NatGatewayLifecycleStateEnum{
 // GetNatGatewayLifecycleStateEnumValues Enumerates the set of values for NatGatewayLifecycleStateEnum
 func GetNatGatewayLifecycleStateEnumValues() []NatGatewayLifecycleStateEnum {
 	values := make([]NatGatewayLifecycleStateEnum, 0)
-	for _, v := range mappingNatGatewayLifecycleState {
+	for _, v := range mappingNatGatewayLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNatGatewayLifecycleStateEnumStringValues Enumerates the set of values in String for NatGatewayLifecycleStateEnum
+func GetNatGatewayLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

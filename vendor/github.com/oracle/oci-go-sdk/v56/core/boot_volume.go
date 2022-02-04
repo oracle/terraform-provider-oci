@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BootVolume A detachable boot volume device that contains the image used to boot a Compute instance. For more information, see
@@ -104,6 +106,21 @@ type BootVolume struct {
 
 func (m BootVolume) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BootVolume) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBootVolumeLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBootVolumeLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -203,7 +220,7 @@ const (
 	BootVolumeLifecycleStateFaulty       BootVolumeLifecycleStateEnum = "FAULTY"
 )
 
-var mappingBootVolumeLifecycleState = map[string]BootVolumeLifecycleStateEnum{
+var mappingBootVolumeLifecycleStateEnum = map[string]BootVolumeLifecycleStateEnum{
 	"PROVISIONING": BootVolumeLifecycleStateProvisioning,
 	"RESTORING":    BootVolumeLifecycleStateRestoring,
 	"AVAILABLE":    BootVolumeLifecycleStateAvailable,
@@ -215,8 +232,20 @@ var mappingBootVolumeLifecycleState = map[string]BootVolumeLifecycleStateEnum{
 // GetBootVolumeLifecycleStateEnumValues Enumerates the set of values for BootVolumeLifecycleStateEnum
 func GetBootVolumeLifecycleStateEnumValues() []BootVolumeLifecycleStateEnum {
 	values := make([]BootVolumeLifecycleStateEnum, 0)
-	for _, v := range mappingBootVolumeLifecycleState {
+	for _, v := range mappingBootVolumeLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBootVolumeLifecycleStateEnumStringValues Enumerates the set of values in String for BootVolumeLifecycleStateEnum
+func GetBootVolumeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"RESTORING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+		"FAULTY",
+	}
 }

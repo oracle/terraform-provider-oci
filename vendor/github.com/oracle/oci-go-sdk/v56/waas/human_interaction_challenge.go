@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HumanInteractionChallenge The human interaction challenge settings. The human interaction challenge checks various event listeners in the user's browser to determine if there is a human user making a request.
@@ -50,6 +52,21 @@ func (m HumanInteractionChallenge) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m HumanInteractionChallenge) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingHumanInteractionChallengeActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetHumanInteractionChallengeActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HumanInteractionChallengeActionEnum Enum with underlying type: string
 type HumanInteractionChallengeActionEnum string
 
@@ -59,7 +76,7 @@ const (
 	HumanInteractionChallengeActionBlock  HumanInteractionChallengeActionEnum = "BLOCK"
 )
 
-var mappingHumanInteractionChallengeAction = map[string]HumanInteractionChallengeActionEnum{
+var mappingHumanInteractionChallengeActionEnum = map[string]HumanInteractionChallengeActionEnum{
 	"DETECT": HumanInteractionChallengeActionDetect,
 	"BLOCK":  HumanInteractionChallengeActionBlock,
 }
@@ -67,8 +84,16 @@ var mappingHumanInteractionChallengeAction = map[string]HumanInteractionChalleng
 // GetHumanInteractionChallengeActionEnumValues Enumerates the set of values for HumanInteractionChallengeActionEnum
 func GetHumanInteractionChallengeActionEnumValues() []HumanInteractionChallengeActionEnum {
 	values := make([]HumanInteractionChallengeActionEnum, 0)
-	for _, v := range mappingHumanInteractionChallengeAction {
+	for _, v := range mappingHumanInteractionChallengeActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHumanInteractionChallengeActionEnumStringValues Enumerates the set of values in String for HumanInteractionChallengeActionEnum
+func GetHumanInteractionChallengeActionEnumStringValues() []string {
+	return []string{
+		"DETECT",
+		"BLOCK",
+	}
 }

@@ -5,8 +5,10 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPingProbeResultsRequest wrapper for the ListPingProbeResults operation
@@ -54,6 +56,10 @@ func (request ListPingProbeResultsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPingProbeResultsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +73,20 @@ func (request ListPingProbeResultsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPingProbeResultsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPingProbeResultsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPingProbeResultsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPingProbeResultsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPingProbeResultsResponse wrapper for the ListPingProbeResults operation
@@ -110,7 +130,7 @@ const (
 	ListPingProbeResultsSortOrderDesc ListPingProbeResultsSortOrderEnum = "DESC"
 )
 
-var mappingListPingProbeResultsSortOrder = map[string]ListPingProbeResultsSortOrderEnum{
+var mappingListPingProbeResultsSortOrderEnum = map[string]ListPingProbeResultsSortOrderEnum{
 	"ASC":  ListPingProbeResultsSortOrderAsc,
 	"DESC": ListPingProbeResultsSortOrderDesc,
 }
@@ -118,8 +138,16 @@ var mappingListPingProbeResultsSortOrder = map[string]ListPingProbeResultsSortOr
 // GetListPingProbeResultsSortOrderEnumValues Enumerates the set of values for ListPingProbeResultsSortOrderEnum
 func GetListPingProbeResultsSortOrderEnumValues() []ListPingProbeResultsSortOrderEnum {
 	values := make([]ListPingProbeResultsSortOrderEnum, 0)
-	for _, v := range mappingListPingProbeResultsSortOrder {
+	for _, v := range mappingListPingProbeResultsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPingProbeResultsSortOrderEnumStringValues Enumerates the set of values in String for ListPingProbeResultsSortOrderEnum
+func GetListPingProbeResultsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

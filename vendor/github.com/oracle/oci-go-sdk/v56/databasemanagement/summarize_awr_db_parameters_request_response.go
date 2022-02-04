@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeAwrDbParametersRequest wrapper for the SummarizeAwrDbParameters operation
@@ -94,6 +96,10 @@ func (request SummarizeAwrDbParametersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeAwrDbParametersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -107,6 +113,32 @@ func (request SummarizeAwrDbParametersRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeAwrDbParametersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeAwrDbParametersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeAwrDbParametersValueChangedEnum[string(request.ValueChanged)]; !ok && request.ValueChanged != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValueChanged: %s. Supported values are: %s.", request.ValueChanged, strings.Join(GetSummarizeAwrDbParametersValueChangedEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbParametersValueDefaultEnum[string(request.ValueDefault)]; !ok && request.ValueDefault != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValueDefault: %s. Supported values are: %s.", request.ValueDefault, strings.Join(GetSummarizeAwrDbParametersValueDefaultEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbParametersValueModifiedEnum[string(request.ValueModified)]; !ok && request.ValueModified != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValueModified: %s. Supported values are: %s.", request.ValueModified, strings.Join(GetSummarizeAwrDbParametersValueModifiedEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbParametersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeAwrDbParametersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbParametersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeAwrDbParametersSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeAwrDbParametersResponse wrapper for the SummarizeAwrDbParameters operation
@@ -146,7 +178,7 @@ const (
 	SummarizeAwrDbParametersValueChangedN SummarizeAwrDbParametersValueChangedEnum = "N"
 )
 
-var mappingSummarizeAwrDbParametersValueChanged = map[string]SummarizeAwrDbParametersValueChangedEnum{
+var mappingSummarizeAwrDbParametersValueChangedEnum = map[string]SummarizeAwrDbParametersValueChangedEnum{
 	"Y": SummarizeAwrDbParametersValueChangedY,
 	"N": SummarizeAwrDbParametersValueChangedN,
 }
@@ -154,10 +186,18 @@ var mappingSummarizeAwrDbParametersValueChanged = map[string]SummarizeAwrDbParam
 // GetSummarizeAwrDbParametersValueChangedEnumValues Enumerates the set of values for SummarizeAwrDbParametersValueChangedEnum
 func GetSummarizeAwrDbParametersValueChangedEnumValues() []SummarizeAwrDbParametersValueChangedEnum {
 	values := make([]SummarizeAwrDbParametersValueChangedEnum, 0)
-	for _, v := range mappingSummarizeAwrDbParametersValueChanged {
+	for _, v := range mappingSummarizeAwrDbParametersValueChangedEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbParametersValueChangedEnumStringValues Enumerates the set of values in String for SummarizeAwrDbParametersValueChangedEnum
+func GetSummarizeAwrDbParametersValueChangedEnumStringValues() []string {
+	return []string{
+		"Y",
+		"N",
+	}
 }
 
 // SummarizeAwrDbParametersValueDefaultEnum Enum with underlying type: string
@@ -169,7 +209,7 @@ const (
 	SummarizeAwrDbParametersValueDefaultFalse SummarizeAwrDbParametersValueDefaultEnum = "FALSE"
 )
 
-var mappingSummarizeAwrDbParametersValueDefault = map[string]SummarizeAwrDbParametersValueDefaultEnum{
+var mappingSummarizeAwrDbParametersValueDefaultEnum = map[string]SummarizeAwrDbParametersValueDefaultEnum{
 	"TRUE":  SummarizeAwrDbParametersValueDefaultTrue,
 	"FALSE": SummarizeAwrDbParametersValueDefaultFalse,
 }
@@ -177,10 +217,18 @@ var mappingSummarizeAwrDbParametersValueDefault = map[string]SummarizeAwrDbParam
 // GetSummarizeAwrDbParametersValueDefaultEnumValues Enumerates the set of values for SummarizeAwrDbParametersValueDefaultEnum
 func GetSummarizeAwrDbParametersValueDefaultEnumValues() []SummarizeAwrDbParametersValueDefaultEnum {
 	values := make([]SummarizeAwrDbParametersValueDefaultEnum, 0)
-	for _, v := range mappingSummarizeAwrDbParametersValueDefault {
+	for _, v := range mappingSummarizeAwrDbParametersValueDefaultEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbParametersValueDefaultEnumStringValues Enumerates the set of values in String for SummarizeAwrDbParametersValueDefaultEnum
+func GetSummarizeAwrDbParametersValueDefaultEnumStringValues() []string {
+	return []string{
+		"TRUE",
+		"FALSE",
+	}
 }
 
 // SummarizeAwrDbParametersValueModifiedEnum Enum with underlying type: string
@@ -193,7 +241,7 @@ const (
 	SummarizeAwrDbParametersValueModifiedFalse     SummarizeAwrDbParametersValueModifiedEnum = "FALSE"
 )
 
-var mappingSummarizeAwrDbParametersValueModified = map[string]SummarizeAwrDbParametersValueModifiedEnum{
+var mappingSummarizeAwrDbParametersValueModifiedEnum = map[string]SummarizeAwrDbParametersValueModifiedEnum{
 	"MODIFIED":   SummarizeAwrDbParametersValueModifiedModified,
 	"SYSTEM_MOD": SummarizeAwrDbParametersValueModifiedSystemMod,
 	"FALSE":      SummarizeAwrDbParametersValueModifiedFalse,
@@ -202,10 +250,19 @@ var mappingSummarizeAwrDbParametersValueModified = map[string]SummarizeAwrDbPara
 // GetSummarizeAwrDbParametersValueModifiedEnumValues Enumerates the set of values for SummarizeAwrDbParametersValueModifiedEnum
 func GetSummarizeAwrDbParametersValueModifiedEnumValues() []SummarizeAwrDbParametersValueModifiedEnum {
 	values := make([]SummarizeAwrDbParametersValueModifiedEnum, 0)
-	for _, v := range mappingSummarizeAwrDbParametersValueModified {
+	for _, v := range mappingSummarizeAwrDbParametersValueModifiedEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbParametersValueModifiedEnumStringValues Enumerates the set of values in String for SummarizeAwrDbParametersValueModifiedEnum
+func GetSummarizeAwrDbParametersValueModifiedEnumStringValues() []string {
+	return []string{
+		"MODIFIED",
+		"SYSTEM_MOD",
+		"FALSE",
+	}
 }
 
 // SummarizeAwrDbParametersSortByEnum Enum with underlying type: string
@@ -217,7 +274,7 @@ const (
 	SummarizeAwrDbParametersSortByName      SummarizeAwrDbParametersSortByEnum = "NAME"
 )
 
-var mappingSummarizeAwrDbParametersSortBy = map[string]SummarizeAwrDbParametersSortByEnum{
+var mappingSummarizeAwrDbParametersSortByEnum = map[string]SummarizeAwrDbParametersSortByEnum{
 	"IS_CHANGED": SummarizeAwrDbParametersSortByIsChanged,
 	"NAME":       SummarizeAwrDbParametersSortByName,
 }
@@ -225,10 +282,18 @@ var mappingSummarizeAwrDbParametersSortBy = map[string]SummarizeAwrDbParametersS
 // GetSummarizeAwrDbParametersSortByEnumValues Enumerates the set of values for SummarizeAwrDbParametersSortByEnum
 func GetSummarizeAwrDbParametersSortByEnumValues() []SummarizeAwrDbParametersSortByEnum {
 	values := make([]SummarizeAwrDbParametersSortByEnum, 0)
-	for _, v := range mappingSummarizeAwrDbParametersSortBy {
+	for _, v := range mappingSummarizeAwrDbParametersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbParametersSortByEnumStringValues Enumerates the set of values in String for SummarizeAwrDbParametersSortByEnum
+func GetSummarizeAwrDbParametersSortByEnumStringValues() []string {
+	return []string{
+		"IS_CHANGED",
+		"NAME",
+	}
 }
 
 // SummarizeAwrDbParametersSortOrderEnum Enum with underlying type: string
@@ -240,7 +305,7 @@ const (
 	SummarizeAwrDbParametersSortOrderDesc SummarizeAwrDbParametersSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeAwrDbParametersSortOrder = map[string]SummarizeAwrDbParametersSortOrderEnum{
+var mappingSummarizeAwrDbParametersSortOrderEnum = map[string]SummarizeAwrDbParametersSortOrderEnum{
 	"ASC":  SummarizeAwrDbParametersSortOrderAsc,
 	"DESC": SummarizeAwrDbParametersSortOrderDesc,
 }
@@ -248,8 +313,16 @@ var mappingSummarizeAwrDbParametersSortOrder = map[string]SummarizeAwrDbParamete
 // GetSummarizeAwrDbParametersSortOrderEnumValues Enumerates the set of values for SummarizeAwrDbParametersSortOrderEnum
 func GetSummarizeAwrDbParametersSortOrderEnumValues() []SummarizeAwrDbParametersSortOrderEnum {
 	values := make([]SummarizeAwrDbParametersSortOrderEnum, 0)
-	for _, v := range mappingSummarizeAwrDbParametersSortOrder {
+	for _, v := range mappingSummarizeAwrDbParametersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbParametersSortOrderEnumStringValues Enumerates the set of values in String for SummarizeAwrDbParametersSortOrderEnum
+func GetSummarizeAwrDbParametersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

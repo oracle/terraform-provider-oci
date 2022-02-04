@@ -5,8 +5,10 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListStreamsRequest wrapper for the ListStreams operation
@@ -59,6 +61,10 @@ func (request ListStreamsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListStreamsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,26 @@ func (request ListStreamsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListStreamsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListStreamsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListStreamsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListStreamsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListStreamsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListStreamsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingStreamLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetStreamLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListStreamsResponse wrapper for the ListStreams operation
@@ -112,7 +138,7 @@ const (
 	ListStreamsSortByTimecreated ListStreamsSortByEnum = "TIMECREATED"
 )
 
-var mappingListStreamsSortBy = map[string]ListStreamsSortByEnum{
+var mappingListStreamsSortByEnum = map[string]ListStreamsSortByEnum{
 	"NAME":        ListStreamsSortByName,
 	"TIMECREATED": ListStreamsSortByTimecreated,
 }
@@ -120,10 +146,18 @@ var mappingListStreamsSortBy = map[string]ListStreamsSortByEnum{
 // GetListStreamsSortByEnumValues Enumerates the set of values for ListStreamsSortByEnum
 func GetListStreamsSortByEnumValues() []ListStreamsSortByEnum {
 	values := make([]ListStreamsSortByEnum, 0)
-	for _, v := range mappingListStreamsSortBy {
+	for _, v := range mappingListStreamsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStreamsSortByEnumStringValues Enumerates the set of values in String for ListStreamsSortByEnum
+func GetListStreamsSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }
 
 // ListStreamsSortOrderEnum Enum with underlying type: string
@@ -135,7 +169,7 @@ const (
 	ListStreamsSortOrderDesc ListStreamsSortOrderEnum = "DESC"
 )
 
-var mappingListStreamsSortOrder = map[string]ListStreamsSortOrderEnum{
+var mappingListStreamsSortOrderEnum = map[string]ListStreamsSortOrderEnum{
 	"ASC":  ListStreamsSortOrderAsc,
 	"DESC": ListStreamsSortOrderDesc,
 }
@@ -143,8 +177,16 @@ var mappingListStreamsSortOrder = map[string]ListStreamsSortOrderEnum{
 // GetListStreamsSortOrderEnumValues Enumerates the set of values for ListStreamsSortOrderEnum
 func GetListStreamsSortOrderEnumValues() []ListStreamsSortOrderEnum {
 	values := make([]ListStreamsSortOrderEnum, 0)
-	for _, v := range mappingListStreamsSortOrder {
+	for _, v := range mappingListStreamsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListStreamsSortOrderEnumStringValues Enumerates the set of values in String for ListStreamsSortOrderEnum
+func GetListStreamsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

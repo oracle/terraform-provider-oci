@@ -12,7 +12,9 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SummarizeExadataInsightResourceForecastTrendCollection Usage and Forecast results with breakdown by databases, hosts or storage servers.
@@ -44,6 +46,27 @@ func (m SummarizeExadataInsightResourceForecastTrendCollection) String() string 
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SummarizeExadataInsightResourceForecastTrendCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum[string(m.ExadataResourceType)]; !ok && m.ExadataResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceType: %s. Supported values are: %s.", m.ExadataResourceType, strings.Join(GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum[string(m.ExadataResourceMetric)]; !ok && m.ExadataResourceMetric != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceMetric: %s. Supported values are: %s.", m.ExadataResourceMetric, strings.Join(GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUsageUnitEnum[string(m.UsageUnit)]; !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum Enum with underlying type: string
 type SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum string
 
@@ -55,7 +78,7 @@ const (
 	SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeDiskgroup     SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum = "DISKGROUP"
 )
 
-var mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceType = map[string]SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum{
+var mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum = map[string]SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum{
 	"DATABASE":       SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeDatabase,
 	"HOST":           SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeHost,
 	"STORAGE_SERVER": SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeStorageServer,
@@ -65,10 +88,20 @@ var mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResource
 // GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnumValues Enumerates the set of values for SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum
 func GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnumValues() []SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum {
 	values := make([]SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceType {
+	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnum
+func GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceTypeEnumStringValues() []string {
+	return []string{
+		"DATABASE",
+		"HOST",
+		"STORAGE_SERVER",
+		"DISKGROUP",
+	}
 }
 
 // SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum Enum with underlying type: string
@@ -84,7 +117,7 @@ const (
 	SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricThroughput SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum = "THROUGHPUT"
 )
 
-var mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetric = map[string]SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum{
+var mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum = map[string]SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum{
 	"CPU":        SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricCpu,
 	"STORAGE":    SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricStorage,
 	"IO":         SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricIo,
@@ -96,8 +129,20 @@ var mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResource
 // GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnumValues Enumerates the set of values for SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum
 func GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnumValues() []SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum {
 	values := make([]SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetric {
+	for _, v := range mappingSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnum
+func GetSummarizeExadataInsightResourceForecastTrendCollectionExadataResourceMetricEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"STORAGE",
+		"IO",
+		"MEMORY",
+		"IOPS",
+		"THROUGHPUT",
+	}
 }

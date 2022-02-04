@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListParserFunctionsRequest wrapper for the ListParserFunctions operation
@@ -49,6 +51,10 @@ func (request ListParserFunctionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListParserFunctionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +68,23 @@ func (request ListParserFunctionsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListParserFunctionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListParserFunctionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListParserFunctionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListParserFunctionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListParserFunctionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListParserFunctionsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListParserFunctionsResponse wrapper for the ListParserFunctions operation
@@ -104,17 +127,24 @@ const (
 	ListParserFunctionsSortByName ListParserFunctionsSortByEnum = "name"
 )
 
-var mappingListParserFunctionsSortBy = map[string]ListParserFunctionsSortByEnum{
+var mappingListParserFunctionsSortByEnum = map[string]ListParserFunctionsSortByEnum{
 	"name": ListParserFunctionsSortByName,
 }
 
 // GetListParserFunctionsSortByEnumValues Enumerates the set of values for ListParserFunctionsSortByEnum
 func GetListParserFunctionsSortByEnumValues() []ListParserFunctionsSortByEnum {
 	values := make([]ListParserFunctionsSortByEnum, 0)
-	for _, v := range mappingListParserFunctionsSortBy {
+	for _, v := range mappingListParserFunctionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListParserFunctionsSortByEnumStringValues Enumerates the set of values in String for ListParserFunctionsSortByEnum
+func GetListParserFunctionsSortByEnumStringValues() []string {
+	return []string{
+		"name",
+	}
 }
 
 // ListParserFunctionsSortOrderEnum Enum with underlying type: string
@@ -126,7 +156,7 @@ const (
 	ListParserFunctionsSortOrderDesc ListParserFunctionsSortOrderEnum = "DESC"
 )
 
-var mappingListParserFunctionsSortOrder = map[string]ListParserFunctionsSortOrderEnum{
+var mappingListParserFunctionsSortOrderEnum = map[string]ListParserFunctionsSortOrderEnum{
 	"ASC":  ListParserFunctionsSortOrderAsc,
 	"DESC": ListParserFunctionsSortOrderDesc,
 }
@@ -134,8 +164,16 @@ var mappingListParserFunctionsSortOrder = map[string]ListParserFunctionsSortOrde
 // GetListParserFunctionsSortOrderEnumValues Enumerates the set of values for ListParserFunctionsSortOrderEnum
 func GetListParserFunctionsSortOrderEnumValues() []ListParserFunctionsSortOrderEnum {
 	values := make([]ListParserFunctionsSortOrderEnum, 0)
-	for _, v := range mappingListParserFunctionsSortOrder {
+	for _, v := range mappingListParserFunctionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListParserFunctionsSortOrderEnumStringValues Enumerates the set of values in String for ListParserFunctionsSortOrderEnum
+func GetListParserFunctionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DeliveredArtifact Details of the artifacts delivered through the Deliver Artifacts stage.
@@ -85,6 +87,18 @@ func (m deliveredartifact) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m deliveredartifact) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DeliveredArtifactArtifactTypeEnum Enum with underlying type: string
 type DeliveredArtifactArtifactTypeEnum string
 
@@ -94,7 +108,7 @@ const (
 	DeliveredArtifactArtifactTypeOcir            DeliveredArtifactArtifactTypeEnum = "OCIR"
 )
 
-var mappingDeliveredArtifactArtifactType = map[string]DeliveredArtifactArtifactTypeEnum{
+var mappingDeliveredArtifactArtifactTypeEnum = map[string]DeliveredArtifactArtifactTypeEnum{
 	"GENERIC_ARTIFACT": DeliveredArtifactArtifactTypeGenericArtifact,
 	"OCIR":             DeliveredArtifactArtifactTypeOcir,
 }
@@ -102,8 +116,16 @@ var mappingDeliveredArtifactArtifactType = map[string]DeliveredArtifactArtifactT
 // GetDeliveredArtifactArtifactTypeEnumValues Enumerates the set of values for DeliveredArtifactArtifactTypeEnum
 func GetDeliveredArtifactArtifactTypeEnumValues() []DeliveredArtifactArtifactTypeEnum {
 	values := make([]DeliveredArtifactArtifactTypeEnum, 0)
-	for _, v := range mappingDeliveredArtifactArtifactType {
+	for _, v := range mappingDeliveredArtifactArtifactTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeliveredArtifactArtifactTypeEnumStringValues Enumerates the set of values in String for DeliveredArtifactArtifactTypeEnum
+func GetDeliveredArtifactArtifactTypeEnumStringValues() []string {
+	return []string{
+		"GENERIC_ARTIFACT",
+		"OCIR",
+	}
 }

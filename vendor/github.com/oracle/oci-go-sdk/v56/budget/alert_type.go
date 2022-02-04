@@ -18,7 +18,7 @@ const (
 	AlertTypeForecast AlertTypeEnum = "FORECAST"
 )
 
-var mappingAlertType = map[string]AlertTypeEnum{
+var mappingAlertTypeEnum = map[string]AlertTypeEnum{
 	"ACTUAL":   AlertTypeActual,
 	"FORECAST": AlertTypeForecast,
 }
@@ -26,8 +26,16 @@ var mappingAlertType = map[string]AlertTypeEnum{
 // GetAlertTypeEnumValues Enumerates the set of values for AlertTypeEnum
 func GetAlertTypeEnumValues() []AlertTypeEnum {
 	values := make([]AlertTypeEnum, 0)
-	for _, v := range mappingAlertType {
+	for _, v := range mappingAlertTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAlertTypeEnumStringValues Enumerates the set of values in String for AlertTypeEnum
+func GetAlertTypeEnumStringValues() []string {
+	return []string{
+		"ACTUAL",
+		"FORECAST",
+	}
 }

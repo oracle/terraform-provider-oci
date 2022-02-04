@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DhcpDnsOption DHCP option for specifying how DNS (hostname resolution) is handled in the subnets in the VCN.
@@ -47,6 +49,21 @@ func (m DhcpDnsOption) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DhcpDnsOption) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDhcpDnsOptionServerTypeEnum[string(m.ServerType)]; !ok && m.ServerType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServerType: %s. Supported values are: %s.", m.ServerType, strings.Join(GetDhcpDnsOptionServerTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m DhcpDnsOption) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeDhcpDnsOption DhcpDnsOption
@@ -71,7 +88,7 @@ const (
 	DhcpDnsOptionServerTypeCustomdnsserver      DhcpDnsOptionServerTypeEnum = "CustomDnsServer"
 )
 
-var mappingDhcpDnsOptionServerType = map[string]DhcpDnsOptionServerTypeEnum{
+var mappingDhcpDnsOptionServerTypeEnum = map[string]DhcpDnsOptionServerTypeEnum{
 	"VcnLocal":             DhcpDnsOptionServerTypeVcnlocal,
 	"VcnLocalPlusInternet": DhcpDnsOptionServerTypeVcnlocalplusinternet,
 	"CustomDnsServer":      DhcpDnsOptionServerTypeCustomdnsserver,
@@ -80,8 +97,17 @@ var mappingDhcpDnsOptionServerType = map[string]DhcpDnsOptionServerTypeEnum{
 // GetDhcpDnsOptionServerTypeEnumValues Enumerates the set of values for DhcpDnsOptionServerTypeEnum
 func GetDhcpDnsOptionServerTypeEnumValues() []DhcpDnsOptionServerTypeEnum {
 	values := make([]DhcpDnsOptionServerTypeEnum, 0)
-	for _, v := range mappingDhcpDnsOptionServerType {
+	for _, v := range mappingDhcpDnsOptionServerTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDhcpDnsOptionServerTypeEnumStringValues Enumerates the set of values in String for DhcpDnsOptionServerTypeEnum
+func GetDhcpDnsOptionServerTypeEnumStringValues() []string {
+	return []string{
+		"VcnLocal",
+		"VcnLocalPlusInternet",
+		"CustomDnsServer",
+	}
 }

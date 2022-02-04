@@ -12,7 +12,9 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SummarizeExadataInsightResourceUsageCollection Resource usage , allocation, utilization and usage ChangePercent for the current time period
@@ -41,6 +43,27 @@ func (m SummarizeExadataInsightResourceUsageCollection) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SummarizeExadataInsightResourceUsageCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum[string(m.ExadataResourceMetric)]; !ok && m.ExadataResourceMetric != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceMetric: %s. Supported values are: %s.", m.ExadataResourceMetric, strings.Join(GetSummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum[string(m.ExadataResourceType)]; !ok && m.ExadataResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceType: %s. Supported values are: %s.", m.ExadataResourceType, strings.Join(GetSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUsageUnitEnum[string(m.UsageUnit)]; !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum Enum with underlying type: string
 type SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum string
 
@@ -54,7 +77,7 @@ const (
 	SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricThroughput SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum = "THROUGHPUT"
 )
 
-var mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceMetric = map[string]SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum{
+var mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum = map[string]SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum{
 	"CPU":        SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricCpu,
 	"STORAGE":    SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricStorage,
 	"IO":         SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricIo,
@@ -66,10 +89,22 @@ var mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceMetric =
 // GetSummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnumValues Enumerates the set of values for SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum
 func GetSummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnumValues() []SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum {
 	values := make([]SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceMetric {
+	for _, v := range mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnum
+func GetSummarizeExadataInsightResourceUsageCollectionExadataResourceMetricEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"STORAGE",
+		"IO",
+		"MEMORY",
+		"IOPS",
+		"THROUGHPUT",
+	}
 }
 
 // SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum Enum with underlying type: string
@@ -83,7 +118,7 @@ const (
 	SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeDiskgroup     SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum = "DISKGROUP"
 )
 
-var mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceType = map[string]SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum{
+var mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum = map[string]SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum{
 	"DATABASE":       SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeDatabase,
 	"HOST":           SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeHost,
 	"STORAGE_SERVER": SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeStorageServer,
@@ -93,8 +128,18 @@ var mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceType = m
 // GetSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnumValues Enumerates the set of values for SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum
 func GetSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnumValues() []SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum {
 	values := make([]SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceType {
+	for _, v := range mappingSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnum
+func GetSummarizeExadataInsightResourceUsageCollectionExadataResourceTypeEnumStringValues() []string {
+	return []string{
+		"DATABASE",
+		"HOST",
+		"STORAGE_SERVER",
+		"DISKGROUP",
+	}
 }

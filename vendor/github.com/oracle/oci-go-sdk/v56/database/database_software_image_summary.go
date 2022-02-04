@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DatabaseSoftwareImageSummary The Database service supports the creation of database software images for use in creating and patching DB systems and databases.
@@ -78,6 +80,27 @@ func (m DatabaseSoftwareImageSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DatabaseSoftwareImageSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatabaseSoftwareImageSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatabaseSoftwareImageSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseSoftwareImageSummaryImageTypeEnum[string(m.ImageType)]; !ok && m.ImageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ImageType: %s. Supported values are: %s.", m.ImageType, strings.Join(GetDatabaseSoftwareImageSummaryImageTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseSoftwareImageSummaryImageShapeFamilyEnum[string(m.ImageShapeFamily)]; !ok && m.ImageShapeFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ImageShapeFamily: %s. Supported values are: %s.", m.ImageShapeFamily, strings.Join(GetDatabaseSoftwareImageSummaryImageShapeFamilyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DatabaseSoftwareImageSummaryLifecycleStateEnum Enum with underlying type: string
 type DatabaseSoftwareImageSummaryLifecycleStateEnum string
 
@@ -93,7 +116,7 @@ const (
 	DatabaseSoftwareImageSummaryLifecycleStateUpdating     DatabaseSoftwareImageSummaryLifecycleStateEnum = "UPDATING"
 )
 
-var mappingDatabaseSoftwareImageSummaryLifecycleState = map[string]DatabaseSoftwareImageSummaryLifecycleStateEnum{
+var mappingDatabaseSoftwareImageSummaryLifecycleStateEnum = map[string]DatabaseSoftwareImageSummaryLifecycleStateEnum{
 	"PROVISIONING": DatabaseSoftwareImageSummaryLifecycleStateProvisioning,
 	"AVAILABLE":    DatabaseSoftwareImageSummaryLifecycleStateAvailable,
 	"DELETING":     DatabaseSoftwareImageSummaryLifecycleStateDeleting,
@@ -107,10 +130,24 @@ var mappingDatabaseSoftwareImageSummaryLifecycleState = map[string]DatabaseSoftw
 // GetDatabaseSoftwareImageSummaryLifecycleStateEnumValues Enumerates the set of values for DatabaseSoftwareImageSummaryLifecycleStateEnum
 func GetDatabaseSoftwareImageSummaryLifecycleStateEnumValues() []DatabaseSoftwareImageSummaryLifecycleStateEnum {
 	values := make([]DatabaseSoftwareImageSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingDatabaseSoftwareImageSummaryLifecycleState {
+	for _, v := range mappingDatabaseSoftwareImageSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseSoftwareImageSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for DatabaseSoftwareImageSummaryLifecycleStateEnum
+func GetDatabaseSoftwareImageSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"TERMINATING",
+		"TERMINATED",
+		"UPDATING",
+	}
 }
 
 // DatabaseSoftwareImageSummaryImageTypeEnum Enum with underlying type: string
@@ -122,7 +159,7 @@ const (
 	DatabaseSoftwareImageSummaryImageTypeDatabaseImage DatabaseSoftwareImageSummaryImageTypeEnum = "DATABASE_IMAGE"
 )
 
-var mappingDatabaseSoftwareImageSummaryImageType = map[string]DatabaseSoftwareImageSummaryImageTypeEnum{
+var mappingDatabaseSoftwareImageSummaryImageTypeEnum = map[string]DatabaseSoftwareImageSummaryImageTypeEnum{
 	"GRID_IMAGE":     DatabaseSoftwareImageSummaryImageTypeGridImage,
 	"DATABASE_IMAGE": DatabaseSoftwareImageSummaryImageTypeDatabaseImage,
 }
@@ -130,10 +167,18 @@ var mappingDatabaseSoftwareImageSummaryImageType = map[string]DatabaseSoftwareIm
 // GetDatabaseSoftwareImageSummaryImageTypeEnumValues Enumerates the set of values for DatabaseSoftwareImageSummaryImageTypeEnum
 func GetDatabaseSoftwareImageSummaryImageTypeEnumValues() []DatabaseSoftwareImageSummaryImageTypeEnum {
 	values := make([]DatabaseSoftwareImageSummaryImageTypeEnum, 0)
-	for _, v := range mappingDatabaseSoftwareImageSummaryImageType {
+	for _, v := range mappingDatabaseSoftwareImageSummaryImageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseSoftwareImageSummaryImageTypeEnumStringValues Enumerates the set of values in String for DatabaseSoftwareImageSummaryImageTypeEnum
+func GetDatabaseSoftwareImageSummaryImageTypeEnumStringValues() []string {
+	return []string{
+		"GRID_IMAGE",
+		"DATABASE_IMAGE",
+	}
 }
 
 // DatabaseSoftwareImageSummaryImageShapeFamilyEnum Enum with underlying type: string
@@ -146,7 +191,7 @@ const (
 	DatabaseSoftwareImageSummaryImageShapeFamilyExaccShape   DatabaseSoftwareImageSummaryImageShapeFamilyEnum = "EXACC_SHAPE"
 )
 
-var mappingDatabaseSoftwareImageSummaryImageShapeFamily = map[string]DatabaseSoftwareImageSummaryImageShapeFamilyEnum{
+var mappingDatabaseSoftwareImageSummaryImageShapeFamilyEnum = map[string]DatabaseSoftwareImageSummaryImageShapeFamilyEnum{
 	"VM_BM_SHAPE":   DatabaseSoftwareImageSummaryImageShapeFamilyVmBmShape,
 	"EXADATA_SHAPE": DatabaseSoftwareImageSummaryImageShapeFamilyExadataShape,
 	"EXACC_SHAPE":   DatabaseSoftwareImageSummaryImageShapeFamilyExaccShape,
@@ -155,8 +200,17 @@ var mappingDatabaseSoftwareImageSummaryImageShapeFamily = map[string]DatabaseSof
 // GetDatabaseSoftwareImageSummaryImageShapeFamilyEnumValues Enumerates the set of values for DatabaseSoftwareImageSummaryImageShapeFamilyEnum
 func GetDatabaseSoftwareImageSummaryImageShapeFamilyEnumValues() []DatabaseSoftwareImageSummaryImageShapeFamilyEnum {
 	values := make([]DatabaseSoftwareImageSummaryImageShapeFamilyEnum, 0)
-	for _, v := range mappingDatabaseSoftwareImageSummaryImageShapeFamily {
+	for _, v := range mappingDatabaseSoftwareImageSummaryImageShapeFamilyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseSoftwareImageSummaryImageShapeFamilyEnumStringValues Enumerates the set of values in String for DatabaseSoftwareImageSummaryImageShapeFamilyEnum
+func GetDatabaseSoftwareImageSummaryImageShapeFamilyEnumStringValues() []string {
+	return []string{
+		"VM_BM_SHAPE",
+		"EXADATA_SHAPE",
+		"EXACC_SHAPE",
+	}
 }

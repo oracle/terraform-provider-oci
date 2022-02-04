@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ConsoleConnectionSummary The `InstanceConsoleConnection` API provides you with console access to dbnode
@@ -40,6 +42,21 @@ func (m ConsoleConnectionSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ConsoleConnectionSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingConsoleConnectionSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConsoleConnectionSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConsoleConnectionSummaryLifecycleStateEnum Enum with underlying type: string
 type ConsoleConnectionSummaryLifecycleStateEnum string
 
@@ -52,7 +69,7 @@ const (
 	ConsoleConnectionSummaryLifecycleStateFailed   ConsoleConnectionSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingConsoleConnectionSummaryLifecycleState = map[string]ConsoleConnectionSummaryLifecycleStateEnum{
+var mappingConsoleConnectionSummaryLifecycleStateEnum = map[string]ConsoleConnectionSummaryLifecycleStateEnum{
 	"ACTIVE":   ConsoleConnectionSummaryLifecycleStateActive,
 	"CREATING": ConsoleConnectionSummaryLifecycleStateCreating,
 	"DELETED":  ConsoleConnectionSummaryLifecycleStateDeleted,
@@ -63,8 +80,19 @@ var mappingConsoleConnectionSummaryLifecycleState = map[string]ConsoleConnection
 // GetConsoleConnectionSummaryLifecycleStateEnumValues Enumerates the set of values for ConsoleConnectionSummaryLifecycleStateEnum
 func GetConsoleConnectionSummaryLifecycleStateEnumValues() []ConsoleConnectionSummaryLifecycleStateEnum {
 	values := make([]ConsoleConnectionSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingConsoleConnectionSummaryLifecycleState {
+	for _, v := range mappingConsoleConnectionSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConsoleConnectionSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ConsoleConnectionSummaryLifecycleStateEnum
+func GetConsoleConnectionSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+	}
 }

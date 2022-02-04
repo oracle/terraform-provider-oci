@@ -18,7 +18,7 @@ const (
 	SessionTypePortForwarding SessionTypeEnum = "PORT_FORWARDING"
 )
 
-var mappingSessionType = map[string]SessionTypeEnum{
+var mappingSessionTypeEnum = map[string]SessionTypeEnum{
 	"MANAGED_SSH":     SessionTypeManagedSsh,
 	"PORT_FORWARDING": SessionTypePortForwarding,
 }
@@ -26,8 +26,16 @@ var mappingSessionType = map[string]SessionTypeEnum{
 // GetSessionTypeEnumValues Enumerates the set of values for SessionTypeEnum
 func GetSessionTypeEnumValues() []SessionTypeEnum {
 	values := make([]SessionTypeEnum, 0)
-	for _, v := range mappingSessionType {
+	for _, v := range mappingSessionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSessionTypeEnumStringValues Enumerates the set of values in String for SessionTypeEnum
+func GetSessionTypeEnumStringValues() []string {
+	return []string{
+		"MANAGED_SSH",
+		"PORT_FORWARDING",
+	}
 }

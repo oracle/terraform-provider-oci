@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDhcpOptionsRequest wrapper for the ListDhcpOptions operation
@@ -69,6 +71,10 @@ func (request ListDhcpOptionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDhcpOptionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,26 @@ func (request ListDhcpOptionsRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDhcpOptionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDhcpOptionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDhcpOptionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDhcpOptionsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDhcpOptionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDhcpOptionsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDhcpOptionsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDhcpOptionsLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDhcpOptionsResponse wrapper for the ListDhcpOptions operation
@@ -121,7 +147,7 @@ const (
 	ListDhcpOptionsSortByDisplayname ListDhcpOptionsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListDhcpOptionsSortBy = map[string]ListDhcpOptionsSortByEnum{
+var mappingListDhcpOptionsSortByEnum = map[string]ListDhcpOptionsSortByEnum{
 	"TIMECREATED": ListDhcpOptionsSortByTimecreated,
 	"DISPLAYNAME": ListDhcpOptionsSortByDisplayname,
 }
@@ -129,10 +155,18 @@ var mappingListDhcpOptionsSortBy = map[string]ListDhcpOptionsSortByEnum{
 // GetListDhcpOptionsSortByEnumValues Enumerates the set of values for ListDhcpOptionsSortByEnum
 func GetListDhcpOptionsSortByEnumValues() []ListDhcpOptionsSortByEnum {
 	values := make([]ListDhcpOptionsSortByEnum, 0)
-	for _, v := range mappingListDhcpOptionsSortBy {
+	for _, v := range mappingListDhcpOptionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDhcpOptionsSortByEnumStringValues Enumerates the set of values in String for ListDhcpOptionsSortByEnum
+func GetListDhcpOptionsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListDhcpOptionsSortOrderEnum Enum with underlying type: string
@@ -144,7 +178,7 @@ const (
 	ListDhcpOptionsSortOrderDesc ListDhcpOptionsSortOrderEnum = "DESC"
 )
 
-var mappingListDhcpOptionsSortOrder = map[string]ListDhcpOptionsSortOrderEnum{
+var mappingListDhcpOptionsSortOrderEnum = map[string]ListDhcpOptionsSortOrderEnum{
 	"ASC":  ListDhcpOptionsSortOrderAsc,
 	"DESC": ListDhcpOptionsSortOrderDesc,
 }
@@ -152,8 +186,16 @@ var mappingListDhcpOptionsSortOrder = map[string]ListDhcpOptionsSortOrderEnum{
 // GetListDhcpOptionsSortOrderEnumValues Enumerates the set of values for ListDhcpOptionsSortOrderEnum
 func GetListDhcpOptionsSortOrderEnumValues() []ListDhcpOptionsSortOrderEnum {
 	values := make([]ListDhcpOptionsSortOrderEnum, 0)
-	for _, v := range mappingListDhcpOptionsSortOrder {
+	for _, v := range mappingListDhcpOptionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDhcpOptionsSortOrderEnumStringValues Enumerates the set of values in String for ListDhcpOptionsSortOrderEnum
+func GetListDhcpOptionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

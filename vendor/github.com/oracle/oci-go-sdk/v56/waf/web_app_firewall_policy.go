@@ -12,7 +12,9 @@ package waf
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WebAppFirewallPolicy The details of WebAppFirewallPolicy. A policy is comprised of rules, which allows executing inspections of
@@ -80,6 +82,21 @@ type WebAppFirewallPolicy struct {
 
 func (m WebAppFirewallPolicy) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WebAppFirewallPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWebAppFirewallPolicyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetWebAppFirewallPolicyLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -167,7 +184,7 @@ const (
 	WebAppFirewallPolicyLifecycleStateFailed   WebAppFirewallPolicyLifecycleStateEnum = "FAILED"
 )
 
-var mappingWebAppFirewallPolicyLifecycleState = map[string]WebAppFirewallPolicyLifecycleStateEnum{
+var mappingWebAppFirewallPolicyLifecycleStateEnum = map[string]WebAppFirewallPolicyLifecycleStateEnum{
 	"CREATING": WebAppFirewallPolicyLifecycleStateCreating,
 	"UPDATING": WebAppFirewallPolicyLifecycleStateUpdating,
 	"ACTIVE":   WebAppFirewallPolicyLifecycleStateActive,
@@ -179,8 +196,20 @@ var mappingWebAppFirewallPolicyLifecycleState = map[string]WebAppFirewallPolicyL
 // GetWebAppFirewallPolicyLifecycleStateEnumValues Enumerates the set of values for WebAppFirewallPolicyLifecycleStateEnum
 func GetWebAppFirewallPolicyLifecycleStateEnumValues() []WebAppFirewallPolicyLifecycleStateEnum {
 	values := make([]WebAppFirewallPolicyLifecycleStateEnum, 0)
-	for _, v := range mappingWebAppFirewallPolicyLifecycleState {
+	for _, v := range mappingWebAppFirewallPolicyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWebAppFirewallPolicyLifecycleStateEnumStringValues Enumerates the set of values in String for WebAppFirewallPolicyLifecycleStateEnum
+func GetWebAppFirewallPolicyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

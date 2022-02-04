@@ -13,7 +13,9 @@ package opsi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HostConfigurationSummary Summary of a host configuration for a resource.
@@ -261,6 +263,21 @@ func (m hostconfigurationsummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m hostconfigurationsummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingHostConfigurationSummaryPlatformTypeEnum[string(m.PlatformType)]; !ok && m.PlatformType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", m.PlatformType, strings.Join(GetHostConfigurationSummaryPlatformTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HostConfigurationSummaryPlatformTypeEnum Enum with underlying type: string
 type HostConfigurationSummaryPlatformTypeEnum string
 
@@ -271,7 +288,7 @@ const (
 	HostConfigurationSummaryPlatformTypeSunos   HostConfigurationSummaryPlatformTypeEnum = "SUNOS"
 )
 
-var mappingHostConfigurationSummaryPlatformType = map[string]HostConfigurationSummaryPlatformTypeEnum{
+var mappingHostConfigurationSummaryPlatformTypeEnum = map[string]HostConfigurationSummaryPlatformTypeEnum{
 	"LINUX":   HostConfigurationSummaryPlatformTypeLinux,
 	"SOLARIS": HostConfigurationSummaryPlatformTypeSolaris,
 	"SUNOS":   HostConfigurationSummaryPlatformTypeSunos,
@@ -280,8 +297,17 @@ var mappingHostConfigurationSummaryPlatformType = map[string]HostConfigurationSu
 // GetHostConfigurationSummaryPlatformTypeEnumValues Enumerates the set of values for HostConfigurationSummaryPlatformTypeEnum
 func GetHostConfigurationSummaryPlatformTypeEnumValues() []HostConfigurationSummaryPlatformTypeEnum {
 	values := make([]HostConfigurationSummaryPlatformTypeEnum, 0)
-	for _, v := range mappingHostConfigurationSummaryPlatformType {
+	for _, v := range mappingHostConfigurationSummaryPlatformTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHostConfigurationSummaryPlatformTypeEnumStringValues Enumerates the set of values in String for HostConfigurationSummaryPlatformTypeEnum
+func GetHostConfigurationSummaryPlatformTypeEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"SOLARIS",
+		"SUNOS",
+	}
 }

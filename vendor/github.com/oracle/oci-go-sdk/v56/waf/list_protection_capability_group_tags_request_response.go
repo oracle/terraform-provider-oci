@@ -5,8 +5,10 @@
 package waf
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListProtectionCapabilityGroupTagsRequest wrapper for the ListProtectionCapabilityGroupTags operation
@@ -55,6 +57,10 @@ func (request ListProtectionCapabilityGroupTagsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListProtectionCapabilityGroupTagsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListProtectionCapabilityGroupTagsRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListProtectionCapabilityGroupTagsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListProtectionCapabilityGroupTagsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingProtectionCapabilitySummaryTypeEnum[string(request.Type)]; !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetProtectionCapabilitySummaryTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProtectionCapabilityGroupTagsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListProtectionCapabilityGroupTagsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListProtectionCapabilityGroupTagsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListProtectionCapabilityGroupTagsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListProtectionCapabilityGroupTagsResponse wrapper for the ListProtectionCapabilityGroupTags operation
@@ -107,7 +133,7 @@ const (
 	ListProtectionCapabilityGroupTagsSortOrderDesc ListProtectionCapabilityGroupTagsSortOrderEnum = "DESC"
 )
 
-var mappingListProtectionCapabilityGroupTagsSortOrder = map[string]ListProtectionCapabilityGroupTagsSortOrderEnum{
+var mappingListProtectionCapabilityGroupTagsSortOrderEnum = map[string]ListProtectionCapabilityGroupTagsSortOrderEnum{
 	"ASC":  ListProtectionCapabilityGroupTagsSortOrderAsc,
 	"DESC": ListProtectionCapabilityGroupTagsSortOrderDesc,
 }
@@ -115,10 +141,18 @@ var mappingListProtectionCapabilityGroupTagsSortOrder = map[string]ListProtectio
 // GetListProtectionCapabilityGroupTagsSortOrderEnumValues Enumerates the set of values for ListProtectionCapabilityGroupTagsSortOrderEnum
 func GetListProtectionCapabilityGroupTagsSortOrderEnumValues() []ListProtectionCapabilityGroupTagsSortOrderEnum {
 	values := make([]ListProtectionCapabilityGroupTagsSortOrderEnum, 0)
-	for _, v := range mappingListProtectionCapabilityGroupTagsSortOrder {
+	for _, v := range mappingListProtectionCapabilityGroupTagsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProtectionCapabilityGroupTagsSortOrderEnumStringValues Enumerates the set of values in String for ListProtectionCapabilityGroupTagsSortOrderEnum
+func GetListProtectionCapabilityGroupTagsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListProtectionCapabilityGroupTagsSortByEnum Enum with underlying type: string
@@ -129,15 +163,22 @@ const (
 	ListProtectionCapabilityGroupTagsSortByName ListProtectionCapabilityGroupTagsSortByEnum = "name"
 )
 
-var mappingListProtectionCapabilityGroupTagsSortBy = map[string]ListProtectionCapabilityGroupTagsSortByEnum{
+var mappingListProtectionCapabilityGroupTagsSortByEnum = map[string]ListProtectionCapabilityGroupTagsSortByEnum{
 	"name": ListProtectionCapabilityGroupTagsSortByName,
 }
 
 // GetListProtectionCapabilityGroupTagsSortByEnumValues Enumerates the set of values for ListProtectionCapabilityGroupTagsSortByEnum
 func GetListProtectionCapabilityGroupTagsSortByEnumValues() []ListProtectionCapabilityGroupTagsSortByEnum {
 	values := make([]ListProtectionCapabilityGroupTagsSortByEnum, 0)
-	for _, v := range mappingListProtectionCapabilityGroupTagsSortBy {
+	for _, v := range mappingListProtectionCapabilityGroupTagsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListProtectionCapabilityGroupTagsSortByEnumStringValues Enumerates the set of values in String for ListProtectionCapabilityGroupTagsSortByEnum
+func GetListProtectionCapabilityGroupTagsSortByEnumStringValues() []string {
+	return []string{
+		"name",
+	}
 }

@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDrgRouteDistributionStatementsRequest wrapper for the ListDrgRouteDistributionStatements operation
@@ -53,6 +55,10 @@ func (request ListDrgRouteDistributionStatementsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDrgRouteDistributionStatementsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,23 @@ func (request ListDrgRouteDistributionStatementsRequest) BinaryRequestBody() (*c
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDrgRouteDistributionStatementsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDrgRouteDistributionStatementsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDrgRouteDistributionStatementsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDrgRouteDistributionStatementsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDrgRouteDistributionStatementsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDrgRouteDistributionStatementsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDrgRouteDistributionStatementsResponse wrapper for the ListDrgRouteDistributionStatements operation
@@ -104,17 +127,24 @@ const (
 	ListDrgRouteDistributionStatementsSortByTimecreated ListDrgRouteDistributionStatementsSortByEnum = "TIMECREATED"
 )
 
-var mappingListDrgRouteDistributionStatementsSortBy = map[string]ListDrgRouteDistributionStatementsSortByEnum{
+var mappingListDrgRouteDistributionStatementsSortByEnum = map[string]ListDrgRouteDistributionStatementsSortByEnum{
 	"TIMECREATED": ListDrgRouteDistributionStatementsSortByTimecreated,
 }
 
 // GetListDrgRouteDistributionStatementsSortByEnumValues Enumerates the set of values for ListDrgRouteDistributionStatementsSortByEnum
 func GetListDrgRouteDistributionStatementsSortByEnumValues() []ListDrgRouteDistributionStatementsSortByEnum {
 	values := make([]ListDrgRouteDistributionStatementsSortByEnum, 0)
-	for _, v := range mappingListDrgRouteDistributionStatementsSortBy {
+	for _, v := range mappingListDrgRouteDistributionStatementsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDrgRouteDistributionStatementsSortByEnumStringValues Enumerates the set of values in String for ListDrgRouteDistributionStatementsSortByEnum
+func GetListDrgRouteDistributionStatementsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+	}
 }
 
 // ListDrgRouteDistributionStatementsSortOrderEnum Enum with underlying type: string
@@ -126,7 +156,7 @@ const (
 	ListDrgRouteDistributionStatementsSortOrderDesc ListDrgRouteDistributionStatementsSortOrderEnum = "DESC"
 )
 
-var mappingListDrgRouteDistributionStatementsSortOrder = map[string]ListDrgRouteDistributionStatementsSortOrderEnum{
+var mappingListDrgRouteDistributionStatementsSortOrderEnum = map[string]ListDrgRouteDistributionStatementsSortOrderEnum{
 	"ASC":  ListDrgRouteDistributionStatementsSortOrderAsc,
 	"DESC": ListDrgRouteDistributionStatementsSortOrderDesc,
 }
@@ -134,8 +164,16 @@ var mappingListDrgRouteDistributionStatementsSortOrder = map[string]ListDrgRoute
 // GetListDrgRouteDistributionStatementsSortOrderEnumValues Enumerates the set of values for ListDrgRouteDistributionStatementsSortOrderEnum
 func GetListDrgRouteDistributionStatementsSortOrderEnumValues() []ListDrgRouteDistributionStatementsSortOrderEnum {
 	values := make([]ListDrgRouteDistributionStatementsSortOrderEnum, 0)
-	for _, v := range mappingListDrgRouteDistributionStatementsSortOrder {
+	for _, v := range mappingListDrgRouteDistributionStatementsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDrgRouteDistributionStatementsSortOrderEnumStringValues Enumerates the set of values in String for ListDrgRouteDistributionStatementsSortOrderEnum
+func GetListDrgRouteDistributionStatementsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

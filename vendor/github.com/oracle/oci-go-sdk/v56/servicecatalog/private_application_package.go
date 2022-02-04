@@ -11,7 +11,9 @@ package servicecatalog
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PrivateApplicationPackage A base object for all types of private application packages.
@@ -111,4 +113,16 @@ func (m privateapplicationpackage) GetDisplayName() *string {
 
 func (m privateapplicationpackage) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m privateapplicationpackage) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

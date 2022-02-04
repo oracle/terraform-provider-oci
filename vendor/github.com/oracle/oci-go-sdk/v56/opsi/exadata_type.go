@@ -21,7 +21,7 @@ const (
 	ExadataTypeExacc     ExadataTypeEnum = "EXACC"
 )
 
-var mappingExadataType = map[string]ExadataTypeEnum{
+var mappingExadataTypeEnum = map[string]ExadataTypeEnum{
 	"DBMACHINE": ExadataTypeDbmachine,
 	"EXACS":     ExadataTypeExacs,
 	"EXACC":     ExadataTypeExacc,
@@ -30,8 +30,17 @@ var mappingExadataType = map[string]ExadataTypeEnum{
 // GetExadataTypeEnumValues Enumerates the set of values for ExadataTypeEnum
 func GetExadataTypeEnumValues() []ExadataTypeEnum {
 	values := make([]ExadataTypeEnum, 0)
-	for _, v := range mappingExadataType {
+	for _, v := range mappingExadataTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExadataTypeEnumStringValues Enumerates the set of values in String for ExadataTypeEnum
+func GetExadataTypeEnumStringValues() []string {
+	return []string{
+		"DBMACHINE",
+		"EXACS",
+		"EXACC",
+	}
 }

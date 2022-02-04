@@ -13,7 +13,9 @@ package opsi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HostImportableAgentEntitySummary An agent host entity that can be imported into Operations Insights.
@@ -48,6 +50,21 @@ func (m HostImportableAgentEntitySummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m HostImportableAgentEntitySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingHostImportableAgentEntitySummaryPlatformTypeEnum[string(m.PlatformType)]; !ok && m.PlatformType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", m.PlatformType, strings.Join(GetHostImportableAgentEntitySummaryPlatformTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m HostImportableAgentEntitySummary) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeHostImportableAgentEntitySummary HostImportableAgentEntitySummary
@@ -72,7 +89,7 @@ const (
 	HostImportableAgentEntitySummaryPlatformTypeSunos   HostImportableAgentEntitySummaryPlatformTypeEnum = "SUNOS"
 )
 
-var mappingHostImportableAgentEntitySummaryPlatformType = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
+var mappingHostImportableAgentEntitySummaryPlatformTypeEnum = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
 	"LINUX":   HostImportableAgentEntitySummaryPlatformTypeLinux,
 	"SOLARIS": HostImportableAgentEntitySummaryPlatformTypeSolaris,
 	"SUNOS":   HostImportableAgentEntitySummaryPlatformTypeSunos,
@@ -81,8 +98,17 @@ var mappingHostImportableAgentEntitySummaryPlatformType = map[string]HostImporta
 // GetHostImportableAgentEntitySummaryPlatformTypeEnumValues Enumerates the set of values for HostImportableAgentEntitySummaryPlatformTypeEnum
 func GetHostImportableAgentEntitySummaryPlatformTypeEnumValues() []HostImportableAgentEntitySummaryPlatformTypeEnum {
 	values := make([]HostImportableAgentEntitySummaryPlatformTypeEnum, 0)
-	for _, v := range mappingHostImportableAgentEntitySummaryPlatformType {
+	for _, v := range mappingHostImportableAgentEntitySummaryPlatformTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHostImportableAgentEntitySummaryPlatformTypeEnumStringValues Enumerates the set of values in String for HostImportableAgentEntitySummaryPlatformTypeEnum
+func GetHostImportableAgentEntitySummaryPlatformTypeEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"SOLARIS",
+		"SUNOS",
+	}
 }

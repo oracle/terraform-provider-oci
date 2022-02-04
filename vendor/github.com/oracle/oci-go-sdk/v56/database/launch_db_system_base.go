@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LaunchDbSystemBase Parameters for provisioning a bare metal, virtual machine, or Exadata DB system.
@@ -370,6 +372,18 @@ func (m launchdbsystembase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m launchdbsystembase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LaunchDbSystemBaseSourceEnum Enum with underlying type: string
 type LaunchDbSystemBaseSourceEnum string
 
@@ -381,7 +395,7 @@ const (
 	LaunchDbSystemBaseSourceDbSystem LaunchDbSystemBaseSourceEnum = "DB_SYSTEM"
 )
 
-var mappingLaunchDbSystemBaseSource = map[string]LaunchDbSystemBaseSourceEnum{
+var mappingLaunchDbSystemBaseSourceEnum = map[string]LaunchDbSystemBaseSourceEnum{
 	"NONE":      LaunchDbSystemBaseSourceNone,
 	"DB_BACKUP": LaunchDbSystemBaseSourceDbBackup,
 	"DATABASE":  LaunchDbSystemBaseSourceDatabase,
@@ -391,8 +405,18 @@ var mappingLaunchDbSystemBaseSource = map[string]LaunchDbSystemBaseSourceEnum{
 // GetLaunchDbSystemBaseSourceEnumValues Enumerates the set of values for LaunchDbSystemBaseSourceEnum
 func GetLaunchDbSystemBaseSourceEnumValues() []LaunchDbSystemBaseSourceEnum {
 	values := make([]LaunchDbSystemBaseSourceEnum, 0)
-	for _, v := range mappingLaunchDbSystemBaseSource {
+	for _, v := range mappingLaunchDbSystemBaseSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchDbSystemBaseSourceEnumStringValues Enumerates the set of values in String for LaunchDbSystemBaseSourceEnum
+func GetLaunchDbSystemBaseSourceEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"DB_BACKUP",
+		"DATABASE",
+		"DB_SYSTEM",
+	}
 }

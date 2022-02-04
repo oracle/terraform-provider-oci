@@ -20,7 +20,7 @@ const (
 	WorkRequestOperationMovePrivateEndpoint   WorkRequestOperationEnum = "MOVE_PRIVATE_ENDPOINT"
 )
 
-var mappingWorkRequestOperation = map[string]WorkRequestOperationEnum{
+var mappingWorkRequestOperationEnum = map[string]WorkRequestOperationEnum{
 	"CREATE_PRIVATE_ENDPOINT": WorkRequestOperationCreatePrivateEndpoint,
 	"UPDATE_PRIVATE_ENDPOINT": WorkRequestOperationUpdatePrivateEndpoint,
 	"DELETE_PRIVATE_ENDPOINT": WorkRequestOperationDeletePrivateEndpoint,
@@ -30,8 +30,18 @@ var mappingWorkRequestOperation = map[string]WorkRequestOperationEnum{
 // GetWorkRequestOperationEnumValues Enumerates the set of values for WorkRequestOperationEnum
 func GetWorkRequestOperationEnumValues() []WorkRequestOperationEnum {
 	values := make([]WorkRequestOperationEnum, 0)
-	for _, v := range mappingWorkRequestOperation {
+	for _, v := range mappingWorkRequestOperationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestOperationEnumStringValues Enumerates the set of values in String for WorkRequestOperationEnum
+func GetWorkRequestOperationEnumStringValues() []string {
+	return []string{
+		"CREATE_PRIVATE_ENDPOINT",
+		"UPDATE_PRIVATE_ENDPOINT",
+		"DELETE_PRIVATE_ENDPOINT",
+		"MOVE_PRIVATE_ENDPOINT",
+	}
 }

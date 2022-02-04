@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TaskRun The information about a task run.
@@ -113,6 +115,30 @@ func (m TaskRun) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TaskRun) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTaskRunStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetTaskRunStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskRunExpectedDurationUnitEnum[string(m.ExpectedDurationUnit)]; !ok && m.ExpectedDurationUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExpectedDurationUnit: %s. Supported values are: %s.", m.ExpectedDurationUnit, strings.Join(GetTaskRunExpectedDurationUnitEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskRunAuthModeEnum[string(m.AuthMode)]; !ok && m.AuthMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthMode: %s. Supported values are: %s.", m.AuthMode, strings.Join(GetTaskRunAuthModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskRunTaskTypeEnum[string(m.TaskType)]; !ok && m.TaskType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskType: %s. Supported values are: %s.", m.TaskType, strings.Join(GetTaskRunTaskTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TaskRunStatusEnum Enum with underlying type: string
 type TaskRunStatusEnum string
 
@@ -127,7 +153,7 @@ const (
 	TaskRunStatusError       TaskRunStatusEnum = "ERROR"
 )
 
-var mappingTaskRunStatus = map[string]TaskRunStatusEnum{
+var mappingTaskRunStatusEnum = map[string]TaskRunStatusEnum{
 	"NOT_STARTED": TaskRunStatusNotStarted,
 	"QUEUED":      TaskRunStatusQueued,
 	"RUNNING":     TaskRunStatusRunning,
@@ -140,10 +166,23 @@ var mappingTaskRunStatus = map[string]TaskRunStatusEnum{
 // GetTaskRunStatusEnumValues Enumerates the set of values for TaskRunStatusEnum
 func GetTaskRunStatusEnumValues() []TaskRunStatusEnum {
 	values := make([]TaskRunStatusEnum, 0)
-	for _, v := range mappingTaskRunStatus {
+	for _, v := range mappingTaskRunStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskRunStatusEnumStringValues Enumerates the set of values in String for TaskRunStatusEnum
+func GetTaskRunStatusEnumStringValues() []string {
+	return []string{
+		"NOT_STARTED",
+		"QUEUED",
+		"RUNNING",
+		"TERMINATING",
+		"TERMINATED",
+		"SUCCESS",
+		"ERROR",
+	}
 }
 
 // TaskRunExpectedDurationUnitEnum Enum with underlying type: string
@@ -157,7 +196,7 @@ const (
 	TaskRunExpectedDurationUnitDays    TaskRunExpectedDurationUnitEnum = "DAYS"
 )
 
-var mappingTaskRunExpectedDurationUnit = map[string]TaskRunExpectedDurationUnitEnum{
+var mappingTaskRunExpectedDurationUnitEnum = map[string]TaskRunExpectedDurationUnitEnum{
 	"SECONDS": TaskRunExpectedDurationUnitSeconds,
 	"MINUTES": TaskRunExpectedDurationUnitMinutes,
 	"HOURS":   TaskRunExpectedDurationUnitHours,
@@ -167,10 +206,20 @@ var mappingTaskRunExpectedDurationUnit = map[string]TaskRunExpectedDurationUnitE
 // GetTaskRunExpectedDurationUnitEnumValues Enumerates the set of values for TaskRunExpectedDurationUnitEnum
 func GetTaskRunExpectedDurationUnitEnumValues() []TaskRunExpectedDurationUnitEnum {
 	values := make([]TaskRunExpectedDurationUnitEnum, 0)
-	for _, v := range mappingTaskRunExpectedDurationUnit {
+	for _, v := range mappingTaskRunExpectedDurationUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskRunExpectedDurationUnitEnumStringValues Enumerates the set of values in String for TaskRunExpectedDurationUnitEnum
+func GetTaskRunExpectedDurationUnitEnumStringValues() []string {
+	return []string{
+		"SECONDS",
+		"MINUTES",
+		"HOURS",
+		"DAYS",
+	}
 }
 
 // TaskRunAuthModeEnum Enum with underlying type: string
@@ -183,7 +232,7 @@ const (
 	TaskRunAuthModeUserCertificate   TaskRunAuthModeEnum = "USER_CERTIFICATE"
 )
 
-var mappingTaskRunAuthMode = map[string]TaskRunAuthModeEnum{
+var mappingTaskRunAuthModeEnum = map[string]TaskRunAuthModeEnum{
 	"OBO":                TaskRunAuthModeObo,
 	"RESOURCE_PRINCIPAL": TaskRunAuthModeResourcePrincipal,
 	"USER_CERTIFICATE":   TaskRunAuthModeUserCertificate,
@@ -192,10 +241,19 @@ var mappingTaskRunAuthMode = map[string]TaskRunAuthModeEnum{
 // GetTaskRunAuthModeEnumValues Enumerates the set of values for TaskRunAuthModeEnum
 func GetTaskRunAuthModeEnumValues() []TaskRunAuthModeEnum {
 	values := make([]TaskRunAuthModeEnum, 0)
-	for _, v := range mappingTaskRunAuthMode {
+	for _, v := range mappingTaskRunAuthModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskRunAuthModeEnumStringValues Enumerates the set of values in String for TaskRunAuthModeEnum
+func GetTaskRunAuthModeEnumStringValues() []string {
+	return []string{
+		"OBO",
+		"RESOURCE_PRINCIPAL",
+		"USER_CERTIFICATE",
+	}
 }
 
 // TaskRunTaskTypeEnum Enum with underlying type: string
@@ -211,7 +269,7 @@ const (
 	TaskRunTaskTypeRestTask        TaskRunTaskTypeEnum = "REST_TASK"
 )
 
-var mappingTaskRunTaskType = map[string]TaskRunTaskTypeEnum{
+var mappingTaskRunTaskTypeEnum = map[string]TaskRunTaskTypeEnum{
 	"INTEGRATION_TASK":  TaskRunTaskTypeIntegrationTask,
 	"DATA_LOADER_TASK":  TaskRunTaskTypeDataLoaderTask,
 	"PIPELINE_TASK":     TaskRunTaskTypePipelineTask,
@@ -223,8 +281,20 @@ var mappingTaskRunTaskType = map[string]TaskRunTaskTypeEnum{
 // GetTaskRunTaskTypeEnumValues Enumerates the set of values for TaskRunTaskTypeEnum
 func GetTaskRunTaskTypeEnumValues() []TaskRunTaskTypeEnum {
 	values := make([]TaskRunTaskTypeEnum, 0)
-	for _, v := range mappingTaskRunTaskType {
+	for _, v := range mappingTaskRunTaskTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskRunTaskTypeEnumStringValues Enumerates the set of values in String for TaskRunTaskTypeEnum
+func GetTaskRunTaskTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }

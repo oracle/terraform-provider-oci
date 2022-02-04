@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // GrantSummary The summary of user grants.
@@ -38,6 +40,24 @@ func (m GrantSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m GrantSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingGrantSummaryPrivilegeTypeEnum[string(m.PrivilegeType)]; !ok && m.PrivilegeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PrivilegeType: %s. Supported values are: %s.", m.PrivilegeType, strings.Join(GetGrantSummaryPrivilegeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingGrantSummaryPrivilegeCategoryEnum[string(m.PrivilegeCategory)]; !ok && m.PrivilegeCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PrivilegeCategory: %s. Supported values are: %s.", m.PrivilegeCategory, strings.Join(GetGrantSummaryPrivilegeCategoryEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // GrantSummaryPrivilegeTypeEnum Enum with underlying type: string
 type GrantSummaryPrivilegeTypeEnum string
 
@@ -49,7 +69,7 @@ const (
 	GrantSummaryPrivilegeTypeRole            GrantSummaryPrivilegeTypeEnum = "ROLE"
 )
 
-var mappingGrantSummaryPrivilegeType = map[string]GrantSummaryPrivilegeTypeEnum{
+var mappingGrantSummaryPrivilegeTypeEnum = map[string]GrantSummaryPrivilegeTypeEnum{
 	"SYSTEM_PRIVILEGE": GrantSummaryPrivilegeTypeSystemPrivilege,
 	"OBJECT_PRIVILEGE": GrantSummaryPrivilegeTypeObjectPrivilege,
 	"ADMIN_PRIVILEGE":  GrantSummaryPrivilegeTypeAdminPrivilege,
@@ -59,10 +79,20 @@ var mappingGrantSummaryPrivilegeType = map[string]GrantSummaryPrivilegeTypeEnum{
 // GetGrantSummaryPrivilegeTypeEnumValues Enumerates the set of values for GrantSummaryPrivilegeTypeEnum
 func GetGrantSummaryPrivilegeTypeEnumValues() []GrantSummaryPrivilegeTypeEnum {
 	values := make([]GrantSummaryPrivilegeTypeEnum, 0)
-	for _, v := range mappingGrantSummaryPrivilegeType {
+	for _, v := range mappingGrantSummaryPrivilegeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGrantSummaryPrivilegeTypeEnumStringValues Enumerates the set of values in String for GrantSummaryPrivilegeTypeEnum
+func GetGrantSummaryPrivilegeTypeEnumStringValues() []string {
+	return []string{
+		"SYSTEM_PRIVILEGE",
+		"OBJECT_PRIVILEGE",
+		"ADMIN_PRIVILEGE",
+		"ROLE",
+	}
 }
 
 // GrantSummaryPrivilegeCategoryEnum Enum with underlying type: string
@@ -76,7 +106,7 @@ const (
 	GrantSummaryPrivilegeCategoryLow      GrantSummaryPrivilegeCategoryEnum = "LOW"
 )
 
-var mappingGrantSummaryPrivilegeCategory = map[string]GrantSummaryPrivilegeCategoryEnum{
+var mappingGrantSummaryPrivilegeCategoryEnum = map[string]GrantSummaryPrivilegeCategoryEnum{
 	"CRITICAL": GrantSummaryPrivilegeCategoryCritical,
 	"HIGH":     GrantSummaryPrivilegeCategoryHigh,
 	"MEDIUM":   GrantSummaryPrivilegeCategoryMedium,
@@ -86,8 +116,18 @@ var mappingGrantSummaryPrivilegeCategory = map[string]GrantSummaryPrivilegeCateg
 // GetGrantSummaryPrivilegeCategoryEnumValues Enumerates the set of values for GrantSummaryPrivilegeCategoryEnum
 func GetGrantSummaryPrivilegeCategoryEnumValues() []GrantSummaryPrivilegeCategoryEnum {
 	values := make([]GrantSummaryPrivilegeCategoryEnum, 0)
-	for _, v := range mappingGrantSummaryPrivilegeCategory {
+	for _, v := range mappingGrantSummaryPrivilegeCategoryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGrantSummaryPrivilegeCategoryEnumStringValues Enumerates the set of values in String for GrantSummaryPrivilegeCategoryEnum
+func GetGrantSummaryPrivilegeCategoryEnumStringValues() []string {
+	return []string{
+		"CRITICAL",
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+	}
 }

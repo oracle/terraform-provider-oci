@@ -14,7 +14,9 @@
 package email
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Sender The full information representing an approved sender.
@@ -58,6 +60,21 @@ func (m Sender) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Sender) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSenderLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSenderLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SenderLifecycleStateEnum Enum with underlying type: string
 type SenderLifecycleStateEnum string
 
@@ -69,7 +86,7 @@ const (
 	SenderLifecycleStateDeleted  SenderLifecycleStateEnum = "DELETED"
 )
 
-var mappingSenderLifecycleState = map[string]SenderLifecycleStateEnum{
+var mappingSenderLifecycleStateEnum = map[string]SenderLifecycleStateEnum{
 	"CREATING": SenderLifecycleStateCreating,
 	"ACTIVE":   SenderLifecycleStateActive,
 	"DELETING": SenderLifecycleStateDeleting,
@@ -79,8 +96,18 @@ var mappingSenderLifecycleState = map[string]SenderLifecycleStateEnum{
 // GetSenderLifecycleStateEnumValues Enumerates the set of values for SenderLifecycleStateEnum
 func GetSenderLifecycleStateEnumValues() []SenderLifecycleStateEnum {
 	values := make([]SenderLifecycleStateEnum, 0)
-	for _, v := range mappingSenderLifecycleState {
+	for _, v := range mappingSenderLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSenderLifecycleStateEnumStringValues Enumerates the set of values in String for SenderLifecycleStateEnum
+func GetSenderLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

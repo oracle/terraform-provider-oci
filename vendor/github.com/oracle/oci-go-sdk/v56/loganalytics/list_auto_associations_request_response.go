@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAutoAssociationsRequest wrapper for the ListAutoAssociations operation
@@ -49,6 +51,10 @@ func (request ListAutoAssociationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAutoAssociationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +68,23 @@ func (request ListAutoAssociationsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAutoAssociationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAutoAssociationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAutoAssociationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAutoAssociationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutoAssociationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAutoAssociationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAutoAssociationsResponse wrapper for the ListAutoAssociations operation
@@ -104,17 +127,24 @@ const (
 	ListAutoAssociationsSortByIsenabled ListAutoAssociationsSortByEnum = "isEnabled"
 )
 
-var mappingListAutoAssociationsSortBy = map[string]ListAutoAssociationsSortByEnum{
+var mappingListAutoAssociationsSortByEnum = map[string]ListAutoAssociationsSortByEnum{
 	"isEnabled": ListAutoAssociationsSortByIsenabled,
 }
 
 // GetListAutoAssociationsSortByEnumValues Enumerates the set of values for ListAutoAssociationsSortByEnum
 func GetListAutoAssociationsSortByEnumValues() []ListAutoAssociationsSortByEnum {
 	values := make([]ListAutoAssociationsSortByEnum, 0)
-	for _, v := range mappingListAutoAssociationsSortBy {
+	for _, v := range mappingListAutoAssociationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutoAssociationsSortByEnumStringValues Enumerates the set of values in String for ListAutoAssociationsSortByEnum
+func GetListAutoAssociationsSortByEnumStringValues() []string {
+	return []string{
+		"isEnabled",
+	}
 }
 
 // ListAutoAssociationsSortOrderEnum Enum with underlying type: string
@@ -126,7 +156,7 @@ const (
 	ListAutoAssociationsSortOrderDesc ListAutoAssociationsSortOrderEnum = "DESC"
 )
 
-var mappingListAutoAssociationsSortOrder = map[string]ListAutoAssociationsSortOrderEnum{
+var mappingListAutoAssociationsSortOrderEnum = map[string]ListAutoAssociationsSortOrderEnum{
 	"ASC":  ListAutoAssociationsSortOrderAsc,
 	"DESC": ListAutoAssociationsSortOrderDesc,
 }
@@ -134,8 +164,16 @@ var mappingListAutoAssociationsSortOrder = map[string]ListAutoAssociationsSortOr
 // GetListAutoAssociationsSortOrderEnumValues Enumerates the set of values for ListAutoAssociationsSortOrderEnum
 func GetListAutoAssociationsSortOrderEnumValues() []ListAutoAssociationsSortOrderEnum {
 	values := make([]ListAutoAssociationsSortOrderEnum, 0)
-	for _, v := range mappingListAutoAssociationsSortOrder {
+	for _, v := range mappingListAutoAssociationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutoAssociationsSortOrderEnumStringValues Enumerates the set of values in String for ListAutoAssociationsSortOrderEnum
+func GetListAutoAssociationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -5,8 +5,10 @@
 package bastion
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListBastionsRequest wrapper for the ListBastions operation
@@ -55,6 +57,10 @@ func (request ListBastionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListBastionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListBastionsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListBastionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListBastionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListBastionsBastionLifecycleStateEnum[string(request.BastionLifecycleState)]; !ok && request.BastionLifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BastionLifecycleState: %s. Supported values are: %s.", request.BastionLifecycleState, strings.Join(GetListBastionsBastionLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBastionsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBastionsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListBastionsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBastionsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListBastionsResponse wrapper for the ListBastions operation
@@ -111,7 +137,7 @@ const (
 	ListBastionsBastionLifecycleStateFailed   ListBastionsBastionLifecycleStateEnum = "FAILED"
 )
 
-var mappingListBastionsBastionLifecycleState = map[string]ListBastionsBastionLifecycleStateEnum{
+var mappingListBastionsBastionLifecycleStateEnum = map[string]ListBastionsBastionLifecycleStateEnum{
 	"CREATING": ListBastionsBastionLifecycleStateCreating,
 	"UPDATING": ListBastionsBastionLifecycleStateUpdating,
 	"ACTIVE":   ListBastionsBastionLifecycleStateActive,
@@ -123,10 +149,22 @@ var mappingListBastionsBastionLifecycleState = map[string]ListBastionsBastionLif
 // GetListBastionsBastionLifecycleStateEnumValues Enumerates the set of values for ListBastionsBastionLifecycleStateEnum
 func GetListBastionsBastionLifecycleStateEnumValues() []ListBastionsBastionLifecycleStateEnum {
 	values := make([]ListBastionsBastionLifecycleStateEnum, 0)
-	for _, v := range mappingListBastionsBastionLifecycleState {
+	for _, v := range mappingListBastionsBastionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBastionsBastionLifecycleStateEnumStringValues Enumerates the set of values in String for ListBastionsBastionLifecycleStateEnum
+func GetListBastionsBastionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListBastionsSortOrderEnum Enum with underlying type: string
@@ -138,7 +176,7 @@ const (
 	ListBastionsSortOrderDesc ListBastionsSortOrderEnum = "DESC"
 )
 
-var mappingListBastionsSortOrder = map[string]ListBastionsSortOrderEnum{
+var mappingListBastionsSortOrderEnum = map[string]ListBastionsSortOrderEnum{
 	"ASC":  ListBastionsSortOrderAsc,
 	"DESC": ListBastionsSortOrderDesc,
 }
@@ -146,10 +184,18 @@ var mappingListBastionsSortOrder = map[string]ListBastionsSortOrderEnum{
 // GetListBastionsSortOrderEnumValues Enumerates the set of values for ListBastionsSortOrderEnum
 func GetListBastionsSortOrderEnumValues() []ListBastionsSortOrderEnum {
 	values := make([]ListBastionsSortOrderEnum, 0)
-	for _, v := range mappingListBastionsSortOrder {
+	for _, v := range mappingListBastionsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBastionsSortOrderEnumStringValues Enumerates the set of values in String for ListBastionsSortOrderEnum
+func GetListBastionsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListBastionsSortByEnum Enum with underlying type: string
@@ -161,7 +207,7 @@ const (
 	ListBastionsSortByName        ListBastionsSortByEnum = "name"
 )
 
-var mappingListBastionsSortBy = map[string]ListBastionsSortByEnum{
+var mappingListBastionsSortByEnum = map[string]ListBastionsSortByEnum{
 	"timeCreated": ListBastionsSortByTimecreated,
 	"name":        ListBastionsSortByName,
 }
@@ -169,8 +215,16 @@ var mappingListBastionsSortBy = map[string]ListBastionsSortByEnum{
 // GetListBastionsSortByEnumValues Enumerates the set of values for ListBastionsSortByEnum
 func GetListBastionsSortByEnumValues() []ListBastionsSortByEnum {
 	values := make([]ListBastionsSortByEnum, 0)
-	for _, v := range mappingListBastionsSortBy {
+	for _, v := range mappingListBastionsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListBastionsSortByEnumStringValues Enumerates the set of values in String for ListBastionsSortByEnum
+func GetListBastionsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"name",
+	}
 }

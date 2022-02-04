@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Violation Violation
@@ -36,6 +38,21 @@ func (m Violation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Violation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingViolationRuleTypeEnum[string(m.RuleType)]; !ok && m.RuleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuleType: %s. Supported values are: %s.", m.RuleType, strings.Join(GetViolationRuleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ViolationRuleTypeEnum Enum with underlying type: string
 type ViolationRuleTypeEnum string
 
@@ -45,7 +62,7 @@ const (
 	ViolationRuleTypeError ViolationRuleTypeEnum = "ERROR"
 )
 
-var mappingViolationRuleType = map[string]ViolationRuleTypeEnum{
+var mappingViolationRuleTypeEnum = map[string]ViolationRuleTypeEnum{
 	"WARN":  ViolationRuleTypeWarn,
 	"ERROR": ViolationRuleTypeError,
 }
@@ -53,8 +70,16 @@ var mappingViolationRuleType = map[string]ViolationRuleTypeEnum{
 // GetViolationRuleTypeEnumValues Enumerates the set of values for ViolationRuleTypeEnum
 func GetViolationRuleTypeEnumValues() []ViolationRuleTypeEnum {
 	values := make([]ViolationRuleTypeEnum, 0)
-	for _, v := range mappingViolationRuleType {
+	for _, v := range mappingViolationRuleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetViolationRuleTypeEnumStringValues Enumerates the set of values in String for ViolationRuleTypeEnum
+func GetViolationRuleTypeEnumStringValues() []string {
+	return []string{
+		"WARN",
+		"ERROR",
+	}
 }

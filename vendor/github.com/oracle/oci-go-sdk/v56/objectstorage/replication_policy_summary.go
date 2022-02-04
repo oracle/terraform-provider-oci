@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ReplicationPolicySummary The summary of a replication policy.
@@ -49,6 +51,21 @@ func (m ReplicationPolicySummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ReplicationPolicySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingReplicationPolicySummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetReplicationPolicySummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ReplicationPolicySummaryStatusEnum Enum with underlying type: string
 type ReplicationPolicySummaryStatusEnum string
 
@@ -58,7 +75,7 @@ const (
 	ReplicationPolicySummaryStatusClientError ReplicationPolicySummaryStatusEnum = "CLIENT_ERROR"
 )
 
-var mappingReplicationPolicySummaryStatus = map[string]ReplicationPolicySummaryStatusEnum{
+var mappingReplicationPolicySummaryStatusEnum = map[string]ReplicationPolicySummaryStatusEnum{
 	"ACTIVE":       ReplicationPolicySummaryStatusActive,
 	"CLIENT_ERROR": ReplicationPolicySummaryStatusClientError,
 }
@@ -66,8 +83,16 @@ var mappingReplicationPolicySummaryStatus = map[string]ReplicationPolicySummaryS
 // GetReplicationPolicySummaryStatusEnumValues Enumerates the set of values for ReplicationPolicySummaryStatusEnum
 func GetReplicationPolicySummaryStatusEnumValues() []ReplicationPolicySummaryStatusEnum {
 	values := make([]ReplicationPolicySummaryStatusEnum, 0)
-	for _, v := range mappingReplicationPolicySummaryStatus {
+	for _, v := range mappingReplicationPolicySummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetReplicationPolicySummaryStatusEnumStringValues Enumerates the set of values in String for ReplicationPolicySummaryStatusEnum
+func GetReplicationPolicySummaryStatusEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CLIENT_ERROR",
+	}
 }

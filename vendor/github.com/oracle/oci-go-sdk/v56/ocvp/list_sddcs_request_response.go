@@ -5,8 +5,10 @@
 package ocvp
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSddcsRequest wrapper for the ListSddcs operation
@@ -68,6 +70,10 @@ func (request ListSddcsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSddcsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -81,6 +87,26 @@ func (request ListSddcsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSddcsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSddcsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSddcsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSddcsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSddcsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSddcsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSddcsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListSddcsLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSddcsResponse wrapper for the ListSddcs operation
@@ -120,7 +146,7 @@ const (
 	ListSddcsSortOrderDesc ListSddcsSortOrderEnum = "DESC"
 )
 
-var mappingListSddcsSortOrder = map[string]ListSddcsSortOrderEnum{
+var mappingListSddcsSortOrderEnum = map[string]ListSddcsSortOrderEnum{
 	"ASC":  ListSddcsSortOrderAsc,
 	"DESC": ListSddcsSortOrderDesc,
 }
@@ -128,10 +154,18 @@ var mappingListSddcsSortOrder = map[string]ListSddcsSortOrderEnum{
 // GetListSddcsSortOrderEnumValues Enumerates the set of values for ListSddcsSortOrderEnum
 func GetListSddcsSortOrderEnumValues() []ListSddcsSortOrderEnum {
 	values := make([]ListSddcsSortOrderEnum, 0)
-	for _, v := range mappingListSddcsSortOrder {
+	for _, v := range mappingListSddcsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSddcsSortOrderEnumStringValues Enumerates the set of values in String for ListSddcsSortOrderEnum
+func GetListSddcsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListSddcsSortByEnum Enum with underlying type: string
@@ -143,7 +177,7 @@ const (
 	ListSddcsSortByDisplayname ListSddcsSortByEnum = "displayName"
 )
 
-var mappingListSddcsSortBy = map[string]ListSddcsSortByEnum{
+var mappingListSddcsSortByEnum = map[string]ListSddcsSortByEnum{
 	"timeCreated": ListSddcsSortByTimecreated,
 	"displayName": ListSddcsSortByDisplayname,
 }
@@ -151,10 +185,18 @@ var mappingListSddcsSortBy = map[string]ListSddcsSortByEnum{
 // GetListSddcsSortByEnumValues Enumerates the set of values for ListSddcsSortByEnum
 func GetListSddcsSortByEnumValues() []ListSddcsSortByEnum {
 	values := make([]ListSddcsSortByEnum, 0)
-	for _, v := range mappingListSddcsSortBy {
+	for _, v := range mappingListSddcsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSddcsSortByEnumStringValues Enumerates the set of values in String for ListSddcsSortByEnum
+func GetListSddcsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListSddcsLifecycleStateEnum Enum with underlying type: string
@@ -170,7 +212,7 @@ const (
 	ListSddcsLifecycleStateFailed   ListSddcsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListSddcsLifecycleState = map[string]ListSddcsLifecycleStateEnum{
+var mappingListSddcsLifecycleStateEnum = map[string]ListSddcsLifecycleStateEnum{
 	"CREATING": ListSddcsLifecycleStateCreating,
 	"UPDATING": ListSddcsLifecycleStateUpdating,
 	"ACTIVE":   ListSddcsLifecycleStateActive,
@@ -182,8 +224,20 @@ var mappingListSddcsLifecycleState = map[string]ListSddcsLifecycleStateEnum{
 // GetListSddcsLifecycleStateEnumValues Enumerates the set of values for ListSddcsLifecycleStateEnum
 func GetListSddcsLifecycleStateEnumValues() []ListSddcsLifecycleStateEnum {
 	values := make([]ListSddcsLifecycleStateEnum, 0)
-	for _, v := range mappingListSddcsLifecycleState {
+	for _, v := range mappingListSddcsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSddcsLifecycleStateEnumStringValues Enumerates the set of values in String for ListSddcsLifecycleStateEnum
+func GetListSddcsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

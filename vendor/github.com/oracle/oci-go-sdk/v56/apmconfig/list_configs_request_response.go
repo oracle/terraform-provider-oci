@@ -5,8 +5,10 @@
 package apmconfig
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListConfigsRequest wrapper for the ListConfigs operation
@@ -16,35 +18,34 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/ListConfigs.go.html to see an example of how to use ListConfigsRequest.
 type ListConfigsRequest struct {
 
-	// The APM Domain Id the request is intended for.
+	// The APM Domain ID the request is intended for.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to match only configuration items of the given type.
+	// A filter to match configuration items of a given type.
 	// Supported values are SPAN_FILTER, METRIC_GROUP, and APDEX.
 	ConfigType *string `mandatory:"false" contributesTo:"query" name:"configType"`
 
-	// A filter to return only resources that match the entire display name given.
+	// A filter to return resources that match the given display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// For list pagination. The maximum number of results per page, or items to return in a paginated
-	// "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// The maximum number of results per page, or items to return in a paginated "List" call. For information on
+	// how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). The displayName sort order
-	// is case sensitive.
+	// is case-sensitive.
 	SortOrder ListConfigsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. You can provide one sort by (`sortBy`). Default order for displayName, timeCreated and
-	// timeUpdated is ascending. The displayName sort by is case sensitive.
+	// The field to sort by. You can provide one "sortBy" value. The default order for displayName, timeCreated
+	// and timeUpdated is ascending. The displayName sort by is case-sensitive.
 	SortBy ListConfigsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -59,6 +60,10 @@ func (request ListConfigsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListConfigsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +77,23 @@ func (request ListConfigsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListConfigsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListConfigsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListConfigsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConfigsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListConfigsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListConfigsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListConfigsResponse wrapper for the ListConfigs operation
@@ -111,7 +133,7 @@ const (
 	ListConfigsSortOrderDesc ListConfigsSortOrderEnum = "DESC"
 )
 
-var mappingListConfigsSortOrder = map[string]ListConfigsSortOrderEnum{
+var mappingListConfigsSortOrderEnum = map[string]ListConfigsSortOrderEnum{
 	"ASC":  ListConfigsSortOrderAsc,
 	"DESC": ListConfigsSortOrderDesc,
 }
@@ -119,10 +141,18 @@ var mappingListConfigsSortOrder = map[string]ListConfigsSortOrderEnum{
 // GetListConfigsSortOrderEnumValues Enumerates the set of values for ListConfigsSortOrderEnum
 func GetListConfigsSortOrderEnumValues() []ListConfigsSortOrderEnum {
 	values := make([]ListConfigsSortOrderEnum, 0)
-	for _, v := range mappingListConfigsSortOrder {
+	for _, v := range mappingListConfigsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConfigsSortOrderEnumStringValues Enumerates the set of values in String for ListConfigsSortOrderEnum
+func GetListConfigsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListConfigsSortByEnum Enum with underlying type: string
@@ -135,7 +165,7 @@ const (
 	ListConfigsSortByTimeupdated ListConfigsSortByEnum = "timeUpdated"
 )
 
-var mappingListConfigsSortBy = map[string]ListConfigsSortByEnum{
+var mappingListConfigsSortByEnum = map[string]ListConfigsSortByEnum{
 	"displayName": ListConfigsSortByDisplayname,
 	"timeCreated": ListConfigsSortByTimecreated,
 	"timeUpdated": ListConfigsSortByTimeupdated,
@@ -144,8 +174,17 @@ var mappingListConfigsSortBy = map[string]ListConfigsSortByEnum{
 // GetListConfigsSortByEnumValues Enumerates the set of values for ListConfigsSortByEnum
 func GetListConfigsSortByEnumValues() []ListConfigsSortByEnum {
 	values := make([]ListConfigsSortByEnum, 0)
-	for _, v := range mappingListConfigsSortBy {
+	for _, v := range mappingListConfigsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConfigsSortByEnumStringValues Enumerates the set of values in String for ListConfigsSortByEnum
+func GetListConfigsSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"timeCreated",
+		"timeUpdated",
+	}
 }

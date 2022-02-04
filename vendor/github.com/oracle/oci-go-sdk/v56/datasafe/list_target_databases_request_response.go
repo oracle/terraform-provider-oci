@@ -5,8 +5,10 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListTargetDatabasesRequest wrapper for the ListTargetDatabases operation
@@ -73,6 +75,10 @@ func (request ListTargetDatabasesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListTargetDatabasesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -86,6 +92,35 @@ func (request ListTargetDatabasesRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTargetDatabasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListTargetDatabasesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListTargetDatabasesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListTargetDatabasesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTargetDatabasesDatabaseTypeEnum[string(request.DatabaseType)]; !ok && request.DatabaseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", request.DatabaseType, strings.Join(GetListTargetDatabasesDatabaseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTargetDatabasesInfrastructureTypeEnum[string(request.InfrastructureType)]; !ok && request.InfrastructureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InfrastructureType: %s. Supported values are: %s.", request.InfrastructureType, strings.Join(GetListTargetDatabasesInfrastructureTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTargetDatabasesAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListTargetDatabasesAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTargetDatabasesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListTargetDatabasesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTargetDatabasesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTargetDatabasesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListTargetDatabasesResponse wrapper for the ListTargetDatabases operation
@@ -133,7 +168,7 @@ const (
 	ListTargetDatabasesLifecycleStateFailed         ListTargetDatabasesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListTargetDatabasesLifecycleState = map[string]ListTargetDatabasesLifecycleStateEnum{
+var mappingListTargetDatabasesLifecycleStateEnum = map[string]ListTargetDatabasesLifecycleStateEnum{
 	"CREATING":        ListTargetDatabasesLifecycleStateCreating,
 	"UPDATING":        ListTargetDatabasesLifecycleStateUpdating,
 	"ACTIVE":          ListTargetDatabasesLifecycleStateActive,
@@ -147,10 +182,24 @@ var mappingListTargetDatabasesLifecycleState = map[string]ListTargetDatabasesLif
 // GetListTargetDatabasesLifecycleStateEnumValues Enumerates the set of values for ListTargetDatabasesLifecycleStateEnum
 func GetListTargetDatabasesLifecycleStateEnumValues() []ListTargetDatabasesLifecycleStateEnum {
 	values := make([]ListTargetDatabasesLifecycleStateEnum, 0)
-	for _, v := range mappingListTargetDatabasesLifecycleState {
+	for _, v := range mappingListTargetDatabasesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetDatabasesLifecycleStateEnumStringValues Enumerates the set of values in String for ListTargetDatabasesLifecycleStateEnum
+func GetListTargetDatabasesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"NEEDS_ATTENTION",
+		"FAILED",
+	}
 }
 
 // ListTargetDatabasesDatabaseTypeEnum Enum with underlying type: string
@@ -163,7 +212,7 @@ const (
 	ListTargetDatabasesDatabaseTypeInstalledDatabase    ListTargetDatabasesDatabaseTypeEnum = "INSTALLED_DATABASE"
 )
 
-var mappingListTargetDatabasesDatabaseType = map[string]ListTargetDatabasesDatabaseTypeEnum{
+var mappingListTargetDatabasesDatabaseTypeEnum = map[string]ListTargetDatabasesDatabaseTypeEnum{
 	"DATABASE_CLOUD_SERVICE": ListTargetDatabasesDatabaseTypeDatabaseCloudService,
 	"AUTONOMOUS_DATABASE":    ListTargetDatabasesDatabaseTypeAutonomousDatabase,
 	"INSTALLED_DATABASE":     ListTargetDatabasesDatabaseTypeInstalledDatabase,
@@ -172,10 +221,19 @@ var mappingListTargetDatabasesDatabaseType = map[string]ListTargetDatabasesDatab
 // GetListTargetDatabasesDatabaseTypeEnumValues Enumerates the set of values for ListTargetDatabasesDatabaseTypeEnum
 func GetListTargetDatabasesDatabaseTypeEnumValues() []ListTargetDatabasesDatabaseTypeEnum {
 	values := make([]ListTargetDatabasesDatabaseTypeEnum, 0)
-	for _, v := range mappingListTargetDatabasesDatabaseType {
+	for _, v := range mappingListTargetDatabasesDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetDatabasesDatabaseTypeEnumStringValues Enumerates the set of values in String for ListTargetDatabasesDatabaseTypeEnum
+func GetListTargetDatabasesDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"DATABASE_CLOUD_SERVICE",
+		"AUTONOMOUS_DATABASE",
+		"INSTALLED_DATABASE",
+	}
 }
 
 // ListTargetDatabasesInfrastructureTypeEnum Enum with underlying type: string
@@ -189,7 +247,7 @@ const (
 	ListTargetDatabasesInfrastructureTypeNonOracleCloud  ListTargetDatabasesInfrastructureTypeEnum = "NON_ORACLE_CLOUD"
 )
 
-var mappingListTargetDatabasesInfrastructureType = map[string]ListTargetDatabasesInfrastructureTypeEnum{
+var mappingListTargetDatabasesInfrastructureTypeEnum = map[string]ListTargetDatabasesInfrastructureTypeEnum{
 	"ORACLE_CLOUD":      ListTargetDatabasesInfrastructureTypeOracleCloud,
 	"CLOUD_AT_CUSTOMER": ListTargetDatabasesInfrastructureTypeCloudAtCustomer,
 	"ON_PREMISES":       ListTargetDatabasesInfrastructureTypeOnPremises,
@@ -199,10 +257,20 @@ var mappingListTargetDatabasesInfrastructureType = map[string]ListTargetDatabase
 // GetListTargetDatabasesInfrastructureTypeEnumValues Enumerates the set of values for ListTargetDatabasesInfrastructureTypeEnum
 func GetListTargetDatabasesInfrastructureTypeEnumValues() []ListTargetDatabasesInfrastructureTypeEnum {
 	values := make([]ListTargetDatabasesInfrastructureTypeEnum, 0)
-	for _, v := range mappingListTargetDatabasesInfrastructureType {
+	for _, v := range mappingListTargetDatabasesInfrastructureTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetDatabasesInfrastructureTypeEnumStringValues Enumerates the set of values in String for ListTargetDatabasesInfrastructureTypeEnum
+func GetListTargetDatabasesInfrastructureTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_CLOUD",
+		"CLOUD_AT_CUSTOMER",
+		"ON_PREMISES",
+		"NON_ORACLE_CLOUD",
+	}
 }
 
 // ListTargetDatabasesAccessLevelEnum Enum with underlying type: string
@@ -214,7 +282,7 @@ const (
 	ListTargetDatabasesAccessLevelAccessible ListTargetDatabasesAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListTargetDatabasesAccessLevel = map[string]ListTargetDatabasesAccessLevelEnum{
+var mappingListTargetDatabasesAccessLevelEnum = map[string]ListTargetDatabasesAccessLevelEnum{
 	"RESTRICTED": ListTargetDatabasesAccessLevelRestricted,
 	"ACCESSIBLE": ListTargetDatabasesAccessLevelAccessible,
 }
@@ -222,10 +290,18 @@ var mappingListTargetDatabasesAccessLevel = map[string]ListTargetDatabasesAccess
 // GetListTargetDatabasesAccessLevelEnumValues Enumerates the set of values for ListTargetDatabasesAccessLevelEnum
 func GetListTargetDatabasesAccessLevelEnumValues() []ListTargetDatabasesAccessLevelEnum {
 	values := make([]ListTargetDatabasesAccessLevelEnum, 0)
-	for _, v := range mappingListTargetDatabasesAccessLevel {
+	for _, v := range mappingListTargetDatabasesAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetDatabasesAccessLevelEnumStringValues Enumerates the set of values in String for ListTargetDatabasesAccessLevelEnum
+func GetListTargetDatabasesAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }
 
 // ListTargetDatabasesSortOrderEnum Enum with underlying type: string
@@ -237,7 +313,7 @@ const (
 	ListTargetDatabasesSortOrderDesc ListTargetDatabasesSortOrderEnum = "DESC"
 )
 
-var mappingListTargetDatabasesSortOrder = map[string]ListTargetDatabasesSortOrderEnum{
+var mappingListTargetDatabasesSortOrderEnum = map[string]ListTargetDatabasesSortOrderEnum{
 	"ASC":  ListTargetDatabasesSortOrderAsc,
 	"DESC": ListTargetDatabasesSortOrderDesc,
 }
@@ -245,10 +321,18 @@ var mappingListTargetDatabasesSortOrder = map[string]ListTargetDatabasesSortOrde
 // GetListTargetDatabasesSortOrderEnumValues Enumerates the set of values for ListTargetDatabasesSortOrderEnum
 func GetListTargetDatabasesSortOrderEnumValues() []ListTargetDatabasesSortOrderEnum {
 	values := make([]ListTargetDatabasesSortOrderEnum, 0)
-	for _, v := range mappingListTargetDatabasesSortOrder {
+	for _, v := range mappingListTargetDatabasesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetDatabasesSortOrderEnumStringValues Enumerates the set of values in String for ListTargetDatabasesSortOrderEnum
+func GetListTargetDatabasesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListTargetDatabasesSortByEnum Enum with underlying type: string
@@ -260,7 +344,7 @@ const (
 	ListTargetDatabasesSortByDisplayname ListTargetDatabasesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListTargetDatabasesSortBy = map[string]ListTargetDatabasesSortByEnum{
+var mappingListTargetDatabasesSortByEnum = map[string]ListTargetDatabasesSortByEnum{
 	"TIMECREATED": ListTargetDatabasesSortByTimecreated,
 	"DISPLAYNAME": ListTargetDatabasesSortByDisplayname,
 }
@@ -268,8 +352,16 @@ var mappingListTargetDatabasesSortBy = map[string]ListTargetDatabasesSortByEnum{
 // GetListTargetDatabasesSortByEnumValues Enumerates the set of values for ListTargetDatabasesSortByEnum
 func GetListTargetDatabasesSortByEnumValues() []ListTargetDatabasesSortByEnum {
 	values := make([]ListTargetDatabasesSortByEnum, 0)
-	for _, v := range mappingListTargetDatabasesSortBy {
+	for _, v := range mappingListTargetDatabasesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTargetDatabasesSortByEnumStringValues Enumerates the set of values in String for ListTargetDatabasesSortByEnum
+func GetListTargetDatabasesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

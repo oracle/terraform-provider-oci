@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListLabelSourceDetailsRequest wrapper for the ListLabelSourceDetails operation
@@ -50,6 +52,10 @@ func (request ListLabelSourceDetailsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLabelSourceDetailsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +69,23 @@ func (request ListLabelSourceDetailsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLabelSourceDetailsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLabelSourceDetailsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLabelSourceDetailsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLabelSourceDetailsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLabelSourceDetailsLabelSourceSortByEnum[string(request.LabelSourceSortBy)]; !ok && request.LabelSourceSortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LabelSourceSortBy: %s. Supported values are: %s.", request.LabelSourceSortBy, strings.Join(GetListLabelSourceDetailsLabelSourceSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLabelSourceDetailsResponse wrapper for the ListLabelSourceDetails operation
@@ -106,7 +129,7 @@ const (
 	ListLabelSourceDetailsSortOrderDesc ListLabelSourceDetailsSortOrderEnum = "DESC"
 )
 
-var mappingListLabelSourceDetailsSortOrder = map[string]ListLabelSourceDetailsSortOrderEnum{
+var mappingListLabelSourceDetailsSortOrderEnum = map[string]ListLabelSourceDetailsSortOrderEnum{
 	"ASC":  ListLabelSourceDetailsSortOrderAsc,
 	"DESC": ListLabelSourceDetailsSortOrderDesc,
 }
@@ -114,10 +137,18 @@ var mappingListLabelSourceDetailsSortOrder = map[string]ListLabelSourceDetailsSo
 // GetListLabelSourceDetailsSortOrderEnumValues Enumerates the set of values for ListLabelSourceDetailsSortOrderEnum
 func GetListLabelSourceDetailsSortOrderEnumValues() []ListLabelSourceDetailsSortOrderEnum {
 	values := make([]ListLabelSourceDetailsSortOrderEnum, 0)
-	for _, v := range mappingListLabelSourceDetailsSortOrder {
+	for _, v := range mappingListLabelSourceDetailsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLabelSourceDetailsSortOrderEnumStringValues Enumerates the set of values in String for ListLabelSourceDetailsSortOrderEnum
+func GetListLabelSourceDetailsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListLabelSourceDetailsLabelSourceSortByEnum Enum with underlying type: string
@@ -129,7 +160,7 @@ const (
 	ListLabelSourceDetailsLabelSourceSortByLabelfielddisplayname ListLabelSourceDetailsLabelSourceSortByEnum = "labelFieldDisplayName"
 )
 
-var mappingListLabelSourceDetailsLabelSourceSortBy = map[string]ListLabelSourceDetailsLabelSourceSortByEnum{
+var mappingListLabelSourceDetailsLabelSourceSortByEnum = map[string]ListLabelSourceDetailsLabelSourceSortByEnum{
 	"sourceDisplayName":     ListLabelSourceDetailsLabelSourceSortBySourcedisplayname,
 	"labelFieldDisplayName": ListLabelSourceDetailsLabelSourceSortByLabelfielddisplayname,
 }
@@ -137,8 +168,16 @@ var mappingListLabelSourceDetailsLabelSourceSortBy = map[string]ListLabelSourceD
 // GetListLabelSourceDetailsLabelSourceSortByEnumValues Enumerates the set of values for ListLabelSourceDetailsLabelSourceSortByEnum
 func GetListLabelSourceDetailsLabelSourceSortByEnumValues() []ListLabelSourceDetailsLabelSourceSortByEnum {
 	values := make([]ListLabelSourceDetailsLabelSourceSortByEnum, 0)
-	for _, v := range mappingListLabelSourceDetailsLabelSourceSortBy {
+	for _, v := range mappingListLabelSourceDetailsLabelSourceSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLabelSourceDetailsLabelSourceSortByEnumStringValues Enumerates the set of values in String for ListLabelSourceDetailsLabelSourceSortByEnum
+func GetListLabelSourceDetailsLabelSourceSortByEnumStringValues() []string {
+	return []string{
+		"sourceDisplayName",
+		"labelFieldDisplayName",
+	}
 }

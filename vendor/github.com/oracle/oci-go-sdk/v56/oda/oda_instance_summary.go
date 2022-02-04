@@ -10,7 +10,9 @@
 package oda
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // OdaInstanceSummary Summary of the Digital Assistant instance.
@@ -60,6 +62,27 @@ func (m OdaInstanceSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OdaInstanceSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingOdaInstanceSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOdaInstanceSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingOdaInstanceSummaryShapeNameEnum[string(m.ShapeName)]; !ok && m.ShapeName != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeName: %s. Supported values are: %s.", m.ShapeName, strings.Join(GetOdaInstanceSummaryShapeNameEnumStringValues(), ",")))
+	}
+	if _, ok := mappingOdaInstanceSummaryLifecycleSubStateEnum[string(m.LifecycleSubState)]; !ok && m.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetOdaInstanceSummaryLifecycleSubStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // OdaInstanceSummaryShapeNameEnum Enum with underlying type: string
 type OdaInstanceSummaryShapeNameEnum string
 
@@ -69,7 +92,7 @@ const (
 	OdaInstanceSummaryShapeNameProduction  OdaInstanceSummaryShapeNameEnum = "PRODUCTION"
 )
 
-var mappingOdaInstanceSummaryShapeName = map[string]OdaInstanceSummaryShapeNameEnum{
+var mappingOdaInstanceSummaryShapeNameEnum = map[string]OdaInstanceSummaryShapeNameEnum{
 	"DEVELOPMENT": OdaInstanceSummaryShapeNameDevelopment,
 	"PRODUCTION":  OdaInstanceSummaryShapeNameProduction,
 }
@@ -77,10 +100,18 @@ var mappingOdaInstanceSummaryShapeName = map[string]OdaInstanceSummaryShapeNameE
 // GetOdaInstanceSummaryShapeNameEnumValues Enumerates the set of values for OdaInstanceSummaryShapeNameEnum
 func GetOdaInstanceSummaryShapeNameEnumValues() []OdaInstanceSummaryShapeNameEnum {
 	values := make([]OdaInstanceSummaryShapeNameEnum, 0)
-	for _, v := range mappingOdaInstanceSummaryShapeName {
+	for _, v := range mappingOdaInstanceSummaryShapeNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOdaInstanceSummaryShapeNameEnumStringValues Enumerates the set of values in String for OdaInstanceSummaryShapeNameEnum
+func GetOdaInstanceSummaryShapeNameEnumStringValues() []string {
+	return []string{
+		"DEVELOPMENT",
+		"PRODUCTION",
+	}
 }
 
 // OdaInstanceSummaryLifecycleStateEnum Enum with underlying type: string
@@ -97,7 +128,7 @@ const (
 	OdaInstanceSummaryLifecycleStateFailed   OdaInstanceSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingOdaInstanceSummaryLifecycleState = map[string]OdaInstanceSummaryLifecycleStateEnum{
+var mappingOdaInstanceSummaryLifecycleStateEnum = map[string]OdaInstanceSummaryLifecycleStateEnum{
 	"CREATING": OdaInstanceSummaryLifecycleStateCreating,
 	"UPDATING": OdaInstanceSummaryLifecycleStateUpdating,
 	"ACTIVE":   OdaInstanceSummaryLifecycleStateActive,
@@ -110,10 +141,23 @@ var mappingOdaInstanceSummaryLifecycleState = map[string]OdaInstanceSummaryLifec
 // GetOdaInstanceSummaryLifecycleStateEnumValues Enumerates the set of values for OdaInstanceSummaryLifecycleStateEnum
 func GetOdaInstanceSummaryLifecycleStateEnumValues() []OdaInstanceSummaryLifecycleStateEnum {
 	values := make([]OdaInstanceSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingOdaInstanceSummaryLifecycleState {
+	for _, v := range mappingOdaInstanceSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOdaInstanceSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for OdaInstanceSummaryLifecycleStateEnum
+func GetOdaInstanceSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // OdaInstanceSummaryLifecycleSubStateEnum Enum with underlying type: string
@@ -132,7 +176,7 @@ const (
 	OdaInstanceSummaryLifecycleSubStateQueued              OdaInstanceSummaryLifecycleSubStateEnum = "QUEUED"
 )
 
-var mappingOdaInstanceSummaryLifecycleSubState = map[string]OdaInstanceSummaryLifecycleSubStateEnum{
+var mappingOdaInstanceSummaryLifecycleSubStateEnum = map[string]OdaInstanceSummaryLifecycleSubStateEnum{
 	"CREATING":             OdaInstanceSummaryLifecycleSubStateCreating,
 	"STARTING":             OdaInstanceSummaryLifecycleSubStateStarting,
 	"STOPPING":             OdaInstanceSummaryLifecycleSubStateStopping,
@@ -147,8 +191,23 @@ var mappingOdaInstanceSummaryLifecycleSubState = map[string]OdaInstanceSummaryLi
 // GetOdaInstanceSummaryLifecycleSubStateEnumValues Enumerates the set of values for OdaInstanceSummaryLifecycleSubStateEnum
 func GetOdaInstanceSummaryLifecycleSubStateEnumValues() []OdaInstanceSummaryLifecycleSubStateEnum {
 	values := make([]OdaInstanceSummaryLifecycleSubStateEnum, 0)
-	for _, v := range mappingOdaInstanceSummaryLifecycleSubState {
+	for _, v := range mappingOdaInstanceSummaryLifecycleSubStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOdaInstanceSummaryLifecycleSubStateEnumStringValues Enumerates the set of values in String for OdaInstanceSummaryLifecycleSubStateEnum
+func GetOdaInstanceSummaryLifecycleSubStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"STARTING",
+		"STOPPING",
+		"CHANGING_COMPARTMENT",
+		"DELETING",
+		"DELETE_PENDING",
+		"RECOVERING",
+		"PURGING",
+		"QUEUED",
+	}
 }

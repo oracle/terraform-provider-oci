@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListReferencesRequest wrapper for the ListReferences operation
@@ -54,6 +56,10 @@ func (request ListReferencesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListReferencesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +73,23 @@ func (request ListReferencesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListReferencesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListReferencesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListReferencesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListReferencesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListReferencesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListReferencesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListReferencesResponse wrapper for the ListReferences operation
@@ -113,7 +136,7 @@ const (
 	ListReferencesSortOrderDesc ListReferencesSortOrderEnum = "DESC"
 )
 
-var mappingListReferencesSortOrder = map[string]ListReferencesSortOrderEnum{
+var mappingListReferencesSortOrderEnum = map[string]ListReferencesSortOrderEnum{
 	"ASC":  ListReferencesSortOrderAsc,
 	"DESC": ListReferencesSortOrderDesc,
 }
@@ -121,10 +144,18 @@ var mappingListReferencesSortOrder = map[string]ListReferencesSortOrderEnum{
 // GetListReferencesSortOrderEnumValues Enumerates the set of values for ListReferencesSortOrderEnum
 func GetListReferencesSortOrderEnumValues() []ListReferencesSortOrderEnum {
 	values := make([]ListReferencesSortOrderEnum, 0)
-	for _, v := range mappingListReferencesSortOrder {
+	for _, v := range mappingListReferencesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListReferencesSortOrderEnumStringValues Enumerates the set of values in String for ListReferencesSortOrderEnum
+func GetListReferencesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListReferencesSortByEnum Enum with underlying type: string
@@ -136,7 +167,7 @@ const (
 	ListReferencesSortByDisplayName ListReferencesSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListReferencesSortBy = map[string]ListReferencesSortByEnum{
+var mappingListReferencesSortByEnum = map[string]ListReferencesSortByEnum{
 	"TIME_CREATED": ListReferencesSortByTimeCreated,
 	"DISPLAY_NAME": ListReferencesSortByDisplayName,
 }
@@ -144,8 +175,16 @@ var mappingListReferencesSortBy = map[string]ListReferencesSortByEnum{
 // GetListReferencesSortByEnumValues Enumerates the set of values for ListReferencesSortByEnum
 func GetListReferencesSortByEnumValues() []ListReferencesSortByEnum {
 	values := make([]ListReferencesSortByEnum, 0)
-	for _, v := range mappingListReferencesSortBy {
+	for _, v := range mappingListReferencesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListReferencesSortByEnumStringValues Enumerates the set of values in String for ListReferencesSortByEnum
+func GetListReferencesSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

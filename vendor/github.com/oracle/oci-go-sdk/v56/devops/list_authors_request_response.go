@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAuthorsRequest wrapper for the ListAuthors operation
@@ -46,6 +48,10 @@ func (request ListAuthorsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAuthorsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,20 @@ func (request ListAuthorsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAuthorsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAuthorsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAuthorsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAuthorsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAuthorsResponse wrapper for the ListAuthors operation
@@ -95,7 +115,7 @@ const (
 	ListAuthorsSortOrderDesc ListAuthorsSortOrderEnum = "DESC"
 )
 
-var mappingListAuthorsSortOrder = map[string]ListAuthorsSortOrderEnum{
+var mappingListAuthorsSortOrderEnum = map[string]ListAuthorsSortOrderEnum{
 	"ASC":  ListAuthorsSortOrderAsc,
 	"DESC": ListAuthorsSortOrderDesc,
 }
@@ -103,8 +123,16 @@ var mappingListAuthorsSortOrder = map[string]ListAuthorsSortOrderEnum{
 // GetListAuthorsSortOrderEnumValues Enumerates the set of values for ListAuthorsSortOrderEnum
 func GetListAuthorsSortOrderEnumValues() []ListAuthorsSortOrderEnum {
 	values := make([]ListAuthorsSortOrderEnum, 0)
-	for _, v := range mappingListAuthorsSortOrder {
+	for _, v := range mappingListAuthorsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAuthorsSortOrderEnumStringValues Enumerates the set of values in String for ListAuthorsSortOrderEnum
+func GetListAuthorsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

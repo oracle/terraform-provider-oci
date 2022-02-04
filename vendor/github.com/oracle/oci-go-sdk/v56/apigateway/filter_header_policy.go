@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FilterHeaderPolicy Filter HTTP headers as they pass through the gateway.  The gateway applies filters after other transformations,
@@ -31,6 +33,21 @@ func (m FilterHeaderPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FilterHeaderPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFilterHeaderPolicyTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetFilterHeaderPolicyTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FilterHeaderPolicyTypeEnum Enum with underlying type: string
 type FilterHeaderPolicyTypeEnum string
 
@@ -40,7 +57,7 @@ const (
 	FilterHeaderPolicyTypeBlock FilterHeaderPolicyTypeEnum = "BLOCK"
 )
 
-var mappingFilterHeaderPolicyType = map[string]FilterHeaderPolicyTypeEnum{
+var mappingFilterHeaderPolicyTypeEnum = map[string]FilterHeaderPolicyTypeEnum{
 	"ALLOW": FilterHeaderPolicyTypeAllow,
 	"BLOCK": FilterHeaderPolicyTypeBlock,
 }
@@ -48,8 +65,16 @@ var mappingFilterHeaderPolicyType = map[string]FilterHeaderPolicyTypeEnum{
 // GetFilterHeaderPolicyTypeEnumValues Enumerates the set of values for FilterHeaderPolicyTypeEnum
 func GetFilterHeaderPolicyTypeEnumValues() []FilterHeaderPolicyTypeEnum {
 	values := make([]FilterHeaderPolicyTypeEnum, 0)
-	for _, v := range mappingFilterHeaderPolicyType {
+	for _, v := range mappingFilterHeaderPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFilterHeaderPolicyTypeEnumStringValues Enumerates the set of values in String for FilterHeaderPolicyTypeEnum
+func GetFilterHeaderPolicyTypeEnumStringValues() []string {
+	return []string{
+		"ALLOW",
+		"BLOCK",
+	}
 }

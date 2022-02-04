@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListRolesRequest wrapper for the ListRoles operation
@@ -54,6 +56,10 @@ func (request ListRolesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRolesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +73,23 @@ func (request ListRolesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRolesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRolesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRolesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRolesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRolesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRolesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRolesResponse wrapper for the ListRoles operation
@@ -105,17 +128,24 @@ const (
 	ListRolesSortByName ListRolesSortByEnum = "NAME"
 )
 
-var mappingListRolesSortBy = map[string]ListRolesSortByEnum{
+var mappingListRolesSortByEnum = map[string]ListRolesSortByEnum{
 	"NAME": ListRolesSortByName,
 }
 
 // GetListRolesSortByEnumValues Enumerates the set of values for ListRolesSortByEnum
 func GetListRolesSortByEnumValues() []ListRolesSortByEnum {
 	values := make([]ListRolesSortByEnum, 0)
-	for _, v := range mappingListRolesSortBy {
+	for _, v := range mappingListRolesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRolesSortByEnumStringValues Enumerates the set of values in String for ListRolesSortByEnum
+func GetListRolesSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+	}
 }
 
 // ListRolesSortOrderEnum Enum with underlying type: string
@@ -127,7 +157,7 @@ const (
 	ListRolesSortOrderDesc ListRolesSortOrderEnum = "DESC"
 )
 
-var mappingListRolesSortOrder = map[string]ListRolesSortOrderEnum{
+var mappingListRolesSortOrderEnum = map[string]ListRolesSortOrderEnum{
 	"ASC":  ListRolesSortOrderAsc,
 	"DESC": ListRolesSortOrderDesc,
 }
@@ -135,8 +165,16 @@ var mappingListRolesSortOrder = map[string]ListRolesSortOrderEnum{
 // GetListRolesSortOrderEnumValues Enumerates the set of values for ListRolesSortOrderEnum
 func GetListRolesSortOrderEnumValues() []ListRolesSortOrderEnum {
 	values := make([]ListRolesSortOrderEnum, 0)
-	for _, v := range mappingListRolesSortOrder {
+	for _, v := range mappingListRolesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRolesSortOrderEnumStringValues Enumerates the set of values in String for ListRolesSortOrderEnum
+func GetListRolesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -10,7 +10,9 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ConnectHarnessSummary Summary representation of a ConnectHarness.
@@ -47,6 +49,21 @@ func (m ConnectHarnessSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ConnectHarnessSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingConnectHarnessSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectHarnessSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConnectHarnessSummaryLifecycleStateEnum Enum with underlying type: string
 type ConnectHarnessSummaryLifecycleStateEnum string
 
@@ -60,7 +77,7 @@ const (
 	ConnectHarnessSummaryLifecycleStateUpdating ConnectHarnessSummaryLifecycleStateEnum = "UPDATING"
 )
 
-var mappingConnectHarnessSummaryLifecycleState = map[string]ConnectHarnessSummaryLifecycleStateEnum{
+var mappingConnectHarnessSummaryLifecycleStateEnum = map[string]ConnectHarnessSummaryLifecycleStateEnum{
 	"CREATING": ConnectHarnessSummaryLifecycleStateCreating,
 	"ACTIVE":   ConnectHarnessSummaryLifecycleStateActive,
 	"DELETING": ConnectHarnessSummaryLifecycleStateDeleting,
@@ -72,8 +89,20 @@ var mappingConnectHarnessSummaryLifecycleState = map[string]ConnectHarnessSummar
 // GetConnectHarnessSummaryLifecycleStateEnumValues Enumerates the set of values for ConnectHarnessSummaryLifecycleStateEnum
 func GetConnectHarnessSummaryLifecycleStateEnumValues() []ConnectHarnessSummaryLifecycleStateEnum {
 	values := make([]ConnectHarnessSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingConnectHarnessSummaryLifecycleState {
+	for _, v := range mappingConnectHarnessSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConnectHarnessSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ConnectHarnessSummaryLifecycleStateEnum
+func GetConnectHarnessSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"UPDATING",
+	}
 }

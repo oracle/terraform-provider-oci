@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InstanceAgentPluginConfigDetails The configuration of plugins associated with this instance.
@@ -36,6 +38,21 @@ func (m InstanceAgentPluginConfigDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceAgentPluginConfigDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstanceAgentPluginConfigDetailsDesiredStateEnum[string(m.DesiredState)]; !ok && m.DesiredState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DesiredState: %s. Supported values are: %s.", m.DesiredState, strings.Join(GetInstanceAgentPluginConfigDetailsDesiredStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceAgentPluginConfigDetailsDesiredStateEnum Enum with underlying type: string
 type InstanceAgentPluginConfigDetailsDesiredStateEnum string
 
@@ -45,7 +62,7 @@ const (
 	InstanceAgentPluginConfigDetailsDesiredStateDisabled InstanceAgentPluginConfigDetailsDesiredStateEnum = "DISABLED"
 )
 
-var mappingInstanceAgentPluginConfigDetailsDesiredState = map[string]InstanceAgentPluginConfigDetailsDesiredStateEnum{
+var mappingInstanceAgentPluginConfigDetailsDesiredStateEnum = map[string]InstanceAgentPluginConfigDetailsDesiredStateEnum{
 	"ENABLED":  InstanceAgentPluginConfigDetailsDesiredStateEnabled,
 	"DISABLED": InstanceAgentPluginConfigDetailsDesiredStateDisabled,
 }
@@ -53,8 +70,16 @@ var mappingInstanceAgentPluginConfigDetailsDesiredState = map[string]InstanceAge
 // GetInstanceAgentPluginConfigDetailsDesiredStateEnumValues Enumerates the set of values for InstanceAgentPluginConfigDetailsDesiredStateEnum
 func GetInstanceAgentPluginConfigDetailsDesiredStateEnumValues() []InstanceAgentPluginConfigDetailsDesiredStateEnum {
 	values := make([]InstanceAgentPluginConfigDetailsDesiredStateEnum, 0)
-	for _, v := range mappingInstanceAgentPluginConfigDetailsDesiredState {
+	for _, v := range mappingInstanceAgentPluginConfigDetailsDesiredStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceAgentPluginConfigDetailsDesiredStateEnumStringValues Enumerates the set of values in String for InstanceAgentPluginConfigDetailsDesiredStateEnum
+func GetInstanceAgentPluginConfigDetailsDesiredStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }

@@ -11,7 +11,9 @@ package vault
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Base64SecretContentDetails Base64-encoded secret content.
@@ -43,6 +45,21 @@ func (m Base64SecretContentDetails) GetStage() SecretContentDetailsStageEnum {
 
 func (m Base64SecretContentDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Base64SecretContentDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSecretContentDetailsStageEnum[string(m.Stage)]; !ok && m.Stage != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Stage: %s. Supported values are: %s.", m.Stage, strings.Join(GetSecretContentDetailsStageEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

@@ -5,8 +5,10 @@
 package waf
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListWebAppFirewallPoliciesRequest wrapper for the ListWebAppFirewallPolicies operation
@@ -59,6 +61,10 @@ func (request ListWebAppFirewallPoliciesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWebAppFirewallPoliciesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,29 @@ func (request ListWebAppFirewallPoliciesRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWebAppFirewallPoliciesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWebAppFirewallPoliciesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingWebAppFirewallPolicyLifecycleStateEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetWebAppFirewallPolicyLifecycleStateEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListWebAppFirewallPoliciesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWebAppFirewallPoliciesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWebAppFirewallPoliciesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWebAppFirewallPoliciesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWebAppFirewallPoliciesResponse wrapper for the ListWebAppFirewallPolicies operation
@@ -111,7 +140,7 @@ const (
 	ListWebAppFirewallPoliciesSortOrderDesc ListWebAppFirewallPoliciesSortOrderEnum = "DESC"
 )
 
-var mappingListWebAppFirewallPoliciesSortOrder = map[string]ListWebAppFirewallPoliciesSortOrderEnum{
+var mappingListWebAppFirewallPoliciesSortOrderEnum = map[string]ListWebAppFirewallPoliciesSortOrderEnum{
 	"ASC":  ListWebAppFirewallPoliciesSortOrderAsc,
 	"DESC": ListWebAppFirewallPoliciesSortOrderDesc,
 }
@@ -119,10 +148,18 @@ var mappingListWebAppFirewallPoliciesSortOrder = map[string]ListWebAppFirewallPo
 // GetListWebAppFirewallPoliciesSortOrderEnumValues Enumerates the set of values for ListWebAppFirewallPoliciesSortOrderEnum
 func GetListWebAppFirewallPoliciesSortOrderEnumValues() []ListWebAppFirewallPoliciesSortOrderEnum {
 	values := make([]ListWebAppFirewallPoliciesSortOrderEnum, 0)
-	for _, v := range mappingListWebAppFirewallPoliciesSortOrder {
+	for _, v := range mappingListWebAppFirewallPoliciesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWebAppFirewallPoliciesSortOrderEnumStringValues Enumerates the set of values in String for ListWebAppFirewallPoliciesSortOrderEnum
+func GetListWebAppFirewallPoliciesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListWebAppFirewallPoliciesSortByEnum Enum with underlying type: string
@@ -134,7 +171,7 @@ const (
 	ListWebAppFirewallPoliciesSortByDisplayname ListWebAppFirewallPoliciesSortByEnum = "displayName"
 )
 
-var mappingListWebAppFirewallPoliciesSortBy = map[string]ListWebAppFirewallPoliciesSortByEnum{
+var mappingListWebAppFirewallPoliciesSortByEnum = map[string]ListWebAppFirewallPoliciesSortByEnum{
 	"timeCreated": ListWebAppFirewallPoliciesSortByTimecreated,
 	"displayName": ListWebAppFirewallPoliciesSortByDisplayname,
 }
@@ -142,8 +179,16 @@ var mappingListWebAppFirewallPoliciesSortBy = map[string]ListWebAppFirewallPolic
 // GetListWebAppFirewallPoliciesSortByEnumValues Enumerates the set of values for ListWebAppFirewallPoliciesSortByEnum
 func GetListWebAppFirewallPoliciesSortByEnumValues() []ListWebAppFirewallPoliciesSortByEnum {
 	values := make([]ListWebAppFirewallPoliciesSortByEnum, 0)
-	for _, v := range mappingListWebAppFirewallPoliciesSortBy {
+	for _, v := range mappingListWebAppFirewallPoliciesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWebAppFirewallPoliciesSortByEnumStringValues Enumerates the set of values in String for ListWebAppFirewallPoliciesSortByEnum
+func GetListWebAppFirewallPoliciesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

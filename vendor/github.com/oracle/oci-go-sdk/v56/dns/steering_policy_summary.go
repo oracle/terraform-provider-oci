@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SteeringPolicySummary A DNS steering policy.
@@ -102,6 +104,24 @@ func (m SteeringPolicySummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SteeringPolicySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSteeringPolicySummaryTemplateEnum[string(m.Template)]; !ok && m.Template != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Template: %s. Supported values are: %s.", m.Template, strings.Join(GetSteeringPolicySummaryTemplateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSteeringPolicySummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSteeringPolicySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SteeringPolicySummaryTemplateEnum Enum with underlying type: string
 type SteeringPolicySummaryTemplateEnum string
 
@@ -115,7 +135,7 @@ const (
 	SteeringPolicySummaryTemplateCustom      SteeringPolicySummaryTemplateEnum = "CUSTOM"
 )
 
-var mappingSteeringPolicySummaryTemplate = map[string]SteeringPolicySummaryTemplateEnum{
+var mappingSteeringPolicySummaryTemplateEnum = map[string]SteeringPolicySummaryTemplateEnum{
 	"FAILOVER":     SteeringPolicySummaryTemplateFailover,
 	"LOAD_BALANCE": SteeringPolicySummaryTemplateLoadBalance,
 	"ROUTE_BY_GEO": SteeringPolicySummaryTemplateRouteByGeo,
@@ -127,10 +147,22 @@ var mappingSteeringPolicySummaryTemplate = map[string]SteeringPolicySummaryTempl
 // GetSteeringPolicySummaryTemplateEnumValues Enumerates the set of values for SteeringPolicySummaryTemplateEnum
 func GetSteeringPolicySummaryTemplateEnumValues() []SteeringPolicySummaryTemplateEnum {
 	values := make([]SteeringPolicySummaryTemplateEnum, 0)
-	for _, v := range mappingSteeringPolicySummaryTemplate {
+	for _, v := range mappingSteeringPolicySummaryTemplateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSteeringPolicySummaryTemplateEnumStringValues Enumerates the set of values in String for SteeringPolicySummaryTemplateEnum
+func GetSteeringPolicySummaryTemplateEnumStringValues() []string {
+	return []string{
+		"FAILOVER",
+		"LOAD_BALANCE",
+		"ROUTE_BY_GEO",
+		"ROUTE_BY_ASN",
+		"ROUTE_BY_IP",
+		"CUSTOM",
+	}
 }
 
 // SteeringPolicySummaryLifecycleStateEnum Enum with underlying type: string
@@ -144,7 +176,7 @@ const (
 	SteeringPolicySummaryLifecycleStateDeleting SteeringPolicySummaryLifecycleStateEnum = "DELETING"
 )
 
-var mappingSteeringPolicySummaryLifecycleState = map[string]SteeringPolicySummaryLifecycleStateEnum{
+var mappingSteeringPolicySummaryLifecycleStateEnum = map[string]SteeringPolicySummaryLifecycleStateEnum{
 	"ACTIVE":   SteeringPolicySummaryLifecycleStateActive,
 	"CREATING": SteeringPolicySummaryLifecycleStateCreating,
 	"DELETED":  SteeringPolicySummaryLifecycleStateDeleted,
@@ -154,8 +186,18 @@ var mappingSteeringPolicySummaryLifecycleState = map[string]SteeringPolicySummar
 // GetSteeringPolicySummaryLifecycleStateEnumValues Enumerates the set of values for SteeringPolicySummaryLifecycleStateEnum
 func GetSteeringPolicySummaryLifecycleStateEnumValues() []SteeringPolicySummaryLifecycleStateEnum {
 	values := make([]SteeringPolicySummaryLifecycleStateEnum, 0)
-	for _, v := range mappingSteeringPolicySummaryLifecycleState {
+	for _, v := range mappingSteeringPolicySummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSteeringPolicySummaryLifecycleStateEnumStringValues Enumerates the set of values in String for SteeringPolicySummaryLifecycleStateEnum
+func GetSteeringPolicySummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+	}
 }

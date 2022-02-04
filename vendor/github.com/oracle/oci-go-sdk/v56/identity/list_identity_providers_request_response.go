@@ -5,8 +5,10 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListIdentityProvidersRequest wrapper for the ListIdentityProviders operation
@@ -63,6 +65,10 @@ func (request ListIdentityProvidersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListIdentityProvidersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,29 @@ func (request ListIdentityProvidersRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListIdentityProvidersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListIdentityProvidersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListIdentityProvidersProtocolEnum[string(request.Protocol)]; !ok && request.Protocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Protocol: %s. Supported values are: %s.", request.Protocol, strings.Join(GetListIdentityProvidersProtocolEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListIdentityProvidersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListIdentityProvidersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListIdentityProvidersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListIdentityProvidersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIdentityProviderLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetIdentityProviderLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListIdentityProvidersResponse wrapper for the ListIdentityProviders operation
@@ -114,17 +143,24 @@ const (
 	ListIdentityProvidersProtocolSaml2 ListIdentityProvidersProtocolEnum = "SAML2"
 )
 
-var mappingListIdentityProvidersProtocol = map[string]ListIdentityProvidersProtocolEnum{
+var mappingListIdentityProvidersProtocolEnum = map[string]ListIdentityProvidersProtocolEnum{
 	"SAML2": ListIdentityProvidersProtocolSaml2,
 }
 
 // GetListIdentityProvidersProtocolEnumValues Enumerates the set of values for ListIdentityProvidersProtocolEnum
 func GetListIdentityProvidersProtocolEnumValues() []ListIdentityProvidersProtocolEnum {
 	values := make([]ListIdentityProvidersProtocolEnum, 0)
-	for _, v := range mappingListIdentityProvidersProtocol {
+	for _, v := range mappingListIdentityProvidersProtocolEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIdentityProvidersProtocolEnumStringValues Enumerates the set of values in String for ListIdentityProvidersProtocolEnum
+func GetListIdentityProvidersProtocolEnumStringValues() []string {
+	return []string{
+		"SAML2",
+	}
 }
 
 // ListIdentityProvidersSortByEnum Enum with underlying type: string
@@ -136,7 +172,7 @@ const (
 	ListIdentityProvidersSortByName        ListIdentityProvidersSortByEnum = "NAME"
 )
 
-var mappingListIdentityProvidersSortBy = map[string]ListIdentityProvidersSortByEnum{
+var mappingListIdentityProvidersSortByEnum = map[string]ListIdentityProvidersSortByEnum{
 	"TIMECREATED": ListIdentityProvidersSortByTimecreated,
 	"NAME":        ListIdentityProvidersSortByName,
 }
@@ -144,10 +180,18 @@ var mappingListIdentityProvidersSortBy = map[string]ListIdentityProvidersSortByE
 // GetListIdentityProvidersSortByEnumValues Enumerates the set of values for ListIdentityProvidersSortByEnum
 func GetListIdentityProvidersSortByEnumValues() []ListIdentityProvidersSortByEnum {
 	values := make([]ListIdentityProvidersSortByEnum, 0)
-	for _, v := range mappingListIdentityProvidersSortBy {
+	for _, v := range mappingListIdentityProvidersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIdentityProvidersSortByEnumStringValues Enumerates the set of values in String for ListIdentityProvidersSortByEnum
+func GetListIdentityProvidersSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListIdentityProvidersSortOrderEnum Enum with underlying type: string
@@ -159,7 +203,7 @@ const (
 	ListIdentityProvidersSortOrderDesc ListIdentityProvidersSortOrderEnum = "DESC"
 )
 
-var mappingListIdentityProvidersSortOrder = map[string]ListIdentityProvidersSortOrderEnum{
+var mappingListIdentityProvidersSortOrderEnum = map[string]ListIdentityProvidersSortOrderEnum{
 	"ASC":  ListIdentityProvidersSortOrderAsc,
 	"DESC": ListIdentityProvidersSortOrderDesc,
 }
@@ -167,8 +211,16 @@ var mappingListIdentityProvidersSortOrder = map[string]ListIdentityProvidersSort
 // GetListIdentityProvidersSortOrderEnumValues Enumerates the set of values for ListIdentityProvidersSortOrderEnum
 func GetListIdentityProvidersSortOrderEnumValues() []ListIdentityProvidersSortOrderEnum {
 	values := make([]ListIdentityProvidersSortOrderEnum, 0)
-	for _, v := range mappingListIdentityProvidersSortOrder {
+	for _, v := range mappingListIdentityProvidersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIdentityProvidersSortOrderEnumStringValues Enumerates the set of values in String for ListIdentityProvidersSortOrderEnum
+func GetListIdentityProvidersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

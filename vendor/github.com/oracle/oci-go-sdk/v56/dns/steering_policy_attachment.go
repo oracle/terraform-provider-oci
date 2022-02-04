@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SteeringPolicyAttachment An attachment between a steering policy and a domain. An attachment constructs
@@ -61,6 +63,21 @@ func (m SteeringPolicyAttachment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SteeringPolicyAttachment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSteeringPolicyAttachmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSteeringPolicyAttachmentLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SteeringPolicyAttachmentLifecycleStateEnum Enum with underlying type: string
 type SteeringPolicyAttachmentLifecycleStateEnum string
 
@@ -71,7 +88,7 @@ const (
 	SteeringPolicyAttachmentLifecycleStateDeleting SteeringPolicyAttachmentLifecycleStateEnum = "DELETING"
 )
 
-var mappingSteeringPolicyAttachmentLifecycleState = map[string]SteeringPolicyAttachmentLifecycleStateEnum{
+var mappingSteeringPolicyAttachmentLifecycleStateEnum = map[string]SteeringPolicyAttachmentLifecycleStateEnum{
 	"CREATING": SteeringPolicyAttachmentLifecycleStateCreating,
 	"ACTIVE":   SteeringPolicyAttachmentLifecycleStateActive,
 	"DELETING": SteeringPolicyAttachmentLifecycleStateDeleting,
@@ -80,8 +97,17 @@ var mappingSteeringPolicyAttachmentLifecycleState = map[string]SteeringPolicyAtt
 // GetSteeringPolicyAttachmentLifecycleStateEnumValues Enumerates the set of values for SteeringPolicyAttachmentLifecycleStateEnum
 func GetSteeringPolicyAttachmentLifecycleStateEnumValues() []SteeringPolicyAttachmentLifecycleStateEnum {
 	values := make([]SteeringPolicyAttachmentLifecycleStateEnum, 0)
-	for _, v := range mappingSteeringPolicyAttachmentLifecycleState {
+	for _, v := range mappingSteeringPolicyAttachmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSteeringPolicyAttachmentLifecycleStateEnumStringValues Enumerates the set of values in String for SteeringPolicyAttachmentLifecycleStateEnum
+func GetSteeringPolicyAttachmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+	}
 }

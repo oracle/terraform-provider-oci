@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DeployStageExecutionProgress Details about the execution progress of a stage in a deployment.
@@ -154,6 +156,21 @@ func (m deploystageexecutionprogress) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m deploystageexecutionprogress) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDeployStageExecutionProgressStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetDeployStageExecutionProgressStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DeployStageExecutionProgressStatusEnum Enum with underlying type: string
 type DeployStageExecutionProgressStatusEnum string
 
@@ -170,7 +187,7 @@ const (
 	DeployStageExecutionProgressStatusRollbackFailed     DeployStageExecutionProgressStatusEnum = "ROLLBACK_FAILED"
 )
 
-var mappingDeployStageExecutionProgressStatus = map[string]DeployStageExecutionProgressStatusEnum{
+var mappingDeployStageExecutionProgressStatusEnum = map[string]DeployStageExecutionProgressStatusEnum{
 	"ACCEPTED":             DeployStageExecutionProgressStatusAccepted,
 	"IN_PROGRESS":          DeployStageExecutionProgressStatusInProgress,
 	"FAILED":               DeployStageExecutionProgressStatusFailed,
@@ -185,8 +202,23 @@ var mappingDeployStageExecutionProgressStatus = map[string]DeployStageExecutionP
 // GetDeployStageExecutionProgressStatusEnumValues Enumerates the set of values for DeployStageExecutionProgressStatusEnum
 func GetDeployStageExecutionProgressStatusEnumValues() []DeployStageExecutionProgressStatusEnum {
 	values := make([]DeployStageExecutionProgressStatusEnum, 0)
-	for _, v := range mappingDeployStageExecutionProgressStatus {
+	for _, v := range mappingDeployStageExecutionProgressStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployStageExecutionProgressStatusEnumStringValues Enumerates the set of values in String for DeployStageExecutionProgressStatusEnum
+func GetDeployStageExecutionProgressStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+		"ROLLBACK_IN_PROGRESS",
+		"ROLLBACK_SUCCEEDED",
+		"ROLLBACK_FAILED",
+	}
 }

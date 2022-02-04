@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDatabaseInsightsRequest wrapper for the ListDatabaseInsights operation
@@ -81,6 +83,10 @@ func (request ListDatabaseInsightsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDatabaseInsightsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -94,6 +100,47 @@ func (request ListDatabaseInsightsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDatabaseInsightsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDatabaseInsightsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Status {
+		if _, ok := mappingResourceStatusEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", val, strings.Join(GetResourceStatusEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingLifecycleStateEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.DatabaseType {
+		if _, ok := mappingListDatabaseInsightsDatabaseTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", val, strings.Join(GetListDatabaseInsightsDatabaseTypeEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.Fields {
+		if _, ok := mappingListDatabaseInsightsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListDatabaseInsightsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListDatabaseInsightsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatabaseInsightsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseInsightsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDatabaseInsightsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDatabaseInsightsResponse wrapper for the ListDatabaseInsights operation
@@ -140,7 +187,7 @@ const (
 	ListDatabaseInsightsDatabaseTypeExternalNoncdb ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-NONCDB"
 )
 
-var mappingListDatabaseInsightsDatabaseType = map[string]ListDatabaseInsightsDatabaseTypeEnum{
+var mappingListDatabaseInsightsDatabaseTypeEnum = map[string]ListDatabaseInsightsDatabaseTypeEnum{
 	"ADW-S":           ListDatabaseInsightsDatabaseTypeAdwS,
 	"ATP-S":           ListDatabaseInsightsDatabaseTypeAtpS,
 	"ADW-D":           ListDatabaseInsightsDatabaseTypeAdwD,
@@ -152,10 +199,22 @@ var mappingListDatabaseInsightsDatabaseType = map[string]ListDatabaseInsightsDat
 // GetListDatabaseInsightsDatabaseTypeEnumValues Enumerates the set of values for ListDatabaseInsightsDatabaseTypeEnum
 func GetListDatabaseInsightsDatabaseTypeEnumValues() []ListDatabaseInsightsDatabaseTypeEnum {
 	values := make([]ListDatabaseInsightsDatabaseTypeEnum, 0)
-	for _, v := range mappingListDatabaseInsightsDatabaseType {
+	for _, v := range mappingListDatabaseInsightsDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseInsightsDatabaseTypeEnumStringValues Enumerates the set of values in String for ListDatabaseInsightsDatabaseTypeEnum
+func GetListDatabaseInsightsDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"ADW-S",
+		"ATP-S",
+		"ADW-D",
+		"ATP-D",
+		"EXTERNAL-PDB",
+		"EXTERNAL-NONCDB",
+	}
 }
 
 // ListDatabaseInsightsFieldsEnum Enum with underlying type: string
@@ -173,7 +232,7 @@ const (
 	ListDatabaseInsightsFieldsDefinedtags         ListDatabaseInsightsFieldsEnum = "definedTags"
 )
 
-var mappingListDatabaseInsightsFields = map[string]ListDatabaseInsightsFieldsEnum{
+var mappingListDatabaseInsightsFieldsEnum = map[string]ListDatabaseInsightsFieldsEnum{
 	"compartmentId":       ListDatabaseInsightsFieldsCompartmentid,
 	"databaseName":        ListDatabaseInsightsFieldsDatabasename,
 	"databaseDisplayName": ListDatabaseInsightsFieldsDatabasedisplayname,
@@ -187,10 +246,24 @@ var mappingListDatabaseInsightsFields = map[string]ListDatabaseInsightsFieldsEnu
 // GetListDatabaseInsightsFieldsEnumValues Enumerates the set of values for ListDatabaseInsightsFieldsEnum
 func GetListDatabaseInsightsFieldsEnumValues() []ListDatabaseInsightsFieldsEnum {
 	values := make([]ListDatabaseInsightsFieldsEnum, 0)
-	for _, v := range mappingListDatabaseInsightsFields {
+	for _, v := range mappingListDatabaseInsightsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseInsightsFieldsEnumStringValues Enumerates the set of values in String for ListDatabaseInsightsFieldsEnum
+func GetListDatabaseInsightsFieldsEnumStringValues() []string {
+	return []string{
+		"compartmentId",
+		"databaseName",
+		"databaseDisplayName",
+		"databaseType",
+		"databaseVersion",
+		"databaseHostNames",
+		"freeformTags",
+		"definedTags",
+	}
 }
 
 // ListDatabaseInsightsSortOrderEnum Enum with underlying type: string
@@ -202,7 +275,7 @@ const (
 	ListDatabaseInsightsSortOrderDesc ListDatabaseInsightsSortOrderEnum = "DESC"
 )
 
-var mappingListDatabaseInsightsSortOrder = map[string]ListDatabaseInsightsSortOrderEnum{
+var mappingListDatabaseInsightsSortOrderEnum = map[string]ListDatabaseInsightsSortOrderEnum{
 	"ASC":  ListDatabaseInsightsSortOrderAsc,
 	"DESC": ListDatabaseInsightsSortOrderDesc,
 }
@@ -210,10 +283,18 @@ var mappingListDatabaseInsightsSortOrder = map[string]ListDatabaseInsightsSortOr
 // GetListDatabaseInsightsSortOrderEnumValues Enumerates the set of values for ListDatabaseInsightsSortOrderEnum
 func GetListDatabaseInsightsSortOrderEnumValues() []ListDatabaseInsightsSortOrderEnum {
 	values := make([]ListDatabaseInsightsSortOrderEnum, 0)
-	for _, v := range mappingListDatabaseInsightsSortOrder {
+	for _, v := range mappingListDatabaseInsightsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseInsightsSortOrderEnumStringValues Enumerates the set of values in String for ListDatabaseInsightsSortOrderEnum
+func GetListDatabaseInsightsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDatabaseInsightsSortByEnum Enum with underlying type: string
@@ -226,7 +307,7 @@ const (
 	ListDatabaseInsightsSortByDatabasetype        ListDatabaseInsightsSortByEnum = "databaseType"
 )
 
-var mappingListDatabaseInsightsSortBy = map[string]ListDatabaseInsightsSortByEnum{
+var mappingListDatabaseInsightsSortByEnum = map[string]ListDatabaseInsightsSortByEnum{
 	"databaseName":        ListDatabaseInsightsSortByDatabasename,
 	"databaseDisplayName": ListDatabaseInsightsSortByDatabasedisplayname,
 	"databaseType":        ListDatabaseInsightsSortByDatabasetype,
@@ -235,8 +316,17 @@ var mappingListDatabaseInsightsSortBy = map[string]ListDatabaseInsightsSortByEnu
 // GetListDatabaseInsightsSortByEnumValues Enumerates the set of values for ListDatabaseInsightsSortByEnum
 func GetListDatabaseInsightsSortByEnumValues() []ListDatabaseInsightsSortByEnum {
 	values := make([]ListDatabaseInsightsSortByEnum, 0)
-	for _, v := range mappingListDatabaseInsightsSortBy {
+	for _, v := range mappingListDatabaseInsightsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseInsightsSortByEnumStringValues Enumerates the set of values in String for ListDatabaseInsightsSortByEnum
+func GetListDatabaseInsightsSortByEnumStringValues() []string {
+	return []string{
+		"databaseName",
+		"databaseDisplayName",
+		"databaseType",
+	}
 }

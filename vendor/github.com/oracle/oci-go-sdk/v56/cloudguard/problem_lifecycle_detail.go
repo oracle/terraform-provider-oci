@@ -20,7 +20,7 @@ const (
 	ProblemLifecycleDetailDeleted   ProblemLifecycleDetailEnum = "DELETED"
 )
 
-var mappingProblemLifecycleDetail = map[string]ProblemLifecycleDetailEnum{
+var mappingProblemLifecycleDetailEnum = map[string]ProblemLifecycleDetailEnum{
 	"OPEN":      ProblemLifecycleDetailOpen,
 	"RESOLVED":  ProblemLifecycleDetailResolved,
 	"DISMISSED": ProblemLifecycleDetailDismissed,
@@ -30,8 +30,18 @@ var mappingProblemLifecycleDetail = map[string]ProblemLifecycleDetailEnum{
 // GetProblemLifecycleDetailEnumValues Enumerates the set of values for ProblemLifecycleDetailEnum
 func GetProblemLifecycleDetailEnumValues() []ProblemLifecycleDetailEnum {
 	values := make([]ProblemLifecycleDetailEnum, 0)
-	for _, v := range mappingProblemLifecycleDetail {
+	for _, v := range mappingProblemLifecycleDetailEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProblemLifecycleDetailEnumStringValues Enumerates the set of values in String for ProblemLifecycleDetailEnum
+func GetProblemLifecycleDetailEnumStringValues() []string {
+	return []string{
+		"OPEN",
+		"RESOLVED",
+		"DISMISSED",
+		"DELETED",
+	}
 }

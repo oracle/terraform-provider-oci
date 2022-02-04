@@ -10,7 +10,9 @@
 package identitydataplane
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ResourcePrincipalSessionTokenRequest The representation of ResourcePrincipalSessionTokenRequest
@@ -28,4 +30,16 @@ type ResourcePrincipalSessionTokenRequest struct {
 
 func (m ResourcePrincipalSessionTokenRequest) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ResourcePrincipalSessionTokenRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

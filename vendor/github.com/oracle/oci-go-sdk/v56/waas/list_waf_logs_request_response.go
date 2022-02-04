@@ -5,8 +5,10 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListWafLogsRequest wrapper for the ListWafLogs operation
@@ -97,6 +99,10 @@ func (request ListWafLogsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWafLogsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -110,6 +116,35 @@ func (request ListWafLogsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWafLogsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWafLogsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Action {
+		if _, ok := mappingListWafLogsActionEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", val, strings.Join(GetListWafLogsActionEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.HttpMethod {
+		if _, ok := mappingListWafLogsHttpMethodEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HttpMethod: %s. Supported values are: %s.", val, strings.Join(GetListWafLogsHttpMethodEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.LogType {
+		if _, ok := mappingListWafLogsLogTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogType: %s. Supported values are: %s.", val, strings.Join(GetListWafLogsLogTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWafLogsResponse wrapper for the ListWafLogs operation
@@ -149,7 +184,7 @@ const (
 	ListWafLogsActionRedirected ListWafLogsActionEnum = "REDIRECTED"
 )
 
-var mappingListWafLogsAction = map[string]ListWafLogsActionEnum{
+var mappingListWafLogsActionEnum = map[string]ListWafLogsActionEnum{
 	"BLOCK":      ListWafLogsActionBlock,
 	"DETECT":     ListWafLogsActionDetect,
 	"BYPASS":     ListWafLogsActionBypass,
@@ -160,10 +195,21 @@ var mappingListWafLogsAction = map[string]ListWafLogsActionEnum{
 // GetListWafLogsActionEnumValues Enumerates the set of values for ListWafLogsActionEnum
 func GetListWafLogsActionEnumValues() []ListWafLogsActionEnum {
 	values := make([]ListWafLogsActionEnum, 0)
-	for _, v := range mappingListWafLogsAction {
+	for _, v := range mappingListWafLogsActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWafLogsActionEnumStringValues Enumerates the set of values in String for ListWafLogsActionEnum
+func GetListWafLogsActionEnumStringValues() []string {
+	return []string{
+		"BLOCK",
+		"DETECT",
+		"BYPASS",
+		"LOG",
+		"REDIRECTED",
+	}
 }
 
 // ListWafLogsHttpMethodEnum Enum with underlying type: string
@@ -181,7 +227,7 @@ const (
 	ListWafLogsHttpMethodConnect ListWafLogsHttpMethodEnum = "CONNECT"
 )
 
-var mappingListWafLogsHttpMethod = map[string]ListWafLogsHttpMethodEnum{
+var mappingListWafLogsHttpMethodEnum = map[string]ListWafLogsHttpMethodEnum{
 	"OPTIONS": ListWafLogsHttpMethodOptions,
 	"GET":     ListWafLogsHttpMethodGet,
 	"HEAD":    ListWafLogsHttpMethodHead,
@@ -195,10 +241,24 @@ var mappingListWafLogsHttpMethod = map[string]ListWafLogsHttpMethodEnum{
 // GetListWafLogsHttpMethodEnumValues Enumerates the set of values for ListWafLogsHttpMethodEnum
 func GetListWafLogsHttpMethodEnumValues() []ListWafLogsHttpMethodEnum {
 	values := make([]ListWafLogsHttpMethodEnum, 0)
-	for _, v := range mappingListWafLogsHttpMethod {
+	for _, v := range mappingListWafLogsHttpMethodEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWafLogsHttpMethodEnumStringValues Enumerates the set of values in String for ListWafLogsHttpMethodEnum
+func GetListWafLogsHttpMethodEnumStringValues() []string {
+	return []string{
+		"OPTIONS",
+		"GET",
+		"HEAD",
+		"POST",
+		"PUT",
+		"DELETE",
+		"TRACE",
+		"CONNECT",
+	}
 }
 
 // ListWafLogsLogTypeEnum Enum with underlying type: string
@@ -217,7 +277,7 @@ const (
 	ListWafLogsLogTypeAddressRateLimiting        ListWafLogsLogTypeEnum = "ADDRESS_RATE_LIMITING"
 )
 
-var mappingListWafLogsLogType = map[string]ListWafLogsLogTypeEnum{
+var mappingListWafLogsLogTypeEnum = map[string]ListWafLogsLogTypeEnum{
 	"ACCESS":                       ListWafLogsLogTypeAccess,
 	"PROTECTION_RULES":             ListWafLogsLogTypeProtectionRules,
 	"JS_CHALLENGE":                 ListWafLogsLogTypeJsChallenge,
@@ -232,8 +292,23 @@ var mappingListWafLogsLogType = map[string]ListWafLogsLogTypeEnum{
 // GetListWafLogsLogTypeEnumValues Enumerates the set of values for ListWafLogsLogTypeEnum
 func GetListWafLogsLogTypeEnumValues() []ListWafLogsLogTypeEnum {
 	values := make([]ListWafLogsLogTypeEnum, 0)
-	for _, v := range mappingListWafLogsLogType {
+	for _, v := range mappingListWafLogsLogTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWafLogsLogTypeEnumStringValues Enumerates the set of values in String for ListWafLogsLogTypeEnum
+func GetListWafLogsLogTypeEnumStringValues() []string {
+	return []string{
+		"ACCESS",
+		"PROTECTION_RULES",
+		"JS_CHALLENGE",
+		"CAPTCHA",
+		"ACCESS_RULES",
+		"THREAT_FEEDS",
+		"HUMAN_INTERACTION_CHALLENGE",
+		"DEVICE_FINGERPRINT_CHALLENGE",
+		"ADDRESS_RATE_LIMITING",
+	}
 }

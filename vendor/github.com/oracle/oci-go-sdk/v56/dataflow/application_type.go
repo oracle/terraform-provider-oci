@@ -18,7 +18,7 @@ const (
 	ApplicationTypeStreaming ApplicationTypeEnum = "STREAMING"
 )
 
-var mappingApplicationType = map[string]ApplicationTypeEnum{
+var mappingApplicationTypeEnum = map[string]ApplicationTypeEnum{
 	"BATCH":     ApplicationTypeBatch,
 	"STREAMING": ApplicationTypeStreaming,
 }
@@ -26,8 +26,16 @@ var mappingApplicationType = map[string]ApplicationTypeEnum{
 // GetApplicationTypeEnumValues Enumerates the set of values for ApplicationTypeEnum
 func GetApplicationTypeEnumValues() []ApplicationTypeEnum {
 	values := make([]ApplicationTypeEnum, 0)
-	for _, v := range mappingApplicationType {
+	for _, v := range mappingApplicationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApplicationTypeEnumStringValues Enumerates the set of values in String for ApplicationTypeEnum
+func GetApplicationTypeEnumStringValues() []string {
+	return []string{
+		"BATCH",
+		"STREAMING",
+	}
 }

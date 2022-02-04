@@ -24,7 +24,7 @@ const (
 	DeploymentTypeAutonomous DeploymentTypeEnum = "AUTONOMOUS"
 )
 
-var mappingDeploymentType = map[string]DeploymentTypeEnum{
+var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
 	"ONPREMISE":  DeploymentTypeOnpremise,
 	"BM":         DeploymentTypeBm,
 	"VM":         DeploymentTypeVm,
@@ -36,8 +36,20 @@ var mappingDeploymentType = map[string]DeploymentTypeEnum{
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
 func GetDeploymentTypeEnumValues() []DeploymentTypeEnum {
 	values := make([]DeploymentTypeEnum, 0)
-	for _, v := range mappingDeploymentType {
+	for _, v := range mappingDeploymentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeploymentTypeEnumStringValues Enumerates the set of values in String for DeploymentTypeEnum
+func GetDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"ONPREMISE",
+		"BM",
+		"VM",
+		"EXADATA",
+		"EXADATA_CC",
+		"AUTONOMOUS",
+	}
 }

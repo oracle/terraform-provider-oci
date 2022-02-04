@@ -2,9 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Apm Configuration API
+// Application Performance Monitoring Configuration API
 //
-// An API for the APM Configuration service. Use this API to query and set APM configuration.
+// Use the Application Performance Monitoring Configuration API to query and set Application Performance Monitoring
+// configuration. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmconfig
@@ -19,7 +20,7 @@ const (
 	ConfigTypesApdex       ConfigTypesEnum = "APDEX"
 )
 
-var mappingConfigTypes = map[string]ConfigTypesEnum{
+var mappingConfigTypesEnum = map[string]ConfigTypesEnum{
 	"SPAN_FILTER":  ConfigTypesSpanFilter,
 	"METRIC_GROUP": ConfigTypesMetricGroup,
 	"APDEX":        ConfigTypesApdex,
@@ -28,8 +29,17 @@ var mappingConfigTypes = map[string]ConfigTypesEnum{
 // GetConfigTypesEnumValues Enumerates the set of values for ConfigTypesEnum
 func GetConfigTypesEnumValues() []ConfigTypesEnum {
 	values := make([]ConfigTypesEnum, 0)
-	for _, v := range mappingConfigTypes {
+	for _, v := range mappingConfigTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigTypesEnumStringValues Enumerates the set of values in String for ConfigTypesEnum
+func GetConfigTypesEnumStringValues() []string {
+	return []string{
+		"SPAN_FILTER",
+		"METRIC_GROUP",
+		"APDEX",
+	}
 }

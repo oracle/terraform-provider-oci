@@ -25,7 +25,7 @@ const (
 	OperationTypeMovePrivateEndpoint   OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_MODEL":            OperationTypeCreateModel,
 	"UPDATE_MODEL":            OperationTypeUpdateModel,
 	"DELETE_MODEL":            OperationTypeDeleteModel,
@@ -38,8 +38,21 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_MODEL",
+		"UPDATE_MODEL",
+		"DELETE_MODEL",
+		"CREATE_PRIVATE_ENDPOINT",
+		"DELETE_PRIVATE_ENDPOINT",
+		"UPDATE_PRIVATE_ENDPOINT",
+		"MOVE_PRIVATE_ENDPOINT",
+	}
 }

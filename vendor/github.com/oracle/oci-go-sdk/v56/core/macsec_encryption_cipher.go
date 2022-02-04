@@ -24,7 +24,7 @@ const (
 	MacsecEncryptionCipherAes256GcmXpn MacsecEncryptionCipherEnum = "AES256_GCM_XPN"
 )
 
-var mappingMacsecEncryptionCipher = map[string]MacsecEncryptionCipherEnum{
+var mappingMacsecEncryptionCipherEnum = map[string]MacsecEncryptionCipherEnum{
 	"AES128_GCM":     MacsecEncryptionCipherAes128Gcm,
 	"AES128_GCM_XPN": MacsecEncryptionCipherAes128GcmXpn,
 	"AES256_GCM":     MacsecEncryptionCipherAes256Gcm,
@@ -34,8 +34,18 @@ var mappingMacsecEncryptionCipher = map[string]MacsecEncryptionCipherEnum{
 // GetMacsecEncryptionCipherEnumValues Enumerates the set of values for MacsecEncryptionCipherEnum
 func GetMacsecEncryptionCipherEnumValues() []MacsecEncryptionCipherEnum {
 	values := make([]MacsecEncryptionCipherEnum, 0)
-	for _, v := range mappingMacsecEncryptionCipher {
+	for _, v := range mappingMacsecEncryptionCipherEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMacsecEncryptionCipherEnumStringValues Enumerates the set of values in String for MacsecEncryptionCipherEnum
+func GetMacsecEncryptionCipherEnumStringValues() []string {
+	return []string{
+		"AES128_GCM",
+		"AES128_GCM_XPN",
+		"AES256_GCM",
+		"AES256_GCM_XPN",
+	}
 }

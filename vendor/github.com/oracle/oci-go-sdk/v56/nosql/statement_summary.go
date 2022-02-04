@@ -13,7 +13,9 @@
 package nosql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // StatementSummary Information derived from parsing a NoSQL SQL statement.
@@ -42,6 +44,21 @@ func (m StatementSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m StatementSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingStatementSummaryOperationEnum[string(m.Operation)]; !ok && m.Operation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operation: %s. Supported values are: %s.", m.Operation, strings.Join(GetStatementSummaryOperationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // StatementSummaryOperationEnum Enum with underlying type: string
 type StatementSummaryOperationEnum string
 
@@ -58,7 +75,7 @@ const (
 	StatementSummaryOperationDelete      StatementSummaryOperationEnum = "DELETE"
 )
 
-var mappingStatementSummaryOperation = map[string]StatementSummaryOperationEnum{
+var mappingStatementSummaryOperationEnum = map[string]StatementSummaryOperationEnum{
 	"CREATE_TABLE": StatementSummaryOperationCreateTable,
 	"ALTER_TABLE":  StatementSummaryOperationAlterTable,
 	"DROP_TABLE":   StatementSummaryOperationDropTable,
@@ -73,8 +90,23 @@ var mappingStatementSummaryOperation = map[string]StatementSummaryOperationEnum{
 // GetStatementSummaryOperationEnumValues Enumerates the set of values for StatementSummaryOperationEnum
 func GetStatementSummaryOperationEnumValues() []StatementSummaryOperationEnum {
 	values := make([]StatementSummaryOperationEnum, 0)
-	for _, v := range mappingStatementSummaryOperation {
+	for _, v := range mappingStatementSummaryOperationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStatementSummaryOperationEnumStringValues Enumerates the set of values in String for StatementSummaryOperationEnum
+func GetStatementSummaryOperationEnumStringValues() []string {
+	return []string{
+		"CREATE_TABLE",
+		"ALTER_TABLE",
+		"DROP_TABLE",
+		"CREATE_INDEX",
+		"DROP_INDEX",
+		"SELECT",
+		"UPDATE",
+		"INSERT",
+		"DELETE",
+	}
 }

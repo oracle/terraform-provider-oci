@@ -5,8 +5,10 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListRecommendationStrategiesRequest wrapper for the ListRecommendationStrategies operation
@@ -57,6 +59,10 @@ func (request ListRecommendationStrategiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRecommendationStrategiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +76,23 @@ func (request ListRecommendationStrategiesRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRecommendationStrategiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRecommendationStrategiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRecommendationStrategiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRecommendationStrategiesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRecommendationStrategiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRecommendationStrategiesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRecommendationStrategiesResponse wrapper for the ListRecommendationStrategies operation
@@ -113,7 +136,7 @@ const (
 	ListRecommendationStrategiesSortOrderDesc ListRecommendationStrategiesSortOrderEnum = "DESC"
 )
 
-var mappingListRecommendationStrategiesSortOrder = map[string]ListRecommendationStrategiesSortOrderEnum{
+var mappingListRecommendationStrategiesSortOrderEnum = map[string]ListRecommendationStrategiesSortOrderEnum{
 	"ASC":  ListRecommendationStrategiesSortOrderAsc,
 	"DESC": ListRecommendationStrategiesSortOrderDesc,
 }
@@ -121,10 +144,18 @@ var mappingListRecommendationStrategiesSortOrder = map[string]ListRecommendation
 // GetListRecommendationStrategiesSortOrderEnumValues Enumerates the set of values for ListRecommendationStrategiesSortOrderEnum
 func GetListRecommendationStrategiesSortOrderEnumValues() []ListRecommendationStrategiesSortOrderEnum {
 	values := make([]ListRecommendationStrategiesSortOrderEnum, 0)
-	for _, v := range mappingListRecommendationStrategiesSortOrder {
+	for _, v := range mappingListRecommendationStrategiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRecommendationStrategiesSortOrderEnumStringValues Enumerates the set of values in String for ListRecommendationStrategiesSortOrderEnum
+func GetListRecommendationStrategiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListRecommendationStrategiesSortByEnum Enum with underlying type: string
@@ -136,7 +167,7 @@ const (
 	ListRecommendationStrategiesSortByTimecreated ListRecommendationStrategiesSortByEnum = "TIMECREATED"
 )
 
-var mappingListRecommendationStrategiesSortBy = map[string]ListRecommendationStrategiesSortByEnum{
+var mappingListRecommendationStrategiesSortByEnum = map[string]ListRecommendationStrategiesSortByEnum{
 	"NAME":        ListRecommendationStrategiesSortByName,
 	"TIMECREATED": ListRecommendationStrategiesSortByTimecreated,
 }
@@ -144,8 +175,16 @@ var mappingListRecommendationStrategiesSortBy = map[string]ListRecommendationStr
 // GetListRecommendationStrategiesSortByEnumValues Enumerates the set of values for ListRecommendationStrategiesSortByEnum
 func GetListRecommendationStrategiesSortByEnumValues() []ListRecommendationStrategiesSortByEnum {
 	values := make([]ListRecommendationStrategiesSortByEnum, 0)
-	for _, v := range mappingListRecommendationStrategiesSortBy {
+	for _, v := range mappingListRecommendationStrategiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRecommendationStrategiesSortByEnumStringValues Enumerates the set of values in String for ListRecommendationStrategiesSortByEnum
+func GetListRecommendationStrategiesSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }

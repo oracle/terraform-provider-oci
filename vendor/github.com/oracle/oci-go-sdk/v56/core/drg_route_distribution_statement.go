@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DrgRouteDistributionStatement A single statement within a route distribution. All match criteria in a statement must be met
@@ -43,6 +45,21 @@ type DrgRouteDistributionStatement struct {
 
 func (m DrgRouteDistributionStatement) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DrgRouteDistributionStatement) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDrgRouteDistributionStatementActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetDrgRouteDistributionStatementActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -89,15 +106,22 @@ const (
 	DrgRouteDistributionStatementActionAccept DrgRouteDistributionStatementActionEnum = "ACCEPT"
 )
 
-var mappingDrgRouteDistributionStatementAction = map[string]DrgRouteDistributionStatementActionEnum{
+var mappingDrgRouteDistributionStatementActionEnum = map[string]DrgRouteDistributionStatementActionEnum{
 	"ACCEPT": DrgRouteDistributionStatementActionAccept,
 }
 
 // GetDrgRouteDistributionStatementActionEnumValues Enumerates the set of values for DrgRouteDistributionStatementActionEnum
 func GetDrgRouteDistributionStatementActionEnumValues() []DrgRouteDistributionStatementActionEnum {
 	values := make([]DrgRouteDistributionStatementActionEnum, 0)
-	for _, v := range mappingDrgRouteDistributionStatementAction {
+	for _, v := range mappingDrgRouteDistributionStatementActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgRouteDistributionStatementActionEnumStringValues Enumerates the set of values in String for DrgRouteDistributionStatementActionEnum
+func GetDrgRouteDistributionStatementActionEnumStringValues() []string {
+	return []string{
+		"ACCEPT",
+	}
 }

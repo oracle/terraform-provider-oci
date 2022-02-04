@@ -10,7 +10,9 @@
 package mysql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Configuration The set of MySQL variables to be used when deploying a MySQL Database Service DB System.
@@ -63,6 +65,24 @@ func (m Configuration) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Configuration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingConfigurationTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetConfigurationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingConfigurationLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConfigurationLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConfigurationTypeEnum Enum with underlying type: string
 type ConfigurationTypeEnum string
 
@@ -72,7 +92,7 @@ const (
 	ConfigurationTypeCustom  ConfigurationTypeEnum = "CUSTOM"
 )
 
-var mappingConfigurationType = map[string]ConfigurationTypeEnum{
+var mappingConfigurationTypeEnum = map[string]ConfigurationTypeEnum{
 	"DEFAULT": ConfigurationTypeDefault,
 	"CUSTOM":  ConfigurationTypeCustom,
 }
@@ -80,10 +100,18 @@ var mappingConfigurationType = map[string]ConfigurationTypeEnum{
 // GetConfigurationTypeEnumValues Enumerates the set of values for ConfigurationTypeEnum
 func GetConfigurationTypeEnumValues() []ConfigurationTypeEnum {
 	values := make([]ConfigurationTypeEnum, 0)
-	for _, v := range mappingConfigurationType {
+	for _, v := range mappingConfigurationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationTypeEnumStringValues Enumerates the set of values in String for ConfigurationTypeEnum
+func GetConfigurationTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+		"CUSTOM",
+	}
 }
 
 // ConfigurationLifecycleStateEnum Enum with underlying type: string
@@ -95,7 +123,7 @@ const (
 	ConfigurationLifecycleStateDeleted ConfigurationLifecycleStateEnum = "DELETED"
 )
 
-var mappingConfigurationLifecycleState = map[string]ConfigurationLifecycleStateEnum{
+var mappingConfigurationLifecycleStateEnum = map[string]ConfigurationLifecycleStateEnum{
 	"ACTIVE":  ConfigurationLifecycleStateActive,
 	"DELETED": ConfigurationLifecycleStateDeleted,
 }
@@ -103,8 +131,16 @@ var mappingConfigurationLifecycleState = map[string]ConfigurationLifecycleStateE
 // GetConfigurationLifecycleStateEnumValues Enumerates the set of values for ConfigurationLifecycleStateEnum
 func GetConfigurationLifecycleStateEnumValues() []ConfigurationLifecycleStateEnum {
 	values := make([]ConfigurationLifecycleStateEnum, 0)
-	for _, v := range mappingConfigurationLifecycleState {
+	for _, v := range mappingConfigurationLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationLifecycleStateEnumStringValues Enumerates the set of values in String for ConfigurationLifecycleStateEnum
+func GetConfigurationLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
 }

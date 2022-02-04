@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // EnableExternalNonContainerDatabaseDatabaseManagementDetails Details to enable Database Management on an external non-container database.
@@ -28,6 +30,21 @@ func (m EnableExternalNonContainerDatabaseDatabaseManagementDetails) String() st
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EnableExternalNonContainerDatabaseDatabaseManagementDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum Enum with underlying type: string
 type EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum string
 
@@ -37,7 +54,7 @@ const (
 	EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelBringYourOwnLicense EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModel = map[string]EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum{
+var mappingEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum = map[string]EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelBringYourOwnLicense,
 }
@@ -45,8 +62,16 @@ var mappingEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseMod
 // GetEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnumValues Enumerates the set of values for EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum
 func GetEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnumValues() []EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum {
 	values := make([]EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum, 0)
-	for _, v := range mappingEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModel {
+	for _, v := range mappingEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnumStringValues Enumerates the set of values in String for EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum
+func GetEnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

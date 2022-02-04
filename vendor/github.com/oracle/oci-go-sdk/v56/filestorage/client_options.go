@@ -10,7 +10,9 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ClientOptions NFS export options applied to a specified set of
@@ -59,6 +61,24 @@ func (m ClientOptions) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ClientOptions) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingClientOptionsAccessEnum[string(m.Access)]; !ok && m.Access != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Access: %s. Supported values are: %s.", m.Access, strings.Join(GetClientOptionsAccessEnumStringValues(), ",")))
+	}
+	if _, ok := mappingClientOptionsIdentitySquashEnum[string(m.IdentitySquash)]; !ok && m.IdentitySquash != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IdentitySquash: %s. Supported values are: %s.", m.IdentitySquash, strings.Join(GetClientOptionsIdentitySquashEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ClientOptionsAccessEnum Enum with underlying type: string
 type ClientOptionsAccessEnum string
 
@@ -68,7 +88,7 @@ const (
 	ClientOptionsAccessOnly  ClientOptionsAccessEnum = "READ_ONLY"
 )
 
-var mappingClientOptionsAccess = map[string]ClientOptionsAccessEnum{
+var mappingClientOptionsAccessEnum = map[string]ClientOptionsAccessEnum{
 	"READ_WRITE": ClientOptionsAccessWrite,
 	"READ_ONLY":  ClientOptionsAccessOnly,
 }
@@ -76,10 +96,18 @@ var mappingClientOptionsAccess = map[string]ClientOptionsAccessEnum{
 // GetClientOptionsAccessEnumValues Enumerates the set of values for ClientOptionsAccessEnum
 func GetClientOptionsAccessEnumValues() []ClientOptionsAccessEnum {
 	values := make([]ClientOptionsAccessEnum, 0)
-	for _, v := range mappingClientOptionsAccess {
+	for _, v := range mappingClientOptionsAccessEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetClientOptionsAccessEnumStringValues Enumerates the set of values in String for ClientOptionsAccessEnum
+func GetClientOptionsAccessEnumStringValues() []string {
+	return []string{
+		"READ_WRITE",
+		"READ_ONLY",
+	}
 }
 
 // ClientOptionsIdentitySquashEnum Enum with underlying type: string
@@ -92,7 +120,7 @@ const (
 	ClientOptionsIdentitySquashAll  ClientOptionsIdentitySquashEnum = "ALL"
 )
 
-var mappingClientOptionsIdentitySquash = map[string]ClientOptionsIdentitySquashEnum{
+var mappingClientOptionsIdentitySquashEnum = map[string]ClientOptionsIdentitySquashEnum{
 	"NONE": ClientOptionsIdentitySquashNone,
 	"ROOT": ClientOptionsIdentitySquashRoot,
 	"ALL":  ClientOptionsIdentitySquashAll,
@@ -101,8 +129,17 @@ var mappingClientOptionsIdentitySquash = map[string]ClientOptionsIdentitySquashE
 // GetClientOptionsIdentitySquashEnumValues Enumerates the set of values for ClientOptionsIdentitySquashEnum
 func GetClientOptionsIdentitySquashEnumValues() []ClientOptionsIdentitySquashEnum {
 	values := make([]ClientOptionsIdentitySquashEnum, 0)
-	for _, v := range mappingClientOptionsIdentitySquash {
+	for _, v := range mappingClientOptionsIdentitySquashEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetClientOptionsIdentitySquashEnumStringValues Enumerates the set of values in String for ClientOptionsIdentitySquashEnum
+func GetClientOptionsIdentitySquashEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"ROOT",
+		"ALL",
+	}
 }

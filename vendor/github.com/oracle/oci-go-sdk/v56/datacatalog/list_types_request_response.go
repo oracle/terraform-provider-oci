@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListTypesRequest wrapper for the ListTypes operation
@@ -70,6 +72,10 @@ func (request ListTypesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListTypesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -83,6 +89,32 @@ func (request ListTypesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListTypesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListTypesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListTypesLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListTypesFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListTypesFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListTypesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTypesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTypesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListTypesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListTypesResponse wrapper for the ListTypes operation
@@ -126,7 +158,7 @@ const (
 	ListTypesLifecycleStateMoving   ListTypesLifecycleStateEnum = "MOVING"
 )
 
-var mappingListTypesLifecycleState = map[string]ListTypesLifecycleStateEnum{
+var mappingListTypesLifecycleStateEnum = map[string]ListTypesLifecycleStateEnum{
 	"CREATING": ListTypesLifecycleStateCreating,
 	"ACTIVE":   ListTypesLifecycleStateActive,
 	"INACTIVE": ListTypesLifecycleStateInactive,
@@ -140,10 +172,24 @@ var mappingListTypesLifecycleState = map[string]ListTypesLifecycleStateEnum{
 // GetListTypesLifecycleStateEnumValues Enumerates the set of values for ListTypesLifecycleStateEnum
 func GetListTypesLifecycleStateEnumValues() []ListTypesLifecycleStateEnum {
 	values := make([]ListTypesLifecycleStateEnum, 0)
-	for _, v := range mappingListTypesLifecycleState {
+	for _, v := range mappingListTypesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTypesLifecycleStateEnumStringValues Enumerates the set of values in String for ListTypesLifecycleStateEnum
+func GetListTypesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListTypesFieldsEnum Enum with underlying type: string
@@ -160,7 +206,7 @@ const (
 	ListTypesFieldsUri            ListTypesFieldsEnum = "uri"
 )
 
-var mappingListTypesFields = map[string]ListTypesFieldsEnum{
+var mappingListTypesFieldsEnum = map[string]ListTypesFieldsEnum{
 	"key":            ListTypesFieldsKey,
 	"description":    ListTypesFieldsDescription,
 	"name":           ListTypesFieldsName,
@@ -173,10 +219,23 @@ var mappingListTypesFields = map[string]ListTypesFieldsEnum{
 // GetListTypesFieldsEnumValues Enumerates the set of values for ListTypesFieldsEnum
 func GetListTypesFieldsEnumValues() []ListTypesFieldsEnum {
 	values := make([]ListTypesFieldsEnum, 0)
-	for _, v := range mappingListTypesFields {
+	for _, v := range mappingListTypesFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTypesFieldsEnumStringValues Enumerates the set of values in String for ListTypesFieldsEnum
+func GetListTypesFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"description",
+		"name",
+		"catalogId",
+		"lifecycleState",
+		"typeCategory",
+		"uri",
+	}
 }
 
 // ListTypesSortByEnum Enum with underlying type: string
@@ -188,7 +247,7 @@ const (
 	ListTypesSortByDisplayname ListTypesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListTypesSortBy = map[string]ListTypesSortByEnum{
+var mappingListTypesSortByEnum = map[string]ListTypesSortByEnum{
 	"TIMECREATED": ListTypesSortByTimecreated,
 	"DISPLAYNAME": ListTypesSortByDisplayname,
 }
@@ -196,10 +255,18 @@ var mappingListTypesSortBy = map[string]ListTypesSortByEnum{
 // GetListTypesSortByEnumValues Enumerates the set of values for ListTypesSortByEnum
 func GetListTypesSortByEnumValues() []ListTypesSortByEnum {
 	values := make([]ListTypesSortByEnum, 0)
-	for _, v := range mappingListTypesSortBy {
+	for _, v := range mappingListTypesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTypesSortByEnumStringValues Enumerates the set of values in String for ListTypesSortByEnum
+func GetListTypesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListTypesSortOrderEnum Enum with underlying type: string
@@ -211,7 +278,7 @@ const (
 	ListTypesSortOrderDesc ListTypesSortOrderEnum = "DESC"
 )
 
-var mappingListTypesSortOrder = map[string]ListTypesSortOrderEnum{
+var mappingListTypesSortOrderEnum = map[string]ListTypesSortOrderEnum{
 	"ASC":  ListTypesSortOrderAsc,
 	"DESC": ListTypesSortOrderDesc,
 }
@@ -219,8 +286,16 @@ var mappingListTypesSortOrder = map[string]ListTypesSortOrderEnum{
 // GetListTypesSortOrderEnumValues Enumerates the set of values for ListTypesSortOrderEnum
 func GetListTypesSortOrderEnumValues() []ListTypesSortOrderEnum {
 	values := make([]ListTypesSortOrderEnum, 0)
-	for _, v := range mappingListTypesSortOrder {
+	for _, v := range mappingListTypesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTypesSortOrderEnumStringValues Enumerates the set of values in String for ListTypesSortOrderEnum
+func GetListTypesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PatchChangeSummary This is the patch report summary information.
@@ -42,6 +44,24 @@ func (m PatchChangeSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PatchChangeSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPatchChangeSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetPatchChangeSummaryTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPatchChangeSummaryActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetPatchChangeSummaryActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PatchChangeSummaryTypeEnum Enum with underlying type: string
 type PatchChangeSummaryTypeEnum string
 
@@ -55,7 +75,7 @@ const (
 	PatchChangeSummaryTypeRestTask        PatchChangeSummaryTypeEnum = "REST_TASK"
 )
 
-var mappingPatchChangeSummaryType = map[string]PatchChangeSummaryTypeEnum{
+var mappingPatchChangeSummaryTypeEnum = map[string]PatchChangeSummaryTypeEnum{
 	"INTEGRATION_TASK":  PatchChangeSummaryTypeIntegrationTask,
 	"DATA_LOADER_TASK":  PatchChangeSummaryTypeDataLoaderTask,
 	"PIPELINE_TASK":     PatchChangeSummaryTypePipelineTask,
@@ -67,10 +87,22 @@ var mappingPatchChangeSummaryType = map[string]PatchChangeSummaryTypeEnum{
 // GetPatchChangeSummaryTypeEnumValues Enumerates the set of values for PatchChangeSummaryTypeEnum
 func GetPatchChangeSummaryTypeEnumValues() []PatchChangeSummaryTypeEnum {
 	values := make([]PatchChangeSummaryTypeEnum, 0)
-	for _, v := range mappingPatchChangeSummaryType {
+	for _, v := range mappingPatchChangeSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchChangeSummaryTypeEnumStringValues Enumerates the set of values in String for PatchChangeSummaryTypeEnum
+func GetPatchChangeSummaryTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }
 
 // PatchChangeSummaryActionEnum Enum with underlying type: string
@@ -83,7 +115,7 @@ const (
 	PatchChangeSummaryActionUpdated PatchChangeSummaryActionEnum = "UPDATED"
 )
 
-var mappingPatchChangeSummaryAction = map[string]PatchChangeSummaryActionEnum{
+var mappingPatchChangeSummaryActionEnum = map[string]PatchChangeSummaryActionEnum{
 	"CREATED": PatchChangeSummaryActionCreated,
 	"DELETED": PatchChangeSummaryActionDeleted,
 	"UPDATED": PatchChangeSummaryActionUpdated,
@@ -92,8 +124,17 @@ var mappingPatchChangeSummaryAction = map[string]PatchChangeSummaryActionEnum{
 // GetPatchChangeSummaryActionEnumValues Enumerates the set of values for PatchChangeSummaryActionEnum
 func GetPatchChangeSummaryActionEnumValues() []PatchChangeSummaryActionEnum {
 	values := make([]PatchChangeSummaryActionEnum, 0)
-	for _, v := range mappingPatchChangeSummaryAction {
+	for _, v := range mappingPatchChangeSummaryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchChangeSummaryActionEnumStringValues Enumerates the set of values in String for PatchChangeSummaryActionEnum
+func GetPatchChangeSummaryActionEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"DELETED",
+		"UPDATED",
+	}
 }

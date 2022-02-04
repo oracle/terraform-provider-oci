@@ -23,7 +23,7 @@ const (
 	PrivateEndpointLifecycleStateFailed   PrivateEndpointLifecycleStateEnum = "FAILED"
 )
 
-var mappingPrivateEndpointLifecycleState = map[string]PrivateEndpointLifecycleStateEnum{
+var mappingPrivateEndpointLifecycleStateEnum = map[string]PrivateEndpointLifecycleStateEnum{
 	"CREATING": PrivateEndpointLifecycleStateCreating,
 	"ACTIVE":   PrivateEndpointLifecycleStateActive,
 	"INACTIVE": PrivateEndpointLifecycleStateInactive,
@@ -36,8 +36,21 @@ var mappingPrivateEndpointLifecycleState = map[string]PrivateEndpointLifecycleSt
 // GetPrivateEndpointLifecycleStateEnumValues Enumerates the set of values for PrivateEndpointLifecycleStateEnum
 func GetPrivateEndpointLifecycleStateEnumValues() []PrivateEndpointLifecycleStateEnum {
 	values := make([]PrivateEndpointLifecycleStateEnum, 0)
-	for _, v := range mappingPrivateEndpointLifecycleState {
+	for _, v := range mappingPrivateEndpointLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPrivateEndpointLifecycleStateEnumStringValues Enumerates the set of values in String for PrivateEndpointLifecycleStateEnum
+func GetPrivateEndpointLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

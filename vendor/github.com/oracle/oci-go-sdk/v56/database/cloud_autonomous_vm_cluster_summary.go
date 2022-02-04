@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CloudAutonomousVmClusterSummary Details of the cloud Autonomous VM cluster.
@@ -115,6 +117,24 @@ func (m CloudAutonomousVmClusterSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CloudAutonomousVmClusterSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCloudAutonomousVmClusterSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCloudAutonomousVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCloudAutonomousVmClusterSummaryLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCloudAutonomousVmClusterSummaryLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CloudAutonomousVmClusterSummaryLifecycleStateEnum Enum with underlying type: string
 type CloudAutonomousVmClusterSummaryLifecycleStateEnum string
 
@@ -129,7 +149,7 @@ const (
 	CloudAutonomousVmClusterSummaryLifecycleStateMaintenanceInProgress CloudAutonomousVmClusterSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingCloudAutonomousVmClusterSummaryLifecycleState = map[string]CloudAutonomousVmClusterSummaryLifecycleStateEnum{
+var mappingCloudAutonomousVmClusterSummaryLifecycleStateEnum = map[string]CloudAutonomousVmClusterSummaryLifecycleStateEnum{
 	"PROVISIONING":            CloudAutonomousVmClusterSummaryLifecycleStateProvisioning,
 	"AVAILABLE":               CloudAutonomousVmClusterSummaryLifecycleStateAvailable,
 	"UPDATING":                CloudAutonomousVmClusterSummaryLifecycleStateUpdating,
@@ -142,10 +162,23 @@ var mappingCloudAutonomousVmClusterSummaryLifecycleState = map[string]CloudAuton
 // GetCloudAutonomousVmClusterSummaryLifecycleStateEnumValues Enumerates the set of values for CloudAutonomousVmClusterSummaryLifecycleStateEnum
 func GetCloudAutonomousVmClusterSummaryLifecycleStateEnumValues() []CloudAutonomousVmClusterSummaryLifecycleStateEnum {
 	values := make([]CloudAutonomousVmClusterSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingCloudAutonomousVmClusterSummaryLifecycleState {
+	for _, v := range mappingCloudAutonomousVmClusterSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudAutonomousVmClusterSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for CloudAutonomousVmClusterSummaryLifecycleStateEnum
+func GetCloudAutonomousVmClusterSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }
 
 // CloudAutonomousVmClusterSummaryLicenseModelEnum Enum with underlying type: string
@@ -157,7 +190,7 @@ const (
 	CloudAutonomousVmClusterSummaryLicenseModelBringYourOwnLicense CloudAutonomousVmClusterSummaryLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingCloudAutonomousVmClusterSummaryLicenseModel = map[string]CloudAutonomousVmClusterSummaryLicenseModelEnum{
+var mappingCloudAutonomousVmClusterSummaryLicenseModelEnum = map[string]CloudAutonomousVmClusterSummaryLicenseModelEnum{
 	"LICENSE_INCLUDED":       CloudAutonomousVmClusterSummaryLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": CloudAutonomousVmClusterSummaryLicenseModelBringYourOwnLicense,
 }
@@ -165,8 +198,16 @@ var mappingCloudAutonomousVmClusterSummaryLicenseModel = map[string]CloudAutonom
 // GetCloudAutonomousVmClusterSummaryLicenseModelEnumValues Enumerates the set of values for CloudAutonomousVmClusterSummaryLicenseModelEnum
 func GetCloudAutonomousVmClusterSummaryLicenseModelEnumValues() []CloudAutonomousVmClusterSummaryLicenseModelEnum {
 	values := make([]CloudAutonomousVmClusterSummaryLicenseModelEnum, 0)
-	for _, v := range mappingCloudAutonomousVmClusterSummaryLicenseModel {
+	for _, v := range mappingCloudAutonomousVmClusterSummaryLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudAutonomousVmClusterSummaryLicenseModelEnumStringValues Enumerates the set of values in String for CloudAutonomousVmClusterSummaryLicenseModelEnum
+func GetCloudAutonomousVmClusterSummaryLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

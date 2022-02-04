@@ -5,8 +5,10 @@
 package apmsynthetics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListScriptsRequest wrapper for the ListScripts operation
@@ -59,6 +61,10 @@ func (request ListScriptsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListScriptsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,23 @@ func (request ListScriptsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListScriptsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListScriptsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListScriptsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListScriptsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListScriptsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListScriptsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListScriptsResponse wrapper for the ListScripts operation
@@ -111,7 +134,7 @@ const (
 	ListScriptsSortOrderDesc ListScriptsSortOrderEnum = "DESC"
 )
 
-var mappingListScriptsSortOrder = map[string]ListScriptsSortOrderEnum{
+var mappingListScriptsSortOrderEnum = map[string]ListScriptsSortOrderEnum{
 	"ASC":  ListScriptsSortOrderAsc,
 	"DESC": ListScriptsSortOrderDesc,
 }
@@ -119,10 +142,18 @@ var mappingListScriptsSortOrder = map[string]ListScriptsSortOrderEnum{
 // GetListScriptsSortOrderEnumValues Enumerates the set of values for ListScriptsSortOrderEnum
 func GetListScriptsSortOrderEnumValues() []ListScriptsSortOrderEnum {
 	values := make([]ListScriptsSortOrderEnum, 0)
-	for _, v := range mappingListScriptsSortOrder {
+	for _, v := range mappingListScriptsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScriptsSortOrderEnumStringValues Enumerates the set of values in String for ListScriptsSortOrderEnum
+func GetListScriptsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListScriptsSortByEnum Enum with underlying type: string
@@ -136,7 +167,7 @@ const (
 	ListScriptsSortByContenttype ListScriptsSortByEnum = "contentType"
 )
 
-var mappingListScriptsSortBy = map[string]ListScriptsSortByEnum{
+var mappingListScriptsSortByEnum = map[string]ListScriptsSortByEnum{
 	"displayName": ListScriptsSortByDisplayname,
 	"timeCreated": ListScriptsSortByTimecreated,
 	"timeUpdated": ListScriptsSortByTimeupdated,
@@ -146,8 +177,18 @@ var mappingListScriptsSortBy = map[string]ListScriptsSortByEnum{
 // GetListScriptsSortByEnumValues Enumerates the set of values for ListScriptsSortByEnum
 func GetListScriptsSortByEnumValues() []ListScriptsSortByEnum {
 	values := make([]ListScriptsSortByEnum, 0)
-	for _, v := range mappingListScriptsSortBy {
+	for _, v := range mappingListScriptsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScriptsSortByEnumStringValues Enumerates the set of values in String for ListScriptsSortByEnum
+func GetListScriptsSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"timeCreated",
+		"timeUpdated",
+		"contentType",
+	}
 }

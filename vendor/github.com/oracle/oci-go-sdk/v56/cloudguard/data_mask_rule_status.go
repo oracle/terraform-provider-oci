@@ -18,7 +18,7 @@ const (
 	DataMaskRuleStatusDisabled DataMaskRuleStatusEnum = "DISABLED"
 )
 
-var mappingDataMaskRuleStatus = map[string]DataMaskRuleStatusEnum{
+var mappingDataMaskRuleStatusEnum = map[string]DataMaskRuleStatusEnum{
 	"ENABLED":  DataMaskRuleStatusEnabled,
 	"DISABLED": DataMaskRuleStatusDisabled,
 }
@@ -26,8 +26,16 @@ var mappingDataMaskRuleStatus = map[string]DataMaskRuleStatusEnum{
 // GetDataMaskRuleStatusEnumValues Enumerates the set of values for DataMaskRuleStatusEnum
 func GetDataMaskRuleStatusEnumValues() []DataMaskRuleStatusEnum {
 	values := make([]DataMaskRuleStatusEnum, 0)
-	for _, v := range mappingDataMaskRuleStatus {
+	for _, v := range mappingDataMaskRuleStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataMaskRuleStatusEnumStringValues Enumerates the set of values in String for DataMaskRuleStatusEnum
+func GetDataMaskRuleStatusEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }

@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ReplicatedRegionDetails Properties for a region where a domain is replicated too.
@@ -32,6 +34,21 @@ func (m ReplicatedRegionDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ReplicatedRegionDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingReplicatedRegionDetailsStateEnum[string(m.State)]; !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetReplicatedRegionDetailsStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ReplicatedRegionDetailsStateEnum Enum with underlying type: string
 type ReplicatedRegionDetailsStateEnum string
 
@@ -44,7 +61,7 @@ const (
 	ReplicatedRegionDetailsStateDeleted              ReplicatedRegionDetailsStateEnum = "DELETED"
 )
 
-var mappingReplicatedRegionDetailsState = map[string]ReplicatedRegionDetailsStateEnum{
+var mappingReplicatedRegionDetailsStateEnum = map[string]ReplicatedRegionDetailsStateEnum{
 	"ENABLING_REPLICATION":  ReplicatedRegionDetailsStateEnablingReplication,
 	"REPLICATION_ENABLED":   ReplicatedRegionDetailsStateReplicationEnabled,
 	"DISABLING_REPLICATION": ReplicatedRegionDetailsStateDisablingReplication,
@@ -55,8 +72,19 @@ var mappingReplicatedRegionDetailsState = map[string]ReplicatedRegionDetailsStat
 // GetReplicatedRegionDetailsStateEnumValues Enumerates the set of values for ReplicatedRegionDetailsStateEnum
 func GetReplicatedRegionDetailsStateEnumValues() []ReplicatedRegionDetailsStateEnum {
 	values := make([]ReplicatedRegionDetailsStateEnum, 0)
-	for _, v := range mappingReplicatedRegionDetailsState {
+	for _, v := range mappingReplicatedRegionDetailsStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetReplicatedRegionDetailsStateEnumStringValues Enumerates the set of values in String for ReplicatedRegionDetailsStateEnum
+func GetReplicatedRegionDetailsStateEnumStringValues() []string {
+	return []string{
+		"ENABLING_REPLICATION",
+		"REPLICATION_ENABLED",
+		"DISABLING_REPLICATION",
+		"REPLICATION_DISABLED",
+		"DELETED",
+	}
 }

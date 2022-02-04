@@ -19,15 +19,22 @@ const (
 	NodeSourceTypeImage NodeSourceTypeEnum = "IMAGE"
 )
 
-var mappingNodeSourceType = map[string]NodeSourceTypeEnum{
+var mappingNodeSourceTypeEnum = map[string]NodeSourceTypeEnum{
 	"IMAGE": NodeSourceTypeImage,
 }
 
 // GetNodeSourceTypeEnumValues Enumerates the set of values for NodeSourceTypeEnum
 func GetNodeSourceTypeEnumValues() []NodeSourceTypeEnum {
 	values := make([]NodeSourceTypeEnum, 0)
-	for _, v := range mappingNodeSourceType {
+	for _, v := range mappingNodeSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNodeSourceTypeEnumStringValues Enumerates the set of values in String for NodeSourceTypeEnum
+func GetNodeSourceTypeEnumStringValues() []string {
+	return []string{
+		"IMAGE",
+	}
 }

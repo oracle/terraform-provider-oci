@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAutonomousVmClustersRequest wrapper for the ListAutonomousVmClusters operation
@@ -55,6 +57,10 @@ func (request ListAutonomousVmClustersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAutonomousVmClustersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListAutonomousVmClustersRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAutonomousVmClustersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAutonomousVmClustersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAutonomousVmClustersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAutonomousVmClustersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAutonomousVmClustersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAutonomousVmClustersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAutonomousVmClusterSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAutonomousVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAutonomousVmClustersResponse wrapper for the ListAutonomousVmClusters operation
@@ -108,7 +134,7 @@ const (
 	ListAutonomousVmClustersSortByDisplayname ListAutonomousVmClustersSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAutonomousVmClustersSortBy = map[string]ListAutonomousVmClustersSortByEnum{
+var mappingListAutonomousVmClustersSortByEnum = map[string]ListAutonomousVmClustersSortByEnum{
 	"TIMECREATED": ListAutonomousVmClustersSortByTimecreated,
 	"DISPLAYNAME": ListAutonomousVmClustersSortByDisplayname,
 }
@@ -116,10 +142,18 @@ var mappingListAutonomousVmClustersSortBy = map[string]ListAutonomousVmClustersS
 // GetListAutonomousVmClustersSortByEnumValues Enumerates the set of values for ListAutonomousVmClustersSortByEnum
 func GetListAutonomousVmClustersSortByEnumValues() []ListAutonomousVmClustersSortByEnum {
 	values := make([]ListAutonomousVmClustersSortByEnum, 0)
-	for _, v := range mappingListAutonomousVmClustersSortBy {
+	for _, v := range mappingListAutonomousVmClustersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousVmClustersSortByEnumStringValues Enumerates the set of values in String for ListAutonomousVmClustersSortByEnum
+func GetListAutonomousVmClustersSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAutonomousVmClustersSortOrderEnum Enum with underlying type: string
@@ -131,7 +165,7 @@ const (
 	ListAutonomousVmClustersSortOrderDesc ListAutonomousVmClustersSortOrderEnum = "DESC"
 )
 
-var mappingListAutonomousVmClustersSortOrder = map[string]ListAutonomousVmClustersSortOrderEnum{
+var mappingListAutonomousVmClustersSortOrderEnum = map[string]ListAutonomousVmClustersSortOrderEnum{
 	"ASC":  ListAutonomousVmClustersSortOrderAsc,
 	"DESC": ListAutonomousVmClustersSortOrderDesc,
 }
@@ -139,8 +173,16 @@ var mappingListAutonomousVmClustersSortOrder = map[string]ListAutonomousVmCluste
 // GetListAutonomousVmClustersSortOrderEnumValues Enumerates the set of values for ListAutonomousVmClustersSortOrderEnum
 func GetListAutonomousVmClustersSortOrderEnumValues() []ListAutonomousVmClustersSortOrderEnum {
 	values := make([]ListAutonomousVmClustersSortOrderEnum, 0)
-	for _, v := range mappingListAutonomousVmClustersSortOrder {
+	for _, v := range mappingListAutonomousVmClustersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAutonomousVmClustersSortOrderEnumStringValues Enumerates the set of values in String for ListAutonomousVmClustersSortOrderEnum
+func GetListAutonomousVmClustersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

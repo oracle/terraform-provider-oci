@@ -5,8 +5,10 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListEnrollmentStatusesRequest wrapper for the ListEnrollmentStatuses operation
@@ -53,6 +55,10 @@ func (request ListEnrollmentStatusesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListEnrollmentStatusesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,29 @@ func (request ListEnrollmentStatusesRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListEnrollmentStatusesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListEnrollmentStatusesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListEnrollmentStatusesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListEnrollmentStatusesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEnrollmentStatusesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListEnrollmentStatusesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEnrollmentStatusesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListEnrollmentStatusesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEnrollmentStatusesStatusEnum[string(request.Status)]; !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListEnrollmentStatusesStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListEnrollmentStatusesResponse wrapper for the ListEnrollmentStatuses operation
@@ -109,7 +138,7 @@ const (
 	ListEnrollmentStatusesSortOrderDesc ListEnrollmentStatusesSortOrderEnum = "DESC"
 )
 
-var mappingListEnrollmentStatusesSortOrder = map[string]ListEnrollmentStatusesSortOrderEnum{
+var mappingListEnrollmentStatusesSortOrderEnum = map[string]ListEnrollmentStatusesSortOrderEnum{
 	"ASC":  ListEnrollmentStatusesSortOrderAsc,
 	"DESC": ListEnrollmentStatusesSortOrderDesc,
 }
@@ -117,10 +146,18 @@ var mappingListEnrollmentStatusesSortOrder = map[string]ListEnrollmentStatusesSo
 // GetListEnrollmentStatusesSortOrderEnumValues Enumerates the set of values for ListEnrollmentStatusesSortOrderEnum
 func GetListEnrollmentStatusesSortOrderEnumValues() []ListEnrollmentStatusesSortOrderEnum {
 	values := make([]ListEnrollmentStatusesSortOrderEnum, 0)
-	for _, v := range mappingListEnrollmentStatusesSortOrder {
+	for _, v := range mappingListEnrollmentStatusesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEnrollmentStatusesSortOrderEnumStringValues Enumerates the set of values in String for ListEnrollmentStatusesSortOrderEnum
+func GetListEnrollmentStatusesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListEnrollmentStatusesSortByEnum Enum with underlying type: string
@@ -132,7 +169,7 @@ const (
 	ListEnrollmentStatusesSortByTimecreated ListEnrollmentStatusesSortByEnum = "TIMECREATED"
 )
 
-var mappingListEnrollmentStatusesSortBy = map[string]ListEnrollmentStatusesSortByEnum{
+var mappingListEnrollmentStatusesSortByEnum = map[string]ListEnrollmentStatusesSortByEnum{
 	"NAME":        ListEnrollmentStatusesSortByName,
 	"TIMECREATED": ListEnrollmentStatusesSortByTimecreated,
 }
@@ -140,10 +177,18 @@ var mappingListEnrollmentStatusesSortBy = map[string]ListEnrollmentStatusesSortB
 // GetListEnrollmentStatusesSortByEnumValues Enumerates the set of values for ListEnrollmentStatusesSortByEnum
 func GetListEnrollmentStatusesSortByEnumValues() []ListEnrollmentStatusesSortByEnum {
 	values := make([]ListEnrollmentStatusesSortByEnum, 0)
-	for _, v := range mappingListEnrollmentStatusesSortBy {
+	for _, v := range mappingListEnrollmentStatusesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEnrollmentStatusesSortByEnumStringValues Enumerates the set of values in String for ListEnrollmentStatusesSortByEnum
+func GetListEnrollmentStatusesSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"TIMECREATED",
+	}
 }
 
 // ListEnrollmentStatusesLifecycleStateEnum Enum with underlying type: string
@@ -162,7 +207,7 @@ const (
 	ListEnrollmentStatusesLifecycleStateCreating  ListEnrollmentStatusesLifecycleStateEnum = "CREATING"
 )
 
-var mappingListEnrollmentStatusesLifecycleState = map[string]ListEnrollmentStatusesLifecycleStateEnum{
+var mappingListEnrollmentStatusesLifecycleStateEnum = map[string]ListEnrollmentStatusesLifecycleStateEnum{
 	"ACTIVE":    ListEnrollmentStatusesLifecycleStateActive,
 	"FAILED":    ListEnrollmentStatusesLifecycleStateFailed,
 	"INACTIVE":  ListEnrollmentStatusesLifecycleStateInactive,
@@ -177,10 +222,25 @@ var mappingListEnrollmentStatusesLifecycleState = map[string]ListEnrollmentStatu
 // GetListEnrollmentStatusesLifecycleStateEnumValues Enumerates the set of values for ListEnrollmentStatusesLifecycleStateEnum
 func GetListEnrollmentStatusesLifecycleStateEnumValues() []ListEnrollmentStatusesLifecycleStateEnum {
 	values := make([]ListEnrollmentStatusesLifecycleStateEnum, 0)
-	for _, v := range mappingListEnrollmentStatusesLifecycleState {
+	for _, v := range mappingListEnrollmentStatusesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEnrollmentStatusesLifecycleStateEnumStringValues Enumerates the set of values in String for ListEnrollmentStatusesLifecycleStateEnum
+func GetListEnrollmentStatusesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"FAILED",
+		"INACTIVE",
+		"ATTACHING",
+		"DETACHING",
+		"DELETING",
+		"DELETED",
+		"UPDATING",
+		"CREATING",
+	}
 }
 
 // ListEnrollmentStatusesStatusEnum Enum with underlying type: string
@@ -192,7 +252,7 @@ const (
 	ListEnrollmentStatusesStatusInactive ListEnrollmentStatusesStatusEnum = "INACTIVE"
 )
 
-var mappingListEnrollmentStatusesStatus = map[string]ListEnrollmentStatusesStatusEnum{
+var mappingListEnrollmentStatusesStatusEnum = map[string]ListEnrollmentStatusesStatusEnum{
 	"ACTIVE":   ListEnrollmentStatusesStatusActive,
 	"INACTIVE": ListEnrollmentStatusesStatusInactive,
 }
@@ -200,8 +260,16 @@ var mappingListEnrollmentStatusesStatus = map[string]ListEnrollmentStatusesStatu
 // GetListEnrollmentStatusesStatusEnumValues Enumerates the set of values for ListEnrollmentStatusesStatusEnum
 func GetListEnrollmentStatusesStatusEnumValues() []ListEnrollmentStatusesStatusEnum {
 	values := make([]ListEnrollmentStatusesStatusEnum, 0)
-	for _, v := range mappingListEnrollmentStatusesStatus {
+	for _, v := range mappingListEnrollmentStatusesStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEnrollmentStatusesStatusEnumStringValues Enumerates the set of values in String for ListEnrollmentStatusesStatusEnum
+func GetListEnrollmentStatusesStatusEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
 }

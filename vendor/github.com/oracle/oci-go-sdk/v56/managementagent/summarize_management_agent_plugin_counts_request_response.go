@@ -5,8 +5,10 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeManagementAgentPluginCountsRequest wrapper for the SummarizeManagementAgentPluginCounts operation
@@ -40,6 +42,10 @@ func (request SummarizeManagementAgentPluginCountsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeManagementAgentPluginCountsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -53,6 +59,20 @@ func (request SummarizeManagementAgentPluginCountsRequest) BinaryRequestBody() (
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeManagementAgentPluginCountsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeManagementAgentPluginCountsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeManagementAgentPluginCountsGroupByEnum[string(request.GroupBy)]; !ok && request.GroupBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GroupBy: %s. Supported values are: %s.", request.GroupBy, strings.Join(GetSummarizeManagementAgentPluginCountsGroupByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeManagementAgentPluginCountsResponse wrapper for the SummarizeManagementAgentPluginCounts operation
@@ -91,15 +111,22 @@ const (
 	SummarizeManagementAgentPluginCountsGroupByPluginname SummarizeManagementAgentPluginCountsGroupByEnum = "pluginName"
 )
 
-var mappingSummarizeManagementAgentPluginCountsGroupBy = map[string]SummarizeManagementAgentPluginCountsGroupByEnum{
+var mappingSummarizeManagementAgentPluginCountsGroupByEnum = map[string]SummarizeManagementAgentPluginCountsGroupByEnum{
 	"pluginName": SummarizeManagementAgentPluginCountsGroupByPluginname,
 }
 
 // GetSummarizeManagementAgentPluginCountsGroupByEnumValues Enumerates the set of values for SummarizeManagementAgentPluginCountsGroupByEnum
 func GetSummarizeManagementAgentPluginCountsGroupByEnumValues() []SummarizeManagementAgentPluginCountsGroupByEnum {
 	values := make([]SummarizeManagementAgentPluginCountsGroupByEnum, 0)
-	for _, v := range mappingSummarizeManagementAgentPluginCountsGroupBy {
+	for _, v := range mappingSummarizeManagementAgentPluginCountsGroupByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeManagementAgentPluginCountsGroupByEnumStringValues Enumerates the set of values in String for SummarizeManagementAgentPluginCountsGroupByEnum
+func GetSummarizeManagementAgentPluginCountsGroupByEnumStringValues() []string {
+	return []string{
+		"pluginName",
+	}
 }

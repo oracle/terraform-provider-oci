@@ -11,7 +11,9 @@ package datascience
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // JobConfigurationDetails The job configuration details
@@ -61,6 +63,18 @@ func (m jobconfigurationdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m jobconfigurationdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // JobConfigurationDetailsJobTypeEnum Enum with underlying type: string
 type JobConfigurationDetailsJobTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	JobConfigurationDetailsJobTypeDefault JobConfigurationDetailsJobTypeEnum = "DEFAULT"
 )
 
-var mappingJobConfigurationDetailsJobType = map[string]JobConfigurationDetailsJobTypeEnum{
+var mappingJobConfigurationDetailsJobTypeEnum = map[string]JobConfigurationDetailsJobTypeEnum{
 	"DEFAULT": JobConfigurationDetailsJobTypeDefault,
 }
 
 // GetJobConfigurationDetailsJobTypeEnumValues Enumerates the set of values for JobConfigurationDetailsJobTypeEnum
 func GetJobConfigurationDetailsJobTypeEnumValues() []JobConfigurationDetailsJobTypeEnum {
 	values := make([]JobConfigurationDetailsJobTypeEnum, 0)
-	for _, v := range mappingJobConfigurationDetailsJobType {
+	for _, v := range mappingJobConfigurationDetailsJobTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobConfigurationDetailsJobTypeEnumStringValues Enumerates the set of values in String for JobConfigurationDetailsJobTypeEnum
+func GetJobConfigurationDetailsJobTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+	}
 }

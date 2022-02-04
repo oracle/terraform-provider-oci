@@ -5,8 +5,10 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListVaultReplicasRequest wrapper for the ListVaultReplicas operation
@@ -66,6 +68,10 @@ func (request ListVaultReplicasRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVaultReplicasRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,23 @@ func (request ListVaultReplicasRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVaultReplicasRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVaultReplicasRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListVaultReplicasSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListVaultReplicasSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListVaultReplicasSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListVaultReplicasSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVaultReplicasResponse wrapper for the ListVaultReplicas operation
@@ -122,7 +145,7 @@ const (
 	ListVaultReplicasSortByDisplayname ListVaultReplicasSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListVaultReplicasSortBy = map[string]ListVaultReplicasSortByEnum{
+var mappingListVaultReplicasSortByEnum = map[string]ListVaultReplicasSortByEnum{
 	"TIMECREATED": ListVaultReplicasSortByTimecreated,
 	"DISPLAYNAME": ListVaultReplicasSortByDisplayname,
 }
@@ -130,10 +153,18 @@ var mappingListVaultReplicasSortBy = map[string]ListVaultReplicasSortByEnum{
 // GetListVaultReplicasSortByEnumValues Enumerates the set of values for ListVaultReplicasSortByEnum
 func GetListVaultReplicasSortByEnumValues() []ListVaultReplicasSortByEnum {
 	values := make([]ListVaultReplicasSortByEnum, 0)
-	for _, v := range mappingListVaultReplicasSortBy {
+	for _, v := range mappingListVaultReplicasSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVaultReplicasSortByEnumStringValues Enumerates the set of values in String for ListVaultReplicasSortByEnum
+func GetListVaultReplicasSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListVaultReplicasSortOrderEnum Enum with underlying type: string
@@ -145,7 +176,7 @@ const (
 	ListVaultReplicasSortOrderDesc ListVaultReplicasSortOrderEnum = "DESC"
 )
 
-var mappingListVaultReplicasSortOrder = map[string]ListVaultReplicasSortOrderEnum{
+var mappingListVaultReplicasSortOrderEnum = map[string]ListVaultReplicasSortOrderEnum{
 	"ASC":  ListVaultReplicasSortOrderAsc,
 	"DESC": ListVaultReplicasSortOrderDesc,
 }
@@ -153,8 +184,16 @@ var mappingListVaultReplicasSortOrder = map[string]ListVaultReplicasSortOrderEnu
 // GetListVaultReplicasSortOrderEnumValues Enumerates the set of values for ListVaultReplicasSortOrderEnum
 func GetListVaultReplicasSortOrderEnumValues() []ListVaultReplicasSortOrderEnum {
 	values := make([]ListVaultReplicasSortOrderEnum, 0)
-	for _, v := range mappingListVaultReplicasSortOrder {
+	for _, v := range mappingListVaultReplicasSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVaultReplicasSortOrderEnumStringValues Enumerates the set of values in String for ListVaultReplicasSortOrderEnum
+func GetListVaultReplicasSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AbstractCommandDescriptor Generic command descriptor defining all attributes common to all querylanguage commands for parse output.
@@ -287,6 +289,18 @@ func (m abstractcommanddescriptor) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m abstractcommanddescriptor) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AbstractCommandDescriptorNameEnum Enum with underlying type: string
 type AbstractCommandDescriptorNameEnum string
 
@@ -339,7 +353,7 @@ const (
 	AbstractCommandDescriptorNameCompare         AbstractCommandDescriptorNameEnum = "COMPARE"
 )
 
-var mappingAbstractCommandDescriptorName = map[string]AbstractCommandDescriptorNameEnum{
+var mappingAbstractCommandDescriptorNameEnum = map[string]AbstractCommandDescriptorNameEnum{
 	"COMMAND":          AbstractCommandDescriptorNameCommand,
 	"SEARCH":           AbstractCommandDescriptorNameSearch,
 	"STATS":            AbstractCommandDescriptorNameStats,
@@ -390,8 +404,59 @@ var mappingAbstractCommandDescriptorName = map[string]AbstractCommandDescriptorN
 // GetAbstractCommandDescriptorNameEnumValues Enumerates the set of values for AbstractCommandDescriptorNameEnum
 func GetAbstractCommandDescriptorNameEnumValues() []AbstractCommandDescriptorNameEnum {
 	values := make([]AbstractCommandDescriptorNameEnum, 0)
-	for _, v := range mappingAbstractCommandDescriptorName {
+	for _, v := range mappingAbstractCommandDescriptorNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAbstractCommandDescriptorNameEnumStringValues Enumerates the set of values in String for AbstractCommandDescriptorNameEnum
+func GetAbstractCommandDescriptorNameEnumStringValues() []string {
+	return []string{
+		"COMMAND",
+		"SEARCH",
+		"STATS",
+		"GEO_STATS",
+		"TIME_STATS",
+		"SORT",
+		"FIELDS",
+		"ADD_FIELDS",
+		"LINK",
+		"LINK_DETAILS",
+		"CLUSTER",
+		"CLUSTER_DETAILS",
+		"CLUSTER_SPLIT",
+		"EVAL",
+		"EXTRACT",
+		"JSON_EXTRACT",
+		"XML_EXTRACT",
+		"EVENT_STATS",
+		"BUCKET",
+		"CLASSIFY",
+		"TOP",
+		"BOTTOM",
+		"HEAD",
+		"TAIL",
+		"FIELD_SUMMARY",
+		"REGEX",
+		"RENAME",
+		"TIME_COMPARE",
+		"WHERE",
+		"CLUSTER_COMPARE",
+		"DELETE",
+		"DELTA",
+		"DISTINCT",
+		"SEARCH_LOOKUP",
+		"LOOKUP",
+		"DEMO_MODE",
+		"MACRO",
+		"MULTI_SEARCH",
+		"HIGHLIGHT",
+		"HIGHLIGHT_ROWS",
+		"HIGHLIGHT_GROUPS",
+		"CREATE_VIEW",
+		"MAP",
+		"NLP",
+		"COMPARE",
+	}
 }

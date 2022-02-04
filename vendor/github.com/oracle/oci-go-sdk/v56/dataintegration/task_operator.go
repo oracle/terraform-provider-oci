@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TaskOperator An operator for task
@@ -144,6 +146,30 @@ func (m TaskOperator) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TaskOperator) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTaskOperatorRetryDelayUnitEnum[string(m.RetryDelayUnit)]; !ok && m.RetryDelayUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RetryDelayUnit: %s. Supported values are: %s.", m.RetryDelayUnit, strings.Join(GetTaskOperatorRetryDelayUnitEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskOperatorExpectedDurationUnitEnum[string(m.ExpectedDurationUnit)]; !ok && m.ExpectedDurationUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExpectedDurationUnit: %s. Supported values are: %s.", m.ExpectedDurationUnit, strings.Join(GetTaskOperatorExpectedDurationUnitEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskOperatorTaskTypeEnum[string(m.TaskType)]; !ok && m.TaskType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskType: %s. Supported values are: %s.", m.TaskType, strings.Join(GetTaskOperatorTaskTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskOperatorTriggerRuleEnum[string(m.TriggerRule)]; !ok && m.TriggerRule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggerRule: %s. Supported values are: %s.", m.TriggerRule, strings.Join(GetTaskOperatorTriggerRuleEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m TaskOperator) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeTaskOperator TaskOperator
@@ -262,7 +288,7 @@ const (
 	TaskOperatorRetryDelayUnitDays    TaskOperatorRetryDelayUnitEnum = "DAYS"
 )
 
-var mappingTaskOperatorRetryDelayUnit = map[string]TaskOperatorRetryDelayUnitEnum{
+var mappingTaskOperatorRetryDelayUnitEnum = map[string]TaskOperatorRetryDelayUnitEnum{
 	"SECONDS": TaskOperatorRetryDelayUnitSeconds,
 	"MINUTES": TaskOperatorRetryDelayUnitMinutes,
 	"HOURS":   TaskOperatorRetryDelayUnitHours,
@@ -272,10 +298,20 @@ var mappingTaskOperatorRetryDelayUnit = map[string]TaskOperatorRetryDelayUnitEnu
 // GetTaskOperatorRetryDelayUnitEnumValues Enumerates the set of values for TaskOperatorRetryDelayUnitEnum
 func GetTaskOperatorRetryDelayUnitEnumValues() []TaskOperatorRetryDelayUnitEnum {
 	values := make([]TaskOperatorRetryDelayUnitEnum, 0)
-	for _, v := range mappingTaskOperatorRetryDelayUnit {
+	for _, v := range mappingTaskOperatorRetryDelayUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskOperatorRetryDelayUnitEnumStringValues Enumerates the set of values in String for TaskOperatorRetryDelayUnitEnum
+func GetTaskOperatorRetryDelayUnitEnumStringValues() []string {
+	return []string{
+		"SECONDS",
+		"MINUTES",
+		"HOURS",
+		"DAYS",
+	}
 }
 
 // TaskOperatorExpectedDurationUnitEnum Enum with underlying type: string
@@ -289,7 +325,7 @@ const (
 	TaskOperatorExpectedDurationUnitDays    TaskOperatorExpectedDurationUnitEnum = "DAYS"
 )
 
-var mappingTaskOperatorExpectedDurationUnit = map[string]TaskOperatorExpectedDurationUnitEnum{
+var mappingTaskOperatorExpectedDurationUnitEnum = map[string]TaskOperatorExpectedDurationUnitEnum{
 	"SECONDS": TaskOperatorExpectedDurationUnitSeconds,
 	"MINUTES": TaskOperatorExpectedDurationUnitMinutes,
 	"HOURS":   TaskOperatorExpectedDurationUnitHours,
@@ -299,10 +335,20 @@ var mappingTaskOperatorExpectedDurationUnit = map[string]TaskOperatorExpectedDur
 // GetTaskOperatorExpectedDurationUnitEnumValues Enumerates the set of values for TaskOperatorExpectedDurationUnitEnum
 func GetTaskOperatorExpectedDurationUnitEnumValues() []TaskOperatorExpectedDurationUnitEnum {
 	values := make([]TaskOperatorExpectedDurationUnitEnum, 0)
-	for _, v := range mappingTaskOperatorExpectedDurationUnit {
+	for _, v := range mappingTaskOperatorExpectedDurationUnitEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskOperatorExpectedDurationUnitEnumStringValues Enumerates the set of values in String for TaskOperatorExpectedDurationUnitEnum
+func GetTaskOperatorExpectedDurationUnitEnumStringValues() []string {
+	return []string{
+		"SECONDS",
+		"MINUTES",
+		"HOURS",
+		"DAYS",
+	}
 }
 
 // TaskOperatorTaskTypeEnum Enum with underlying type: string
@@ -318,7 +364,7 @@ const (
 	TaskOperatorTaskTypeRestTask        TaskOperatorTaskTypeEnum = "REST_TASK"
 )
 
-var mappingTaskOperatorTaskType = map[string]TaskOperatorTaskTypeEnum{
+var mappingTaskOperatorTaskTypeEnum = map[string]TaskOperatorTaskTypeEnum{
 	"PIPELINE_TASK":     TaskOperatorTaskTypePipelineTask,
 	"INTEGRATION_TASK":  TaskOperatorTaskTypeIntegrationTask,
 	"DATA_LOADER_TASK":  TaskOperatorTaskTypeDataLoaderTask,
@@ -330,10 +376,22 @@ var mappingTaskOperatorTaskType = map[string]TaskOperatorTaskTypeEnum{
 // GetTaskOperatorTaskTypeEnumValues Enumerates the set of values for TaskOperatorTaskTypeEnum
 func GetTaskOperatorTaskTypeEnumValues() []TaskOperatorTaskTypeEnum {
 	values := make([]TaskOperatorTaskTypeEnum, 0)
-	for _, v := range mappingTaskOperatorTaskType {
+	for _, v := range mappingTaskOperatorTaskTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskOperatorTaskTypeEnumStringValues Enumerates the set of values in String for TaskOperatorTaskTypeEnum
+func GetTaskOperatorTaskTypeEnumStringValues() []string {
+	return []string{
+		"PIPELINE_TASK",
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }
 
 // TaskOperatorTriggerRuleEnum Enum with underlying type: string
@@ -346,7 +404,7 @@ const (
 	TaskOperatorTriggerRuleComplete TaskOperatorTriggerRuleEnum = "ALL_COMPLETE"
 )
 
-var mappingTaskOperatorTriggerRule = map[string]TaskOperatorTriggerRuleEnum{
+var mappingTaskOperatorTriggerRuleEnum = map[string]TaskOperatorTriggerRuleEnum{
 	"ALL_SUCCESS":  TaskOperatorTriggerRuleSuccess,
 	"ALL_FAILED":   TaskOperatorTriggerRuleFailed,
 	"ALL_COMPLETE": TaskOperatorTriggerRuleComplete,
@@ -355,8 +413,17 @@ var mappingTaskOperatorTriggerRule = map[string]TaskOperatorTriggerRuleEnum{
 // GetTaskOperatorTriggerRuleEnumValues Enumerates the set of values for TaskOperatorTriggerRuleEnum
 func GetTaskOperatorTriggerRuleEnumValues() []TaskOperatorTriggerRuleEnum {
 	values := make([]TaskOperatorTriggerRuleEnum, 0)
-	for _, v := range mappingTaskOperatorTriggerRule {
+	for _, v := range mappingTaskOperatorTriggerRuleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskOperatorTriggerRuleEnumStringValues Enumerates the set of values in String for TaskOperatorTriggerRuleEnum
+func GetTaskOperatorTriggerRuleEnumStringValues() []string {
+	return []string{
+		"ALL_SUCCESS",
+		"ALL_FAILED",
+		"ALL_COMPLETE",
+	}
 }

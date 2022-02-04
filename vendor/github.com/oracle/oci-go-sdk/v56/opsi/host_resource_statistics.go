@@ -13,7 +13,9 @@ package opsi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HostResourceStatistics Contains host resource base statistics.
@@ -107,6 +109,18 @@ func (m hostresourcestatistics) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m hostresourcestatistics) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HostResourceStatisticsResourceNameEnum Enum with underlying type: string
 type HostResourceStatisticsResourceNameEnum string
 
@@ -116,7 +130,7 @@ const (
 	HostResourceStatisticsResourceNameMemoryStatistics HostResourceStatisticsResourceNameEnum = "HOST_MEMORY_STATISTICS"
 )
 
-var mappingHostResourceStatisticsResourceName = map[string]HostResourceStatisticsResourceNameEnum{
+var mappingHostResourceStatisticsResourceNameEnum = map[string]HostResourceStatisticsResourceNameEnum{
 	"HOST_CPU_STATISTICS":    HostResourceStatisticsResourceNameCpuStatistics,
 	"HOST_MEMORY_STATISTICS": HostResourceStatisticsResourceNameMemoryStatistics,
 }
@@ -124,8 +138,16 @@ var mappingHostResourceStatisticsResourceName = map[string]HostResourceStatistic
 // GetHostResourceStatisticsResourceNameEnumValues Enumerates the set of values for HostResourceStatisticsResourceNameEnum
 func GetHostResourceStatisticsResourceNameEnumValues() []HostResourceStatisticsResourceNameEnum {
 	values := make([]HostResourceStatisticsResourceNameEnum, 0)
-	for _, v := range mappingHostResourceStatisticsResourceName {
+	for _, v := range mappingHostResourceStatisticsResourceNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHostResourceStatisticsResourceNameEnumStringValues Enumerates the set of values in String for HostResourceStatisticsResourceNameEnum
+func GetHostResourceStatisticsResourceNameEnumStringValues() []string {
+	return []string{
+		"HOST_CPU_STATISTICS",
+		"HOST_MEMORY_STATISTICS",
+	}
 }

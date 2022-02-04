@@ -20,7 +20,7 @@ const (
 	WorkRequestResourceMetadataKeyResourceName       WorkRequestResourceMetadataKeyEnum = "RESOURCE_NAME"
 )
 
-var mappingWorkRequestResourceMetadataKey = map[string]WorkRequestResourceMetadataKeyEnum{
+var mappingWorkRequestResourceMetadataKeyEnum = map[string]WorkRequestResourceMetadataKeyEnum{
 	"RELATED_RESOURCE_IDS": WorkRequestResourceMetadataKeyRelatedResourceIds,
 	"RESOURCE_NAME":        WorkRequestResourceMetadataKeyResourceName,
 }
@@ -28,8 +28,16 @@ var mappingWorkRequestResourceMetadataKey = map[string]WorkRequestResourceMetada
 // GetWorkRequestResourceMetadataKeyEnumValues Enumerates the set of values for WorkRequestResourceMetadataKeyEnum
 func GetWorkRequestResourceMetadataKeyEnumValues() []WorkRequestResourceMetadataKeyEnum {
 	values := make([]WorkRequestResourceMetadataKeyEnum, 0)
-	for _, v := range mappingWorkRequestResourceMetadataKey {
+	for _, v := range mappingWorkRequestResourceMetadataKeyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceMetadataKeyEnumStringValues Enumerates the set of values in String for WorkRequestResourceMetadataKeyEnum
+func GetWorkRequestResourceMetadataKeyEnumStringValues() []string {
+	return []string{
+		"RELATED_RESOURCE_IDS",
+		"RESOURCE_NAME",
+	}
 }

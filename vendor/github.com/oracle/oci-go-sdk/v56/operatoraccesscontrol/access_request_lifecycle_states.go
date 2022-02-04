@@ -40,7 +40,7 @@ const (
 	AccessRequestLifecycleStatesInreview          AccessRequestLifecycleStatesEnum = "INREVIEW"
 )
 
-var mappingAccessRequestLifecycleStates = map[string]AccessRequestLifecycleStatesEnum{
+var mappingAccessRequestLifecycleStatesEnum = map[string]AccessRequestLifecycleStatesEnum{
 	"CREATED":           AccessRequestLifecycleStatesCreated,
 	"APPROVALWAITING":   AccessRequestLifecycleStatesApprovalwaiting,
 	"PREAPPROVED":       AccessRequestLifecycleStatesPreapproved,
@@ -68,8 +68,36 @@ var mappingAccessRequestLifecycleStates = map[string]AccessRequestLifecycleState
 // GetAccessRequestLifecycleStatesEnumValues Enumerates the set of values for AccessRequestLifecycleStatesEnum
 func GetAccessRequestLifecycleStatesEnumValues() []AccessRequestLifecycleStatesEnum {
 	values := make([]AccessRequestLifecycleStatesEnum, 0)
-	for _, v := range mappingAccessRequestLifecycleStates {
+	for _, v := range mappingAccessRequestLifecycleStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAccessRequestLifecycleStatesEnumStringValues Enumerates the set of values in String for AccessRequestLifecycleStatesEnum
+func GetAccessRequestLifecycleStatesEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"APPROVALWAITING",
+		"PREAPPROVED",
+		"APPROVED",
+		"REJECTED",
+		"DEPLOYED",
+		"DEPLOYFAILED",
+		"UNDEPLOYED",
+		"UNDEPLOYFAILED",
+		"CLOSEFAILED",
+		"REVOKEFAILED",
+		"EXPIRYFAILED",
+		"REVOKING",
+		"REVOKED",
+		"EXTENDING",
+		"EXTENDED",
+		"EXTENSIONREJECTED",
+		"COMPLETING",
+		"COMPLETED",
+		"EXPIRED",
+		"APPROVEDFORFUTURE",
+		"INREVIEW",
+	}
 }

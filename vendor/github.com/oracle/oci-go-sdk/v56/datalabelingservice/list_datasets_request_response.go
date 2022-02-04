@@ -5,8 +5,10 @@
 package datalabelingservice
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDatasetsRequest wrapper for the ListDatasets operation
@@ -58,6 +60,10 @@ func (request ListDatasetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDatasetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,26 @@ func (request ListDatasetsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDatasetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDatasetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDatasetLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDatasetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatasetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatasetsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatasetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDatasetsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDatasetsResponse wrapper for the ListDatasets operation
@@ -110,7 +136,7 @@ const (
 	ListDatasetsSortOrderDesc ListDatasetsSortOrderEnum = "DESC"
 )
 
-var mappingListDatasetsSortOrder = map[string]ListDatasetsSortOrderEnum{
+var mappingListDatasetsSortOrderEnum = map[string]ListDatasetsSortOrderEnum{
 	"ASC":  ListDatasetsSortOrderAsc,
 	"DESC": ListDatasetsSortOrderDesc,
 }
@@ -118,10 +144,18 @@ var mappingListDatasetsSortOrder = map[string]ListDatasetsSortOrderEnum{
 // GetListDatasetsSortOrderEnumValues Enumerates the set of values for ListDatasetsSortOrderEnum
 func GetListDatasetsSortOrderEnumValues() []ListDatasetsSortOrderEnum {
 	values := make([]ListDatasetsSortOrderEnum, 0)
-	for _, v := range mappingListDatasetsSortOrder {
+	for _, v := range mappingListDatasetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatasetsSortOrderEnumStringValues Enumerates the set of values in String for ListDatasetsSortOrderEnum
+func GetListDatasetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDatasetsSortByEnum Enum with underlying type: string
@@ -133,7 +167,7 @@ const (
 	ListDatasetsSortByDisplayname ListDatasetsSortByEnum = "displayName"
 )
 
-var mappingListDatasetsSortBy = map[string]ListDatasetsSortByEnum{
+var mappingListDatasetsSortByEnum = map[string]ListDatasetsSortByEnum{
 	"timeCreated": ListDatasetsSortByTimecreated,
 	"displayName": ListDatasetsSortByDisplayname,
 }
@@ -141,8 +175,16 @@ var mappingListDatasetsSortBy = map[string]ListDatasetsSortByEnum{
 // GetListDatasetsSortByEnumValues Enumerates the set of values for ListDatasetsSortByEnum
 func GetListDatasetsSortByEnumValues() []ListDatasetsSortByEnum {
 	values := make([]ListDatasetsSortByEnum, 0)
-	for _, v := range mappingListDatasetsSortBy {
+	for _, v := range mappingListDatasetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatasetsSortByEnumStringValues Enumerates the set of values in String for ListDatasetsSortByEnum
+func GetListDatasetsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

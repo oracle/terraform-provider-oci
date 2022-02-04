@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSubnetsRequest wrapper for the ListSubnets operation
@@ -69,6 +71,10 @@ func (request ListSubnetsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSubnetsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,26 @@ func (request ListSubnetsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSubnetsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSubnetsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSubnetsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSubnetsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSubnetsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSubnetsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSubnetLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetSubnetLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSubnetsResponse wrapper for the ListSubnets operation
@@ -121,7 +147,7 @@ const (
 	ListSubnetsSortByDisplayname ListSubnetsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListSubnetsSortBy = map[string]ListSubnetsSortByEnum{
+var mappingListSubnetsSortByEnum = map[string]ListSubnetsSortByEnum{
 	"TIMECREATED": ListSubnetsSortByTimecreated,
 	"DISPLAYNAME": ListSubnetsSortByDisplayname,
 }
@@ -129,10 +155,18 @@ var mappingListSubnetsSortBy = map[string]ListSubnetsSortByEnum{
 // GetListSubnetsSortByEnumValues Enumerates the set of values for ListSubnetsSortByEnum
 func GetListSubnetsSortByEnumValues() []ListSubnetsSortByEnum {
 	values := make([]ListSubnetsSortByEnum, 0)
-	for _, v := range mappingListSubnetsSortBy {
+	for _, v := range mappingListSubnetsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSubnetsSortByEnumStringValues Enumerates the set of values in String for ListSubnetsSortByEnum
+func GetListSubnetsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListSubnetsSortOrderEnum Enum with underlying type: string
@@ -144,7 +178,7 @@ const (
 	ListSubnetsSortOrderDesc ListSubnetsSortOrderEnum = "DESC"
 )
 
-var mappingListSubnetsSortOrder = map[string]ListSubnetsSortOrderEnum{
+var mappingListSubnetsSortOrderEnum = map[string]ListSubnetsSortOrderEnum{
 	"ASC":  ListSubnetsSortOrderAsc,
 	"DESC": ListSubnetsSortOrderDesc,
 }
@@ -152,8 +186,16 @@ var mappingListSubnetsSortOrder = map[string]ListSubnetsSortOrderEnum{
 // GetListSubnetsSortOrderEnumValues Enumerates the set of values for ListSubnetsSortOrderEnum
 func GetListSubnetsSortOrderEnumValues() []ListSubnetsSortOrderEnum {
 	values := make([]ListSubnetsSortOrderEnum, 0)
-	for _, v := range mappingListSubnetsSortOrder {
+	for _, v := range mappingListSubnetsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSubnetsSortOrderEnumStringValues Enumerates the set of values in String for ListSubnetsSortOrderEnum
+func GetListSubnetsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

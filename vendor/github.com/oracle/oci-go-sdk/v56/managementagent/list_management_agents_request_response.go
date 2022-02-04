@@ -5,8 +5,10 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListManagementAgentsRequest wrapper for the ListManagementAgents operation
@@ -73,6 +75,10 @@ func (request ListManagementAgentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListManagementAgentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -86,6 +92,38 @@ func (request ListManagementAgentsRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListManagementAgentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListManagementAgentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListManagementAgentsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListManagementAgentsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentsAvailabilityStatusEnum[string(request.AvailabilityStatus)]; !ok && request.AvailabilityStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityStatus: %s. Supported values are: %s.", request.AvailabilityStatus, strings.Join(GetListManagementAgentsAvailabilityStatusEnumStringValues(), ",")))
+	}
+	for _, val := range request.PlatformType {
+		if _, ok := mappingPlatformTypesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetPlatformTypesEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListManagementAgentsInstallTypeEnum[string(request.InstallType)]; !ok && request.InstallType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstallType: %s. Supported values are: %s.", request.InstallType, strings.Join(GetListManagementAgentsInstallTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagementAgentsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementAgentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagementAgentsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListManagementAgentsResponse wrapper for the ListManagementAgents operation
@@ -131,7 +169,7 @@ const (
 	ListManagementAgentsLifecycleStateFailed     ListManagementAgentsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListManagementAgentsLifecycleState = map[string]ListManagementAgentsLifecycleStateEnum{
+var mappingListManagementAgentsLifecycleStateEnum = map[string]ListManagementAgentsLifecycleStateEnum{
 	"CREATING":   ListManagementAgentsLifecycleStateCreating,
 	"UPDATING":   ListManagementAgentsLifecycleStateUpdating,
 	"ACTIVE":     ListManagementAgentsLifecycleStateActive,
@@ -145,10 +183,24 @@ var mappingListManagementAgentsLifecycleState = map[string]ListManagementAgentsL
 // GetListManagementAgentsLifecycleStateEnumValues Enumerates the set of values for ListManagementAgentsLifecycleStateEnum
 func GetListManagementAgentsLifecycleStateEnumValues() []ListManagementAgentsLifecycleStateEnum {
 	values := make([]ListManagementAgentsLifecycleStateEnum, 0)
-	for _, v := range mappingListManagementAgentsLifecycleState {
+	for _, v := range mappingListManagementAgentsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentsLifecycleStateEnumStringValues Enumerates the set of values in String for ListManagementAgentsLifecycleStateEnum
+func GetListManagementAgentsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"TERMINATED",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListManagementAgentsAvailabilityStatusEnum Enum with underlying type: string
@@ -161,7 +213,7 @@ const (
 	ListManagementAgentsAvailabilityStatusNotAvailable ListManagementAgentsAvailabilityStatusEnum = "NOT_AVAILABLE"
 )
 
-var mappingListManagementAgentsAvailabilityStatus = map[string]ListManagementAgentsAvailabilityStatusEnum{
+var mappingListManagementAgentsAvailabilityStatusEnum = map[string]ListManagementAgentsAvailabilityStatusEnum{
 	"ACTIVE":        ListManagementAgentsAvailabilityStatusActive,
 	"SILENT":        ListManagementAgentsAvailabilityStatusSilent,
 	"NOT_AVAILABLE": ListManagementAgentsAvailabilityStatusNotAvailable,
@@ -170,10 +222,19 @@ var mappingListManagementAgentsAvailabilityStatus = map[string]ListManagementAge
 // GetListManagementAgentsAvailabilityStatusEnumValues Enumerates the set of values for ListManagementAgentsAvailabilityStatusEnum
 func GetListManagementAgentsAvailabilityStatusEnumValues() []ListManagementAgentsAvailabilityStatusEnum {
 	values := make([]ListManagementAgentsAvailabilityStatusEnum, 0)
-	for _, v := range mappingListManagementAgentsAvailabilityStatus {
+	for _, v := range mappingListManagementAgentsAvailabilityStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentsAvailabilityStatusEnumStringValues Enumerates the set of values in String for ListManagementAgentsAvailabilityStatusEnum
+func GetListManagementAgentsAvailabilityStatusEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"SILENT",
+		"NOT_AVAILABLE",
+	}
 }
 
 // ListManagementAgentsInstallTypeEnum Enum with underlying type: string
@@ -185,7 +246,7 @@ const (
 	ListManagementAgentsInstallTypeGateway ListManagementAgentsInstallTypeEnum = "GATEWAY"
 )
 
-var mappingListManagementAgentsInstallType = map[string]ListManagementAgentsInstallTypeEnum{
+var mappingListManagementAgentsInstallTypeEnum = map[string]ListManagementAgentsInstallTypeEnum{
 	"AGENT":   ListManagementAgentsInstallTypeAgent,
 	"GATEWAY": ListManagementAgentsInstallTypeGateway,
 }
@@ -193,10 +254,18 @@ var mappingListManagementAgentsInstallType = map[string]ListManagementAgentsInst
 // GetListManagementAgentsInstallTypeEnumValues Enumerates the set of values for ListManagementAgentsInstallTypeEnum
 func GetListManagementAgentsInstallTypeEnumValues() []ListManagementAgentsInstallTypeEnum {
 	values := make([]ListManagementAgentsInstallTypeEnum, 0)
-	for _, v := range mappingListManagementAgentsInstallType {
+	for _, v := range mappingListManagementAgentsInstallTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentsInstallTypeEnumStringValues Enumerates the set of values in String for ListManagementAgentsInstallTypeEnum
+func GetListManagementAgentsInstallTypeEnumStringValues() []string {
+	return []string{
+		"AGENT",
+		"GATEWAY",
+	}
 }
 
 // ListManagementAgentsSortOrderEnum Enum with underlying type: string
@@ -208,7 +277,7 @@ const (
 	ListManagementAgentsSortOrderDesc ListManagementAgentsSortOrderEnum = "DESC"
 )
 
-var mappingListManagementAgentsSortOrder = map[string]ListManagementAgentsSortOrderEnum{
+var mappingListManagementAgentsSortOrderEnum = map[string]ListManagementAgentsSortOrderEnum{
 	"ASC":  ListManagementAgentsSortOrderAsc,
 	"DESC": ListManagementAgentsSortOrderDesc,
 }
@@ -216,10 +285,18 @@ var mappingListManagementAgentsSortOrder = map[string]ListManagementAgentsSortOr
 // GetListManagementAgentsSortOrderEnumValues Enumerates the set of values for ListManagementAgentsSortOrderEnum
 func GetListManagementAgentsSortOrderEnumValues() []ListManagementAgentsSortOrderEnum {
 	values := make([]ListManagementAgentsSortOrderEnum, 0)
-	for _, v := range mappingListManagementAgentsSortOrder {
+	for _, v := range mappingListManagementAgentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentsSortOrderEnumStringValues Enumerates the set of values in String for ListManagementAgentsSortOrderEnum
+func GetListManagementAgentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListManagementAgentsSortByEnum Enum with underlying type: string
@@ -236,7 +313,7 @@ const (
 	ListManagementAgentsSortByVersion            ListManagementAgentsSortByEnum = "version"
 )
 
-var mappingListManagementAgentsSortBy = map[string]ListManagementAgentsSortByEnum{
+var mappingListManagementAgentsSortByEnum = map[string]ListManagementAgentsSortByEnum{
 	"timeCreated":        ListManagementAgentsSortByTimecreated,
 	"displayName":        ListManagementAgentsSortByDisplayname,
 	"host":               ListManagementAgentsSortByHost,
@@ -249,8 +326,21 @@ var mappingListManagementAgentsSortBy = map[string]ListManagementAgentsSortByEnu
 // GetListManagementAgentsSortByEnumValues Enumerates the set of values for ListManagementAgentsSortByEnum
 func GetListManagementAgentsSortByEnumValues() []ListManagementAgentsSortByEnum {
 	values := make([]ListManagementAgentsSortByEnum, 0)
-	for _, v := range mappingListManagementAgentsSortBy {
+	for _, v := range mappingListManagementAgentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementAgentsSortByEnumStringValues Enumerates the set of values in String for ListManagementAgentsSortByEnum
+func GetListManagementAgentsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+		"host",
+		"availabilityStatus",
+		"platformType",
+		"pluginDisplayNames",
+		"version",
+	}
 }

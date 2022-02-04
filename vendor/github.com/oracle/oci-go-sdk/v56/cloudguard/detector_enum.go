@@ -18,7 +18,7 @@ const (
 	DetectorEnumIaasConfigurationDetector DetectorEnumEnum = "IAAS_CONFIGURATION_DETECTOR"
 )
 
-var mappingDetectorEnum = map[string]DetectorEnumEnum{
+var mappingDetectorEnumEnum = map[string]DetectorEnumEnum{
 	"IAAS_ACTIVITY_DETECTOR":      DetectorEnumIaasActivityDetector,
 	"IAAS_CONFIGURATION_DETECTOR": DetectorEnumIaasConfigurationDetector,
 }
@@ -26,8 +26,16 @@ var mappingDetectorEnum = map[string]DetectorEnumEnum{
 // GetDetectorEnumEnumValues Enumerates the set of values for DetectorEnumEnum
 func GetDetectorEnumEnumValues() []DetectorEnumEnum {
 	values := make([]DetectorEnumEnum, 0)
-	for _, v := range mappingDetectorEnum {
+	for _, v := range mappingDetectorEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDetectorEnumEnumStringValues Enumerates the set of values in String for DetectorEnumEnum
+func GetDetectorEnumEnumStringValues() []string {
+	return []string{
+		"IAAS_ACTIVITY_DETECTOR",
+		"IAAS_CONFIGURATION_DETECTOR",
+	}
 }

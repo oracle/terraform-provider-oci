@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ComputeInstanceGroupFailurePolicy Specifies a failure policy for a compute instance group rolling deployment stage.
@@ -65,6 +67,18 @@ func (m computeinstancegroupfailurepolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m computeinstancegroupfailurepolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ComputeInstanceGroupFailurePolicyPolicyTypeEnum Enum with underlying type: string
 type ComputeInstanceGroupFailurePolicyPolicyTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	ComputeInstanceGroupFailurePolicyPolicyTypePercentage ComputeInstanceGroupFailurePolicyPolicyTypeEnum = "COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_PERCENTAGE"
 )
 
-var mappingComputeInstanceGroupFailurePolicyPolicyType = map[string]ComputeInstanceGroupFailurePolicyPolicyTypeEnum{
+var mappingComputeInstanceGroupFailurePolicyPolicyTypeEnum = map[string]ComputeInstanceGroupFailurePolicyPolicyTypeEnum{
 	"COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT":      ComputeInstanceGroupFailurePolicyPolicyTypeCount,
 	"COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_PERCENTAGE": ComputeInstanceGroupFailurePolicyPolicyTypePercentage,
 }
@@ -82,8 +96,16 @@ var mappingComputeInstanceGroupFailurePolicyPolicyType = map[string]ComputeInsta
 // GetComputeInstanceGroupFailurePolicyPolicyTypeEnumValues Enumerates the set of values for ComputeInstanceGroupFailurePolicyPolicyTypeEnum
 func GetComputeInstanceGroupFailurePolicyPolicyTypeEnumValues() []ComputeInstanceGroupFailurePolicyPolicyTypeEnum {
 	values := make([]ComputeInstanceGroupFailurePolicyPolicyTypeEnum, 0)
-	for _, v := range mappingComputeInstanceGroupFailurePolicyPolicyType {
+	for _, v := range mappingComputeInstanceGroupFailurePolicyPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetComputeInstanceGroupFailurePolicyPolicyTypeEnumStringValues Enumerates the set of values in String for ComputeInstanceGroupFailurePolicyPolicyTypeEnum
+func GetComputeInstanceGroupFailurePolicyPolicyTypeEnumStringValues() []string {
+	return []string{
+		"COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT",
+		"COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_PERCENTAGE",
+	}
 }

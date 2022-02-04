@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LogAnalyticsAssociation LogAnalyticsAssociation
@@ -74,6 +76,21 @@ func (m LogAnalyticsAssociation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsAssociation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsAssociationLifeCycleStateEnum[string(m.LifeCycleState)]; !ok && m.LifeCycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifeCycleState: %s. Supported values are: %s.", m.LifeCycleState, strings.Join(GetLogAnalyticsAssociationLifeCycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsAssociationLifeCycleStateEnum Enum with underlying type: string
 type LogAnalyticsAssociationLifeCycleStateEnum string
 
@@ -85,7 +102,7 @@ const (
 	LogAnalyticsAssociationLifeCycleStateFailed     LogAnalyticsAssociationLifeCycleStateEnum = "FAILED"
 )
 
-var mappingLogAnalyticsAssociationLifeCycleState = map[string]LogAnalyticsAssociationLifeCycleStateEnum{
+var mappingLogAnalyticsAssociationLifeCycleStateEnum = map[string]LogAnalyticsAssociationLifeCycleStateEnum{
 	"ACCEPTED":    LogAnalyticsAssociationLifeCycleStateAccepted,
 	"IN_PROGRESS": LogAnalyticsAssociationLifeCycleStateInProgress,
 	"SUCCEEDED":   LogAnalyticsAssociationLifeCycleStateSucceeded,
@@ -95,8 +112,18 @@ var mappingLogAnalyticsAssociationLifeCycleState = map[string]LogAnalyticsAssoci
 // GetLogAnalyticsAssociationLifeCycleStateEnumValues Enumerates the set of values for LogAnalyticsAssociationLifeCycleStateEnum
 func GetLogAnalyticsAssociationLifeCycleStateEnumValues() []LogAnalyticsAssociationLifeCycleStateEnum {
 	values := make([]LogAnalyticsAssociationLifeCycleStateEnum, 0)
-	for _, v := range mappingLogAnalyticsAssociationLifeCycleState {
+	for _, v := range mappingLogAnalyticsAssociationLifeCycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsAssociationLifeCycleStateEnumStringValues Enumerates the set of values in String for LogAnalyticsAssociationLifeCycleStateEnum
+func GetLogAnalyticsAssociationLifeCycleStateEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

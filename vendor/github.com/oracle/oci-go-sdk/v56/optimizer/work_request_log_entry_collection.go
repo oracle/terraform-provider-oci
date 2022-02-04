@@ -12,7 +12,9 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WorkRequestLogEntryCollection A list of work request logs that match filter criteria, if any. Results contain `WorkRequestLogEntry` objects.
@@ -24,4 +26,16 @@ type WorkRequestLogEntryCollection struct {
 
 func (m WorkRequestLogEntryCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestLogEntryCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

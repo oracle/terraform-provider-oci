@@ -5,8 +5,10 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListUsersRequest wrapper for the ListUsers operation
@@ -98,6 +100,10 @@ func (request ListUsersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListUsersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -111,6 +117,26 @@ func (request ListUsersRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListUsersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListUsersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListUsersAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListUsersAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUsersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListUsersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUsersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListUsersSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListUsersResponse wrapper for the ListUsers operation
@@ -152,7 +178,7 @@ const (
 	ListUsersAccessLevelAccessible ListUsersAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListUsersAccessLevel = map[string]ListUsersAccessLevelEnum{
+var mappingListUsersAccessLevelEnum = map[string]ListUsersAccessLevelEnum{
 	"RESTRICTED": ListUsersAccessLevelRestricted,
 	"ACCESSIBLE": ListUsersAccessLevelAccessible,
 }
@@ -160,10 +186,18 @@ var mappingListUsersAccessLevel = map[string]ListUsersAccessLevelEnum{
 // GetListUsersAccessLevelEnumValues Enumerates the set of values for ListUsersAccessLevelEnum
 func GetListUsersAccessLevelEnumValues() []ListUsersAccessLevelEnum {
 	values := make([]ListUsersAccessLevelEnum, 0)
-	for _, v := range mappingListUsersAccessLevel {
+	for _, v := range mappingListUsersAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUsersAccessLevelEnumStringValues Enumerates the set of values in String for ListUsersAccessLevelEnum
+func GetListUsersAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }
 
 // ListUsersSortOrderEnum Enum with underlying type: string
@@ -175,7 +209,7 @@ const (
 	ListUsersSortOrderDesc ListUsersSortOrderEnum = "DESC"
 )
 
-var mappingListUsersSortOrder = map[string]ListUsersSortOrderEnum{
+var mappingListUsersSortOrderEnum = map[string]ListUsersSortOrderEnum{
 	"ASC":  ListUsersSortOrderAsc,
 	"DESC": ListUsersSortOrderDesc,
 }
@@ -183,10 +217,18 @@ var mappingListUsersSortOrder = map[string]ListUsersSortOrderEnum{
 // GetListUsersSortOrderEnumValues Enumerates the set of values for ListUsersSortOrderEnum
 func GetListUsersSortOrderEnumValues() []ListUsersSortOrderEnum {
 	values := make([]ListUsersSortOrderEnum, 0)
-	for _, v := range mappingListUsersSortOrder {
+	for _, v := range mappingListUsersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUsersSortOrderEnumStringValues Enumerates the set of values in String for ListUsersSortOrderEnum
+func GetListUsersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListUsersSortByEnum Enum with underlying type: string
@@ -204,7 +246,7 @@ const (
 	ListUsersSortByTimepasswordchanged ListUsersSortByEnum = "timePasswordChanged"
 )
 
-var mappingListUsersSortBy = map[string]ListUsersSortByEnum{
+var mappingListUsersSortByEnum = map[string]ListUsersSortByEnum{
 	"userName":            ListUsersSortByUsername,
 	"userCategory":        ListUsersSortByUsercategory,
 	"accountStatus":       ListUsersSortByAccountstatus,
@@ -218,8 +260,22 @@ var mappingListUsersSortBy = map[string]ListUsersSortByEnum{
 // GetListUsersSortByEnumValues Enumerates the set of values for ListUsersSortByEnum
 func GetListUsersSortByEnumValues() []ListUsersSortByEnum {
 	values := make([]ListUsersSortByEnum, 0)
-	for _, v := range mappingListUsersSortBy {
+	for _, v := range mappingListUsersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUsersSortByEnumStringValues Enumerates the set of values in String for ListUsersSortByEnum
+func GetListUsersSortByEnumStringValues() []string {
+	return []string{
+		"userName",
+		"userCategory",
+		"accountStatus",
+		"timeLastLogin",
+		"targetId",
+		"timeUserCreated",
+		"authenticationType",
+		"timePasswordChanged",
+	}
 }

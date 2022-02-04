@@ -18,7 +18,7 @@ const (
 	ConditionFilterTypeConfig    ConditionFilterTypeEnum = "CONFIG"
 )
 
-var mappingConditionFilterType = map[string]ConditionFilterTypeEnum{
+var mappingConditionFilterTypeEnum = map[string]ConditionFilterTypeEnum{
 	"CONDITION": ConditionFilterTypeCondition,
 	"CONFIG":    ConditionFilterTypeConfig,
 }
@@ -26,8 +26,16 @@ var mappingConditionFilterType = map[string]ConditionFilterTypeEnum{
 // GetConditionFilterTypeEnumValues Enumerates the set of values for ConditionFilterTypeEnum
 func GetConditionFilterTypeEnumValues() []ConditionFilterTypeEnum {
 	values := make([]ConditionFilterTypeEnum, 0)
-	for _, v := range mappingConditionFilterType {
+	for _, v := range mappingConditionFilterTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConditionFilterTypeEnumStringValues Enumerates the set of values in String for ConditionFilterTypeEnum
+func GetConditionFilterTypeEnumStringValues() []string {
+	return []string{
+		"CONDITION",
+		"CONFIG",
+	}
 }

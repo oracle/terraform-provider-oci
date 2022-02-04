@@ -5,8 +5,10 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListLogIncludedSearchesRequest wrapper for the ListLogIncludedSearches operation
@@ -56,6 +58,10 @@ func (request ListLogIncludedSearchesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLogIncludedSearchesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,23 @@ func (request ListLogIncludedSearchesRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLogIncludedSearchesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLogIncludedSearchesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLogIncludedSearchesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLogIncludedSearchesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogIncludedSearchesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLogIncludedSearchesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLogIncludedSearchesResponse wrapper for the ListLogIncludedSearches operation
@@ -113,7 +136,7 @@ const (
 	ListLogIncludedSearchesSortByDisplayname ListLogIncludedSearchesSortByEnum = "displayName"
 )
 
-var mappingListLogIncludedSearchesSortBy = map[string]ListLogIncludedSearchesSortByEnum{
+var mappingListLogIncludedSearchesSortByEnum = map[string]ListLogIncludedSearchesSortByEnum{
 	"timeCreated": ListLogIncludedSearchesSortByTimecreated,
 	"displayName": ListLogIncludedSearchesSortByDisplayname,
 }
@@ -121,10 +144,18 @@ var mappingListLogIncludedSearchesSortBy = map[string]ListLogIncludedSearchesSor
 // GetListLogIncludedSearchesSortByEnumValues Enumerates the set of values for ListLogIncludedSearchesSortByEnum
 func GetListLogIncludedSearchesSortByEnumValues() []ListLogIncludedSearchesSortByEnum {
 	values := make([]ListLogIncludedSearchesSortByEnum, 0)
-	for _, v := range mappingListLogIncludedSearchesSortBy {
+	for _, v := range mappingListLogIncludedSearchesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogIncludedSearchesSortByEnumStringValues Enumerates the set of values in String for ListLogIncludedSearchesSortByEnum
+func GetListLogIncludedSearchesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListLogIncludedSearchesSortOrderEnum Enum with underlying type: string
@@ -136,7 +167,7 @@ const (
 	ListLogIncludedSearchesSortOrderDesc ListLogIncludedSearchesSortOrderEnum = "DESC"
 )
 
-var mappingListLogIncludedSearchesSortOrder = map[string]ListLogIncludedSearchesSortOrderEnum{
+var mappingListLogIncludedSearchesSortOrderEnum = map[string]ListLogIncludedSearchesSortOrderEnum{
 	"ASC":  ListLogIncludedSearchesSortOrderAsc,
 	"DESC": ListLogIncludedSearchesSortOrderDesc,
 }
@@ -144,8 +175,16 @@ var mappingListLogIncludedSearchesSortOrder = map[string]ListLogIncludedSearches
 // GetListLogIncludedSearchesSortOrderEnumValues Enumerates the set of values for ListLogIncludedSearchesSortOrderEnum
 func GetListLogIncludedSearchesSortOrderEnumValues() []ListLogIncludedSearchesSortOrderEnum {
 	values := make([]ListLogIncludedSearchesSortOrderEnum, 0)
-	for _, v := range mappingListLogIncludedSearchesSortOrder {
+	for _, v := range mappingListLogIncludedSearchesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogIncludedSearchesSortOrderEnumStringValues Enumerates the set of values in String for ListLogIncludedSearchesSortOrderEnum
+func GetListLogIncludedSearchesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

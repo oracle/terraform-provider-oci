@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DynamicGroup A dynamic group defines a matching rule. Every bare metal or virtual machine instance is deployed with an instance certificate.
@@ -68,6 +70,21 @@ func (m DynamicGroup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DynamicGroup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDynamicGroupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDynamicGroupLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DynamicGroupLifecycleStateEnum Enum with underlying type: string
 type DynamicGroupLifecycleStateEnum string
 
@@ -80,7 +97,7 @@ const (
 	DynamicGroupLifecycleStateDeleted  DynamicGroupLifecycleStateEnum = "DELETED"
 )
 
-var mappingDynamicGroupLifecycleState = map[string]DynamicGroupLifecycleStateEnum{
+var mappingDynamicGroupLifecycleStateEnum = map[string]DynamicGroupLifecycleStateEnum{
 	"CREATING": DynamicGroupLifecycleStateCreating,
 	"ACTIVE":   DynamicGroupLifecycleStateActive,
 	"INACTIVE": DynamicGroupLifecycleStateInactive,
@@ -91,8 +108,19 @@ var mappingDynamicGroupLifecycleState = map[string]DynamicGroupLifecycleStateEnu
 // GetDynamicGroupLifecycleStateEnumValues Enumerates the set of values for DynamicGroupLifecycleStateEnum
 func GetDynamicGroupLifecycleStateEnumValues() []DynamicGroupLifecycleStateEnum {
 	values := make([]DynamicGroupLifecycleStateEnum, 0)
-	for _, v := range mappingDynamicGroupLifecycleState {
+	for _, v := range mappingDynamicGroupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDynamicGroupLifecycleStateEnumStringValues Enumerates the set of values in String for DynamicGroupLifecycleStateEnum
+func GetDynamicGroupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

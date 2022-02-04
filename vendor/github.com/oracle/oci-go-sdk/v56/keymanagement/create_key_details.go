@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateKeyDetails The representation of CreateKeyDetails
@@ -48,6 +50,21 @@ func (m CreateKeyDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateKeyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateKeyDetailsProtectionModeEnum[string(m.ProtectionMode)]; !ok && m.ProtectionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetCreateKeyDetailsProtectionModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateKeyDetailsProtectionModeEnum Enum with underlying type: string
 type CreateKeyDetailsProtectionModeEnum string
 
@@ -57,7 +74,7 @@ const (
 	CreateKeyDetailsProtectionModeSoftware CreateKeyDetailsProtectionModeEnum = "SOFTWARE"
 )
 
-var mappingCreateKeyDetailsProtectionMode = map[string]CreateKeyDetailsProtectionModeEnum{
+var mappingCreateKeyDetailsProtectionModeEnum = map[string]CreateKeyDetailsProtectionModeEnum{
 	"HSM":      CreateKeyDetailsProtectionModeHsm,
 	"SOFTWARE": CreateKeyDetailsProtectionModeSoftware,
 }
@@ -65,8 +82,16 @@ var mappingCreateKeyDetailsProtectionMode = map[string]CreateKeyDetailsProtectio
 // GetCreateKeyDetailsProtectionModeEnumValues Enumerates the set of values for CreateKeyDetailsProtectionModeEnum
 func GetCreateKeyDetailsProtectionModeEnumValues() []CreateKeyDetailsProtectionModeEnum {
 	values := make([]CreateKeyDetailsProtectionModeEnum, 0)
-	for _, v := range mappingCreateKeyDetailsProtectionMode {
+	for _, v := range mappingCreateKeyDetailsProtectionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateKeyDetailsProtectionModeEnumStringValues Enumerates the set of values in String for CreateKeyDetailsProtectionModeEnum
+func GetCreateKeyDetailsProtectionModeEnumStringValues() []string {
+	return []string{
+		"HSM",
+		"SOFTWARE",
+	}
 }

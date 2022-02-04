@@ -11,7 +11,9 @@
 package computeinstanceagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InstanceAgentPluginSummary The agent plugin information
@@ -31,6 +33,21 @@ func (m InstanceAgentPluginSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceAgentPluginSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstanceAgentPluginSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetInstanceAgentPluginSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceAgentPluginSummaryStatusEnum Enum with underlying type: string
 type InstanceAgentPluginSummaryStatusEnum string
 
@@ -42,7 +59,7 @@ const (
 	InstanceAgentPluginSummaryStatusInvalid      InstanceAgentPluginSummaryStatusEnum = "INVALID"
 )
 
-var mappingInstanceAgentPluginSummaryStatus = map[string]InstanceAgentPluginSummaryStatusEnum{
+var mappingInstanceAgentPluginSummaryStatusEnum = map[string]InstanceAgentPluginSummaryStatusEnum{
 	"RUNNING":       InstanceAgentPluginSummaryStatusRunning,
 	"STOPPED":       InstanceAgentPluginSummaryStatusStopped,
 	"NOT_SUPPORTED": InstanceAgentPluginSummaryStatusNotSupported,
@@ -52,8 +69,18 @@ var mappingInstanceAgentPluginSummaryStatus = map[string]InstanceAgentPluginSumm
 // GetInstanceAgentPluginSummaryStatusEnumValues Enumerates the set of values for InstanceAgentPluginSummaryStatusEnum
 func GetInstanceAgentPluginSummaryStatusEnumValues() []InstanceAgentPluginSummaryStatusEnum {
 	values := make([]InstanceAgentPluginSummaryStatusEnum, 0)
-	for _, v := range mappingInstanceAgentPluginSummaryStatus {
+	for _, v := range mappingInstanceAgentPluginSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceAgentPluginSummaryStatusEnumStringValues Enumerates the set of values in String for InstanceAgentPluginSummaryStatusEnum
+func GetInstanceAgentPluginSummaryStatusEnumStringValues() []string {
+	return []string{
+		"RUNNING",
+		"STOPPED",
+		"NOT_SUPPORTED",
+		"INVALID",
+	}
 }

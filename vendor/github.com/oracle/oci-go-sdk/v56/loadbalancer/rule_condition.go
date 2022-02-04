@@ -12,7 +12,9 @@ package loadbalancer
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // RuleCondition A condition to apply to an access control rule.
@@ -74,6 +76,18 @@ func (m rulecondition) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m rulecondition) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RuleConditionAttributeNameEnum Enum with underlying type: string
 type RuleConditionAttributeNameEnum string
 
@@ -85,7 +99,7 @@ const (
 	RuleConditionAttributeNamePath               RuleConditionAttributeNameEnum = "PATH"
 )
 
-var mappingRuleConditionAttributeName = map[string]RuleConditionAttributeNameEnum{
+var mappingRuleConditionAttributeNameEnum = map[string]RuleConditionAttributeNameEnum{
 	"SOURCE_IP_ADDRESS":     RuleConditionAttributeNameSourceIpAddress,
 	"SOURCE_VCN_ID":         RuleConditionAttributeNameSourceVcnId,
 	"SOURCE_VCN_IP_ADDRESS": RuleConditionAttributeNameSourceVcnIpAddress,
@@ -95,8 +109,18 @@ var mappingRuleConditionAttributeName = map[string]RuleConditionAttributeNameEnu
 // GetRuleConditionAttributeNameEnumValues Enumerates the set of values for RuleConditionAttributeNameEnum
 func GetRuleConditionAttributeNameEnumValues() []RuleConditionAttributeNameEnum {
 	values := make([]RuleConditionAttributeNameEnum, 0)
-	for _, v := range mappingRuleConditionAttributeName {
+	for _, v := range mappingRuleConditionAttributeNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRuleConditionAttributeNameEnumStringValues Enumerates the set of values in String for RuleConditionAttributeNameEnum
+func GetRuleConditionAttributeNameEnumStringValues() []string {
+	return []string{
+		"SOURCE_IP_ADDRESS",
+		"SOURCE_VCN_ID",
+		"SOURCE_VCN_IP_ADDRESS",
+		"PATH",
+	}
 }

@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListFlexComponentsRequest wrapper for the ListFlexComponents operation
@@ -50,6 +52,10 @@ func (request ListFlexComponentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListFlexComponentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +69,23 @@ func (request ListFlexComponentsRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListFlexComponentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListFlexComponentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListFlexComponentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFlexComponentsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFlexComponentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListFlexComponentsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListFlexComponentsResponse wrapper for the ListFlexComponents operation
@@ -103,7 +126,7 @@ const (
 	ListFlexComponentsSortOrderDesc ListFlexComponentsSortOrderEnum = "DESC"
 )
 
-var mappingListFlexComponentsSortOrder = map[string]ListFlexComponentsSortOrderEnum{
+var mappingListFlexComponentsSortOrderEnum = map[string]ListFlexComponentsSortOrderEnum{
 	"ASC":  ListFlexComponentsSortOrderAsc,
 	"DESC": ListFlexComponentsSortOrderDesc,
 }
@@ -111,10 +134,18 @@ var mappingListFlexComponentsSortOrder = map[string]ListFlexComponentsSortOrderE
 // GetListFlexComponentsSortOrderEnumValues Enumerates the set of values for ListFlexComponentsSortOrderEnum
 func GetListFlexComponentsSortOrderEnumValues() []ListFlexComponentsSortOrderEnum {
 	values := make([]ListFlexComponentsSortOrderEnum, 0)
-	for _, v := range mappingListFlexComponentsSortOrder {
+	for _, v := range mappingListFlexComponentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFlexComponentsSortOrderEnumStringValues Enumerates the set of values in String for ListFlexComponentsSortOrderEnum
+func GetListFlexComponentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListFlexComponentsSortByEnum Enum with underlying type: string
@@ -125,15 +156,22 @@ const (
 	ListFlexComponentsSortByName ListFlexComponentsSortByEnum = "NAME"
 )
 
-var mappingListFlexComponentsSortBy = map[string]ListFlexComponentsSortByEnum{
+var mappingListFlexComponentsSortByEnum = map[string]ListFlexComponentsSortByEnum{
 	"NAME": ListFlexComponentsSortByName,
 }
 
 // GetListFlexComponentsSortByEnumValues Enumerates the set of values for ListFlexComponentsSortByEnum
 func GetListFlexComponentsSortByEnumValues() []ListFlexComponentsSortByEnum {
 	values := make([]ListFlexComponentsSortByEnum, 0)
-	for _, v := range mappingListFlexComponentsSortBy {
+	for _, v := range mappingListFlexComponentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFlexComponentsSortByEnumStringValues Enumerates the set of values in String for ListFlexComponentsSortByEnum
+func GetListFlexComponentsSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+	}
 }

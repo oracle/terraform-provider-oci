@@ -10,7 +10,9 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BdsApiKey The API key information.
@@ -50,6 +52,21 @@ func (m BdsApiKey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BdsApiKey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBdsApiKeyLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBdsApiKeyLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BdsApiKeyLifecycleStateEnum Enum with underlying type: string
 type BdsApiKeyLifecycleStateEnum string
 
@@ -62,7 +79,7 @@ const (
 	BdsApiKeyLifecycleStateFailed   BdsApiKeyLifecycleStateEnum = "FAILED"
 )
 
-var mappingBdsApiKeyLifecycleState = map[string]BdsApiKeyLifecycleStateEnum{
+var mappingBdsApiKeyLifecycleStateEnum = map[string]BdsApiKeyLifecycleStateEnum{
 	"CREATING": BdsApiKeyLifecycleStateCreating,
 	"ACTIVE":   BdsApiKeyLifecycleStateActive,
 	"DELETING": BdsApiKeyLifecycleStateDeleting,
@@ -73,8 +90,19 @@ var mappingBdsApiKeyLifecycleState = map[string]BdsApiKeyLifecycleStateEnum{
 // GetBdsApiKeyLifecycleStateEnumValues Enumerates the set of values for BdsApiKeyLifecycleStateEnum
 func GetBdsApiKeyLifecycleStateEnumValues() []BdsApiKeyLifecycleStateEnum {
 	values := make([]BdsApiKeyLifecycleStateEnum, 0)
-	for _, v := range mappingBdsApiKeyLifecycleState {
+	for _, v := range mappingBdsApiKeyLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBdsApiKeyLifecycleStateEnumStringValues Enumerates the set of values in String for BdsApiKeyLifecycleStateEnum
+func GetBdsApiKeyLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

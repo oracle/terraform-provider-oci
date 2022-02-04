@@ -12,18 +12,32 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// SqlTuningTaskReturn The returned object for starting/cloning a SQL tuning advisor task.
+// SqlTuningTaskReturn The returned object for starting or cloning a SQL tuning advisor task.
 type SqlTuningTaskReturn struct {
 
-	// The identifier of the task being cloned. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The identifier of the task being started or cloned. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	// It can be retrieved from the following endpoint
-	// ListSqlTuningAdvisorTasks
+	// ListSqlTuningAdvisorTasks.
 	SqlTuningTaskId *int64 `mandatory:"true" json:"sqlTuningTaskId"`
 }
 
 func (m SqlTuningTaskReturn) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningTaskReturn) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DrgAttachment A DRG attachment serves as a link between a DRG and a network resource. A DRG can be attached to a VCN,
@@ -82,6 +84,21 @@ type DrgAttachment struct {
 
 func (m DrgAttachment) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DrgAttachment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDrgAttachmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrgAttachmentLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -158,7 +175,7 @@ const (
 	DrgAttachmentLifecycleStateDetached  DrgAttachmentLifecycleStateEnum = "DETACHED"
 )
 
-var mappingDrgAttachmentLifecycleState = map[string]DrgAttachmentLifecycleStateEnum{
+var mappingDrgAttachmentLifecycleStateEnum = map[string]DrgAttachmentLifecycleStateEnum{
 	"ATTACHING": DrgAttachmentLifecycleStateAttaching,
 	"ATTACHED":  DrgAttachmentLifecycleStateAttached,
 	"DETACHING": DrgAttachmentLifecycleStateDetaching,
@@ -168,8 +185,18 @@ var mappingDrgAttachmentLifecycleState = map[string]DrgAttachmentLifecycleStateE
 // GetDrgAttachmentLifecycleStateEnumValues Enumerates the set of values for DrgAttachmentLifecycleStateEnum
 func GetDrgAttachmentLifecycleStateEnumValues() []DrgAttachmentLifecycleStateEnum {
 	values := make([]DrgAttachmentLifecycleStateEnum, 0)
-	for _, v := range mappingDrgAttachmentLifecycleState {
+	for _, v := range mappingDrgAttachmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgAttachmentLifecycleStateEnumStringValues Enumerates the set of values in String for DrgAttachmentLifecycleStateEnum
+func GetDrgAttachmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ATTACHING",
+		"ATTACHED",
+		"DETACHING",
+		"DETACHED",
+	}
 }

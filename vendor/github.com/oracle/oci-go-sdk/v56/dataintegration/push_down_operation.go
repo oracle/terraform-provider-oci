@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PushDownOperation The information about a push down operation.
@@ -77,6 +79,18 @@ func (m pushdownoperation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m pushdownoperation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PushDownOperationModelTypeEnum Enum with underlying type: string
 type PushDownOperationModelTypeEnum string
 
@@ -89,7 +103,7 @@ const (
 	PushDownOperationModelTypeQuery  PushDownOperationModelTypeEnum = "QUERY"
 )
 
-var mappingPushDownOperationModelType = map[string]PushDownOperationModelTypeEnum{
+var mappingPushDownOperationModelTypeEnum = map[string]PushDownOperationModelTypeEnum{
 	"FILTER": PushDownOperationModelTypeFilter,
 	"JOIN":   PushDownOperationModelTypeJoin,
 	"SELECT": PushDownOperationModelTypeSelect,
@@ -100,8 +114,19 @@ var mappingPushDownOperationModelType = map[string]PushDownOperationModelTypeEnu
 // GetPushDownOperationModelTypeEnumValues Enumerates the set of values for PushDownOperationModelTypeEnum
 func GetPushDownOperationModelTypeEnumValues() []PushDownOperationModelTypeEnum {
 	values := make([]PushDownOperationModelTypeEnum, 0)
-	for _, v := range mappingPushDownOperationModelType {
+	for _, v := range mappingPushDownOperationModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPushDownOperationModelTypeEnumStringValues Enumerates the set of values in String for PushDownOperationModelTypeEnum
+func GetPushDownOperationModelTypeEnumStringValues() []string {
+	return []string{
+		"FILTER",
+		"JOIN",
+		"SELECT",
+		"SORT",
+		"QUERY",
+	}
 }

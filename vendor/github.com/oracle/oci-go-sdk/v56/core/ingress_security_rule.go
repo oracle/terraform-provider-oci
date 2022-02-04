@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // IngressSecurityRule A rule for allowing inbound IP packets.
@@ -65,6 +67,21 @@ func (m IngressSecurityRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IngressSecurityRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingIngressSecurityRuleSourceTypeEnum[string(m.SourceType)]; !ok && m.SourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", m.SourceType, strings.Join(GetIngressSecurityRuleSourceTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // IngressSecurityRuleSourceTypeEnum Enum with underlying type: string
 type IngressSecurityRuleSourceTypeEnum string
 
@@ -74,7 +91,7 @@ const (
 	IngressSecurityRuleSourceTypeServiceCidrBlock IngressSecurityRuleSourceTypeEnum = "SERVICE_CIDR_BLOCK"
 )
 
-var mappingIngressSecurityRuleSourceType = map[string]IngressSecurityRuleSourceTypeEnum{
+var mappingIngressSecurityRuleSourceTypeEnum = map[string]IngressSecurityRuleSourceTypeEnum{
 	"CIDR_BLOCK":         IngressSecurityRuleSourceTypeCidrBlock,
 	"SERVICE_CIDR_BLOCK": IngressSecurityRuleSourceTypeServiceCidrBlock,
 }
@@ -82,8 +99,16 @@ var mappingIngressSecurityRuleSourceType = map[string]IngressSecurityRuleSourceT
 // GetIngressSecurityRuleSourceTypeEnumValues Enumerates the set of values for IngressSecurityRuleSourceTypeEnum
 func GetIngressSecurityRuleSourceTypeEnumValues() []IngressSecurityRuleSourceTypeEnum {
 	values := make([]IngressSecurityRuleSourceTypeEnum, 0)
-	for _, v := range mappingIngressSecurityRuleSourceType {
+	for _, v := range mappingIngressSecurityRuleSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIngressSecurityRuleSourceTypeEnumStringValues Enumerates the set of values in String for IngressSecurityRuleSourceTypeEnum
+func GetIngressSecurityRuleSourceTypeEnumStringValues() []string {
+	return []string{
+		"CIDR_BLOCK",
+		"SERVICE_CIDR_BLOCK",
+	}
 }

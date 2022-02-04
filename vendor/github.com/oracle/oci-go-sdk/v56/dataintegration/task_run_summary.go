@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TaskRunSummary The information about a task run.
@@ -79,6 +81,27 @@ func (m TaskRunSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TaskRunSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTaskRunSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetTaskRunSummaryStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskRunSummaryTaskTypeEnum[string(m.TaskType)]; !ok && m.TaskType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskType: %s. Supported values are: %s.", m.TaskType, strings.Join(GetTaskRunSummaryTaskTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTaskRunSummaryReRunTypeEnum[string(m.ReRunType)]; !ok && m.ReRunType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReRunType: %s. Supported values are: %s.", m.ReRunType, strings.Join(GetTaskRunSummaryReRunTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TaskRunSummaryStatusEnum Enum with underlying type: string
 type TaskRunSummaryStatusEnum string
 
@@ -93,7 +116,7 @@ const (
 	TaskRunSummaryStatusError       TaskRunSummaryStatusEnum = "ERROR"
 )
 
-var mappingTaskRunSummaryStatus = map[string]TaskRunSummaryStatusEnum{
+var mappingTaskRunSummaryStatusEnum = map[string]TaskRunSummaryStatusEnum{
 	"NOT_STARTED": TaskRunSummaryStatusNotStarted,
 	"QUEUED":      TaskRunSummaryStatusQueued,
 	"RUNNING":     TaskRunSummaryStatusRunning,
@@ -106,10 +129,23 @@ var mappingTaskRunSummaryStatus = map[string]TaskRunSummaryStatusEnum{
 // GetTaskRunSummaryStatusEnumValues Enumerates the set of values for TaskRunSummaryStatusEnum
 func GetTaskRunSummaryStatusEnumValues() []TaskRunSummaryStatusEnum {
 	values := make([]TaskRunSummaryStatusEnum, 0)
-	for _, v := range mappingTaskRunSummaryStatus {
+	for _, v := range mappingTaskRunSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskRunSummaryStatusEnumStringValues Enumerates the set of values in String for TaskRunSummaryStatusEnum
+func GetTaskRunSummaryStatusEnumStringValues() []string {
+	return []string{
+		"NOT_STARTED",
+		"QUEUED",
+		"RUNNING",
+		"TERMINATING",
+		"TERMINATED",
+		"SUCCESS",
+		"ERROR",
+	}
 }
 
 // TaskRunSummaryTaskTypeEnum Enum with underlying type: string
@@ -125,7 +161,7 @@ const (
 	TaskRunSummaryTaskTypeRestTask        TaskRunSummaryTaskTypeEnum = "REST_TASK"
 )
 
-var mappingTaskRunSummaryTaskType = map[string]TaskRunSummaryTaskTypeEnum{
+var mappingTaskRunSummaryTaskTypeEnum = map[string]TaskRunSummaryTaskTypeEnum{
 	"INTEGRATION_TASK":  TaskRunSummaryTaskTypeIntegrationTask,
 	"DATA_LOADER_TASK":  TaskRunSummaryTaskTypeDataLoaderTask,
 	"PIPELINE_TASK":     TaskRunSummaryTaskTypePipelineTask,
@@ -137,10 +173,22 @@ var mappingTaskRunSummaryTaskType = map[string]TaskRunSummaryTaskTypeEnum{
 // GetTaskRunSummaryTaskTypeEnumValues Enumerates the set of values for TaskRunSummaryTaskTypeEnum
 func GetTaskRunSummaryTaskTypeEnumValues() []TaskRunSummaryTaskTypeEnum {
 	values := make([]TaskRunSummaryTaskTypeEnum, 0)
-	for _, v := range mappingTaskRunSummaryTaskType {
+	for _, v := range mappingTaskRunSummaryTaskTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskRunSummaryTaskTypeEnumStringValues Enumerates the set of values in String for TaskRunSummaryTaskTypeEnum
+func GetTaskRunSummaryTaskTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }
 
 // TaskRunSummaryReRunTypeEnum Enum with underlying type: string
@@ -153,7 +201,7 @@ const (
 	TaskRunSummaryReRunTypeStep      TaskRunSummaryReRunTypeEnum = "STEP"
 )
 
-var mappingTaskRunSummaryReRunType = map[string]TaskRunSummaryReRunTypeEnum{
+var mappingTaskRunSummaryReRunTypeEnum = map[string]TaskRunSummaryReRunTypeEnum{
 	"BEGINNING": TaskRunSummaryReRunTypeBeginning,
 	"FAILED":    TaskRunSummaryReRunTypeFailed,
 	"STEP":      TaskRunSummaryReRunTypeStep,
@@ -162,8 +210,17 @@ var mappingTaskRunSummaryReRunType = map[string]TaskRunSummaryReRunTypeEnum{
 // GetTaskRunSummaryReRunTypeEnumValues Enumerates the set of values for TaskRunSummaryReRunTypeEnum
 func GetTaskRunSummaryReRunTypeEnumValues() []TaskRunSummaryReRunTypeEnum {
 	values := make([]TaskRunSummaryReRunTypeEnum, 0)
-	for _, v := range mappingTaskRunSummaryReRunType {
+	for _, v := range mappingTaskRunSummaryReRunTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskRunSummaryReRunTypeEnumStringValues Enumerates the set of values in String for TaskRunSummaryReRunTypeEnum
+func GetTaskRunSummaryReRunTypeEnumStringValues() []string {
+	return []string{
+		"BEGINNING",
+		"FAILED",
+		"STEP",
+	}
 }

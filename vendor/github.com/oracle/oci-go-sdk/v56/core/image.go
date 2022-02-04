@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Image A boot disk image for launching an instance. For more information, see
@@ -98,6 +100,27 @@ func (m Image) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Image) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingImageLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetImageLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingImageLaunchModeEnum[string(m.LaunchMode)]; !ok && m.LaunchMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LaunchMode: %s. Supported values are: %s.", m.LaunchMode, strings.Join(GetImageLaunchModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingImageListingTypeEnum[string(m.ListingType)]; !ok && m.ListingType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ListingType: %s. Supported values are: %s.", m.ListingType, strings.Join(GetImageListingTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ImageLaunchModeEnum Enum with underlying type: string
 type ImageLaunchModeEnum string
 
@@ -109,7 +132,7 @@ const (
 	ImageLaunchModeCustom          ImageLaunchModeEnum = "CUSTOM"
 )
 
-var mappingImageLaunchMode = map[string]ImageLaunchModeEnum{
+var mappingImageLaunchModeEnum = map[string]ImageLaunchModeEnum{
 	"NATIVE":          ImageLaunchModeNative,
 	"EMULATED":        ImageLaunchModeEmulated,
 	"PARAVIRTUALIZED": ImageLaunchModeParavirtualized,
@@ -119,10 +142,20 @@ var mappingImageLaunchMode = map[string]ImageLaunchModeEnum{
 // GetImageLaunchModeEnumValues Enumerates the set of values for ImageLaunchModeEnum
 func GetImageLaunchModeEnumValues() []ImageLaunchModeEnum {
 	values := make([]ImageLaunchModeEnum, 0)
-	for _, v := range mappingImageLaunchMode {
+	for _, v := range mappingImageLaunchModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetImageLaunchModeEnumStringValues Enumerates the set of values in String for ImageLaunchModeEnum
+func GetImageLaunchModeEnumStringValues() []string {
+	return []string{
+		"NATIVE",
+		"EMULATED",
+		"PARAVIRTUALIZED",
+		"CUSTOM",
+	}
 }
 
 // ImageLifecycleStateEnum Enum with underlying type: string
@@ -138,7 +171,7 @@ const (
 	ImageLifecycleStateDeleted      ImageLifecycleStateEnum = "DELETED"
 )
 
-var mappingImageLifecycleState = map[string]ImageLifecycleStateEnum{
+var mappingImageLifecycleStateEnum = map[string]ImageLifecycleStateEnum{
 	"PROVISIONING": ImageLifecycleStateProvisioning,
 	"IMPORTING":    ImageLifecycleStateImporting,
 	"AVAILABLE":    ImageLifecycleStateAvailable,
@@ -150,10 +183,22 @@ var mappingImageLifecycleState = map[string]ImageLifecycleStateEnum{
 // GetImageLifecycleStateEnumValues Enumerates the set of values for ImageLifecycleStateEnum
 func GetImageLifecycleStateEnumValues() []ImageLifecycleStateEnum {
 	values := make([]ImageLifecycleStateEnum, 0)
-	for _, v := range mappingImageLifecycleState {
+	for _, v := range mappingImageLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetImageLifecycleStateEnumStringValues Enumerates the set of values in String for ImageLifecycleStateEnum
+func GetImageLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"IMPORTING",
+		"AVAILABLE",
+		"EXPORTING",
+		"DISABLED",
+		"DELETED",
+	}
 }
 
 // ImageListingTypeEnum Enum with underlying type: string
@@ -165,7 +210,7 @@ const (
 	ImageListingTypeNone      ImageListingTypeEnum = "NONE"
 )
 
-var mappingImageListingType = map[string]ImageListingTypeEnum{
+var mappingImageListingTypeEnum = map[string]ImageListingTypeEnum{
 	"COMMUNITY": ImageListingTypeCommunity,
 	"NONE":      ImageListingTypeNone,
 }
@@ -173,8 +218,16 @@ var mappingImageListingType = map[string]ImageListingTypeEnum{
 // GetImageListingTypeEnumValues Enumerates the set of values for ImageListingTypeEnum
 func GetImageListingTypeEnumValues() []ImageListingTypeEnum {
 	values := make([]ImageListingTypeEnum, 0)
-	for _, v := range mappingImageListingType {
+	for _, v := range mappingImageListingTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetImageListingTypeEnumStringValues Enumerates the set of values in String for ImageListingTypeEnum
+func GetImageListingTypeEnumStringValues() []string {
+	return []string{
+		"COMMUNITY",
+		"NONE",
+	}
 }

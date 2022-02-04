@@ -18,7 +18,7 @@ const (
 	DeploymentBackupTypeFull        DeploymentBackupTypeEnum = "FULL"
 )
 
-var mappingDeploymentBackupType = map[string]DeploymentBackupTypeEnum{
+var mappingDeploymentBackupTypeEnum = map[string]DeploymentBackupTypeEnum{
 	"INCREMENTAL": DeploymentBackupTypeIncremental,
 	"FULL":        DeploymentBackupTypeFull,
 }
@@ -26,8 +26,16 @@ var mappingDeploymentBackupType = map[string]DeploymentBackupTypeEnum{
 // GetDeploymentBackupTypeEnumValues Enumerates the set of values for DeploymentBackupTypeEnum
 func GetDeploymentBackupTypeEnumValues() []DeploymentBackupTypeEnum {
 	values := make([]DeploymentBackupTypeEnum, 0)
-	for _, v := range mappingDeploymentBackupType {
+	for _, v := range mappingDeploymentBackupTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeploymentBackupTypeEnumStringValues Enumerates the set of values in String for DeploymentBackupTypeEnum
+func GetDeploymentBackupTypeEnumStringValues() []string {
+	return []string{
+		"INCREMENTAL",
+		"FULL",
+	}
 }

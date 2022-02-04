@@ -10,7 +10,9 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DeployStageExecutionStep Details about each steps in stage execution for a target environment.
@@ -33,6 +35,21 @@ func (m DeployStageExecutionStep) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DeployStageExecutionStep) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDeployStageExecutionStepStateEnum[string(m.State)]; !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetDeployStageExecutionStepStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DeployStageExecutionStepStateEnum Enum with underlying type: string
 type DeployStageExecutionStepStateEnum string
 
@@ -45,7 +62,7 @@ const (
 	DeployStageExecutionStepStateCanceled   DeployStageExecutionStepStateEnum = "CANCELED"
 )
 
-var mappingDeployStageExecutionStepState = map[string]DeployStageExecutionStepStateEnum{
+var mappingDeployStageExecutionStepStateEnum = map[string]DeployStageExecutionStepStateEnum{
 	"WAITING":     DeployStageExecutionStepStateWaiting,
 	"IN_PROGRESS": DeployStageExecutionStepStateInProgress,
 	"FAILED":      DeployStageExecutionStepStateFailed,
@@ -56,8 +73,19 @@ var mappingDeployStageExecutionStepState = map[string]DeployStageExecutionStepSt
 // GetDeployStageExecutionStepStateEnumValues Enumerates the set of values for DeployStageExecutionStepStateEnum
 func GetDeployStageExecutionStepStateEnumValues() []DeployStageExecutionStepStateEnum {
 	values := make([]DeployStageExecutionStepStateEnum, 0)
-	for _, v := range mappingDeployStageExecutionStepState {
+	for _, v := range mappingDeployStageExecutionStepStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployStageExecutionStepStateEnumStringValues Enumerates the set of values in String for DeployStageExecutionStepStateEnum
+func GetDeployStageExecutionStepStateEnumStringValues() []string {
+	return []string{
+		"WAITING",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELED",
+	}
 }

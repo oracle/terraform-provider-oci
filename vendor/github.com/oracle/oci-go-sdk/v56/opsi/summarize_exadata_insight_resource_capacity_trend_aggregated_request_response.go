@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeExadataInsightResourceCapacityTrendAggregatedRequest wrapper for the SummarizeExadataInsightResourceCapacityTrendAggregated operation
@@ -111,6 +113,10 @@ func (request SummarizeExadataInsightResourceCapacityTrendAggregatedRequest) Str
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeExadataInsightResourceCapacityTrendAggregatedRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -124,6 +130,23 @@ func (request SummarizeExadataInsightResourceCapacityTrendAggregatedRequest) Bin
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeExadataInsightResourceCapacityTrendAggregatedRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeExadataInsightResourceCapacityTrendAggregatedRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeExadataInsightResourceCapacityTrendAggregatedResponse wrapper for the SummarizeExadataInsightResourceCapacityTrendAggregated operation
@@ -163,7 +186,7 @@ const (
 	SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderDesc SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrder = map[string]SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum{
+var mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum = map[string]SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum{
 	"ASC":  SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderAsc,
 	"DESC": SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderDesc,
 }
@@ -171,10 +194,18 @@ var mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrder = map
 // GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnumValues Enumerates the set of values for SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum
 func GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnumValues() []SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum {
 	values := make([]SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrder {
+	for _, v := range mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnum
+func GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum Enum with underlying type: string
@@ -186,7 +217,7 @@ const (
 	SummarizeExadataInsightResourceCapacityTrendAggregatedSortByCapacity     SummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum = "capacity"
 )
 
-var mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortBy = map[string]SummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum{
+var mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum = map[string]SummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum{
 	"endTimestamp": SummarizeExadataInsightResourceCapacityTrendAggregatedSortByEndtimestamp,
 	"capacity":     SummarizeExadataInsightResourceCapacityTrendAggregatedSortByCapacity,
 }
@@ -194,8 +225,16 @@ var mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortBy = map[st
 // GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnumValues Enumerates the set of values for SummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum
 func GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnumValues() []SummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum {
 	values := make([]SummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortBy {
+	for _, v := range mappingSummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnum
+func GetSummarizeExadataInsightResourceCapacityTrendAggregatedSortByEnumStringValues() []string {
+	return []string{
+		"endTimestamp",
+		"capacity",
+	}
 }

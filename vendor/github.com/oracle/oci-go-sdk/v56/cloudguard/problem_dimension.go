@@ -20,7 +20,7 @@ const (
 	ProblemDimensionRiskLevel     ProblemDimensionEnum = "RISK_LEVEL"
 )
 
-var mappingProblemDimension = map[string]ProblemDimensionEnum{
+var mappingProblemDimensionEnum = map[string]ProblemDimensionEnum{
 	"RESOURCE_TYPE":  ProblemDimensionResourceType,
 	"REGION":         ProblemDimensionRegion,
 	"COMPARTMENT_ID": ProblemDimensionCompartmentId,
@@ -30,8 +30,18 @@ var mappingProblemDimension = map[string]ProblemDimensionEnum{
 // GetProblemDimensionEnumValues Enumerates the set of values for ProblemDimensionEnum
 func GetProblemDimensionEnumValues() []ProblemDimensionEnum {
 	values := make([]ProblemDimensionEnum, 0)
-	for _, v := range mappingProblemDimension {
+	for _, v := range mappingProblemDimensionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProblemDimensionEnumStringValues Enumerates the set of values in String for ProblemDimensionEnum
+func GetProblemDimensionEnumStringValues() []string {
+	return []string{
+		"RESOURCE_TYPE",
+		"REGION",
+		"COMPARTMENT_ID",
+		"RISK_LEVEL",
+	}
 }

@@ -11,7 +11,9 @@ package vault
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SecretContentDetails The content of the secret and metadata to help identify it.
@@ -85,6 +87,21 @@ func (m secretcontentdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m secretcontentdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSecretContentDetailsStageEnum[string(m.Stage)]; !ok && m.Stage != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Stage: %s. Supported values are: %s.", m.Stage, strings.Join(GetSecretContentDetailsStageEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecretContentDetailsStageEnum Enum with underlying type: string
 type SecretContentDetailsStageEnum string
 
@@ -94,7 +111,7 @@ const (
 	SecretContentDetailsStagePending SecretContentDetailsStageEnum = "PENDING"
 )
 
-var mappingSecretContentDetailsStage = map[string]SecretContentDetailsStageEnum{
+var mappingSecretContentDetailsStageEnum = map[string]SecretContentDetailsStageEnum{
 	"CURRENT": SecretContentDetailsStageCurrent,
 	"PENDING": SecretContentDetailsStagePending,
 }
@@ -102,10 +119,18 @@ var mappingSecretContentDetailsStage = map[string]SecretContentDetailsStageEnum{
 // GetSecretContentDetailsStageEnumValues Enumerates the set of values for SecretContentDetailsStageEnum
 func GetSecretContentDetailsStageEnumValues() []SecretContentDetailsStageEnum {
 	values := make([]SecretContentDetailsStageEnum, 0)
-	for _, v := range mappingSecretContentDetailsStage {
+	for _, v := range mappingSecretContentDetailsStageEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecretContentDetailsStageEnumStringValues Enumerates the set of values in String for SecretContentDetailsStageEnum
+func GetSecretContentDetailsStageEnumStringValues() []string {
+	return []string{
+		"CURRENT",
+		"PENDING",
+	}
 }
 
 // SecretContentDetailsContentTypeEnum Enum with underlying type: string
@@ -116,15 +141,22 @@ const (
 	SecretContentDetailsContentTypeBase64 SecretContentDetailsContentTypeEnum = "BASE64"
 )
 
-var mappingSecretContentDetailsContentType = map[string]SecretContentDetailsContentTypeEnum{
+var mappingSecretContentDetailsContentTypeEnum = map[string]SecretContentDetailsContentTypeEnum{
 	"BASE64": SecretContentDetailsContentTypeBase64,
 }
 
 // GetSecretContentDetailsContentTypeEnumValues Enumerates the set of values for SecretContentDetailsContentTypeEnum
 func GetSecretContentDetailsContentTypeEnumValues() []SecretContentDetailsContentTypeEnum {
 	values := make([]SecretContentDetailsContentTypeEnum, 0)
-	for _, v := range mappingSecretContentDetailsContentType {
+	for _, v := range mappingSecretContentDetailsContentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecretContentDetailsContentTypeEnumStringValues Enumerates the set of values in String for SecretContentDetailsContentTypeEnum
+func GetSecretContentDetailsContentTypeEnumStringValues() []string {
+	return []string{
+		"BASE64",
+	}
 }

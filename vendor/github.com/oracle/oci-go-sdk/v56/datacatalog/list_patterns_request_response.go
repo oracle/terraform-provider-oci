@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPatternsRequest wrapper for the ListPatterns operation
@@ -72,6 +74,10 @@ func (request ListPatternsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPatternsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +91,32 @@ func (request ListPatternsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPatternsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPatternsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPatternsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListPatternsLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListPatternsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListPatternsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListPatternsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPatternsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPatternsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPatternsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPatternsResponse wrapper for the ListPatterns operation
@@ -128,7 +160,7 @@ const (
 	ListPatternsLifecycleStateMoving   ListPatternsLifecycleStateEnum = "MOVING"
 )
 
-var mappingListPatternsLifecycleState = map[string]ListPatternsLifecycleStateEnum{
+var mappingListPatternsLifecycleStateEnum = map[string]ListPatternsLifecycleStateEnum{
 	"CREATING": ListPatternsLifecycleStateCreating,
 	"ACTIVE":   ListPatternsLifecycleStateActive,
 	"INACTIVE": ListPatternsLifecycleStateInactive,
@@ -142,10 +174,24 @@ var mappingListPatternsLifecycleState = map[string]ListPatternsLifecycleStateEnu
 // GetListPatternsLifecycleStateEnumValues Enumerates the set of values for ListPatternsLifecycleStateEnum
 func GetListPatternsLifecycleStateEnumValues() []ListPatternsLifecycleStateEnum {
 	values := make([]ListPatternsLifecycleStateEnum, 0)
-	for _, v := range mappingListPatternsLifecycleState {
+	for _, v := range mappingListPatternsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPatternsLifecycleStateEnumStringValues Enumerates the set of values in String for ListPatternsLifecycleStateEnum
+func GetListPatternsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListPatternsFieldsEnum Enum with underlying type: string
@@ -162,7 +208,7 @@ const (
 	ListPatternsFieldsTimecreated    ListPatternsFieldsEnum = "timeCreated"
 )
 
-var mappingListPatternsFields = map[string]ListPatternsFieldsEnum{
+var mappingListPatternsFieldsEnum = map[string]ListPatternsFieldsEnum{
 	"key":            ListPatternsFieldsKey,
 	"displayName":    ListPatternsFieldsDisplayname,
 	"description":    ListPatternsFieldsDescription,
@@ -175,10 +221,23 @@ var mappingListPatternsFields = map[string]ListPatternsFieldsEnum{
 // GetListPatternsFieldsEnumValues Enumerates the set of values for ListPatternsFieldsEnum
 func GetListPatternsFieldsEnumValues() []ListPatternsFieldsEnum {
 	values := make([]ListPatternsFieldsEnum, 0)
-	for _, v := range mappingListPatternsFields {
+	for _, v := range mappingListPatternsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPatternsFieldsEnumStringValues Enumerates the set of values in String for ListPatternsFieldsEnum
+func GetListPatternsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"catalogId",
+		"expression",
+		"lifecycleState",
+		"timeCreated",
+	}
 }
 
 // ListPatternsSortByEnum Enum with underlying type: string
@@ -190,7 +249,7 @@ const (
 	ListPatternsSortByDisplayname ListPatternsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListPatternsSortBy = map[string]ListPatternsSortByEnum{
+var mappingListPatternsSortByEnum = map[string]ListPatternsSortByEnum{
 	"TIMECREATED": ListPatternsSortByTimecreated,
 	"DISPLAYNAME": ListPatternsSortByDisplayname,
 }
@@ -198,10 +257,18 @@ var mappingListPatternsSortBy = map[string]ListPatternsSortByEnum{
 // GetListPatternsSortByEnumValues Enumerates the set of values for ListPatternsSortByEnum
 func GetListPatternsSortByEnumValues() []ListPatternsSortByEnum {
 	values := make([]ListPatternsSortByEnum, 0)
-	for _, v := range mappingListPatternsSortBy {
+	for _, v := range mappingListPatternsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPatternsSortByEnumStringValues Enumerates the set of values in String for ListPatternsSortByEnum
+func GetListPatternsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListPatternsSortOrderEnum Enum with underlying type: string
@@ -213,7 +280,7 @@ const (
 	ListPatternsSortOrderDesc ListPatternsSortOrderEnum = "DESC"
 )
 
-var mappingListPatternsSortOrder = map[string]ListPatternsSortOrderEnum{
+var mappingListPatternsSortOrderEnum = map[string]ListPatternsSortOrderEnum{
 	"ASC":  ListPatternsSortOrderAsc,
 	"DESC": ListPatternsSortOrderDesc,
 }
@@ -221,8 +288,16 @@ var mappingListPatternsSortOrder = map[string]ListPatternsSortOrderEnum{
 // GetListPatternsSortOrderEnumValues Enumerates the set of values for ListPatternsSortOrderEnum
 func GetListPatternsSortOrderEnumValues() []ListPatternsSortOrderEnum {
 	values := make([]ListPatternsSortOrderEnum, 0)
-	for _, v := range mappingListPatternsSortOrder {
+	for _, v := range mappingListPatternsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPatternsSortOrderEnumStringValues Enumerates the set of values in String for ListPatternsSortOrderEnum
+func GetListPatternsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

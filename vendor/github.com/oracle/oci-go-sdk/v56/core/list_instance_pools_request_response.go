@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListInstancePoolsRequest wrapper for the ListInstancePools operation
@@ -66,6 +68,10 @@ func (request ListInstancePoolsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListInstancePoolsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,26 @@ func (request ListInstancePoolsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListInstancePoolsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListInstancePoolsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListInstancePoolsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListInstancePoolsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListInstancePoolsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListInstancePoolsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInstancePoolSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetInstancePoolSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListInstancePoolsResponse wrapper for the ListInstancePools operation
@@ -118,7 +144,7 @@ const (
 	ListInstancePoolsSortByDisplayname ListInstancePoolsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListInstancePoolsSortBy = map[string]ListInstancePoolsSortByEnum{
+var mappingListInstancePoolsSortByEnum = map[string]ListInstancePoolsSortByEnum{
 	"TIMECREATED": ListInstancePoolsSortByTimecreated,
 	"DISPLAYNAME": ListInstancePoolsSortByDisplayname,
 }
@@ -126,10 +152,18 @@ var mappingListInstancePoolsSortBy = map[string]ListInstancePoolsSortByEnum{
 // GetListInstancePoolsSortByEnumValues Enumerates the set of values for ListInstancePoolsSortByEnum
 func GetListInstancePoolsSortByEnumValues() []ListInstancePoolsSortByEnum {
 	values := make([]ListInstancePoolsSortByEnum, 0)
-	for _, v := range mappingListInstancePoolsSortBy {
+	for _, v := range mappingListInstancePoolsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstancePoolsSortByEnumStringValues Enumerates the set of values in String for ListInstancePoolsSortByEnum
+func GetListInstancePoolsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListInstancePoolsSortOrderEnum Enum with underlying type: string
@@ -141,7 +175,7 @@ const (
 	ListInstancePoolsSortOrderDesc ListInstancePoolsSortOrderEnum = "DESC"
 )
 
-var mappingListInstancePoolsSortOrder = map[string]ListInstancePoolsSortOrderEnum{
+var mappingListInstancePoolsSortOrderEnum = map[string]ListInstancePoolsSortOrderEnum{
 	"ASC":  ListInstancePoolsSortOrderAsc,
 	"DESC": ListInstancePoolsSortOrderDesc,
 }
@@ -149,8 +183,16 @@ var mappingListInstancePoolsSortOrder = map[string]ListInstancePoolsSortOrderEnu
 // GetListInstancePoolsSortOrderEnumValues Enumerates the set of values for ListInstancePoolsSortOrderEnum
 func GetListInstancePoolsSortOrderEnumValues() []ListInstancePoolsSortOrderEnum {
 	values := make([]ListInstancePoolsSortOrderEnum, 0)
-	for _, v := range mappingListInstancePoolsSortOrder {
+	for _, v := range mappingListInstancePoolsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInstancePoolsSortOrderEnumStringValues Enumerates the set of values in String for ListInstancePoolsSortOrderEnum
+func GetListInstancePoolsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DbServerSummary Details of the Exadata Cloud@Customer Db server.
@@ -75,6 +77,21 @@ func (m DbServerSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DbServerSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDbServerSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbServerSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DbServerSummaryLifecycleStateEnum Enum with underlying type: string
 type DbServerSummaryLifecycleStateEnum string
 
@@ -88,7 +105,7 @@ const (
 	DbServerSummaryLifecycleStateMaintenanceInProgress DbServerSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingDbServerSummaryLifecycleState = map[string]DbServerSummaryLifecycleStateEnum{
+var mappingDbServerSummaryLifecycleStateEnum = map[string]DbServerSummaryLifecycleStateEnum{
 	"CREATING":                DbServerSummaryLifecycleStateCreating,
 	"AVAILABLE":               DbServerSummaryLifecycleStateAvailable,
 	"UNAVAILABLE":             DbServerSummaryLifecycleStateUnavailable,
@@ -100,8 +117,20 @@ var mappingDbServerSummaryLifecycleState = map[string]DbServerSummaryLifecycleSt
 // GetDbServerSummaryLifecycleStateEnumValues Enumerates the set of values for DbServerSummaryLifecycleStateEnum
 func GetDbServerSummaryLifecycleStateEnumValues() []DbServerSummaryLifecycleStateEnum {
 	values := make([]DbServerSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingDbServerSummaryLifecycleState {
+	for _, v := range mappingDbServerSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDbServerSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for DbServerSummaryLifecycleStateEnum
+func GetDbServerSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"AVAILABLE",
+		"UNAVAILABLE",
+		"DELETING",
+		"DELETED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }

@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListLogAnalyticsObjectCollectionRulesRequest wrapper for the ListLogAnalyticsObjectCollectionRules operation
@@ -56,6 +58,10 @@ func (request ListLogAnalyticsObjectCollectionRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLogAnalyticsObjectCollectionRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,26 @@ func (request ListLogAnalyticsObjectCollectionRulesRequest) BinaryRequestBody() 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLogAnalyticsObjectCollectionRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLogAnalyticsObjectCollectionRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLogAnalyticsObjectCollectionRulesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListLogAnalyticsObjectCollectionRulesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogAnalyticsObjectCollectionRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLogAnalyticsObjectCollectionRulesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogAnalyticsObjectCollectionRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLogAnalyticsObjectCollectionRulesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLogAnalyticsObjectCollectionRulesResponse wrapper for the ListLogAnalyticsObjectCollectionRules operation
@@ -107,7 +133,7 @@ const (
 	ListLogAnalyticsObjectCollectionRulesLifecycleStateDeleted ListLogAnalyticsObjectCollectionRulesLifecycleStateEnum = "DELETED"
 )
 
-var mappingListLogAnalyticsObjectCollectionRulesLifecycleState = map[string]ListLogAnalyticsObjectCollectionRulesLifecycleStateEnum{
+var mappingListLogAnalyticsObjectCollectionRulesLifecycleStateEnum = map[string]ListLogAnalyticsObjectCollectionRulesLifecycleStateEnum{
 	"ACTIVE":  ListLogAnalyticsObjectCollectionRulesLifecycleStateActive,
 	"DELETED": ListLogAnalyticsObjectCollectionRulesLifecycleStateDeleted,
 }
@@ -115,10 +141,18 @@ var mappingListLogAnalyticsObjectCollectionRulesLifecycleState = map[string]List
 // GetListLogAnalyticsObjectCollectionRulesLifecycleStateEnumValues Enumerates the set of values for ListLogAnalyticsObjectCollectionRulesLifecycleStateEnum
 func GetListLogAnalyticsObjectCollectionRulesLifecycleStateEnumValues() []ListLogAnalyticsObjectCollectionRulesLifecycleStateEnum {
 	values := make([]ListLogAnalyticsObjectCollectionRulesLifecycleStateEnum, 0)
-	for _, v := range mappingListLogAnalyticsObjectCollectionRulesLifecycleState {
+	for _, v := range mappingListLogAnalyticsObjectCollectionRulesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogAnalyticsObjectCollectionRulesLifecycleStateEnumStringValues Enumerates the set of values in String for ListLogAnalyticsObjectCollectionRulesLifecycleStateEnum
+func GetListLogAnalyticsObjectCollectionRulesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
 }
 
 // ListLogAnalyticsObjectCollectionRulesSortOrderEnum Enum with underlying type: string
@@ -130,7 +164,7 @@ const (
 	ListLogAnalyticsObjectCollectionRulesSortOrderDesc ListLogAnalyticsObjectCollectionRulesSortOrderEnum = "DESC"
 )
 
-var mappingListLogAnalyticsObjectCollectionRulesSortOrder = map[string]ListLogAnalyticsObjectCollectionRulesSortOrderEnum{
+var mappingListLogAnalyticsObjectCollectionRulesSortOrderEnum = map[string]ListLogAnalyticsObjectCollectionRulesSortOrderEnum{
 	"ASC":  ListLogAnalyticsObjectCollectionRulesSortOrderAsc,
 	"DESC": ListLogAnalyticsObjectCollectionRulesSortOrderDesc,
 }
@@ -138,10 +172,18 @@ var mappingListLogAnalyticsObjectCollectionRulesSortOrder = map[string]ListLogAn
 // GetListLogAnalyticsObjectCollectionRulesSortOrderEnumValues Enumerates the set of values for ListLogAnalyticsObjectCollectionRulesSortOrderEnum
 func GetListLogAnalyticsObjectCollectionRulesSortOrderEnumValues() []ListLogAnalyticsObjectCollectionRulesSortOrderEnum {
 	values := make([]ListLogAnalyticsObjectCollectionRulesSortOrderEnum, 0)
-	for _, v := range mappingListLogAnalyticsObjectCollectionRulesSortOrder {
+	for _, v := range mappingListLogAnalyticsObjectCollectionRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogAnalyticsObjectCollectionRulesSortOrderEnumStringValues Enumerates the set of values in String for ListLogAnalyticsObjectCollectionRulesSortOrderEnum
+func GetListLogAnalyticsObjectCollectionRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListLogAnalyticsObjectCollectionRulesSortByEnum Enum with underlying type: string
@@ -154,7 +196,7 @@ const (
 	ListLogAnalyticsObjectCollectionRulesSortByName        ListLogAnalyticsObjectCollectionRulesSortByEnum = "name"
 )
 
-var mappingListLogAnalyticsObjectCollectionRulesSortBy = map[string]ListLogAnalyticsObjectCollectionRulesSortByEnum{
+var mappingListLogAnalyticsObjectCollectionRulesSortByEnum = map[string]ListLogAnalyticsObjectCollectionRulesSortByEnum{
 	"timeUpdated": ListLogAnalyticsObjectCollectionRulesSortByTimeupdated,
 	"timeCreated": ListLogAnalyticsObjectCollectionRulesSortByTimecreated,
 	"name":        ListLogAnalyticsObjectCollectionRulesSortByName,
@@ -163,8 +205,17 @@ var mappingListLogAnalyticsObjectCollectionRulesSortBy = map[string]ListLogAnaly
 // GetListLogAnalyticsObjectCollectionRulesSortByEnumValues Enumerates the set of values for ListLogAnalyticsObjectCollectionRulesSortByEnum
 func GetListLogAnalyticsObjectCollectionRulesSortByEnumValues() []ListLogAnalyticsObjectCollectionRulesSortByEnum {
 	values := make([]ListLogAnalyticsObjectCollectionRulesSortByEnum, 0)
-	for _, v := range mappingListLogAnalyticsObjectCollectionRulesSortBy {
+	for _, v := range mappingListLogAnalyticsObjectCollectionRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogAnalyticsObjectCollectionRulesSortByEnumStringValues Enumerates the set of values in String for ListLogAnalyticsObjectCollectionRulesSortByEnum
+func GetListLogAnalyticsObjectCollectionRulesSortByEnumStringValues() []string {
+	return []string{
+		"timeUpdated",
+		"timeCreated",
+		"name",
+	}
 }

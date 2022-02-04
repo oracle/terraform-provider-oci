@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSchedulesRequest wrapper for the ListSchedules operation
@@ -63,6 +65,10 @@ func (request ListSchedulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSchedulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,23 @@ func (request ListSchedulesRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSchedulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSchedulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSchedulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSchedulesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSchedulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSchedulesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSchedulesResponse wrapper for the ListSchedules operation
@@ -119,7 +142,7 @@ const (
 	ListSchedulesSortByDisplayName ListSchedulesSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListSchedulesSortBy = map[string]ListSchedulesSortByEnum{
+var mappingListSchedulesSortByEnum = map[string]ListSchedulesSortByEnum{
 	"TIME_CREATED": ListSchedulesSortByTimeCreated,
 	"DISPLAY_NAME": ListSchedulesSortByDisplayName,
 }
@@ -127,10 +150,18 @@ var mappingListSchedulesSortBy = map[string]ListSchedulesSortByEnum{
 // GetListSchedulesSortByEnumValues Enumerates the set of values for ListSchedulesSortByEnum
 func GetListSchedulesSortByEnumValues() []ListSchedulesSortByEnum {
 	values := make([]ListSchedulesSortByEnum, 0)
-	for _, v := range mappingListSchedulesSortBy {
+	for _, v := range mappingListSchedulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSchedulesSortByEnumStringValues Enumerates the set of values in String for ListSchedulesSortByEnum
+func GetListSchedulesSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }
 
 // ListSchedulesSortOrderEnum Enum with underlying type: string
@@ -142,7 +173,7 @@ const (
 	ListSchedulesSortOrderDesc ListSchedulesSortOrderEnum = "DESC"
 )
 
-var mappingListSchedulesSortOrder = map[string]ListSchedulesSortOrderEnum{
+var mappingListSchedulesSortOrderEnum = map[string]ListSchedulesSortOrderEnum{
 	"ASC":  ListSchedulesSortOrderAsc,
 	"DESC": ListSchedulesSortOrderDesc,
 }
@@ -150,8 +181,16 @@ var mappingListSchedulesSortOrder = map[string]ListSchedulesSortOrderEnum{
 // GetListSchedulesSortOrderEnumValues Enumerates the set of values for ListSchedulesSortOrderEnum
 func GetListSchedulesSortOrderEnumValues() []ListSchedulesSortOrderEnum {
 	values := make([]ListSchedulesSortOrderEnum, 0)
-	for _, v := range mappingListSchedulesSortOrder {
+	for _, v := range mappingListSchedulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSchedulesSortOrderEnumStringValues Enumerates the set of values in String for ListSchedulesSortOrderEnum
+func GetListSchedulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

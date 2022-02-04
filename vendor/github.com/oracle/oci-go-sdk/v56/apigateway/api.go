@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Api An API is simple container for an API Specification. For more information, see API Gateway Concepts (https://docs.cloud.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayconcepts.htm).
@@ -74,6 +76,21 @@ func (m Api) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Api) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingApiLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetApiLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ApiLifecycleStateEnum Enum with underlying type: string
 type ApiLifecycleStateEnum string
 
@@ -87,7 +104,7 @@ const (
 	ApiLifecycleStateFailed   ApiLifecycleStateEnum = "FAILED"
 )
 
-var mappingApiLifecycleState = map[string]ApiLifecycleStateEnum{
+var mappingApiLifecycleStateEnum = map[string]ApiLifecycleStateEnum{
 	"CREATING": ApiLifecycleStateCreating,
 	"ACTIVE":   ApiLifecycleStateActive,
 	"UPDATING": ApiLifecycleStateUpdating,
@@ -99,8 +116,20 @@ var mappingApiLifecycleState = map[string]ApiLifecycleStateEnum{
 // GetApiLifecycleStateEnumValues Enumerates the set of values for ApiLifecycleStateEnum
 func GetApiLifecycleStateEnumValues() []ApiLifecycleStateEnum {
 	values := make([]ApiLifecycleStateEnum, 0)
-	for _, v := range mappingApiLifecycleState {
+	for _, v := range mappingApiLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetApiLifecycleStateEnumStringValues Enumerates the set of values in String for ApiLifecycleStateEnum
+func GetApiLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

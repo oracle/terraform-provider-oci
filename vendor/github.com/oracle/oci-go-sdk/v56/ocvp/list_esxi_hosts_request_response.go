@@ -5,8 +5,10 @@
 package ocvp
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListEsxiHostsRequest wrapper for the ListEsxiHosts operation
@@ -67,6 +69,10 @@ func (request ListEsxiHostsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListEsxiHostsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -80,6 +86,26 @@ func (request ListEsxiHostsRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListEsxiHostsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListEsxiHostsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListEsxiHostsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListEsxiHostsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEsxiHostsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListEsxiHostsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListEsxiHostsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListEsxiHostsLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListEsxiHostsResponse wrapper for the ListEsxiHosts operation
@@ -119,7 +145,7 @@ const (
 	ListEsxiHostsSortOrderDesc ListEsxiHostsSortOrderEnum = "DESC"
 )
 
-var mappingListEsxiHostsSortOrder = map[string]ListEsxiHostsSortOrderEnum{
+var mappingListEsxiHostsSortOrderEnum = map[string]ListEsxiHostsSortOrderEnum{
 	"ASC":  ListEsxiHostsSortOrderAsc,
 	"DESC": ListEsxiHostsSortOrderDesc,
 }
@@ -127,10 +153,18 @@ var mappingListEsxiHostsSortOrder = map[string]ListEsxiHostsSortOrderEnum{
 // GetListEsxiHostsSortOrderEnumValues Enumerates the set of values for ListEsxiHostsSortOrderEnum
 func GetListEsxiHostsSortOrderEnumValues() []ListEsxiHostsSortOrderEnum {
 	values := make([]ListEsxiHostsSortOrderEnum, 0)
-	for _, v := range mappingListEsxiHostsSortOrder {
+	for _, v := range mappingListEsxiHostsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEsxiHostsSortOrderEnumStringValues Enumerates the set of values in String for ListEsxiHostsSortOrderEnum
+func GetListEsxiHostsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListEsxiHostsSortByEnum Enum with underlying type: string
@@ -142,7 +176,7 @@ const (
 	ListEsxiHostsSortByDisplayname ListEsxiHostsSortByEnum = "displayName"
 )
 
-var mappingListEsxiHostsSortBy = map[string]ListEsxiHostsSortByEnum{
+var mappingListEsxiHostsSortByEnum = map[string]ListEsxiHostsSortByEnum{
 	"timeCreated": ListEsxiHostsSortByTimecreated,
 	"displayName": ListEsxiHostsSortByDisplayname,
 }
@@ -150,10 +184,18 @@ var mappingListEsxiHostsSortBy = map[string]ListEsxiHostsSortByEnum{
 // GetListEsxiHostsSortByEnumValues Enumerates the set of values for ListEsxiHostsSortByEnum
 func GetListEsxiHostsSortByEnumValues() []ListEsxiHostsSortByEnum {
 	values := make([]ListEsxiHostsSortByEnum, 0)
-	for _, v := range mappingListEsxiHostsSortBy {
+	for _, v := range mappingListEsxiHostsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEsxiHostsSortByEnumStringValues Enumerates the set of values in String for ListEsxiHostsSortByEnum
+func GetListEsxiHostsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListEsxiHostsLifecycleStateEnum Enum with underlying type: string
@@ -169,7 +211,7 @@ const (
 	ListEsxiHostsLifecycleStateFailed   ListEsxiHostsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListEsxiHostsLifecycleState = map[string]ListEsxiHostsLifecycleStateEnum{
+var mappingListEsxiHostsLifecycleStateEnum = map[string]ListEsxiHostsLifecycleStateEnum{
 	"CREATING": ListEsxiHostsLifecycleStateCreating,
 	"UPDATING": ListEsxiHostsLifecycleStateUpdating,
 	"ACTIVE":   ListEsxiHostsLifecycleStateActive,
@@ -181,8 +223,20 @@ var mappingListEsxiHostsLifecycleState = map[string]ListEsxiHostsLifecycleStateE
 // GetListEsxiHostsLifecycleStateEnumValues Enumerates the set of values for ListEsxiHostsLifecycleStateEnum
 func GetListEsxiHostsLifecycleStateEnumValues() []ListEsxiHostsLifecycleStateEnum {
 	values := make([]ListEsxiHostsLifecycleStateEnum, 0)
-	for _, v := range mappingListEsxiHostsLifecycleState {
+	for _, v := range mappingListEsxiHostsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListEsxiHostsLifecycleStateEnumStringValues Enumerates the set of values in String for ListEsxiHostsLifecycleStateEnum
+func GetListEsxiHostsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

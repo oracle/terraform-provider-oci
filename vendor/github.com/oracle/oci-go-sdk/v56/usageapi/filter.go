@@ -10,7 +10,9 @@
 package usageapi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Filter The filter object for query usage.
@@ -33,6 +35,21 @@ func (m Filter) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Filter) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingFilterOperatorEnum[string(m.Operator)]; !ok && m.Operator != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operator: %s. Supported values are: %s.", m.Operator, strings.Join(GetFilterOperatorEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FilterOperatorEnum Enum with underlying type: string
 type FilterOperatorEnum string
 
@@ -43,7 +60,7 @@ const (
 	FilterOperatorOr  FilterOperatorEnum = "OR"
 )
 
-var mappingFilterOperator = map[string]FilterOperatorEnum{
+var mappingFilterOperatorEnum = map[string]FilterOperatorEnum{
 	"AND": FilterOperatorAnd,
 	"NOT": FilterOperatorNot,
 	"OR":  FilterOperatorOr,
@@ -52,8 +69,17 @@ var mappingFilterOperator = map[string]FilterOperatorEnum{
 // GetFilterOperatorEnumValues Enumerates the set of values for FilterOperatorEnum
 func GetFilterOperatorEnumValues() []FilterOperatorEnum {
 	values := make([]FilterOperatorEnum, 0)
-	for _, v := range mappingFilterOperator {
+	for _, v := range mappingFilterOperatorEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFilterOperatorEnumStringValues Enumerates the set of values in String for FilterOperatorEnum
+func GetFilterOperatorEnumStringValues() []string {
+	return []string{
+		"AND",
+		"NOT",
+		"OR",
+	}
 }

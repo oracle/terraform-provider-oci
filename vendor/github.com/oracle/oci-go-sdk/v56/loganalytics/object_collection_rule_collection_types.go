@@ -19,7 +19,7 @@ const (
 	ObjectCollectionRuleCollectionTypesHistoricLive ObjectCollectionRuleCollectionTypesEnum = "HISTORIC_LIVE"
 )
 
-var mappingObjectCollectionRuleCollectionTypes = map[string]ObjectCollectionRuleCollectionTypesEnum{
+var mappingObjectCollectionRuleCollectionTypesEnum = map[string]ObjectCollectionRuleCollectionTypesEnum{
 	"LIVE":          ObjectCollectionRuleCollectionTypesLive,
 	"HISTORIC":      ObjectCollectionRuleCollectionTypesHistoric,
 	"HISTORIC_LIVE": ObjectCollectionRuleCollectionTypesHistoricLive,
@@ -28,8 +28,17 @@ var mappingObjectCollectionRuleCollectionTypes = map[string]ObjectCollectionRule
 // GetObjectCollectionRuleCollectionTypesEnumValues Enumerates the set of values for ObjectCollectionRuleCollectionTypesEnum
 func GetObjectCollectionRuleCollectionTypesEnumValues() []ObjectCollectionRuleCollectionTypesEnum {
 	values := make([]ObjectCollectionRuleCollectionTypesEnum, 0)
-	for _, v := range mappingObjectCollectionRuleCollectionTypes {
+	for _, v := range mappingObjectCollectionRuleCollectionTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetObjectCollectionRuleCollectionTypesEnumStringValues Enumerates the set of values in String for ObjectCollectionRuleCollectionTypesEnum
+func GetObjectCollectionRuleCollectionTypesEnumStringValues() []string {
+	return []string{
+		"LIVE",
+		"HISTORIC",
+		"HISTORIC_LIVE",
+	}
 }

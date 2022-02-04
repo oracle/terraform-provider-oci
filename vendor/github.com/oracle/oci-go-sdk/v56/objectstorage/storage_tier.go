@@ -21,7 +21,7 @@ const (
 	StorageTierArchive          StorageTierEnum = "Archive"
 )
 
-var mappingStorageTier = map[string]StorageTierEnum{
+var mappingStorageTierEnum = map[string]StorageTierEnum{
 	"Standard":         StorageTierStandard,
 	"InfrequentAccess": StorageTierInfrequentAccess,
 	"Archive":          StorageTierArchive,
@@ -30,8 +30,17 @@ var mappingStorageTier = map[string]StorageTierEnum{
 // GetStorageTierEnumValues Enumerates the set of values for StorageTierEnum
 func GetStorageTierEnumValues() []StorageTierEnum {
 	values := make([]StorageTierEnum, 0)
-	for _, v := range mappingStorageTier {
+	for _, v := range mappingStorageTierEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStorageTierEnumStringValues Enumerates the set of values in String for StorageTierEnum
+func GetStorageTierEnumStringValues() []string {
+	return []string{
+		"Standard",
+		"InfrequentAccess",
+		"Archive",
+	}
 }

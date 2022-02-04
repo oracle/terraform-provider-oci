@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDataMaskRulesRequest wrapper for the ListDataMaskRules operation
@@ -71,6 +73,10 @@ func (request ListDataMaskRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDataMaskRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -84,6 +90,32 @@ func (request ListDataMaskRulesRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDataMaskRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDataMaskRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDataMaskRulesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDataMaskRulesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataMaskRulesAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListDataMaskRulesAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataMaskRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDataMaskRulesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataMaskRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDataMaskRulesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataMaskRulesDataMaskRuleStatusEnum[string(request.DataMaskRuleStatus)]; !ok && request.DataMaskRuleStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataMaskRuleStatus: %s. Supported values are: %s.", request.DataMaskRuleStatus, strings.Join(GetListDataMaskRulesDataMaskRuleStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDataMaskRulesResponse wrapper for the ListDataMaskRules operation
@@ -128,7 +160,7 @@ const (
 	ListDataMaskRulesLifecycleStateFailed   ListDataMaskRulesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListDataMaskRulesLifecycleState = map[string]ListDataMaskRulesLifecycleStateEnum{
+var mappingListDataMaskRulesLifecycleStateEnum = map[string]ListDataMaskRulesLifecycleStateEnum{
 	"CREATING": ListDataMaskRulesLifecycleStateCreating,
 	"UPDATING": ListDataMaskRulesLifecycleStateUpdating,
 	"ACTIVE":   ListDataMaskRulesLifecycleStateActive,
@@ -141,10 +173,23 @@ var mappingListDataMaskRulesLifecycleState = map[string]ListDataMaskRulesLifecyc
 // GetListDataMaskRulesLifecycleStateEnumValues Enumerates the set of values for ListDataMaskRulesLifecycleStateEnum
 func GetListDataMaskRulesLifecycleStateEnumValues() []ListDataMaskRulesLifecycleStateEnum {
 	values := make([]ListDataMaskRulesLifecycleStateEnum, 0)
-	for _, v := range mappingListDataMaskRulesLifecycleState {
+	for _, v := range mappingListDataMaskRulesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataMaskRulesLifecycleStateEnumStringValues Enumerates the set of values in String for ListDataMaskRulesLifecycleStateEnum
+func GetListDataMaskRulesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListDataMaskRulesAccessLevelEnum Enum with underlying type: string
@@ -156,7 +201,7 @@ const (
 	ListDataMaskRulesAccessLevelAccessible ListDataMaskRulesAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListDataMaskRulesAccessLevel = map[string]ListDataMaskRulesAccessLevelEnum{
+var mappingListDataMaskRulesAccessLevelEnum = map[string]ListDataMaskRulesAccessLevelEnum{
 	"RESTRICTED": ListDataMaskRulesAccessLevelRestricted,
 	"ACCESSIBLE": ListDataMaskRulesAccessLevelAccessible,
 }
@@ -164,10 +209,18 @@ var mappingListDataMaskRulesAccessLevel = map[string]ListDataMaskRulesAccessLeve
 // GetListDataMaskRulesAccessLevelEnumValues Enumerates the set of values for ListDataMaskRulesAccessLevelEnum
 func GetListDataMaskRulesAccessLevelEnumValues() []ListDataMaskRulesAccessLevelEnum {
 	values := make([]ListDataMaskRulesAccessLevelEnum, 0)
-	for _, v := range mappingListDataMaskRulesAccessLevel {
+	for _, v := range mappingListDataMaskRulesAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataMaskRulesAccessLevelEnumStringValues Enumerates the set of values in String for ListDataMaskRulesAccessLevelEnum
+func GetListDataMaskRulesAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }
 
 // ListDataMaskRulesSortOrderEnum Enum with underlying type: string
@@ -179,7 +232,7 @@ const (
 	ListDataMaskRulesSortOrderDesc ListDataMaskRulesSortOrderEnum = "DESC"
 )
 
-var mappingListDataMaskRulesSortOrder = map[string]ListDataMaskRulesSortOrderEnum{
+var mappingListDataMaskRulesSortOrderEnum = map[string]ListDataMaskRulesSortOrderEnum{
 	"ASC":  ListDataMaskRulesSortOrderAsc,
 	"DESC": ListDataMaskRulesSortOrderDesc,
 }
@@ -187,10 +240,18 @@ var mappingListDataMaskRulesSortOrder = map[string]ListDataMaskRulesSortOrderEnu
 // GetListDataMaskRulesSortOrderEnumValues Enumerates the set of values for ListDataMaskRulesSortOrderEnum
 func GetListDataMaskRulesSortOrderEnumValues() []ListDataMaskRulesSortOrderEnum {
 	values := make([]ListDataMaskRulesSortOrderEnum, 0)
-	for _, v := range mappingListDataMaskRulesSortOrder {
+	for _, v := range mappingListDataMaskRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataMaskRulesSortOrderEnumStringValues Enumerates the set of values in String for ListDataMaskRulesSortOrderEnum
+func GetListDataMaskRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDataMaskRulesSortByEnum Enum with underlying type: string
@@ -202,7 +263,7 @@ const (
 	ListDataMaskRulesSortByDisplayname ListDataMaskRulesSortByEnum = "displayName"
 )
 
-var mappingListDataMaskRulesSortBy = map[string]ListDataMaskRulesSortByEnum{
+var mappingListDataMaskRulesSortByEnum = map[string]ListDataMaskRulesSortByEnum{
 	"timeCreated": ListDataMaskRulesSortByTimecreated,
 	"displayName": ListDataMaskRulesSortByDisplayname,
 }
@@ -210,10 +271,18 @@ var mappingListDataMaskRulesSortBy = map[string]ListDataMaskRulesSortByEnum{
 // GetListDataMaskRulesSortByEnumValues Enumerates the set of values for ListDataMaskRulesSortByEnum
 func GetListDataMaskRulesSortByEnumValues() []ListDataMaskRulesSortByEnum {
 	values := make([]ListDataMaskRulesSortByEnum, 0)
-	for _, v := range mappingListDataMaskRulesSortBy {
+	for _, v := range mappingListDataMaskRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataMaskRulesSortByEnumStringValues Enumerates the set of values in String for ListDataMaskRulesSortByEnum
+func GetListDataMaskRulesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }
 
 // ListDataMaskRulesDataMaskRuleStatusEnum Enum with underlying type: string
@@ -225,7 +294,7 @@ const (
 	ListDataMaskRulesDataMaskRuleStatusDisabled ListDataMaskRulesDataMaskRuleStatusEnum = "DISABLED"
 )
 
-var mappingListDataMaskRulesDataMaskRuleStatus = map[string]ListDataMaskRulesDataMaskRuleStatusEnum{
+var mappingListDataMaskRulesDataMaskRuleStatusEnum = map[string]ListDataMaskRulesDataMaskRuleStatusEnum{
 	"ENABLED":  ListDataMaskRulesDataMaskRuleStatusEnabled,
 	"DISABLED": ListDataMaskRulesDataMaskRuleStatusDisabled,
 }
@@ -233,8 +302,16 @@ var mappingListDataMaskRulesDataMaskRuleStatus = map[string]ListDataMaskRulesDat
 // GetListDataMaskRulesDataMaskRuleStatusEnumValues Enumerates the set of values for ListDataMaskRulesDataMaskRuleStatusEnum
 func GetListDataMaskRulesDataMaskRuleStatusEnumValues() []ListDataMaskRulesDataMaskRuleStatusEnum {
 	values := make([]ListDataMaskRulesDataMaskRuleStatusEnum, 0)
-	for _, v := range mappingListDataMaskRulesDataMaskRuleStatus {
+	for _, v := range mappingListDataMaskRulesDataMaskRuleStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataMaskRulesDataMaskRuleStatusEnumStringValues Enumerates the set of values in String for ListDataMaskRulesDataMaskRuleStatusEnum
+func GetListDataMaskRulesDataMaskRuleStatusEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }

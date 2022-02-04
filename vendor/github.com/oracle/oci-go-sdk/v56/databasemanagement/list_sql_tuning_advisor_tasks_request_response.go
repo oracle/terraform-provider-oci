@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSqlTuningAdvisorTasksRequest wrapper for the ListSqlTuningAdvisorTasks operation
@@ -38,7 +40,7 @@ type ListSqlTuningAdvisorTasksRequest struct {
 	// The maximum number of records returned in the paginated response.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The option to sort the SQL Tuning advisor task summary data.
+	// The option to sort the SQL Tuning Advisor task summary data.
 	SortBy ListSqlTuningAdvisorTasksSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Descending order is the default order.
@@ -59,6 +61,10 @@ func (request ListSqlTuningAdvisorTasksRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSqlTuningAdvisorTasksRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,26 @@ func (request ListSqlTuningAdvisorTasksRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSqlTuningAdvisorTasksRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSqlTuningAdvisorTasksRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSqlTuningAdvisorTasksStatusEnum[string(request.Status)]; !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListSqlTuningAdvisorTasksStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSqlTuningAdvisorTasksSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSqlTuningAdvisorTasksSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSqlTuningAdvisorTasksSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSqlTuningAdvisorTasksSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSqlTuningAdvisorTasksResponse wrapper for the ListSqlTuningAdvisorTasks operation
@@ -114,7 +140,7 @@ const (
 	ListSqlTuningAdvisorTasksStatusError       ListSqlTuningAdvisorTasksStatusEnum = "ERROR"
 )
 
-var mappingListSqlTuningAdvisorTasksStatus = map[string]ListSqlTuningAdvisorTasksStatusEnum{
+var mappingListSqlTuningAdvisorTasksStatusEnum = map[string]ListSqlTuningAdvisorTasksStatusEnum{
 	"INITIAL":     ListSqlTuningAdvisorTasksStatusInitial,
 	"EXECUTING":   ListSqlTuningAdvisorTasksStatusExecuting,
 	"INTERRUPTED": ListSqlTuningAdvisorTasksStatusInterrupted,
@@ -125,10 +151,21 @@ var mappingListSqlTuningAdvisorTasksStatus = map[string]ListSqlTuningAdvisorTask
 // GetListSqlTuningAdvisorTasksStatusEnumValues Enumerates the set of values for ListSqlTuningAdvisorTasksStatusEnum
 func GetListSqlTuningAdvisorTasksStatusEnumValues() []ListSqlTuningAdvisorTasksStatusEnum {
 	values := make([]ListSqlTuningAdvisorTasksStatusEnum, 0)
-	for _, v := range mappingListSqlTuningAdvisorTasksStatus {
+	for _, v := range mappingListSqlTuningAdvisorTasksStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSqlTuningAdvisorTasksStatusEnumStringValues Enumerates the set of values in String for ListSqlTuningAdvisorTasksStatusEnum
+func GetListSqlTuningAdvisorTasksStatusEnumStringValues() []string {
+	return []string{
+		"INITIAL",
+		"EXECUTING",
+		"INTERRUPTED",
+		"COMPLETED",
+		"ERROR",
+	}
 }
 
 // ListSqlTuningAdvisorTasksSortByEnum Enum with underlying type: string
@@ -140,7 +177,7 @@ const (
 	ListSqlTuningAdvisorTasksSortByStartTime ListSqlTuningAdvisorTasksSortByEnum = "START_TIME"
 )
 
-var mappingListSqlTuningAdvisorTasksSortBy = map[string]ListSqlTuningAdvisorTasksSortByEnum{
+var mappingListSqlTuningAdvisorTasksSortByEnum = map[string]ListSqlTuningAdvisorTasksSortByEnum{
 	"NAME":       ListSqlTuningAdvisorTasksSortByName,
 	"START_TIME": ListSqlTuningAdvisorTasksSortByStartTime,
 }
@@ -148,10 +185,18 @@ var mappingListSqlTuningAdvisorTasksSortBy = map[string]ListSqlTuningAdvisorTask
 // GetListSqlTuningAdvisorTasksSortByEnumValues Enumerates the set of values for ListSqlTuningAdvisorTasksSortByEnum
 func GetListSqlTuningAdvisorTasksSortByEnumValues() []ListSqlTuningAdvisorTasksSortByEnum {
 	values := make([]ListSqlTuningAdvisorTasksSortByEnum, 0)
-	for _, v := range mappingListSqlTuningAdvisorTasksSortBy {
+	for _, v := range mappingListSqlTuningAdvisorTasksSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSqlTuningAdvisorTasksSortByEnumStringValues Enumerates the set of values in String for ListSqlTuningAdvisorTasksSortByEnum
+func GetListSqlTuningAdvisorTasksSortByEnumStringValues() []string {
+	return []string{
+		"NAME",
+		"START_TIME",
+	}
 }
 
 // ListSqlTuningAdvisorTasksSortOrderEnum Enum with underlying type: string
@@ -163,7 +208,7 @@ const (
 	ListSqlTuningAdvisorTasksSortOrderDesc ListSqlTuningAdvisorTasksSortOrderEnum = "DESC"
 )
 
-var mappingListSqlTuningAdvisorTasksSortOrder = map[string]ListSqlTuningAdvisorTasksSortOrderEnum{
+var mappingListSqlTuningAdvisorTasksSortOrderEnum = map[string]ListSqlTuningAdvisorTasksSortOrderEnum{
 	"ASC":  ListSqlTuningAdvisorTasksSortOrderAsc,
 	"DESC": ListSqlTuningAdvisorTasksSortOrderDesc,
 }
@@ -171,8 +216,16 @@ var mappingListSqlTuningAdvisorTasksSortOrder = map[string]ListSqlTuningAdvisorT
 // GetListSqlTuningAdvisorTasksSortOrderEnumValues Enumerates the set of values for ListSqlTuningAdvisorTasksSortOrderEnum
 func GetListSqlTuningAdvisorTasksSortOrderEnumValues() []ListSqlTuningAdvisorTasksSortOrderEnum {
 	values := make([]ListSqlTuningAdvisorTasksSortOrderEnum, 0)
-	for _, v := range mappingListSqlTuningAdvisorTasksSortOrder {
+	for _, v := range mappingListSqlTuningAdvisorTasksSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSqlTuningAdvisorTasksSortOrderEnumStringValues Enumerates the set of values in String for ListSqlTuningAdvisorTasksSortOrderEnum
+func GetListSqlTuningAdvisorTasksSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

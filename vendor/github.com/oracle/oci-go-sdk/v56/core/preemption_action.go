@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PreemptionAction The action to run when the preemptible instance is interrupted for eviction.
@@ -65,6 +67,18 @@ func (m preemptionaction) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m preemptionaction) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PreemptionActionTypeEnum Enum with underlying type: string
 type PreemptionActionTypeEnum string
 
@@ -73,15 +87,22 @@ const (
 	PreemptionActionTypeTerminate PreemptionActionTypeEnum = "TERMINATE"
 )
 
-var mappingPreemptionActionType = map[string]PreemptionActionTypeEnum{
+var mappingPreemptionActionTypeEnum = map[string]PreemptionActionTypeEnum{
 	"TERMINATE": PreemptionActionTypeTerminate,
 }
 
 // GetPreemptionActionTypeEnumValues Enumerates the set of values for PreemptionActionTypeEnum
 func GetPreemptionActionTypeEnumValues() []PreemptionActionTypeEnum {
 	values := make([]PreemptionActionTypeEnum, 0)
-	for _, v := range mappingPreemptionActionType {
+	for _, v := range mappingPreemptionActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPreemptionActionTypeEnumStringValues Enumerates the set of values in String for PreemptionActionTypeEnum
+func GetPreemptionActionTypeEnumStringValues() []string {
+	return []string{
+		"TERMINATE",
+	}
 }

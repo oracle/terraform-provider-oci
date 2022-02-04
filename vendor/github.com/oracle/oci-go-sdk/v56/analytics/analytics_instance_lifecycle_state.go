@@ -23,7 +23,7 @@ const (
 	AnalyticsInstanceLifecycleStateUpdating AnalyticsInstanceLifecycleStateEnum = "UPDATING"
 )
 
-var mappingAnalyticsInstanceLifecycleState = map[string]AnalyticsInstanceLifecycleStateEnum{
+var mappingAnalyticsInstanceLifecycleStateEnum = map[string]AnalyticsInstanceLifecycleStateEnum{
 	"ACTIVE":   AnalyticsInstanceLifecycleStateActive,
 	"CREATING": AnalyticsInstanceLifecycleStateCreating,
 	"DELETED":  AnalyticsInstanceLifecycleStateDeleted,
@@ -36,8 +36,21 @@ var mappingAnalyticsInstanceLifecycleState = map[string]AnalyticsInstanceLifecyc
 // GetAnalyticsInstanceLifecycleStateEnumValues Enumerates the set of values for AnalyticsInstanceLifecycleStateEnum
 func GetAnalyticsInstanceLifecycleStateEnumValues() []AnalyticsInstanceLifecycleStateEnum {
 	values := make([]AnalyticsInstanceLifecycleStateEnum, 0)
-	for _, v := range mappingAnalyticsInstanceLifecycleState {
+	for _, v := range mappingAnalyticsInstanceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAnalyticsInstanceLifecycleStateEnumStringValues Enumerates the set of values in String for AnalyticsInstanceLifecycleStateEnum
+func GetAnalyticsInstanceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"INACTIVE",
+		"UPDATING",
+	}
 }

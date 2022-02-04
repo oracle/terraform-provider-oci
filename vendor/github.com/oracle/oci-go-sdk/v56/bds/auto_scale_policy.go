@@ -10,7 +10,9 @@
 package bds
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutoScalePolicy Policy definitions for the autoscale configuration.
@@ -27,6 +29,21 @@ func (m AutoScalePolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutoScalePolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutoScalePolicyPolicyTypeEnum[string(m.PolicyType)]; !ok && m.PolicyType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PolicyType: %s. Supported values are: %s.", m.PolicyType, strings.Join(GetAutoScalePolicyPolicyTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutoScalePolicyPolicyTypeEnum Enum with underlying type: string
 type AutoScalePolicyPolicyTypeEnum string
 
@@ -36,7 +53,7 @@ const (
 	AutoScalePolicyPolicyTypeScheduleBased  AutoScalePolicyPolicyTypeEnum = "SCHEDULE_BASED"
 )
 
-var mappingAutoScalePolicyPolicyType = map[string]AutoScalePolicyPolicyTypeEnum{
+var mappingAutoScalePolicyPolicyTypeEnum = map[string]AutoScalePolicyPolicyTypeEnum{
 	"THRESHOLD_BASED": AutoScalePolicyPolicyTypeThresholdBased,
 	"SCHEDULE_BASED":  AutoScalePolicyPolicyTypeScheduleBased,
 }
@@ -44,8 +61,16 @@ var mappingAutoScalePolicyPolicyType = map[string]AutoScalePolicyPolicyTypeEnum{
 // GetAutoScalePolicyPolicyTypeEnumValues Enumerates the set of values for AutoScalePolicyPolicyTypeEnum
 func GetAutoScalePolicyPolicyTypeEnumValues() []AutoScalePolicyPolicyTypeEnum {
 	values := make([]AutoScalePolicyPolicyTypeEnum, 0)
-	for _, v := range mappingAutoScalePolicyPolicyType {
+	for _, v := range mappingAutoScalePolicyPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutoScalePolicyPolicyTypeEnumStringValues Enumerates the set of values in String for AutoScalePolicyPolicyTypeEnum
+func GetAutoScalePolicyPolicyTypeEnumStringValues() []string {
+	return []string{
+		"THRESHOLD_BASED",
+		"SCHEDULE_BASED",
+	}
 }

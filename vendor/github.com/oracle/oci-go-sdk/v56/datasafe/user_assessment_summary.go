@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UserAssessmentSummary The summary of the user assessment.
@@ -106,6 +108,27 @@ func (m UserAssessmentSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserAssessmentSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUserAssessmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetUserAssessmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUserAssessmentSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetUserAssessmentSummaryTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingUserAssessmentSummaryTriggeredByEnum[string(m.TriggeredBy)]; !ok && m.TriggeredBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggeredBy: %s. Supported values are: %s.", m.TriggeredBy, strings.Join(GetUserAssessmentSummaryTriggeredByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UserAssessmentSummaryTriggeredByEnum Enum with underlying type: string
 type UserAssessmentSummaryTriggeredByEnum string
 
@@ -115,7 +138,7 @@ const (
 	UserAssessmentSummaryTriggeredBySystem UserAssessmentSummaryTriggeredByEnum = "SYSTEM"
 )
 
-var mappingUserAssessmentSummaryTriggeredBy = map[string]UserAssessmentSummaryTriggeredByEnum{
+var mappingUserAssessmentSummaryTriggeredByEnum = map[string]UserAssessmentSummaryTriggeredByEnum{
 	"USER":   UserAssessmentSummaryTriggeredByUser,
 	"SYSTEM": UserAssessmentSummaryTriggeredBySystem,
 }
@@ -123,10 +146,18 @@ var mappingUserAssessmentSummaryTriggeredBy = map[string]UserAssessmentSummaryTr
 // GetUserAssessmentSummaryTriggeredByEnumValues Enumerates the set of values for UserAssessmentSummaryTriggeredByEnum
 func GetUserAssessmentSummaryTriggeredByEnumValues() []UserAssessmentSummaryTriggeredByEnum {
 	values := make([]UserAssessmentSummaryTriggeredByEnum, 0)
-	for _, v := range mappingUserAssessmentSummaryTriggeredBy {
+	for _, v := range mappingUserAssessmentSummaryTriggeredByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserAssessmentSummaryTriggeredByEnumStringValues Enumerates the set of values in String for UserAssessmentSummaryTriggeredByEnum
+func GetUserAssessmentSummaryTriggeredByEnumStringValues() []string {
+	return []string{
+		"USER",
+		"SYSTEM",
+	}
 }
 
 // UserAssessmentSummaryTypeEnum Enum with underlying type: string
@@ -140,7 +171,7 @@ const (
 	UserAssessmentSummaryTypeCompartment  UserAssessmentSummaryTypeEnum = "COMPARTMENT"
 )
 
-var mappingUserAssessmentSummaryType = map[string]UserAssessmentSummaryTypeEnum{
+var mappingUserAssessmentSummaryTypeEnum = map[string]UserAssessmentSummaryTypeEnum{
 	"LATEST":        UserAssessmentSummaryTypeLatest,
 	"SAVED":         UserAssessmentSummaryTypeSaved,
 	"SAVE_SCHEDULE": UserAssessmentSummaryTypeSaveSchedule,
@@ -150,8 +181,18 @@ var mappingUserAssessmentSummaryType = map[string]UserAssessmentSummaryTypeEnum{
 // GetUserAssessmentSummaryTypeEnumValues Enumerates the set of values for UserAssessmentSummaryTypeEnum
 func GetUserAssessmentSummaryTypeEnumValues() []UserAssessmentSummaryTypeEnum {
 	values := make([]UserAssessmentSummaryTypeEnum, 0)
-	for _, v := range mappingUserAssessmentSummaryType {
+	for _, v := range mappingUserAssessmentSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserAssessmentSummaryTypeEnumStringValues Enumerates the set of values in String for UserAssessmentSummaryTypeEnum
+func GetUserAssessmentSummaryTypeEnumStringValues() []string {
+	return []string{
+		"LATEST",
+		"SAVED",
+		"SAVE_SCHEDULE",
+		"COMPARTMENT",
+	}
 }

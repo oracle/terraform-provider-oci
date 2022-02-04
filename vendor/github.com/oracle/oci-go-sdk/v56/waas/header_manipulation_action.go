@@ -11,7 +11,9 @@ package waas
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HeaderManipulationAction An object that represents an action to apply to an HTTP headers.
@@ -69,6 +71,18 @@ func (m headermanipulationaction) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m headermanipulationaction) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HeaderManipulationActionActionEnum Enum with underlying type: string
 type HeaderManipulationActionActionEnum string
 
@@ -79,7 +93,7 @@ const (
 	HeaderManipulationActionActionRemoveHttpResponseHeader HeaderManipulationActionActionEnum = "REMOVE_HTTP_RESPONSE_HEADER"
 )
 
-var mappingHeaderManipulationActionAction = map[string]HeaderManipulationActionActionEnum{
+var mappingHeaderManipulationActionActionEnum = map[string]HeaderManipulationActionActionEnum{
 	"EXTEND_HTTP_RESPONSE_HEADER": HeaderManipulationActionActionExtendHttpResponseHeader,
 	"ADD_HTTP_RESPONSE_HEADER":    HeaderManipulationActionActionAddHttpResponseHeader,
 	"REMOVE_HTTP_RESPONSE_HEADER": HeaderManipulationActionActionRemoveHttpResponseHeader,
@@ -88,8 +102,17 @@ var mappingHeaderManipulationActionAction = map[string]HeaderManipulationActionA
 // GetHeaderManipulationActionActionEnumValues Enumerates the set of values for HeaderManipulationActionActionEnum
 func GetHeaderManipulationActionActionEnumValues() []HeaderManipulationActionActionEnum {
 	values := make([]HeaderManipulationActionActionEnum, 0)
-	for _, v := range mappingHeaderManipulationActionAction {
+	for _, v := range mappingHeaderManipulationActionActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHeaderManipulationActionActionEnumStringValues Enumerates the set of values in String for HeaderManipulationActionActionEnum
+func GetHeaderManipulationActionActionEnumStringValues() []string {
+	return []string{
+		"EXTEND_HTTP_RESPONSE_HEADER",
+		"ADD_HTTP_RESPONSE_HEADER",
+		"REMOVE_HTTP_RESPONSE_HEADER",
+	}
 }

@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeDatabaseInsightResourceUtilizationInsightRequest wrapper for the SummarizeDatabaseInsightResourceUtilizationInsight operation
@@ -115,6 +117,10 @@ func (request SummarizeDatabaseInsightResourceUtilizationInsightRequest) String(
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeDatabaseInsightResourceUtilizationInsightRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -128,6 +134,23 @@ func (request SummarizeDatabaseInsightResourceUtilizationInsightRequest) BinaryR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeDatabaseInsightResourceUtilizationInsightRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeDatabaseInsightResourceUtilizationInsightRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.DatabaseType {
+		if _, ok := mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeDatabaseInsightResourceUtilizationInsightResponse wrapper for the SummarizeDatabaseInsightResourceUtilizationInsight operation
@@ -171,7 +194,7 @@ const (
 	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalNoncdb SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "EXTERNAL-NONCDB"
 )
 
-var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseType = map[string]SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum{
+var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum{
 	"ADW-S":           SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAdwS,
 	"ATP-S":           SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAtpS,
 	"ADW-D":           SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAdwD,
@@ -183,8 +206,20 @@ var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseType = map[
 // GetSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum
 func GetSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumValues() []SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum {
 	values := make([]SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseType {
+	for _, v := range mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum
+func GetSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"ADW-S",
+		"ATP-S",
+		"ADW-D",
+		"ATP-D",
+		"EXTERNAL-PDB",
+		"EXTERNAL-NONCDB",
+	}
 }

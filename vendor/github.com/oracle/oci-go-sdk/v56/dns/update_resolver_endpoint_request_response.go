@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // UpdateResolverEndpointRequest wrapper for the UpdateResolverEndpoint operation
@@ -59,6 +61,10 @@ func (request UpdateResolverEndpointRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request UpdateResolverEndpointRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -72,6 +78,20 @@ func (request UpdateResolverEndpointRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateResolverEndpointRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request UpdateResolverEndpointRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateResolverEndpointScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetUpdateResolverEndpointScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateResolverEndpointResponse wrapper for the UpdateResolverEndpoint operation
@@ -115,7 +135,7 @@ const (
 	UpdateResolverEndpointScopePrivate UpdateResolverEndpointScopeEnum = "PRIVATE"
 )
 
-var mappingUpdateResolverEndpointScope = map[string]UpdateResolverEndpointScopeEnum{
+var mappingUpdateResolverEndpointScopeEnum = map[string]UpdateResolverEndpointScopeEnum{
 	"GLOBAL":  UpdateResolverEndpointScopeGlobal,
 	"PRIVATE": UpdateResolverEndpointScopePrivate,
 }
@@ -123,8 +143,16 @@ var mappingUpdateResolverEndpointScope = map[string]UpdateResolverEndpointScopeE
 // GetUpdateResolverEndpointScopeEnumValues Enumerates the set of values for UpdateResolverEndpointScopeEnum
 func GetUpdateResolverEndpointScopeEnumValues() []UpdateResolverEndpointScopeEnum {
 	values := make([]UpdateResolverEndpointScopeEnum, 0)
-	for _, v := range mappingUpdateResolverEndpointScope {
+	for _, v := range mappingUpdateResolverEndpointScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateResolverEndpointScopeEnumStringValues Enumerates the set of values in String for UpdateResolverEndpointScopeEnum
+func GetUpdateResolverEndpointScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

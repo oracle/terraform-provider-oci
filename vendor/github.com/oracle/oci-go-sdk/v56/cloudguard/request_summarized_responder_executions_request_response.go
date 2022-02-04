@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // RequestSummarizedResponderExecutionsRequest wrapper for the RequestSummarizedResponderExecutions operation
@@ -64,6 +66,10 @@ func (request RequestSummarizedResponderExecutionsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request RequestSummarizedResponderExecutionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -77,6 +83,38 @@ func (request RequestSummarizedResponderExecutionsRequest) BinaryRequestBody() (
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request RequestSummarizedResponderExecutionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request RequestSummarizedResponderExecutionsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.ResponderExecutionsDimensions {
+		if _, ok := mappingResponderDimensionEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResponderExecutionsDimensions: %s. Supported values are: %s.", val, strings.Join(GetResponderDimensionEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ResponderTypeFilter {
+		if _, ok := mappingResponderTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResponderTypeFilter: %s. Supported values are: %s.", val, strings.Join(GetResponderTypeEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ResponderExecutionStatusFilter {
+		if _, ok := mappingResponderExecutionStatusEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResponderExecutionStatusFilter: %s. Supported values are: %s.", val, strings.Join(GetResponderExecutionStatusEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingRequestSummarizedResponderExecutionsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetRequestSummarizedResponderExecutionsAccessLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // RequestSummarizedResponderExecutionsResponse wrapper for the RequestSummarizedResponderExecutions operation
@@ -116,7 +154,7 @@ const (
 	RequestSummarizedResponderExecutionsAccessLevelAccessible RequestSummarizedResponderExecutionsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingRequestSummarizedResponderExecutionsAccessLevel = map[string]RequestSummarizedResponderExecutionsAccessLevelEnum{
+var mappingRequestSummarizedResponderExecutionsAccessLevelEnum = map[string]RequestSummarizedResponderExecutionsAccessLevelEnum{
 	"RESTRICTED": RequestSummarizedResponderExecutionsAccessLevelRestricted,
 	"ACCESSIBLE": RequestSummarizedResponderExecutionsAccessLevelAccessible,
 }
@@ -124,8 +162,16 @@ var mappingRequestSummarizedResponderExecutionsAccessLevel = map[string]RequestS
 // GetRequestSummarizedResponderExecutionsAccessLevelEnumValues Enumerates the set of values for RequestSummarizedResponderExecutionsAccessLevelEnum
 func GetRequestSummarizedResponderExecutionsAccessLevelEnumValues() []RequestSummarizedResponderExecutionsAccessLevelEnum {
 	values := make([]RequestSummarizedResponderExecutionsAccessLevelEnum, 0)
-	for _, v := range mappingRequestSummarizedResponderExecutionsAccessLevel {
+	for _, v := range mappingRequestSummarizedResponderExecutionsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRequestSummarizedResponderExecutionsAccessLevelEnumStringValues Enumerates the set of values in String for RequestSummarizedResponderExecutionsAccessLevelEnum
+func GetRequestSummarizedResponderExecutionsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }

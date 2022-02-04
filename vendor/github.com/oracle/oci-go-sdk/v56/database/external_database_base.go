@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExternalDatabaseBase A resource that allows you to manage an Oracle Database located outside of Oracle Cloud using Oracle Cloud Infrastructure's Console and APIs.
@@ -79,6 +81,27 @@ func (m ExternalDatabaseBase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExternalDatabaseBase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExternalDatabaseBaseLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExternalDatabaseBaseLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingExternalDatabaseBaseDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetExternalDatabaseBaseDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExternalDatabaseBaseDatabaseConfigurationEnum[string(m.DatabaseConfiguration)]; !ok && m.DatabaseConfiguration != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseConfiguration: %s. Supported values are: %s.", m.DatabaseConfiguration, strings.Join(GetExternalDatabaseBaseDatabaseConfigurationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExternalDatabaseBaseLifecycleStateEnum Enum with underlying type: string
 type ExternalDatabaseBaseLifecycleStateEnum string
 
@@ -93,7 +116,7 @@ const (
 	ExternalDatabaseBaseLifecycleStateFailed       ExternalDatabaseBaseLifecycleStateEnum = "FAILED"
 )
 
-var mappingExternalDatabaseBaseLifecycleState = map[string]ExternalDatabaseBaseLifecycleStateEnum{
+var mappingExternalDatabaseBaseLifecycleStateEnum = map[string]ExternalDatabaseBaseLifecycleStateEnum{
 	"PROVISIONING":  ExternalDatabaseBaseLifecycleStateProvisioning,
 	"NOT_CONNECTED": ExternalDatabaseBaseLifecycleStateNotConnected,
 	"AVAILABLE":     ExternalDatabaseBaseLifecycleStateAvailable,
@@ -106,10 +129,23 @@ var mappingExternalDatabaseBaseLifecycleState = map[string]ExternalDatabaseBaseL
 // GetExternalDatabaseBaseLifecycleStateEnumValues Enumerates the set of values for ExternalDatabaseBaseLifecycleStateEnum
 func GetExternalDatabaseBaseLifecycleStateEnumValues() []ExternalDatabaseBaseLifecycleStateEnum {
 	values := make([]ExternalDatabaseBaseLifecycleStateEnum, 0)
-	for _, v := range mappingExternalDatabaseBaseLifecycleState {
+	for _, v := range mappingExternalDatabaseBaseLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalDatabaseBaseLifecycleStateEnumStringValues Enumerates the set of values in String for ExternalDatabaseBaseLifecycleStateEnum
+func GetExternalDatabaseBaseLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"NOT_CONNECTED",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }
 
 // ExternalDatabaseBaseDatabaseEditionEnum Enum with underlying type: string
@@ -123,7 +159,7 @@ const (
 	ExternalDatabaseBaseDatabaseEditionEnterpriseEditionExtremePerformance ExternalDatabaseBaseDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 )
 
-var mappingExternalDatabaseBaseDatabaseEdition = map[string]ExternalDatabaseBaseDatabaseEditionEnum{
+var mappingExternalDatabaseBaseDatabaseEditionEnum = map[string]ExternalDatabaseBaseDatabaseEditionEnum{
 	"STANDARD_EDITION":                       ExternalDatabaseBaseDatabaseEditionStandardEdition,
 	"ENTERPRISE_EDITION":                     ExternalDatabaseBaseDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    ExternalDatabaseBaseDatabaseEditionEnterpriseEditionHighPerformance,
@@ -133,10 +169,20 @@ var mappingExternalDatabaseBaseDatabaseEdition = map[string]ExternalDatabaseBase
 // GetExternalDatabaseBaseDatabaseEditionEnumValues Enumerates the set of values for ExternalDatabaseBaseDatabaseEditionEnum
 func GetExternalDatabaseBaseDatabaseEditionEnumValues() []ExternalDatabaseBaseDatabaseEditionEnum {
 	values := make([]ExternalDatabaseBaseDatabaseEditionEnum, 0)
-	for _, v := range mappingExternalDatabaseBaseDatabaseEdition {
+	for _, v := range mappingExternalDatabaseBaseDatabaseEditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalDatabaseBaseDatabaseEditionEnumStringValues Enumerates the set of values in String for ExternalDatabaseBaseDatabaseEditionEnum
+func GetExternalDatabaseBaseDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+	}
 }
 
 // ExternalDatabaseBaseDatabaseConfigurationEnum Enum with underlying type: string
@@ -148,7 +194,7 @@ const (
 	ExternalDatabaseBaseDatabaseConfigurationSingleInstance ExternalDatabaseBaseDatabaseConfigurationEnum = "SINGLE_INSTANCE"
 )
 
-var mappingExternalDatabaseBaseDatabaseConfiguration = map[string]ExternalDatabaseBaseDatabaseConfigurationEnum{
+var mappingExternalDatabaseBaseDatabaseConfigurationEnum = map[string]ExternalDatabaseBaseDatabaseConfigurationEnum{
 	"RAC":             ExternalDatabaseBaseDatabaseConfigurationRac,
 	"SINGLE_INSTANCE": ExternalDatabaseBaseDatabaseConfigurationSingleInstance,
 }
@@ -156,8 +202,16 @@ var mappingExternalDatabaseBaseDatabaseConfiguration = map[string]ExternalDataba
 // GetExternalDatabaseBaseDatabaseConfigurationEnumValues Enumerates the set of values for ExternalDatabaseBaseDatabaseConfigurationEnum
 func GetExternalDatabaseBaseDatabaseConfigurationEnumValues() []ExternalDatabaseBaseDatabaseConfigurationEnum {
 	values := make([]ExternalDatabaseBaseDatabaseConfigurationEnum, 0)
-	for _, v := range mappingExternalDatabaseBaseDatabaseConfiguration {
+	for _, v := range mappingExternalDatabaseBaseDatabaseConfigurationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalDatabaseBaseDatabaseConfigurationEnumStringValues Enumerates the set of values in String for ExternalDatabaseBaseDatabaseConfigurationEnum
+func GetExternalDatabaseBaseDatabaseConfigurationEnumStringValues() []string {
+	return []string{
+		"RAC",
+		"SINGLE_INSTANCE",
+	}
 }

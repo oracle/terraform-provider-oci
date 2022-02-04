@@ -10,7 +10,9 @@
 package datalabelingservice
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExportFormat Specifies the export format to be used for exporting snapshot.
@@ -27,6 +29,24 @@ func (m ExportFormat) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExportFormat) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingExportFormatNameEnum[string(m.Name)]; !ok && m.Name != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Name: %s. Supported values are: %s.", m.Name, strings.Join(GetExportFormatNameEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExportFormatVersionEnum[string(m.Version)]; !ok && m.Version != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Version: %s. Supported values are: %s.", m.Version, strings.Join(GetExportFormatVersionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExportFormatNameEnum Enum with underlying type: string
 type ExportFormatNameEnum string
 
@@ -41,7 +61,7 @@ const (
 	ExportFormatNamePascalVoc         ExportFormatNameEnum = "PASCAL_VOC"
 )
 
-var mappingExportFormatName = map[string]ExportFormatNameEnum{
+var mappingExportFormatNameEnum = map[string]ExportFormatNameEnum{
 	"JSONL":              ExportFormatNameJsonl,
 	"JSONL_CONSOLIDATED": ExportFormatNameJsonlConsolidated,
 	"CONLL":              ExportFormatNameConll,
@@ -54,10 +74,23 @@ var mappingExportFormatName = map[string]ExportFormatNameEnum{
 // GetExportFormatNameEnumValues Enumerates the set of values for ExportFormatNameEnum
 func GetExportFormatNameEnumValues() []ExportFormatNameEnum {
 	values := make([]ExportFormatNameEnum, 0)
-	for _, v := range mappingExportFormatName {
+	for _, v := range mappingExportFormatNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExportFormatNameEnumStringValues Enumerates the set of values in String for ExportFormatNameEnum
+func GetExportFormatNameEnumStringValues() []string {
+	return []string{
+		"JSONL",
+		"JSONL_CONSOLIDATED",
+		"CONLL",
+		"SPACY",
+		"COCO",
+		"YOLO",
+		"PASCAL_VOC",
+	}
 }
 
 // ExportFormatVersionEnum Enum with underlying type: string
@@ -69,7 +102,7 @@ const (
 	ExportFormatVersionV5    ExportFormatVersionEnum = "V5"
 )
 
-var mappingExportFormatVersion = map[string]ExportFormatVersionEnum{
+var mappingExportFormatVersionEnum = map[string]ExportFormatVersionEnum{
 	"V2003": ExportFormatVersionV2003,
 	"V5":    ExportFormatVersionV5,
 }
@@ -77,8 +110,16 @@ var mappingExportFormatVersion = map[string]ExportFormatVersionEnum{
 // GetExportFormatVersionEnumValues Enumerates the set of values for ExportFormatVersionEnum
 func GetExportFormatVersionEnumValues() []ExportFormatVersionEnum {
 	values := make([]ExportFormatVersionEnum, 0)
-	for _, v := range mappingExportFormatVersion {
+	for _, v := range mappingExportFormatVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExportFormatVersionEnumStringValues Enumerates the set of values in String for ExportFormatVersionEnum
+func GetExportFormatVersionEnumStringValues() []string {
+	return []string{
+		"V2003",
+		"V5",
+	}
 }

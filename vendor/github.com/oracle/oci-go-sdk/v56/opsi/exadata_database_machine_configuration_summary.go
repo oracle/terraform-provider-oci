@@ -13,7 +13,9 @@ package opsi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExadataDatabaseMachineConfigurationSummary Configuration summary of a database machine.
@@ -94,6 +96,24 @@ func (m ExadataDatabaseMachineConfigurationSummary) GetFreeformTags() map[string
 
 func (m ExadataDatabaseMachineConfigurationSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExadataDatabaseMachineConfigurationSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingExadataTypeEnum[string(m.ExadataType)]; !ok && m.ExadataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataType: %s. Supported values are: %s.", m.ExadataType, strings.Join(GetExadataTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExadataRackTypeEnum[string(m.ExadataRackType)]; !ok && m.ExadataRackType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataRackType: %s. Supported values are: %s.", m.ExadataRackType, strings.Join(GetExadataRackTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation

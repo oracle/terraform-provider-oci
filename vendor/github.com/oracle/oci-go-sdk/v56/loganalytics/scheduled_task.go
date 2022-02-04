@@ -11,7 +11,9 @@ package loganalytics
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ScheduledTask Log analytics scheduled task resource.
@@ -226,6 +228,30 @@ func (m scheduledtask) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m scheduledtask) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTaskTypeEnum[string(m.TaskType)]; !ok && m.TaskType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskType: %s. Supported values are: %s.", m.TaskType, strings.Join(GetTaskTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScheduledTaskLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetScheduledTaskLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingScheduledTaskTaskStatusEnum[string(m.TaskStatus)]; !ok && m.TaskStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskStatus: %s. Supported values are: %s.", m.TaskStatus, strings.Join(GetScheduledTaskTaskStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingScheduledTaskPauseReasonEnum[string(m.PauseReason)]; !ok && m.PauseReason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PauseReason: %s. Supported values are: %s.", m.PauseReason, strings.Join(GetScheduledTaskPauseReasonEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ScheduledTaskTaskStatusEnum Enum with underlying type: string
 type ScheduledTaskTaskStatusEnum string
 
@@ -237,7 +263,7 @@ const (
 	ScheduledTaskTaskStatusBlocked   ScheduledTaskTaskStatusEnum = "BLOCKED"
 )
 
-var mappingScheduledTaskTaskStatus = map[string]ScheduledTaskTaskStatusEnum{
+var mappingScheduledTaskTaskStatusEnum = map[string]ScheduledTaskTaskStatusEnum{
 	"READY":     ScheduledTaskTaskStatusReady,
 	"PAUSED":    ScheduledTaskTaskStatusPaused,
 	"COMPLETED": ScheduledTaskTaskStatusCompleted,
@@ -247,10 +273,20 @@ var mappingScheduledTaskTaskStatus = map[string]ScheduledTaskTaskStatusEnum{
 // GetScheduledTaskTaskStatusEnumValues Enumerates the set of values for ScheduledTaskTaskStatusEnum
 func GetScheduledTaskTaskStatusEnumValues() []ScheduledTaskTaskStatusEnum {
 	values := make([]ScheduledTaskTaskStatusEnum, 0)
-	for _, v := range mappingScheduledTaskTaskStatus {
+	for _, v := range mappingScheduledTaskTaskStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScheduledTaskTaskStatusEnumStringValues Enumerates the set of values in String for ScheduledTaskTaskStatusEnum
+func GetScheduledTaskTaskStatusEnumStringValues() []string {
+	return []string{
+		"READY",
+		"PAUSED",
+		"COMPLETED",
+		"BLOCKED",
+	}
 }
 
 // ScheduledTaskPauseReasonEnum Enum with underlying type: string
@@ -267,7 +303,7 @@ const (
 	ScheduledTaskPauseReasonPurgeResourceNotFound    ScheduledTaskPauseReasonEnum = "PURGE_RESOURCE_NOT_FOUND"
 )
 
-var mappingScheduledTaskPauseReason = map[string]ScheduledTaskPauseReasonEnum{
+var mappingScheduledTaskPauseReasonEnum = map[string]ScheduledTaskPauseReasonEnum{
 	"METRIC_EXTRACTION_NOT_VALID": ScheduledTaskPauseReasonMetricExtractionNotValid,
 	"SAVED_SEARCH_NOT_VALID":      ScheduledTaskPauseReasonSavedSearchNotValid,
 	"SAVED_SEARCH_NOT_FOUND":      ScheduledTaskPauseReasonSavedSearchNotFound,
@@ -280,10 +316,23 @@ var mappingScheduledTaskPauseReason = map[string]ScheduledTaskPauseReasonEnum{
 // GetScheduledTaskPauseReasonEnumValues Enumerates the set of values for ScheduledTaskPauseReasonEnum
 func GetScheduledTaskPauseReasonEnumValues() []ScheduledTaskPauseReasonEnum {
 	values := make([]ScheduledTaskPauseReasonEnum, 0)
-	for _, v := range mappingScheduledTaskPauseReason {
+	for _, v := range mappingScheduledTaskPauseReasonEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScheduledTaskPauseReasonEnumStringValues Enumerates the set of values in String for ScheduledTaskPauseReasonEnum
+func GetScheduledTaskPauseReasonEnumStringValues() []string {
+	return []string{
+		"METRIC_EXTRACTION_NOT_VALID",
+		"SAVED_SEARCH_NOT_VALID",
+		"SAVED_SEARCH_NOT_FOUND",
+		"QUERY_STRING_NOT_VALID",
+		"USER_ACTION",
+		"TENANCY_LIFECYCLE",
+		"PURGE_RESOURCE_NOT_FOUND",
+	}
 }
 
 // ScheduledTaskLifecycleStateEnum Enum with underlying type: string
@@ -295,7 +344,7 @@ const (
 	ScheduledTaskLifecycleStateDeleted ScheduledTaskLifecycleStateEnum = "DELETED"
 )
 
-var mappingScheduledTaskLifecycleState = map[string]ScheduledTaskLifecycleStateEnum{
+var mappingScheduledTaskLifecycleStateEnum = map[string]ScheduledTaskLifecycleStateEnum{
 	"ACTIVE":  ScheduledTaskLifecycleStateActive,
 	"DELETED": ScheduledTaskLifecycleStateDeleted,
 }
@@ -303,10 +352,18 @@ var mappingScheduledTaskLifecycleState = map[string]ScheduledTaskLifecycleStateE
 // GetScheduledTaskLifecycleStateEnumValues Enumerates the set of values for ScheduledTaskLifecycleStateEnum
 func GetScheduledTaskLifecycleStateEnumValues() []ScheduledTaskLifecycleStateEnum {
 	values := make([]ScheduledTaskLifecycleStateEnum, 0)
-	for _, v := range mappingScheduledTaskLifecycleState {
+	for _, v := range mappingScheduledTaskLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScheduledTaskLifecycleStateEnumStringValues Enumerates the set of values in String for ScheduledTaskLifecycleStateEnum
+func GetScheduledTaskLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
 }
 
 // ScheduledTaskKindEnum Enum with underlying type: string
@@ -318,7 +375,7 @@ const (
 	ScheduledTaskKindStandard     ScheduledTaskKindEnum = "STANDARD"
 )
 
-var mappingScheduledTaskKind = map[string]ScheduledTaskKindEnum{
+var mappingScheduledTaskKindEnum = map[string]ScheduledTaskKindEnum{
 	"ACCELERATION": ScheduledTaskKindAcceleration,
 	"STANDARD":     ScheduledTaskKindStandard,
 }
@@ -326,8 +383,16 @@ var mappingScheduledTaskKind = map[string]ScheduledTaskKindEnum{
 // GetScheduledTaskKindEnumValues Enumerates the set of values for ScheduledTaskKindEnum
 func GetScheduledTaskKindEnumValues() []ScheduledTaskKindEnum {
 	values := make([]ScheduledTaskKindEnum, 0)
-	for _, v := range mappingScheduledTaskKind {
+	for _, v := range mappingScheduledTaskKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScheduledTaskKindEnumStringValues Enumerates the set of values in String for ScheduledTaskKindEnum
+func GetScheduledTaskKindEnumStringValues() []string {
+	return []string{
+		"ACCELERATION",
+		"STANDARD",
+	}
 }

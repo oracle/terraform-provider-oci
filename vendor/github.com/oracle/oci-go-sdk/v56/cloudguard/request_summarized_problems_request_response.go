@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // RequestSummarizedProblemsRequest wrapper for the RequestSummarizedProblems operation
@@ -56,6 +58,10 @@ func (request RequestSummarizedProblemsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request RequestSummarizedProblemsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,26 @@ func (request RequestSummarizedProblemsRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request RequestSummarizedProblemsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request RequestSummarizedProblemsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.ListDimensions {
+		if _, ok := mappingProblemDimensionEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ListDimensions: %s. Supported values are: %s.", val, strings.Join(GetProblemDimensionEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingRequestSummarizedProblemsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetRequestSummarizedProblemsAccessLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // RequestSummarizedProblemsResponse wrapper for the RequestSummarizedProblems operation
@@ -108,7 +134,7 @@ const (
 	RequestSummarizedProblemsAccessLevelAccessible RequestSummarizedProblemsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingRequestSummarizedProblemsAccessLevel = map[string]RequestSummarizedProblemsAccessLevelEnum{
+var mappingRequestSummarizedProblemsAccessLevelEnum = map[string]RequestSummarizedProblemsAccessLevelEnum{
 	"RESTRICTED": RequestSummarizedProblemsAccessLevelRestricted,
 	"ACCESSIBLE": RequestSummarizedProblemsAccessLevelAccessible,
 }
@@ -116,8 +142,16 @@ var mappingRequestSummarizedProblemsAccessLevel = map[string]RequestSummarizedPr
 // GetRequestSummarizedProblemsAccessLevelEnumValues Enumerates the set of values for RequestSummarizedProblemsAccessLevelEnum
 func GetRequestSummarizedProblemsAccessLevelEnumValues() []RequestSummarizedProblemsAccessLevelEnum {
 	values := make([]RequestSummarizedProblemsAccessLevelEnum, 0)
-	for _, v := range mappingRequestSummarizedProblemsAccessLevel {
+	for _, v := range mappingRequestSummarizedProblemsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRequestSummarizedProblemsAccessLevelEnumStringValues Enumerates the set of values in String for RequestSummarizedProblemsAccessLevelEnum
+func GetRequestSummarizedProblemsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }

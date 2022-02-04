@@ -19,15 +19,22 @@ const (
 	OperationTypeBulkApplyRecommendations OperationTypeEnum = "BULK_APPLY_RECOMMENDATIONS"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"BULK_APPLY_RECOMMENDATIONS": OperationTypeBulkApplyRecommendations,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"BULK_APPLY_RECOMMENDATIONS",
+	}
 }

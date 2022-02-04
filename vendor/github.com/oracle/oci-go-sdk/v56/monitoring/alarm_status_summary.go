@@ -12,7 +12,9 @@
 package monitoring
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AlarmStatusSummary A summary of properties for the specified alarm and its current evaluation status.
@@ -53,6 +55,24 @@ func (m AlarmStatusSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AlarmStatusSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAlarmStatusSummarySeverityEnum[string(m.Severity)]; !ok && m.Severity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetAlarmStatusSummarySeverityEnumStringValues(), ",")))
+	}
+	if _, ok := mappingAlarmStatusSummaryStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetAlarmStatusSummaryStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AlarmStatusSummarySeverityEnum Enum with underlying type: string
 type AlarmStatusSummarySeverityEnum string
 
@@ -64,7 +84,7 @@ const (
 	AlarmStatusSummarySeverityInfo     AlarmStatusSummarySeverityEnum = "INFO"
 )
 
-var mappingAlarmStatusSummarySeverity = map[string]AlarmStatusSummarySeverityEnum{
+var mappingAlarmStatusSummarySeverityEnum = map[string]AlarmStatusSummarySeverityEnum{
 	"CRITICAL": AlarmStatusSummarySeverityCritical,
 	"ERROR":    AlarmStatusSummarySeverityError,
 	"WARNING":  AlarmStatusSummarySeverityWarning,
@@ -74,10 +94,20 @@ var mappingAlarmStatusSummarySeverity = map[string]AlarmStatusSummarySeverityEnu
 // GetAlarmStatusSummarySeverityEnumValues Enumerates the set of values for AlarmStatusSummarySeverityEnum
 func GetAlarmStatusSummarySeverityEnumValues() []AlarmStatusSummarySeverityEnum {
 	values := make([]AlarmStatusSummarySeverityEnum, 0)
-	for _, v := range mappingAlarmStatusSummarySeverity {
+	for _, v := range mappingAlarmStatusSummarySeverityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAlarmStatusSummarySeverityEnumStringValues Enumerates the set of values in String for AlarmStatusSummarySeverityEnum
+func GetAlarmStatusSummarySeverityEnumStringValues() []string {
+	return []string{
+		"CRITICAL",
+		"ERROR",
+		"WARNING",
+		"INFO",
+	}
 }
 
 // AlarmStatusSummaryStatusEnum Enum with underlying type: string
@@ -90,7 +120,7 @@ const (
 	AlarmStatusSummaryStatusSuspended AlarmStatusSummaryStatusEnum = "SUSPENDED"
 )
 
-var mappingAlarmStatusSummaryStatus = map[string]AlarmStatusSummaryStatusEnum{
+var mappingAlarmStatusSummaryStatusEnum = map[string]AlarmStatusSummaryStatusEnum{
 	"FIRING":    AlarmStatusSummaryStatusFiring,
 	"OK":        AlarmStatusSummaryStatusOk,
 	"SUSPENDED": AlarmStatusSummaryStatusSuspended,
@@ -99,8 +129,17 @@ var mappingAlarmStatusSummaryStatus = map[string]AlarmStatusSummaryStatusEnum{
 // GetAlarmStatusSummaryStatusEnumValues Enumerates the set of values for AlarmStatusSummaryStatusEnum
 func GetAlarmStatusSummaryStatusEnumValues() []AlarmStatusSummaryStatusEnum {
 	values := make([]AlarmStatusSummaryStatusEnum, 0)
-	for _, v := range mappingAlarmStatusSummaryStatus {
+	for _, v := range mappingAlarmStatusSummaryStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAlarmStatusSummaryStatusEnumStringValues Enumerates the set of values in String for AlarmStatusSummaryStatusEnum
+func GetAlarmStatusSummaryStatusEnumStringValues() []string {
+	return []string{
+		"FIRING",
+		"OK",
+		"SUSPENDED",
+	}
 }

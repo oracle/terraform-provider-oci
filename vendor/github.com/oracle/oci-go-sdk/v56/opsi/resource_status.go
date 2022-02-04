@@ -21,7 +21,7 @@ const (
 	ResourceStatusTerminated ResourceStatusEnum = "TERMINATED"
 )
 
-var mappingResourceStatus = map[string]ResourceStatusEnum{
+var mappingResourceStatusEnum = map[string]ResourceStatusEnum{
 	"DISABLED":   ResourceStatusDisabled,
 	"ENABLED":    ResourceStatusEnabled,
 	"TERMINATED": ResourceStatusTerminated,
@@ -30,8 +30,17 @@ var mappingResourceStatus = map[string]ResourceStatusEnum{
 // GetResourceStatusEnumValues Enumerates the set of values for ResourceStatusEnum
 func GetResourceStatusEnumValues() []ResourceStatusEnum {
 	values := make([]ResourceStatusEnum, 0)
-	for _, v := range mappingResourceStatus {
+	for _, v := range mappingResourceStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResourceStatusEnumStringValues Enumerates the set of values in String for ResourceStatusEnum
+func GetResourceStatusEnumStringValues() []string {
+	return []string{
+		"DISABLED",
+		"ENABLED",
+		"TERMINATED",
+	}
 }

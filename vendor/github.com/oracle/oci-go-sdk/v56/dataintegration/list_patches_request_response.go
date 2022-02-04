@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPatchesRequest wrapper for the ListPatches operation
@@ -60,6 +62,10 @@ func (request ListPatchesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPatchesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +79,23 @@ func (request ListPatchesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPatchesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPatchesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPatchesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPatchesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPatchesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPatchesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPatchesResponse wrapper for the ListPatches operation
@@ -116,7 +139,7 @@ const (
 	ListPatchesSortOrderDesc ListPatchesSortOrderEnum = "DESC"
 )
 
-var mappingListPatchesSortOrder = map[string]ListPatchesSortOrderEnum{
+var mappingListPatchesSortOrderEnum = map[string]ListPatchesSortOrderEnum{
 	"ASC":  ListPatchesSortOrderAsc,
 	"DESC": ListPatchesSortOrderDesc,
 }
@@ -124,10 +147,18 @@ var mappingListPatchesSortOrder = map[string]ListPatchesSortOrderEnum{
 // GetListPatchesSortOrderEnumValues Enumerates the set of values for ListPatchesSortOrderEnum
 func GetListPatchesSortOrderEnumValues() []ListPatchesSortOrderEnum {
 	values := make([]ListPatchesSortOrderEnum, 0)
-	for _, v := range mappingListPatchesSortOrder {
+	for _, v := range mappingListPatchesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPatchesSortOrderEnumStringValues Enumerates the set of values in String for ListPatchesSortOrderEnum
+func GetListPatchesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListPatchesSortByEnum Enum with underlying type: string
@@ -139,7 +170,7 @@ const (
 	ListPatchesSortByDisplayName ListPatchesSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListPatchesSortBy = map[string]ListPatchesSortByEnum{
+var mappingListPatchesSortByEnum = map[string]ListPatchesSortByEnum{
 	"TIME_CREATED": ListPatchesSortByTimeCreated,
 	"DISPLAY_NAME": ListPatchesSortByDisplayName,
 }
@@ -147,8 +178,16 @@ var mappingListPatchesSortBy = map[string]ListPatchesSortByEnum{
 // GetListPatchesSortByEnumValues Enumerates the set of values for ListPatchesSortByEnum
 func GetListPatchesSortByEnumValues() []ListPatchesSortByEnum {
 	values := make([]ListPatchesSortByEnum, 0)
-	for _, v := range mappingListPatchesSortBy {
+	for _, v := range mappingListPatchesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPatchesSortByEnumStringValues Enumerates the set of values in String for ListPatchesSortByEnum
+func GetListPatchesSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }

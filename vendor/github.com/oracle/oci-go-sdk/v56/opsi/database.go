@@ -22,7 +22,7 @@ const (
 	DatabaseMemory  DatabaseEnum = "MEMORY"
 )
 
-var mappingDatabase = map[string]DatabaseEnum{
+var mappingDatabaseEnum = map[string]DatabaseEnum{
 	"CPU":     DatabaseCpu,
 	"STORAGE": DatabaseStorage,
 	"IO":      DatabaseIo,
@@ -32,8 +32,18 @@ var mappingDatabase = map[string]DatabaseEnum{
 // GetDatabaseEnumValues Enumerates the set of values for DatabaseEnum
 func GetDatabaseEnumValues() []DatabaseEnum {
 	values := make([]DatabaseEnum, 0)
-	for _, v := range mappingDatabase {
+	for _, v := range mappingDatabaseEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseEnumStringValues Enumerates the set of values in String for DatabaseEnum
+func GetDatabaseEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"STORAGE",
+		"IO",
+		"MEMORY",
+	}
 }

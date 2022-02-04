@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DataEntitySummary The data entity summary object.
@@ -85,6 +87,18 @@ func (m dataentitysummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m dataentitysummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DataEntitySummaryModelTypeEnum Enum with underlying type: string
 type DataEntitySummaryModelTypeEnum string
 
@@ -97,7 +111,7 @@ const (
 	DataEntitySummaryModelTypeDataStoreEntity DataEntitySummaryModelTypeEnum = "DATA_STORE_ENTITY"
 )
 
-var mappingDataEntitySummaryModelType = map[string]DataEntitySummaryModelTypeEnum{
+var mappingDataEntitySummaryModelTypeEnum = map[string]DataEntitySummaryModelTypeEnum{
 	"VIEW_ENTITY":       DataEntitySummaryModelTypeViewEntity,
 	"TABLE_ENTITY":      DataEntitySummaryModelTypeTableEntity,
 	"FILE_ENTITY":       DataEntitySummaryModelTypeFileEntity,
@@ -108,8 +122,19 @@ var mappingDataEntitySummaryModelType = map[string]DataEntitySummaryModelTypeEnu
 // GetDataEntitySummaryModelTypeEnumValues Enumerates the set of values for DataEntitySummaryModelTypeEnum
 func GetDataEntitySummaryModelTypeEnumValues() []DataEntitySummaryModelTypeEnum {
 	values := make([]DataEntitySummaryModelTypeEnum, 0)
-	for _, v := range mappingDataEntitySummaryModelType {
+	for _, v := range mappingDataEntitySummaryModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDataEntitySummaryModelTypeEnumStringValues Enumerates the set of values in String for DataEntitySummaryModelTypeEnum
+func GetDataEntitySummaryModelTypeEnumStringValues() []string {
+	return []string{
+		"VIEW_ENTITY",
+		"TABLE_ENTITY",
+		"FILE_ENTITY",
+		"SQL_ENTITY",
+		"DATA_STORE_ENTITY",
+	}
 }

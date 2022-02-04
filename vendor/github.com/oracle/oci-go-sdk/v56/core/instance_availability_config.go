@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InstanceAvailabilityConfig Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware.
@@ -36,6 +38,21 @@ func (m InstanceAvailabilityConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceAvailabilityConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingInstanceAvailabilityConfigRecoveryActionEnum[string(m.RecoveryAction)]; !ok && m.RecoveryAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecoveryAction: %s. Supported values are: %s.", m.RecoveryAction, strings.Join(GetInstanceAvailabilityConfigRecoveryActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceAvailabilityConfigRecoveryActionEnum Enum with underlying type: string
 type InstanceAvailabilityConfigRecoveryActionEnum string
 
@@ -45,7 +62,7 @@ const (
 	InstanceAvailabilityConfigRecoveryActionStopInstance    InstanceAvailabilityConfigRecoveryActionEnum = "STOP_INSTANCE"
 )
 
-var mappingInstanceAvailabilityConfigRecoveryAction = map[string]InstanceAvailabilityConfigRecoveryActionEnum{
+var mappingInstanceAvailabilityConfigRecoveryActionEnum = map[string]InstanceAvailabilityConfigRecoveryActionEnum{
 	"RESTORE_INSTANCE": InstanceAvailabilityConfigRecoveryActionRestoreInstance,
 	"STOP_INSTANCE":    InstanceAvailabilityConfigRecoveryActionStopInstance,
 }
@@ -53,8 +70,16 @@ var mappingInstanceAvailabilityConfigRecoveryAction = map[string]InstanceAvailab
 // GetInstanceAvailabilityConfigRecoveryActionEnumValues Enumerates the set of values for InstanceAvailabilityConfigRecoveryActionEnum
 func GetInstanceAvailabilityConfigRecoveryActionEnumValues() []InstanceAvailabilityConfigRecoveryActionEnum {
 	values := make([]InstanceAvailabilityConfigRecoveryActionEnum, 0)
-	for _, v := range mappingInstanceAvailabilityConfigRecoveryAction {
+	for _, v := range mappingInstanceAvailabilityConfigRecoveryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceAvailabilityConfigRecoveryActionEnumStringValues Enumerates the set of values in String for InstanceAvailabilityConfigRecoveryActionEnum
+func GetInstanceAvailabilityConfigRecoveryActionEnumStringValues() []string {
+	return []string{
+		"RESTORE_INSTANCE",
+		"STOP_INSTANCE",
+	}
 }

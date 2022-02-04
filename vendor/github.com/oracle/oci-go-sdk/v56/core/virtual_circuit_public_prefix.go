@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VirtualCircuitPublicPrefix A public IP prefix and its details. With a public virtual circuit, the customer
@@ -37,6 +39,21 @@ func (m VirtualCircuitPublicPrefix) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VirtualCircuitPublicPrefix) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVirtualCircuitPublicPrefixVerificationStateEnum[string(m.VerificationState)]; !ok && m.VerificationState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VerificationState: %s. Supported values are: %s.", m.VerificationState, strings.Join(GetVirtualCircuitPublicPrefixVerificationStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VirtualCircuitPublicPrefixVerificationStateEnum Enum with underlying type: string
 type VirtualCircuitPublicPrefixVerificationStateEnum string
 
@@ -47,7 +64,7 @@ const (
 	VirtualCircuitPublicPrefixVerificationStateFailed     VirtualCircuitPublicPrefixVerificationStateEnum = "FAILED"
 )
 
-var mappingVirtualCircuitPublicPrefixVerificationState = map[string]VirtualCircuitPublicPrefixVerificationStateEnum{
+var mappingVirtualCircuitPublicPrefixVerificationStateEnum = map[string]VirtualCircuitPublicPrefixVerificationStateEnum{
 	"IN_PROGRESS": VirtualCircuitPublicPrefixVerificationStateInProgress,
 	"COMPLETED":   VirtualCircuitPublicPrefixVerificationStateCompleted,
 	"FAILED":      VirtualCircuitPublicPrefixVerificationStateFailed,
@@ -56,8 +73,17 @@ var mappingVirtualCircuitPublicPrefixVerificationState = map[string]VirtualCircu
 // GetVirtualCircuitPublicPrefixVerificationStateEnumValues Enumerates the set of values for VirtualCircuitPublicPrefixVerificationStateEnum
 func GetVirtualCircuitPublicPrefixVerificationStateEnumValues() []VirtualCircuitPublicPrefixVerificationStateEnum {
 	values := make([]VirtualCircuitPublicPrefixVerificationStateEnum, 0)
-	for _, v := range mappingVirtualCircuitPublicPrefixVerificationState {
+	for _, v := range mappingVirtualCircuitPublicPrefixVerificationStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVirtualCircuitPublicPrefixVerificationStateEnumStringValues Enumerates the set of values in String for VirtualCircuitPublicPrefixVerificationStateEnum
+func GetVirtualCircuitPublicPrefixVerificationStateEnumStringValues() []string {
+	return []string{
+		"IN_PROGRESS",
+		"COMPLETED",
+		"FAILED",
+	}
 }

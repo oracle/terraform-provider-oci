@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // CreateZoneRequest wrapper for the CreateZone operation
@@ -45,6 +47,10 @@ func (request CreateZoneRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request CreateZoneRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -58,6 +64,20 @@ func (request CreateZoneRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request CreateZoneRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request CreateZoneRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateZoneScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetCreateZoneScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // CreateZoneResponse wrapper for the CreateZone operation
@@ -104,7 +124,7 @@ const (
 	CreateZoneScopePrivate CreateZoneScopeEnum = "PRIVATE"
 )
 
-var mappingCreateZoneScope = map[string]CreateZoneScopeEnum{
+var mappingCreateZoneScopeEnum = map[string]CreateZoneScopeEnum{
 	"GLOBAL":  CreateZoneScopeGlobal,
 	"PRIVATE": CreateZoneScopePrivate,
 }
@@ -112,8 +132,16 @@ var mappingCreateZoneScope = map[string]CreateZoneScopeEnum{
 // GetCreateZoneScopeEnumValues Enumerates the set of values for CreateZoneScopeEnum
 func GetCreateZoneScopeEnumValues() []CreateZoneScopeEnum {
 	values := make([]CreateZoneScopeEnum, 0)
-	for _, v := range mappingCreateZoneScope {
+	for _, v := range mappingCreateZoneScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateZoneScopeEnumStringValues Enumerates the set of values in String for CreateZoneScopeEnum
+func GetCreateZoneScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ResponseCacheLookupPolicy Base policy for Response Cache lookup.
@@ -86,6 +88,18 @@ func (m responsecachelookuppolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m responsecachelookuppolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ResponseCacheLookupPolicyTypeEnum Enum with underlying type: string
 type ResponseCacheLookupPolicyTypeEnum string
 
@@ -94,15 +108,22 @@ const (
 	ResponseCacheLookupPolicyTypeSimpleLookupPolicy ResponseCacheLookupPolicyTypeEnum = "SIMPLE_LOOKUP_POLICY"
 )
 
-var mappingResponseCacheLookupPolicyType = map[string]ResponseCacheLookupPolicyTypeEnum{
+var mappingResponseCacheLookupPolicyTypeEnum = map[string]ResponseCacheLookupPolicyTypeEnum{
 	"SIMPLE_LOOKUP_POLICY": ResponseCacheLookupPolicyTypeSimpleLookupPolicy,
 }
 
 // GetResponseCacheLookupPolicyTypeEnumValues Enumerates the set of values for ResponseCacheLookupPolicyTypeEnum
 func GetResponseCacheLookupPolicyTypeEnumValues() []ResponseCacheLookupPolicyTypeEnum {
 	values := make([]ResponseCacheLookupPolicyTypeEnum, 0)
-	for _, v := range mappingResponseCacheLookupPolicyType {
+	for _, v := range mappingResponseCacheLookupPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResponseCacheLookupPolicyTypeEnumStringValues Enumerates the set of values in String for ResponseCacheLookupPolicyTypeEnum
+func GetResponseCacheLookupPolicyTypeEnumStringValues() []string {
+	return []string{
+		"SIMPLE_LOOKUP_POLICY",
+	}
 }

@@ -5,8 +5,10 @@
 package email
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDkimsRequest wrapper for the ListDkims operation
@@ -63,6 +65,10 @@ func (request ListDkimsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDkimsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,26 @@ func (request ListDkimsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDkimsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDkimsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDkimsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDkimsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDkimLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDkimLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDkimsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDkimsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDkimsResponse wrapper for the ListDkims operation
@@ -114,7 +140,7 @@ const (
 	ListDkimsSortOrderDesc ListDkimsSortOrderEnum = "DESC"
 )
 
-var mappingListDkimsSortOrder = map[string]ListDkimsSortOrderEnum{
+var mappingListDkimsSortOrderEnum = map[string]ListDkimsSortOrderEnum{
 	"ASC":  ListDkimsSortOrderAsc,
 	"DESC": ListDkimsSortOrderDesc,
 }
@@ -122,10 +148,18 @@ var mappingListDkimsSortOrder = map[string]ListDkimsSortOrderEnum{
 // GetListDkimsSortOrderEnumValues Enumerates the set of values for ListDkimsSortOrderEnum
 func GetListDkimsSortOrderEnumValues() []ListDkimsSortOrderEnum {
 	values := make([]ListDkimsSortOrderEnum, 0)
-	for _, v := range mappingListDkimsSortOrder {
+	for _, v := range mappingListDkimsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDkimsSortOrderEnumStringValues Enumerates the set of values in String for ListDkimsSortOrderEnum
+func GetListDkimsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDkimsSortByEnum Enum with underlying type: string
@@ -138,7 +172,7 @@ const (
 	ListDkimsSortByName        ListDkimsSortByEnum = "NAME"
 )
 
-var mappingListDkimsSortBy = map[string]ListDkimsSortByEnum{
+var mappingListDkimsSortByEnum = map[string]ListDkimsSortByEnum{
 	"TIMECREATED": ListDkimsSortByTimecreated,
 	"ID":          ListDkimsSortById,
 	"NAME":        ListDkimsSortByName,
@@ -147,8 +181,17 @@ var mappingListDkimsSortBy = map[string]ListDkimsSortByEnum{
 // GetListDkimsSortByEnumValues Enumerates the set of values for ListDkimsSortByEnum
 func GetListDkimsSortByEnumValues() []ListDkimsSortByEnum {
 	values := make([]ListDkimsSortByEnum, 0)
-	for _, v := range mappingListDkimsSortBy {
+	for _, v := range mappingListDkimsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDkimsSortByEnumStringValues Enumerates the set of values in String for ListDkimsSortByEnum
+func GetListDkimsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"ID",
+		"NAME",
+	}
 }

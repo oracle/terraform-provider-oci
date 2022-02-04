@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CustomProtectionRuleSetting The OCID and action of a custom protection rule.
@@ -30,6 +32,21 @@ func (m CustomProtectionRuleSetting) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CustomProtectionRuleSetting) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCustomProtectionRuleSettingActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetCustomProtectionRuleSettingActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CustomProtectionRuleSettingActionEnum Enum with underlying type: string
 type CustomProtectionRuleSettingActionEnum string
 
@@ -39,7 +56,7 @@ const (
 	CustomProtectionRuleSettingActionBlock  CustomProtectionRuleSettingActionEnum = "BLOCK"
 )
 
-var mappingCustomProtectionRuleSettingAction = map[string]CustomProtectionRuleSettingActionEnum{
+var mappingCustomProtectionRuleSettingActionEnum = map[string]CustomProtectionRuleSettingActionEnum{
 	"DETECT": CustomProtectionRuleSettingActionDetect,
 	"BLOCK":  CustomProtectionRuleSettingActionBlock,
 }
@@ -47,8 +64,16 @@ var mappingCustomProtectionRuleSettingAction = map[string]CustomProtectionRuleSe
 // GetCustomProtectionRuleSettingActionEnumValues Enumerates the set of values for CustomProtectionRuleSettingActionEnum
 func GetCustomProtectionRuleSettingActionEnumValues() []CustomProtectionRuleSettingActionEnum {
 	values := make([]CustomProtectionRuleSettingActionEnum, 0)
-	for _, v := range mappingCustomProtectionRuleSettingAction {
+	for _, v := range mappingCustomProtectionRuleSettingActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCustomProtectionRuleSettingActionEnumStringValues Enumerates the set of values in String for CustomProtectionRuleSettingActionEnum
+func GetCustomProtectionRuleSettingActionEnumStringValues() []string {
+	return []string{
+		"DETECT",
+		"BLOCK",
+	}
 }

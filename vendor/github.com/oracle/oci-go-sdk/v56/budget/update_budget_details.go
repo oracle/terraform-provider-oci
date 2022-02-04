@@ -10,7 +10,9 @@
 package budget
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateBudgetDetails The update budget details.
@@ -44,6 +46,21 @@ type UpdateBudgetDetails struct {
 
 func (m UpdateBudgetDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateBudgetDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingResetPeriodEnum[string(m.ResetPeriod)]; !ok && m.ResetPeriod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResetPeriod: %s. Supported values are: %s.", m.ResetPeriod, strings.Join(GetResetPeriodEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UpdateBudgetDetailsResetPeriodEnum is an alias to type: ResetPeriodEnum

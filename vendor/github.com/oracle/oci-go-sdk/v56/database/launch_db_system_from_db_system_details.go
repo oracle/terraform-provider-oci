@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LaunchDbSystemFromDbSystemDetails Used for creating a new database system by cloning an existing DB system.
@@ -276,6 +278,21 @@ func (m LaunchDbSystemFromDbSystemDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LaunchDbSystemFromDbSystemDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingLaunchDbSystemFromDbSystemDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetLaunchDbSystemFromDbSystemDetailsLicenseModelEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m LaunchDbSystemFromDbSystemDetails) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeLaunchDbSystemFromDbSystemDetails LaunchDbSystemFromDbSystemDetails
@@ -299,7 +316,7 @@ const (
 	LaunchDbSystemFromDbSystemDetailsLicenseModelBringYourOwnLicense LaunchDbSystemFromDbSystemDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingLaunchDbSystemFromDbSystemDetailsLicenseModel = map[string]LaunchDbSystemFromDbSystemDetailsLicenseModelEnum{
+var mappingLaunchDbSystemFromDbSystemDetailsLicenseModelEnum = map[string]LaunchDbSystemFromDbSystemDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       LaunchDbSystemFromDbSystemDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": LaunchDbSystemFromDbSystemDetailsLicenseModelBringYourOwnLicense,
 }
@@ -307,8 +324,16 @@ var mappingLaunchDbSystemFromDbSystemDetailsLicenseModel = map[string]LaunchDbSy
 // GetLaunchDbSystemFromDbSystemDetailsLicenseModelEnumValues Enumerates the set of values for LaunchDbSystemFromDbSystemDetailsLicenseModelEnum
 func GetLaunchDbSystemFromDbSystemDetailsLicenseModelEnumValues() []LaunchDbSystemFromDbSystemDetailsLicenseModelEnum {
 	values := make([]LaunchDbSystemFromDbSystemDetailsLicenseModelEnum, 0)
-	for _, v := range mappingLaunchDbSystemFromDbSystemDetailsLicenseModel {
+	for _, v := range mappingLaunchDbSystemFromDbSystemDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchDbSystemFromDbSystemDetailsLicenseModelEnumStringValues Enumerates the set of values in String for LaunchDbSystemFromDbSystemDetailsLicenseModelEnum
+func GetLaunchDbSystemFromDbSystemDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

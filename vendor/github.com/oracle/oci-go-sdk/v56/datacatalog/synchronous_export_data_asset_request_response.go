@@ -5,9 +5,11 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // SynchronousExportDataAssetRequest wrapper for the SynchronousExportDataAsset operation
@@ -51,6 +53,10 @@ func (request SynchronousExportDataAssetRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SynchronousExportDataAssetRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +70,23 @@ func (request SynchronousExportDataAssetRequest) BinaryRequestBody() (*common.OC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SynchronousExportDataAssetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SynchronousExportDataAssetRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.ExportType {
+		if _, ok := mappingDataAssetImportExportTypeFilterEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExportType: %s. Supported values are: %s.", val, strings.Join(GetDataAssetImportExportTypeFilterEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SynchronousExportDataAssetResponse wrapper for the SynchronousExportDataAsset operation

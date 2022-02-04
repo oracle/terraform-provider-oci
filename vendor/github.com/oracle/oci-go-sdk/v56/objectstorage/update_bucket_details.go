@@ -12,7 +12,9 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateBucketDetails To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
@@ -76,6 +78,27 @@ func (m UpdateBucketDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateBucketDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateBucketDetailsPublicAccessTypeEnum[string(m.PublicAccessType)]; !ok && m.PublicAccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PublicAccessType: %s. Supported values are: %s.", m.PublicAccessType, strings.Join(GetUpdateBucketDetailsPublicAccessTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateBucketDetailsVersioningEnum[string(m.Versioning)]; !ok && m.Versioning != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Versioning: %s. Supported values are: %s.", m.Versioning, strings.Join(GetUpdateBucketDetailsVersioningEnumStringValues(), ",")))
+	}
+	if _, ok := mappingBucketAutoTieringEnum[string(m.AutoTiering)]; !ok && m.AutoTiering != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoTiering: %s. Supported values are: %s.", m.AutoTiering, strings.Join(GetBucketAutoTieringEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateBucketDetailsPublicAccessTypeEnum Enum with underlying type: string
 type UpdateBucketDetailsPublicAccessTypeEnum string
 
@@ -86,7 +109,7 @@ const (
 	UpdateBucketDetailsPublicAccessTypeObjectreadwithoutlist UpdateBucketDetailsPublicAccessTypeEnum = "ObjectReadWithoutList"
 )
 
-var mappingUpdateBucketDetailsPublicAccessType = map[string]UpdateBucketDetailsPublicAccessTypeEnum{
+var mappingUpdateBucketDetailsPublicAccessTypeEnum = map[string]UpdateBucketDetailsPublicAccessTypeEnum{
 	"NoPublicAccess":        UpdateBucketDetailsPublicAccessTypeNopublicaccess,
 	"ObjectRead":            UpdateBucketDetailsPublicAccessTypeObjectread,
 	"ObjectReadWithoutList": UpdateBucketDetailsPublicAccessTypeObjectreadwithoutlist,
@@ -95,10 +118,19 @@ var mappingUpdateBucketDetailsPublicAccessType = map[string]UpdateBucketDetailsP
 // GetUpdateBucketDetailsPublicAccessTypeEnumValues Enumerates the set of values for UpdateBucketDetailsPublicAccessTypeEnum
 func GetUpdateBucketDetailsPublicAccessTypeEnumValues() []UpdateBucketDetailsPublicAccessTypeEnum {
 	values := make([]UpdateBucketDetailsPublicAccessTypeEnum, 0)
-	for _, v := range mappingUpdateBucketDetailsPublicAccessType {
+	for _, v := range mappingUpdateBucketDetailsPublicAccessTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateBucketDetailsPublicAccessTypeEnumStringValues Enumerates the set of values in String for UpdateBucketDetailsPublicAccessTypeEnum
+func GetUpdateBucketDetailsPublicAccessTypeEnumStringValues() []string {
+	return []string{
+		"NoPublicAccess",
+		"ObjectRead",
+		"ObjectReadWithoutList",
+	}
 }
 
 // UpdateBucketDetailsVersioningEnum Enum with underlying type: string
@@ -110,7 +142,7 @@ const (
 	UpdateBucketDetailsVersioningSuspended UpdateBucketDetailsVersioningEnum = "Suspended"
 )
 
-var mappingUpdateBucketDetailsVersioning = map[string]UpdateBucketDetailsVersioningEnum{
+var mappingUpdateBucketDetailsVersioningEnum = map[string]UpdateBucketDetailsVersioningEnum{
 	"Enabled":   UpdateBucketDetailsVersioningEnabled,
 	"Suspended": UpdateBucketDetailsVersioningSuspended,
 }
@@ -118,8 +150,16 @@ var mappingUpdateBucketDetailsVersioning = map[string]UpdateBucketDetailsVersion
 // GetUpdateBucketDetailsVersioningEnumValues Enumerates the set of values for UpdateBucketDetailsVersioningEnum
 func GetUpdateBucketDetailsVersioningEnumValues() []UpdateBucketDetailsVersioningEnum {
 	values := make([]UpdateBucketDetailsVersioningEnum, 0)
-	for _, v := range mappingUpdateBucketDetailsVersioning {
+	for _, v := range mappingUpdateBucketDetailsVersioningEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateBucketDetailsVersioningEnumStringValues Enumerates the set of values in String for UpdateBucketDetailsVersioningEnum
+func GetUpdateBucketDetailsVersioningEnumStringValues() []string {
+	return []string{
+		"Enabled",
+		"Suspended",
+	}
 }

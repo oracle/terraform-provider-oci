@@ -5,8 +5,10 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListMfaTotpDevicesRequest wrapper for the ListMfaTotpDevices operation
@@ -54,6 +56,10 @@ func (request ListMfaTotpDevicesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListMfaTotpDevicesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +73,23 @@ func (request ListMfaTotpDevicesRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListMfaTotpDevicesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListMfaTotpDevicesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListMfaTotpDevicesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMfaTotpDevicesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMfaTotpDevicesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMfaTotpDevicesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListMfaTotpDevicesResponse wrapper for the ListMfaTotpDevices operation
@@ -106,7 +129,7 @@ const (
 	ListMfaTotpDevicesSortByName        ListMfaTotpDevicesSortByEnum = "NAME"
 )
 
-var mappingListMfaTotpDevicesSortBy = map[string]ListMfaTotpDevicesSortByEnum{
+var mappingListMfaTotpDevicesSortByEnum = map[string]ListMfaTotpDevicesSortByEnum{
 	"TIMECREATED": ListMfaTotpDevicesSortByTimecreated,
 	"NAME":        ListMfaTotpDevicesSortByName,
 }
@@ -114,10 +137,18 @@ var mappingListMfaTotpDevicesSortBy = map[string]ListMfaTotpDevicesSortByEnum{
 // GetListMfaTotpDevicesSortByEnumValues Enumerates the set of values for ListMfaTotpDevicesSortByEnum
 func GetListMfaTotpDevicesSortByEnumValues() []ListMfaTotpDevicesSortByEnum {
 	values := make([]ListMfaTotpDevicesSortByEnum, 0)
-	for _, v := range mappingListMfaTotpDevicesSortBy {
+	for _, v := range mappingListMfaTotpDevicesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMfaTotpDevicesSortByEnumStringValues Enumerates the set of values in String for ListMfaTotpDevicesSortByEnum
+func GetListMfaTotpDevicesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListMfaTotpDevicesSortOrderEnum Enum with underlying type: string
@@ -129,7 +160,7 @@ const (
 	ListMfaTotpDevicesSortOrderDesc ListMfaTotpDevicesSortOrderEnum = "DESC"
 )
 
-var mappingListMfaTotpDevicesSortOrder = map[string]ListMfaTotpDevicesSortOrderEnum{
+var mappingListMfaTotpDevicesSortOrderEnum = map[string]ListMfaTotpDevicesSortOrderEnum{
 	"ASC":  ListMfaTotpDevicesSortOrderAsc,
 	"DESC": ListMfaTotpDevicesSortOrderDesc,
 }
@@ -137,8 +168,16 @@ var mappingListMfaTotpDevicesSortOrder = map[string]ListMfaTotpDevicesSortOrderE
 // GetListMfaTotpDevicesSortOrderEnumValues Enumerates the set of values for ListMfaTotpDevicesSortOrderEnum
 func GetListMfaTotpDevicesSortOrderEnumValues() []ListMfaTotpDevicesSortOrderEnum {
 	values := make([]ListMfaTotpDevicesSortOrderEnum, 0)
-	for _, v := range mappingListMfaTotpDevicesSortOrder {
+	for _, v := range mappingListMfaTotpDevicesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMfaTotpDevicesSortOrderEnumStringValues Enumerates the set of values in String for ListMfaTotpDevicesSortOrderEnum
+func GetListMfaTotpDevicesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

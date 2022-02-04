@@ -18,7 +18,7 @@ const (
 	MatchingContextTypeEnumHighlights MatchingContextTypeEnumEnum = "HIGHLIGHTS"
 )
 
-var mappingMatchingContextTypeEnum = map[string]MatchingContextTypeEnumEnum{
+var mappingMatchingContextTypeEnumEnum = map[string]MatchingContextTypeEnumEnum{
 	"NONE":       MatchingContextTypeEnumNone,
 	"HIGHLIGHTS": MatchingContextTypeEnumHighlights,
 }
@@ -26,8 +26,16 @@ var mappingMatchingContextTypeEnum = map[string]MatchingContextTypeEnumEnum{
 // GetMatchingContextTypeEnumEnumValues Enumerates the set of values for MatchingContextTypeEnumEnum
 func GetMatchingContextTypeEnumEnumValues() []MatchingContextTypeEnumEnum {
 	values := make([]MatchingContextTypeEnumEnum, 0)
-	for _, v := range mappingMatchingContextTypeEnum {
+	for _, v := range mappingMatchingContextTypeEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMatchingContextTypeEnumEnumStringValues Enumerates the set of values in String for MatchingContextTypeEnumEnum
+func GetMatchingContextTypeEnumEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"HIGHLIGHTS",
+	}
 }

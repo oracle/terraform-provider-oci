@@ -10,7 +10,9 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SecurityAssessmentSummary The summary of a security assessment.
@@ -107,6 +109,27 @@ func (m SecurityAssessmentSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SecurityAssessmentSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSecurityAssessmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecurityAssessmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSecurityAssessmentSummaryTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetSecurityAssessmentSummaryTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingSecurityAssessmentSummaryTriggeredByEnum[string(m.TriggeredBy)]; !ok && m.TriggeredBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggeredBy: %s. Supported values are: %s.", m.TriggeredBy, strings.Join(GetSecurityAssessmentSummaryTriggeredByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecurityAssessmentSummaryTriggeredByEnum Enum with underlying type: string
 type SecurityAssessmentSummaryTriggeredByEnum string
 
@@ -116,7 +139,7 @@ const (
 	SecurityAssessmentSummaryTriggeredBySystem SecurityAssessmentSummaryTriggeredByEnum = "SYSTEM"
 )
 
-var mappingSecurityAssessmentSummaryTriggeredBy = map[string]SecurityAssessmentSummaryTriggeredByEnum{
+var mappingSecurityAssessmentSummaryTriggeredByEnum = map[string]SecurityAssessmentSummaryTriggeredByEnum{
 	"USER":   SecurityAssessmentSummaryTriggeredByUser,
 	"SYSTEM": SecurityAssessmentSummaryTriggeredBySystem,
 }
@@ -124,10 +147,18 @@ var mappingSecurityAssessmentSummaryTriggeredBy = map[string]SecurityAssessmentS
 // GetSecurityAssessmentSummaryTriggeredByEnumValues Enumerates the set of values for SecurityAssessmentSummaryTriggeredByEnum
 func GetSecurityAssessmentSummaryTriggeredByEnumValues() []SecurityAssessmentSummaryTriggeredByEnum {
 	values := make([]SecurityAssessmentSummaryTriggeredByEnum, 0)
-	for _, v := range mappingSecurityAssessmentSummaryTriggeredBy {
+	for _, v := range mappingSecurityAssessmentSummaryTriggeredByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityAssessmentSummaryTriggeredByEnumStringValues Enumerates the set of values in String for SecurityAssessmentSummaryTriggeredByEnum
+func GetSecurityAssessmentSummaryTriggeredByEnumStringValues() []string {
+	return []string{
+		"USER",
+		"SYSTEM",
+	}
 }
 
 // SecurityAssessmentSummaryTypeEnum Enum with underlying type: string
@@ -141,7 +172,7 @@ const (
 	SecurityAssessmentSummaryTypeCompartment  SecurityAssessmentSummaryTypeEnum = "COMPARTMENT"
 )
 
-var mappingSecurityAssessmentSummaryType = map[string]SecurityAssessmentSummaryTypeEnum{
+var mappingSecurityAssessmentSummaryTypeEnum = map[string]SecurityAssessmentSummaryTypeEnum{
 	"LATEST":        SecurityAssessmentSummaryTypeLatest,
 	"SAVED":         SecurityAssessmentSummaryTypeSaved,
 	"SAVE_SCHEDULE": SecurityAssessmentSummaryTypeSaveSchedule,
@@ -151,8 +182,18 @@ var mappingSecurityAssessmentSummaryType = map[string]SecurityAssessmentSummaryT
 // GetSecurityAssessmentSummaryTypeEnumValues Enumerates the set of values for SecurityAssessmentSummaryTypeEnum
 func GetSecurityAssessmentSummaryTypeEnumValues() []SecurityAssessmentSummaryTypeEnum {
 	values := make([]SecurityAssessmentSummaryTypeEnum, 0)
-	for _, v := range mappingSecurityAssessmentSummaryType {
+	for _, v := range mappingSecurityAssessmentSummaryTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityAssessmentSummaryTypeEnumStringValues Enumerates the set of values in String for SecurityAssessmentSummaryTypeEnum
+func GetSecurityAssessmentSummaryTypeEnumStringValues() []string {
+	return []string{
+		"LATEST",
+		"SAVED",
+		"SAVE_SCHEDULE",
+		"COMPARTMENT",
+	}
 }

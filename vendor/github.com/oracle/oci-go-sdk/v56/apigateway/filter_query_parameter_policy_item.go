@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FilterQueryParameterPolicyItem A query parameter to drop (with BLOCK) or pass through (with ALLOW).
@@ -24,4 +26,16 @@ type FilterQueryParameterPolicyItem struct {
 
 func (m FilterQueryParameterPolicyItem) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FilterQueryParameterPolicyItem) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

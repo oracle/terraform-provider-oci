@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LaunchInstancePlatformConfig The platform configuration requested for the instance.
@@ -116,6 +118,18 @@ func (m launchinstanceplatformconfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m launchinstanceplatformconfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LaunchInstancePlatformConfigTypeEnum Enum with underlying type: string
 type LaunchInstancePlatformConfigTypeEnum string
 
@@ -128,7 +142,7 @@ const (
 	LaunchInstancePlatformConfigTypeIntelVm        LaunchInstancePlatformConfigTypeEnum = "INTEL_VM"
 )
 
-var mappingLaunchInstancePlatformConfigType = map[string]LaunchInstancePlatformConfigTypeEnum{
+var mappingLaunchInstancePlatformConfigTypeEnum = map[string]LaunchInstancePlatformConfigTypeEnum{
 	"AMD_MILAN_BM":     LaunchInstancePlatformConfigTypeAmdMilanBm,
 	"AMD_ROME_BM":      LaunchInstancePlatformConfigTypeAmdRomeBm,
 	"INTEL_SKYLAKE_BM": LaunchInstancePlatformConfigTypeIntelSkylakeBm,
@@ -139,8 +153,19 @@ var mappingLaunchInstancePlatformConfigType = map[string]LaunchInstancePlatformC
 // GetLaunchInstancePlatformConfigTypeEnumValues Enumerates the set of values for LaunchInstancePlatformConfigTypeEnum
 func GetLaunchInstancePlatformConfigTypeEnumValues() []LaunchInstancePlatformConfigTypeEnum {
 	values := make([]LaunchInstancePlatformConfigTypeEnum, 0)
-	for _, v := range mappingLaunchInstancePlatformConfigType {
+	for _, v := range mappingLaunchInstancePlatformConfigTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLaunchInstancePlatformConfigTypeEnumStringValues Enumerates the set of values in String for LaunchInstancePlatformConfigTypeEnum
+func GetLaunchInstancePlatformConfigTypeEnumStringValues() []string {
+	return []string{
+		"AMD_MILAN_BM",
+		"AMD_ROME_BM",
+		"INTEL_SKYLAKE_BM",
+		"AMD_VM",
+		"INTEL_VM",
+	}
 }

@@ -19,7 +19,7 @@ const (
 	SortOrderDesc SortOrderEnum = "DESC"
 )
 
-var mappingSortOrder = map[string]SortOrderEnum{
+var mappingSortOrderEnum = map[string]SortOrderEnum{
 	"ASC":  SortOrderAsc,
 	"DESC": SortOrderDesc,
 }
@@ -27,8 +27,16 @@ var mappingSortOrder = map[string]SortOrderEnum{
 // GetSortOrderEnumValues Enumerates the set of values for SortOrderEnum
 func GetSortOrderEnumValues() []SortOrderEnum {
 	values := make([]SortOrderEnum, 0)
-	for _, v := range mappingSortOrder {
+	for _, v := range mappingSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSortOrderEnumStringValues Enumerates the set of values in String for SortOrderEnum
+func GetSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

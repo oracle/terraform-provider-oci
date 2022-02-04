@@ -5,8 +5,10 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListWindowsUpdatesRequest wrapper for the ListWindowsUpdates operation
@@ -50,6 +52,10 @@ func (request ListWindowsUpdatesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWindowsUpdatesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -63,6 +69,23 @@ func (request ListWindowsUpdatesRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWindowsUpdatesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWindowsUpdatesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListWindowsUpdatesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWindowsUpdatesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWindowsUpdatesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWindowsUpdatesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWindowsUpdatesResponse wrapper for the ListWindowsUpdates operation
@@ -103,7 +126,7 @@ const (
 	ListWindowsUpdatesSortOrderDesc ListWindowsUpdatesSortOrderEnum = "DESC"
 )
 
-var mappingListWindowsUpdatesSortOrder = map[string]ListWindowsUpdatesSortOrderEnum{
+var mappingListWindowsUpdatesSortOrderEnum = map[string]ListWindowsUpdatesSortOrderEnum{
 	"ASC":  ListWindowsUpdatesSortOrderAsc,
 	"DESC": ListWindowsUpdatesSortOrderDesc,
 }
@@ -111,10 +134,18 @@ var mappingListWindowsUpdatesSortOrder = map[string]ListWindowsUpdatesSortOrderE
 // GetListWindowsUpdatesSortOrderEnumValues Enumerates the set of values for ListWindowsUpdatesSortOrderEnum
 func GetListWindowsUpdatesSortOrderEnumValues() []ListWindowsUpdatesSortOrderEnum {
 	values := make([]ListWindowsUpdatesSortOrderEnum, 0)
-	for _, v := range mappingListWindowsUpdatesSortOrder {
+	for _, v := range mappingListWindowsUpdatesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWindowsUpdatesSortOrderEnumStringValues Enumerates the set of values in String for ListWindowsUpdatesSortOrderEnum
+func GetListWindowsUpdatesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListWindowsUpdatesSortByEnum Enum with underlying type: string
@@ -126,7 +157,7 @@ const (
 	ListWindowsUpdatesSortByDisplayname ListWindowsUpdatesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListWindowsUpdatesSortBy = map[string]ListWindowsUpdatesSortByEnum{
+var mappingListWindowsUpdatesSortByEnum = map[string]ListWindowsUpdatesSortByEnum{
 	"TIMECREATED": ListWindowsUpdatesSortByTimecreated,
 	"DISPLAYNAME": ListWindowsUpdatesSortByDisplayname,
 }
@@ -134,8 +165,16 @@ var mappingListWindowsUpdatesSortBy = map[string]ListWindowsUpdatesSortByEnum{
 // GetListWindowsUpdatesSortByEnumValues Enumerates the set of values for ListWindowsUpdatesSortByEnum
 func GetListWindowsUpdatesSortByEnumValues() []ListWindowsUpdatesSortByEnum {
 	values := make([]ListWindowsUpdatesSortByEnum, 0)
-	for _, v := range mappingListWindowsUpdatesSortBy {
+	for _, v := range mappingListWindowsUpdatesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWindowsUpdatesSortByEnumStringValues Enumerates the set of values in String for ListWindowsUpdatesSortByEnum
+func GetListWindowsUpdatesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

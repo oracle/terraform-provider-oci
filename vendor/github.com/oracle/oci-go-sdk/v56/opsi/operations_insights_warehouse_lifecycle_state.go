@@ -24,7 +24,7 @@ const (
 	OperationsInsightsWarehouseLifecycleStateFailed   OperationsInsightsWarehouseLifecycleStateEnum = "FAILED"
 )
 
-var mappingOperationsInsightsWarehouseLifecycleState = map[string]OperationsInsightsWarehouseLifecycleStateEnum{
+var mappingOperationsInsightsWarehouseLifecycleStateEnum = map[string]OperationsInsightsWarehouseLifecycleStateEnum{
 	"CREATING": OperationsInsightsWarehouseLifecycleStateCreating,
 	"UPDATING": OperationsInsightsWarehouseLifecycleStateUpdating,
 	"ACTIVE":   OperationsInsightsWarehouseLifecycleStateActive,
@@ -36,8 +36,20 @@ var mappingOperationsInsightsWarehouseLifecycleState = map[string]OperationsInsi
 // GetOperationsInsightsWarehouseLifecycleStateEnumValues Enumerates the set of values for OperationsInsightsWarehouseLifecycleStateEnum
 func GetOperationsInsightsWarehouseLifecycleStateEnumValues() []OperationsInsightsWarehouseLifecycleStateEnum {
 	values := make([]OperationsInsightsWarehouseLifecycleStateEnum, 0)
-	for _, v := range mappingOperationsInsightsWarehouseLifecycleState {
+	for _, v := range mappingOperationsInsightsWarehouseLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationsInsightsWarehouseLifecycleStateEnumStringValues Enumerates the set of values in String for OperationsInsightsWarehouseLifecycleStateEnum
+func GetOperationsInsightsWarehouseLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

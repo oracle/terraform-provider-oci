@@ -33,7 +33,7 @@ const (
 	OperationTypeDetachNlbFromPod          OperationTypeEnum = "DETACH_NLB_FROM_POD"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_NETWORK_LOAD_BALANCER": OperationTypeCreateNetworkLoadBalancer,
 	"UPDATE_NETWORK_LOAD_BALANCER": OperationTypeUpdateNetworkLoadBalancer,
 	"DELETE_NETWORK_LOAD_BALANCER": OperationTypeDeleteNetworkLoadBalancer,
@@ -56,8 +56,31 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_NETWORK_LOAD_BALANCER",
+		"UPDATE_NETWORK_LOAD_BALANCER",
+		"DELETE_NETWORK_LOAD_BALANCER",
+		"CREATE_BACKEND",
+		"UPDATE_BACKEND",
+		"DELETE_BACKEND",
+		"CREATE_LISTENER",
+		"UPDATE_LISTENER",
+		"DELETE_LISTENER",
+		"CREATE_BACKENDSET",
+		"UPDATE_BACKENDSET",
+		"DELETE_BACKENDSET",
+		"UPDATE_NSGS",
+		"UPDATE_HEALTH_CHECKER",
+		"CHANGE_COMPARTMENT",
+		"ATTACH_NLB_TO_POD",
+		"DETACH_NLB_FROM_POD",
+	}
 }

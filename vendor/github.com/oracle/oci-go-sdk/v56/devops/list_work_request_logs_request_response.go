@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListWorkRequestLogsRequest wrapper for the ListWorkRequestLogs operation
@@ -46,6 +48,10 @@ func (request ListWorkRequestLogsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWorkRequestLogsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request ListWorkRequestLogsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWorkRequestLogsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWorkRequestLogsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListWorkRequestLogsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkRequestLogsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWorkRequestLogsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWorkRequestLogsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWorkRequestLogsResponse wrapper for the ListWorkRequestLogs operation
@@ -95,7 +118,7 @@ const (
 	ListWorkRequestLogsSortOrderDesc ListWorkRequestLogsSortOrderEnum = "DESC"
 )
 
-var mappingListWorkRequestLogsSortOrder = map[string]ListWorkRequestLogsSortOrderEnum{
+var mappingListWorkRequestLogsSortOrderEnum = map[string]ListWorkRequestLogsSortOrderEnum{
 	"ASC":  ListWorkRequestLogsSortOrderAsc,
 	"DESC": ListWorkRequestLogsSortOrderDesc,
 }
@@ -103,10 +126,18 @@ var mappingListWorkRequestLogsSortOrder = map[string]ListWorkRequestLogsSortOrde
 // GetListWorkRequestLogsSortOrderEnumValues Enumerates the set of values for ListWorkRequestLogsSortOrderEnum
 func GetListWorkRequestLogsSortOrderEnumValues() []ListWorkRequestLogsSortOrderEnum {
 	values := make([]ListWorkRequestLogsSortOrderEnum, 0)
-	for _, v := range mappingListWorkRequestLogsSortOrder {
+	for _, v := range mappingListWorkRequestLogsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWorkRequestLogsSortOrderEnumStringValues Enumerates the set of values in String for ListWorkRequestLogsSortOrderEnum
+func GetListWorkRequestLogsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListWorkRequestLogsSortByEnum Enum with underlying type: string
@@ -117,15 +148,22 @@ const (
 	ListWorkRequestLogsSortByTimeaccepted ListWorkRequestLogsSortByEnum = "timeAccepted"
 )
 
-var mappingListWorkRequestLogsSortBy = map[string]ListWorkRequestLogsSortByEnum{
+var mappingListWorkRequestLogsSortByEnum = map[string]ListWorkRequestLogsSortByEnum{
 	"timeAccepted": ListWorkRequestLogsSortByTimeaccepted,
 }
 
 // GetListWorkRequestLogsSortByEnumValues Enumerates the set of values for ListWorkRequestLogsSortByEnum
 func GetListWorkRequestLogsSortByEnumValues() []ListWorkRequestLogsSortByEnum {
 	values := make([]ListWorkRequestLogsSortByEnum, 0)
-	for _, v := range mappingListWorkRequestLogsSortBy {
+	for _, v := range mappingListWorkRequestLogsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWorkRequestLogsSortByEnumStringValues Enumerates the set of values in String for ListWorkRequestLogsSortByEnum
+func GetListWorkRequestLogsSortByEnumStringValues() []string {
+	return []string{
+		"timeAccepted",
+	}
 }

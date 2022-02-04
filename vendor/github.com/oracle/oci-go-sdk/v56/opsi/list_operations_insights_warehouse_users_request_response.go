@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListOperationsInsightsWarehouseUsersRequest wrapper for the ListOperationsInsightsWarehouseUsers operation
@@ -65,6 +67,10 @@ func (request ListOperationsInsightsWarehouseUsersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListOperationsInsightsWarehouseUsersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +84,29 @@ func (request ListOperationsInsightsWarehouseUsersRequest) BinaryRequestBody() (
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListOperationsInsightsWarehouseUsersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListOperationsInsightsWarehouseUsersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingOperationsInsightsWarehouseUserLifecycleStateEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetOperationsInsightsWarehouseUserLifecycleStateEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListOperationsInsightsWarehouseUsersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOperationsInsightsWarehouseUsersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListOperationsInsightsWarehouseUsersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListOperationsInsightsWarehouseUsersSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListOperationsInsightsWarehouseUsersResponse wrapper for the ListOperationsInsightsWarehouseUsers operation
@@ -117,7 +146,7 @@ const (
 	ListOperationsInsightsWarehouseUsersSortOrderDesc ListOperationsInsightsWarehouseUsersSortOrderEnum = "DESC"
 )
 
-var mappingListOperationsInsightsWarehouseUsersSortOrder = map[string]ListOperationsInsightsWarehouseUsersSortOrderEnum{
+var mappingListOperationsInsightsWarehouseUsersSortOrderEnum = map[string]ListOperationsInsightsWarehouseUsersSortOrderEnum{
 	"ASC":  ListOperationsInsightsWarehouseUsersSortOrderAsc,
 	"DESC": ListOperationsInsightsWarehouseUsersSortOrderDesc,
 }
@@ -125,10 +154,18 @@ var mappingListOperationsInsightsWarehouseUsersSortOrder = map[string]ListOperat
 // GetListOperationsInsightsWarehouseUsersSortOrderEnumValues Enumerates the set of values for ListOperationsInsightsWarehouseUsersSortOrderEnum
 func GetListOperationsInsightsWarehouseUsersSortOrderEnumValues() []ListOperationsInsightsWarehouseUsersSortOrderEnum {
 	values := make([]ListOperationsInsightsWarehouseUsersSortOrderEnum, 0)
-	for _, v := range mappingListOperationsInsightsWarehouseUsersSortOrder {
+	for _, v := range mappingListOperationsInsightsWarehouseUsersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperationsInsightsWarehouseUsersSortOrderEnumStringValues Enumerates the set of values in String for ListOperationsInsightsWarehouseUsersSortOrderEnum
+func GetListOperationsInsightsWarehouseUsersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListOperationsInsightsWarehouseUsersSortByEnum Enum with underlying type: string
@@ -140,7 +177,7 @@ const (
 	ListOperationsInsightsWarehouseUsersSortByDisplayname ListOperationsInsightsWarehouseUsersSortByEnum = "displayName"
 )
 
-var mappingListOperationsInsightsWarehouseUsersSortBy = map[string]ListOperationsInsightsWarehouseUsersSortByEnum{
+var mappingListOperationsInsightsWarehouseUsersSortByEnum = map[string]ListOperationsInsightsWarehouseUsersSortByEnum{
 	"timeCreated": ListOperationsInsightsWarehouseUsersSortByTimecreated,
 	"displayName": ListOperationsInsightsWarehouseUsersSortByDisplayname,
 }
@@ -148,8 +185,16 @@ var mappingListOperationsInsightsWarehouseUsersSortBy = map[string]ListOperation
 // GetListOperationsInsightsWarehouseUsersSortByEnumValues Enumerates the set of values for ListOperationsInsightsWarehouseUsersSortByEnum
 func GetListOperationsInsightsWarehouseUsersSortByEnumValues() []ListOperationsInsightsWarehouseUsersSortByEnum {
 	values := make([]ListOperationsInsightsWarehouseUsersSortByEnum, 0)
-	for _, v := range mappingListOperationsInsightsWarehouseUsersSortBy {
+	for _, v := range mappingListOperationsInsightsWarehouseUsersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListOperationsInsightsWarehouseUsersSortByEnumStringValues Enumerates the set of values in String for ListOperationsInsightsWarehouseUsersSortByEnum
+func GetListOperationsInsightsWarehouseUsersSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

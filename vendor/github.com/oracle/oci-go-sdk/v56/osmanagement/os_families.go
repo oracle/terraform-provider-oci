@@ -20,7 +20,7 @@ const (
 	OsFamiliesAll     OsFamiliesEnum = "ALL"
 )
 
-var mappingOsFamilies = map[string]OsFamiliesEnum{
+var mappingOsFamiliesEnum = map[string]OsFamiliesEnum{
 	"LINUX":   OsFamiliesLinux,
 	"WINDOWS": OsFamiliesWindows,
 	"ALL":     OsFamiliesAll,
@@ -29,8 +29,17 @@ var mappingOsFamilies = map[string]OsFamiliesEnum{
 // GetOsFamiliesEnumValues Enumerates the set of values for OsFamiliesEnum
 func GetOsFamiliesEnumValues() []OsFamiliesEnum {
 	values := make([]OsFamiliesEnum, 0)
-	for _, v := range mappingOsFamilies {
+	for _, v := range mappingOsFamiliesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOsFamiliesEnumStringValues Enumerates the set of values in String for OsFamiliesEnum
+func GetOsFamiliesEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"WINDOWS",
+		"ALL",
+	}
 }

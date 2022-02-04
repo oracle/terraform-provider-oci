@@ -5,8 +5,10 @@
 package artifacts
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListContainerImageSignaturesRequest wrapper for the ListContainerImageSignatures operation
@@ -94,6 +96,10 @@ func (request ListContainerImageSignaturesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListContainerImageSignaturesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -107,6 +113,26 @@ func (request ListContainerImageSignaturesRequest) BinaryRequestBody() (*common.
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListContainerImageSignaturesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListContainerImageSignaturesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListContainerImageSignaturesSigningAlgorithmEnum[string(request.SigningAlgorithm)]; !ok && request.SigningAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SigningAlgorithm: %s. Supported values are: %s.", request.SigningAlgorithm, strings.Join(GetListContainerImageSignaturesSigningAlgorithmEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListContainerImageSignaturesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListContainerImageSignaturesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListContainerImageSignaturesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListContainerImageSignaturesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListContainerImageSignaturesResponse wrapper for the ListContainerImageSignatures operation
@@ -148,7 +174,7 @@ const (
 	ListContainerImageSignaturesSigningAlgorithm512RsaPkcsPss ListContainerImageSignaturesSigningAlgorithmEnum = "SHA_512_RSA_PKCS_PSS"
 )
 
-var mappingListContainerImageSignaturesSigningAlgorithm = map[string]ListContainerImageSignaturesSigningAlgorithmEnum{
+var mappingListContainerImageSignaturesSigningAlgorithmEnum = map[string]ListContainerImageSignaturesSigningAlgorithmEnum{
 	"SHA_224_RSA_PKCS_PSS": ListContainerImageSignaturesSigningAlgorithm224RsaPkcsPss,
 	"SHA_256_RSA_PKCS_PSS": ListContainerImageSignaturesSigningAlgorithm256RsaPkcsPss,
 	"SHA_384_RSA_PKCS_PSS": ListContainerImageSignaturesSigningAlgorithm384RsaPkcsPss,
@@ -158,10 +184,20 @@ var mappingListContainerImageSignaturesSigningAlgorithm = map[string]ListContain
 // GetListContainerImageSignaturesSigningAlgorithmEnumValues Enumerates the set of values for ListContainerImageSignaturesSigningAlgorithmEnum
 func GetListContainerImageSignaturesSigningAlgorithmEnumValues() []ListContainerImageSignaturesSigningAlgorithmEnum {
 	values := make([]ListContainerImageSignaturesSigningAlgorithmEnum, 0)
-	for _, v := range mappingListContainerImageSignaturesSigningAlgorithm {
+	for _, v := range mappingListContainerImageSignaturesSigningAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListContainerImageSignaturesSigningAlgorithmEnumStringValues Enumerates the set of values in String for ListContainerImageSignaturesSigningAlgorithmEnum
+func GetListContainerImageSignaturesSigningAlgorithmEnumStringValues() []string {
+	return []string{
+		"SHA_224_RSA_PKCS_PSS",
+		"SHA_256_RSA_PKCS_PSS",
+		"SHA_384_RSA_PKCS_PSS",
+		"SHA_512_RSA_PKCS_PSS",
+	}
 }
 
 // ListContainerImageSignaturesSortByEnum Enum with underlying type: string
@@ -173,7 +209,7 @@ const (
 	ListContainerImageSignaturesSortByDisplayname ListContainerImageSignaturesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListContainerImageSignaturesSortBy = map[string]ListContainerImageSignaturesSortByEnum{
+var mappingListContainerImageSignaturesSortByEnum = map[string]ListContainerImageSignaturesSortByEnum{
 	"TIMECREATED": ListContainerImageSignaturesSortByTimecreated,
 	"DISPLAYNAME": ListContainerImageSignaturesSortByDisplayname,
 }
@@ -181,10 +217,18 @@ var mappingListContainerImageSignaturesSortBy = map[string]ListContainerImageSig
 // GetListContainerImageSignaturesSortByEnumValues Enumerates the set of values for ListContainerImageSignaturesSortByEnum
 func GetListContainerImageSignaturesSortByEnumValues() []ListContainerImageSignaturesSortByEnum {
 	values := make([]ListContainerImageSignaturesSortByEnum, 0)
-	for _, v := range mappingListContainerImageSignaturesSortBy {
+	for _, v := range mappingListContainerImageSignaturesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListContainerImageSignaturesSortByEnumStringValues Enumerates the set of values in String for ListContainerImageSignaturesSortByEnum
+func GetListContainerImageSignaturesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListContainerImageSignaturesSortOrderEnum Enum with underlying type: string
@@ -196,7 +240,7 @@ const (
 	ListContainerImageSignaturesSortOrderDesc ListContainerImageSignaturesSortOrderEnum = "DESC"
 )
 
-var mappingListContainerImageSignaturesSortOrder = map[string]ListContainerImageSignaturesSortOrderEnum{
+var mappingListContainerImageSignaturesSortOrderEnum = map[string]ListContainerImageSignaturesSortOrderEnum{
 	"ASC":  ListContainerImageSignaturesSortOrderAsc,
 	"DESC": ListContainerImageSignaturesSortOrderDesc,
 }
@@ -204,8 +248,16 @@ var mappingListContainerImageSignaturesSortOrder = map[string]ListContainerImage
 // GetListContainerImageSignaturesSortOrderEnumValues Enumerates the set of values for ListContainerImageSignaturesSortOrderEnum
 func GetListContainerImageSignaturesSortOrderEnumValues() []ListContainerImageSignaturesSortOrderEnum {
 	values := make([]ListContainerImageSignaturesSortOrderEnum, 0)
-	for _, v := range mappingListContainerImageSignaturesSortOrder {
+	for _, v := range mappingListContainerImageSignaturesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListContainerImageSignaturesSortOrderEnumStringValues Enumerates the set of values in String for ListContainerImageSignaturesSortOrderEnum
+func GetListContainerImageSignaturesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

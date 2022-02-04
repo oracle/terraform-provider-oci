@@ -5,8 +5,10 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // InstallAllUpdatesOnManagedInstanceGroupRequest wrapper for the InstallAllUpdatesOnManagedInstanceGroup operation
@@ -44,6 +46,10 @@ func (request InstallAllUpdatesOnManagedInstanceGroupRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request InstallAllUpdatesOnManagedInstanceGroupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -57,6 +63,20 @@ func (request InstallAllUpdatesOnManagedInstanceGroupRequest) BinaryRequestBody(
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request InstallAllUpdatesOnManagedInstanceGroupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request InstallAllUpdatesOnManagedInstanceGroupRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingInstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum[string(request.UpdateType)]; !ok && request.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", request.UpdateType, strings.Join(GetInstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // InstallAllUpdatesOnManagedInstanceGroupResponse wrapper for the InstallAllUpdatesOnManagedInstanceGroup operation
@@ -96,7 +116,7 @@ const (
 	InstallAllUpdatesOnManagedInstanceGroupUpdateTypeAll         InstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum = "ALL"
 )
 
-var mappingInstallAllUpdatesOnManagedInstanceGroupUpdateType = map[string]InstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum{
+var mappingInstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum = map[string]InstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum{
 	"SECURITY":    InstallAllUpdatesOnManagedInstanceGroupUpdateTypeSecurity,
 	"BUGFIX":      InstallAllUpdatesOnManagedInstanceGroupUpdateTypeBugfix,
 	"ENHANCEMENT": InstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnhancement,
@@ -108,8 +128,20 @@ var mappingInstallAllUpdatesOnManagedInstanceGroupUpdateType = map[string]Instal
 // GetInstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnumValues Enumerates the set of values for InstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum
 func GetInstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnumValues() []InstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum {
 	values := make([]InstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum, 0)
-	for _, v := range mappingInstallAllUpdatesOnManagedInstanceGroupUpdateType {
+	for _, v := range mappingInstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnumStringValues Enumerates the set of values in String for InstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnum
+func GetInstallAllUpdatesOnManagedInstanceGroupUpdateTypeEnumStringValues() []string {
+	return []string{
+		"SECURITY",
+		"BUGFIX",
+		"ENHANCEMENT",
+		"OTHER",
+		"KSPLICE",
+		"ALL",
+	}
 }

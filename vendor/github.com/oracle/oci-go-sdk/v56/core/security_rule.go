@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SecurityRule A security rule is one of the items in a NetworkSecurityGroup.
@@ -113,6 +115,27 @@ func (m SecurityRule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SecurityRule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSecurityRuleDirectionEnum[string(m.Direction)]; !ok && m.Direction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Direction: %s. Supported values are: %s.", m.Direction, strings.Join(GetSecurityRuleDirectionEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingSecurityRuleDestinationTypeEnum[string(m.DestinationType)]; !ok && m.DestinationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DestinationType: %s. Supported values are: %s.", m.DestinationType, strings.Join(GetSecurityRuleDestinationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSecurityRuleSourceTypeEnum[string(m.SourceType)]; !ok && m.SourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", m.SourceType, strings.Join(GetSecurityRuleSourceTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecurityRuleDestinationTypeEnum Enum with underlying type: string
 type SecurityRuleDestinationTypeEnum string
 
@@ -123,7 +146,7 @@ const (
 	SecurityRuleDestinationTypeNetworkSecurityGroup SecurityRuleDestinationTypeEnum = "NETWORK_SECURITY_GROUP"
 )
 
-var mappingSecurityRuleDestinationType = map[string]SecurityRuleDestinationTypeEnum{
+var mappingSecurityRuleDestinationTypeEnum = map[string]SecurityRuleDestinationTypeEnum{
 	"CIDR_BLOCK":             SecurityRuleDestinationTypeCidrBlock,
 	"SERVICE_CIDR_BLOCK":     SecurityRuleDestinationTypeServiceCidrBlock,
 	"NETWORK_SECURITY_GROUP": SecurityRuleDestinationTypeNetworkSecurityGroup,
@@ -132,10 +155,19 @@ var mappingSecurityRuleDestinationType = map[string]SecurityRuleDestinationTypeE
 // GetSecurityRuleDestinationTypeEnumValues Enumerates the set of values for SecurityRuleDestinationTypeEnum
 func GetSecurityRuleDestinationTypeEnumValues() []SecurityRuleDestinationTypeEnum {
 	values := make([]SecurityRuleDestinationTypeEnum, 0)
-	for _, v := range mappingSecurityRuleDestinationType {
+	for _, v := range mappingSecurityRuleDestinationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityRuleDestinationTypeEnumStringValues Enumerates the set of values in String for SecurityRuleDestinationTypeEnum
+func GetSecurityRuleDestinationTypeEnumStringValues() []string {
+	return []string{
+		"CIDR_BLOCK",
+		"SERVICE_CIDR_BLOCK",
+		"NETWORK_SECURITY_GROUP",
+	}
 }
 
 // SecurityRuleDirectionEnum Enum with underlying type: string
@@ -147,7 +179,7 @@ const (
 	SecurityRuleDirectionIngress SecurityRuleDirectionEnum = "INGRESS"
 )
 
-var mappingSecurityRuleDirection = map[string]SecurityRuleDirectionEnum{
+var mappingSecurityRuleDirectionEnum = map[string]SecurityRuleDirectionEnum{
 	"EGRESS":  SecurityRuleDirectionEgress,
 	"INGRESS": SecurityRuleDirectionIngress,
 }
@@ -155,10 +187,18 @@ var mappingSecurityRuleDirection = map[string]SecurityRuleDirectionEnum{
 // GetSecurityRuleDirectionEnumValues Enumerates the set of values for SecurityRuleDirectionEnum
 func GetSecurityRuleDirectionEnumValues() []SecurityRuleDirectionEnum {
 	values := make([]SecurityRuleDirectionEnum, 0)
-	for _, v := range mappingSecurityRuleDirection {
+	for _, v := range mappingSecurityRuleDirectionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityRuleDirectionEnumStringValues Enumerates the set of values in String for SecurityRuleDirectionEnum
+func GetSecurityRuleDirectionEnumStringValues() []string {
+	return []string{
+		"EGRESS",
+		"INGRESS",
+	}
 }
 
 // SecurityRuleSourceTypeEnum Enum with underlying type: string
@@ -171,7 +211,7 @@ const (
 	SecurityRuleSourceTypeNetworkSecurityGroup SecurityRuleSourceTypeEnum = "NETWORK_SECURITY_GROUP"
 )
 
-var mappingSecurityRuleSourceType = map[string]SecurityRuleSourceTypeEnum{
+var mappingSecurityRuleSourceTypeEnum = map[string]SecurityRuleSourceTypeEnum{
 	"CIDR_BLOCK":             SecurityRuleSourceTypeCidrBlock,
 	"SERVICE_CIDR_BLOCK":     SecurityRuleSourceTypeServiceCidrBlock,
 	"NETWORK_SECURITY_GROUP": SecurityRuleSourceTypeNetworkSecurityGroup,
@@ -180,8 +220,17 @@ var mappingSecurityRuleSourceType = map[string]SecurityRuleSourceTypeEnum{
 // GetSecurityRuleSourceTypeEnumValues Enumerates the set of values for SecurityRuleSourceTypeEnum
 func GetSecurityRuleSourceTypeEnumValues() []SecurityRuleSourceTypeEnum {
 	values := make([]SecurityRuleSourceTypeEnum, 0)
-	for _, v := range mappingSecurityRuleSourceType {
+	for _, v := range mappingSecurityRuleSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityRuleSourceTypeEnumStringValues Enumerates the set of values in String for SecurityRuleSourceTypeEnum
+func GetSecurityRuleSourceTypeEnumStringValues() []string {
+	return []string{
+		"CIDR_BLOCK",
+		"SERVICE_CIDR_BLOCK",
+		"NETWORK_SECURITY_GROUP",
+	}
 }

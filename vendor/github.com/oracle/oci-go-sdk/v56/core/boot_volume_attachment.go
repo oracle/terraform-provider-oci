@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BootVolumeAttachment Represents an attachment between a boot volume and an instance.
@@ -61,6 +63,24 @@ func (m BootVolumeAttachment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BootVolumeAttachment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBootVolumeAttachmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBootVolumeAttachmentLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingEncryptionInTransitTypeEnum[string(m.EncryptionInTransitType)]; !ok && m.EncryptionInTransitType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EncryptionInTransitType: %s. Supported values are: %s.", m.EncryptionInTransitType, strings.Join(GetEncryptionInTransitTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BootVolumeAttachmentLifecycleStateEnum Enum with underlying type: string
 type BootVolumeAttachmentLifecycleStateEnum string
 
@@ -72,7 +92,7 @@ const (
 	BootVolumeAttachmentLifecycleStateDetached  BootVolumeAttachmentLifecycleStateEnum = "DETACHED"
 )
 
-var mappingBootVolumeAttachmentLifecycleState = map[string]BootVolumeAttachmentLifecycleStateEnum{
+var mappingBootVolumeAttachmentLifecycleStateEnum = map[string]BootVolumeAttachmentLifecycleStateEnum{
 	"ATTACHING": BootVolumeAttachmentLifecycleStateAttaching,
 	"ATTACHED":  BootVolumeAttachmentLifecycleStateAttached,
 	"DETACHING": BootVolumeAttachmentLifecycleStateDetaching,
@@ -82,8 +102,18 @@ var mappingBootVolumeAttachmentLifecycleState = map[string]BootVolumeAttachmentL
 // GetBootVolumeAttachmentLifecycleStateEnumValues Enumerates the set of values for BootVolumeAttachmentLifecycleStateEnum
 func GetBootVolumeAttachmentLifecycleStateEnumValues() []BootVolumeAttachmentLifecycleStateEnum {
 	values := make([]BootVolumeAttachmentLifecycleStateEnum, 0)
-	for _, v := range mappingBootVolumeAttachmentLifecycleState {
+	for _, v := range mappingBootVolumeAttachmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBootVolumeAttachmentLifecycleStateEnumStringValues Enumerates the set of values in String for BootVolumeAttachmentLifecycleStateEnum
+func GetBootVolumeAttachmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ATTACHING",
+		"ATTACHED",
+		"DETACHING",
+		"DETACHED",
+	}
 }

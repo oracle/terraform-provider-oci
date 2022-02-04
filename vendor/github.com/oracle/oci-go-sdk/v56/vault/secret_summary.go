@@ -10,7 +10,9 @@
 package vault
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SecretSummary The details of the secret, excluding the contents of the secret.
@@ -67,6 +69,21 @@ func (m SecretSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SecretSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSecretSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecretSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecretSummaryLifecycleStateEnum Enum with underlying type: string
 type SecretSummaryLifecycleStateEnum string
 
@@ -83,7 +100,7 @@ const (
 	SecretSummaryLifecycleStateFailed             SecretSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingSecretSummaryLifecycleState = map[string]SecretSummaryLifecycleStateEnum{
+var mappingSecretSummaryLifecycleStateEnum = map[string]SecretSummaryLifecycleStateEnum{
 	"CREATING":            SecretSummaryLifecycleStateCreating,
 	"ACTIVE":              SecretSummaryLifecycleStateActive,
 	"UPDATING":            SecretSummaryLifecycleStateUpdating,
@@ -98,8 +115,23 @@ var mappingSecretSummaryLifecycleState = map[string]SecretSummaryLifecycleStateE
 // GetSecretSummaryLifecycleStateEnumValues Enumerates the set of values for SecretSummaryLifecycleStateEnum
 func GetSecretSummaryLifecycleStateEnumValues() []SecretSummaryLifecycleStateEnum {
 	values := make([]SecretSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingSecretSummaryLifecycleState {
+	for _, v := range mappingSecretSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecretSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for SecretSummaryLifecycleStateEnum
+func GetSecretSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"SCHEDULING_DELETION",
+		"PENDING_DELETION",
+		"CANCELLING_DELETION",
+		"FAILED",
+	}
 }

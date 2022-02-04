@@ -11,7 +11,9 @@ package identity
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // IdentityProvider The resulting base object when you add an identity provider to your tenancy. A
@@ -187,6 +189,21 @@ func (m identityprovider) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m identityprovider) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIdentityProviderLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetIdentityProviderLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // IdentityProviderLifecycleStateEnum Enum with underlying type: string
 type IdentityProviderLifecycleStateEnum string
 
@@ -199,7 +216,7 @@ const (
 	IdentityProviderLifecycleStateDeleted  IdentityProviderLifecycleStateEnum = "DELETED"
 )
 
-var mappingIdentityProviderLifecycleState = map[string]IdentityProviderLifecycleStateEnum{
+var mappingIdentityProviderLifecycleStateEnum = map[string]IdentityProviderLifecycleStateEnum{
 	"CREATING": IdentityProviderLifecycleStateCreating,
 	"ACTIVE":   IdentityProviderLifecycleStateActive,
 	"INACTIVE": IdentityProviderLifecycleStateInactive,
@@ -210,8 +227,19 @@ var mappingIdentityProviderLifecycleState = map[string]IdentityProviderLifecycle
 // GetIdentityProviderLifecycleStateEnumValues Enumerates the set of values for IdentityProviderLifecycleStateEnum
 func GetIdentityProviderLifecycleStateEnumValues() []IdentityProviderLifecycleStateEnum {
 	values := make([]IdentityProviderLifecycleStateEnum, 0)
-	for _, v := range mappingIdentityProviderLifecycleState {
+	for _, v := range mappingIdentityProviderLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIdentityProviderLifecycleStateEnumStringValues Enumerates the set of values in String for IdentityProviderLifecycleStateEnum
+func GetIdentityProviderLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

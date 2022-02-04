@@ -5,8 +5,10 @@
 package visualbuilder
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListVbInstancesRequest wrapper for the ListVbInstances operation
@@ -55,6 +57,10 @@ func (request ListVbInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVbInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListVbInstancesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVbInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVbInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListVbInstancesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListVbInstancesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListVbInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListVbInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListVbInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListVbInstancesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVbInstancesResponse wrapper for the ListVbInstances operation
@@ -114,7 +140,7 @@ const (
 	ListVbInstancesLifecycleStateFailed   ListVbInstancesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListVbInstancesLifecycleState = map[string]ListVbInstancesLifecycleStateEnum{
+var mappingListVbInstancesLifecycleStateEnum = map[string]ListVbInstancesLifecycleStateEnum{
 	"CREATING": ListVbInstancesLifecycleStateCreating,
 	"UPDATING": ListVbInstancesLifecycleStateUpdating,
 	"ACTIVE":   ListVbInstancesLifecycleStateActive,
@@ -127,10 +153,23 @@ var mappingListVbInstancesLifecycleState = map[string]ListVbInstancesLifecycleSt
 // GetListVbInstancesLifecycleStateEnumValues Enumerates the set of values for ListVbInstancesLifecycleStateEnum
 func GetListVbInstancesLifecycleStateEnumValues() []ListVbInstancesLifecycleStateEnum {
 	values := make([]ListVbInstancesLifecycleStateEnum, 0)
-	for _, v := range mappingListVbInstancesLifecycleState {
+	for _, v := range mappingListVbInstancesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVbInstancesLifecycleStateEnumStringValues Enumerates the set of values in String for ListVbInstancesLifecycleStateEnum
+func GetListVbInstancesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListVbInstancesSortOrderEnum Enum with underlying type: string
@@ -142,7 +181,7 @@ const (
 	ListVbInstancesSortOrderDesc ListVbInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListVbInstancesSortOrder = map[string]ListVbInstancesSortOrderEnum{
+var mappingListVbInstancesSortOrderEnum = map[string]ListVbInstancesSortOrderEnum{
 	"ASC":  ListVbInstancesSortOrderAsc,
 	"DESC": ListVbInstancesSortOrderDesc,
 }
@@ -150,10 +189,18 @@ var mappingListVbInstancesSortOrder = map[string]ListVbInstancesSortOrderEnum{
 // GetListVbInstancesSortOrderEnumValues Enumerates the set of values for ListVbInstancesSortOrderEnum
 func GetListVbInstancesSortOrderEnumValues() []ListVbInstancesSortOrderEnum {
 	values := make([]ListVbInstancesSortOrderEnum, 0)
-	for _, v := range mappingListVbInstancesSortOrder {
+	for _, v := range mappingListVbInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVbInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListVbInstancesSortOrderEnum
+func GetListVbInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListVbInstancesSortByEnum Enum with underlying type: string
@@ -165,7 +212,7 @@ const (
 	ListVbInstancesSortByDisplayname ListVbInstancesSortByEnum = "displayName"
 )
 
-var mappingListVbInstancesSortBy = map[string]ListVbInstancesSortByEnum{
+var mappingListVbInstancesSortByEnum = map[string]ListVbInstancesSortByEnum{
 	"timeCreated": ListVbInstancesSortByTimecreated,
 	"displayName": ListVbInstancesSortByDisplayname,
 }
@@ -173,8 +220,16 @@ var mappingListVbInstancesSortBy = map[string]ListVbInstancesSortByEnum{
 // GetListVbInstancesSortByEnumValues Enumerates the set of values for ListVbInstancesSortByEnum
 func GetListVbInstancesSortByEnumValues() []ListVbInstancesSortByEnum {
 	values := make([]ListVbInstancesSortByEnum, 0)
-	for _, v := range mappingListVbInstancesSortBy {
+	for _, v := range mappingListVbInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVbInstancesSortByEnumStringValues Enumerates the set of values in String for ListVbInstancesSortByEnum
+func GetListVbInstancesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

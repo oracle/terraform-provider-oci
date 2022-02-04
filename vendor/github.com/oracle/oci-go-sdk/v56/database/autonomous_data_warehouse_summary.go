@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutonomousDataWarehouseSummary **Deprecated.** See AutonomousDatabase for reference information about Autonomous Databases with the warehouse workload type.
@@ -70,6 +72,24 @@ func (m AutonomousDataWarehouseSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutonomousDataWarehouseSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAutonomousDataWarehouseSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDataWarehouseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAutonomousDataWarehouseSummaryLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetAutonomousDataWarehouseSummaryLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AutonomousDataWarehouseSummaryLifecycleStateEnum Enum with underlying type: string
 type AutonomousDataWarehouseSummaryLifecycleStateEnum string
 
@@ -90,7 +110,7 @@ const (
 	AutonomousDataWarehouseSummaryLifecycleStateUpdating                AutonomousDataWarehouseSummaryLifecycleStateEnum = "UPDATING"
 )
 
-var mappingAutonomousDataWarehouseSummaryLifecycleState = map[string]AutonomousDataWarehouseSummaryLifecycleStateEnum{
+var mappingAutonomousDataWarehouseSummaryLifecycleStateEnum = map[string]AutonomousDataWarehouseSummaryLifecycleStateEnum{
 	"PROVISIONING":              AutonomousDataWarehouseSummaryLifecycleStateProvisioning,
 	"AVAILABLE":                 AutonomousDataWarehouseSummaryLifecycleStateAvailable,
 	"STOPPING":                  AutonomousDataWarehouseSummaryLifecycleStateStopping,
@@ -109,10 +129,29 @@ var mappingAutonomousDataWarehouseSummaryLifecycleState = map[string]AutonomousD
 // GetAutonomousDataWarehouseSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDataWarehouseSummaryLifecycleStateEnum
 func GetAutonomousDataWarehouseSummaryLifecycleStateEnumValues() []AutonomousDataWarehouseSummaryLifecycleStateEnum {
 	values := make([]AutonomousDataWarehouseSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingAutonomousDataWarehouseSummaryLifecycleState {
+	for _, v := range mappingAutonomousDataWarehouseSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDataWarehouseSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for AutonomousDataWarehouseSummaryLifecycleStateEnum
+func GetAutonomousDataWarehouseSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"STOPPING",
+		"STOPPED",
+		"STARTING",
+		"TERMINATING",
+		"TERMINATED",
+		"UNAVAILABLE",
+		"RESTORE_IN_PROGRESS",
+		"BACKUP_IN_PROGRESS",
+		"SCALE_IN_PROGRESS",
+		"AVAILABLE_NEEDS_ATTENTION",
+		"UPDATING",
+	}
 }
 
 // AutonomousDataWarehouseSummaryLicenseModelEnum Enum with underlying type: string
@@ -124,7 +163,7 @@ const (
 	AutonomousDataWarehouseSummaryLicenseModelBringYourOwnLicense AutonomousDataWarehouseSummaryLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingAutonomousDataWarehouseSummaryLicenseModel = map[string]AutonomousDataWarehouseSummaryLicenseModelEnum{
+var mappingAutonomousDataWarehouseSummaryLicenseModelEnum = map[string]AutonomousDataWarehouseSummaryLicenseModelEnum{
 	"LICENSE_INCLUDED":       AutonomousDataWarehouseSummaryLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": AutonomousDataWarehouseSummaryLicenseModelBringYourOwnLicense,
 }
@@ -132,8 +171,16 @@ var mappingAutonomousDataWarehouseSummaryLicenseModel = map[string]AutonomousDat
 // GetAutonomousDataWarehouseSummaryLicenseModelEnumValues Enumerates the set of values for AutonomousDataWarehouseSummaryLicenseModelEnum
 func GetAutonomousDataWarehouseSummaryLicenseModelEnumValues() []AutonomousDataWarehouseSummaryLicenseModelEnum {
 	values := make([]AutonomousDataWarehouseSummaryLicenseModelEnum, 0)
-	for _, v := range mappingAutonomousDataWarehouseSummaryLicenseModel {
+	for _, v := range mappingAutonomousDataWarehouseSummaryLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAutonomousDataWarehouseSummaryLicenseModelEnumStringValues Enumerates the set of values in String for AutonomousDataWarehouseSummaryLicenseModelEnum
+func GetAutonomousDataWarehouseSummaryLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetZoneRecordsRequest wrapper for the GetZoneRecords operation
@@ -84,6 +86,10 @@ func (request GetZoneRecordsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetZoneRecordsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -97,6 +103,26 @@ func (request GetZoneRecordsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetZoneRecordsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetZoneRecordsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetZoneRecordsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetGetZoneRecordsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingGetZoneRecordsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetGetZoneRecordsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingGetZoneRecordsScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetGetZoneRecordsScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetZoneRecordsResponse wrapper for the GetZoneRecords operation
@@ -145,7 +171,7 @@ const (
 	GetZoneRecordsSortByTtl    GetZoneRecordsSortByEnum = "ttl"
 )
 
-var mappingGetZoneRecordsSortBy = map[string]GetZoneRecordsSortByEnum{
+var mappingGetZoneRecordsSortByEnum = map[string]GetZoneRecordsSortByEnum{
 	"domain": GetZoneRecordsSortByDomain,
 	"rtype":  GetZoneRecordsSortByRtype,
 	"ttl":    GetZoneRecordsSortByTtl,
@@ -154,10 +180,19 @@ var mappingGetZoneRecordsSortBy = map[string]GetZoneRecordsSortByEnum{
 // GetGetZoneRecordsSortByEnumValues Enumerates the set of values for GetZoneRecordsSortByEnum
 func GetGetZoneRecordsSortByEnumValues() []GetZoneRecordsSortByEnum {
 	values := make([]GetZoneRecordsSortByEnum, 0)
-	for _, v := range mappingGetZoneRecordsSortBy {
+	for _, v := range mappingGetZoneRecordsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetZoneRecordsSortByEnumStringValues Enumerates the set of values in String for GetZoneRecordsSortByEnum
+func GetGetZoneRecordsSortByEnumStringValues() []string {
+	return []string{
+		"domain",
+		"rtype",
+		"ttl",
+	}
 }
 
 // GetZoneRecordsSortOrderEnum Enum with underlying type: string
@@ -169,7 +204,7 @@ const (
 	GetZoneRecordsSortOrderDesc GetZoneRecordsSortOrderEnum = "DESC"
 )
 
-var mappingGetZoneRecordsSortOrder = map[string]GetZoneRecordsSortOrderEnum{
+var mappingGetZoneRecordsSortOrderEnum = map[string]GetZoneRecordsSortOrderEnum{
 	"ASC":  GetZoneRecordsSortOrderAsc,
 	"DESC": GetZoneRecordsSortOrderDesc,
 }
@@ -177,10 +212,18 @@ var mappingGetZoneRecordsSortOrder = map[string]GetZoneRecordsSortOrderEnum{
 // GetGetZoneRecordsSortOrderEnumValues Enumerates the set of values for GetZoneRecordsSortOrderEnum
 func GetGetZoneRecordsSortOrderEnumValues() []GetZoneRecordsSortOrderEnum {
 	values := make([]GetZoneRecordsSortOrderEnum, 0)
-	for _, v := range mappingGetZoneRecordsSortOrder {
+	for _, v := range mappingGetZoneRecordsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetZoneRecordsSortOrderEnumStringValues Enumerates the set of values in String for GetZoneRecordsSortOrderEnum
+func GetGetZoneRecordsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // GetZoneRecordsScopeEnum Enum with underlying type: string
@@ -192,7 +235,7 @@ const (
 	GetZoneRecordsScopePrivate GetZoneRecordsScopeEnum = "PRIVATE"
 )
 
-var mappingGetZoneRecordsScope = map[string]GetZoneRecordsScopeEnum{
+var mappingGetZoneRecordsScopeEnum = map[string]GetZoneRecordsScopeEnum{
 	"GLOBAL":  GetZoneRecordsScopeGlobal,
 	"PRIVATE": GetZoneRecordsScopePrivate,
 }
@@ -200,8 +243,16 @@ var mappingGetZoneRecordsScope = map[string]GetZoneRecordsScopeEnum{
 // GetGetZoneRecordsScopeEnumValues Enumerates the set of values for GetZoneRecordsScopeEnum
 func GetGetZoneRecordsScopeEnumValues() []GetZoneRecordsScopeEnum {
 	values := make([]GetZoneRecordsScopeEnum, 0)
-	for _, v := range mappingGetZoneRecordsScope {
+	for _, v := range mappingGetZoneRecordsScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetZoneRecordsScopeEnumStringValues Enumerates the set of values in String for GetZoneRecordsScopeEnum
+func GetGetZoneRecordsScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

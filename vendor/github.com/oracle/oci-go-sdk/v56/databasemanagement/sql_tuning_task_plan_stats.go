@@ -12,13 +12,15 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// SqlTuningTaskPlanStats The statistics of an SQL execution plan.
+// SqlTuningTaskPlanStats The statistics of a SQL execution plan.
 type SqlTuningTaskPlanStats struct {
 
-	// The type of the plan for the original or the new plan with profile/index etc.
+	// The type of the original or modified plan with profile, index, and so on.
 	PlanType *string `mandatory:"true" json:"planType"`
 
 	// A map contains the statistics for the SQL execution using the plan.
@@ -33,6 +35,21 @@ func (m SqlTuningTaskPlanStats) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SqlTuningTaskPlanStats) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSqlTuningTaskPlanStatsPlanStatusEnum[string(m.PlanStatus)]; !ok && m.PlanStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlanStatus: %s. Supported values are: %s.", m.PlanStatus, strings.Join(GetSqlTuningTaskPlanStatsPlanStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SqlTuningTaskPlanStatsPlanStatusEnum Enum with underlying type: string
 type SqlTuningTaskPlanStatsPlanStatusEnum string
 
@@ -42,7 +59,7 @@ const (
 	SqlTuningTaskPlanStatsPlanStatusPartial  SqlTuningTaskPlanStatsPlanStatusEnum = "PARTIAL"
 )
 
-var mappingSqlTuningTaskPlanStatsPlanStatus = map[string]SqlTuningTaskPlanStatsPlanStatusEnum{
+var mappingSqlTuningTaskPlanStatsPlanStatusEnum = map[string]SqlTuningTaskPlanStatsPlanStatusEnum{
 	"COMPLETE": SqlTuningTaskPlanStatsPlanStatusComplete,
 	"PARTIAL":  SqlTuningTaskPlanStatsPlanStatusPartial,
 }
@@ -50,8 +67,16 @@ var mappingSqlTuningTaskPlanStatsPlanStatus = map[string]SqlTuningTaskPlanStatsP
 // GetSqlTuningTaskPlanStatsPlanStatusEnumValues Enumerates the set of values for SqlTuningTaskPlanStatsPlanStatusEnum
 func GetSqlTuningTaskPlanStatsPlanStatusEnumValues() []SqlTuningTaskPlanStatsPlanStatusEnum {
 	values := make([]SqlTuningTaskPlanStatsPlanStatusEnum, 0)
-	for _, v := range mappingSqlTuningTaskPlanStatsPlanStatus {
+	for _, v := range mappingSqlTuningTaskPlanStatsPlanStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSqlTuningTaskPlanStatsPlanStatusEnumStringValues Enumerates the set of values in String for SqlTuningTaskPlanStatsPlanStatusEnum
+func GetSqlTuningTaskPlanStatsPlanStatusEnumStringValues() []string {
+	return []string{
+		"COMPLETE",
+		"PARTIAL",
+	}
 }

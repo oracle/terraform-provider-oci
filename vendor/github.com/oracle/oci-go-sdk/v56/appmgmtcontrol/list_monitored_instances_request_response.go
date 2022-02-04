@@ -5,8 +5,10 @@
 package appmgmtcontrol
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListMonitoredInstancesRequest wrapper for the ListMonitoredInstances operation
@@ -49,6 +51,10 @@ func (request ListMonitoredInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListMonitoredInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +68,23 @@ func (request ListMonitoredInstancesRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListMonitoredInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListMonitoredInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListMonitoredInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMonitoredInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMonitoredInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMonitoredInstancesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListMonitoredInstancesResponse wrapper for the ListMonitoredInstances operation
@@ -101,7 +124,7 @@ const (
 	ListMonitoredInstancesSortOrderDesc ListMonitoredInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListMonitoredInstancesSortOrder = map[string]ListMonitoredInstancesSortOrderEnum{
+var mappingListMonitoredInstancesSortOrderEnum = map[string]ListMonitoredInstancesSortOrderEnum{
 	"ASC":  ListMonitoredInstancesSortOrderAsc,
 	"DESC": ListMonitoredInstancesSortOrderDesc,
 }
@@ -109,10 +132,18 @@ var mappingListMonitoredInstancesSortOrder = map[string]ListMonitoredInstancesSo
 // GetListMonitoredInstancesSortOrderEnumValues Enumerates the set of values for ListMonitoredInstancesSortOrderEnum
 func GetListMonitoredInstancesSortOrderEnumValues() []ListMonitoredInstancesSortOrderEnum {
 	values := make([]ListMonitoredInstancesSortOrderEnum, 0)
-	for _, v := range mappingListMonitoredInstancesSortOrder {
+	for _, v := range mappingListMonitoredInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMonitoredInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListMonitoredInstancesSortOrderEnum
+func GetListMonitoredInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListMonitoredInstancesSortByEnum Enum with underlying type: string
@@ -124,7 +155,7 @@ const (
 	ListMonitoredInstancesSortByDisplayname ListMonitoredInstancesSortByEnum = "displayName"
 )
 
-var mappingListMonitoredInstancesSortBy = map[string]ListMonitoredInstancesSortByEnum{
+var mappingListMonitoredInstancesSortByEnum = map[string]ListMonitoredInstancesSortByEnum{
 	"timeCreated": ListMonitoredInstancesSortByTimecreated,
 	"displayName": ListMonitoredInstancesSortByDisplayname,
 }
@@ -132,8 +163,16 @@ var mappingListMonitoredInstancesSortBy = map[string]ListMonitoredInstancesSortB
 // GetListMonitoredInstancesSortByEnumValues Enumerates the set of values for ListMonitoredInstancesSortByEnum
 func GetListMonitoredInstancesSortByEnumValues() []ListMonitoredInstancesSortByEnum {
 	values := make([]ListMonitoredInstancesSortByEnum, 0)
-	for _, v := range mappingListMonitoredInstancesSortBy {
+	for _, v := range mappingListMonitoredInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMonitoredInstancesSortByEnumStringValues Enumerates the set of values in String for ListMonitoredInstancesSortByEnum
+func GetListMonitoredInstancesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

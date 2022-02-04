@@ -11,7 +11,9 @@ package datalabelingservice
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SnapshotExportDetails Specifies where to output the export.
@@ -61,6 +63,18 @@ func (m snapshotexportdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m snapshotexportdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SnapshotExportDetailsExportTypeEnum Enum with underlying type: string
 type SnapshotExportDetailsExportTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	SnapshotExportDetailsExportTypeObjectStorage SnapshotExportDetailsExportTypeEnum = "OBJECT_STORAGE"
 )
 
-var mappingSnapshotExportDetailsExportType = map[string]SnapshotExportDetailsExportTypeEnum{
+var mappingSnapshotExportDetailsExportTypeEnum = map[string]SnapshotExportDetailsExportTypeEnum{
 	"OBJECT_STORAGE": SnapshotExportDetailsExportTypeObjectStorage,
 }
 
 // GetSnapshotExportDetailsExportTypeEnumValues Enumerates the set of values for SnapshotExportDetailsExportTypeEnum
 func GetSnapshotExportDetailsExportTypeEnumValues() []SnapshotExportDetailsExportTypeEnum {
 	values := make([]SnapshotExportDetailsExportTypeEnum, 0)
-	for _, v := range mappingSnapshotExportDetailsExportType {
+	for _, v := range mappingSnapshotExportDetailsExportTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSnapshotExportDetailsExportTypeEnumStringValues Enumerates the set of values in String for SnapshotExportDetailsExportTypeEnum
+func GetSnapshotExportDetailsExportTypeEnumStringValues() []string {
+	return []string{
+		"OBJECT_STORAGE",
+	}
 }

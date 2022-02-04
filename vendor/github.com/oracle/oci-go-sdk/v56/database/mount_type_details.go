@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MountTypeDetails Mount type details for backup destination.
@@ -65,6 +67,18 @@ func (m mounttypedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m mounttypedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MountTypeDetailsMountTypeEnum Enum with underlying type: string
 type MountTypeDetailsMountTypeEnum string
 
@@ -74,7 +88,7 @@ const (
 	MountTypeDetailsMountTypeAutomatedMount MountTypeDetailsMountTypeEnum = "AUTOMATED_MOUNT"
 )
 
-var mappingMountTypeDetailsMountType = map[string]MountTypeDetailsMountTypeEnum{
+var mappingMountTypeDetailsMountTypeEnum = map[string]MountTypeDetailsMountTypeEnum{
 	"SELF_MOUNT":      MountTypeDetailsMountTypeSelfMount,
 	"AUTOMATED_MOUNT": MountTypeDetailsMountTypeAutomatedMount,
 }
@@ -82,8 +96,16 @@ var mappingMountTypeDetailsMountType = map[string]MountTypeDetailsMountTypeEnum{
 // GetMountTypeDetailsMountTypeEnumValues Enumerates the set of values for MountTypeDetailsMountTypeEnum
 func GetMountTypeDetailsMountTypeEnumValues() []MountTypeDetailsMountTypeEnum {
 	values := make([]MountTypeDetailsMountTypeEnum, 0)
-	for _, v := range mappingMountTypeDetailsMountType {
+	for _, v := range mappingMountTypeDetailsMountTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMountTypeDetailsMountTypeEnumStringValues Enumerates the set of values in String for MountTypeDetailsMountTypeEnum
+func GetMountTypeDetailsMountTypeEnumStringValues() []string {
+	return []string{
+		"SELF_MOUNT",
+		"AUTOMATED_MOUNT",
+	}
 }

@@ -10,7 +10,9 @@
 package blockchain
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PeerRole Peer role
@@ -24,6 +26,21 @@ func (m PeerRole) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PeerRole) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPeerRoleRoleEnum[string(m.Role)]; !ok && m.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", m.Role, strings.Join(GetPeerRoleRoleEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PeerRoleRoleEnum Enum with underlying type: string
 type PeerRoleRoleEnum string
 
@@ -33,7 +50,7 @@ const (
 	PeerRoleRoleAdmin  PeerRoleRoleEnum = "ADMIN"
 )
 
-var mappingPeerRoleRole = map[string]PeerRoleRoleEnum{
+var mappingPeerRoleRoleEnum = map[string]PeerRoleRoleEnum{
 	"MEMBER": PeerRoleRoleMember,
 	"ADMIN":  PeerRoleRoleAdmin,
 }
@@ -41,8 +58,16 @@ var mappingPeerRoleRole = map[string]PeerRoleRoleEnum{
 // GetPeerRoleRoleEnumValues Enumerates the set of values for PeerRoleRoleEnum
 func GetPeerRoleRoleEnumValues() []PeerRoleRoleEnum {
 	values := make([]PeerRoleRoleEnum, 0)
-	for _, v := range mappingPeerRoleRole {
+	for _, v := range mappingPeerRoleRoleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPeerRoleRoleEnumStringValues Enumerates the set of values in String for PeerRoleRoleEnum
+func GetPeerRoleRoleEnumStringValues() []string {
+	return []string{
+		"MEMBER",
+		"ADMIN",
+	}
 }

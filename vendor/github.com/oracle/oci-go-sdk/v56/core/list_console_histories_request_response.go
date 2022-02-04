@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListConsoleHistoriesRequest wrapper for the ListConsoleHistories operation
@@ -70,6 +72,10 @@ func (request ListConsoleHistoriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListConsoleHistoriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -83,6 +89,26 @@ func (request ListConsoleHistoriesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListConsoleHistoriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListConsoleHistoriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListConsoleHistoriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListConsoleHistoriesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListConsoleHistoriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListConsoleHistoriesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingConsoleHistoryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetConsoleHistoryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListConsoleHistoriesResponse wrapper for the ListConsoleHistories operation
@@ -122,7 +148,7 @@ const (
 	ListConsoleHistoriesSortByDisplayname ListConsoleHistoriesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListConsoleHistoriesSortBy = map[string]ListConsoleHistoriesSortByEnum{
+var mappingListConsoleHistoriesSortByEnum = map[string]ListConsoleHistoriesSortByEnum{
 	"TIMECREATED": ListConsoleHistoriesSortByTimecreated,
 	"DISPLAYNAME": ListConsoleHistoriesSortByDisplayname,
 }
@@ -130,10 +156,18 @@ var mappingListConsoleHistoriesSortBy = map[string]ListConsoleHistoriesSortByEnu
 // GetListConsoleHistoriesSortByEnumValues Enumerates the set of values for ListConsoleHistoriesSortByEnum
 func GetListConsoleHistoriesSortByEnumValues() []ListConsoleHistoriesSortByEnum {
 	values := make([]ListConsoleHistoriesSortByEnum, 0)
-	for _, v := range mappingListConsoleHistoriesSortBy {
+	for _, v := range mappingListConsoleHistoriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConsoleHistoriesSortByEnumStringValues Enumerates the set of values in String for ListConsoleHistoriesSortByEnum
+func GetListConsoleHistoriesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListConsoleHistoriesSortOrderEnum Enum with underlying type: string
@@ -145,7 +179,7 @@ const (
 	ListConsoleHistoriesSortOrderDesc ListConsoleHistoriesSortOrderEnum = "DESC"
 )
 
-var mappingListConsoleHistoriesSortOrder = map[string]ListConsoleHistoriesSortOrderEnum{
+var mappingListConsoleHistoriesSortOrderEnum = map[string]ListConsoleHistoriesSortOrderEnum{
 	"ASC":  ListConsoleHistoriesSortOrderAsc,
 	"DESC": ListConsoleHistoriesSortOrderDesc,
 }
@@ -153,8 +187,16 @@ var mappingListConsoleHistoriesSortOrder = map[string]ListConsoleHistoriesSortOr
 // GetListConsoleHistoriesSortOrderEnumValues Enumerates the set of values for ListConsoleHistoriesSortOrderEnum
 func GetListConsoleHistoriesSortOrderEnumValues() []ListConsoleHistoriesSortOrderEnum {
 	values := make([]ListConsoleHistoriesSortOrderEnum, 0)
-	for _, v := range mappingListConsoleHistoriesSortOrder {
+	for _, v := range mappingListConsoleHistoriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListConsoleHistoriesSortOrderEnumStringValues Enumerates the set of values in String for ListConsoleHistoriesSortOrderEnum
+func GetListConsoleHistoriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

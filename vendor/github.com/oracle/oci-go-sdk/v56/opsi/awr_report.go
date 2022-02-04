@@ -12,7 +12,9 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AwrReport The result of the AWR report.
@@ -27,4 +29,19 @@ type AwrReport struct {
 
 func (m AwrReport) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AwrReport) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAwrReportFormatTypeEnum[string(m.Format)]; !ok && m.Format != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Format: %s. Supported values are: %s.", m.Format, strings.Join(GetAwrReportFormatTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

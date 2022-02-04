@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BackupDestinationDetails Backup destination details
@@ -36,6 +38,21 @@ func (m BackupDestinationDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BackupDestinationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingBackupDestinationDetailsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetBackupDestinationDetailsTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BackupDestinationDetailsTypeEnum Enum with underlying type: string
 type BackupDestinationDetailsTypeEnum string
 
@@ -47,7 +64,7 @@ const (
 	BackupDestinationDetailsTypeLocal             BackupDestinationDetailsTypeEnum = "LOCAL"
 )
 
-var mappingBackupDestinationDetailsType = map[string]BackupDestinationDetailsTypeEnum{
+var mappingBackupDestinationDetailsTypeEnum = map[string]BackupDestinationDetailsTypeEnum{
 	"NFS":                BackupDestinationDetailsTypeNfs,
 	"RECOVERY_APPLIANCE": BackupDestinationDetailsTypeRecoveryAppliance,
 	"OBJECT_STORE":       BackupDestinationDetailsTypeObjectStore,
@@ -57,8 +74,18 @@ var mappingBackupDestinationDetailsType = map[string]BackupDestinationDetailsTyp
 // GetBackupDestinationDetailsTypeEnumValues Enumerates the set of values for BackupDestinationDetailsTypeEnum
 func GetBackupDestinationDetailsTypeEnumValues() []BackupDestinationDetailsTypeEnum {
 	values := make([]BackupDestinationDetailsTypeEnum, 0)
-	for _, v := range mappingBackupDestinationDetailsType {
+	for _, v := range mappingBackupDestinationDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackupDestinationDetailsTypeEnumStringValues Enumerates the set of values in String for BackupDestinationDetailsTypeEnum
+func GetBackupDestinationDetailsTypeEnumStringValues() []string {
+	return []string{
+		"NFS",
+		"RECOVERY_APPLIANCE",
+		"OBJECT_STORE",
+		"LOCAL",
+	}
 }

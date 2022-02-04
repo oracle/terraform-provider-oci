@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PlatformConfig The platform configuration for the instance.
@@ -111,6 +113,18 @@ func (m platformconfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m platformconfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PlatformConfigTypeEnum Enum with underlying type: string
 type PlatformConfigTypeEnum string
 
@@ -123,7 +137,7 @@ const (
 	PlatformConfigTypeIntelVm        PlatformConfigTypeEnum = "INTEL_VM"
 )
 
-var mappingPlatformConfigType = map[string]PlatformConfigTypeEnum{
+var mappingPlatformConfigTypeEnum = map[string]PlatformConfigTypeEnum{
 	"AMD_MILAN_BM":     PlatformConfigTypeAmdMilanBm,
 	"AMD_ROME_BM":      PlatformConfigTypeAmdRomeBm,
 	"INTEL_SKYLAKE_BM": PlatformConfigTypeIntelSkylakeBm,
@@ -134,8 +148,19 @@ var mappingPlatformConfigType = map[string]PlatformConfigTypeEnum{
 // GetPlatformConfigTypeEnumValues Enumerates the set of values for PlatformConfigTypeEnum
 func GetPlatformConfigTypeEnumValues() []PlatformConfigTypeEnum {
 	values := make([]PlatformConfigTypeEnum, 0)
-	for _, v := range mappingPlatformConfigType {
+	for _, v := range mappingPlatformConfigTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPlatformConfigTypeEnumStringValues Enumerates the set of values in String for PlatformConfigTypeEnum
+func GetPlatformConfigTypeEnumStringValues() []string {
+	return []string{
+		"AMD_MILAN_BM",
+		"AMD_ROME_BM",
+		"INTEL_SKYLAKE_BM",
+		"AMD_VM",
+		"INTEL_VM",
+	}
 }

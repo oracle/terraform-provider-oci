@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListByoipRangesRequest wrapper for the ListByoipRanges operation
@@ -65,6 +67,10 @@ func (request ListByoipRangesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListByoipRangesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +84,23 @@ func (request ListByoipRangesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListByoipRangesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListByoipRangesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListByoipRangesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListByoipRangesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListByoipRangesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListByoipRangesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListByoipRangesResponse wrapper for the ListByoipRanges operation
@@ -117,7 +140,7 @@ const (
 	ListByoipRangesSortByDisplayname ListByoipRangesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListByoipRangesSortBy = map[string]ListByoipRangesSortByEnum{
+var mappingListByoipRangesSortByEnum = map[string]ListByoipRangesSortByEnum{
 	"TIMECREATED": ListByoipRangesSortByTimecreated,
 	"DISPLAYNAME": ListByoipRangesSortByDisplayname,
 }
@@ -125,10 +148,18 @@ var mappingListByoipRangesSortBy = map[string]ListByoipRangesSortByEnum{
 // GetListByoipRangesSortByEnumValues Enumerates the set of values for ListByoipRangesSortByEnum
 func GetListByoipRangesSortByEnumValues() []ListByoipRangesSortByEnum {
 	values := make([]ListByoipRangesSortByEnum, 0)
-	for _, v := range mappingListByoipRangesSortBy {
+	for _, v := range mappingListByoipRangesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListByoipRangesSortByEnumStringValues Enumerates the set of values in String for ListByoipRangesSortByEnum
+func GetListByoipRangesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListByoipRangesSortOrderEnum Enum with underlying type: string
@@ -140,7 +171,7 @@ const (
 	ListByoipRangesSortOrderDesc ListByoipRangesSortOrderEnum = "DESC"
 )
 
-var mappingListByoipRangesSortOrder = map[string]ListByoipRangesSortOrderEnum{
+var mappingListByoipRangesSortOrderEnum = map[string]ListByoipRangesSortOrderEnum{
 	"ASC":  ListByoipRangesSortOrderAsc,
 	"DESC": ListByoipRangesSortOrderDesc,
 }
@@ -148,8 +179,16 @@ var mappingListByoipRangesSortOrder = map[string]ListByoipRangesSortOrderEnum{
 // GetListByoipRangesSortOrderEnumValues Enumerates the set of values for ListByoipRangesSortOrderEnum
 func GetListByoipRangesSortOrderEnumValues() []ListByoipRangesSortOrderEnum {
 	values := make([]ListByoipRangesSortOrderEnum, 0)
-	for _, v := range mappingListByoipRangesSortOrder {
+	for _, v := range mappingListByoipRangesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListByoipRangesSortOrderEnumStringValues Enumerates the set of values in String for ListByoipRangesSortOrderEnum
+func GetListByoipRangesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

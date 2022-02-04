@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // QueryDetails Input arguments for running a log anlaytics query. If the request is set to run in asynchronous mode
@@ -64,4 +66,22 @@ type QueryDetails struct {
 
 func (m QueryDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m QueryDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSubSystemNameEnum[string(m.SubSystem)]; !ok && m.SubSystem != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubSystem: %s. Supported values are: %s.", m.SubSystem, strings.Join(GetSubSystemNameEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingJobModeEnum[string(m.AsyncMode)]; !ok && m.AsyncMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AsyncMode: %s. Supported values are: %s.", m.AsyncMode, strings.Join(GetJobModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -11,7 +11,9 @@ package databasemigration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateHostDumpTransferDetails Optional additional properties for dump transfer in source or target host. Default kind is CURL
@@ -65,6 +67,18 @@ func (m createhostdumptransferdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createhostdumptransferdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateHostDumpTransferDetailsKindEnum Enum with underlying type: string
 type CreateHostDumpTransferDetailsKindEnum string
 
@@ -74,7 +88,7 @@ const (
 	CreateHostDumpTransferDetailsKindOciCli CreateHostDumpTransferDetailsKindEnum = "OCI_CLI"
 )
 
-var mappingCreateHostDumpTransferDetailsKind = map[string]CreateHostDumpTransferDetailsKindEnum{
+var mappingCreateHostDumpTransferDetailsKindEnum = map[string]CreateHostDumpTransferDetailsKindEnum{
 	"CURL":    CreateHostDumpTransferDetailsKindCurl,
 	"OCI_CLI": CreateHostDumpTransferDetailsKindOciCli,
 }
@@ -82,8 +96,16 @@ var mappingCreateHostDumpTransferDetailsKind = map[string]CreateHostDumpTransfer
 // GetCreateHostDumpTransferDetailsKindEnumValues Enumerates the set of values for CreateHostDumpTransferDetailsKindEnum
 func GetCreateHostDumpTransferDetailsKindEnumValues() []CreateHostDumpTransferDetailsKindEnum {
 	values := make([]CreateHostDumpTransferDetailsKindEnum, 0)
-	for _, v := range mappingCreateHostDumpTransferDetailsKind {
+	for _, v := range mappingCreateHostDumpTransferDetailsKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateHostDumpTransferDetailsKindEnumStringValues Enumerates the set of values in String for CreateHostDumpTransferDetailsKindEnum
+func GetCreateHostDumpTransferDetailsKindEnumStringValues() []string {
+	return []string{
+		"CURL",
+		"OCI_CLI",
+	}
 }

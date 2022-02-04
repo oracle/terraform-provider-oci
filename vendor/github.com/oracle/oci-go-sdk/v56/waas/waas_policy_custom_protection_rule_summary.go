@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WaasPolicyCustomProtectionRuleSummary The OCID and action of a custom protection rule.
@@ -36,6 +38,21 @@ func (m WaasPolicyCustomProtectionRuleSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WaasPolicyCustomProtectionRuleSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingWaasPolicyCustomProtectionRuleSummaryActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetWaasPolicyCustomProtectionRuleSummaryActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WaasPolicyCustomProtectionRuleSummaryActionEnum Enum with underlying type: string
 type WaasPolicyCustomProtectionRuleSummaryActionEnum string
 
@@ -45,7 +62,7 @@ const (
 	WaasPolicyCustomProtectionRuleSummaryActionBlock  WaasPolicyCustomProtectionRuleSummaryActionEnum = "BLOCK"
 )
 
-var mappingWaasPolicyCustomProtectionRuleSummaryAction = map[string]WaasPolicyCustomProtectionRuleSummaryActionEnum{
+var mappingWaasPolicyCustomProtectionRuleSummaryActionEnum = map[string]WaasPolicyCustomProtectionRuleSummaryActionEnum{
 	"DETECT": WaasPolicyCustomProtectionRuleSummaryActionDetect,
 	"BLOCK":  WaasPolicyCustomProtectionRuleSummaryActionBlock,
 }
@@ -53,8 +70,16 @@ var mappingWaasPolicyCustomProtectionRuleSummaryAction = map[string]WaasPolicyCu
 // GetWaasPolicyCustomProtectionRuleSummaryActionEnumValues Enumerates the set of values for WaasPolicyCustomProtectionRuleSummaryActionEnum
 func GetWaasPolicyCustomProtectionRuleSummaryActionEnumValues() []WaasPolicyCustomProtectionRuleSummaryActionEnum {
 	values := make([]WaasPolicyCustomProtectionRuleSummaryActionEnum, 0)
-	for _, v := range mappingWaasPolicyCustomProtectionRuleSummaryAction {
+	for _, v := range mappingWaasPolicyCustomProtectionRuleSummaryActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWaasPolicyCustomProtectionRuleSummaryActionEnumStringValues Enumerates the set of values in String for WaasPolicyCustomProtectionRuleSummaryActionEnum
+func GetWaasPolicyCustomProtectionRuleSummaryActionEnumStringValues() []string {
+	return []string{
+		"DETECT",
+		"BLOCK",
+	}
 }

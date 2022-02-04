@@ -20,7 +20,7 @@ const (
 	OsFamilyUnknown OsFamilyEnum = "UNKNOWN"
 )
 
-var mappingOsFamily = map[string]OsFamilyEnum{
+var mappingOsFamilyEnum = map[string]OsFamilyEnum{
 	"LINUX":   OsFamilyLinux,
 	"WINDOWS": OsFamilyWindows,
 	"MACOS":   OsFamilyMacos,
@@ -30,8 +30,18 @@ var mappingOsFamily = map[string]OsFamilyEnum{
 // GetOsFamilyEnumValues Enumerates the set of values for OsFamilyEnum
 func GetOsFamilyEnumValues() []OsFamilyEnum {
 	values := make([]OsFamilyEnum, 0)
-	for _, v := range mappingOsFamily {
+	for _, v := range mappingOsFamilyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOsFamilyEnumStringValues Enumerates the set of values in String for OsFamilyEnum
+func GetOsFamilyEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"WINDOWS",
+		"MACOS",
+		"UNKNOWN",
+	}
 }

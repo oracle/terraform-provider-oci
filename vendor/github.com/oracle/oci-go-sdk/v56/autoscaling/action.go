@@ -14,7 +14,9 @@
 package autoscaling
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Action The action to take when autoscaling is triggered.
@@ -32,6 +34,21 @@ func (m Action) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Action) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingActionTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetActionTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ActionTypeEnum Enum with underlying type: string
 type ActionTypeEnum string
 
@@ -40,15 +57,22 @@ const (
 	ActionTypeChangeCountBy ActionTypeEnum = "CHANGE_COUNT_BY"
 )
 
-var mappingActionType = map[string]ActionTypeEnum{
+var mappingActionTypeEnum = map[string]ActionTypeEnum{
 	"CHANGE_COUNT_BY": ActionTypeChangeCountBy,
 }
 
 // GetActionTypeEnumValues Enumerates the set of values for ActionTypeEnum
 func GetActionTypeEnumValues() []ActionTypeEnum {
 	values := make([]ActionTypeEnum, 0)
-	for _, v := range mappingActionType {
+	for _, v := range mappingActionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetActionTypeEnumStringValues Enumerates the set of values in String for ActionTypeEnum
+func GetActionTypeEnumStringValues() []string {
+	return []string{
+		"CHANGE_COUNT_BY",
+	}
 }

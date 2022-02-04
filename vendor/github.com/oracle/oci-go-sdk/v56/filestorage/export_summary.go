@@ -10,7 +10,9 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExportSummary Summary information for an export.
@@ -43,6 +45,21 @@ func (m ExportSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExportSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExportSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExportSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExportSummaryLifecycleStateEnum Enum with underlying type: string
 type ExportSummaryLifecycleStateEnum string
 
@@ -54,7 +71,7 @@ const (
 	ExportSummaryLifecycleStateDeleted  ExportSummaryLifecycleStateEnum = "DELETED"
 )
 
-var mappingExportSummaryLifecycleState = map[string]ExportSummaryLifecycleStateEnum{
+var mappingExportSummaryLifecycleStateEnum = map[string]ExportSummaryLifecycleStateEnum{
 	"CREATING": ExportSummaryLifecycleStateCreating,
 	"ACTIVE":   ExportSummaryLifecycleStateActive,
 	"DELETING": ExportSummaryLifecycleStateDeleting,
@@ -64,8 +81,18 @@ var mappingExportSummaryLifecycleState = map[string]ExportSummaryLifecycleStateE
 // GetExportSummaryLifecycleStateEnumValues Enumerates the set of values for ExportSummaryLifecycleStateEnum
 func GetExportSummaryLifecycleStateEnumValues() []ExportSummaryLifecycleStateEnum {
 	values := make([]ExportSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingExportSummaryLifecycleState {
+	for _, v := range mappingExportSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExportSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ExportSummaryLifecycleStateEnum
+func GetExportSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

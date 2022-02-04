@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateAutonomousDatabaseDetails Details to update an Oracle Autonomous Database.
@@ -169,6 +171,33 @@ func (m UpdateAutonomousDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateAutonomousDatabaseDetailsDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateAutonomousDatabaseDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateAutonomousDatabaseDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateAutonomousDatabaseDetailsRefreshableModeEnum[string(m.RefreshableMode)]; !ok && m.RefreshableMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableMode: %s. Supported values are: %s.", m.RefreshableMode, strings.Join(GetUpdateAutonomousDatabaseDetailsRefreshableModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateAutonomousDatabaseDetailsOpenModeEnum[string(m.OpenMode)]; !ok && m.OpenMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetUpdateAutonomousDatabaseDetailsOpenModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateAutonomousDatabaseDetailsPermissionLevelEnum[string(m.PermissionLevel)]; !ok && m.PermissionLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PermissionLevel: %s. Supported values are: %s.", m.PermissionLevel, strings.Join(GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateAutonomousDatabaseDetailsDbWorkloadEnum Enum with underlying type: string
 type UpdateAutonomousDatabaseDetailsDbWorkloadEnum string
 
@@ -180,7 +209,7 @@ const (
 	UpdateAutonomousDatabaseDetailsDbWorkloadApex UpdateAutonomousDatabaseDetailsDbWorkloadEnum = "APEX"
 )
 
-var mappingUpdateAutonomousDatabaseDetailsDbWorkload = map[string]UpdateAutonomousDatabaseDetailsDbWorkloadEnum{
+var mappingUpdateAutonomousDatabaseDetailsDbWorkloadEnum = map[string]UpdateAutonomousDatabaseDetailsDbWorkloadEnum{
 	"OLTP": UpdateAutonomousDatabaseDetailsDbWorkloadOltp,
 	"DW":   UpdateAutonomousDatabaseDetailsDbWorkloadDw,
 	"AJD":  UpdateAutonomousDatabaseDetailsDbWorkloadAjd,
@@ -190,10 +219,20 @@ var mappingUpdateAutonomousDatabaseDetailsDbWorkload = map[string]UpdateAutonomo
 // GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsDbWorkloadEnum
 func GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumValues() []UpdateAutonomousDatabaseDetailsDbWorkloadEnum {
 	values := make([]UpdateAutonomousDatabaseDetailsDbWorkloadEnum, 0)
-	for _, v := range mappingUpdateAutonomousDatabaseDetailsDbWorkload {
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsDbWorkloadEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsDbWorkloadEnum
+func GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DW",
+		"AJD",
+		"APEX",
+	}
 }
 
 // UpdateAutonomousDatabaseDetailsLicenseModelEnum Enum with underlying type: string
@@ -205,7 +244,7 @@ const (
 	UpdateAutonomousDatabaseDetailsLicenseModelBringYourOwnLicense UpdateAutonomousDatabaseDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingUpdateAutonomousDatabaseDetailsLicenseModel = map[string]UpdateAutonomousDatabaseDetailsLicenseModelEnum{
+var mappingUpdateAutonomousDatabaseDetailsLicenseModelEnum = map[string]UpdateAutonomousDatabaseDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       UpdateAutonomousDatabaseDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": UpdateAutonomousDatabaseDetailsLicenseModelBringYourOwnLicense,
 }
@@ -213,10 +252,18 @@ var mappingUpdateAutonomousDatabaseDetailsLicenseModel = map[string]UpdateAutono
 // GetUpdateAutonomousDatabaseDetailsLicenseModelEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsLicenseModelEnum
 func GetUpdateAutonomousDatabaseDetailsLicenseModelEnumValues() []UpdateAutonomousDatabaseDetailsLicenseModelEnum {
 	values := make([]UpdateAutonomousDatabaseDetailsLicenseModelEnum, 0)
-	for _, v := range mappingUpdateAutonomousDatabaseDetailsLicenseModel {
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateAutonomousDatabaseDetailsLicenseModelEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsLicenseModelEnum
+func GetUpdateAutonomousDatabaseDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }
 
 // UpdateAutonomousDatabaseDetailsRefreshableModeEnum Enum with underlying type: string
@@ -228,7 +275,7 @@ const (
 	UpdateAutonomousDatabaseDetailsRefreshableModeManual    UpdateAutonomousDatabaseDetailsRefreshableModeEnum = "MANUAL"
 )
 
-var mappingUpdateAutonomousDatabaseDetailsRefreshableMode = map[string]UpdateAutonomousDatabaseDetailsRefreshableModeEnum{
+var mappingUpdateAutonomousDatabaseDetailsRefreshableModeEnum = map[string]UpdateAutonomousDatabaseDetailsRefreshableModeEnum{
 	"AUTOMATIC": UpdateAutonomousDatabaseDetailsRefreshableModeAutomatic,
 	"MANUAL":    UpdateAutonomousDatabaseDetailsRefreshableModeManual,
 }
@@ -236,10 +283,18 @@ var mappingUpdateAutonomousDatabaseDetailsRefreshableMode = map[string]UpdateAut
 // GetUpdateAutonomousDatabaseDetailsRefreshableModeEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsRefreshableModeEnum
 func GetUpdateAutonomousDatabaseDetailsRefreshableModeEnumValues() []UpdateAutonomousDatabaseDetailsRefreshableModeEnum {
 	values := make([]UpdateAutonomousDatabaseDetailsRefreshableModeEnum, 0)
-	for _, v := range mappingUpdateAutonomousDatabaseDetailsRefreshableMode {
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsRefreshableModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateAutonomousDatabaseDetailsRefreshableModeEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsRefreshableModeEnum
+func GetUpdateAutonomousDatabaseDetailsRefreshableModeEnumStringValues() []string {
+	return []string{
+		"AUTOMATIC",
+		"MANUAL",
+	}
 }
 
 // UpdateAutonomousDatabaseDetailsOpenModeEnum Enum with underlying type: string
@@ -251,7 +306,7 @@ const (
 	UpdateAutonomousDatabaseDetailsOpenModeWrite UpdateAutonomousDatabaseDetailsOpenModeEnum = "READ_WRITE"
 )
 
-var mappingUpdateAutonomousDatabaseDetailsOpenMode = map[string]UpdateAutonomousDatabaseDetailsOpenModeEnum{
+var mappingUpdateAutonomousDatabaseDetailsOpenModeEnum = map[string]UpdateAutonomousDatabaseDetailsOpenModeEnum{
 	"READ_ONLY":  UpdateAutonomousDatabaseDetailsOpenModeOnly,
 	"READ_WRITE": UpdateAutonomousDatabaseDetailsOpenModeWrite,
 }
@@ -259,10 +314,18 @@ var mappingUpdateAutonomousDatabaseDetailsOpenMode = map[string]UpdateAutonomous
 // GetUpdateAutonomousDatabaseDetailsOpenModeEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsOpenModeEnum
 func GetUpdateAutonomousDatabaseDetailsOpenModeEnumValues() []UpdateAutonomousDatabaseDetailsOpenModeEnum {
 	values := make([]UpdateAutonomousDatabaseDetailsOpenModeEnum, 0)
-	for _, v := range mappingUpdateAutonomousDatabaseDetailsOpenMode {
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsOpenModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateAutonomousDatabaseDetailsOpenModeEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsOpenModeEnum
+func GetUpdateAutonomousDatabaseDetailsOpenModeEnumStringValues() []string {
+	return []string{
+		"READ_ONLY",
+		"READ_WRITE",
+	}
 }
 
 // UpdateAutonomousDatabaseDetailsPermissionLevelEnum Enum with underlying type: string
@@ -274,7 +337,7 @@ const (
 	UpdateAutonomousDatabaseDetailsPermissionLevelUnrestricted UpdateAutonomousDatabaseDetailsPermissionLevelEnum = "UNRESTRICTED"
 )
 
-var mappingUpdateAutonomousDatabaseDetailsPermissionLevel = map[string]UpdateAutonomousDatabaseDetailsPermissionLevelEnum{
+var mappingUpdateAutonomousDatabaseDetailsPermissionLevelEnum = map[string]UpdateAutonomousDatabaseDetailsPermissionLevelEnum{
 	"RESTRICTED":   UpdateAutonomousDatabaseDetailsPermissionLevelRestricted,
 	"UNRESTRICTED": UpdateAutonomousDatabaseDetailsPermissionLevelUnrestricted,
 }
@@ -282,8 +345,16 @@ var mappingUpdateAutonomousDatabaseDetailsPermissionLevel = map[string]UpdateAut
 // GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsPermissionLevelEnum
 func GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumValues() []UpdateAutonomousDatabaseDetailsPermissionLevelEnum {
 	values := make([]UpdateAutonomousDatabaseDetailsPermissionLevelEnum, 0)
-	for _, v := range mappingUpdateAutonomousDatabaseDetailsPermissionLevel {
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsPermissionLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsPermissionLevelEnum
+func GetUpdateAutonomousDatabaseDetailsPermissionLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"UNRESTRICTED",
+	}
 }

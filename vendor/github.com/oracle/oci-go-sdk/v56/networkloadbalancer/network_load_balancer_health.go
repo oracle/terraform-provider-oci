@@ -10,7 +10,9 @@
 package networkloadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // NetworkLoadBalancerHealth The health status details for the specified network load balancer.
@@ -55,6 +57,21 @@ func (m NetworkLoadBalancerHealth) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m NetworkLoadBalancerHealth) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingNetworkLoadBalancerHealthStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetNetworkLoadBalancerHealthStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // NetworkLoadBalancerHealthStatusEnum Enum with underlying type: string
 type NetworkLoadBalancerHealthStatusEnum string
 
@@ -66,7 +83,7 @@ const (
 	NetworkLoadBalancerHealthStatusUnknown  NetworkLoadBalancerHealthStatusEnum = "UNKNOWN"
 )
 
-var mappingNetworkLoadBalancerHealthStatus = map[string]NetworkLoadBalancerHealthStatusEnum{
+var mappingNetworkLoadBalancerHealthStatusEnum = map[string]NetworkLoadBalancerHealthStatusEnum{
 	"OK":       NetworkLoadBalancerHealthStatusOk,
 	"WARNING":  NetworkLoadBalancerHealthStatusWarning,
 	"CRITICAL": NetworkLoadBalancerHealthStatusCritical,
@@ -76,8 +93,18 @@ var mappingNetworkLoadBalancerHealthStatus = map[string]NetworkLoadBalancerHealt
 // GetNetworkLoadBalancerHealthStatusEnumValues Enumerates the set of values for NetworkLoadBalancerHealthStatusEnum
 func GetNetworkLoadBalancerHealthStatusEnumValues() []NetworkLoadBalancerHealthStatusEnum {
 	values := make([]NetworkLoadBalancerHealthStatusEnum, 0)
-	for _, v := range mappingNetworkLoadBalancerHealthStatus {
+	for _, v := range mappingNetworkLoadBalancerHealthStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkLoadBalancerHealthStatusEnumStringValues Enumerates the set of values in String for NetworkLoadBalancerHealthStatusEnum
+func GetNetworkLoadBalancerHealthStatusEnumStringValues() []string {
+	return []string{
+		"OK",
+		"WARNING",
+		"CRITICAL",
+		"UNKNOWN",
+	}
 }

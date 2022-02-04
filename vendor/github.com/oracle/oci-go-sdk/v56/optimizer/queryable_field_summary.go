@@ -12,7 +12,9 @@
 package optimizer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // QueryableFieldSummary An individual field that can be used as part of a query filter.
@@ -32,6 +34,21 @@ func (m QueryableFieldSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m QueryableFieldSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingQueryableFieldSummaryFieldTypeEnum[string(m.FieldType)]; !ok && m.FieldType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FieldType: %s. Supported values are: %s.", m.FieldType, strings.Join(GetQueryableFieldSummaryFieldTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // QueryableFieldSummaryFieldTypeEnum Enum with underlying type: string
 type QueryableFieldSummaryFieldTypeEnum string
 
@@ -44,7 +61,7 @@ const (
 	QueryableFieldSummaryFieldTypeObject   QueryableFieldSummaryFieldTypeEnum = "OBJECT"
 )
 
-var mappingQueryableFieldSummaryFieldType = map[string]QueryableFieldSummaryFieldTypeEnum{
+var mappingQueryableFieldSummaryFieldTypeEnum = map[string]QueryableFieldSummaryFieldTypeEnum{
 	"STRING":    QueryableFieldSummaryFieldTypeString,
 	"INTEGER":   QueryableFieldSummaryFieldTypeInteger,
 	"BOOLEAN":   QueryableFieldSummaryFieldTypeBoolean,
@@ -55,8 +72,19 @@ var mappingQueryableFieldSummaryFieldType = map[string]QueryableFieldSummaryFiel
 // GetQueryableFieldSummaryFieldTypeEnumValues Enumerates the set of values for QueryableFieldSummaryFieldTypeEnum
 func GetQueryableFieldSummaryFieldTypeEnumValues() []QueryableFieldSummaryFieldTypeEnum {
 	values := make([]QueryableFieldSummaryFieldTypeEnum, 0)
-	for _, v := range mappingQueryableFieldSummaryFieldType {
+	for _, v := range mappingQueryableFieldSummaryFieldTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetQueryableFieldSummaryFieldTypeEnumStringValues Enumerates the set of values in String for QueryableFieldSummaryFieldTypeEnum
+func GetQueryableFieldSummaryFieldTypeEnumStringValues() []string {
+	return []string{
+		"STRING",
+		"INTEGER",
+		"BOOLEAN",
+		"DATE_TIME",
+		"OBJECT",
+	}
 }

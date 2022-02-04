@@ -12,7 +12,9 @@ package waf
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // NetworkAddressList IP addresses that can be used between different WebAppFirewallPolicies.
@@ -170,6 +172,21 @@ func (m networkaddresslist) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m networkaddresslist) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingNetworkAddressListLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNetworkAddressListLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // NetworkAddressListLifecycleStateEnum Enum with underlying type: string
 type NetworkAddressListLifecycleStateEnum string
 
@@ -183,7 +200,7 @@ const (
 	NetworkAddressListLifecycleStateFailed   NetworkAddressListLifecycleStateEnum = "FAILED"
 )
 
-var mappingNetworkAddressListLifecycleState = map[string]NetworkAddressListLifecycleStateEnum{
+var mappingNetworkAddressListLifecycleStateEnum = map[string]NetworkAddressListLifecycleStateEnum{
 	"CREATING": NetworkAddressListLifecycleStateCreating,
 	"UPDATING": NetworkAddressListLifecycleStateUpdating,
 	"ACTIVE":   NetworkAddressListLifecycleStateActive,
@@ -195,10 +212,22 @@ var mappingNetworkAddressListLifecycleState = map[string]NetworkAddressListLifec
 // GetNetworkAddressListLifecycleStateEnumValues Enumerates the set of values for NetworkAddressListLifecycleStateEnum
 func GetNetworkAddressListLifecycleStateEnumValues() []NetworkAddressListLifecycleStateEnum {
 	values := make([]NetworkAddressListLifecycleStateEnum, 0)
-	for _, v := range mappingNetworkAddressListLifecycleState {
+	for _, v := range mappingNetworkAddressListLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkAddressListLifecycleStateEnumStringValues Enumerates the set of values in String for NetworkAddressListLifecycleStateEnum
+func GetNetworkAddressListLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // NetworkAddressListTypeEnum Enum with underlying type: string
@@ -210,7 +239,7 @@ const (
 	NetworkAddressListTypeVcnAddresses NetworkAddressListTypeEnum = "VCN_ADDRESSES"
 )
 
-var mappingNetworkAddressListType = map[string]NetworkAddressListTypeEnum{
+var mappingNetworkAddressListTypeEnum = map[string]NetworkAddressListTypeEnum{
 	"ADDRESSES":     NetworkAddressListTypeAddresses,
 	"VCN_ADDRESSES": NetworkAddressListTypeVcnAddresses,
 }
@@ -218,8 +247,16 @@ var mappingNetworkAddressListType = map[string]NetworkAddressListTypeEnum{
 // GetNetworkAddressListTypeEnumValues Enumerates the set of values for NetworkAddressListTypeEnum
 func GetNetworkAddressListTypeEnumValues() []NetworkAddressListTypeEnum {
 	values := make([]NetworkAddressListTypeEnum, 0)
-	for _, v := range mappingNetworkAddressListType {
+	for _, v := range mappingNetworkAddressListTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkAddressListTypeEnumStringValues Enumerates the set of values in String for NetworkAddressListTypeEnum
+func GetNetworkAddressListTypeEnumStringValues() []string {
+	return []string{
+		"ADDRESSES",
+		"VCN_ADDRESSES",
+	}
 }

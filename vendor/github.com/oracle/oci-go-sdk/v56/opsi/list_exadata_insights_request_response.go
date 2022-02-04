@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListExadataInsightsRequest wrapper for the ListExadataInsights operation
@@ -72,6 +74,10 @@ func (request ListExadataInsightsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListExadataInsightsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +91,35 @@ func (request ListExadataInsightsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListExadataInsightsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListExadataInsightsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Status {
+		if _, ok := mappingResourceStatusEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", val, strings.Join(GetResourceStatusEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingLifecycleStateEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListExadataInsightsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListExadataInsightsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListExadataInsightsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListExadataInsightsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListExadataInsightsResponse wrapper for the ListExadataInsights operation
@@ -127,7 +162,7 @@ const (
 	ListExadataInsightsSortOrderDesc ListExadataInsightsSortOrderEnum = "DESC"
 )
 
-var mappingListExadataInsightsSortOrder = map[string]ListExadataInsightsSortOrderEnum{
+var mappingListExadataInsightsSortOrderEnum = map[string]ListExadataInsightsSortOrderEnum{
 	"ASC":  ListExadataInsightsSortOrderAsc,
 	"DESC": ListExadataInsightsSortOrderDesc,
 }
@@ -135,10 +170,18 @@ var mappingListExadataInsightsSortOrder = map[string]ListExadataInsightsSortOrde
 // GetListExadataInsightsSortOrderEnumValues Enumerates the set of values for ListExadataInsightsSortOrderEnum
 func GetListExadataInsightsSortOrderEnumValues() []ListExadataInsightsSortOrderEnum {
 	values := make([]ListExadataInsightsSortOrderEnum, 0)
-	for _, v := range mappingListExadataInsightsSortOrder {
+	for _, v := range mappingListExadataInsightsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExadataInsightsSortOrderEnumStringValues Enumerates the set of values in String for ListExadataInsightsSortOrderEnum
+func GetListExadataInsightsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListExadataInsightsSortByEnum Enum with underlying type: string
@@ -150,7 +193,7 @@ const (
 	ListExadataInsightsSortByExadataname ListExadataInsightsSortByEnum = "exadataName"
 )
 
-var mappingListExadataInsightsSortBy = map[string]ListExadataInsightsSortByEnum{
+var mappingListExadataInsightsSortByEnum = map[string]ListExadataInsightsSortByEnum{
 	"timeCreated": ListExadataInsightsSortByTimecreated,
 	"exadataName": ListExadataInsightsSortByExadataname,
 }
@@ -158,8 +201,16 @@ var mappingListExadataInsightsSortBy = map[string]ListExadataInsightsSortByEnum{
 // GetListExadataInsightsSortByEnumValues Enumerates the set of values for ListExadataInsightsSortByEnum
 func GetListExadataInsightsSortByEnumValues() []ListExadataInsightsSortByEnum {
 	values := make([]ListExadataInsightsSortByEnum, 0)
-	for _, v := range mappingListExadataInsightsSortBy {
+	for _, v := range mappingListExadataInsightsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExadataInsightsSortByEnumStringValues Enumerates the set of values in String for ListExadataInsightsSortByEnum
+func GetListExadataInsightsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"exadataName",
+	}
 }

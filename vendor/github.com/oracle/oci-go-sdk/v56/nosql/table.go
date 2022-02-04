@@ -13,7 +13,9 @@
 package nosql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Table Complete metadata about a table.
@@ -79,6 +81,21 @@ func (m Table) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Table) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTableLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTableLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TableLifecycleStateEnum Enum with underlying type: string
 type TableLifecycleStateEnum string
 
@@ -93,7 +110,7 @@ const (
 	TableLifecycleStateInactive TableLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingTableLifecycleState = map[string]TableLifecycleStateEnum{
+var mappingTableLifecycleStateEnum = map[string]TableLifecycleStateEnum{
 	"CREATING": TableLifecycleStateCreating,
 	"UPDATING": TableLifecycleStateUpdating,
 	"ACTIVE":   TableLifecycleStateActive,
@@ -106,8 +123,21 @@ var mappingTableLifecycleState = map[string]TableLifecycleStateEnum{
 // GetTableLifecycleStateEnumValues Enumerates the set of values for TableLifecycleStateEnum
 func GetTableLifecycleStateEnumValues() []TableLifecycleStateEnum {
 	values := make([]TableLifecycleStateEnum, 0)
-	for _, v := range mappingTableLifecycleState {
+	for _, v := range mappingTableLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTableLifecycleStateEnumStringValues Enumerates the set of values in String for TableLifecycleStateEnum
+func GetTableLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"INACTIVE",
+	}
 }

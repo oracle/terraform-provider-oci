@@ -5,8 +5,10 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListHealthChecksVantagePointsRequest wrapper for the ListHealthChecksVantagePoints operation
@@ -51,6 +53,10 @@ func (request ListHealthChecksVantagePointsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListHealthChecksVantagePointsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +70,23 @@ func (request ListHealthChecksVantagePointsRequest) BinaryRequestBody() (*common
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListHealthChecksVantagePointsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListHealthChecksVantagePointsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListHealthChecksVantagePointsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListHealthChecksVantagePointsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListHealthChecksVantagePointsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListHealthChecksVantagePointsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListHealthChecksVantagePointsResponse wrapper for the ListHealthChecksVantagePoints operation
@@ -106,7 +129,7 @@ const (
 	ListHealthChecksVantagePointsSortByDisplayname ListHealthChecksVantagePointsSortByEnum = "displayName"
 )
 
-var mappingListHealthChecksVantagePointsSortBy = map[string]ListHealthChecksVantagePointsSortByEnum{
+var mappingListHealthChecksVantagePointsSortByEnum = map[string]ListHealthChecksVantagePointsSortByEnum{
 	"name":        ListHealthChecksVantagePointsSortByName,
 	"displayName": ListHealthChecksVantagePointsSortByDisplayname,
 }
@@ -114,10 +137,18 @@ var mappingListHealthChecksVantagePointsSortBy = map[string]ListHealthChecksVant
 // GetListHealthChecksVantagePointsSortByEnumValues Enumerates the set of values for ListHealthChecksVantagePointsSortByEnum
 func GetListHealthChecksVantagePointsSortByEnumValues() []ListHealthChecksVantagePointsSortByEnum {
 	values := make([]ListHealthChecksVantagePointsSortByEnum, 0)
-	for _, v := range mappingListHealthChecksVantagePointsSortBy {
+	for _, v := range mappingListHealthChecksVantagePointsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHealthChecksVantagePointsSortByEnumStringValues Enumerates the set of values in String for ListHealthChecksVantagePointsSortByEnum
+func GetListHealthChecksVantagePointsSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"displayName",
+	}
 }
 
 // ListHealthChecksVantagePointsSortOrderEnum Enum with underlying type: string
@@ -129,7 +160,7 @@ const (
 	ListHealthChecksVantagePointsSortOrderDesc ListHealthChecksVantagePointsSortOrderEnum = "DESC"
 )
 
-var mappingListHealthChecksVantagePointsSortOrder = map[string]ListHealthChecksVantagePointsSortOrderEnum{
+var mappingListHealthChecksVantagePointsSortOrderEnum = map[string]ListHealthChecksVantagePointsSortOrderEnum{
 	"ASC":  ListHealthChecksVantagePointsSortOrderAsc,
 	"DESC": ListHealthChecksVantagePointsSortOrderDesc,
 }
@@ -137,8 +168,16 @@ var mappingListHealthChecksVantagePointsSortOrder = map[string]ListHealthChecksV
 // GetListHealthChecksVantagePointsSortOrderEnumValues Enumerates the set of values for ListHealthChecksVantagePointsSortOrderEnum
 func GetListHealthChecksVantagePointsSortOrderEnumValues() []ListHealthChecksVantagePointsSortOrderEnum {
 	values := make([]ListHealthChecksVantagePointsSortOrderEnum, 0)
-	for _, v := range mappingListHealthChecksVantagePointsSortOrder {
+	for _, v := range mappingListHealthChecksVantagePointsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHealthChecksVantagePointsSortOrderEnumStringValues Enumerates the set of values in String for ListHealthChecksVantagePointsSortOrderEnum
+func GetListHealthChecksVantagePointsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -5,8 +5,10 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListLoadBalancersRequest wrapper for the ListLoadBalancers operation
@@ -64,6 +66,10 @@ func (request ListLoadBalancersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLoadBalancersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -77,6 +83,26 @@ func (request ListLoadBalancersRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLoadBalancersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLoadBalancersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLoadBalancersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLoadBalancersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLoadBalancersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLoadBalancersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLoadBalancerLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetLoadBalancerLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLoadBalancersResponse wrapper for the ListLoadBalancers operation
@@ -115,7 +141,7 @@ const (
 	ListLoadBalancersSortByDisplayname ListLoadBalancersSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListLoadBalancersSortBy = map[string]ListLoadBalancersSortByEnum{
+var mappingListLoadBalancersSortByEnum = map[string]ListLoadBalancersSortByEnum{
 	"TIMECREATED": ListLoadBalancersSortByTimecreated,
 	"DISPLAYNAME": ListLoadBalancersSortByDisplayname,
 }
@@ -123,10 +149,18 @@ var mappingListLoadBalancersSortBy = map[string]ListLoadBalancersSortByEnum{
 // GetListLoadBalancersSortByEnumValues Enumerates the set of values for ListLoadBalancersSortByEnum
 func GetListLoadBalancersSortByEnumValues() []ListLoadBalancersSortByEnum {
 	values := make([]ListLoadBalancersSortByEnum, 0)
-	for _, v := range mappingListLoadBalancersSortBy {
+	for _, v := range mappingListLoadBalancersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLoadBalancersSortByEnumStringValues Enumerates the set of values in String for ListLoadBalancersSortByEnum
+func GetListLoadBalancersSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListLoadBalancersSortOrderEnum Enum with underlying type: string
@@ -138,7 +172,7 @@ const (
 	ListLoadBalancersSortOrderDesc ListLoadBalancersSortOrderEnum = "DESC"
 )
 
-var mappingListLoadBalancersSortOrder = map[string]ListLoadBalancersSortOrderEnum{
+var mappingListLoadBalancersSortOrderEnum = map[string]ListLoadBalancersSortOrderEnum{
 	"ASC":  ListLoadBalancersSortOrderAsc,
 	"DESC": ListLoadBalancersSortOrderDesc,
 }
@@ -146,8 +180,16 @@ var mappingListLoadBalancersSortOrder = map[string]ListLoadBalancersSortOrderEnu
 // GetListLoadBalancersSortOrderEnumValues Enumerates the set of values for ListLoadBalancersSortOrderEnum
 func GetListLoadBalancersSortOrderEnumValues() []ListLoadBalancersSortOrderEnum {
 	values := make([]ListLoadBalancersSortOrderEnum, 0)
-	for _, v := range mappingListLoadBalancersSortOrder {
+	for _, v := range mappingListLoadBalancersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLoadBalancersSortOrderEnumStringValues Enumerates the set of values in String for ListLoadBalancersSortOrderEnum
+func GetListLoadBalancersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

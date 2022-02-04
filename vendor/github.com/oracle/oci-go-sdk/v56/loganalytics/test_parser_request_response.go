@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // TestParserRequest wrapper for the TestParser operation
@@ -51,6 +53,10 @@ func (request TestParserRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request TestParserRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +70,20 @@ func (request TestParserRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request TestParserRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request TestParserRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTestParserScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetTestParserScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // TestParserResponse wrapper for the TestParser operation
@@ -98,7 +118,7 @@ const (
 	TestParserScopeLinesLogEntries TestParserScopeEnum = "LOG_LINES_LOG_ENTRIES"
 )
 
-var mappingTestParserScope = map[string]TestParserScopeEnum{
+var mappingTestParserScopeEnum = map[string]TestParserScopeEnum{
 	"LOG_LINES":             TestParserScopeLines,
 	"LOG_ENTRIES":           TestParserScopeEntries,
 	"LOG_LINES_LOG_ENTRIES": TestParserScopeLinesLogEntries,
@@ -107,8 +127,17 @@ var mappingTestParserScope = map[string]TestParserScopeEnum{
 // GetTestParserScopeEnumValues Enumerates the set of values for TestParserScopeEnum
 func GetTestParserScopeEnumValues() []TestParserScopeEnum {
 	values := make([]TestParserScopeEnum, 0)
-	for _, v := range mappingTestParserScope {
+	for _, v := range mappingTestParserScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTestParserScopeEnumStringValues Enumerates the set of values in String for TestParserScopeEnum
+func GetTestParserScopeEnumStringValues() []string {
+	return []string{
+		"LOG_LINES",
+		"LOG_ENTRIES",
+		"LOG_LINES_LOG_ENTRIES",
+	}
 }

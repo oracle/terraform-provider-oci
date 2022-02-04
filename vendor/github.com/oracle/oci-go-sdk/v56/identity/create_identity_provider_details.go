@@ -11,7 +11,9 @@ package identity
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateIdentityProviderDetails The representation of CreateIdentityProviderDetails
@@ -131,6 +133,21 @@ func (m createidentityproviderdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createidentityproviderdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateIdentityProviderDetailsProductTypeEnum[string(m.ProductType)]; !ok && m.ProductType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProductType: %s. Supported values are: %s.", m.ProductType, strings.Join(GetCreateIdentityProviderDetailsProductTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateIdentityProviderDetailsProductTypeEnum Enum with underlying type: string
 type CreateIdentityProviderDetailsProductTypeEnum string
 
@@ -140,7 +157,7 @@ const (
 	CreateIdentityProviderDetailsProductTypeAdfs CreateIdentityProviderDetailsProductTypeEnum = "ADFS"
 )
 
-var mappingCreateIdentityProviderDetailsProductType = map[string]CreateIdentityProviderDetailsProductTypeEnum{
+var mappingCreateIdentityProviderDetailsProductTypeEnum = map[string]CreateIdentityProviderDetailsProductTypeEnum{
 	"IDCS": CreateIdentityProviderDetailsProductTypeIdcs,
 	"ADFS": CreateIdentityProviderDetailsProductTypeAdfs,
 }
@@ -148,10 +165,18 @@ var mappingCreateIdentityProviderDetailsProductType = map[string]CreateIdentityP
 // GetCreateIdentityProviderDetailsProductTypeEnumValues Enumerates the set of values for CreateIdentityProviderDetailsProductTypeEnum
 func GetCreateIdentityProviderDetailsProductTypeEnumValues() []CreateIdentityProviderDetailsProductTypeEnum {
 	values := make([]CreateIdentityProviderDetailsProductTypeEnum, 0)
-	for _, v := range mappingCreateIdentityProviderDetailsProductType {
+	for _, v := range mappingCreateIdentityProviderDetailsProductTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateIdentityProviderDetailsProductTypeEnumStringValues Enumerates the set of values in String for CreateIdentityProviderDetailsProductTypeEnum
+func GetCreateIdentityProviderDetailsProductTypeEnumStringValues() []string {
+	return []string{
+		"IDCS",
+		"ADFS",
+	}
 }
 
 // CreateIdentityProviderDetailsProtocolEnum Enum with underlying type: string
@@ -163,7 +188,7 @@ const (
 	CreateIdentityProviderDetailsProtocolAdfs  CreateIdentityProviderDetailsProtocolEnum = "ADFS"
 )
 
-var mappingCreateIdentityProviderDetailsProtocol = map[string]CreateIdentityProviderDetailsProtocolEnum{
+var mappingCreateIdentityProviderDetailsProtocolEnum = map[string]CreateIdentityProviderDetailsProtocolEnum{
 	"SAML2": CreateIdentityProviderDetailsProtocolSaml2,
 	"ADFS":  CreateIdentityProviderDetailsProtocolAdfs,
 }
@@ -171,8 +196,16 @@ var mappingCreateIdentityProviderDetailsProtocol = map[string]CreateIdentityProv
 // GetCreateIdentityProviderDetailsProtocolEnumValues Enumerates the set of values for CreateIdentityProviderDetailsProtocolEnum
 func GetCreateIdentityProviderDetailsProtocolEnumValues() []CreateIdentityProviderDetailsProtocolEnum {
 	values := make([]CreateIdentityProviderDetailsProtocolEnum, 0)
-	for _, v := range mappingCreateIdentityProviderDetailsProtocol {
+	for _, v := range mappingCreateIdentityProviderDetailsProtocolEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateIdentityProviderDetailsProtocolEnumStringValues Enumerates the set of values in String for CreateIdentityProviderDetailsProtocolEnum
+func GetCreateIdentityProviderDetailsProtocolEnumStringValues() []string {
+	return []string{
+		"SAML2",
+		"ADFS",
+	}
 }

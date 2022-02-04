@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ChangeResolverCompartmentRequest wrapper for the ChangeResolverCompartment operation
@@ -58,6 +60,10 @@ func (request ChangeResolverCompartmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ChangeResolverCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,20 @@ func (request ChangeResolverCompartmentRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeResolverCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ChangeResolverCompartmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingChangeResolverCompartmentScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetChangeResolverCompartmentScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ChangeResolverCompartmentResponse wrapper for the ChangeResolverCompartment operation
@@ -106,7 +126,7 @@ const (
 	ChangeResolverCompartmentScopePrivate ChangeResolverCompartmentScopeEnum = "PRIVATE"
 )
 
-var mappingChangeResolverCompartmentScope = map[string]ChangeResolverCompartmentScopeEnum{
+var mappingChangeResolverCompartmentScopeEnum = map[string]ChangeResolverCompartmentScopeEnum{
 	"GLOBAL":  ChangeResolverCompartmentScopeGlobal,
 	"PRIVATE": ChangeResolverCompartmentScopePrivate,
 }
@@ -114,8 +134,16 @@ var mappingChangeResolverCompartmentScope = map[string]ChangeResolverCompartment
 // GetChangeResolverCompartmentScopeEnumValues Enumerates the set of values for ChangeResolverCompartmentScopeEnum
 func GetChangeResolverCompartmentScopeEnumValues() []ChangeResolverCompartmentScopeEnum {
 	values := make([]ChangeResolverCompartmentScopeEnum, 0)
-	for _, v := range mappingChangeResolverCompartmentScope {
+	for _, v := range mappingChangeResolverCompartmentScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetChangeResolverCompartmentScopeEnumStringValues Enumerates the set of values in String for ChangeResolverCompartmentScopeEnum
+func GetChangeResolverCompartmentScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VnicAttachment Represents an attachment between a VNIC and an instance. For more information, see
@@ -80,6 +82,21 @@ func (m VnicAttachment) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VnicAttachment) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVnicAttachmentLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVnicAttachmentLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // VnicAttachmentLifecycleStateEnum Enum with underlying type: string
 type VnicAttachmentLifecycleStateEnum string
 
@@ -91,7 +108,7 @@ const (
 	VnicAttachmentLifecycleStateDetached  VnicAttachmentLifecycleStateEnum = "DETACHED"
 )
 
-var mappingVnicAttachmentLifecycleState = map[string]VnicAttachmentLifecycleStateEnum{
+var mappingVnicAttachmentLifecycleStateEnum = map[string]VnicAttachmentLifecycleStateEnum{
 	"ATTACHING": VnicAttachmentLifecycleStateAttaching,
 	"ATTACHED":  VnicAttachmentLifecycleStateAttached,
 	"DETACHING": VnicAttachmentLifecycleStateDetaching,
@@ -101,8 +118,18 @@ var mappingVnicAttachmentLifecycleState = map[string]VnicAttachmentLifecycleStat
 // GetVnicAttachmentLifecycleStateEnumValues Enumerates the set of values for VnicAttachmentLifecycleStateEnum
 func GetVnicAttachmentLifecycleStateEnumValues() []VnicAttachmentLifecycleStateEnum {
 	values := make([]VnicAttachmentLifecycleStateEnum, 0)
-	for _, v := range mappingVnicAttachmentLifecycleState {
+	for _, v := range mappingVnicAttachmentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVnicAttachmentLifecycleStateEnumStringValues Enumerates the set of values in String for VnicAttachmentLifecycleStateEnum
+func GetVnicAttachmentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ATTACHING",
+		"ATTACHED",
+		"DETACHING",
+		"DETACHED",
+	}
 }

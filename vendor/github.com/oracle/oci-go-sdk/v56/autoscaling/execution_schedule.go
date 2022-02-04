@@ -15,7 +15,9 @@ package autoscaling
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExecutionSchedule An execution schedule for an autoscaling policy.
@@ -75,6 +77,21 @@ func (m executionschedule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m executionschedule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExecutionScheduleTimezoneEnum[string(m.Timezone)]; !ok && m.Timezone != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Timezone: %s. Supported values are: %s.", m.Timezone, strings.Join(GetExecutionScheduleTimezoneEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExecutionScheduleTimezoneEnum Enum with underlying type: string
 type ExecutionScheduleTimezoneEnum string
 
@@ -83,15 +100,22 @@ const (
 	ExecutionScheduleTimezoneUtc ExecutionScheduleTimezoneEnum = "UTC"
 )
 
-var mappingExecutionScheduleTimezone = map[string]ExecutionScheduleTimezoneEnum{
+var mappingExecutionScheduleTimezoneEnum = map[string]ExecutionScheduleTimezoneEnum{
 	"UTC": ExecutionScheduleTimezoneUtc,
 }
 
 // GetExecutionScheduleTimezoneEnumValues Enumerates the set of values for ExecutionScheduleTimezoneEnum
 func GetExecutionScheduleTimezoneEnumValues() []ExecutionScheduleTimezoneEnum {
 	values := make([]ExecutionScheduleTimezoneEnum, 0)
-	for _, v := range mappingExecutionScheduleTimezone {
+	for _, v := range mappingExecutionScheduleTimezoneEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExecutionScheduleTimezoneEnumStringValues Enumerates the set of values in String for ExecutionScheduleTimezoneEnum
+func GetExecutionScheduleTimezoneEnumStringValues() []string {
+	return []string{
+		"UTC",
+	}
 }

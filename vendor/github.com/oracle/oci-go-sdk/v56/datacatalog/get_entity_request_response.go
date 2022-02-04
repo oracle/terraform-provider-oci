@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetEntityRequest wrapper for the GetEntity operation
@@ -46,6 +48,10 @@ func (request GetEntityRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetEntityRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request GetEntityRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetEntityRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetEntityRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetEntityFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetEntityFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetEntityResponse wrapper for the GetEntity operation
@@ -116,7 +139,7 @@ const (
 	GetEntityFieldsProperties        GetEntityFieldsEnum = "properties"
 )
 
-var mappingGetEntityFields = map[string]GetEntityFieldsEnum{
+var mappingGetEntityFieldsEnum = map[string]GetEntityFieldsEnum{
 	"key":               GetEntityFieldsKey,
 	"displayName":       GetEntityFieldsDisplayname,
 	"description":       GetEntityFieldsDescription,
@@ -144,8 +167,36 @@ var mappingGetEntityFields = map[string]GetEntityFieldsEnum{
 // GetGetEntityFieldsEnumValues Enumerates the set of values for GetEntityFieldsEnum
 func GetGetEntityFieldsEnumValues() []GetEntityFieldsEnum {
 	values := make([]GetEntityFieldsEnum, 0)
-	for _, v := range mappingGetEntityFields {
+	for _, v := range mappingGetEntityFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetEntityFieldsEnumStringValues Enumerates the set of values in String for GetEntityFieldsEnum
+func GetGetEntityFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"dataAssetKey",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"lifecycleState",
+		"externalKey",
+		"timeExternal",
+		"timeStatusUpdated",
+		"isLogical",
+		"isPartition",
+		"folderKey",
+		"folderName",
+		"typeKey",
+		"path",
+		"harvestStatus",
+		"lastJobKey",
+		"uri",
+		"properties",
+	}
 }

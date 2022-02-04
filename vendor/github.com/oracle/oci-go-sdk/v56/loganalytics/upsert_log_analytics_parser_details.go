@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpsertLogAnalyticsParserDetails UpsertLogAnalyticsParserDetails
@@ -101,6 +103,21 @@ func (m UpsertLogAnalyticsParserDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpsertLogAnalyticsParserDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpsertLogAnalyticsParserDetailsTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetUpsertLogAnalyticsParserDetailsTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpsertLogAnalyticsParserDetailsTypeEnum Enum with underlying type: string
 type UpsertLogAnalyticsParserDetailsTypeEnum string
 
@@ -113,7 +130,7 @@ const (
 	UpsertLogAnalyticsParserDetailsTypeDelimited UpsertLogAnalyticsParserDetailsTypeEnum = "DELIMITED"
 )
 
-var mappingUpsertLogAnalyticsParserDetailsType = map[string]UpsertLogAnalyticsParserDetailsTypeEnum{
+var mappingUpsertLogAnalyticsParserDetailsTypeEnum = map[string]UpsertLogAnalyticsParserDetailsTypeEnum{
 	"XML":       UpsertLogAnalyticsParserDetailsTypeXml,
 	"JSON":      UpsertLogAnalyticsParserDetailsTypeJson,
 	"REGEX":     UpsertLogAnalyticsParserDetailsTypeRegex,
@@ -124,8 +141,19 @@ var mappingUpsertLogAnalyticsParserDetailsType = map[string]UpsertLogAnalyticsPa
 // GetUpsertLogAnalyticsParserDetailsTypeEnumValues Enumerates the set of values for UpsertLogAnalyticsParserDetailsTypeEnum
 func GetUpsertLogAnalyticsParserDetailsTypeEnumValues() []UpsertLogAnalyticsParserDetailsTypeEnum {
 	values := make([]UpsertLogAnalyticsParserDetailsTypeEnum, 0)
-	for _, v := range mappingUpsertLogAnalyticsParserDetailsType {
+	for _, v := range mappingUpsertLogAnalyticsParserDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpsertLogAnalyticsParserDetailsTypeEnumStringValues Enumerates the set of values in String for UpsertLogAnalyticsParserDetailsTypeEnum
+func GetUpsertLogAnalyticsParserDetailsTypeEnumStringValues() []string {
+	return []string{
+		"XML",
+		"JSON",
+		"REGEX",
+		"ODL",
+		"DELIMITED",
+	}
 }

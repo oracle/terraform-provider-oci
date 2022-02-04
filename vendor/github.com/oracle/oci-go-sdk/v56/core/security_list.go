@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SecurityList A set of virtual firewall rules for your VCN. Security lists are configured at the subnet
@@ -75,6 +77,21 @@ func (m SecurityList) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SecurityList) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSecurityListLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecurityListLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecurityListLifecycleStateEnum Enum with underlying type: string
 type SecurityListLifecycleStateEnum string
 
@@ -86,7 +103,7 @@ const (
 	SecurityListLifecycleStateTerminated   SecurityListLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingSecurityListLifecycleState = map[string]SecurityListLifecycleStateEnum{
+var mappingSecurityListLifecycleStateEnum = map[string]SecurityListLifecycleStateEnum{
 	"PROVISIONING": SecurityListLifecycleStateProvisioning,
 	"AVAILABLE":    SecurityListLifecycleStateAvailable,
 	"TERMINATING":  SecurityListLifecycleStateTerminating,
@@ -96,8 +113,18 @@ var mappingSecurityListLifecycleState = map[string]SecurityListLifecycleStateEnu
 // GetSecurityListLifecycleStateEnumValues Enumerates the set of values for SecurityListLifecycleStateEnum
 func GetSecurityListLifecycleStateEnumValues() []SecurityListLifecycleStateEnum {
 	values := make([]SecurityListLifecycleStateEnum, 0)
-	for _, v := range mappingSecurityListLifecycleState {
+	for _, v := range mappingSecurityListLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecurityListLifecycleStateEnumStringValues Enumerates the set of values in String for SecurityListLifecycleStateEnum
+func GetSecurityListLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

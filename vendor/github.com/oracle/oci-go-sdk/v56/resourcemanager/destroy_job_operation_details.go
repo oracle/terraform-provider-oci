@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DestroyJobOperationDetails Job details that are specific to destroy operations.
@@ -29,6 +31,21 @@ type DestroyJobOperationDetails struct {
 
 func (m DestroyJobOperationDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DestroyJobOperationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDestroyJobOperationDetailsExecutionPlanStrategyEnum[string(m.ExecutionPlanStrategy)]; !ok && m.ExecutionPlanStrategy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExecutionPlanStrategy: %s. Supported values are: %s.", m.ExecutionPlanStrategy, strings.Join(GetDestroyJobOperationDetailsExecutionPlanStrategyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -53,15 +70,22 @@ const (
 	DestroyJobOperationDetailsExecutionPlanStrategyAutoApproved DestroyJobOperationDetailsExecutionPlanStrategyEnum = "AUTO_APPROVED"
 )
 
-var mappingDestroyJobOperationDetailsExecutionPlanStrategy = map[string]DestroyJobOperationDetailsExecutionPlanStrategyEnum{
+var mappingDestroyJobOperationDetailsExecutionPlanStrategyEnum = map[string]DestroyJobOperationDetailsExecutionPlanStrategyEnum{
 	"AUTO_APPROVED": DestroyJobOperationDetailsExecutionPlanStrategyAutoApproved,
 }
 
 // GetDestroyJobOperationDetailsExecutionPlanStrategyEnumValues Enumerates the set of values for DestroyJobOperationDetailsExecutionPlanStrategyEnum
 func GetDestroyJobOperationDetailsExecutionPlanStrategyEnumValues() []DestroyJobOperationDetailsExecutionPlanStrategyEnum {
 	values := make([]DestroyJobOperationDetailsExecutionPlanStrategyEnum, 0)
-	for _, v := range mappingDestroyJobOperationDetailsExecutionPlanStrategy {
+	for _, v := range mappingDestroyJobOperationDetailsExecutionPlanStrategyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDestroyJobOperationDetailsExecutionPlanStrategyEnumStringValues Enumerates the set of values in String for DestroyJobOperationDetailsExecutionPlanStrategyEnum
+func GetDestroyJobOperationDetailsExecutionPlanStrategyEnumStringValues() []string {
+	return []string{
+		"AUTO_APPROVED",
+	}
 }

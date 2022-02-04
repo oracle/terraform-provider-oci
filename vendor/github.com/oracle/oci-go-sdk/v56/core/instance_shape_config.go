@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InstanceShapeConfig The shape configuration for an instance. The shape configuration determines
@@ -67,6 +69,21 @@ func (m InstanceShapeConfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceShapeConfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingInstanceShapeConfigBaselineOcpuUtilizationEnum[string(m.BaselineOcpuUtilization)]; !ok && m.BaselineOcpuUtilization != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BaselineOcpuUtilization: %s. Supported values are: %s.", m.BaselineOcpuUtilization, strings.Join(GetInstanceShapeConfigBaselineOcpuUtilizationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceShapeConfigBaselineOcpuUtilizationEnum Enum with underlying type: string
 type InstanceShapeConfigBaselineOcpuUtilizationEnum string
 
@@ -77,7 +94,7 @@ const (
 	InstanceShapeConfigBaselineOcpuUtilization1 InstanceShapeConfigBaselineOcpuUtilizationEnum = "BASELINE_1_1"
 )
 
-var mappingInstanceShapeConfigBaselineOcpuUtilization = map[string]InstanceShapeConfigBaselineOcpuUtilizationEnum{
+var mappingInstanceShapeConfigBaselineOcpuUtilizationEnum = map[string]InstanceShapeConfigBaselineOcpuUtilizationEnum{
 	"BASELINE_1_8": InstanceShapeConfigBaselineOcpuUtilization8,
 	"BASELINE_1_2": InstanceShapeConfigBaselineOcpuUtilization2,
 	"BASELINE_1_1": InstanceShapeConfigBaselineOcpuUtilization1,
@@ -86,8 +103,17 @@ var mappingInstanceShapeConfigBaselineOcpuUtilization = map[string]InstanceShape
 // GetInstanceShapeConfigBaselineOcpuUtilizationEnumValues Enumerates the set of values for InstanceShapeConfigBaselineOcpuUtilizationEnum
 func GetInstanceShapeConfigBaselineOcpuUtilizationEnumValues() []InstanceShapeConfigBaselineOcpuUtilizationEnum {
 	values := make([]InstanceShapeConfigBaselineOcpuUtilizationEnum, 0)
-	for _, v := range mappingInstanceShapeConfigBaselineOcpuUtilization {
+	for _, v := range mappingInstanceShapeConfigBaselineOcpuUtilizationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceShapeConfigBaselineOcpuUtilizationEnumStringValues Enumerates the set of values in String for InstanceShapeConfigBaselineOcpuUtilizationEnum
+func GetInstanceShapeConfigBaselineOcpuUtilizationEnumStringValues() []string {
+	return []string{
+		"BASELINE_1_8",
+		"BASELINE_1_2",
+		"BASELINE_1_1",
+	}
 }

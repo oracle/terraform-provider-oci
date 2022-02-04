@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MonthlyRuleFrequencyDetails Frequency Details model for monthly frequency based on week of month and day of week.
@@ -41,6 +43,27 @@ func (m MonthlyRuleFrequencyDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MonthlyRuleFrequencyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMonthlyRuleFrequencyDetailsWeekOfMonthEnum[string(m.WeekOfMonth)]; !ok && m.WeekOfMonth != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WeekOfMonth: %s. Supported values are: %s.", m.WeekOfMonth, strings.Join(GetMonthlyRuleFrequencyDetailsWeekOfMonthEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMonthlyRuleFrequencyDetailsDayOfWeekEnum[string(m.DayOfWeek)]; !ok && m.DayOfWeek != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DayOfWeek: %s. Supported values are: %s.", m.DayOfWeek, strings.Join(GetMonthlyRuleFrequencyDetailsDayOfWeekEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingAbstractFrequencyDetailsFrequencyEnum[string(m.Frequency)]; !ok && m.Frequency != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Frequency: %s. Supported values are: %s.", m.Frequency, strings.Join(GetAbstractFrequencyDetailsFrequencyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m MonthlyRuleFrequencyDetails) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeMonthlyRuleFrequencyDetails MonthlyRuleFrequencyDetails
@@ -68,7 +91,7 @@ const (
 	MonthlyRuleFrequencyDetailsWeekOfMonthLast   MonthlyRuleFrequencyDetailsWeekOfMonthEnum = "LAST"
 )
 
-var mappingMonthlyRuleFrequencyDetailsWeekOfMonth = map[string]MonthlyRuleFrequencyDetailsWeekOfMonthEnum{
+var mappingMonthlyRuleFrequencyDetailsWeekOfMonthEnum = map[string]MonthlyRuleFrequencyDetailsWeekOfMonthEnum{
 	"FIRST":  MonthlyRuleFrequencyDetailsWeekOfMonthFirst,
 	"SECOND": MonthlyRuleFrequencyDetailsWeekOfMonthSecond,
 	"THIRD":  MonthlyRuleFrequencyDetailsWeekOfMonthThird,
@@ -80,10 +103,22 @@ var mappingMonthlyRuleFrequencyDetailsWeekOfMonth = map[string]MonthlyRuleFreque
 // GetMonthlyRuleFrequencyDetailsWeekOfMonthEnumValues Enumerates the set of values for MonthlyRuleFrequencyDetailsWeekOfMonthEnum
 func GetMonthlyRuleFrequencyDetailsWeekOfMonthEnumValues() []MonthlyRuleFrequencyDetailsWeekOfMonthEnum {
 	values := make([]MonthlyRuleFrequencyDetailsWeekOfMonthEnum, 0)
-	for _, v := range mappingMonthlyRuleFrequencyDetailsWeekOfMonth {
+	for _, v := range mappingMonthlyRuleFrequencyDetailsWeekOfMonthEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMonthlyRuleFrequencyDetailsWeekOfMonthEnumStringValues Enumerates the set of values in String for MonthlyRuleFrequencyDetailsWeekOfMonthEnum
+func GetMonthlyRuleFrequencyDetailsWeekOfMonthEnumStringValues() []string {
+	return []string{
+		"FIRST",
+		"SECOND",
+		"THIRD",
+		"FOURTH",
+		"FIFTH",
+		"LAST",
+	}
 }
 
 // MonthlyRuleFrequencyDetailsDayOfWeekEnum Enum with underlying type: string
@@ -100,7 +135,7 @@ const (
 	MonthlyRuleFrequencyDetailsDayOfWeekSaturday  MonthlyRuleFrequencyDetailsDayOfWeekEnum = "SATURDAY"
 )
 
-var mappingMonthlyRuleFrequencyDetailsDayOfWeek = map[string]MonthlyRuleFrequencyDetailsDayOfWeekEnum{
+var mappingMonthlyRuleFrequencyDetailsDayOfWeekEnum = map[string]MonthlyRuleFrequencyDetailsDayOfWeekEnum{
 	"SUNDAY":    MonthlyRuleFrequencyDetailsDayOfWeekSunday,
 	"MONDAY":    MonthlyRuleFrequencyDetailsDayOfWeekMonday,
 	"TUESDAY":   MonthlyRuleFrequencyDetailsDayOfWeekTuesday,
@@ -113,8 +148,21 @@ var mappingMonthlyRuleFrequencyDetailsDayOfWeek = map[string]MonthlyRuleFrequenc
 // GetMonthlyRuleFrequencyDetailsDayOfWeekEnumValues Enumerates the set of values for MonthlyRuleFrequencyDetailsDayOfWeekEnum
 func GetMonthlyRuleFrequencyDetailsDayOfWeekEnumValues() []MonthlyRuleFrequencyDetailsDayOfWeekEnum {
 	values := make([]MonthlyRuleFrequencyDetailsDayOfWeekEnum, 0)
-	for _, v := range mappingMonthlyRuleFrequencyDetailsDayOfWeek {
+	for _, v := range mappingMonthlyRuleFrequencyDetailsDayOfWeekEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMonthlyRuleFrequencyDetailsDayOfWeekEnumStringValues Enumerates the set of values in String for MonthlyRuleFrequencyDetailsDayOfWeekEnum
+func GetMonthlyRuleFrequencyDetailsDayOfWeekEnumStringValues() []string {
+	return []string{
+		"SUNDAY",
+		"MONDAY",
+		"TUESDAY",
+		"WEDNESDAY",
+		"THURSDAY",
+		"FRIDAY",
+		"SATURDAY",
+	}
 }

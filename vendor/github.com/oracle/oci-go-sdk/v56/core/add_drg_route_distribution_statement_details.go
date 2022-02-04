@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AddDrgRouteDistributionStatementDetails Details used to add a route distribution statement.
@@ -38,6 +40,21 @@ type AddDrgRouteDistributionStatementDetails struct {
 
 func (m AddDrgRouteDistributionStatementDetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AddDrgRouteDistributionStatementDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAddDrgRouteDistributionStatementDetailsActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetAddDrgRouteDistributionStatementDetailsActionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -81,15 +98,22 @@ const (
 	AddDrgRouteDistributionStatementDetailsActionAccept AddDrgRouteDistributionStatementDetailsActionEnum = "ACCEPT"
 )
 
-var mappingAddDrgRouteDistributionStatementDetailsAction = map[string]AddDrgRouteDistributionStatementDetailsActionEnum{
+var mappingAddDrgRouteDistributionStatementDetailsActionEnum = map[string]AddDrgRouteDistributionStatementDetailsActionEnum{
 	"ACCEPT": AddDrgRouteDistributionStatementDetailsActionAccept,
 }
 
 // GetAddDrgRouteDistributionStatementDetailsActionEnumValues Enumerates the set of values for AddDrgRouteDistributionStatementDetailsActionEnum
 func GetAddDrgRouteDistributionStatementDetailsActionEnumValues() []AddDrgRouteDistributionStatementDetailsActionEnum {
 	values := make([]AddDrgRouteDistributionStatementDetailsActionEnum, 0)
-	for _, v := range mappingAddDrgRouteDistributionStatementDetailsAction {
+	for _, v := range mappingAddDrgRouteDistributionStatementDetailsActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAddDrgRouteDistributionStatementDetailsActionEnumStringValues Enumerates the set of values in String for AddDrgRouteDistributionStatementDetailsActionEnum
+func GetAddDrgRouteDistributionStatementDetailsActionEnumStringValues() []string {
+	return []string{
+		"ACCEPT",
+	}
 }

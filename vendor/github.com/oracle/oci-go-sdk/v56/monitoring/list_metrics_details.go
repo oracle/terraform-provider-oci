@@ -12,7 +12,9 @@
 package monitoring
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ListMetricsDetails The request details for retrieving metric definitions. Specify optional properties to filter the returned results.
@@ -59,6 +61,24 @@ func (m ListMetricsDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ListMetricsDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingListMetricsDetailsSortByEnum[string(m.SortBy)]; !ok && m.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", m.SortBy, strings.Join(GetListMetricsDetailsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListMetricsDetailsSortOrderEnum[string(m.SortOrder)]; !ok && m.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", m.SortOrder, strings.Join(GetListMetricsDetailsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ListMetricsDetailsSortByEnum Enum with underlying type: string
 type ListMetricsDetailsSortByEnum string
 
@@ -69,7 +89,7 @@ const (
 	ListMetricsDetailsSortByResourcegroup ListMetricsDetailsSortByEnum = "RESOURCEGROUP"
 )
 
-var mappingListMetricsDetailsSortBy = map[string]ListMetricsDetailsSortByEnum{
+var mappingListMetricsDetailsSortByEnum = map[string]ListMetricsDetailsSortByEnum{
 	"NAMESPACE":     ListMetricsDetailsSortByNamespace,
 	"NAME":          ListMetricsDetailsSortByName,
 	"RESOURCEGROUP": ListMetricsDetailsSortByResourcegroup,
@@ -78,10 +98,19 @@ var mappingListMetricsDetailsSortBy = map[string]ListMetricsDetailsSortByEnum{
 // GetListMetricsDetailsSortByEnumValues Enumerates the set of values for ListMetricsDetailsSortByEnum
 func GetListMetricsDetailsSortByEnumValues() []ListMetricsDetailsSortByEnum {
 	values := make([]ListMetricsDetailsSortByEnum, 0)
-	for _, v := range mappingListMetricsDetailsSortBy {
+	for _, v := range mappingListMetricsDetailsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMetricsDetailsSortByEnumStringValues Enumerates the set of values in String for ListMetricsDetailsSortByEnum
+func GetListMetricsDetailsSortByEnumStringValues() []string {
+	return []string{
+		"NAMESPACE",
+		"NAME",
+		"RESOURCEGROUP",
+	}
 }
 
 // ListMetricsDetailsSortOrderEnum Enum with underlying type: string
@@ -93,7 +122,7 @@ const (
 	ListMetricsDetailsSortOrderDesc ListMetricsDetailsSortOrderEnum = "DESC"
 )
 
-var mappingListMetricsDetailsSortOrder = map[string]ListMetricsDetailsSortOrderEnum{
+var mappingListMetricsDetailsSortOrderEnum = map[string]ListMetricsDetailsSortOrderEnum{
 	"ASC":  ListMetricsDetailsSortOrderAsc,
 	"DESC": ListMetricsDetailsSortOrderDesc,
 }
@@ -101,8 +130,16 @@ var mappingListMetricsDetailsSortOrder = map[string]ListMetricsDetailsSortOrderE
 // GetListMetricsDetailsSortOrderEnumValues Enumerates the set of values for ListMetricsDetailsSortOrderEnum
 func GetListMetricsDetailsSortOrderEnumValues() []ListMetricsDetailsSortOrderEnum {
 	values := make([]ListMetricsDetailsSortOrderEnum, 0)
-	for _, v := range mappingListMetricsDetailsSortOrder {
+	for _, v := range mappingListMetricsDetailsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListMetricsDetailsSortOrderEnumStringValues Enumerates the set of values in String for ListMetricsDetailsSortOrderEnum
+func GetListMetricsDetailsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

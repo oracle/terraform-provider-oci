@@ -22,7 +22,7 @@ const (
 	OperationTypesRemoveDataKeys   OperationTypesEnum = "REMOVE_DATA_KEYS"
 )
 
-var mappingOperationTypes = map[string]OperationTypesEnum{
+var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CREATE_APM_DOMAIN":  OperationTypesCreateApmDomain,
 	"UPDATE_APM_DOMAIN":  OperationTypesUpdateApmDomain,
 	"DELETE_APM_DOMAIN":  OperationTypesDeleteApmDomain,
@@ -33,8 +33,19 @@ var mappingOperationTypes = map[string]OperationTypesEnum{
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
 func GetOperationTypesEnumValues() []OperationTypesEnum {
 	values := make([]OperationTypesEnum, 0)
-	for _, v := range mappingOperationTypes {
+	for _, v := range mappingOperationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypesEnumStringValues Enumerates the set of values in String for OperationTypesEnum
+func GetOperationTypesEnumStringValues() []string {
+	return []string{
+		"CREATE_APM_DOMAIN",
+		"UPDATE_APM_DOMAIN",
+		"DELETE_APM_DOMAIN",
+		"GENERATE_DATA_KEYS",
+		"REMOVE_DATA_KEYS",
+	}
 }

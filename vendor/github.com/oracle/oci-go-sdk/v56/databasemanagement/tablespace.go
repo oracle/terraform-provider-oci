@@ -12,7 +12,9 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Tablespace The details of a tablespace.
@@ -129,12 +131,87 @@ type Tablespace struct {
 	// The percentage of used space out of the total allocated space in the tablespace.
 	UsedPercentAllocated *float64 `mandatory:"false" json:"usedPercentAllocated"`
 
+	// Indicates whether this is the default tablespace.
+	IsDefault *bool `mandatory:"false" json:"isDefault"`
+
 	// A list of the data files associated with the tablespace.
 	Datafiles []Datafile `mandatory:"false" json:"datafiles"`
 }
 
 func (m Tablespace) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Tablespace) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingTablespaceTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetTablespaceTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingTablespaceStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetTablespaceStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceLoggingEnum[string(m.Logging)]; !ok && m.Logging != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Logging: %s. Supported values are: %s.", m.Logging, strings.Join(GetTablespaceLoggingEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceExtentManagementEnum[string(m.ExtentManagement)]; !ok && m.ExtentManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExtentManagement: %s. Supported values are: %s.", m.ExtentManagement, strings.Join(GetTablespaceExtentManagementEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceAllocationTypeEnum[string(m.AllocationType)]; !ok && m.AllocationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AllocationType: %s. Supported values are: %s.", m.AllocationType, strings.Join(GetTablespaceAllocationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSegmentSpaceManagementEnum[string(m.SegmentSpaceManagement)]; !ok && m.SegmentSpaceManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SegmentSpaceManagement: %s. Supported values are: %s.", m.SegmentSpaceManagement, strings.Join(GetTablespaceSegmentSpaceManagementEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceDefaultTableCompressionEnum[string(m.DefaultTableCompression)]; !ok && m.DefaultTableCompression != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultTableCompression: %s. Supported values are: %s.", m.DefaultTableCompression, strings.Join(GetTablespaceDefaultTableCompressionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceRetentionEnum[string(m.Retention)]; !ok && m.Retention != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Retention: %s. Supported values are: %s.", m.Retention, strings.Join(GetTablespaceRetentionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespacePredicateEvaluationEnum[string(m.PredicateEvaluation)]; !ok && m.PredicateEvaluation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PredicateEvaluation: %s. Supported values are: %s.", m.PredicateEvaluation, strings.Join(GetTablespacePredicateEvaluationEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceCompressForEnum[string(m.CompressFor)]; !ok && m.CompressFor != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CompressFor: %s. Supported values are: %s.", m.CompressFor, strings.Join(GetTablespaceCompressForEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceDefaultInMemoryEnum[string(m.DefaultInMemory)]; !ok && m.DefaultInMemory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemory: %s. Supported values are: %s.", m.DefaultInMemory, strings.Join(GetTablespaceDefaultInMemoryEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceDefaultInMemoryPriorityEnum[string(m.DefaultInMemoryPriority)]; !ok && m.DefaultInMemoryPriority != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryPriority: %s. Supported values are: %s.", m.DefaultInMemoryPriority, strings.Join(GetTablespaceDefaultInMemoryPriorityEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceDefaultInMemoryDistributeEnum[string(m.DefaultInMemoryDistribute)]; !ok && m.DefaultInMemoryDistribute != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryDistribute: %s. Supported values are: %s.", m.DefaultInMemoryDistribute, strings.Join(GetTablespaceDefaultInMemoryDistributeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceDefaultInMemoryCompressionEnum[string(m.DefaultInMemoryCompression)]; !ok && m.DefaultInMemoryCompression != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryCompression: %s. Supported values are: %s.", m.DefaultInMemoryCompression, strings.Join(GetTablespaceDefaultInMemoryCompressionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceDefaultInMemoryDuplicateEnum[string(m.DefaultInMemoryDuplicate)]; !ok && m.DefaultInMemoryDuplicate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryDuplicate: %s. Supported values are: %s.", m.DefaultInMemoryDuplicate, strings.Join(GetTablespaceDefaultInMemoryDuplicateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceSharedEnum[string(m.Shared)]; !ok && m.Shared != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shared: %s. Supported values are: %s.", m.Shared, strings.Join(GetTablespaceSharedEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceDefaultIndexCompressionEnum[string(m.DefaultIndexCompression)]; !ok && m.DefaultIndexCompression != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultIndexCompression: %s. Supported values are: %s.", m.DefaultIndexCompression, strings.Join(GetTablespaceDefaultIndexCompressionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceIndexCompressForEnum[string(m.IndexCompressFor)]; !ok && m.IndexCompressFor != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IndexCompressFor: %s. Supported values are: %s.", m.IndexCompressFor, strings.Join(GetTablespaceIndexCompressForEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceDefaultInMemoryServiceEnum[string(m.DefaultInMemoryService)]; !ok && m.DefaultInMemoryService != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DefaultInMemoryService: %s. Supported values are: %s.", m.DefaultInMemoryService, strings.Join(GetTablespaceDefaultInMemoryServiceEnumStringValues(), ",")))
+	}
+	if _, ok := mappingTablespaceLostWriteProtectEnum[string(m.LostWriteProtect)]; !ok && m.LostWriteProtect != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LostWriteProtect: %s. Supported values are: %s.", m.LostWriteProtect, strings.Join(GetTablespaceLostWriteProtectEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // TablespaceTypeEnum Enum with underlying type: string
@@ -148,7 +225,7 @@ const (
 	TablespaceTypeTemporary           TablespaceTypeEnum = "TEMPORARY"
 )
 
-var mappingTablespaceType = map[string]TablespaceTypeEnum{
+var mappingTablespaceTypeEnum = map[string]TablespaceTypeEnum{
 	"UNDO":                  TablespaceTypeUndo,
 	"LOST_WRITE_PROTECTION": TablespaceTypeLostWriteProtection,
 	"PERMANENT":             TablespaceTypePermanent,
@@ -158,10 +235,20 @@ var mappingTablespaceType = map[string]TablespaceTypeEnum{
 // GetTablespaceTypeEnumValues Enumerates the set of values for TablespaceTypeEnum
 func GetTablespaceTypeEnumValues() []TablespaceTypeEnum {
 	values := make([]TablespaceTypeEnum, 0)
-	for _, v := range mappingTablespaceType {
+	for _, v := range mappingTablespaceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceTypeEnumStringValues Enumerates the set of values in String for TablespaceTypeEnum
+func GetTablespaceTypeEnumStringValues() []string {
+	return []string{
+		"UNDO",
+		"LOST_WRITE_PROTECTION",
+		"PERMANENT",
+		"TEMPORARY",
+	}
 }
 
 // TablespaceStatusEnum Enum with underlying type: string
@@ -174,7 +261,7 @@ const (
 	TablespaceStatusReadOnly TablespaceStatusEnum = "READ_ONLY"
 )
 
-var mappingTablespaceStatus = map[string]TablespaceStatusEnum{
+var mappingTablespaceStatusEnum = map[string]TablespaceStatusEnum{
 	"ONLINE":    TablespaceStatusOnline,
 	"OFFLINE":   TablespaceStatusOffline,
 	"READ_ONLY": TablespaceStatusReadOnly,
@@ -183,10 +270,19 @@ var mappingTablespaceStatus = map[string]TablespaceStatusEnum{
 // GetTablespaceStatusEnumValues Enumerates the set of values for TablespaceStatusEnum
 func GetTablespaceStatusEnumValues() []TablespaceStatusEnum {
 	values := make([]TablespaceStatusEnum, 0)
-	for _, v := range mappingTablespaceStatus {
+	for _, v := range mappingTablespaceStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceStatusEnumStringValues Enumerates the set of values in String for TablespaceStatusEnum
+func GetTablespaceStatusEnumStringValues() []string {
+	return []string{
+		"ONLINE",
+		"OFFLINE",
+		"READ_ONLY",
+	}
 }
 
 // TablespaceLoggingEnum Enum with underlying type: string
@@ -198,7 +294,7 @@ const (
 	TablespaceLoggingNologging TablespaceLoggingEnum = "NOLOGGING"
 )
 
-var mappingTablespaceLogging = map[string]TablespaceLoggingEnum{
+var mappingTablespaceLoggingEnum = map[string]TablespaceLoggingEnum{
 	"LOGGING":   TablespaceLoggingLogging,
 	"NOLOGGING": TablespaceLoggingNologging,
 }
@@ -206,10 +302,18 @@ var mappingTablespaceLogging = map[string]TablespaceLoggingEnum{
 // GetTablespaceLoggingEnumValues Enumerates the set of values for TablespaceLoggingEnum
 func GetTablespaceLoggingEnumValues() []TablespaceLoggingEnum {
 	values := make([]TablespaceLoggingEnum, 0)
-	for _, v := range mappingTablespaceLogging {
+	for _, v := range mappingTablespaceLoggingEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceLoggingEnumStringValues Enumerates the set of values in String for TablespaceLoggingEnum
+func GetTablespaceLoggingEnumStringValues() []string {
+	return []string{
+		"LOGGING",
+		"NOLOGGING",
+	}
 }
 
 // TablespaceExtentManagementEnum Enum with underlying type: string
@@ -221,7 +325,7 @@ const (
 	TablespaceExtentManagementDictionary TablespaceExtentManagementEnum = "DICTIONARY"
 )
 
-var mappingTablespaceExtentManagement = map[string]TablespaceExtentManagementEnum{
+var mappingTablespaceExtentManagementEnum = map[string]TablespaceExtentManagementEnum{
 	"LOCAL":      TablespaceExtentManagementLocal,
 	"DICTIONARY": TablespaceExtentManagementDictionary,
 }
@@ -229,10 +333,18 @@ var mappingTablespaceExtentManagement = map[string]TablespaceExtentManagementEnu
 // GetTablespaceExtentManagementEnumValues Enumerates the set of values for TablespaceExtentManagementEnum
 func GetTablespaceExtentManagementEnumValues() []TablespaceExtentManagementEnum {
 	values := make([]TablespaceExtentManagementEnum, 0)
-	for _, v := range mappingTablespaceExtentManagement {
+	for _, v := range mappingTablespaceExtentManagementEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceExtentManagementEnumStringValues Enumerates the set of values in String for TablespaceExtentManagementEnum
+func GetTablespaceExtentManagementEnumStringValues() []string {
+	return []string{
+		"LOCAL",
+		"DICTIONARY",
+	}
 }
 
 // TablespaceAllocationTypeEnum Enum with underlying type: string
@@ -245,7 +357,7 @@ const (
 	TablespaceAllocationTypeUser    TablespaceAllocationTypeEnum = "USER"
 )
 
-var mappingTablespaceAllocationType = map[string]TablespaceAllocationTypeEnum{
+var mappingTablespaceAllocationTypeEnum = map[string]TablespaceAllocationTypeEnum{
 	"SYSTEM":  TablespaceAllocationTypeSystem,
 	"UNIFORM": TablespaceAllocationTypeUniform,
 	"USER":    TablespaceAllocationTypeUser,
@@ -254,10 +366,19 @@ var mappingTablespaceAllocationType = map[string]TablespaceAllocationTypeEnum{
 // GetTablespaceAllocationTypeEnumValues Enumerates the set of values for TablespaceAllocationTypeEnum
 func GetTablespaceAllocationTypeEnumValues() []TablespaceAllocationTypeEnum {
 	values := make([]TablespaceAllocationTypeEnum, 0)
-	for _, v := range mappingTablespaceAllocationType {
+	for _, v := range mappingTablespaceAllocationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceAllocationTypeEnumStringValues Enumerates the set of values in String for TablespaceAllocationTypeEnum
+func GetTablespaceAllocationTypeEnumStringValues() []string {
+	return []string{
+		"SYSTEM",
+		"UNIFORM",
+		"USER",
+	}
 }
 
 // TablespaceSegmentSpaceManagementEnum Enum with underlying type: string
@@ -269,7 +390,7 @@ const (
 	TablespaceSegmentSpaceManagementAuto   TablespaceSegmentSpaceManagementEnum = "AUTO"
 )
 
-var mappingTablespaceSegmentSpaceManagement = map[string]TablespaceSegmentSpaceManagementEnum{
+var mappingTablespaceSegmentSpaceManagementEnum = map[string]TablespaceSegmentSpaceManagementEnum{
 	"MANUAL": TablespaceSegmentSpaceManagementManual,
 	"AUTO":   TablespaceSegmentSpaceManagementAuto,
 }
@@ -277,10 +398,18 @@ var mappingTablespaceSegmentSpaceManagement = map[string]TablespaceSegmentSpaceM
 // GetTablespaceSegmentSpaceManagementEnumValues Enumerates the set of values for TablespaceSegmentSpaceManagementEnum
 func GetTablespaceSegmentSpaceManagementEnumValues() []TablespaceSegmentSpaceManagementEnum {
 	values := make([]TablespaceSegmentSpaceManagementEnum, 0)
-	for _, v := range mappingTablespaceSegmentSpaceManagement {
+	for _, v := range mappingTablespaceSegmentSpaceManagementEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSegmentSpaceManagementEnumStringValues Enumerates the set of values in String for TablespaceSegmentSpaceManagementEnum
+func GetTablespaceSegmentSpaceManagementEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTO",
+	}
 }
 
 // TablespaceDefaultTableCompressionEnum Enum with underlying type: string
@@ -292,7 +421,7 @@ const (
 	TablespaceDefaultTableCompressionDisabled TablespaceDefaultTableCompressionEnum = "DISABLED"
 )
 
-var mappingTablespaceDefaultTableCompression = map[string]TablespaceDefaultTableCompressionEnum{
+var mappingTablespaceDefaultTableCompressionEnum = map[string]TablespaceDefaultTableCompressionEnum{
 	"ENABLED":  TablespaceDefaultTableCompressionEnabled,
 	"DISABLED": TablespaceDefaultTableCompressionDisabled,
 }
@@ -300,10 +429,18 @@ var mappingTablespaceDefaultTableCompression = map[string]TablespaceDefaultTable
 // GetTablespaceDefaultTableCompressionEnumValues Enumerates the set of values for TablespaceDefaultTableCompressionEnum
 func GetTablespaceDefaultTableCompressionEnumValues() []TablespaceDefaultTableCompressionEnum {
 	values := make([]TablespaceDefaultTableCompressionEnum, 0)
-	for _, v := range mappingTablespaceDefaultTableCompression {
+	for _, v := range mappingTablespaceDefaultTableCompressionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceDefaultTableCompressionEnumStringValues Enumerates the set of values in String for TablespaceDefaultTableCompressionEnum
+func GetTablespaceDefaultTableCompressionEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }
 
 // TablespaceRetentionEnum Enum with underlying type: string
@@ -316,7 +453,7 @@ const (
 	TablespaceRetentionNotApply    TablespaceRetentionEnum = "NOT_APPLY"
 )
 
-var mappingTablespaceRetention = map[string]TablespaceRetentionEnum{
+var mappingTablespaceRetentionEnum = map[string]TablespaceRetentionEnum{
 	"GUARANTEE":   TablespaceRetentionGuarantee,
 	"NOGUARANTEE": TablespaceRetentionNoguarantee,
 	"NOT_APPLY":   TablespaceRetentionNotApply,
@@ -325,10 +462,19 @@ var mappingTablespaceRetention = map[string]TablespaceRetentionEnum{
 // GetTablespaceRetentionEnumValues Enumerates the set of values for TablespaceRetentionEnum
 func GetTablespaceRetentionEnumValues() []TablespaceRetentionEnum {
 	values := make([]TablespaceRetentionEnum, 0)
-	for _, v := range mappingTablespaceRetention {
+	for _, v := range mappingTablespaceRetentionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceRetentionEnumStringValues Enumerates the set of values in String for TablespaceRetentionEnum
+func GetTablespaceRetentionEnumStringValues() []string {
+	return []string{
+		"GUARANTEE",
+		"NOGUARANTEE",
+		"NOT_APPLY",
+	}
 }
 
 // TablespacePredicateEvaluationEnum Enum with underlying type: string
@@ -340,7 +486,7 @@ const (
 	TablespacePredicateEvaluationStorage TablespacePredicateEvaluationEnum = "STORAGE"
 )
 
-var mappingTablespacePredicateEvaluation = map[string]TablespacePredicateEvaluationEnum{
+var mappingTablespacePredicateEvaluationEnum = map[string]TablespacePredicateEvaluationEnum{
 	"HOST":    TablespacePredicateEvaluationHost,
 	"STORAGE": TablespacePredicateEvaluationStorage,
 }
@@ -348,10 +494,18 @@ var mappingTablespacePredicateEvaluation = map[string]TablespacePredicateEvaluat
 // GetTablespacePredicateEvaluationEnumValues Enumerates the set of values for TablespacePredicateEvaluationEnum
 func GetTablespacePredicateEvaluationEnumValues() []TablespacePredicateEvaluationEnum {
 	values := make([]TablespacePredicateEvaluationEnum, 0)
-	for _, v := range mappingTablespacePredicateEvaluation {
+	for _, v := range mappingTablespacePredicateEvaluationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespacePredicateEvaluationEnumStringValues Enumerates the set of values in String for TablespacePredicateEvaluationEnum
+func GetTablespacePredicateEvaluationEnumStringValues() []string {
+	return []string{
+		"HOST",
+		"STORAGE",
+	}
 }
 
 // TablespaceCompressForEnum Enum with underlying type: string
@@ -369,7 +523,7 @@ const (
 	TablespaceCompressForForAllOperations TablespaceCompressForEnum = "FOR_ALL_OPERATIONS"
 )
 
-var mappingTablespaceCompressFor = map[string]TablespaceCompressForEnum{
+var mappingTablespaceCompressForEnum = map[string]TablespaceCompressForEnum{
 	"BASIC":              TablespaceCompressForBasic,
 	"ADVANCED":           TablespaceCompressForAdvanced,
 	"QUERY_LOW":          TablespaceCompressForQueryLow,
@@ -383,10 +537,24 @@ var mappingTablespaceCompressFor = map[string]TablespaceCompressForEnum{
 // GetTablespaceCompressForEnumValues Enumerates the set of values for TablespaceCompressForEnum
 func GetTablespaceCompressForEnumValues() []TablespaceCompressForEnum {
 	values := make([]TablespaceCompressForEnum, 0)
-	for _, v := range mappingTablespaceCompressFor {
+	for _, v := range mappingTablespaceCompressForEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceCompressForEnumStringValues Enumerates the set of values in String for TablespaceCompressForEnum
+func GetTablespaceCompressForEnumStringValues() []string {
+	return []string{
+		"BASIC",
+		"ADVANCED",
+		"QUERY_LOW",
+		"QUERY_HIGH",
+		"ARCHIVE_LOW",
+		"ARCHIVE_HIGH",
+		"DIRECT_LOAD_ONLY",
+		"FOR_ALL_OPERATIONS",
+	}
 }
 
 // TablespaceDefaultInMemoryEnum Enum with underlying type: string
@@ -398,7 +566,7 @@ const (
 	TablespaceDefaultInMemoryDisabled TablespaceDefaultInMemoryEnum = "DISABLED"
 )
 
-var mappingTablespaceDefaultInMemory = map[string]TablespaceDefaultInMemoryEnum{
+var mappingTablespaceDefaultInMemoryEnum = map[string]TablespaceDefaultInMemoryEnum{
 	"ENABLED":  TablespaceDefaultInMemoryEnabled,
 	"DISABLED": TablespaceDefaultInMemoryDisabled,
 }
@@ -406,10 +574,18 @@ var mappingTablespaceDefaultInMemory = map[string]TablespaceDefaultInMemoryEnum{
 // GetTablespaceDefaultInMemoryEnumValues Enumerates the set of values for TablespaceDefaultInMemoryEnum
 func GetTablespaceDefaultInMemoryEnumValues() []TablespaceDefaultInMemoryEnum {
 	values := make([]TablespaceDefaultInMemoryEnum, 0)
-	for _, v := range mappingTablespaceDefaultInMemory {
+	for _, v := range mappingTablespaceDefaultInMemoryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceDefaultInMemoryEnumStringValues Enumerates the set of values in String for TablespaceDefaultInMemoryEnum
+func GetTablespaceDefaultInMemoryEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }
 
 // TablespaceDefaultInMemoryPriorityEnum Enum with underlying type: string
@@ -424,7 +600,7 @@ const (
 	TablespaceDefaultInMemoryPriorityNone     TablespaceDefaultInMemoryPriorityEnum = "NONE"
 )
 
-var mappingTablespaceDefaultInMemoryPriority = map[string]TablespaceDefaultInMemoryPriorityEnum{
+var mappingTablespaceDefaultInMemoryPriorityEnum = map[string]TablespaceDefaultInMemoryPriorityEnum{
 	"LOW":      TablespaceDefaultInMemoryPriorityLow,
 	"MEDIUM":   TablespaceDefaultInMemoryPriorityMedium,
 	"HIGH":     TablespaceDefaultInMemoryPriorityHigh,
@@ -435,10 +611,21 @@ var mappingTablespaceDefaultInMemoryPriority = map[string]TablespaceDefaultInMem
 // GetTablespaceDefaultInMemoryPriorityEnumValues Enumerates the set of values for TablespaceDefaultInMemoryPriorityEnum
 func GetTablespaceDefaultInMemoryPriorityEnumValues() []TablespaceDefaultInMemoryPriorityEnum {
 	values := make([]TablespaceDefaultInMemoryPriorityEnum, 0)
-	for _, v := range mappingTablespaceDefaultInMemoryPriority {
+	for _, v := range mappingTablespaceDefaultInMemoryPriorityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceDefaultInMemoryPriorityEnumStringValues Enumerates the set of values in String for TablespaceDefaultInMemoryPriorityEnum
+func GetTablespaceDefaultInMemoryPriorityEnumStringValues() []string {
+	return []string{
+		"LOW",
+		"MEDIUM",
+		"HIGH",
+		"CRITICAL",
+		"NONE",
+	}
 }
 
 // TablespaceDefaultInMemoryDistributeEnum Enum with underlying type: string
@@ -452,7 +639,7 @@ const (
 	TablespaceDefaultInMemoryDistributeBySubpartition TablespaceDefaultInMemoryDistributeEnum = "BY_SUBPARTITION"
 )
 
-var mappingTablespaceDefaultInMemoryDistribute = map[string]TablespaceDefaultInMemoryDistributeEnum{
+var mappingTablespaceDefaultInMemoryDistributeEnum = map[string]TablespaceDefaultInMemoryDistributeEnum{
 	"AUTO":            TablespaceDefaultInMemoryDistributeAuto,
 	"BY_ROWID_RANGE":  TablespaceDefaultInMemoryDistributeByRowidRange,
 	"BY_PARTITION":    TablespaceDefaultInMemoryDistributeByPartition,
@@ -462,10 +649,20 @@ var mappingTablespaceDefaultInMemoryDistribute = map[string]TablespaceDefaultInM
 // GetTablespaceDefaultInMemoryDistributeEnumValues Enumerates the set of values for TablespaceDefaultInMemoryDistributeEnum
 func GetTablespaceDefaultInMemoryDistributeEnumValues() []TablespaceDefaultInMemoryDistributeEnum {
 	values := make([]TablespaceDefaultInMemoryDistributeEnum, 0)
-	for _, v := range mappingTablespaceDefaultInMemoryDistribute {
+	for _, v := range mappingTablespaceDefaultInMemoryDistributeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceDefaultInMemoryDistributeEnumStringValues Enumerates the set of values in String for TablespaceDefaultInMemoryDistributeEnum
+func GetTablespaceDefaultInMemoryDistributeEnumStringValues() []string {
+	return []string{
+		"AUTO",
+		"BY_ROWID_RANGE",
+		"BY_PARTITION",
+		"BY_SUBPARTITION",
+	}
 }
 
 // TablespaceDefaultInMemoryCompressionEnum Enum with underlying type: string
@@ -481,7 +678,7 @@ const (
 	TablespaceDefaultInMemoryCompressionForCapacityHigh TablespaceDefaultInMemoryCompressionEnum = "FOR_CAPACITY_HIGH"
 )
 
-var mappingTablespaceDefaultInMemoryCompression = map[string]TablespaceDefaultInMemoryCompressionEnum{
+var mappingTablespaceDefaultInMemoryCompressionEnum = map[string]TablespaceDefaultInMemoryCompressionEnum{
 	"NO_MEMCOMPRESS":    TablespaceDefaultInMemoryCompressionNoMemcompress,
 	"FOR_DML":           TablespaceDefaultInMemoryCompressionForDml,
 	"FOR_QUERY_LOW":     TablespaceDefaultInMemoryCompressionForQueryLow,
@@ -493,10 +690,22 @@ var mappingTablespaceDefaultInMemoryCompression = map[string]TablespaceDefaultIn
 // GetTablespaceDefaultInMemoryCompressionEnumValues Enumerates the set of values for TablespaceDefaultInMemoryCompressionEnum
 func GetTablespaceDefaultInMemoryCompressionEnumValues() []TablespaceDefaultInMemoryCompressionEnum {
 	values := make([]TablespaceDefaultInMemoryCompressionEnum, 0)
-	for _, v := range mappingTablespaceDefaultInMemoryCompression {
+	for _, v := range mappingTablespaceDefaultInMemoryCompressionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceDefaultInMemoryCompressionEnumStringValues Enumerates the set of values in String for TablespaceDefaultInMemoryCompressionEnum
+func GetTablespaceDefaultInMemoryCompressionEnumStringValues() []string {
+	return []string{
+		"NO_MEMCOMPRESS",
+		"FOR_DML",
+		"FOR_QUERY_LOW",
+		"FOR_QUERY_HIGH",
+		"FOR_CAPACITY_LOW",
+		"FOR_CAPACITY_HIGH",
+	}
 }
 
 // TablespaceDefaultInMemoryDuplicateEnum Enum with underlying type: string
@@ -509,7 +718,7 @@ const (
 	TablespaceDefaultInMemoryDuplicateDuplicateAll TablespaceDefaultInMemoryDuplicateEnum = "DUPLICATE_ALL"
 )
 
-var mappingTablespaceDefaultInMemoryDuplicate = map[string]TablespaceDefaultInMemoryDuplicateEnum{
+var mappingTablespaceDefaultInMemoryDuplicateEnum = map[string]TablespaceDefaultInMemoryDuplicateEnum{
 	"NO_DUPLICATE":  TablespaceDefaultInMemoryDuplicateNoDuplicate,
 	"DUPLICATE":     TablespaceDefaultInMemoryDuplicateDuplicate,
 	"DUPLICATE_ALL": TablespaceDefaultInMemoryDuplicateDuplicateAll,
@@ -518,10 +727,19 @@ var mappingTablespaceDefaultInMemoryDuplicate = map[string]TablespaceDefaultInMe
 // GetTablespaceDefaultInMemoryDuplicateEnumValues Enumerates the set of values for TablespaceDefaultInMemoryDuplicateEnum
 func GetTablespaceDefaultInMemoryDuplicateEnumValues() []TablespaceDefaultInMemoryDuplicateEnum {
 	values := make([]TablespaceDefaultInMemoryDuplicateEnum, 0)
-	for _, v := range mappingTablespaceDefaultInMemoryDuplicate {
+	for _, v := range mappingTablespaceDefaultInMemoryDuplicateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceDefaultInMemoryDuplicateEnumStringValues Enumerates the set of values in String for TablespaceDefaultInMemoryDuplicateEnum
+func GetTablespaceDefaultInMemoryDuplicateEnumStringValues() []string {
+	return []string{
+		"NO_DUPLICATE",
+		"DUPLICATE",
+		"DUPLICATE_ALL",
+	}
 }
 
 // TablespaceSharedEnum Enum with underlying type: string
@@ -534,7 +752,7 @@ const (
 	TablespaceSharedLocalOnAll  TablespaceSharedEnum = "LOCAL_ON_ALL"
 )
 
-var mappingTablespaceShared = map[string]TablespaceSharedEnum{
+var mappingTablespaceSharedEnum = map[string]TablespaceSharedEnum{
 	"SHARED":        TablespaceSharedShared,
 	"LOCAL_ON_LEAF": TablespaceSharedLocalOnLeaf,
 	"LOCAL_ON_ALL":  TablespaceSharedLocalOnAll,
@@ -543,10 +761,19 @@ var mappingTablespaceShared = map[string]TablespaceSharedEnum{
 // GetTablespaceSharedEnumValues Enumerates the set of values for TablespaceSharedEnum
 func GetTablespaceSharedEnumValues() []TablespaceSharedEnum {
 	values := make([]TablespaceSharedEnum, 0)
-	for _, v := range mappingTablespaceShared {
+	for _, v := range mappingTablespaceSharedEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceSharedEnumStringValues Enumerates the set of values in String for TablespaceSharedEnum
+func GetTablespaceSharedEnumStringValues() []string {
+	return []string{
+		"SHARED",
+		"LOCAL_ON_LEAF",
+		"LOCAL_ON_ALL",
+	}
 }
 
 // TablespaceDefaultIndexCompressionEnum Enum with underlying type: string
@@ -558,7 +785,7 @@ const (
 	TablespaceDefaultIndexCompressionDisabled TablespaceDefaultIndexCompressionEnum = "DISABLED"
 )
 
-var mappingTablespaceDefaultIndexCompression = map[string]TablespaceDefaultIndexCompressionEnum{
+var mappingTablespaceDefaultIndexCompressionEnum = map[string]TablespaceDefaultIndexCompressionEnum{
 	"ENABLED":  TablespaceDefaultIndexCompressionEnabled,
 	"DISABLED": TablespaceDefaultIndexCompressionDisabled,
 }
@@ -566,10 +793,18 @@ var mappingTablespaceDefaultIndexCompression = map[string]TablespaceDefaultIndex
 // GetTablespaceDefaultIndexCompressionEnumValues Enumerates the set of values for TablespaceDefaultIndexCompressionEnum
 func GetTablespaceDefaultIndexCompressionEnumValues() []TablespaceDefaultIndexCompressionEnum {
 	values := make([]TablespaceDefaultIndexCompressionEnum, 0)
-	for _, v := range mappingTablespaceDefaultIndexCompression {
+	for _, v := range mappingTablespaceDefaultIndexCompressionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceDefaultIndexCompressionEnumStringValues Enumerates the set of values in String for TablespaceDefaultIndexCompressionEnum
+func GetTablespaceDefaultIndexCompressionEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }
 
 // TablespaceIndexCompressForEnum Enum with underlying type: string
@@ -577,22 +812,33 @@ type TablespaceIndexCompressForEnum string
 
 // Set of constants representing the allowable values for TablespaceIndexCompressForEnum
 const (
-	TablespaceIndexCompressForLow  TablespaceIndexCompressForEnum = "ADVANCED_LOW"
-	TablespaceIndexCompressForHigh TablespaceIndexCompressForEnum = "ADVANCED_HIGH"
+	TablespaceIndexCompressForAdvancedLow  TablespaceIndexCompressForEnum = "ADVANCED_LOW"
+	TablespaceIndexCompressForAdvancedHigh TablespaceIndexCompressForEnum = "ADVANCED_HIGH"
+	TablespaceIndexCompressForNone         TablespaceIndexCompressForEnum = "NONE"
 )
 
-var mappingTablespaceIndexCompressFor = map[string]TablespaceIndexCompressForEnum{
-	"ADVANCED_LOW":  TablespaceIndexCompressForLow,
-	"ADVANCED_HIGH": TablespaceIndexCompressForHigh,
+var mappingTablespaceIndexCompressForEnum = map[string]TablespaceIndexCompressForEnum{
+	"ADVANCED_LOW":  TablespaceIndexCompressForAdvancedLow,
+	"ADVANCED_HIGH": TablespaceIndexCompressForAdvancedHigh,
+	"NONE":          TablespaceIndexCompressForNone,
 }
 
 // GetTablespaceIndexCompressForEnumValues Enumerates the set of values for TablespaceIndexCompressForEnum
 func GetTablespaceIndexCompressForEnumValues() []TablespaceIndexCompressForEnum {
 	values := make([]TablespaceIndexCompressForEnum, 0)
-	for _, v := range mappingTablespaceIndexCompressFor {
+	for _, v := range mappingTablespaceIndexCompressForEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceIndexCompressForEnumStringValues Enumerates the set of values in String for TablespaceIndexCompressForEnum
+func GetTablespaceIndexCompressForEnumStringValues() []string {
+	return []string{
+		"ADVANCED_LOW",
+		"ADVANCED_HIGH",
+		"NONE",
+	}
 }
 
 // TablespaceDefaultInMemoryServiceEnum Enum with underlying type: string
@@ -606,7 +852,7 @@ const (
 	TablespaceDefaultInMemoryServiceUserDefined TablespaceDefaultInMemoryServiceEnum = "USER_DEFINED"
 )
 
-var mappingTablespaceDefaultInMemoryService = map[string]TablespaceDefaultInMemoryServiceEnum{
+var mappingTablespaceDefaultInMemoryServiceEnum = map[string]TablespaceDefaultInMemoryServiceEnum{
 	"DEFAULT":      TablespaceDefaultInMemoryServiceDefault,
 	"NONE":         TablespaceDefaultInMemoryServiceNone,
 	"ALL":          TablespaceDefaultInMemoryServiceAll,
@@ -616,10 +862,20 @@ var mappingTablespaceDefaultInMemoryService = map[string]TablespaceDefaultInMemo
 // GetTablespaceDefaultInMemoryServiceEnumValues Enumerates the set of values for TablespaceDefaultInMemoryServiceEnum
 func GetTablespaceDefaultInMemoryServiceEnumValues() []TablespaceDefaultInMemoryServiceEnum {
 	values := make([]TablespaceDefaultInMemoryServiceEnum, 0)
-	for _, v := range mappingTablespaceDefaultInMemoryService {
+	for _, v := range mappingTablespaceDefaultInMemoryServiceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceDefaultInMemoryServiceEnumStringValues Enumerates the set of values in String for TablespaceDefaultInMemoryServiceEnum
+func GetTablespaceDefaultInMemoryServiceEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+		"NONE",
+		"ALL",
+		"USER_DEFINED",
+	}
 }
 
 // TablespaceLostWriteProtectEnum Enum with underlying type: string
@@ -632,7 +888,7 @@ const (
 	TablespaceLostWriteProtectSuspend    TablespaceLostWriteProtectEnum = "SUSPEND"
 )
 
-var mappingTablespaceLostWriteProtect = map[string]TablespaceLostWriteProtectEnum{
+var mappingTablespaceLostWriteProtectEnum = map[string]TablespaceLostWriteProtectEnum{
 	"ENABLED":     TablespaceLostWriteProtectEnabled,
 	"PROTECT_OFF": TablespaceLostWriteProtectProtectOff,
 	"SUSPEND":     TablespaceLostWriteProtectSuspend,
@@ -641,8 +897,17 @@ var mappingTablespaceLostWriteProtect = map[string]TablespaceLostWriteProtectEnu
 // GetTablespaceLostWriteProtectEnumValues Enumerates the set of values for TablespaceLostWriteProtectEnum
 func GetTablespaceLostWriteProtectEnumValues() []TablespaceLostWriteProtectEnum {
 	values := make([]TablespaceLostWriteProtectEnum, 0)
-	for _, v := range mappingTablespaceLostWriteProtect {
+	for _, v := range mappingTablespaceLostWriteProtectEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTablespaceLostWriteProtectEnumStringValues Enumerates the set of values in String for TablespaceLostWriteProtectEnum
+func GetTablespaceLostWriteProtectEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"PROTECT_OFF",
+		"SUSPEND",
+	}
 }

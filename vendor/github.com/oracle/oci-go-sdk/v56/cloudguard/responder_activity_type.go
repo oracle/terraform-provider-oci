@@ -18,7 +18,7 @@ const (
 	ResponderActivityTypeCompleted ResponderActivityTypeEnum = "COMPLETED"
 )
 
-var mappingResponderActivityType = map[string]ResponderActivityTypeEnum{
+var mappingResponderActivityTypeEnum = map[string]ResponderActivityTypeEnum{
 	"STARTED":   ResponderActivityTypeStarted,
 	"COMPLETED": ResponderActivityTypeCompleted,
 }
@@ -26,8 +26,16 @@ var mappingResponderActivityType = map[string]ResponderActivityTypeEnum{
 // GetResponderActivityTypeEnumValues Enumerates the set of values for ResponderActivityTypeEnum
 func GetResponderActivityTypeEnumValues() []ResponderActivityTypeEnum {
 	values := make([]ResponderActivityTypeEnum, 0)
-	for _, v := range mappingResponderActivityType {
+	for _, v := range mappingResponderActivityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResponderActivityTypeEnumStringValues Enumerates the set of values in String for ResponderActivityTypeEnum
+func GetResponderActivityTypeEnumStringValues() []string {
+	return []string{
+		"STARTED",
+		"COMPLETED",
+	}
 }

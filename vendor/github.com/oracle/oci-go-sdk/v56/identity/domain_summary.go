@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DomainSummary As the name suggests, a `DomainSummary` object contains information about a `Domain`.
@@ -74,6 +76,27 @@ func (m DomainSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DomainSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDomainTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetDomainTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDomainLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDomainLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDomainSummaryLifecycleDetailsEnum[string(m.LifecycleDetails)]; !ok && m.LifecycleDetails != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetails: %s. Supported values are: %s.", m.LifecycleDetails, strings.Join(GetDomainSummaryLifecycleDetailsEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DomainSummaryLifecycleDetailsEnum Enum with underlying type: string
 type DomainSummaryLifecycleDetailsEnum string
 
@@ -84,7 +107,7 @@ const (
 	DomainSummaryLifecycleDetailsUpdating     DomainSummaryLifecycleDetailsEnum = "UPDATING"
 )
 
-var mappingDomainSummaryLifecycleDetails = map[string]DomainSummaryLifecycleDetailsEnum{
+var mappingDomainSummaryLifecycleDetailsEnum = map[string]DomainSummaryLifecycleDetailsEnum{
 	"DEACTIVATING": DomainSummaryLifecycleDetailsDeactivating,
 	"ACTIVATING":   DomainSummaryLifecycleDetailsActivating,
 	"UPDATING":     DomainSummaryLifecycleDetailsUpdating,
@@ -93,8 +116,17 @@ var mappingDomainSummaryLifecycleDetails = map[string]DomainSummaryLifecycleDeta
 // GetDomainSummaryLifecycleDetailsEnumValues Enumerates the set of values for DomainSummaryLifecycleDetailsEnum
 func GetDomainSummaryLifecycleDetailsEnumValues() []DomainSummaryLifecycleDetailsEnum {
 	values := make([]DomainSummaryLifecycleDetailsEnum, 0)
-	for _, v := range mappingDomainSummaryLifecycleDetails {
+	for _, v := range mappingDomainSummaryLifecycleDetailsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDomainSummaryLifecycleDetailsEnumStringValues Enumerates the set of values in String for DomainSummaryLifecycleDetailsEnum
+func GetDomainSummaryLifecycleDetailsEnumStringValues() []string {
+	return []string{
+		"DEACTIVATING",
+		"ACTIVATING",
+		"UPDATING",
+	}
 }

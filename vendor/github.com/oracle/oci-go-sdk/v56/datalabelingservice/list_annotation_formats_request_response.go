@@ -5,8 +5,10 @@
 package datalabelingservice
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAnnotationFormatsRequest wrapper for the ListAnnotationFormats operation
@@ -43,6 +45,10 @@ func (request ListAnnotationFormatsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAnnotationFormatsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -56,6 +62,20 @@ func (request ListAnnotationFormatsRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAnnotationFormatsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAnnotationFormatsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAnnotationFormatsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAnnotationFormatsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAnnotationFormatsResponse wrapper for the ListAnnotationFormats operation
@@ -95,7 +115,7 @@ const (
 	ListAnnotationFormatsSortOrderDesc ListAnnotationFormatsSortOrderEnum = "DESC"
 )
 
-var mappingListAnnotationFormatsSortOrder = map[string]ListAnnotationFormatsSortOrderEnum{
+var mappingListAnnotationFormatsSortOrderEnum = map[string]ListAnnotationFormatsSortOrderEnum{
 	"ASC":  ListAnnotationFormatsSortOrderAsc,
 	"DESC": ListAnnotationFormatsSortOrderDesc,
 }
@@ -103,8 +123,16 @@ var mappingListAnnotationFormatsSortOrder = map[string]ListAnnotationFormatsSort
 // GetListAnnotationFormatsSortOrderEnumValues Enumerates the set of values for ListAnnotationFormatsSortOrderEnum
 func GetListAnnotationFormatsSortOrderEnumValues() []ListAnnotationFormatsSortOrderEnum {
 	values := make([]ListAnnotationFormatsSortOrderEnum, 0)
-	for _, v := range mappingListAnnotationFormatsSortOrder {
+	for _, v := range mappingListAnnotationFormatsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAnnotationFormatsSortOrderEnumStringValues Enumerates the set of values in String for ListAnnotationFormatsSortOrderEnum
+func GetListAnnotationFormatsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

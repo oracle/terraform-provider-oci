@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListJobRunsRequest wrapper for the ListJobRuns operation
@@ -67,6 +69,10 @@ func (request ListJobRunsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListJobRunsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -80,6 +86,23 @@ func (request ListJobRunsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListJobRunsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListJobRunsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListJobRunsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListJobRunsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListJobRunsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListJobRunsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListJobRunsResponse wrapper for the ListJobRuns operation
@@ -119,7 +142,7 @@ const (
 	ListJobRunsSortByName        ListJobRunsSortByEnum = "NAME"
 )
 
-var mappingListJobRunsSortBy = map[string]ListJobRunsSortByEnum{
+var mappingListJobRunsSortByEnum = map[string]ListJobRunsSortByEnum{
 	"TIMECREATED": ListJobRunsSortByTimecreated,
 	"NAME":        ListJobRunsSortByName,
 }
@@ -127,10 +150,18 @@ var mappingListJobRunsSortBy = map[string]ListJobRunsSortByEnum{
 // GetListJobRunsSortByEnumValues Enumerates the set of values for ListJobRunsSortByEnum
 func GetListJobRunsSortByEnumValues() []ListJobRunsSortByEnum {
 	values := make([]ListJobRunsSortByEnum, 0)
-	for _, v := range mappingListJobRunsSortBy {
+	for _, v := range mappingListJobRunsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobRunsSortByEnumStringValues Enumerates the set of values in String for ListJobRunsSortByEnum
+func GetListJobRunsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListJobRunsSortOrderEnum Enum with underlying type: string
@@ -142,7 +173,7 @@ const (
 	ListJobRunsSortOrderDesc ListJobRunsSortOrderEnum = "DESC"
 )
 
-var mappingListJobRunsSortOrder = map[string]ListJobRunsSortOrderEnum{
+var mappingListJobRunsSortOrderEnum = map[string]ListJobRunsSortOrderEnum{
 	"ASC":  ListJobRunsSortOrderAsc,
 	"DESC": ListJobRunsSortOrderDesc,
 }
@@ -150,8 +181,16 @@ var mappingListJobRunsSortOrder = map[string]ListJobRunsSortOrderEnum{
 // GetListJobRunsSortOrderEnumValues Enumerates the set of values for ListJobRunsSortOrderEnum
 func GetListJobRunsSortOrderEnumValues() []ListJobRunsSortOrderEnum {
 	values := make([]ListJobRunsSortOrderEnum, 0)
-	for _, v := range mappingListJobRunsSortOrder {
+	for _, v := range mappingListJobRunsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobRunsSortOrderEnumStringValues Enumerates the set of values in String for ListJobRunsSortOrderEnum
+func GetListJobRunsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListManagedDatabasesRequest wrapper for the ListManagedDatabases operation
@@ -61,6 +63,10 @@ func (request ListManagedDatabasesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListManagedDatabasesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +80,29 @@ func (request ListManagedDatabasesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListManagedDatabasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListManagedDatabasesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListManagedDatabasesManagementOptionEnum[string(request.ManagementOption)]; !ok && request.ManagementOption != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementOption: %s. Supported values are: %s.", request.ManagementOption, strings.Join(GetListManagedDatabasesManagementOptionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedDatabasesDeploymentTypeEnum[string(request.DeploymentType)]; !ok && request.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", request.DeploymentType, strings.Join(GetListManagedDatabasesDeploymentTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedDatabasesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagedDatabasesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedDatabasesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagedDatabasesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListManagedDatabasesResponse wrapper for the ListManagedDatabases operation
@@ -113,7 +142,7 @@ const (
 	ListManagedDatabasesManagementOptionAdvanced ListManagedDatabasesManagementOptionEnum = "ADVANCED"
 )
 
-var mappingListManagedDatabasesManagementOption = map[string]ListManagedDatabasesManagementOptionEnum{
+var mappingListManagedDatabasesManagementOptionEnum = map[string]ListManagedDatabasesManagementOptionEnum{
 	"BASIC":    ListManagedDatabasesManagementOptionBasic,
 	"ADVANCED": ListManagedDatabasesManagementOptionAdvanced,
 }
@@ -121,10 +150,18 @@ var mappingListManagedDatabasesManagementOption = map[string]ListManagedDatabase
 // GetListManagedDatabasesManagementOptionEnumValues Enumerates the set of values for ListManagedDatabasesManagementOptionEnum
 func GetListManagedDatabasesManagementOptionEnumValues() []ListManagedDatabasesManagementOptionEnum {
 	values := make([]ListManagedDatabasesManagementOptionEnum, 0)
-	for _, v := range mappingListManagedDatabasesManagementOption {
+	for _, v := range mappingListManagedDatabasesManagementOptionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedDatabasesManagementOptionEnumStringValues Enumerates the set of values in String for ListManagedDatabasesManagementOptionEnum
+func GetListManagedDatabasesManagementOptionEnumStringValues() []string {
+	return []string{
+		"BASIC",
+		"ADVANCED",
+	}
 }
 
 // ListManagedDatabasesDeploymentTypeEnum Enum with underlying type: string
@@ -140,7 +177,7 @@ const (
 	ListManagedDatabasesDeploymentTypeAutonomous ListManagedDatabasesDeploymentTypeEnum = "AUTONOMOUS"
 )
 
-var mappingListManagedDatabasesDeploymentType = map[string]ListManagedDatabasesDeploymentTypeEnum{
+var mappingListManagedDatabasesDeploymentTypeEnum = map[string]ListManagedDatabasesDeploymentTypeEnum{
 	"ONPREMISE":  ListManagedDatabasesDeploymentTypeOnpremise,
 	"BM":         ListManagedDatabasesDeploymentTypeBm,
 	"VM":         ListManagedDatabasesDeploymentTypeVm,
@@ -152,10 +189,22 @@ var mappingListManagedDatabasesDeploymentType = map[string]ListManagedDatabasesD
 // GetListManagedDatabasesDeploymentTypeEnumValues Enumerates the set of values for ListManagedDatabasesDeploymentTypeEnum
 func GetListManagedDatabasesDeploymentTypeEnumValues() []ListManagedDatabasesDeploymentTypeEnum {
 	values := make([]ListManagedDatabasesDeploymentTypeEnum, 0)
-	for _, v := range mappingListManagedDatabasesDeploymentType {
+	for _, v := range mappingListManagedDatabasesDeploymentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedDatabasesDeploymentTypeEnumStringValues Enumerates the set of values in String for ListManagedDatabasesDeploymentTypeEnum
+func GetListManagedDatabasesDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"ONPREMISE",
+		"BM",
+		"VM",
+		"EXADATA",
+		"EXADATA_CC",
+		"AUTONOMOUS",
+	}
 }
 
 // ListManagedDatabasesSortByEnum Enum with underlying type: string
@@ -167,7 +216,7 @@ const (
 	ListManagedDatabasesSortByName        ListManagedDatabasesSortByEnum = "NAME"
 )
 
-var mappingListManagedDatabasesSortBy = map[string]ListManagedDatabasesSortByEnum{
+var mappingListManagedDatabasesSortByEnum = map[string]ListManagedDatabasesSortByEnum{
 	"TIMECREATED": ListManagedDatabasesSortByTimecreated,
 	"NAME":        ListManagedDatabasesSortByName,
 }
@@ -175,10 +224,18 @@ var mappingListManagedDatabasesSortBy = map[string]ListManagedDatabasesSortByEnu
 // GetListManagedDatabasesSortByEnumValues Enumerates the set of values for ListManagedDatabasesSortByEnum
 func GetListManagedDatabasesSortByEnumValues() []ListManagedDatabasesSortByEnum {
 	values := make([]ListManagedDatabasesSortByEnum, 0)
-	for _, v := range mappingListManagedDatabasesSortBy {
+	for _, v := range mappingListManagedDatabasesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedDatabasesSortByEnumStringValues Enumerates the set of values in String for ListManagedDatabasesSortByEnum
+func GetListManagedDatabasesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
 }
 
 // ListManagedDatabasesSortOrderEnum Enum with underlying type: string
@@ -190,7 +247,7 @@ const (
 	ListManagedDatabasesSortOrderDesc ListManagedDatabasesSortOrderEnum = "DESC"
 )
 
-var mappingListManagedDatabasesSortOrder = map[string]ListManagedDatabasesSortOrderEnum{
+var mappingListManagedDatabasesSortOrderEnum = map[string]ListManagedDatabasesSortOrderEnum{
 	"ASC":  ListManagedDatabasesSortOrderAsc,
 	"DESC": ListManagedDatabasesSortOrderDesc,
 }
@@ -198,8 +255,16 @@ var mappingListManagedDatabasesSortOrder = map[string]ListManagedDatabasesSortOr
 // GetListManagedDatabasesSortOrderEnumValues Enumerates the set of values for ListManagedDatabasesSortOrderEnum
 func GetListManagedDatabasesSortOrderEnumValues() []ListManagedDatabasesSortOrderEnum {
 	values := make([]ListManagedDatabasesSortOrderEnum, 0)
-	for _, v := range mappingListManagedDatabasesSortOrder {
+	for _, v := range mappingListManagedDatabasesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedDatabasesSortOrderEnumStringValues Enumerates the set of values in String for ListManagedDatabasesSortOrderEnum
+func GetListManagedDatabasesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

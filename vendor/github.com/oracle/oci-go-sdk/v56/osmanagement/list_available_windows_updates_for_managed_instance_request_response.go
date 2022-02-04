@@ -5,8 +5,10 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAvailableWindowsUpdatesForManagedInstanceRequest wrapper for the ListAvailableWindowsUpdatesForManagedInstance operation
@@ -56,6 +58,10 @@ func (request ListAvailableWindowsUpdatesForManagedInstanceRequest) String() str
 // HTTPRequest implements the OCIRequest interface
 func (request ListAvailableWindowsUpdatesForManagedInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,26 @@ func (request ListAvailableWindowsUpdatesForManagedInstanceRequest) BinaryReques
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAvailableWindowsUpdatesForManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAvailableWindowsUpdatesForManagedInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAvailableWindowsUpdatesForManagedInstanceSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAvailableWindowsUpdatesForManagedInstanceSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAvailableWindowsUpdatesForManagedInstanceSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum[string(request.IsEligibleForInstallation)]; !ok && request.IsEligibleForInstallation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsEligibleForInstallation: %s. Supported values are: %s.", request.IsEligibleForInstallation, strings.Join(GetListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAvailableWindowsUpdatesForManagedInstanceResponse wrapper for the ListAvailableWindowsUpdatesForManagedInstance operation
@@ -109,7 +135,7 @@ const (
 	ListAvailableWindowsUpdatesForManagedInstanceSortOrderDesc ListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum = "DESC"
 )
 
-var mappingListAvailableWindowsUpdatesForManagedInstanceSortOrder = map[string]ListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum{
+var mappingListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum = map[string]ListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum{
 	"ASC":  ListAvailableWindowsUpdatesForManagedInstanceSortOrderAsc,
 	"DESC": ListAvailableWindowsUpdatesForManagedInstanceSortOrderDesc,
 }
@@ -117,10 +143,18 @@ var mappingListAvailableWindowsUpdatesForManagedInstanceSortOrder = map[string]L
 // GetListAvailableWindowsUpdatesForManagedInstanceSortOrderEnumValues Enumerates the set of values for ListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum
 func GetListAvailableWindowsUpdatesForManagedInstanceSortOrderEnumValues() []ListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum {
 	values := make([]ListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum, 0)
-	for _, v := range mappingListAvailableWindowsUpdatesForManagedInstanceSortOrder {
+	for _, v := range mappingListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailableWindowsUpdatesForManagedInstanceSortOrderEnumStringValues Enumerates the set of values in String for ListAvailableWindowsUpdatesForManagedInstanceSortOrderEnum
+func GetListAvailableWindowsUpdatesForManagedInstanceSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAvailableWindowsUpdatesForManagedInstanceSortByEnum Enum with underlying type: string
@@ -132,7 +166,7 @@ const (
 	ListAvailableWindowsUpdatesForManagedInstanceSortByDisplayname ListAvailableWindowsUpdatesForManagedInstanceSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListAvailableWindowsUpdatesForManagedInstanceSortBy = map[string]ListAvailableWindowsUpdatesForManagedInstanceSortByEnum{
+var mappingListAvailableWindowsUpdatesForManagedInstanceSortByEnum = map[string]ListAvailableWindowsUpdatesForManagedInstanceSortByEnum{
 	"TIMECREATED": ListAvailableWindowsUpdatesForManagedInstanceSortByTimecreated,
 	"DISPLAYNAME": ListAvailableWindowsUpdatesForManagedInstanceSortByDisplayname,
 }
@@ -140,10 +174,18 @@ var mappingListAvailableWindowsUpdatesForManagedInstanceSortBy = map[string]List
 // GetListAvailableWindowsUpdatesForManagedInstanceSortByEnumValues Enumerates the set of values for ListAvailableWindowsUpdatesForManagedInstanceSortByEnum
 func GetListAvailableWindowsUpdatesForManagedInstanceSortByEnumValues() []ListAvailableWindowsUpdatesForManagedInstanceSortByEnum {
 	values := make([]ListAvailableWindowsUpdatesForManagedInstanceSortByEnum, 0)
-	for _, v := range mappingListAvailableWindowsUpdatesForManagedInstanceSortBy {
+	for _, v := range mappingListAvailableWindowsUpdatesForManagedInstanceSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailableWindowsUpdatesForManagedInstanceSortByEnumStringValues Enumerates the set of values in String for ListAvailableWindowsUpdatesForManagedInstanceSortByEnum
+func GetListAvailableWindowsUpdatesForManagedInstanceSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum Enum with underlying type: string
@@ -156,7 +198,7 @@ const (
 	ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationUnknown        ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum = "UNKNOWN"
 )
 
-var mappingListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallation = map[string]ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum{
+var mappingListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum = map[string]ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum{
 	"INSTALLABLE":     ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationInstallable,
 	"NOT_INSTALLABLE": ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationNotInstallable,
 	"UNKNOWN":         ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationUnknown,
@@ -165,8 +207,17 @@ var mappingListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallatio
 // GetListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnumValues Enumerates the set of values for ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum
 func GetListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnumValues() []ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum {
 	values := make([]ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum, 0)
-	for _, v := range mappingListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallation {
+	for _, v := range mappingListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnumStringValues Enumerates the set of values in String for ListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnum
+func GetListAvailableWindowsUpdatesForManagedInstanceIsEligibleForInstallationEnumStringValues() []string {
+	return []string{
+		"INSTALLABLE",
+		"NOT_INSTALLABLE",
+		"UNKNOWN",
+	}
 }

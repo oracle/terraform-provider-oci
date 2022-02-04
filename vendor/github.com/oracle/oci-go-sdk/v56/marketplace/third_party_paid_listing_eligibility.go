@@ -10,7 +10,9 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ThirdPartyPaidListingEligibility Tenant eligibility for using third party paid listings
@@ -30,6 +32,21 @@ func (m ThirdPartyPaidListingEligibility) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ThirdPartyPaidListingEligibility) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingThirdPartyPaidListingEligibilityEligibilityReasonEnum[string(m.EligibilityReason)]; !ok && m.EligibilityReason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EligibilityReason: %s. Supported values are: %s.", m.EligibilityReason, strings.Join(GetThirdPartyPaidListingEligibilityEligibilityReasonEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ThirdPartyPaidListingEligibilityEligibilityReasonEnum Enum with underlying type: string
 type ThirdPartyPaidListingEligibilityEligibilityReasonEnum string
 
@@ -47,7 +64,7 @@ const (
 	ThirdPartyPaidListingEligibilityEligibilityReasonNotAuthorized                    ThirdPartyPaidListingEligibilityEligibilityReasonEnum = "NOT_AUTHORIZED"
 )
 
-var mappingThirdPartyPaidListingEligibilityEligibilityReason = map[string]ThirdPartyPaidListingEligibilityEligibilityReasonEnum{
+var mappingThirdPartyPaidListingEligibilityEligibilityReasonEnum = map[string]ThirdPartyPaidListingEligibilityEligibilityReasonEnum{
 	"ELIGIBLE":                            ThirdPartyPaidListingEligibilityEligibilityReasonEligible,
 	"INELIGIBLE_ACCOUNT_COUNTRY":          ThirdPartyPaidListingEligibilityEligibilityReasonIneligibleAccountCountry,
 	"INELIGIBLE_REGION":                   ThirdPartyPaidListingEligibilityEligibilityReasonIneligibleRegion,
@@ -63,8 +80,24 @@ var mappingThirdPartyPaidListingEligibilityEligibilityReason = map[string]ThirdP
 // GetThirdPartyPaidListingEligibilityEligibilityReasonEnumValues Enumerates the set of values for ThirdPartyPaidListingEligibilityEligibilityReasonEnum
 func GetThirdPartyPaidListingEligibilityEligibilityReasonEnumValues() []ThirdPartyPaidListingEligibilityEligibilityReasonEnum {
 	values := make([]ThirdPartyPaidListingEligibilityEligibilityReasonEnum, 0)
-	for _, v := range mappingThirdPartyPaidListingEligibilityEligibilityReason {
+	for _, v := range mappingThirdPartyPaidListingEligibilityEligibilityReasonEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetThirdPartyPaidListingEligibilityEligibilityReasonEnumStringValues Enumerates the set of values in String for ThirdPartyPaidListingEligibilityEligibilityReasonEnum
+func GetThirdPartyPaidListingEligibilityEligibilityReasonEnumStringValues() []string {
+	return []string{
+		"ELIGIBLE",
+		"INELIGIBLE_ACCOUNT_COUNTRY",
+		"INELIGIBLE_REGION",
+		"INELIGIBLE_ACCOUNT_BLACKLISTED",
+		"INELIGIBLE_ACCOUNT_FEATURE_DISABLED",
+		"INELIGIBLE_ACCOUNT_CURRENCY",
+		"INELIGIBLE_ACCOUNT_NOT_PAID",
+		"INELIGIBLE_ACCOUNT_INTERNAL",
+		"INELIGIBLE_ACCOUNT_GOV_SUBSCRIPTION",
+		"NOT_AUTHORIZED",
+	}
 }

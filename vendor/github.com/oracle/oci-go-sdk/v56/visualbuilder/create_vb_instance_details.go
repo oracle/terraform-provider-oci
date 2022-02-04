@@ -11,7 +11,9 @@
 package visualbuilder
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateVbInstanceDetails The information about new VbInstance.
@@ -56,6 +58,21 @@ func (m CreateVbInstanceDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateVbInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateVbInstanceDetailsConsumptionModelEnum[string(m.ConsumptionModel)]; !ok && m.ConsumptionModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConsumptionModel: %s. Supported values are: %s.", m.ConsumptionModel, strings.Join(GetCreateVbInstanceDetailsConsumptionModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateVbInstanceDetailsConsumptionModelEnum Enum with underlying type: string
 type CreateVbInstanceDetailsConsumptionModelEnum string
 
@@ -66,7 +83,7 @@ const (
 	CreateVbInstanceDetailsConsumptionModelVb4saas CreateVbInstanceDetailsConsumptionModelEnum = "VB4SAAS"
 )
 
-var mappingCreateVbInstanceDetailsConsumptionModel = map[string]CreateVbInstanceDetailsConsumptionModelEnum{
+var mappingCreateVbInstanceDetailsConsumptionModelEnum = map[string]CreateVbInstanceDetailsConsumptionModelEnum{
 	"UCM":     CreateVbInstanceDetailsConsumptionModelUcm,
 	"GOV":     CreateVbInstanceDetailsConsumptionModelGov,
 	"VB4SAAS": CreateVbInstanceDetailsConsumptionModelVb4saas,
@@ -75,8 +92,17 @@ var mappingCreateVbInstanceDetailsConsumptionModel = map[string]CreateVbInstance
 // GetCreateVbInstanceDetailsConsumptionModelEnumValues Enumerates the set of values for CreateVbInstanceDetailsConsumptionModelEnum
 func GetCreateVbInstanceDetailsConsumptionModelEnumValues() []CreateVbInstanceDetailsConsumptionModelEnum {
 	values := make([]CreateVbInstanceDetailsConsumptionModelEnum, 0)
-	for _, v := range mappingCreateVbInstanceDetailsConsumptionModel {
+	for _, v := range mappingCreateVbInstanceDetailsConsumptionModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateVbInstanceDetailsConsumptionModelEnumStringValues Enumerates the set of values in String for CreateVbInstanceDetailsConsumptionModelEnum
+func GetCreateVbInstanceDetailsConsumptionModelEnumStringValues() []string {
+	return []string{
+		"UCM",
+		"GOV",
+		"VB4SAAS",
+	}
 }

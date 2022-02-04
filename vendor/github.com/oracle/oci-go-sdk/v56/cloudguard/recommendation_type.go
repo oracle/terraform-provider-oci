@@ -18,7 +18,7 @@ const (
 	RecommendationTypeResolvedProblems RecommendationTypeEnum = "RESOLVED_PROBLEMS"
 )
 
-var mappingRecommendationType = map[string]RecommendationTypeEnum{
+var mappingRecommendationTypeEnum = map[string]RecommendationTypeEnum{
 	"DETECTOR_PROBLEMS": RecommendationTypeDetectorProblems,
 	"RESOLVED_PROBLEMS": RecommendationTypeResolvedProblems,
 }
@@ -26,8 +26,16 @@ var mappingRecommendationType = map[string]RecommendationTypeEnum{
 // GetRecommendationTypeEnumValues Enumerates the set of values for RecommendationTypeEnum
 func GetRecommendationTypeEnumValues() []RecommendationTypeEnum {
 	values := make([]RecommendationTypeEnum, 0)
-	for _, v := range mappingRecommendationType {
+	for _, v := range mappingRecommendationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecommendationTypeEnumStringValues Enumerates the set of values in String for RecommendationTypeEnum
+func GetRecommendationTypeEnumStringValues() []string {
+	return []string{
+		"DETECTOR_PROBLEMS",
+		"RESOLVED_PROBLEMS",
+	}
 }

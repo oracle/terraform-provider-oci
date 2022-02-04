@@ -19,7 +19,7 @@ const (
 	JobScheduleTypeImmediate JobScheduleTypeEnum = "IMMEDIATE"
 )
 
-var mappingJobScheduleType = map[string]JobScheduleTypeEnum{
+var mappingJobScheduleTypeEnum = map[string]JobScheduleTypeEnum{
 	"SCHEDULED": JobScheduleTypeScheduled,
 	"IMMEDIATE": JobScheduleTypeImmediate,
 }
@@ -27,8 +27,16 @@ var mappingJobScheduleType = map[string]JobScheduleTypeEnum{
 // GetJobScheduleTypeEnumValues Enumerates the set of values for JobScheduleTypeEnum
 func GetJobScheduleTypeEnumValues() []JobScheduleTypeEnum {
 	values := make([]JobScheduleTypeEnum, 0)
-	for _, v := range mappingJobScheduleType {
+	for _, v := range mappingJobScheduleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobScheduleTypeEnumStringValues Enumerates the set of values in String for JobScheduleTypeEnum
+func GetJobScheduleTypeEnumStringValues() []string {
+	return []string{
+		"SCHEDULED",
+		"IMMEDIATE",
+	}
 }

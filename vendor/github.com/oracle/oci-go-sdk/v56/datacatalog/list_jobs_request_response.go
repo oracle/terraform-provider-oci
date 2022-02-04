@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListJobsRequest wrapper for the ListJobs operation
@@ -105,6 +107,10 @@ func (request ListJobsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListJobsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -118,6 +124,38 @@ func (request ListJobsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListJobsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListJobsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListJobsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListJobsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListJobsJobTypeEnum[string(request.JobType)]; !ok && request.JobType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JobType: %s. Supported values are: %s.", request.JobType, strings.Join(GetListJobsJobTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListJobsScheduleTypeEnum[string(request.ScheduleType)]; !ok && request.ScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduleType: %s. Supported values are: %s.", request.ScheduleType, strings.Join(GetListJobsScheduleTypeEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListJobsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListJobsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListJobsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListJobsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListJobsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListJobsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListJobsResponse wrapper for the ListJobs operation
@@ -156,7 +194,7 @@ const (
 	ListJobsLifecycleStateExpired  ListJobsLifecycleStateEnum = "EXPIRED"
 )
 
-var mappingListJobsLifecycleState = map[string]ListJobsLifecycleStateEnum{
+var mappingListJobsLifecycleStateEnum = map[string]ListJobsLifecycleStateEnum{
 	"ACTIVE":   ListJobsLifecycleStateActive,
 	"INACTIVE": ListJobsLifecycleStateInactive,
 	"EXPIRED":  ListJobsLifecycleStateExpired,
@@ -165,10 +203,19 @@ var mappingListJobsLifecycleState = map[string]ListJobsLifecycleStateEnum{
 // GetListJobsLifecycleStateEnumValues Enumerates the set of values for ListJobsLifecycleStateEnum
 func GetListJobsLifecycleStateEnumValues() []ListJobsLifecycleStateEnum {
 	values := make([]ListJobsLifecycleStateEnum, 0)
-	for _, v := range mappingListJobsLifecycleState {
+	for _, v := range mappingListJobsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobsLifecycleStateEnumStringValues Enumerates the set of values in String for ListJobsLifecycleStateEnum
+func GetListJobsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+		"EXPIRED",
+	}
 }
 
 // ListJobsJobTypeEnum Enum with underlying type: string
@@ -195,7 +242,7 @@ const (
 	ListJobsJobTypeImportDataAsset            ListJobsJobTypeEnum = "IMPORT_DATA_ASSET"
 )
 
-var mappingListJobsJobType = map[string]ListJobsJobTypeEnum{
+var mappingListJobsJobTypeEnum = map[string]ListJobsJobTypeEnum{
 	"HARVEST":                      ListJobsJobTypeHarvest,
 	"PROFILING":                    ListJobsJobTypeProfiling,
 	"SAMPLING":                     ListJobsJobTypeSampling,
@@ -218,10 +265,33 @@ var mappingListJobsJobType = map[string]ListJobsJobTypeEnum{
 // GetListJobsJobTypeEnumValues Enumerates the set of values for ListJobsJobTypeEnum
 func GetListJobsJobTypeEnumValues() []ListJobsJobTypeEnum {
 	values := make([]ListJobsJobTypeEnum, 0)
-	for _, v := range mappingListJobsJobType {
+	for _, v := range mappingListJobsJobTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobsJobTypeEnumStringValues Enumerates the set of values in String for ListJobsJobTypeEnum
+func GetListJobsJobTypeEnumStringValues() []string {
+	return []string{
+		"HARVEST",
+		"PROFILING",
+		"SAMPLING",
+		"PREVIEW",
+		"IMPORT",
+		"EXPORT",
+		"IMPORT_GLOSSARY",
+		"EXPORT_GLOSSARY",
+		"INTERNAL",
+		"PURGE",
+		"IMMEDIATE",
+		"SCHEDULED",
+		"IMMEDIATE_EXECUTION",
+		"SCHEDULED_EXECUTION",
+		"SCHEDULED_EXECUTION_INSTANCE",
+		"ASYNC_DELETE",
+		"IMPORT_DATA_ASSET",
+	}
 }
 
 // ListJobsScheduleTypeEnum Enum with underlying type: string
@@ -233,7 +303,7 @@ const (
 	ListJobsScheduleTypeImmediate ListJobsScheduleTypeEnum = "IMMEDIATE"
 )
 
-var mappingListJobsScheduleType = map[string]ListJobsScheduleTypeEnum{
+var mappingListJobsScheduleTypeEnum = map[string]ListJobsScheduleTypeEnum{
 	"SCHEDULED": ListJobsScheduleTypeScheduled,
 	"IMMEDIATE": ListJobsScheduleTypeImmediate,
 }
@@ -241,10 +311,18 @@ var mappingListJobsScheduleType = map[string]ListJobsScheduleTypeEnum{
 // GetListJobsScheduleTypeEnumValues Enumerates the set of values for ListJobsScheduleTypeEnum
 func GetListJobsScheduleTypeEnumValues() []ListJobsScheduleTypeEnum {
 	values := make([]ListJobsScheduleTypeEnum, 0)
-	for _, v := range mappingListJobsScheduleType {
+	for _, v := range mappingListJobsScheduleTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobsScheduleTypeEnumStringValues Enumerates the set of values in String for ListJobsScheduleTypeEnum
+func GetListJobsScheduleTypeEnumStringValues() []string {
+	return []string{
+		"SCHEDULED",
+		"IMMEDIATE",
+	}
 }
 
 // ListJobsFieldsEnum Enum with underlying type: string
@@ -275,7 +353,7 @@ const (
 	ListJobsFieldsErrormessage           ListJobsFieldsEnum = "errorMessage"
 )
 
-var mappingListJobsFields = map[string]ListJobsFieldsEnum{
+var mappingListJobsFieldsEnum = map[string]ListJobsFieldsEnum{
 	"key":                    ListJobsFieldsKey,
 	"displayName":            ListJobsFieldsDisplayname,
 	"description":            ListJobsFieldsDescription,
@@ -302,10 +380,37 @@ var mappingListJobsFields = map[string]ListJobsFieldsEnum{
 // GetListJobsFieldsEnumValues Enumerates the set of values for ListJobsFieldsEnum
 func GetListJobsFieldsEnumValues() []ListJobsFieldsEnum {
 	values := make([]ListJobsFieldsEnum, 0)
-	for _, v := range mappingListJobsFields {
+	for _, v := range mappingListJobsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobsFieldsEnumStringValues Enumerates the set of values in String for ListJobsFieldsEnum
+func GetListJobsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"catalogId",
+		"jobDefinitionKey",
+		"lifecycleState",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"jobType",
+		"scheduleCronExpression",
+		"timeScheduleBegin",
+		"scheduleType",
+		"executionCount",
+		"timeOfLatestExecution",
+		"executions",
+		"uri",
+		"jobDefinitionName",
+		"errorCode",
+		"errorMessage",
+	}
 }
 
 // ListJobsSortByEnum Enum with underlying type: string
@@ -317,7 +422,7 @@ const (
 	ListJobsSortByDisplayname ListJobsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListJobsSortBy = map[string]ListJobsSortByEnum{
+var mappingListJobsSortByEnum = map[string]ListJobsSortByEnum{
 	"TIMECREATED": ListJobsSortByTimecreated,
 	"DISPLAYNAME": ListJobsSortByDisplayname,
 }
@@ -325,10 +430,18 @@ var mappingListJobsSortBy = map[string]ListJobsSortByEnum{
 // GetListJobsSortByEnumValues Enumerates the set of values for ListJobsSortByEnum
 func GetListJobsSortByEnumValues() []ListJobsSortByEnum {
 	values := make([]ListJobsSortByEnum, 0)
-	for _, v := range mappingListJobsSortBy {
+	for _, v := range mappingListJobsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobsSortByEnumStringValues Enumerates the set of values in String for ListJobsSortByEnum
+func GetListJobsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListJobsSortOrderEnum Enum with underlying type: string
@@ -340,7 +453,7 @@ const (
 	ListJobsSortOrderDesc ListJobsSortOrderEnum = "DESC"
 )
 
-var mappingListJobsSortOrder = map[string]ListJobsSortOrderEnum{
+var mappingListJobsSortOrderEnum = map[string]ListJobsSortOrderEnum{
 	"ASC":  ListJobsSortOrderAsc,
 	"DESC": ListJobsSortOrderDesc,
 }
@@ -348,8 +461,16 @@ var mappingListJobsSortOrder = map[string]ListJobsSortOrderEnum{
 // GetListJobsSortOrderEnumValues Enumerates the set of values for ListJobsSortOrderEnum
 func GetListJobsSortOrderEnumValues() []ListJobsSortOrderEnum {
 	values := make([]ListJobsSortOrderEnum, 0)
-	for _, v := range mappingListJobsSortOrder {
+	for _, v := range mappingListJobsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJobsSortOrderEnumStringValues Enumerates the set of values in String for ListJobsSortOrderEnum
+func GetListJobsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

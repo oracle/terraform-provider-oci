@@ -5,8 +5,10 @@
 package managementagent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAvailabilityHistoriesRequest wrapper for the ListAvailabilityHistories operation
@@ -56,6 +58,10 @@ func (request ListAvailabilityHistoriesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAvailabilityHistoriesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,23 @@ func (request ListAvailabilityHistoriesRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAvailabilityHistoriesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAvailabilityHistoriesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAvailabilityHistoriesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAvailabilityHistoriesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAvailabilityHistoriesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAvailabilityHistoriesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAvailabilityHistoriesResponse wrapper for the ListAvailabilityHistories operation
@@ -108,7 +131,7 @@ const (
 	ListAvailabilityHistoriesSortOrderDesc ListAvailabilityHistoriesSortOrderEnum = "DESC"
 )
 
-var mappingListAvailabilityHistoriesSortOrder = map[string]ListAvailabilityHistoriesSortOrderEnum{
+var mappingListAvailabilityHistoriesSortOrderEnum = map[string]ListAvailabilityHistoriesSortOrderEnum{
 	"ASC":  ListAvailabilityHistoriesSortOrderAsc,
 	"DESC": ListAvailabilityHistoriesSortOrderDesc,
 }
@@ -116,10 +139,18 @@ var mappingListAvailabilityHistoriesSortOrder = map[string]ListAvailabilityHisto
 // GetListAvailabilityHistoriesSortOrderEnumValues Enumerates the set of values for ListAvailabilityHistoriesSortOrderEnum
 func GetListAvailabilityHistoriesSortOrderEnumValues() []ListAvailabilityHistoriesSortOrderEnum {
 	values := make([]ListAvailabilityHistoriesSortOrderEnum, 0)
-	for _, v := range mappingListAvailabilityHistoriesSortOrder {
+	for _, v := range mappingListAvailabilityHistoriesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailabilityHistoriesSortOrderEnumStringValues Enumerates the set of values in String for ListAvailabilityHistoriesSortOrderEnum
+func GetListAvailabilityHistoriesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAvailabilityHistoriesSortByEnum Enum with underlying type: string
@@ -130,15 +161,22 @@ const (
 	ListAvailabilityHistoriesSortByTimeavailabilitystatusstarted ListAvailabilityHistoriesSortByEnum = "timeAvailabilityStatusStarted"
 )
 
-var mappingListAvailabilityHistoriesSortBy = map[string]ListAvailabilityHistoriesSortByEnum{
+var mappingListAvailabilityHistoriesSortByEnum = map[string]ListAvailabilityHistoriesSortByEnum{
 	"timeAvailabilityStatusStarted": ListAvailabilityHistoriesSortByTimeavailabilitystatusstarted,
 }
 
 // GetListAvailabilityHistoriesSortByEnumValues Enumerates the set of values for ListAvailabilityHistoriesSortByEnum
 func GetListAvailabilityHistoriesSortByEnumValues() []ListAvailabilityHistoriesSortByEnum {
 	values := make([]ListAvailabilityHistoriesSortByEnum, 0)
-	for _, v := range mappingListAvailabilityHistoriesSortBy {
+	for _, v := range mappingListAvailabilityHistoriesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAvailabilityHistoriesSortByEnumStringValues Enumerates the set of values in String for ListAvailabilityHistoriesSortByEnum
+func GetListAvailabilityHistoriesSortByEnumStringValues() []string {
+	return []string{
+		"timeAvailabilityStatusStarted",
+	}
 }

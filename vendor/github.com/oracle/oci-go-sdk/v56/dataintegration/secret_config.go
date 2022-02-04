@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SecretConfig Secret configuration if used for storing sensitive info
@@ -61,6 +63,18 @@ func (m secretconfig) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m secretconfig) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SecretConfigModelTypeEnum Enum with underlying type: string
 type SecretConfigModelTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	SecretConfigModelTypeOciVaultSecretConfig SecretConfigModelTypeEnum = "OCI_VAULT_SECRET_CONFIG"
 )
 
-var mappingSecretConfigModelType = map[string]SecretConfigModelTypeEnum{
+var mappingSecretConfigModelTypeEnum = map[string]SecretConfigModelTypeEnum{
 	"OCI_VAULT_SECRET_CONFIG": SecretConfigModelTypeOciVaultSecretConfig,
 }
 
 // GetSecretConfigModelTypeEnumValues Enumerates the set of values for SecretConfigModelTypeEnum
 func GetSecretConfigModelTypeEnumValues() []SecretConfigModelTypeEnum {
 	values := make([]SecretConfigModelTypeEnum, 0)
-	for _, v := range mappingSecretConfigModelType {
+	for _, v := range mappingSecretConfigModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSecretConfigModelTypeEnumStringValues Enumerates the set of values in String for SecretConfigModelTypeEnum
+func GetSecretConfigModelTypeEnumStringValues() []string {
+	return []string{
+		"OCI_VAULT_SECRET_CONFIG",
+	}
 }

@@ -17,15 +17,22 @@ const (
 	EulaTypeEnumText EulaTypeEnumEnum = "TEXT"
 )
 
-var mappingEulaTypeEnum = map[string]EulaTypeEnumEnum{
+var mappingEulaTypeEnumEnum = map[string]EulaTypeEnumEnum{
 	"TEXT": EulaTypeEnumText,
 }
 
 // GetEulaTypeEnumEnumValues Enumerates the set of values for EulaTypeEnumEnum
 func GetEulaTypeEnumEnumValues() []EulaTypeEnumEnum {
 	values := make([]EulaTypeEnumEnum, 0)
-	for _, v := range mappingEulaTypeEnum {
+	for _, v := range mappingEulaTypeEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEulaTypeEnumEnumStringValues Enumerates the set of values in String for EulaTypeEnumEnum
+func GetEulaTypeEnumEnumStringValues() []string {
+	return []string{
+		"TEXT",
+	}
 }

@@ -19,15 +19,22 @@ const (
 	ExadataEntitySourceEmManagedExternalExadata ExadataEntitySourceEnum = "EM_MANAGED_EXTERNAL_EXADATA"
 )
 
-var mappingExadataEntitySource = map[string]ExadataEntitySourceEnum{
+var mappingExadataEntitySourceEnum = map[string]ExadataEntitySourceEnum{
 	"EM_MANAGED_EXTERNAL_EXADATA": ExadataEntitySourceEmManagedExternalExadata,
 }
 
 // GetExadataEntitySourceEnumValues Enumerates the set of values for ExadataEntitySourceEnum
 func GetExadataEntitySourceEnumValues() []ExadataEntitySourceEnum {
 	values := make([]ExadataEntitySourceEnum, 0)
-	for _, v := range mappingExadataEntitySource {
+	for _, v := range mappingExadataEntitySourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExadataEntitySourceEnumStringValues Enumerates the set of values in String for ExadataEntitySourceEnum
+func GetExadataEntitySourceEnumStringValues() []string {
+	return []string{
+		"EM_MANAGED_EXTERNAL_EXADATA",
+	}
 }

@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ImportKeyDetails The representation of ImportKeyDetails
@@ -49,6 +51,21 @@ func (m ImportKeyDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ImportKeyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingImportKeyDetailsProtectionModeEnum[string(m.ProtectionMode)]; !ok && m.ProtectionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetImportKeyDetailsProtectionModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ImportKeyDetailsProtectionModeEnum Enum with underlying type: string
 type ImportKeyDetailsProtectionModeEnum string
 
@@ -58,7 +75,7 @@ const (
 	ImportKeyDetailsProtectionModeSoftware ImportKeyDetailsProtectionModeEnum = "SOFTWARE"
 )
 
-var mappingImportKeyDetailsProtectionMode = map[string]ImportKeyDetailsProtectionModeEnum{
+var mappingImportKeyDetailsProtectionModeEnum = map[string]ImportKeyDetailsProtectionModeEnum{
 	"HSM":      ImportKeyDetailsProtectionModeHsm,
 	"SOFTWARE": ImportKeyDetailsProtectionModeSoftware,
 }
@@ -66,8 +83,16 @@ var mappingImportKeyDetailsProtectionMode = map[string]ImportKeyDetailsProtectio
 // GetImportKeyDetailsProtectionModeEnumValues Enumerates the set of values for ImportKeyDetailsProtectionModeEnum
 func GetImportKeyDetailsProtectionModeEnumValues() []ImportKeyDetailsProtectionModeEnum {
 	values := make([]ImportKeyDetailsProtectionModeEnum, 0)
-	for _, v := range mappingImportKeyDetailsProtectionMode {
+	for _, v := range mappingImportKeyDetailsProtectionModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetImportKeyDetailsProtectionModeEnumStringValues Enumerates the set of values in String for ImportKeyDetailsProtectionModeEnum
+func GetImportKeyDetailsProtectionModeEnumStringValues() []string {
+	return []string{
+		"HSM",
+		"SOFTWARE",
+	}
 }

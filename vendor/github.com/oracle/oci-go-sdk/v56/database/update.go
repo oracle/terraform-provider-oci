@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Update The representation of Update
@@ -48,6 +50,33 @@ func (m Update) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m Update) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateUpdateTypeEnum[string(m.UpdateType)]; !ok && m.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", m.UpdateType, strings.Join(GetUpdateUpdateTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingUpdateLastActionEnum[string(m.LastAction)]; !ok && m.LastAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastAction: %s. Supported values are: %s.", m.LastAction, strings.Join(GetUpdateLastActionEnumStringValues(), ",")))
+	}
+	for _, val := range m.AvailableActions {
+		if _, ok := mappingUpdateAvailableActionsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableActions: %s. Supported values are: %s.", val, strings.Join(GetUpdateAvailableActionsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingUpdateLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetUpdateLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateLastActionEnum Enum with underlying type: string
 type UpdateLastActionEnum string
 
@@ -59,7 +88,7 @@ const (
 	UpdateLastActionRollback        UpdateLastActionEnum = "ROLLBACK"
 )
 
-var mappingUpdateLastAction = map[string]UpdateLastActionEnum{
+var mappingUpdateLastActionEnum = map[string]UpdateLastActionEnum{
 	"ROLLING_APPLY":     UpdateLastActionRollingApply,
 	"NON_ROLLING_APPLY": UpdateLastActionNonRollingApply,
 	"PRECHECK":          UpdateLastActionPrecheck,
@@ -69,10 +98,20 @@ var mappingUpdateLastAction = map[string]UpdateLastActionEnum{
 // GetUpdateLastActionEnumValues Enumerates the set of values for UpdateLastActionEnum
 func GetUpdateLastActionEnumValues() []UpdateLastActionEnum {
 	values := make([]UpdateLastActionEnum, 0)
-	for _, v := range mappingUpdateLastAction {
+	for _, v := range mappingUpdateLastActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateLastActionEnumStringValues Enumerates the set of values in String for UpdateLastActionEnum
+func GetUpdateLastActionEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"NON_ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
 }
 
 // UpdateAvailableActionsEnum Enum with underlying type: string
@@ -86,7 +125,7 @@ const (
 	UpdateAvailableActionsRollback        UpdateAvailableActionsEnum = "ROLLBACK"
 )
 
-var mappingUpdateAvailableActions = map[string]UpdateAvailableActionsEnum{
+var mappingUpdateAvailableActionsEnum = map[string]UpdateAvailableActionsEnum{
 	"ROLLING_APPLY":     UpdateAvailableActionsRollingApply,
 	"NON_ROLLING_APPLY": UpdateAvailableActionsNonRollingApply,
 	"PRECHECK":          UpdateAvailableActionsPrecheck,
@@ -96,10 +135,20 @@ var mappingUpdateAvailableActions = map[string]UpdateAvailableActionsEnum{
 // GetUpdateAvailableActionsEnumValues Enumerates the set of values for UpdateAvailableActionsEnum
 func GetUpdateAvailableActionsEnumValues() []UpdateAvailableActionsEnum {
 	values := make([]UpdateAvailableActionsEnum, 0)
-	for _, v := range mappingUpdateAvailableActions {
+	for _, v := range mappingUpdateAvailableActionsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateAvailableActionsEnumStringValues Enumerates the set of values in String for UpdateAvailableActionsEnum
+func GetUpdateAvailableActionsEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"NON_ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
 }
 
 // UpdateUpdateTypeEnum Enum with underlying type: string
@@ -112,7 +161,7 @@ const (
 	UpdateUpdateTypeOsUpdate  UpdateUpdateTypeEnum = "OS_UPDATE"
 )
 
-var mappingUpdateUpdateType = map[string]UpdateUpdateTypeEnum{
+var mappingUpdateUpdateTypeEnum = map[string]UpdateUpdateTypeEnum{
 	"GI_UPGRADE": UpdateUpdateTypeGiUpgrade,
 	"GI_PATCH":   UpdateUpdateTypeGiPatch,
 	"OS_UPDATE":  UpdateUpdateTypeOsUpdate,
@@ -121,10 +170,19 @@ var mappingUpdateUpdateType = map[string]UpdateUpdateTypeEnum{
 // GetUpdateUpdateTypeEnumValues Enumerates the set of values for UpdateUpdateTypeEnum
 func GetUpdateUpdateTypeEnumValues() []UpdateUpdateTypeEnum {
 	values := make([]UpdateUpdateTypeEnum, 0)
-	for _, v := range mappingUpdateUpdateType {
+	for _, v := range mappingUpdateUpdateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateUpdateTypeEnumStringValues Enumerates the set of values in String for UpdateUpdateTypeEnum
+func GetUpdateUpdateTypeEnumStringValues() []string {
+	return []string{
+		"GI_UPGRADE",
+		"GI_PATCH",
+		"OS_UPDATE",
+	}
 }
 
 // UpdateLifecycleStateEnum Enum with underlying type: string
@@ -138,7 +196,7 @@ const (
 	UpdateLifecycleStateFailed     UpdateLifecycleStateEnum = "FAILED"
 )
 
-var mappingUpdateLifecycleState = map[string]UpdateLifecycleStateEnum{
+var mappingUpdateLifecycleStateEnum = map[string]UpdateLifecycleStateEnum{
 	"AVAILABLE":   UpdateLifecycleStateAvailable,
 	"SUCCESS":     UpdateLifecycleStateSuccess,
 	"IN_PROGRESS": UpdateLifecycleStateInProgress,
@@ -148,8 +206,18 @@ var mappingUpdateLifecycleState = map[string]UpdateLifecycleStateEnum{
 // GetUpdateLifecycleStateEnumValues Enumerates the set of values for UpdateLifecycleStateEnum
 func GetUpdateLifecycleStateEnumValues() []UpdateLifecycleStateEnum {
 	values := make([]UpdateLifecycleStateEnum, 0)
-	for _, v := range mappingUpdateLifecycleState {
+	for _, v := range mappingUpdateLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateLifecycleStateEnumStringValues Enumerates the set of values in String for UpdateLifecycleStateEnum
+func GetUpdateLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"SUCCESS",
+		"IN_PROGRESS",
+		"FAILED",
+	}
 }

@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateUserDefinedFunctionValidationDetails The properties used in create UserDefinedFunction validation operations.
@@ -57,6 +59,21 @@ func (m CreateUserDefinedFunctionValidationDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateUserDefinedFunctionValidationDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateUserDefinedFunctionValidationDetailsModelTypeEnum[string(m.ModelType)]; !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetCreateUserDefinedFunctionValidationDetailsModelTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateUserDefinedFunctionValidationDetailsModelTypeEnum Enum with underlying type: string
 type CreateUserDefinedFunctionValidationDetailsModelTypeEnum string
 
@@ -65,15 +82,22 @@ const (
 	CreateUserDefinedFunctionValidationDetailsModelTypeDisUserDefinedFunction CreateUserDefinedFunctionValidationDetailsModelTypeEnum = "DIS_USER_DEFINED_FUNCTION"
 )
 
-var mappingCreateUserDefinedFunctionValidationDetailsModelType = map[string]CreateUserDefinedFunctionValidationDetailsModelTypeEnum{
+var mappingCreateUserDefinedFunctionValidationDetailsModelTypeEnum = map[string]CreateUserDefinedFunctionValidationDetailsModelTypeEnum{
 	"DIS_USER_DEFINED_FUNCTION": CreateUserDefinedFunctionValidationDetailsModelTypeDisUserDefinedFunction,
 }
 
 // GetCreateUserDefinedFunctionValidationDetailsModelTypeEnumValues Enumerates the set of values for CreateUserDefinedFunctionValidationDetailsModelTypeEnum
 func GetCreateUserDefinedFunctionValidationDetailsModelTypeEnumValues() []CreateUserDefinedFunctionValidationDetailsModelTypeEnum {
 	values := make([]CreateUserDefinedFunctionValidationDetailsModelTypeEnum, 0)
-	for _, v := range mappingCreateUserDefinedFunctionValidationDetailsModelType {
+	for _, v := range mappingCreateUserDefinedFunctionValidationDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateUserDefinedFunctionValidationDetailsModelTypeEnumStringValues Enumerates the set of values in String for CreateUserDefinedFunctionValidationDetailsModelTypeEnum
+func GetCreateUserDefinedFunctionValidationDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"DIS_USER_DEFINED_FUNCTION",
+	}
 }

@@ -11,7 +11,9 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WrappedImportKey The representation of WrappedImportKey
@@ -32,6 +34,21 @@ func (m WrappedImportKey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WrappedImportKey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWrappedImportKeyWrappingAlgorithmEnum[string(m.WrappingAlgorithm)]; !ok && m.WrappingAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WrappingAlgorithm: %s. Supported values are: %s.", m.WrappingAlgorithm, strings.Join(GetWrappedImportKeyWrappingAlgorithmEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WrappedImportKeyWrappingAlgorithmEnum Enum with underlying type: string
 type WrappedImportKeyWrappingAlgorithmEnum string
 
@@ -41,7 +58,7 @@ const (
 	WrappedImportKeyWrappingAlgorithmAesSha256 WrappedImportKeyWrappingAlgorithmEnum = "RSA_OAEP_AES_SHA256"
 )
 
-var mappingWrappedImportKeyWrappingAlgorithm = map[string]WrappedImportKeyWrappingAlgorithmEnum{
+var mappingWrappedImportKeyWrappingAlgorithmEnum = map[string]WrappedImportKeyWrappingAlgorithmEnum{
 	"RSA_OAEP_SHA256":     WrappedImportKeyWrappingAlgorithmSha256,
 	"RSA_OAEP_AES_SHA256": WrappedImportKeyWrappingAlgorithmAesSha256,
 }
@@ -49,8 +66,16 @@ var mappingWrappedImportKeyWrappingAlgorithm = map[string]WrappedImportKeyWrappi
 // GetWrappedImportKeyWrappingAlgorithmEnumValues Enumerates the set of values for WrappedImportKeyWrappingAlgorithmEnum
 func GetWrappedImportKeyWrappingAlgorithmEnumValues() []WrappedImportKeyWrappingAlgorithmEnum {
 	values := make([]WrappedImportKeyWrappingAlgorithmEnum, 0)
-	for _, v := range mappingWrappedImportKeyWrappingAlgorithm {
+	for _, v := range mappingWrappedImportKeyWrappingAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWrappedImportKeyWrappingAlgorithmEnumStringValues Enumerates the set of values in String for WrappedImportKeyWrappingAlgorithmEnum
+func GetWrappedImportKeyWrappingAlgorithmEnumStringValues() []string {
+	return []string{
+		"RSA_OAEP_SHA256",
+		"RSA_OAEP_AES_SHA256",
+	}
 }

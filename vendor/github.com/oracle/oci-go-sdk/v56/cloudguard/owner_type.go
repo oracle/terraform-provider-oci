@@ -18,7 +18,7 @@ const (
 	OwnerTypeOracle   OwnerTypeEnum = "ORACLE"
 )
 
-var mappingOwnerType = map[string]OwnerTypeEnum{
+var mappingOwnerTypeEnum = map[string]OwnerTypeEnum{
 	"CUSTOMER": OwnerTypeCustomer,
 	"ORACLE":   OwnerTypeOracle,
 }
@@ -26,8 +26,16 @@ var mappingOwnerType = map[string]OwnerTypeEnum{
 // GetOwnerTypeEnumValues Enumerates the set of values for OwnerTypeEnum
 func GetOwnerTypeEnumValues() []OwnerTypeEnum {
 	values := make([]OwnerTypeEnum, 0)
-	for _, v := range mappingOwnerType {
+	for _, v := range mappingOwnerTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOwnerTypeEnumStringValues Enumerates the set of values in String for OwnerTypeEnum
+func GetOwnerTypeEnumStringValues() []string {
+	return []string{
+		"CUSTOMER",
+		"ORACLE",
+	}
 }

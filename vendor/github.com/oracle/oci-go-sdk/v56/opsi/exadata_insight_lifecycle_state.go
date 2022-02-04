@@ -24,7 +24,7 @@ const (
 	ExadataInsightLifecycleStateFailed   ExadataInsightLifecycleStateEnum = "FAILED"
 )
 
-var mappingExadataInsightLifecycleState = map[string]ExadataInsightLifecycleStateEnum{
+var mappingExadataInsightLifecycleStateEnum = map[string]ExadataInsightLifecycleStateEnum{
 	"CREATING": ExadataInsightLifecycleStateCreating,
 	"UPDATING": ExadataInsightLifecycleStateUpdating,
 	"ACTIVE":   ExadataInsightLifecycleStateActive,
@@ -36,8 +36,20 @@ var mappingExadataInsightLifecycleState = map[string]ExadataInsightLifecycleStat
 // GetExadataInsightLifecycleStateEnumValues Enumerates the set of values for ExadataInsightLifecycleStateEnum
 func GetExadataInsightLifecycleStateEnumValues() []ExadataInsightLifecycleStateEnum {
 	values := make([]ExadataInsightLifecycleStateEnum, 0)
-	for _, v := range mappingExadataInsightLifecycleState {
+	for _, v := range mappingExadataInsightLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExadataInsightLifecycleStateEnumStringValues Enumerates the set of values in String for ExadataInsightLifecycleStateEnum
+func GetExadataInsightLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

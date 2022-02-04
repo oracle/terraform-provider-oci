@@ -5,8 +5,10 @@
 package objectstorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // HeadObjectRequest wrapper for the HeadObject operation
@@ -69,6 +71,10 @@ func (request HeadObjectRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request HeadObjectRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,17 @@ func (request HeadObjectRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request HeadObjectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request HeadObjectRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // HeadObjectResponse wrapper for the HeadObject operation
@@ -173,7 +190,7 @@ const (
 	HeadObjectStorageTierArchive          HeadObjectStorageTierEnum = "Archive"
 )
 
-var mappingHeadObjectStorageTier = map[string]HeadObjectStorageTierEnum{
+var mappingHeadObjectStorageTierEnum = map[string]HeadObjectStorageTierEnum{
 	"Standard":         HeadObjectStorageTierStandard,
 	"InfrequentAccess": HeadObjectStorageTierInfrequentaccess,
 	"Archive":          HeadObjectStorageTierArchive,
@@ -182,10 +199,19 @@ var mappingHeadObjectStorageTier = map[string]HeadObjectStorageTierEnum{
 // GetHeadObjectStorageTierEnumValues Enumerates the set of values for HeadObjectStorageTierEnum
 func GetHeadObjectStorageTierEnumValues() []HeadObjectStorageTierEnum {
 	values := make([]HeadObjectStorageTierEnum, 0)
-	for _, v := range mappingHeadObjectStorageTier {
+	for _, v := range mappingHeadObjectStorageTierEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHeadObjectStorageTierEnumStringValues Enumerates the set of values in String for HeadObjectStorageTierEnum
+func GetHeadObjectStorageTierEnumStringValues() []string {
+	return []string{
+		"Standard",
+		"InfrequentAccess",
+		"Archive",
+	}
 }
 
 // HeadObjectArchivalStateEnum Enum with underlying type: string
@@ -198,7 +224,7 @@ const (
 	HeadObjectArchivalStateRestored  HeadObjectArchivalStateEnum = "Restored"
 )
 
-var mappingHeadObjectArchivalState = map[string]HeadObjectArchivalStateEnum{
+var mappingHeadObjectArchivalStateEnum = map[string]HeadObjectArchivalStateEnum{
 	"Archived":  HeadObjectArchivalStateArchived,
 	"Restoring": HeadObjectArchivalStateRestoring,
 	"Restored":  HeadObjectArchivalStateRestored,
@@ -207,8 +233,17 @@ var mappingHeadObjectArchivalState = map[string]HeadObjectArchivalStateEnum{
 // GetHeadObjectArchivalStateEnumValues Enumerates the set of values for HeadObjectArchivalStateEnum
 func GetHeadObjectArchivalStateEnumValues() []HeadObjectArchivalStateEnum {
 	values := make([]HeadObjectArchivalStateEnum, 0)
-	for _, v := range mappingHeadObjectArchivalState {
+	for _, v := range mappingHeadObjectArchivalStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHeadObjectArchivalStateEnumStringValues Enumerates the set of values in String for HeadObjectArchivalStateEnum
+func GetHeadObjectArchivalStateEnumStringValues() []string {
+	return []string{
+		"Archived",
+		"Restoring",
+		"Restored",
+	}
 }

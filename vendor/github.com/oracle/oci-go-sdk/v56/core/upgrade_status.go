@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpgradeStatus The upgrade status of a DRG.
@@ -34,6 +36,21 @@ func (m UpgradeStatus) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpgradeStatus) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpgradeStatusStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetUpgradeStatusStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpgradeStatusStatusEnum Enum with underlying type: string
 type UpgradeStatusStatusEnum string
 
@@ -44,7 +61,7 @@ const (
 	UpgradeStatusStatusUpgraded    UpgradeStatusStatusEnum = "UPGRADED"
 )
 
-var mappingUpgradeStatusStatus = map[string]UpgradeStatusStatusEnum{
+var mappingUpgradeStatusStatusEnum = map[string]UpgradeStatusStatusEnum{
 	"NOT_UPGRADED": UpgradeStatusStatusNotUpgraded,
 	"IN_PROGRESS":  UpgradeStatusStatusInProgress,
 	"UPGRADED":     UpgradeStatusStatusUpgraded,
@@ -53,8 +70,17 @@ var mappingUpgradeStatusStatus = map[string]UpgradeStatusStatusEnum{
 // GetUpgradeStatusStatusEnumValues Enumerates the set of values for UpgradeStatusStatusEnum
 func GetUpgradeStatusStatusEnumValues() []UpgradeStatusStatusEnum {
 	values := make([]UpgradeStatusStatusEnum, 0)
-	for _, v := range mappingUpgradeStatusStatus {
+	for _, v := range mappingUpgradeStatusStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpgradeStatusStatusEnumStringValues Enumerates the set of values in String for UpgradeStatusStatusEnum
+func GetUpgradeStatusStatusEnumStringValues() []string {
+	return []string{
+		"NOT_UPGRADED",
+		"IN_PROGRESS",
+		"UPGRADED",
+	}
 }

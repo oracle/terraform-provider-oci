@@ -13,7 +13,9 @@ package databasemanagement
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // JobExecution The details of a job execution.
@@ -87,6 +89,33 @@ type JobExecution struct {
 
 func (m JobExecution) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m JobExecution) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingJobExecutionStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetJobExecutionStatusEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingDatabaseTypeEnum[string(m.DatabaseType)]; !ok && m.DatabaseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetDatabaseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDatabaseSubTypeEnum[string(m.DatabaseSubType)]; !ok && m.DatabaseSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseSubType: %s. Supported values are: %s.", m.DatabaseSubType, strings.Join(GetDatabaseSubTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingDeploymentTypeEnum[string(m.DeploymentType)]; !ok && m.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", m.DeploymentType, strings.Join(GetDeploymentTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingWorkloadTypeEnum[string(m.WorkloadType)]; !ok && m.WorkloadType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WorkloadType: %s. Supported values are: %s.", m.WorkloadType, strings.Join(GetWorkloadTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -186,7 +215,7 @@ const (
 	JobExecutionStatusInProgress JobExecutionStatusEnum = "IN_PROGRESS"
 )
 
-var mappingJobExecutionStatus = map[string]JobExecutionStatusEnum{
+var mappingJobExecutionStatusEnum = map[string]JobExecutionStatusEnum{
 	"SUCCEEDED":   JobExecutionStatusSucceeded,
 	"FAILED":      JobExecutionStatusFailed,
 	"IN_PROGRESS": JobExecutionStatusInProgress,
@@ -195,8 +224,17 @@ var mappingJobExecutionStatus = map[string]JobExecutionStatusEnum{
 // GetJobExecutionStatusEnumValues Enumerates the set of values for JobExecutionStatusEnum
 func GetJobExecutionStatusEnumValues() []JobExecutionStatusEnum {
 	values := make([]JobExecutionStatusEnum, 0)
-	for _, v := range mappingJobExecutionStatus {
+	for _, v := range mappingJobExecutionStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobExecutionStatusEnumStringValues Enumerates the set of values in String for JobExecutionStatusEnum
+func GetJobExecutionStatusEnumStringValues() []string {
+	return []string{
+		"SUCCEEDED",
+		"FAILED",
+		"IN_PROGRESS",
+	}
 }

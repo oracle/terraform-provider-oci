@@ -25,7 +25,7 @@ const (
 	JobLifecycleStatesCanceled   JobLifecycleStatesEnum = "CANCELED"
 )
 
-var mappingJobLifecycleStates = map[string]JobLifecycleStatesEnum{
+var mappingJobLifecycleStatesEnum = map[string]JobLifecycleStatesEnum{
 	"ACCEPTED":    JobLifecycleStatesAccepted,
 	"IN_PROGRESS": JobLifecycleStatesInProgress,
 	"UNKNOWN":     JobLifecycleStatesUnknown,
@@ -40,8 +40,23 @@ var mappingJobLifecycleStates = map[string]JobLifecycleStatesEnum{
 // GetJobLifecycleStatesEnumValues Enumerates the set of values for JobLifecycleStatesEnum
 func GetJobLifecycleStatesEnumValues() []JobLifecycleStatesEnum {
 	values := make([]JobLifecycleStatesEnum, 0)
-	for _, v := range mappingJobLifecycleStates {
+	for _, v := range mappingJobLifecycleStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetJobLifecycleStatesEnumStringValues Enumerates the set of values in String for JobLifecycleStatesEnum
+func GetJobLifecycleStatesEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"UNKNOWN",
+		"TERMINATED",
+		"FAILED",
+		"SUCCEEDED",
+		"WAITING",
+		"CANCELING",
+		"CANCELED",
+	}
 }

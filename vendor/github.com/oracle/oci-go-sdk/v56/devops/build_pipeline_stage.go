@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BuildPipelineStage A single node in a build pipeline. A stage takes a specific designated action.
@@ -213,6 +215,21 @@ func (m buildpipelinestage) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m buildpipelinestage) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBuildPipelineStageLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBuildPipelineStageLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BuildPipelineStageLifecycleStateEnum Enum with underlying type: string
 type BuildPipelineStageLifecycleStateEnum string
 
@@ -226,7 +243,7 @@ const (
 	BuildPipelineStageLifecycleStateFailed   BuildPipelineStageLifecycleStateEnum = "FAILED"
 )
 
-var mappingBuildPipelineStageLifecycleState = map[string]BuildPipelineStageLifecycleStateEnum{
+var mappingBuildPipelineStageLifecycleStateEnum = map[string]BuildPipelineStageLifecycleStateEnum{
 	"CREATING": BuildPipelineStageLifecycleStateCreating,
 	"UPDATING": BuildPipelineStageLifecycleStateUpdating,
 	"ACTIVE":   BuildPipelineStageLifecycleStateActive,
@@ -238,10 +255,22 @@ var mappingBuildPipelineStageLifecycleState = map[string]BuildPipelineStageLifec
 // GetBuildPipelineStageLifecycleStateEnumValues Enumerates the set of values for BuildPipelineStageLifecycleStateEnum
 func GetBuildPipelineStageLifecycleStateEnumValues() []BuildPipelineStageLifecycleStateEnum {
 	values := make([]BuildPipelineStageLifecycleStateEnum, 0)
-	for _, v := range mappingBuildPipelineStageLifecycleState {
+	for _, v := range mappingBuildPipelineStageLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBuildPipelineStageLifecycleStateEnumStringValues Enumerates the set of values in String for BuildPipelineStageLifecycleStateEnum
+func GetBuildPipelineStageLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // BuildPipelineStageBuildPipelineStageTypeEnum Enum with underlying type: string
@@ -255,7 +284,7 @@ const (
 	BuildPipelineStageBuildPipelineStageTypeTriggerDeploymentPipeline BuildPipelineStageBuildPipelineStageTypeEnum = "TRIGGER_DEPLOYMENT_PIPELINE"
 )
 
-var mappingBuildPipelineStageBuildPipelineStageType = map[string]BuildPipelineStageBuildPipelineStageTypeEnum{
+var mappingBuildPipelineStageBuildPipelineStageTypeEnum = map[string]BuildPipelineStageBuildPipelineStageTypeEnum{
 	"WAIT":                        BuildPipelineStageBuildPipelineStageTypeWait,
 	"BUILD":                       BuildPipelineStageBuildPipelineStageTypeBuild,
 	"DELIVER_ARTIFACT":            BuildPipelineStageBuildPipelineStageTypeDeliverArtifact,
@@ -265,8 +294,18 @@ var mappingBuildPipelineStageBuildPipelineStageType = map[string]BuildPipelineSt
 // GetBuildPipelineStageBuildPipelineStageTypeEnumValues Enumerates the set of values for BuildPipelineStageBuildPipelineStageTypeEnum
 func GetBuildPipelineStageBuildPipelineStageTypeEnumValues() []BuildPipelineStageBuildPipelineStageTypeEnum {
 	values := make([]BuildPipelineStageBuildPipelineStageTypeEnum, 0)
-	for _, v := range mappingBuildPipelineStageBuildPipelineStageType {
+	for _, v := range mappingBuildPipelineStageBuildPipelineStageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBuildPipelineStageBuildPipelineStageTypeEnumStringValues Enumerates the set of values in String for BuildPipelineStageBuildPipelineStageTypeEnum
+func GetBuildPipelineStageBuildPipelineStageTypeEnumStringValues() []string {
+	return []string{
+		"WAIT",
+		"BUILD",
+		"DELIVER_ARTIFACT",
+		"TRIGGER_DEPLOYMENT_PIPELINE",
+	}
 }

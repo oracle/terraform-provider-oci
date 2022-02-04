@@ -5,8 +5,10 @@
 package databasemigration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAgentImagesRequest wrapper for the ListAgentImages operation
@@ -41,6 +43,10 @@ func (request ListAgentImagesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAgentImagesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -54,6 +60,20 @@ func (request ListAgentImagesRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAgentImagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAgentImagesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAgentImagesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAgentImagesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAgentImagesResponse wrapper for the ListAgentImages operation
@@ -93,7 +113,7 @@ const (
 	ListAgentImagesSortOrderDesc ListAgentImagesSortOrderEnum = "DESC"
 )
 
-var mappingListAgentImagesSortOrder = map[string]ListAgentImagesSortOrderEnum{
+var mappingListAgentImagesSortOrderEnum = map[string]ListAgentImagesSortOrderEnum{
 	"ASC":  ListAgentImagesSortOrderAsc,
 	"DESC": ListAgentImagesSortOrderDesc,
 }
@@ -101,8 +121,16 @@ var mappingListAgentImagesSortOrder = map[string]ListAgentImagesSortOrderEnum{
 // GetListAgentImagesSortOrderEnumValues Enumerates the set of values for ListAgentImagesSortOrderEnum
 func GetListAgentImagesSortOrderEnumValues() []ListAgentImagesSortOrderEnum {
 	values := make([]ListAgentImagesSortOrderEnum, 0)
-	for _, v := range mappingListAgentImagesSortOrder {
+	for _, v := range mappingListAgentImagesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAgentImagesSortOrderEnumStringValues Enumerates the set of values in String for ListAgentImagesSortOrderEnum
+func GetListAgentImagesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

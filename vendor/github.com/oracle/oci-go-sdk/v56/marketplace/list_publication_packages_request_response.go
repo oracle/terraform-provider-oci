@@ -5,8 +5,10 @@
 package marketplace
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPublicationPackagesRequest wrapper for the ListPublicationPackages operation
@@ -55,6 +57,10 @@ func (request ListPublicationPackagesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPublicationPackagesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,23 @@ func (request ListPublicationPackagesRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPublicationPackagesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPublicationPackagesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPublicationPackagesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPublicationPackagesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPublicationPackagesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPublicationPackagesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPublicationPackagesResponse wrapper for the ListPublicationPackages operation
@@ -106,17 +129,24 @@ const (
 	ListPublicationPackagesSortByTimereleased ListPublicationPackagesSortByEnum = "TIMERELEASED"
 )
 
-var mappingListPublicationPackagesSortBy = map[string]ListPublicationPackagesSortByEnum{
+var mappingListPublicationPackagesSortByEnum = map[string]ListPublicationPackagesSortByEnum{
 	"TIMERELEASED": ListPublicationPackagesSortByTimereleased,
 }
 
 // GetListPublicationPackagesSortByEnumValues Enumerates the set of values for ListPublicationPackagesSortByEnum
 func GetListPublicationPackagesSortByEnumValues() []ListPublicationPackagesSortByEnum {
 	values := make([]ListPublicationPackagesSortByEnum, 0)
-	for _, v := range mappingListPublicationPackagesSortBy {
+	for _, v := range mappingListPublicationPackagesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublicationPackagesSortByEnumStringValues Enumerates the set of values in String for ListPublicationPackagesSortByEnum
+func GetListPublicationPackagesSortByEnumStringValues() []string {
+	return []string{
+		"TIMERELEASED",
+	}
 }
 
 // ListPublicationPackagesSortOrderEnum Enum with underlying type: string
@@ -128,7 +158,7 @@ const (
 	ListPublicationPackagesSortOrderDesc ListPublicationPackagesSortOrderEnum = "DESC"
 )
 
-var mappingListPublicationPackagesSortOrder = map[string]ListPublicationPackagesSortOrderEnum{
+var mappingListPublicationPackagesSortOrderEnum = map[string]ListPublicationPackagesSortOrderEnum{
 	"ASC":  ListPublicationPackagesSortOrderAsc,
 	"DESC": ListPublicationPackagesSortOrderDesc,
 }
@@ -136,8 +166,16 @@ var mappingListPublicationPackagesSortOrder = map[string]ListPublicationPackages
 // GetListPublicationPackagesSortOrderEnumValues Enumerates the set of values for ListPublicationPackagesSortOrderEnum
 func GetListPublicationPackagesSortOrderEnumValues() []ListPublicationPackagesSortOrderEnum {
 	values := make([]ListPublicationPackagesSortOrderEnum, 0)
-	for _, v := range mappingListPublicationPackagesSortOrder {
+	for _, v := range mappingListPublicationPackagesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPublicationPackagesSortOrderEnumStringValues Enumerates the set of values in String for ListPublicationPackagesSortOrderEnum
+func GetListPublicationPackagesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

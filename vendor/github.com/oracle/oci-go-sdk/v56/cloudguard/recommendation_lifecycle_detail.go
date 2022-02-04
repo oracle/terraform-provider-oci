@@ -19,7 +19,7 @@ const (
 	RecommendationLifecycleDetailDismissed RecommendationLifecycleDetailEnum = "DISMISSED"
 )
 
-var mappingRecommendationLifecycleDetail = map[string]RecommendationLifecycleDetailEnum{
+var mappingRecommendationLifecycleDetailEnum = map[string]RecommendationLifecycleDetailEnum{
 	"OPEN":      RecommendationLifecycleDetailOpen,
 	"RESOLVED":  RecommendationLifecycleDetailResolved,
 	"DISMISSED": RecommendationLifecycleDetailDismissed,
@@ -28,8 +28,17 @@ var mappingRecommendationLifecycleDetail = map[string]RecommendationLifecycleDet
 // GetRecommendationLifecycleDetailEnumValues Enumerates the set of values for RecommendationLifecycleDetailEnum
 func GetRecommendationLifecycleDetailEnumValues() []RecommendationLifecycleDetailEnum {
 	values := make([]RecommendationLifecycleDetailEnum, 0)
-	for _, v := range mappingRecommendationLifecycleDetail {
+	for _, v := range mappingRecommendationLifecycleDetailEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecommendationLifecycleDetailEnumStringValues Enumerates the set of values in String for RecommendationLifecycleDetailEnum
+func GetRecommendationLifecycleDetailEnumStringValues() []string {
+	return []string{
+		"OPEN",
+		"RESOLVED",
+		"DISMISSED",
+	}
 }

@@ -5,8 +5,10 @@
 package datasafe
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListFindingsRequest wrapper for the ListFindings operation
@@ -56,6 +58,10 @@ func (request ListFindingsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListFindingsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,23 @@ func (request ListFindingsRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListFindingsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListFindingsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListFindingsSeverityEnum[string(request.Severity)]; !ok && request.Severity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", request.Severity, strings.Join(GetListFindingsSeverityEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListFindingsAccessLevelEnum[string(request.AccessLevel)]; !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListFindingsAccessLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListFindingsResponse wrapper for the ListFindings operation
@@ -114,7 +137,7 @@ const (
 	ListFindingsSeverityPass     ListFindingsSeverityEnum = "PASS"
 )
 
-var mappingListFindingsSeverity = map[string]ListFindingsSeverityEnum{
+var mappingListFindingsSeverityEnum = map[string]ListFindingsSeverityEnum{
 	"HIGH":     ListFindingsSeverityHigh,
 	"MEDIUM":   ListFindingsSeverityMedium,
 	"LOW":      ListFindingsSeverityLow,
@@ -126,10 +149,22 @@ var mappingListFindingsSeverity = map[string]ListFindingsSeverityEnum{
 // GetListFindingsSeverityEnumValues Enumerates the set of values for ListFindingsSeverityEnum
 func GetListFindingsSeverityEnumValues() []ListFindingsSeverityEnum {
 	values := make([]ListFindingsSeverityEnum, 0)
-	for _, v := range mappingListFindingsSeverity {
+	for _, v := range mappingListFindingsSeverityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFindingsSeverityEnumStringValues Enumerates the set of values in String for ListFindingsSeverityEnum
+func GetListFindingsSeverityEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"EVALUATE",
+		"ADVISORY",
+		"PASS",
+	}
 }
 
 // ListFindingsAccessLevelEnum Enum with underlying type: string
@@ -141,7 +176,7 @@ const (
 	ListFindingsAccessLevelAccessible ListFindingsAccessLevelEnum = "ACCESSIBLE"
 )
 
-var mappingListFindingsAccessLevel = map[string]ListFindingsAccessLevelEnum{
+var mappingListFindingsAccessLevelEnum = map[string]ListFindingsAccessLevelEnum{
 	"RESTRICTED": ListFindingsAccessLevelRestricted,
 	"ACCESSIBLE": ListFindingsAccessLevelAccessible,
 }
@@ -149,8 +184,16 @@ var mappingListFindingsAccessLevel = map[string]ListFindingsAccessLevelEnum{
 // GetListFindingsAccessLevelEnumValues Enumerates the set of values for ListFindingsAccessLevelEnum
 func GetListFindingsAccessLevelEnumValues() []ListFindingsAccessLevelEnum {
 	values := make([]ListFindingsAccessLevelEnum, 0)
-	for _, v := range mappingListFindingsAccessLevel {
+	for _, v := range mappingListFindingsAccessLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListFindingsAccessLevelEnumStringValues Enumerates the set of values in String for ListFindingsAccessLevelEnum
+func GetListFindingsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
 }

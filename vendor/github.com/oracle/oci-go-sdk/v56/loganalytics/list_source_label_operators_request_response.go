@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSourceLabelOperatorsRequest wrapper for the ListSourceLabelOperators operation
@@ -46,6 +48,10 @@ func (request ListSourceLabelOperatorsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSourceLabelOperatorsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request ListSourceLabelOperatorsRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSourceLabelOperatorsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSourceLabelOperatorsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListSourceLabelOperatorsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSourceLabelOperatorsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSourceLabelOperatorsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSourceLabelOperatorsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSourceLabelOperatorsResponse wrapper for the ListSourceLabelOperators operation
@@ -101,17 +124,24 @@ const (
 	ListSourceLabelOperatorsSortByName ListSourceLabelOperatorsSortByEnum = "name"
 )
 
-var mappingListSourceLabelOperatorsSortBy = map[string]ListSourceLabelOperatorsSortByEnum{
+var mappingListSourceLabelOperatorsSortByEnum = map[string]ListSourceLabelOperatorsSortByEnum{
 	"name": ListSourceLabelOperatorsSortByName,
 }
 
 // GetListSourceLabelOperatorsSortByEnumValues Enumerates the set of values for ListSourceLabelOperatorsSortByEnum
 func GetListSourceLabelOperatorsSortByEnumValues() []ListSourceLabelOperatorsSortByEnum {
 	values := make([]ListSourceLabelOperatorsSortByEnum, 0)
-	for _, v := range mappingListSourceLabelOperatorsSortBy {
+	for _, v := range mappingListSourceLabelOperatorsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceLabelOperatorsSortByEnumStringValues Enumerates the set of values in String for ListSourceLabelOperatorsSortByEnum
+func GetListSourceLabelOperatorsSortByEnumStringValues() []string {
+	return []string{
+		"name",
+	}
 }
 
 // ListSourceLabelOperatorsSortOrderEnum Enum with underlying type: string
@@ -123,7 +153,7 @@ const (
 	ListSourceLabelOperatorsSortOrderDesc ListSourceLabelOperatorsSortOrderEnum = "DESC"
 )
 
-var mappingListSourceLabelOperatorsSortOrder = map[string]ListSourceLabelOperatorsSortOrderEnum{
+var mappingListSourceLabelOperatorsSortOrderEnum = map[string]ListSourceLabelOperatorsSortOrderEnum{
 	"ASC":  ListSourceLabelOperatorsSortOrderAsc,
 	"DESC": ListSourceLabelOperatorsSortOrderDesc,
 }
@@ -131,8 +161,16 @@ var mappingListSourceLabelOperatorsSortOrder = map[string]ListSourceLabelOperato
 // GetListSourceLabelOperatorsSortOrderEnumValues Enumerates the set of values for ListSourceLabelOperatorsSortOrderEnum
 func GetListSourceLabelOperatorsSortOrderEnumValues() []ListSourceLabelOperatorsSortOrderEnum {
 	values := make([]ListSourceLabelOperatorsSortOrderEnum, 0)
-	for _, v := range mappingListSourceLabelOperatorsSortOrder {
+	for _, v := range mappingListSourceLabelOperatorsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSourceLabelOperatorsSortOrderEnumStringValues Enumerates the set of values in String for ListSourceLabelOperatorsSortOrderEnum
+func GetListSourceLabelOperatorsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

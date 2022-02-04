@@ -5,8 +5,10 @@
 package servicemanagerproxy
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListServiceEnvironmentsRequest wrapper for the ListServiceEnvironments operation
@@ -58,6 +60,10 @@ func (request ListServiceEnvironmentsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListServiceEnvironmentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,23 @@ func (request ListServiceEnvironmentsRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListServiceEnvironmentsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListServiceEnvironmentsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListServiceEnvironmentsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListServiceEnvironmentsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListServiceEnvironmentsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListServiceEnvironmentsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListServiceEnvironmentsResponse wrapper for the ListServiceEnvironments operation
@@ -109,17 +132,24 @@ const (
 	ListServiceEnvironmentsSortById ListServiceEnvironmentsSortByEnum = "ID"
 )
 
-var mappingListServiceEnvironmentsSortBy = map[string]ListServiceEnvironmentsSortByEnum{
+var mappingListServiceEnvironmentsSortByEnum = map[string]ListServiceEnvironmentsSortByEnum{
 	"ID": ListServiceEnvironmentsSortById,
 }
 
 // GetListServiceEnvironmentsSortByEnumValues Enumerates the set of values for ListServiceEnvironmentsSortByEnum
 func GetListServiceEnvironmentsSortByEnumValues() []ListServiceEnvironmentsSortByEnum {
 	values := make([]ListServiceEnvironmentsSortByEnum, 0)
-	for _, v := range mappingListServiceEnvironmentsSortBy {
+	for _, v := range mappingListServiceEnvironmentsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServiceEnvironmentsSortByEnumStringValues Enumerates the set of values in String for ListServiceEnvironmentsSortByEnum
+func GetListServiceEnvironmentsSortByEnumStringValues() []string {
+	return []string{
+		"ID",
+	}
 }
 
 // ListServiceEnvironmentsSortOrderEnum Enum with underlying type: string
@@ -131,7 +161,7 @@ const (
 	ListServiceEnvironmentsSortOrderDesc ListServiceEnvironmentsSortOrderEnum = "DESC"
 )
 
-var mappingListServiceEnvironmentsSortOrder = map[string]ListServiceEnvironmentsSortOrderEnum{
+var mappingListServiceEnvironmentsSortOrderEnum = map[string]ListServiceEnvironmentsSortOrderEnum{
 	"ASC":  ListServiceEnvironmentsSortOrderAsc,
 	"DESC": ListServiceEnvironmentsSortOrderDesc,
 }
@@ -139,8 +169,16 @@ var mappingListServiceEnvironmentsSortOrder = map[string]ListServiceEnvironments
 // GetListServiceEnvironmentsSortOrderEnumValues Enumerates the set of values for ListServiceEnvironmentsSortOrderEnum
 func GetListServiceEnvironmentsSortOrderEnumValues() []ListServiceEnvironmentsSortOrderEnum {
 	values := make([]ListServiceEnvironmentsSortOrderEnum, 0)
-	for _, v := range mappingListServiceEnvironmentsSortOrder {
+	for _, v := range mappingListServiceEnvironmentsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListServiceEnvironmentsSortOrderEnumStringValues Enumerates the set of values in String for ListServiceEnvironmentsSortOrderEnum
+func GetListServiceEnvironmentsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

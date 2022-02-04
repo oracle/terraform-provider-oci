@@ -11,7 +11,9 @@ package logging
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UnifiedJsonParser JSON parser.
@@ -82,6 +84,21 @@ func (m UnifiedJsonParser) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UnifiedJsonParser) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUnifiedJsonParserTimeTypeEnum[string(m.TimeType)]; !ok && m.TimeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TimeType: %s. Supported values are: %s.", m.TimeType, strings.Join(GetUnifiedJsonParserTimeTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m UnifiedJsonParser) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeUnifiedJsonParser UnifiedJsonParser
@@ -106,7 +123,7 @@ const (
 	UnifiedJsonParserTimeTypeString   UnifiedJsonParserTimeTypeEnum = "STRING"
 )
 
-var mappingUnifiedJsonParserTimeType = map[string]UnifiedJsonParserTimeTypeEnum{
+var mappingUnifiedJsonParserTimeTypeEnum = map[string]UnifiedJsonParserTimeTypeEnum{
 	"FLOAT":    UnifiedJsonParserTimeTypeFloat,
 	"UNIXTIME": UnifiedJsonParserTimeTypeUnixtime,
 	"STRING":   UnifiedJsonParserTimeTypeString,
@@ -115,8 +132,17 @@ var mappingUnifiedJsonParserTimeType = map[string]UnifiedJsonParserTimeTypeEnum{
 // GetUnifiedJsonParserTimeTypeEnumValues Enumerates the set of values for UnifiedJsonParserTimeTypeEnum
 func GetUnifiedJsonParserTimeTypeEnumValues() []UnifiedJsonParserTimeTypeEnum {
 	values := make([]UnifiedJsonParserTimeTypeEnum, 0)
-	for _, v := range mappingUnifiedJsonParserTimeType {
+	for _, v := range mappingUnifiedJsonParserTimeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUnifiedJsonParserTimeTypeEnumStringValues Enumerates the set of values in String for UnifiedJsonParserTimeTypeEnum
+func GetUnifiedJsonParserTimeTypeEnumStringValues() []string {
+	return []string{
+		"FLOAT",
+		"UNIXTIME",
+		"STRING",
+	}
 }

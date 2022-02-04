@@ -15,7 +15,9 @@ package autoscaling
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AutoScalingConfiguration An autoscaling configuration lets you dynamically scale the resources in a Compute instance pool.
@@ -69,6 +71,18 @@ type AutoScalingConfiguration struct {
 
 func (m AutoScalingConfiguration) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AutoScalingConfiguration) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json

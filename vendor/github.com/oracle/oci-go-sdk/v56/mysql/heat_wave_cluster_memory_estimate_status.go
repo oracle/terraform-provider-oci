@@ -22,7 +22,7 @@ const (
 	HeatWaveClusterMemoryEstimateStatusCanceled   HeatWaveClusterMemoryEstimateStatusEnum = "CANCELED"
 )
 
-var mappingHeatWaveClusterMemoryEstimateStatus = map[string]HeatWaveClusterMemoryEstimateStatusEnum{
+var mappingHeatWaveClusterMemoryEstimateStatusEnum = map[string]HeatWaveClusterMemoryEstimateStatusEnum{
 	"ACCEPTED":    HeatWaveClusterMemoryEstimateStatusAccepted,
 	"IN_PROGRESS": HeatWaveClusterMemoryEstimateStatusInProgress,
 	"FAILED":      HeatWaveClusterMemoryEstimateStatusFailed,
@@ -34,8 +34,20 @@ var mappingHeatWaveClusterMemoryEstimateStatus = map[string]HeatWaveClusterMemor
 // GetHeatWaveClusterMemoryEstimateStatusEnumValues Enumerates the set of values for HeatWaveClusterMemoryEstimateStatusEnum
 func GetHeatWaveClusterMemoryEstimateStatusEnumValues() []HeatWaveClusterMemoryEstimateStatusEnum {
 	values := make([]HeatWaveClusterMemoryEstimateStatusEnum, 0)
-	for _, v := range mappingHeatWaveClusterMemoryEstimateStatus {
+	for _, v := range mappingHeatWaveClusterMemoryEstimateStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHeatWaveClusterMemoryEstimateStatusEnumStringValues Enumerates the set of values in String for HeatWaveClusterMemoryEstimateStatusEnum
+func GetHeatWaveClusterMemoryEstimateStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

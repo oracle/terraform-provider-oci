@@ -18,7 +18,7 @@ const (
 	ConfigurationListItemTypeCustom  ConfigurationListItemTypeEnum = "CUSTOM"
 )
 
-var mappingConfigurationListItemType = map[string]ConfigurationListItemTypeEnum{
+var mappingConfigurationListItemTypeEnum = map[string]ConfigurationListItemTypeEnum{
 	"MANAGED": ConfigurationListItemTypeManaged,
 	"CUSTOM":  ConfigurationListItemTypeCustom,
 }
@@ -26,8 +26,16 @@ var mappingConfigurationListItemType = map[string]ConfigurationListItemTypeEnum{
 // GetConfigurationListItemTypeEnumValues Enumerates the set of values for ConfigurationListItemTypeEnum
 func GetConfigurationListItemTypeEnumValues() []ConfigurationListItemTypeEnum {
 	values := make([]ConfigurationListItemTypeEnum, 0)
-	for _, v := range mappingConfigurationListItemType {
+	for _, v := range mappingConfigurationListItemTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigurationListItemTypeEnumStringValues Enumerates the set of values in String for ConfigurationListItemTypeEnum
+func GetConfigurationListItemTypeEnumStringValues() []string {
+	return []string{
+		"MANAGED",
+		"CUSTOM",
+	}
 }

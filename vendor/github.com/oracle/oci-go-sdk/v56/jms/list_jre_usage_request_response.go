@@ -5,8 +5,10 @@
 package jms
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListJreUsageRequest wrapper for the ListJreUsage operation
@@ -66,6 +68,10 @@ func (request ListJreUsageRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListJreUsageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,23 @@ func (request ListJreUsageRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListJreUsageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListJreUsageRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListJreUsageSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListJreUsageSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListJreUsageSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListJreUsageSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListJreUsageResponse wrapper for the ListJreUsage operation
@@ -118,7 +141,7 @@ const (
 	ListJreUsageSortOrderDesc ListJreUsageSortOrderEnum = "DESC"
 )
 
-var mappingListJreUsageSortOrder = map[string]ListJreUsageSortOrderEnum{
+var mappingListJreUsageSortOrderEnum = map[string]ListJreUsageSortOrderEnum{
 	"ASC":  ListJreUsageSortOrderAsc,
 	"DESC": ListJreUsageSortOrderDesc,
 }
@@ -126,10 +149,18 @@ var mappingListJreUsageSortOrder = map[string]ListJreUsageSortOrderEnum{
 // GetListJreUsageSortOrderEnumValues Enumerates the set of values for ListJreUsageSortOrderEnum
 func GetListJreUsageSortOrderEnumValues() []ListJreUsageSortOrderEnum {
 	values := make([]ListJreUsageSortOrderEnum, 0)
-	for _, v := range mappingListJreUsageSortOrder {
+	for _, v := range mappingListJreUsageSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJreUsageSortOrderEnumStringValues Enumerates the set of values in String for ListJreUsageSortOrderEnum
+func GetListJreUsageSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListJreUsageSortByEnum Enum with underlying type: string
@@ -149,7 +180,7 @@ const (
 	ListJreUsageSortBySecuritystatus                  ListJreUsageSortByEnum = "securityStatus"
 )
 
-var mappingListJreUsageSortBy = map[string]ListJreUsageSortByEnum{
+var mappingListJreUsageSortByEnum = map[string]ListJreUsageSortByEnum{
 	"distribution":                    ListJreUsageSortByDistribution,
 	"timeFirstSeen":                   ListJreUsageSortByTimefirstseen,
 	"timeLastSeen":                    ListJreUsageSortByTimelastseen,
@@ -165,8 +196,24 @@ var mappingListJreUsageSortBy = map[string]ListJreUsageSortByEnum{
 // GetListJreUsageSortByEnumValues Enumerates the set of values for ListJreUsageSortByEnum
 func GetListJreUsageSortByEnumValues() []ListJreUsageSortByEnum {
 	values := make([]ListJreUsageSortByEnum, 0)
-	for _, v := range mappingListJreUsageSortBy {
+	for _, v := range mappingListJreUsageSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListJreUsageSortByEnumStringValues Enumerates the set of values in String for ListJreUsageSortByEnum
+func GetListJreUsageSortByEnumStringValues() []string {
+	return []string{
+		"distribution",
+		"timeFirstSeen",
+		"timeLastSeen",
+		"vendor",
+		"version",
+		"approximateInstallationCount",
+		"approximateApplicationCount",
+		"approximateManagedInstanceCount",
+		"osName",
+		"securityStatus",
+	}
 }

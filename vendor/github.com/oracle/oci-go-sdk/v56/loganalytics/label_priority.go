@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LabelPriority The label priority.
@@ -24,6 +26,21 @@ func (m LabelPriority) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LabelPriority) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLabelPriorityPriorityEnum[string(m.Priority)]; !ok && m.Priority != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Priority: %s. Supported values are: %s.", m.Priority, strings.Join(GetLabelPriorityPriorityEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LabelPriorityPriorityEnum Enum with underlying type: string
 type LabelPriorityPriorityEnum string
 
@@ -35,7 +52,7 @@ const (
 	LabelPriorityPriorityHigh   LabelPriorityPriorityEnum = "HIGH"
 )
 
-var mappingLabelPriorityPriority = map[string]LabelPriorityPriorityEnum{
+var mappingLabelPriorityPriorityEnum = map[string]LabelPriorityPriorityEnum{
 	"NONE":   LabelPriorityPriorityNone,
 	"LOW":    LabelPriorityPriorityLow,
 	"MEDIUM": LabelPriorityPriorityMedium,
@@ -45,8 +62,18 @@ var mappingLabelPriorityPriority = map[string]LabelPriorityPriorityEnum{
 // GetLabelPriorityPriorityEnumValues Enumerates the set of values for LabelPriorityPriorityEnum
 func GetLabelPriorityPriorityEnumValues() []LabelPriorityPriorityEnum {
 	values := make([]LabelPriorityPriorityEnum, 0)
-	for _, v := range mappingLabelPriorityPriority {
+	for _, v := range mappingLabelPriorityPriorityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLabelPriorityPriorityEnumStringValues Enumerates the set of values in String for LabelPriorityPriorityEnum
+func GetLabelPriorityPriorityEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"LOW",
+		"MEDIUM",
+		"HIGH",
+	}
 }

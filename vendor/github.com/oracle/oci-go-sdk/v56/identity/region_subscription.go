@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // RegionSubscription An object that represents your tenancy's access to a particular region (i.e., a subscription), the status of that
@@ -41,6 +43,21 @@ func (m RegionSubscription) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RegionSubscription) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRegionSubscriptionStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetRegionSubscriptionStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RegionSubscriptionStatusEnum Enum with underlying type: string
 type RegionSubscriptionStatusEnum string
 
@@ -50,7 +67,7 @@ const (
 	RegionSubscriptionStatusInProgress RegionSubscriptionStatusEnum = "IN_PROGRESS"
 )
 
-var mappingRegionSubscriptionStatus = map[string]RegionSubscriptionStatusEnum{
+var mappingRegionSubscriptionStatusEnum = map[string]RegionSubscriptionStatusEnum{
 	"READY":       RegionSubscriptionStatusReady,
 	"IN_PROGRESS": RegionSubscriptionStatusInProgress,
 }
@@ -58,8 +75,16 @@ var mappingRegionSubscriptionStatus = map[string]RegionSubscriptionStatusEnum{
 // GetRegionSubscriptionStatusEnumValues Enumerates the set of values for RegionSubscriptionStatusEnum
 func GetRegionSubscriptionStatusEnumValues() []RegionSubscriptionStatusEnum {
 	values := make([]RegionSubscriptionStatusEnum, 0)
-	for _, v := range mappingRegionSubscriptionStatus {
+	for _, v := range mappingRegionSubscriptionStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRegionSubscriptionStatusEnumStringValues Enumerates the set of values in String for RegionSubscriptionStatusEnum
+func GetRegionSubscriptionStatusEnumStringValues() []string {
+	return []string{
+		"READY",
+		"IN_PROGRESS",
+	}
 }

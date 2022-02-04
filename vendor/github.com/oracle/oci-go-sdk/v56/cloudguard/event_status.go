@@ -22,7 +22,7 @@ const (
 	EventStatusDelete  EventStatusEnum = "DELETE"
 )
 
-var mappingEventStatus = map[string]EventStatusEnum{
+var mappingEventStatusEnum = map[string]EventStatusEnum{
 	"REOPEN":  EventStatusReopen,
 	"OPEN":    EventStatusOpen,
 	"UPDATE":  EventStatusUpdate,
@@ -34,8 +34,20 @@ var mappingEventStatus = map[string]EventStatusEnum{
 // GetEventStatusEnumValues Enumerates the set of values for EventStatusEnum
 func GetEventStatusEnumValues() []EventStatusEnum {
 	values := make([]EventStatusEnum, 0)
-	for _, v := range mappingEventStatus {
+	for _, v := range mappingEventStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEventStatusEnumStringValues Enumerates the set of values in String for EventStatusEnum
+func GetEventStatusEnumStringValues() []string {
+	return []string{
+		"REOPEN",
+		"OPEN",
+		"UPDATE",
+		"RESOLVE",
+		"DISMISS",
+		"DELETE",
+	}
 }

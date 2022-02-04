@@ -21,7 +21,7 @@ const (
 	RecommendationResourceTypeCategory   RecommendationResourceTypeEnum = "CATEGORY"
 )
 
-var mappingRecommendationResourceType = map[string]RecommendationResourceTypeEnum{
+var mappingRecommendationResourceTypeEnum = map[string]RecommendationResourceTypeEnum{
 	"DATA_ENTITY": RecommendationResourceTypeDataEntity,
 	"ATTRIBUTE":   RecommendationResourceTypeAttribute,
 	"TERM":        RecommendationResourceTypeTerm,
@@ -31,8 +31,18 @@ var mappingRecommendationResourceType = map[string]RecommendationResourceTypeEnu
 // GetRecommendationResourceTypeEnumValues Enumerates the set of values for RecommendationResourceTypeEnum
 func GetRecommendationResourceTypeEnumValues() []RecommendationResourceTypeEnum {
 	values := make([]RecommendationResourceTypeEnum, 0)
-	for _, v := range mappingRecommendationResourceType {
+	for _, v := range mappingRecommendationResourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecommendationResourceTypeEnumStringValues Enumerates the set of values in String for RecommendationResourceTypeEnum
+func GetRecommendationResourceTypeEnumStringValues() []string {
+	return []string{
+		"DATA_ENTITY",
+		"ATTRIBUTE",
+		"TERM",
+		"CATEGORY",
+	}
 }

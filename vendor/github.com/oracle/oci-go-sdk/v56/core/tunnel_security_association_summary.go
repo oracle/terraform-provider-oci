@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TunnelSecurityAssociationSummary Detailed Tunnel SA
@@ -40,6 +42,21 @@ func (m TunnelSecurityAssociationSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m TunnelSecurityAssociationSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingTunnelSecurityAssociationSummaryTunnelSaStatusEnum[string(m.TunnelSaStatus)]; !ok && m.TunnelSaStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TunnelSaStatus: %s. Supported values are: %s.", m.TunnelSaStatus, strings.Join(GetTunnelSecurityAssociationSummaryTunnelSaStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TunnelSecurityAssociationSummaryTunnelSaStatusEnum Enum with underlying type: string
 type TunnelSecurityAssociationSummaryTunnelSaStatusEnum string
 
@@ -53,7 +70,7 @@ const (
 	TunnelSecurityAssociationSummaryTunnelSaStatusUnknown    TunnelSecurityAssociationSummaryTunnelSaStatusEnum = "UNKNOWN"
 )
 
-var mappingTunnelSecurityAssociationSummaryTunnelSaStatus = map[string]TunnelSecurityAssociationSummaryTunnelSaStatusEnum{
+var mappingTunnelSecurityAssociationSummaryTunnelSaStatusEnum = map[string]TunnelSecurityAssociationSummaryTunnelSaStatusEnum{
 	"INITIATING": TunnelSecurityAssociationSummaryTunnelSaStatusInitiating,
 	"LISTENING":  TunnelSecurityAssociationSummaryTunnelSaStatusListening,
 	"UP":         TunnelSecurityAssociationSummaryTunnelSaStatusUp,
@@ -65,8 +82,20 @@ var mappingTunnelSecurityAssociationSummaryTunnelSaStatus = map[string]TunnelSec
 // GetTunnelSecurityAssociationSummaryTunnelSaStatusEnumValues Enumerates the set of values for TunnelSecurityAssociationSummaryTunnelSaStatusEnum
 func GetTunnelSecurityAssociationSummaryTunnelSaStatusEnumValues() []TunnelSecurityAssociationSummaryTunnelSaStatusEnum {
 	values := make([]TunnelSecurityAssociationSummaryTunnelSaStatusEnum, 0)
-	for _, v := range mappingTunnelSecurityAssociationSummaryTunnelSaStatus {
+	for _, v := range mappingTunnelSecurityAssociationSummaryTunnelSaStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTunnelSecurityAssociationSummaryTunnelSaStatusEnumStringValues Enumerates the set of values in String for TunnelSecurityAssociationSummaryTunnelSaStatusEnum
+func GetTunnelSecurityAssociationSummaryTunnelSaStatusEnumStringValues() []string {
+	return []string{
+		"INITIATING",
+		"LISTENING",
+		"UP",
+		"DOWN",
+		"ERROR",
+		"UNKNOWN",
+	}
 }

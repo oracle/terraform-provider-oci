@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SdkLanguageOptionalParameters List of additional applicable parameters for any given target language.
@@ -49,6 +51,21 @@ func (m SdkLanguageOptionalParameters) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SdkLanguageOptionalParameters) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSdkLanguageOptionalParametersInputTypeEnum[string(m.InputType)]; !ok && m.InputType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InputType: %s. Supported values are: %s.", m.InputType, strings.Join(GetSdkLanguageOptionalParametersInputTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SdkLanguageOptionalParametersInputTypeEnum Enum with underlying type: string
 type SdkLanguageOptionalParametersInputTypeEnum string
 
@@ -60,7 +77,7 @@ const (
 	SdkLanguageOptionalParametersInputTypeString    SdkLanguageOptionalParametersInputTypeEnum = "STRING"
 )
 
-var mappingSdkLanguageOptionalParametersInputType = map[string]SdkLanguageOptionalParametersInputTypeEnum{
+var mappingSdkLanguageOptionalParametersInputTypeEnum = map[string]SdkLanguageOptionalParametersInputTypeEnum{
 	"ENUM":   SdkLanguageOptionalParametersInputTypeEnumvalue,
 	"EMAIL":  SdkLanguageOptionalParametersInputTypeEmail,
 	"URI":    SdkLanguageOptionalParametersInputTypeUri,
@@ -70,8 +87,18 @@ var mappingSdkLanguageOptionalParametersInputType = map[string]SdkLanguageOption
 // GetSdkLanguageOptionalParametersInputTypeEnumValues Enumerates the set of values for SdkLanguageOptionalParametersInputTypeEnum
 func GetSdkLanguageOptionalParametersInputTypeEnumValues() []SdkLanguageOptionalParametersInputTypeEnum {
 	values := make([]SdkLanguageOptionalParametersInputTypeEnum, 0)
-	for _, v := range mappingSdkLanguageOptionalParametersInputType {
+	for _, v := range mappingSdkLanguageOptionalParametersInputTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSdkLanguageOptionalParametersInputTypeEnumStringValues Enumerates the set of values in String for SdkLanguageOptionalParametersInputTypeEnum
+func GetSdkLanguageOptionalParametersInputTypeEnumStringValues() []string {
+	return []string{
+		"ENUM",
+		"EMAIL",
+		"URI",
+		"STRING",
+	}
 }

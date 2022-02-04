@@ -18,7 +18,7 @@ const (
 	ConditionValueTypeCustom  ConditionValueTypeEnum = "CUSTOM"
 )
 
-var mappingConditionValueType = map[string]ConditionValueTypeEnum{
+var mappingConditionValueTypeEnum = map[string]ConditionValueTypeEnum{
 	"MANAGED": ConditionValueTypeManaged,
 	"CUSTOM":  ConditionValueTypeCustom,
 }
@@ -26,8 +26,16 @@ var mappingConditionValueType = map[string]ConditionValueTypeEnum{
 // GetConditionValueTypeEnumValues Enumerates the set of values for ConditionValueTypeEnum
 func GetConditionValueTypeEnumValues() []ConditionValueTypeEnum {
 	values := make([]ConditionValueTypeEnum, 0)
-	for _, v := range mappingConditionValueType {
+	for _, v := range mappingConditionValueTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConditionValueTypeEnumStringValues Enumerates the set of values in String for ConditionValueTypeEnum
+func GetConditionValueTypeEnumStringValues() []string {
+	return []string{
+		"MANAGED",
+		"CUSTOM",
+	}
 }

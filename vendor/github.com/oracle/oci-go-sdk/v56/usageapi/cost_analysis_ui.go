@@ -10,7 +10,9 @@
 package usageapi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CostAnalysisUi The common fields for Cost Analysis UI rendering.
@@ -27,6 +29,21 @@ func (m CostAnalysisUi) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CostAnalysisUi) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCostAnalysisUiGraphEnum[string(m.Graph)]; !ok && m.Graph != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Graph: %s. Supported values are: %s.", m.Graph, strings.Join(GetCostAnalysisUiGraphEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CostAnalysisUiGraphEnum Enum with underlying type: string
 type CostAnalysisUiGraphEnum string
 
@@ -37,7 +54,7 @@ const (
 	CostAnalysisUiGraphStackedLines CostAnalysisUiGraphEnum = "STACKED_LINES"
 )
 
-var mappingCostAnalysisUiGraph = map[string]CostAnalysisUiGraphEnum{
+var mappingCostAnalysisUiGraphEnum = map[string]CostAnalysisUiGraphEnum{
 	"BARS":          CostAnalysisUiGraphBars,
 	"LINES":         CostAnalysisUiGraphLines,
 	"STACKED_LINES": CostAnalysisUiGraphStackedLines,
@@ -46,8 +63,17 @@ var mappingCostAnalysisUiGraph = map[string]CostAnalysisUiGraphEnum{
 // GetCostAnalysisUiGraphEnumValues Enumerates the set of values for CostAnalysisUiGraphEnum
 func GetCostAnalysisUiGraphEnumValues() []CostAnalysisUiGraphEnum {
 	values := make([]CostAnalysisUiGraphEnum, 0)
-	for _, v := range mappingCostAnalysisUiGraph {
+	for _, v := range mappingCostAnalysisUiGraphEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCostAnalysisUiGraphEnumStringValues Enumerates the set of values in String for CostAnalysisUiGraphEnum
+func GetCostAnalysisUiGraphEnumStringValues() []string {
+	return []string{
+		"BARS",
+		"LINES",
+		"STACKED_LINES",
+	}
 }

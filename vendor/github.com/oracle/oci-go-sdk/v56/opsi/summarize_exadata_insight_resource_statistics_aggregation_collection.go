@@ -13,7 +13,9 @@ package opsi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SummarizeExadataInsightResourceStatisticsAggregationCollection Returns list of the resources with resource statistics like usage,capacity,utilization and usage change percent.
@@ -40,6 +42,24 @@ type SummarizeExadataInsightResourceStatisticsAggregationCollection struct {
 
 func (m SummarizeExadataInsightResourceStatisticsAggregationCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SummarizeExadataInsightResourceStatisticsAggregationCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUsageUnitEnum[string(m.UsageUnit)]; !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum[string(m.ExadataResourceMetric)]; !ok && m.ExadataResourceMetric != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExadataResourceMetric: %s. Supported values are: %s.", m.ExadataResourceMetric, strings.Join(GetSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -97,7 +117,7 @@ const (
 	SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricThroughput SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum = "THROUGHPUT"
 )
 
-var mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetric = map[string]SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum{
+var mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum = map[string]SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum{
 	"CPU":        SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricCpu,
 	"STORAGE":    SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricStorage,
 	"IO":         SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricIo,
@@ -109,8 +129,20 @@ var mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionExadata
 // GetSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnumValues Enumerates the set of values for SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum
 func GetSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnumValues() []SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum {
 	values := make([]SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetric {
+	for _, v := range mappingSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnum
+func GetSummarizeExadataInsightResourceStatisticsAggregationCollectionExadataResourceMetricEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"STORAGE",
+		"IO",
+		"MEMORY",
+		"IOPS",
+		"THROUGHPUT",
+	}
 }

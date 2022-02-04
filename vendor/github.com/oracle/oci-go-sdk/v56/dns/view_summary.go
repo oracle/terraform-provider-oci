@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ViewSummary An OCI DNS view.
@@ -63,6 +65,21 @@ func (m ViewSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ViewSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingViewSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetViewSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ViewSummaryLifecycleStateEnum Enum with underlying type: string
 type ViewSummaryLifecycleStateEnum string
 
@@ -74,7 +91,7 @@ const (
 	ViewSummaryLifecycleStateUpdating ViewSummaryLifecycleStateEnum = "UPDATING"
 )
 
-var mappingViewSummaryLifecycleState = map[string]ViewSummaryLifecycleStateEnum{
+var mappingViewSummaryLifecycleStateEnum = map[string]ViewSummaryLifecycleStateEnum{
 	"ACTIVE":   ViewSummaryLifecycleStateActive,
 	"DELETED":  ViewSummaryLifecycleStateDeleted,
 	"DELETING": ViewSummaryLifecycleStateDeleting,
@@ -84,8 +101,18 @@ var mappingViewSummaryLifecycleState = map[string]ViewSummaryLifecycleStateEnum{
 // GetViewSummaryLifecycleStateEnumValues Enumerates the set of values for ViewSummaryLifecycleStateEnum
 func GetViewSummaryLifecycleStateEnumValues() []ViewSummaryLifecycleStateEnum {
 	values := make([]ViewSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingViewSummaryLifecycleState {
+	for _, v := range mappingViewSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetViewSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for ViewSummaryLifecycleStateEnum
+func GetViewSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+		"DELETING",
+		"UPDATING",
+	}
 }

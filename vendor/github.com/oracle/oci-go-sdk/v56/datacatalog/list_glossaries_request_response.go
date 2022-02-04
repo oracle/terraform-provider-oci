@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListGlossariesRequest wrapper for the ListGlossaries operation
@@ -72,6 +74,10 @@ func (request ListGlossariesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListGlossariesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -85,6 +91,32 @@ func (request ListGlossariesRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListGlossariesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListGlossariesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListGlossariesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListGlossariesLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListGlossariesFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListGlossariesFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListGlossariesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListGlossariesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListGlossariesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListGlossariesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListGlossariesResponse wrapper for the ListGlossaries operation
@@ -128,7 +160,7 @@ const (
 	ListGlossariesLifecycleStateMoving   ListGlossariesLifecycleStateEnum = "MOVING"
 )
 
-var mappingListGlossariesLifecycleState = map[string]ListGlossariesLifecycleStateEnum{
+var mappingListGlossariesLifecycleStateEnum = map[string]ListGlossariesLifecycleStateEnum{
 	"CREATING": ListGlossariesLifecycleStateCreating,
 	"ACTIVE":   ListGlossariesLifecycleStateActive,
 	"INACTIVE": ListGlossariesLifecycleStateInactive,
@@ -142,10 +174,24 @@ var mappingListGlossariesLifecycleState = map[string]ListGlossariesLifecycleStat
 // GetListGlossariesLifecycleStateEnumValues Enumerates the set of values for ListGlossariesLifecycleStateEnum
 func GetListGlossariesLifecycleStateEnumValues() []ListGlossariesLifecycleStateEnum {
 	values := make([]ListGlossariesLifecycleStateEnum, 0)
-	for _, v := range mappingListGlossariesLifecycleState {
+	for _, v := range mappingListGlossariesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListGlossariesLifecycleStateEnumStringValues Enumerates the set of values in String for ListGlossariesLifecycleStateEnum
+func GetListGlossariesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListGlossariesFieldsEnum Enum with underlying type: string
@@ -163,7 +209,7 @@ const (
 	ListGlossariesFieldsWorkflowstatus ListGlossariesFieldsEnum = "workflowStatus"
 )
 
-var mappingListGlossariesFields = map[string]ListGlossariesFieldsEnum{
+var mappingListGlossariesFieldsEnum = map[string]ListGlossariesFieldsEnum{
 	"key":            ListGlossariesFieldsKey,
 	"displayName":    ListGlossariesFieldsDisplayname,
 	"description":    ListGlossariesFieldsDescription,
@@ -177,10 +223,24 @@ var mappingListGlossariesFields = map[string]ListGlossariesFieldsEnum{
 // GetListGlossariesFieldsEnumValues Enumerates the set of values for ListGlossariesFieldsEnum
 func GetListGlossariesFieldsEnumValues() []ListGlossariesFieldsEnum {
 	values := make([]ListGlossariesFieldsEnum, 0)
-	for _, v := range mappingListGlossariesFields {
+	for _, v := range mappingListGlossariesFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListGlossariesFieldsEnumStringValues Enumerates the set of values in String for ListGlossariesFieldsEnum
+func GetListGlossariesFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"catalogId",
+		"lifecycleState",
+		"timeCreated",
+		"uri",
+		"workflowStatus",
+	}
 }
 
 // ListGlossariesSortByEnum Enum with underlying type: string
@@ -192,7 +252,7 @@ const (
 	ListGlossariesSortByDisplayname ListGlossariesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListGlossariesSortBy = map[string]ListGlossariesSortByEnum{
+var mappingListGlossariesSortByEnum = map[string]ListGlossariesSortByEnum{
 	"TIMECREATED": ListGlossariesSortByTimecreated,
 	"DISPLAYNAME": ListGlossariesSortByDisplayname,
 }
@@ -200,10 +260,18 @@ var mappingListGlossariesSortBy = map[string]ListGlossariesSortByEnum{
 // GetListGlossariesSortByEnumValues Enumerates the set of values for ListGlossariesSortByEnum
 func GetListGlossariesSortByEnumValues() []ListGlossariesSortByEnum {
 	values := make([]ListGlossariesSortByEnum, 0)
-	for _, v := range mappingListGlossariesSortBy {
+	for _, v := range mappingListGlossariesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListGlossariesSortByEnumStringValues Enumerates the set of values in String for ListGlossariesSortByEnum
+func GetListGlossariesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListGlossariesSortOrderEnum Enum with underlying type: string
@@ -215,7 +283,7 @@ const (
 	ListGlossariesSortOrderDesc ListGlossariesSortOrderEnum = "DESC"
 )
 
-var mappingListGlossariesSortOrder = map[string]ListGlossariesSortOrderEnum{
+var mappingListGlossariesSortOrderEnum = map[string]ListGlossariesSortOrderEnum{
 	"ASC":  ListGlossariesSortOrderAsc,
 	"DESC": ListGlossariesSortOrderDesc,
 }
@@ -223,8 +291,16 @@ var mappingListGlossariesSortOrder = map[string]ListGlossariesSortOrderEnum{
 // GetListGlossariesSortOrderEnumValues Enumerates the set of values for ListGlossariesSortOrderEnum
 func GetListGlossariesSortOrderEnumValues() []ListGlossariesSortOrderEnum {
 	values := make([]ListGlossariesSortOrderEnum, 0)
-	for _, v := range mappingListGlossariesSortOrder {
+	for _, v := range mappingListGlossariesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListGlossariesSortOrderEnumStringValues Enumerates the set of values in String for ListGlossariesSortOrderEnum
+func GetListGlossariesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

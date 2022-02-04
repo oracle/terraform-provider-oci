@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CrossConnectGroup For use with Oracle Cloud Infrastructure FastConnect. A cross-connect group
@@ -68,6 +70,21 @@ func (m CrossConnectGroup) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CrossConnectGroup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCrossConnectGroupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCrossConnectGroupLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CrossConnectGroupLifecycleStateEnum Enum with underlying type: string
 type CrossConnectGroupLifecycleStateEnum string
 
@@ -80,7 +97,7 @@ const (
 	CrossConnectGroupLifecycleStateTerminated   CrossConnectGroupLifecycleStateEnum = "TERMINATED"
 )
 
-var mappingCrossConnectGroupLifecycleState = map[string]CrossConnectGroupLifecycleStateEnum{
+var mappingCrossConnectGroupLifecycleStateEnum = map[string]CrossConnectGroupLifecycleStateEnum{
 	"PROVISIONING": CrossConnectGroupLifecycleStateProvisioning,
 	"PROVISIONED":  CrossConnectGroupLifecycleStateProvisioned,
 	"INACTIVE":     CrossConnectGroupLifecycleStateInactive,
@@ -91,8 +108,19 @@ var mappingCrossConnectGroupLifecycleState = map[string]CrossConnectGroupLifecyc
 // GetCrossConnectGroupLifecycleStateEnumValues Enumerates the set of values for CrossConnectGroupLifecycleStateEnum
 func GetCrossConnectGroupLifecycleStateEnumValues() []CrossConnectGroupLifecycleStateEnum {
 	values := make([]CrossConnectGroupLifecycleStateEnum, 0)
-	for _, v := range mappingCrossConnectGroupLifecycleState {
+	for _, v := range mappingCrossConnectGroupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCrossConnectGroupLifecycleStateEnumStringValues Enumerates the set of values in String for CrossConnectGroupLifecycleStateEnum
+func GetCrossConnectGroupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"PROVISIONED",
+		"INACTIVE",
+		"TERMINATING",
+		"TERMINATED",
+	}
 }

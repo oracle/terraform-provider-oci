@@ -10,7 +10,9 @@
 package streaming
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CustomEncryptionKey Custom Encryption Key which will be used for encryption by all the streams in the pool.
@@ -27,6 +29,21 @@ func (m CustomEncryptionKey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CustomEncryptionKey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCustomEncryptionKeyKeyStateEnum[string(m.KeyState)]; !ok && m.KeyState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KeyState: %s. Supported values are: %s.", m.KeyState, strings.Join(GetCustomEncryptionKeyKeyStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CustomEncryptionKeyKeyStateEnum Enum with underlying type: string
 type CustomEncryptionKeyKeyStateEnum string
 
@@ -40,7 +57,7 @@ const (
 	CustomEncryptionKeyKeyStateUpdating CustomEncryptionKeyKeyStateEnum = "UPDATING"
 )
 
-var mappingCustomEncryptionKeyKeyState = map[string]CustomEncryptionKeyKeyStateEnum{
+var mappingCustomEncryptionKeyKeyStateEnum = map[string]CustomEncryptionKeyKeyStateEnum{
 	"ACTIVE":   CustomEncryptionKeyKeyStateActive,
 	"CREATING": CustomEncryptionKeyKeyStateCreating,
 	"DELETING": CustomEncryptionKeyKeyStateDeleting,
@@ -52,8 +69,20 @@ var mappingCustomEncryptionKeyKeyState = map[string]CustomEncryptionKeyKeyStateE
 // GetCustomEncryptionKeyKeyStateEnumValues Enumerates the set of values for CustomEncryptionKeyKeyStateEnum
 func GetCustomEncryptionKeyKeyStateEnumValues() []CustomEncryptionKeyKeyStateEnum {
 	values := make([]CustomEncryptionKeyKeyStateEnum, 0)
-	for _, v := range mappingCustomEncryptionKeyKeyState {
+	for _, v := range mappingCustomEncryptionKeyKeyStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCustomEncryptionKeyKeyStateEnumStringValues Enumerates the set of values in String for CustomEncryptionKeyKeyStateEnum
+func GetCustomEncryptionKeyKeyStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETING",
+		"NONE",
+		"FAILED",
+		"UPDATING",
+	}
 }

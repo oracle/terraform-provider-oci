@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateEntityShapeFromSql The SQL entity details.
@@ -71,6 +73,21 @@ type CreateEntityShapeFromSql struct {
 
 func (m CreateEntityShapeFromSql) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateEntityShapeFromSql) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateEntityShapeFromSqlEntityTypeEnum[string(m.EntityType)]; !ok && m.EntityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntityType: %s. Supported values are: %s.", m.EntityType, strings.Join(GetCreateEntityShapeFromSqlEntityTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // MarshalJSON marshals to json representation
@@ -179,7 +196,7 @@ const (
 	CreateEntityShapeFromSqlEntityTypeSql   CreateEntityShapeFromSqlEntityTypeEnum = "SQL"
 )
 
-var mappingCreateEntityShapeFromSqlEntityType = map[string]CreateEntityShapeFromSqlEntityTypeEnum{
+var mappingCreateEntityShapeFromSqlEntityTypeEnum = map[string]CreateEntityShapeFromSqlEntityTypeEnum{
 	"TABLE": CreateEntityShapeFromSqlEntityTypeTable,
 	"VIEW":  CreateEntityShapeFromSqlEntityTypeView,
 	"FILE":  CreateEntityShapeFromSqlEntityTypeFile,
@@ -189,8 +206,18 @@ var mappingCreateEntityShapeFromSqlEntityType = map[string]CreateEntityShapeFrom
 // GetCreateEntityShapeFromSqlEntityTypeEnumValues Enumerates the set of values for CreateEntityShapeFromSqlEntityTypeEnum
 func GetCreateEntityShapeFromSqlEntityTypeEnumValues() []CreateEntityShapeFromSqlEntityTypeEnum {
 	values := make([]CreateEntityShapeFromSqlEntityTypeEnum, 0)
-	for _, v := range mappingCreateEntityShapeFromSqlEntityType {
+	for _, v := range mappingCreateEntityShapeFromSqlEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateEntityShapeFromSqlEntityTypeEnumStringValues Enumerates the set of values in String for CreateEntityShapeFromSqlEntityTypeEnum
+func GetCreateEntityShapeFromSqlEntityTypeEnumStringValues() []string {
+	return []string{
+		"TABLE",
+		"VIEW",
+		"FILE",
+		"SQL",
+	}
 }

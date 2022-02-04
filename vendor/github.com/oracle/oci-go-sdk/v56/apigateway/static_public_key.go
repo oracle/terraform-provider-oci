@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // StaticPublicKey A static public key which is used to verify the JWT signature.
@@ -78,6 +80,18 @@ func (m staticpublickey) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m staticpublickey) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // StaticPublicKeyFormatEnum Enum with underlying type: string
 type StaticPublicKeyFormatEnum string
 
@@ -87,7 +101,7 @@ const (
 	StaticPublicKeyFormatPem        StaticPublicKeyFormatEnum = "PEM"
 )
 
-var mappingStaticPublicKeyFormat = map[string]StaticPublicKeyFormatEnum{
+var mappingStaticPublicKeyFormatEnum = map[string]StaticPublicKeyFormatEnum{
 	"JSON_WEB_KEY": StaticPublicKeyFormatJsonWebKey,
 	"PEM":          StaticPublicKeyFormatPem,
 }
@@ -95,8 +109,16 @@ var mappingStaticPublicKeyFormat = map[string]StaticPublicKeyFormatEnum{
 // GetStaticPublicKeyFormatEnumValues Enumerates the set of values for StaticPublicKeyFormatEnum
 func GetStaticPublicKeyFormatEnumValues() []StaticPublicKeyFormatEnum {
 	values := make([]StaticPublicKeyFormatEnum, 0)
-	for _, v := range mappingStaticPublicKeyFormat {
+	for _, v := range mappingStaticPublicKeyFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetStaticPublicKeyFormatEnumStringValues Enumerates the set of values in String for StaticPublicKeyFormatEnum
+func GetStaticPublicKeyFormatEnumStringValues() []string {
+	return []string{
+		"JSON_WEB_KEY",
+		"PEM",
+	}
 }

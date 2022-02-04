@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // Task The task type contains the audit summary information and the definition of the task.
@@ -236,6 +238,18 @@ func (m task) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m task) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TaskModelTypeEnum Enum with underlying type: string
 type TaskModelTypeEnum string
 
@@ -249,7 +263,7 @@ const (
 	TaskModelTypeRestTask        TaskModelTypeEnum = "REST_TASK"
 )
 
-var mappingTaskModelType = map[string]TaskModelTypeEnum{
+var mappingTaskModelTypeEnum = map[string]TaskModelTypeEnum{
 	"INTEGRATION_TASK":  TaskModelTypeIntegrationTask,
 	"DATA_LOADER_TASK":  TaskModelTypeDataLoaderTask,
 	"PIPELINE_TASK":     TaskModelTypePipelineTask,
@@ -261,8 +275,20 @@ var mappingTaskModelType = map[string]TaskModelTypeEnum{
 // GetTaskModelTypeEnumValues Enumerates the set of values for TaskModelTypeEnum
 func GetTaskModelTypeEnumValues() []TaskModelTypeEnum {
 	values := make([]TaskModelTypeEnum, 0)
-	for _, v := range mappingTaskModelType {
+	for _, v := range mappingTaskModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTaskModelTypeEnumStringValues Enumerates the set of values in String for TaskModelTypeEnum
+func GetTaskModelTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }

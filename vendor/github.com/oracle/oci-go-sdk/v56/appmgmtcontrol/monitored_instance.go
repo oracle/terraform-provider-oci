@@ -10,7 +10,9 @@
 package appmgmtcontrol
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MonitoredInstance Description of Monitored Instance.
@@ -50,6 +52,24 @@ func (m MonitoredInstance) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MonitoredInstance) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingMonitoredInstanceMonitoringStateEnum[string(m.MonitoringState)]; !ok && m.MonitoringState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MonitoringState: %s. Supported values are: %s.", m.MonitoringState, strings.Join(GetMonitoredInstanceMonitoringStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingMonitoredInstanceLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMonitoredInstanceLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MonitoredInstanceMonitoringStateEnum Enum with underlying type: string
 type MonitoredInstanceMonitoringStateEnum string
 
@@ -59,7 +79,7 @@ const (
 	MonitoredInstanceMonitoringStateDisabled MonitoredInstanceMonitoringStateEnum = "DISABLED"
 )
 
-var mappingMonitoredInstanceMonitoringState = map[string]MonitoredInstanceMonitoringStateEnum{
+var mappingMonitoredInstanceMonitoringStateEnum = map[string]MonitoredInstanceMonitoringStateEnum{
 	"ENABLED":  MonitoredInstanceMonitoringStateEnabled,
 	"DISABLED": MonitoredInstanceMonitoringStateDisabled,
 }
@@ -67,10 +87,18 @@ var mappingMonitoredInstanceMonitoringState = map[string]MonitoredInstanceMonito
 // GetMonitoredInstanceMonitoringStateEnumValues Enumerates the set of values for MonitoredInstanceMonitoringStateEnum
 func GetMonitoredInstanceMonitoringStateEnumValues() []MonitoredInstanceMonitoringStateEnum {
 	values := make([]MonitoredInstanceMonitoringStateEnum, 0)
-	for _, v := range mappingMonitoredInstanceMonitoringState {
+	for _, v := range mappingMonitoredInstanceMonitoringStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMonitoredInstanceMonitoringStateEnumStringValues Enumerates the set of values in String for MonitoredInstanceMonitoringStateEnum
+func GetMonitoredInstanceMonitoringStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
 }
 
 // MonitoredInstanceLifecycleStateEnum Enum with underlying type: string
@@ -87,7 +115,7 @@ const (
 	MonitoredInstanceLifecycleStateFailed   MonitoredInstanceLifecycleStateEnum = "FAILED"
 )
 
-var mappingMonitoredInstanceLifecycleState = map[string]MonitoredInstanceLifecycleStateEnum{
+var mappingMonitoredInstanceLifecycleStateEnum = map[string]MonitoredInstanceLifecycleStateEnum{
 	"CREATING": MonitoredInstanceLifecycleStateCreating,
 	"UPDATING": MonitoredInstanceLifecycleStateUpdating,
 	"ACTIVE":   MonitoredInstanceLifecycleStateActive,
@@ -100,8 +128,21 @@ var mappingMonitoredInstanceLifecycleState = map[string]MonitoredInstanceLifecyc
 // GetMonitoredInstanceLifecycleStateEnumValues Enumerates the set of values for MonitoredInstanceLifecycleStateEnum
 func GetMonitoredInstanceLifecycleStateEnumValues() []MonitoredInstanceLifecycleStateEnum {
 	values := make([]MonitoredInstanceLifecycleStateEnum, 0)
-	for _, v := range mappingMonitoredInstanceLifecycleState {
+	for _, v := range mappingMonitoredInstanceLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMonitoredInstanceLifecycleStateEnumStringValues Enumerates the set of values in String for MonitoredInstanceLifecycleStateEnum
+func GetMonitoredInstanceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

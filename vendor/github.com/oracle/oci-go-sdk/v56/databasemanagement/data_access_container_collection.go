@@ -12,16 +12,30 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
-// DataAccessContainerCollection A collection of Containers if it does not apply to all containers for the current User.
+// DataAccessContainerCollection A collection of specific containers for the current user. This is only applicable if ALL_CONTAINERS !='Y'.
 type DataAccessContainerCollection struct {
 
-	// An array of Container resources.
+	// An array of container resources.
 	Items []DataAccessContainerSummary `mandatory:"true" json:"items"`
 }
 
 func (m DataAccessContainerCollection) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DataAccessContainerCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

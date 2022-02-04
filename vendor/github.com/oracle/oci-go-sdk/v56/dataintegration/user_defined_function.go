@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UserDefinedFunction The user defined function type contains the audit summary information and the definition of the user defined function.
@@ -57,6 +59,21 @@ func (m UserDefinedFunction) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UserDefinedFunction) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUserDefinedFunctionModelTypeEnum[string(m.ModelType)]; !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetUserDefinedFunctionModelTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UserDefinedFunctionModelTypeEnum Enum with underlying type: string
 type UserDefinedFunctionModelTypeEnum string
 
@@ -65,15 +82,22 @@ const (
 	UserDefinedFunctionModelTypeDisUserDefinedFunction UserDefinedFunctionModelTypeEnum = "DIS_USER_DEFINED_FUNCTION"
 )
 
-var mappingUserDefinedFunctionModelType = map[string]UserDefinedFunctionModelTypeEnum{
+var mappingUserDefinedFunctionModelTypeEnum = map[string]UserDefinedFunctionModelTypeEnum{
 	"DIS_USER_DEFINED_FUNCTION": UserDefinedFunctionModelTypeDisUserDefinedFunction,
 }
 
 // GetUserDefinedFunctionModelTypeEnumValues Enumerates the set of values for UserDefinedFunctionModelTypeEnum
 func GetUserDefinedFunctionModelTypeEnumValues() []UserDefinedFunctionModelTypeEnum {
 	values := make([]UserDefinedFunctionModelTypeEnum, 0)
-	for _, v := range mappingUserDefinedFunctionModelType {
+	for _, v := range mappingUserDefinedFunctionModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUserDefinedFunctionModelTypeEnumStringValues Enumerates the set of values in String for UserDefinedFunctionModelTypeEnum
+func GetUserDefinedFunctionModelTypeEnumStringValues() []string {
+	return []string{
+		"DIS_USER_DEFINED_FUNCTION",
+	}
 }

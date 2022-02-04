@@ -17,15 +17,22 @@ const (
 	UnifiedAgentServiceConfigurationTypesLogging UnifiedAgentServiceConfigurationTypesEnum = "LOGGING"
 )
 
-var mappingUnifiedAgentServiceConfigurationTypes = map[string]UnifiedAgentServiceConfigurationTypesEnum{
+var mappingUnifiedAgentServiceConfigurationTypesEnum = map[string]UnifiedAgentServiceConfigurationTypesEnum{
 	"LOGGING": UnifiedAgentServiceConfigurationTypesLogging,
 }
 
 // GetUnifiedAgentServiceConfigurationTypesEnumValues Enumerates the set of values for UnifiedAgentServiceConfigurationTypesEnum
 func GetUnifiedAgentServiceConfigurationTypesEnumValues() []UnifiedAgentServiceConfigurationTypesEnum {
 	values := make([]UnifiedAgentServiceConfigurationTypesEnum, 0)
-	for _, v := range mappingUnifiedAgentServiceConfigurationTypes {
+	for _, v := range mappingUnifiedAgentServiceConfigurationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUnifiedAgentServiceConfigurationTypesEnumStringValues Enumerates the set of values in String for UnifiedAgentServiceConfigurationTypesEnum
+func GetUnifiedAgentServiceConfigurationTypesEnumStringValues() []string {
+	return []string{
+		"LOGGING",
+	}
 }

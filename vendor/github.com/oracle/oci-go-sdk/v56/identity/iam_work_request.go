@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // IamWorkRequest A IAM work request object that allows users to track Asynchronous API status.
@@ -51,6 +53,24 @@ func (m IamWorkRequest) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m IamWorkRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingIamWorkRequestOperationTypeEnum[string(m.OperationType)]; !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetIamWorkRequestOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingIamWorkRequestStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetIamWorkRequestStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // IamWorkRequestOperationTypeEnum Enum with underlying type: string
 type IamWorkRequestOperationTypeEnum string
 
@@ -66,7 +86,7 @@ const (
 	IamWorkRequestOperationTypeChangeLicenseTypeForDomain IamWorkRequestOperationTypeEnum = "CHANGE_LICENSE_TYPE_FOR_DOMAIN"
 )
 
-var mappingIamWorkRequestOperationType = map[string]IamWorkRequestOperationTypeEnum{
+var mappingIamWorkRequestOperationTypeEnum = map[string]IamWorkRequestOperationTypeEnum{
 	"CREATE_DOMAIN":                  IamWorkRequestOperationTypeCreateDomain,
 	"REPLICATE_DOMAIN_TO_REGION":     IamWorkRequestOperationTypeReplicateDomainToRegion,
 	"UPDATE_DOMAIN":                  IamWorkRequestOperationTypeUpdateDomain,
@@ -80,10 +100,24 @@ var mappingIamWorkRequestOperationType = map[string]IamWorkRequestOperationTypeE
 // GetIamWorkRequestOperationTypeEnumValues Enumerates the set of values for IamWorkRequestOperationTypeEnum
 func GetIamWorkRequestOperationTypeEnumValues() []IamWorkRequestOperationTypeEnum {
 	values := make([]IamWorkRequestOperationTypeEnum, 0)
-	for _, v := range mappingIamWorkRequestOperationType {
+	for _, v := range mappingIamWorkRequestOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIamWorkRequestOperationTypeEnumStringValues Enumerates the set of values in String for IamWorkRequestOperationTypeEnum
+func GetIamWorkRequestOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_DOMAIN",
+		"REPLICATE_DOMAIN_TO_REGION",
+		"UPDATE_DOMAIN",
+		"ACTIVATE_DOMAIN",
+		"DEACTIVATE_DOMAIN",
+		"DELETE_DOMAIN",
+		"CHANGE_COMPARTMENT_FOR_DOMAIN",
+		"CHANGE_LICENSE_TYPE_FOR_DOMAIN",
+	}
 }
 
 // IamWorkRequestStatusEnum Enum with underlying type: string
@@ -99,7 +133,7 @@ const (
 	IamWorkRequestStatusCanceled   IamWorkRequestStatusEnum = "CANCELED"
 )
 
-var mappingIamWorkRequestStatus = map[string]IamWorkRequestStatusEnum{
+var mappingIamWorkRequestStatusEnum = map[string]IamWorkRequestStatusEnum{
 	"ACCEPTED":    IamWorkRequestStatusAccepted,
 	"IN_PROGRESS": IamWorkRequestStatusInProgress,
 	"FAILED":      IamWorkRequestStatusFailed,
@@ -111,8 +145,20 @@ var mappingIamWorkRequestStatus = map[string]IamWorkRequestStatusEnum{
 // GetIamWorkRequestStatusEnumValues Enumerates the set of values for IamWorkRequestStatusEnum
 func GetIamWorkRequestStatusEnumValues() []IamWorkRequestStatusEnum {
 	values := make([]IamWorkRequestStatusEnum, 0)
-	for _, v := range mappingIamWorkRequestStatus {
+	for _, v := range mappingIamWorkRequestStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIamWorkRequestStatusEnumStringValues Enumerates the set of values in String for IamWorkRequestStatusEnum
+func GetIamWorkRequestStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

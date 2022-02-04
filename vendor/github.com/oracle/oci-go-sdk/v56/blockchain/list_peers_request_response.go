@@ -5,8 +5,10 @@
 package blockchain
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPeersRequest wrapper for the ListPeers operation
@@ -57,6 +59,10 @@ func (request ListPeersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPeersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +76,23 @@ func (request ListPeersRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPeersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPeersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPeersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPeersSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPeersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPeersSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPeersResponse wrapper for the ListPeers operation
@@ -109,7 +132,7 @@ const (
 	ListPeersSortOrderDesc ListPeersSortOrderEnum = "DESC"
 )
 
-var mappingListPeersSortOrder = map[string]ListPeersSortOrderEnum{
+var mappingListPeersSortOrderEnum = map[string]ListPeersSortOrderEnum{
 	"ASC":  ListPeersSortOrderAsc,
 	"DESC": ListPeersSortOrderDesc,
 }
@@ -117,10 +140,18 @@ var mappingListPeersSortOrder = map[string]ListPeersSortOrderEnum{
 // GetListPeersSortOrderEnumValues Enumerates the set of values for ListPeersSortOrderEnum
 func GetListPeersSortOrderEnumValues() []ListPeersSortOrderEnum {
 	values := make([]ListPeersSortOrderEnum, 0)
-	for _, v := range mappingListPeersSortOrder {
+	for _, v := range mappingListPeersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPeersSortOrderEnumStringValues Enumerates the set of values in String for ListPeersSortOrderEnum
+func GetListPeersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListPeersSortByEnum Enum with underlying type: string
@@ -132,7 +163,7 @@ const (
 	ListPeersSortByDisplayname ListPeersSortByEnum = "displayName"
 )
 
-var mappingListPeersSortBy = map[string]ListPeersSortByEnum{
+var mappingListPeersSortByEnum = map[string]ListPeersSortByEnum{
 	"timeCreated": ListPeersSortByTimecreated,
 	"displayName": ListPeersSortByDisplayname,
 }
@@ -140,8 +171,16 @@ var mappingListPeersSortBy = map[string]ListPeersSortByEnum{
 // GetListPeersSortByEnumValues Enumerates the set of values for ListPeersSortByEnum
 func GetListPeersSortByEnumValues() []ListPeersSortByEnum {
 	values := make([]ListPeersSortByEnum, 0)
-	for _, v := range mappingListPeersSortBy {
+	for _, v := range mappingListPeersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPeersSortByEnumStringValues Enumerates the set of values in String for ListPeersSortByEnum
+func GetListPeersSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

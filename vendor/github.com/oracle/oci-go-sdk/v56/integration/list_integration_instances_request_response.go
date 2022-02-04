@@ -5,8 +5,10 @@
 package integration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListIntegrationInstancesRequest wrapper for the ListIntegrationInstances operation
@@ -55,6 +57,10 @@ func (request ListIntegrationInstancesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListIntegrationInstancesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListIntegrationInstancesRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListIntegrationInstancesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListIntegrationInstancesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListIntegrationInstancesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListIntegrationInstancesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListIntegrationInstancesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListIntegrationInstancesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListIntegrationInstancesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListIntegrationInstancesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListIntegrationInstancesResponse wrapper for the ListIntegrationInstances operation
@@ -114,7 +140,7 @@ const (
 	ListIntegrationInstancesLifecycleStateFailed   ListIntegrationInstancesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListIntegrationInstancesLifecycleState = map[string]ListIntegrationInstancesLifecycleStateEnum{
+var mappingListIntegrationInstancesLifecycleStateEnum = map[string]ListIntegrationInstancesLifecycleStateEnum{
 	"CREATING": ListIntegrationInstancesLifecycleStateCreating,
 	"UPDATING": ListIntegrationInstancesLifecycleStateUpdating,
 	"ACTIVE":   ListIntegrationInstancesLifecycleStateActive,
@@ -127,10 +153,23 @@ var mappingListIntegrationInstancesLifecycleState = map[string]ListIntegrationIn
 // GetListIntegrationInstancesLifecycleStateEnumValues Enumerates the set of values for ListIntegrationInstancesLifecycleStateEnum
 func GetListIntegrationInstancesLifecycleStateEnumValues() []ListIntegrationInstancesLifecycleStateEnum {
 	values := make([]ListIntegrationInstancesLifecycleStateEnum, 0)
-	for _, v := range mappingListIntegrationInstancesLifecycleState {
+	for _, v := range mappingListIntegrationInstancesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIntegrationInstancesLifecycleStateEnumStringValues Enumerates the set of values in String for ListIntegrationInstancesLifecycleStateEnum
+func GetListIntegrationInstancesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListIntegrationInstancesSortOrderEnum Enum with underlying type: string
@@ -142,7 +181,7 @@ const (
 	ListIntegrationInstancesSortOrderDesc ListIntegrationInstancesSortOrderEnum = "DESC"
 )
 
-var mappingListIntegrationInstancesSortOrder = map[string]ListIntegrationInstancesSortOrderEnum{
+var mappingListIntegrationInstancesSortOrderEnum = map[string]ListIntegrationInstancesSortOrderEnum{
 	"ASC":  ListIntegrationInstancesSortOrderAsc,
 	"DESC": ListIntegrationInstancesSortOrderDesc,
 }
@@ -150,10 +189,18 @@ var mappingListIntegrationInstancesSortOrder = map[string]ListIntegrationInstanc
 // GetListIntegrationInstancesSortOrderEnumValues Enumerates the set of values for ListIntegrationInstancesSortOrderEnum
 func GetListIntegrationInstancesSortOrderEnumValues() []ListIntegrationInstancesSortOrderEnum {
 	values := make([]ListIntegrationInstancesSortOrderEnum, 0)
-	for _, v := range mappingListIntegrationInstancesSortOrder {
+	for _, v := range mappingListIntegrationInstancesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIntegrationInstancesSortOrderEnumStringValues Enumerates the set of values in String for ListIntegrationInstancesSortOrderEnum
+func GetListIntegrationInstancesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListIntegrationInstancesSortByEnum Enum with underlying type: string
@@ -165,7 +212,7 @@ const (
 	ListIntegrationInstancesSortByDisplayname ListIntegrationInstancesSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListIntegrationInstancesSortBy = map[string]ListIntegrationInstancesSortByEnum{
+var mappingListIntegrationInstancesSortByEnum = map[string]ListIntegrationInstancesSortByEnum{
 	"TIMECREATED": ListIntegrationInstancesSortByTimecreated,
 	"DISPLAYNAME": ListIntegrationInstancesSortByDisplayname,
 }
@@ -173,8 +220,16 @@ var mappingListIntegrationInstancesSortBy = map[string]ListIntegrationInstancesS
 // GetListIntegrationInstancesSortByEnumValues Enumerates the set of values for ListIntegrationInstancesSortByEnum
 func GetListIntegrationInstancesSortByEnumValues() []ListIntegrationInstancesSortByEnum {
 	values := make([]ListIntegrationInstancesSortByEnum, 0)
-	for _, v := range mappingListIntegrationInstancesSortBy {
+	for _, v := range mappingListIntegrationInstancesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIntegrationInstancesSortByEnumStringValues Enumerates the set of values in String for ListIntegrationInstancesSortByEnum
+func GetListIntegrationInstancesSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

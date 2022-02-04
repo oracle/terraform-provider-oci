@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAppCatalogListingsRequest wrapper for the ListAppCatalogListings operation
@@ -56,6 +58,10 @@ func (request ListAppCatalogListingsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAppCatalogListingsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,20 @@ func (request ListAppCatalogListingsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAppCatalogListingsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAppCatalogListingsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAppCatalogListingsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAppCatalogListingsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAppCatalogListingsResponse wrapper for the ListAppCatalogListings operation
@@ -108,7 +128,7 @@ const (
 	ListAppCatalogListingsSortOrderDesc ListAppCatalogListingsSortOrderEnum = "DESC"
 )
 
-var mappingListAppCatalogListingsSortOrder = map[string]ListAppCatalogListingsSortOrderEnum{
+var mappingListAppCatalogListingsSortOrderEnum = map[string]ListAppCatalogListingsSortOrderEnum{
 	"ASC":  ListAppCatalogListingsSortOrderAsc,
 	"DESC": ListAppCatalogListingsSortOrderDesc,
 }
@@ -116,8 +136,16 @@ var mappingListAppCatalogListingsSortOrder = map[string]ListAppCatalogListingsSo
 // GetListAppCatalogListingsSortOrderEnumValues Enumerates the set of values for ListAppCatalogListingsSortOrderEnum
 func GetListAppCatalogListingsSortOrderEnumValues() []ListAppCatalogListingsSortOrderEnum {
 	values := make([]ListAppCatalogListingsSortOrderEnum, 0)
-	for _, v := range mappingListAppCatalogListingsSortOrder {
+	for _, v := range mappingListAppCatalogListingsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAppCatalogListingsSortOrderEnumStringValues Enumerates the set of values in String for ListAppCatalogListingsSortOrderEnum
+func GetListAppCatalogListingsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

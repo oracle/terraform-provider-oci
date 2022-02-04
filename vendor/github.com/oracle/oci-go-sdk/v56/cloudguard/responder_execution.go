@@ -10,7 +10,9 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ResponderExecution Responder Execution Object.
@@ -66,4 +68,25 @@ type ResponderExecution struct {
 
 func (m ResponderExecution) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ResponderExecution) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingResponderTypeEnum[string(m.ResponderRuleType)]; !ok && m.ResponderRuleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResponderRuleType: %s. Supported values are: %s.", m.ResponderRuleType, strings.Join(GetResponderTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingResponderExecutionStatesEnum[string(m.ResponderExecutionStatus)]; !ok && m.ResponderExecutionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResponderExecutionStatus: %s. Supported values are: %s.", m.ResponderExecutionStatus, strings.Join(GetResponderExecutionStatesEnumStringValues(), ",")))
+	}
+	if _, ok := mappingResponderExecutionModesEnum[string(m.ResponderExecutionMode)]; !ok && m.ResponderExecutionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResponderExecutionMode: %s. Supported values are: %s.", m.ResponderExecutionMode, strings.Join(GetResponderExecutionModesEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -20,7 +20,7 @@ const (
 	HostMemory HostEnum = "MEMORY"
 )
 
-var mappingHost = map[string]HostEnum{
+var mappingHostEnum = map[string]HostEnum{
 	"CPU":    HostCpu,
 	"MEMORY": HostMemory,
 }
@@ -28,8 +28,16 @@ var mappingHost = map[string]HostEnum{
 // GetHostEnumValues Enumerates the set of values for HostEnum
 func GetHostEnumValues() []HostEnum {
 	values := make([]HostEnum, 0)
-	for _, v := range mappingHost {
+	for _, v := range mappingHostEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHostEnumStringValues Enumerates the set of values in String for HostEnum
+func GetHostEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"MEMORY",
+	}
 }

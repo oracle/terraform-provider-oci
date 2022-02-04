@@ -22,7 +22,7 @@ const (
 	CustomPropertyDataTypeDate     CustomPropertyDataTypeEnum = "DATE"
 )
 
-var mappingCustomPropertyDataType = map[string]CustomPropertyDataTypeEnum{
+var mappingCustomPropertyDataTypeEnum = map[string]CustomPropertyDataTypeEnum{
 	"TEXT":      CustomPropertyDataTypeText,
 	"RICH_TEXT": CustomPropertyDataTypeRichText,
 	"BOOLEAN":   CustomPropertyDataTypeBoolean,
@@ -33,8 +33,19 @@ var mappingCustomPropertyDataType = map[string]CustomPropertyDataTypeEnum{
 // GetCustomPropertyDataTypeEnumValues Enumerates the set of values for CustomPropertyDataTypeEnum
 func GetCustomPropertyDataTypeEnumValues() []CustomPropertyDataTypeEnum {
 	values := make([]CustomPropertyDataTypeEnum, 0)
-	for _, v := range mappingCustomPropertyDataType {
+	for _, v := range mappingCustomPropertyDataTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCustomPropertyDataTypeEnumStringValues Enumerates the set of values in String for CustomPropertyDataTypeEnum
+func GetCustomPropertyDataTypeEnumStringValues() []string {
+	return []string{
+		"TEXT",
+		"RICH_TEXT",
+		"BOOLEAN",
+		"NUMBER",
+		"DATE",
+	}
 }

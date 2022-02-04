@@ -21,7 +21,7 @@ const (
 	IntervalTypesMonth IntervalTypesEnum = "MONTH"
 )
 
-var mappingIntervalTypes = map[string]IntervalTypesEnum{
+var mappingIntervalTypesEnum = map[string]IntervalTypesEnum{
 	"HOUR":  IntervalTypesHour,
 	"DAY":   IntervalTypesDay,
 	"WEEK":  IntervalTypesWeek,
@@ -31,8 +31,18 @@ var mappingIntervalTypes = map[string]IntervalTypesEnum{
 // GetIntervalTypesEnumValues Enumerates the set of values for IntervalTypesEnum
 func GetIntervalTypesEnumValues() []IntervalTypesEnum {
 	values := make([]IntervalTypesEnum, 0)
-	for _, v := range mappingIntervalTypes {
+	for _, v := range mappingIntervalTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetIntervalTypesEnumStringValues Enumerates the set of values in String for IntervalTypesEnum
+func GetIntervalTypesEnumStringValues() []string {
+	return []string{
+		"HOUR",
+		"DAY",
+		"WEEK",
+		"MONTH",
+	}
 }

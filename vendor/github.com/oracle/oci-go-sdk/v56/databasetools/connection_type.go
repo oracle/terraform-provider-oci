@@ -17,15 +17,22 @@ const (
 	ConnectionTypeOracleDatabase ConnectionTypeEnum = "ORACLE_DATABASE"
 )
 
-var mappingConnectionType = map[string]ConnectionTypeEnum{
+var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"ORACLE_DATABASE": ConnectionTypeOracleDatabase,
 }
 
 // GetConnectionTypeEnumValues Enumerates the set of values for ConnectionTypeEnum
 func GetConnectionTypeEnumValues() []ConnectionTypeEnum {
 	values := make([]ConnectionTypeEnum, 0)
-	for _, v := range mappingConnectionType {
+	for _, v := range mappingConnectionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConnectionTypeEnumStringValues Enumerates the set of values in String for ConnectionTypeEnum
+func GetConnectionTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_DATABASE",
+	}
 }

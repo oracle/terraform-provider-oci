@@ -19,7 +19,7 @@ const (
 	ScheduleTypesRecurring ScheduleTypesEnum = "RECURRING"
 )
 
-var mappingScheduleTypes = map[string]ScheduleTypesEnum{
+var mappingScheduleTypesEnum = map[string]ScheduleTypesEnum{
 	"ONETIME":   ScheduleTypesOnetime,
 	"RECURRING": ScheduleTypesRecurring,
 }
@@ -27,8 +27,16 @@ var mappingScheduleTypes = map[string]ScheduleTypesEnum{
 // GetScheduleTypesEnumValues Enumerates the set of values for ScheduleTypesEnum
 func GetScheduleTypesEnumValues() []ScheduleTypesEnum {
 	values := make([]ScheduleTypesEnum, 0)
-	for _, v := range mappingScheduleTypes {
+	for _, v := range mappingScheduleTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScheduleTypesEnumStringValues Enumerates the set of values in String for ScheduleTypesEnum
+func GetScheduleTypesEnumStringValues() []string {
+	return []string{
+		"ONETIME",
+		"RECURRING",
+	}
 }

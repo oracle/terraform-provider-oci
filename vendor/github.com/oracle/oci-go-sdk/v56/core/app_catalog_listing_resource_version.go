@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AppCatalogListingResourceVersion Listing Resource Version
@@ -55,6 +57,24 @@ func (m AppCatalogListingResourceVersion) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AppCatalogListingResourceVersion) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.AllowedActions {
+		if _, ok := mappingAppCatalogListingResourceVersionAllowedActionsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AllowedActions: %s. Supported values are: %s.", val, strings.Join(GetAppCatalogListingResourceVersionAllowedActionsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AppCatalogListingResourceVersionAllowedActionsEnum Enum with underlying type: string
 type AppCatalogListingResourceVersionAllowedActionsEnum string
 
@@ -69,7 +89,7 @@ const (
 	AppCatalogListingResourceVersionAllowedActionsCaptureConsoleHistory AppCatalogListingResourceVersionAllowedActionsEnum = "CAPTURE_CONSOLE_HISTORY"
 )
 
-var mappingAppCatalogListingResourceVersionAllowedActions = map[string]AppCatalogListingResourceVersionAllowedActionsEnum{
+var mappingAppCatalogListingResourceVersionAllowedActionsEnum = map[string]AppCatalogListingResourceVersionAllowedActionsEnum{
 	"SNAPSHOT":                AppCatalogListingResourceVersionAllowedActionsSnapshot,
 	"BOOT_VOLUME_DETACH":      AppCatalogListingResourceVersionAllowedActionsBootVolumeDetach,
 	"PRESERVE_BOOT_VOLUME":    AppCatalogListingResourceVersionAllowedActionsPreserveBootVolume,
@@ -82,8 +102,21 @@ var mappingAppCatalogListingResourceVersionAllowedActions = map[string]AppCatalo
 // GetAppCatalogListingResourceVersionAllowedActionsEnumValues Enumerates the set of values for AppCatalogListingResourceVersionAllowedActionsEnum
 func GetAppCatalogListingResourceVersionAllowedActionsEnumValues() []AppCatalogListingResourceVersionAllowedActionsEnum {
 	values := make([]AppCatalogListingResourceVersionAllowedActionsEnum, 0)
-	for _, v := range mappingAppCatalogListingResourceVersionAllowedActions {
+	for _, v := range mappingAppCatalogListingResourceVersionAllowedActionsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAppCatalogListingResourceVersionAllowedActionsEnumStringValues Enumerates the set of values in String for AppCatalogListingResourceVersionAllowedActionsEnum
+func GetAppCatalogListingResourceVersionAllowedActionsEnumStringValues() []string {
+	return []string{
+		"SNAPSHOT",
+		"BOOT_VOLUME_DETACH",
+		"PRESERVE_BOOT_VOLUME",
+		"SERIAL_CONSOLE_ACCESS",
+		"BOOT_RECOVERY",
+		"BACKUP_BOOT_VOLUME",
+		"CAPTURE_CONSOLE_HISTORY",
+	}
 }

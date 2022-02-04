@@ -18,7 +18,7 @@ const (
 	NlbIpVersionIpv4AndIpv6 NlbIpVersionEnum = "IPV4_AND_IPV6"
 )
 
-var mappingNlbIpVersion = map[string]NlbIpVersionEnum{
+var mappingNlbIpVersionEnum = map[string]NlbIpVersionEnum{
 	"IPV4":          NlbIpVersionIpv4,
 	"IPV4_AND_IPV6": NlbIpVersionIpv4AndIpv6,
 }
@@ -26,8 +26,16 @@ var mappingNlbIpVersion = map[string]NlbIpVersionEnum{
 // GetNlbIpVersionEnumValues Enumerates the set of values for NlbIpVersionEnum
 func GetNlbIpVersionEnumValues() []NlbIpVersionEnum {
 	values := make([]NlbIpVersionEnum, 0)
-	for _, v := range mappingNlbIpVersion {
+	for _, v := range mappingNlbIpVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNlbIpVersionEnumStringValues Enumerates the set of values in String for NlbIpVersionEnum
+func GetNlbIpVersionEnumStringValues() []string {
+	return []string{
+		"IPV4",
+		"IPV4_AND_IPV6",
+	}
 }

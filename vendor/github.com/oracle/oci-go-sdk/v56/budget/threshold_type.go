@@ -18,7 +18,7 @@ const (
 	ThresholdTypeAbsolute   ThresholdTypeEnum = "ABSOLUTE"
 )
 
-var mappingThresholdType = map[string]ThresholdTypeEnum{
+var mappingThresholdTypeEnum = map[string]ThresholdTypeEnum{
 	"PERCENTAGE": ThresholdTypePercentage,
 	"ABSOLUTE":   ThresholdTypeAbsolute,
 }
@@ -26,8 +26,16 @@ var mappingThresholdType = map[string]ThresholdTypeEnum{
 // GetThresholdTypeEnumValues Enumerates the set of values for ThresholdTypeEnum
 func GetThresholdTypeEnumValues() []ThresholdTypeEnum {
 	values := make([]ThresholdTypeEnum, 0)
-	for _, v := range mappingThresholdType {
+	for _, v := range mappingThresholdTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetThresholdTypeEnumStringValues Enumerates the set of values in String for ThresholdTypeEnum
+func GetThresholdTypeEnumStringValues() []string {
+	return []string{
+		"PERCENTAGE",
+		"ABSOLUTE",
+	}
 }

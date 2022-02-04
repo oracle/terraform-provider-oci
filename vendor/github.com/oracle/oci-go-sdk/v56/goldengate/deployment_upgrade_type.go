@@ -18,7 +18,7 @@ const (
 	DeploymentUpgradeTypeAutomatic DeploymentUpgradeTypeEnum = "AUTOMATIC"
 )
 
-var mappingDeploymentUpgradeType = map[string]DeploymentUpgradeTypeEnum{
+var mappingDeploymentUpgradeTypeEnum = map[string]DeploymentUpgradeTypeEnum{
 	"MANUAL":    DeploymentUpgradeTypeManual,
 	"AUTOMATIC": DeploymentUpgradeTypeAutomatic,
 }
@@ -26,8 +26,16 @@ var mappingDeploymentUpgradeType = map[string]DeploymentUpgradeTypeEnum{
 // GetDeploymentUpgradeTypeEnumValues Enumerates the set of values for DeploymentUpgradeTypeEnum
 func GetDeploymentUpgradeTypeEnumValues() []DeploymentUpgradeTypeEnum {
 	values := make([]DeploymentUpgradeTypeEnum, 0)
-	for _, v := range mappingDeploymentUpgradeType {
+	for _, v := range mappingDeploymentUpgradeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeploymentUpgradeTypeEnumStringValues Enumerates the set of values in String for DeploymentUpgradeTypeEnum
+func GetDeploymentUpgradeTypeEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTOMATIC",
+	}
 }

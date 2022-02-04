@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // HeaderValidationRequestPolicy Validate the HTTP headers on the incoming API requests on a specific route.
@@ -33,6 +35,21 @@ func (m HeaderValidationRequestPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m HeaderValidationRequestPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingHeaderValidationRequestPolicyValidationModeEnum[string(m.ValidationMode)]; !ok && m.ValidationMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValidationMode: %s. Supported values are: %s.", m.ValidationMode, strings.Join(GetHeaderValidationRequestPolicyValidationModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // HeaderValidationRequestPolicyValidationModeEnum Enum with underlying type: string
 type HeaderValidationRequestPolicyValidationModeEnum string
 
@@ -43,7 +60,7 @@ const (
 	HeaderValidationRequestPolicyValidationModeDisabled   HeaderValidationRequestPolicyValidationModeEnum = "DISABLED"
 )
 
-var mappingHeaderValidationRequestPolicyValidationMode = map[string]HeaderValidationRequestPolicyValidationModeEnum{
+var mappingHeaderValidationRequestPolicyValidationModeEnum = map[string]HeaderValidationRequestPolicyValidationModeEnum{
 	"ENFORCING":  HeaderValidationRequestPolicyValidationModeEnforcing,
 	"PERMISSIVE": HeaderValidationRequestPolicyValidationModePermissive,
 	"DISABLED":   HeaderValidationRequestPolicyValidationModeDisabled,
@@ -52,8 +69,17 @@ var mappingHeaderValidationRequestPolicyValidationMode = map[string]HeaderValida
 // GetHeaderValidationRequestPolicyValidationModeEnumValues Enumerates the set of values for HeaderValidationRequestPolicyValidationModeEnum
 func GetHeaderValidationRequestPolicyValidationModeEnumValues() []HeaderValidationRequestPolicyValidationModeEnum {
 	values := make([]HeaderValidationRequestPolicyValidationModeEnum, 0)
-	for _, v := range mappingHeaderValidationRequestPolicyValidationMode {
+	for _, v := range mappingHeaderValidationRequestPolicyValidationModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHeaderValidationRequestPolicyValidationModeEnumStringValues Enumerates the set of values in String for HeaderValidationRequestPolicyValidationModeEnum
+func GetHeaderValidationRequestPolicyValidationModeEnumStringValues() []string {
+	return []string{
+		"ENFORCING",
+		"PERMISSIVE",
+		"DISABLED",
+	}
 }

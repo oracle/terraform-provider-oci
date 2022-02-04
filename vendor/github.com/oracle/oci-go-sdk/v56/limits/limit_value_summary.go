@@ -10,7 +10,9 @@
 package limits
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LimitValueSummary The value of a specific resource limit.
@@ -33,6 +35,21 @@ func (m LimitValueSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LimitValueSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLimitValueSummaryScopeTypeEnum[string(m.ScopeType)]; !ok && m.ScopeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScopeType: %s. Supported values are: %s.", m.ScopeType, strings.Join(GetLimitValueSummaryScopeTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LimitValueSummaryScopeTypeEnum Enum with underlying type: string
 type LimitValueSummaryScopeTypeEnum string
 
@@ -43,7 +60,7 @@ const (
 	LimitValueSummaryScopeTypeAd     LimitValueSummaryScopeTypeEnum = "AD"
 )
 
-var mappingLimitValueSummaryScopeType = map[string]LimitValueSummaryScopeTypeEnum{
+var mappingLimitValueSummaryScopeTypeEnum = map[string]LimitValueSummaryScopeTypeEnum{
 	"GLOBAL": LimitValueSummaryScopeTypeGlobal,
 	"REGION": LimitValueSummaryScopeTypeRegion,
 	"AD":     LimitValueSummaryScopeTypeAd,
@@ -52,8 +69,17 @@ var mappingLimitValueSummaryScopeType = map[string]LimitValueSummaryScopeTypeEnu
 // GetLimitValueSummaryScopeTypeEnumValues Enumerates the set of values for LimitValueSummaryScopeTypeEnum
 func GetLimitValueSummaryScopeTypeEnumValues() []LimitValueSummaryScopeTypeEnum {
 	values := make([]LimitValueSummaryScopeTypeEnum, 0)
-	for _, v := range mappingLimitValueSummaryScopeType {
+	for _, v := range mappingLimitValueSummaryScopeTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLimitValueSummaryScopeTypeEnumStringValues Enumerates the set of values in String for LimitValueSummaryScopeTypeEnum
+func GetLimitValueSummaryScopeTypeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"REGION",
+		"AD",
+	}
 }

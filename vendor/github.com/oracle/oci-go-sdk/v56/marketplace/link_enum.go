@@ -21,7 +21,7 @@ const (
 	LinkEnumPrev      LinkEnumEnum = "PREV"
 )
 
-var mappingLinkEnum = map[string]LinkEnumEnum{
+var mappingLinkEnumEnum = map[string]LinkEnumEnum{
 	"SELF":      LinkEnumSelf,
 	"CANONICAL": LinkEnumCanonical,
 	"NEXT":      LinkEnumNext,
@@ -32,8 +32,19 @@ var mappingLinkEnum = map[string]LinkEnumEnum{
 // GetLinkEnumEnumValues Enumerates the set of values for LinkEnumEnum
 func GetLinkEnumEnumValues() []LinkEnumEnum {
 	values := make([]LinkEnumEnum, 0)
-	for _, v := range mappingLinkEnum {
+	for _, v := range mappingLinkEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLinkEnumEnumStringValues Enumerates the set of values in String for LinkEnumEnum
+func GetLinkEnumEnumStringValues() []string {
+	return []string{
+		"SELF",
+		"CANONICAL",
+		"NEXT",
+		"TEMPLATE",
+		"PREV",
+	}
 }

@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ByoipRange Oracle offers the ability to Bring Your Own IP (BYOIP), importing public IP addresses that you currently own to Oracle Cloud Infrastructure. A `ByoipRange` resource is a record of the imported address block (a BYOIP CIDR block) and also some associated metadata.
@@ -74,6 +76,24 @@ func (m ByoipRange) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ByoipRange) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingByoipRangeLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetByoipRangeLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingByoipRangeLifecycleDetailsEnum[string(m.LifecycleDetails)]; !ok && m.LifecycleDetails != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetails: %s. Supported values are: %s.", m.LifecycleDetails, strings.Join(GetByoipRangeLifecycleDetailsEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ByoipRangeLifecycleDetailsEnum Enum with underlying type: string
 type ByoipRangeLifecycleDetailsEnum string
 
@@ -90,7 +110,7 @@ const (
 	ByoipRangeLifecycleDetailsWithdrawing ByoipRangeLifecycleDetailsEnum = "WITHDRAWING"
 )
 
-var mappingByoipRangeLifecycleDetails = map[string]ByoipRangeLifecycleDetailsEnum{
+var mappingByoipRangeLifecycleDetailsEnum = map[string]ByoipRangeLifecycleDetailsEnum{
 	"CREATING":    ByoipRangeLifecycleDetailsCreating,
 	"VALIDATING":  ByoipRangeLifecycleDetailsValidating,
 	"PROVISIONED": ByoipRangeLifecycleDetailsProvisioned,
@@ -105,10 +125,25 @@ var mappingByoipRangeLifecycleDetails = map[string]ByoipRangeLifecycleDetailsEnu
 // GetByoipRangeLifecycleDetailsEnumValues Enumerates the set of values for ByoipRangeLifecycleDetailsEnum
 func GetByoipRangeLifecycleDetailsEnumValues() []ByoipRangeLifecycleDetailsEnum {
 	values := make([]ByoipRangeLifecycleDetailsEnum, 0)
-	for _, v := range mappingByoipRangeLifecycleDetails {
+	for _, v := range mappingByoipRangeLifecycleDetailsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetByoipRangeLifecycleDetailsEnumStringValues Enumerates the set of values in String for ByoipRangeLifecycleDetailsEnum
+func GetByoipRangeLifecycleDetailsEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"VALIDATING",
+		"PROVISIONED",
+		"ACTIVE",
+		"FAILED",
+		"DELETING",
+		"DELETED",
+		"ADVERTISING",
+		"WITHDRAWING",
+	}
 }
 
 // ByoipRangeLifecycleStateEnum Enum with underlying type: string
@@ -123,7 +158,7 @@ const (
 	ByoipRangeLifecycleStateDeleted  ByoipRangeLifecycleStateEnum = "DELETED"
 )
 
-var mappingByoipRangeLifecycleState = map[string]ByoipRangeLifecycleStateEnum{
+var mappingByoipRangeLifecycleStateEnum = map[string]ByoipRangeLifecycleStateEnum{
 	"INACTIVE": ByoipRangeLifecycleStateInactive,
 	"UPDATING": ByoipRangeLifecycleStateUpdating,
 	"ACTIVE":   ByoipRangeLifecycleStateActive,
@@ -134,8 +169,19 @@ var mappingByoipRangeLifecycleState = map[string]ByoipRangeLifecycleStateEnum{
 // GetByoipRangeLifecycleStateEnumValues Enumerates the set of values for ByoipRangeLifecycleStateEnum
 func GetByoipRangeLifecycleStateEnumValues() []ByoipRangeLifecycleStateEnum {
 	values := make([]ByoipRangeLifecycleStateEnum, 0)
-	for _, v := range mappingByoipRangeLifecycleState {
+	for _, v := range mappingByoipRangeLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetByoipRangeLifecycleStateEnumStringValues Enumerates the set of values in String for ByoipRangeLifecycleStateEnum
+func GetByoipRangeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"INACTIVE",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

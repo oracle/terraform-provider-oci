@@ -5,8 +5,10 @@
 package apmcontrolplane
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListApmDomainsRequest wrapper for the ListApmDomains operation
@@ -52,6 +54,10 @@ func (request ListApmDomainsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListApmDomainsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +71,26 @@ func (request ListApmDomainsRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListApmDomainsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListApmDomainsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListApmDomainsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListApmDomainsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListApmDomainsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListApmDomainsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListApmDomainsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListApmDomainsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListApmDomainsResponse wrapper for the ListApmDomains operation
@@ -108,7 +134,7 @@ const (
 	ListApmDomainsLifecycleStateFailed   ListApmDomainsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListApmDomainsLifecycleState = map[string]ListApmDomainsLifecycleStateEnum{
+var mappingListApmDomainsLifecycleStateEnum = map[string]ListApmDomainsLifecycleStateEnum{
 	"CREATING": ListApmDomainsLifecycleStateCreating,
 	"UPDATING": ListApmDomainsLifecycleStateUpdating,
 	"ACTIVE":   ListApmDomainsLifecycleStateActive,
@@ -120,10 +146,22 @@ var mappingListApmDomainsLifecycleState = map[string]ListApmDomainsLifecycleStat
 // GetListApmDomainsLifecycleStateEnumValues Enumerates the set of values for ListApmDomainsLifecycleStateEnum
 func GetListApmDomainsLifecycleStateEnumValues() []ListApmDomainsLifecycleStateEnum {
 	values := make([]ListApmDomainsLifecycleStateEnum, 0)
-	for _, v := range mappingListApmDomainsLifecycleState {
+	for _, v := range mappingListApmDomainsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListApmDomainsLifecycleStateEnumStringValues Enumerates the set of values in String for ListApmDomainsLifecycleStateEnum
+func GetListApmDomainsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListApmDomainsSortOrderEnum Enum with underlying type: string
@@ -135,7 +173,7 @@ const (
 	ListApmDomainsSortOrderDesc ListApmDomainsSortOrderEnum = "DESC"
 )
 
-var mappingListApmDomainsSortOrder = map[string]ListApmDomainsSortOrderEnum{
+var mappingListApmDomainsSortOrderEnum = map[string]ListApmDomainsSortOrderEnum{
 	"ASC":  ListApmDomainsSortOrderAsc,
 	"DESC": ListApmDomainsSortOrderDesc,
 }
@@ -143,10 +181,18 @@ var mappingListApmDomainsSortOrder = map[string]ListApmDomainsSortOrderEnum{
 // GetListApmDomainsSortOrderEnumValues Enumerates the set of values for ListApmDomainsSortOrderEnum
 func GetListApmDomainsSortOrderEnumValues() []ListApmDomainsSortOrderEnum {
 	values := make([]ListApmDomainsSortOrderEnum, 0)
-	for _, v := range mappingListApmDomainsSortOrder {
+	for _, v := range mappingListApmDomainsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListApmDomainsSortOrderEnumStringValues Enumerates the set of values in String for ListApmDomainsSortOrderEnum
+func GetListApmDomainsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListApmDomainsSortByEnum Enum with underlying type: string
@@ -158,7 +204,7 @@ const (
 	ListApmDomainsSortByDisplayname ListApmDomainsSortByEnum = "displayName"
 )
 
-var mappingListApmDomainsSortBy = map[string]ListApmDomainsSortByEnum{
+var mappingListApmDomainsSortByEnum = map[string]ListApmDomainsSortByEnum{
 	"timeCreated": ListApmDomainsSortByTimecreated,
 	"displayName": ListApmDomainsSortByDisplayname,
 }
@@ -166,8 +212,16 @@ var mappingListApmDomainsSortBy = map[string]ListApmDomainsSortByEnum{
 // GetListApmDomainsSortByEnumValues Enumerates the set of values for ListApmDomainsSortByEnum
 func GetListApmDomainsSortByEnumValues() []ListApmDomainsSortByEnum {
 	values := make([]ListApmDomainsSortByEnum, 0)
-	for _, v := range mappingListApmDomainsSortBy {
+	for _, v := range mappingListApmDomainsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListApmDomainsSortByEnumStringValues Enumerates the set of values in String for ListApmDomainsSortByEnum
+func GetListApmDomainsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

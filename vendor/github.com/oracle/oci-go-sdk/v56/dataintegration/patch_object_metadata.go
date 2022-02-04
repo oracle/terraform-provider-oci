@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PatchObjectMetadata A summary type containing information about the object including its key, name and when/who created/updated it.
@@ -42,6 +44,24 @@ func (m PatchObjectMetadata) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PatchObjectMetadata) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPatchObjectMetadataTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetPatchObjectMetadataTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPatchObjectMetadataActionEnum[string(m.Action)]; !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetPatchObjectMetadataActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PatchObjectMetadataTypeEnum Enum with underlying type: string
 type PatchObjectMetadataTypeEnum string
 
@@ -55,7 +75,7 @@ const (
 	PatchObjectMetadataTypeRestTask        PatchObjectMetadataTypeEnum = "REST_TASK"
 )
 
-var mappingPatchObjectMetadataType = map[string]PatchObjectMetadataTypeEnum{
+var mappingPatchObjectMetadataTypeEnum = map[string]PatchObjectMetadataTypeEnum{
 	"INTEGRATION_TASK":  PatchObjectMetadataTypeIntegrationTask,
 	"DATA_LOADER_TASK":  PatchObjectMetadataTypeDataLoaderTask,
 	"PIPELINE_TASK":     PatchObjectMetadataTypePipelineTask,
@@ -67,10 +87,22 @@ var mappingPatchObjectMetadataType = map[string]PatchObjectMetadataTypeEnum{
 // GetPatchObjectMetadataTypeEnumValues Enumerates the set of values for PatchObjectMetadataTypeEnum
 func GetPatchObjectMetadataTypeEnumValues() []PatchObjectMetadataTypeEnum {
 	values := make([]PatchObjectMetadataTypeEnum, 0)
-	for _, v := range mappingPatchObjectMetadataType {
+	for _, v := range mappingPatchObjectMetadataTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchObjectMetadataTypeEnumStringValues Enumerates the set of values in String for PatchObjectMetadataTypeEnum
+func GetPatchObjectMetadataTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
 }
 
 // PatchObjectMetadataActionEnum Enum with underlying type: string
@@ -83,7 +115,7 @@ const (
 	PatchObjectMetadataActionUpdated PatchObjectMetadataActionEnum = "UPDATED"
 )
 
-var mappingPatchObjectMetadataAction = map[string]PatchObjectMetadataActionEnum{
+var mappingPatchObjectMetadataActionEnum = map[string]PatchObjectMetadataActionEnum{
 	"CREATED": PatchObjectMetadataActionCreated,
 	"DELETED": PatchObjectMetadataActionDeleted,
 	"UPDATED": PatchObjectMetadataActionUpdated,
@@ -92,8 +124,17 @@ var mappingPatchObjectMetadataAction = map[string]PatchObjectMetadataActionEnum{
 // GetPatchObjectMetadataActionEnumValues Enumerates the set of values for PatchObjectMetadataActionEnum
 func GetPatchObjectMetadataActionEnumValues() []PatchObjectMetadataActionEnum {
 	values := make([]PatchObjectMetadataActionEnum, 0)
-	for _, v := range mappingPatchObjectMetadataAction {
+	for _, v := range mappingPatchObjectMetadataActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPatchObjectMetadataActionEnumStringValues Enumerates the set of values in String for PatchObjectMetadataActionEnum
+func GetPatchObjectMetadataActionEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"DELETED",
+		"UPDATED",
+	}
 }

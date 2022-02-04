@@ -36,7 +36,7 @@ const (
 	WorkRequestOperationTypeGenerateHeatwaveClusterMemoryEstimate  WorkRequestOperationTypeEnum = "GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE"
 )
 
-var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
+var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
 	"CREATE_DBSYSTEM":                            WorkRequestOperationTypeCreateDbsystem,
 	"UPDATE_DBSYSTEM":                            WorkRequestOperationTypeUpdateDbsystem,
 	"DELETE_DBSYSTEM":                            WorkRequestOperationTypeDeleteDbsystem,
@@ -62,8 +62,34 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
 func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
 	values := make([]WorkRequestOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestOperationType {
+	for _, v := range mappingWorkRequestOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestOperationTypeEnumStringValues Enumerates the set of values in String for WorkRequestOperationTypeEnum
+func GetWorkRequestOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_DBSYSTEM",
+		"UPDATE_DBSYSTEM",
+		"DELETE_DBSYSTEM",
+		"START_DBSYSTEM",
+		"STOP_DBSYSTEM",
+		"RESTART_DBSYSTEM",
+		"ADD_ANALYTICS_CLUSTER",
+		"UPDATE_ANALYTICS_CLUSTER",
+		"DELETE_ANALYTICS_CLUSTER",
+		"START_ANALYTICS_CLUSTER",
+		"STOP_ANALYTICS_CLUSTER",
+		"RESTART_ANALYTICS_CLUSTER",
+		"GENERATE_ANALYTICS_CLUSTER_MEMORY_ESTIMATE",
+		"ADD_HEATWAVE_CLUSTER",
+		"UPDATE_HEATWAVE_CLUSTER",
+		"DELETE_HEATWAVE_CLUSTER",
+		"START_HEATWAVE_CLUSTER",
+		"STOP_HEATWAVE_CLUSTER",
+		"RESTART_HEATWAVE_CLUSTER",
+		"GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE",
+	}
 }

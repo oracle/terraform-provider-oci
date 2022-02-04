@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDataEntitiesRequest wrapper for the ListDataEntities operation
@@ -69,6 +71,10 @@ func (request ListDataEntitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDataEntitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,23 @@ func (request ListDataEntitiesRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDataEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDataEntitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDataEntitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDataEntitiesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDataEntitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDataEntitiesSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDataEntitiesResponse wrapper for the ListDataEntities operation
@@ -125,7 +148,7 @@ const (
 	ListDataEntitiesSortByDisplayName ListDataEntitiesSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListDataEntitiesSortBy = map[string]ListDataEntitiesSortByEnum{
+var mappingListDataEntitiesSortByEnum = map[string]ListDataEntitiesSortByEnum{
 	"TIME_CREATED": ListDataEntitiesSortByTimeCreated,
 	"DISPLAY_NAME": ListDataEntitiesSortByDisplayName,
 }
@@ -133,10 +156,18 @@ var mappingListDataEntitiesSortBy = map[string]ListDataEntitiesSortByEnum{
 // GetListDataEntitiesSortByEnumValues Enumerates the set of values for ListDataEntitiesSortByEnum
 func GetListDataEntitiesSortByEnumValues() []ListDataEntitiesSortByEnum {
 	values := make([]ListDataEntitiesSortByEnum, 0)
-	for _, v := range mappingListDataEntitiesSortBy {
+	for _, v := range mappingListDataEntitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataEntitiesSortByEnumStringValues Enumerates the set of values in String for ListDataEntitiesSortByEnum
+func GetListDataEntitiesSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }
 
 // ListDataEntitiesSortOrderEnum Enum with underlying type: string
@@ -148,7 +179,7 @@ const (
 	ListDataEntitiesSortOrderDesc ListDataEntitiesSortOrderEnum = "DESC"
 )
 
-var mappingListDataEntitiesSortOrder = map[string]ListDataEntitiesSortOrderEnum{
+var mappingListDataEntitiesSortOrderEnum = map[string]ListDataEntitiesSortOrderEnum{
 	"ASC":  ListDataEntitiesSortOrderAsc,
 	"DESC": ListDataEntitiesSortOrderDesc,
 }
@@ -156,8 +187,16 @@ var mappingListDataEntitiesSortOrder = map[string]ListDataEntitiesSortOrderEnum{
 // GetListDataEntitiesSortOrderEnumValues Enumerates the set of values for ListDataEntitiesSortOrderEnum
 func GetListDataEntitiesSortOrderEnumValues() []ListDataEntitiesSortOrderEnum {
 	values := make([]ListDataEntitiesSortOrderEnum, 0)
-	for _, v := range mappingListDataEntitiesSortOrder {
+	for _, v := range mappingListDataEntitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDataEntitiesSortOrderEnumStringValues Enumerates the set of values in String for ListDataEntitiesSortOrderEnum
+func GetListDataEntitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

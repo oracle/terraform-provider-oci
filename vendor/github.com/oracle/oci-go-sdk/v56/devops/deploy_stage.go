@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DeployStage A single node in a pipeline. It is usually associated with some action on a specific set of OCI resources such as environments. For example, updating a Function or a Kubernetes cluster.
@@ -224,6 +226,21 @@ func (m deploystage) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m deploystage) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDeployStageLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeployStageLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DeployStageLifecycleStateEnum Enum with underlying type: string
 type DeployStageLifecycleStateEnum string
 
@@ -237,7 +254,7 @@ const (
 	DeployStageLifecycleStateFailed   DeployStageLifecycleStateEnum = "FAILED"
 )
 
-var mappingDeployStageLifecycleState = map[string]DeployStageLifecycleStateEnum{
+var mappingDeployStageLifecycleStateEnum = map[string]DeployStageLifecycleStateEnum{
 	"CREATING": DeployStageLifecycleStateCreating,
 	"UPDATING": DeployStageLifecycleStateUpdating,
 	"ACTIVE":   DeployStageLifecycleStateActive,
@@ -249,10 +266,22 @@ var mappingDeployStageLifecycleState = map[string]DeployStageLifecycleStateEnum{
 // GetDeployStageLifecycleStateEnumValues Enumerates the set of values for DeployStageLifecycleStateEnum
 func GetDeployStageLifecycleStateEnumValues() []DeployStageLifecycleStateEnum {
 	values := make([]DeployStageLifecycleStateEnum, 0)
-	for _, v := range mappingDeployStageLifecycleState {
+	for _, v := range mappingDeployStageLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployStageLifecycleStateEnumStringValues Enumerates the set of values in String for DeployStageLifecycleStateEnum
+func GetDeployStageLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // DeployStageDeployStageTypeEnum Enum with underlying type: string
@@ -269,7 +298,7 @@ const (
 	DeployStageDeployStageTypeManualApproval                        DeployStageDeployStageTypeEnum = "MANUAL_APPROVAL"
 )
 
-var mappingDeployStageDeployStageType = map[string]DeployStageDeployStageTypeEnum{
+var mappingDeployStageDeployStageTypeEnum = map[string]DeployStageDeployStageTypeEnum{
 	"WAIT": DeployStageDeployStageTypeWait,
 	"COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT": DeployStageDeployStageTypeComputeInstanceGroupRollingDeployment,
 	"OKE_DEPLOYMENT":              DeployStageDeployStageTypeOkeDeployment,
@@ -282,8 +311,21 @@ var mappingDeployStageDeployStageType = map[string]DeployStageDeployStageTypeEnu
 // GetDeployStageDeployStageTypeEnumValues Enumerates the set of values for DeployStageDeployStageTypeEnum
 func GetDeployStageDeployStageTypeEnumValues() []DeployStageDeployStageTypeEnum {
 	values := make([]DeployStageDeployStageTypeEnum, 0)
-	for _, v := range mappingDeployStageDeployStageType {
+	for _, v := range mappingDeployStageDeployStageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeployStageDeployStageTypeEnumStringValues Enumerates the set of values in String for DeployStageDeployStageTypeEnum
+func GetDeployStageDeployStageTypeEnumStringValues() []string {
+	return []string{
+		"WAIT",
+		"COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT",
+		"OKE_DEPLOYMENT",
+		"DEPLOY_FUNCTION",
+		"INVOKE_FUNCTION",
+		"LOAD_BALANCER_TRAFFIC_SHIFT",
+		"MANUAL_APPROVAL",
+	}
 }

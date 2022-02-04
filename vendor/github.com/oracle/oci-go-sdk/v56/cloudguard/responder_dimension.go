@@ -18,7 +18,7 @@ const (
 	ResponderDimensionResponderExecutionStatus ResponderDimensionEnum = "RESPONDER_EXECUTION_STATUS"
 )
 
-var mappingResponderDimension = map[string]ResponderDimensionEnum{
+var mappingResponderDimensionEnum = map[string]ResponderDimensionEnum{
 	"RESPONDER_RULE_TYPE":        ResponderDimensionResponderRuleType,
 	"RESPONDER_EXECUTION_STATUS": ResponderDimensionResponderExecutionStatus,
 }
@@ -26,8 +26,16 @@ var mappingResponderDimension = map[string]ResponderDimensionEnum{
 // GetResponderDimensionEnumValues Enumerates the set of values for ResponderDimensionEnum
 func GetResponderDimensionEnumValues() []ResponderDimensionEnum {
 	values := make([]ResponderDimensionEnum, 0)
-	for _, v := range mappingResponderDimension {
+	for _, v := range mappingResponderDimensionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetResponderDimensionEnumStringValues Enumerates the set of values in String for ResponderDimensionEnum
+func GetResponderDimensionEnumStringValues() []string {
+	return []string{
+		"RESPONDER_RULE_TYPE",
+		"RESPONDER_EXECUTION_STATUS",
+	}
 }

@@ -12,7 +12,9 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SummarizeDatabaseInsightResourceCapacityTrendAggregationCollection Collection of resource capacity trend.
@@ -41,6 +43,24 @@ func (m SummarizeDatabaseInsightResourceCapacityTrendAggregationCollection) Stri
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SummarizeDatabaseInsightResourceCapacityTrendAggregationCollection) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum[string(m.ResourceMetric)]; !ok && m.ResourceMetric != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceMetric: %s. Supported values are: %s.", m.ResourceMetric, strings.Join(GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUsageUnitEnum[string(m.UsageUnit)]; !ok && m.UsageUnit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UsageUnit: %s. Supported values are: %s.", m.UsageUnit, strings.Join(GetUsageUnitEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum Enum with underlying type: string
 type SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum string
 
@@ -54,7 +74,7 @@ const (
 	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricMemorySga SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = "MEMORY_SGA"
 )
 
-var mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetric = map[string]SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum{
+var mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum = map[string]SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum{
 	"CPU":        SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricCpu,
 	"STORAGE":    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricStorage,
 	"IO":         SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricIo,
@@ -66,8 +86,20 @@ var mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionRes
 // GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum
 func GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumValues() []SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum {
 	values := make([]SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum, 0)
-	for _, v := range mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetric {
+	for _, v := range mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumStringValues Enumerates the set of values in String for SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum
+func GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"STORAGE",
+		"IO",
+		"MEMORY",
+		"MEMORY_PGA",
+		"MEMORY_SGA",
+	}
 }

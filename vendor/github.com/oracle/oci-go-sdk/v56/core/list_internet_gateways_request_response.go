@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListInternetGatewaysRequest wrapper for the ListInternetGateways operation
@@ -69,6 +71,10 @@ func (request ListInternetGatewaysRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListInternetGatewaysRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,26 @@ func (request ListInternetGatewaysRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListInternetGatewaysRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListInternetGatewaysRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListInternetGatewaysSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListInternetGatewaysSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListInternetGatewaysSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListInternetGatewaysSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInternetGatewayLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetInternetGatewayLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListInternetGatewaysResponse wrapper for the ListInternetGateways operation
@@ -121,7 +147,7 @@ const (
 	ListInternetGatewaysSortByDisplayname ListInternetGatewaysSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListInternetGatewaysSortBy = map[string]ListInternetGatewaysSortByEnum{
+var mappingListInternetGatewaysSortByEnum = map[string]ListInternetGatewaysSortByEnum{
 	"TIMECREATED": ListInternetGatewaysSortByTimecreated,
 	"DISPLAYNAME": ListInternetGatewaysSortByDisplayname,
 }
@@ -129,10 +155,18 @@ var mappingListInternetGatewaysSortBy = map[string]ListInternetGatewaysSortByEnu
 // GetListInternetGatewaysSortByEnumValues Enumerates the set of values for ListInternetGatewaysSortByEnum
 func GetListInternetGatewaysSortByEnumValues() []ListInternetGatewaysSortByEnum {
 	values := make([]ListInternetGatewaysSortByEnum, 0)
-	for _, v := range mappingListInternetGatewaysSortBy {
+	for _, v := range mappingListInternetGatewaysSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInternetGatewaysSortByEnumStringValues Enumerates the set of values in String for ListInternetGatewaysSortByEnum
+func GetListInternetGatewaysSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListInternetGatewaysSortOrderEnum Enum with underlying type: string
@@ -144,7 +178,7 @@ const (
 	ListInternetGatewaysSortOrderDesc ListInternetGatewaysSortOrderEnum = "DESC"
 )
 
-var mappingListInternetGatewaysSortOrder = map[string]ListInternetGatewaysSortOrderEnum{
+var mappingListInternetGatewaysSortOrderEnum = map[string]ListInternetGatewaysSortOrderEnum{
 	"ASC":  ListInternetGatewaysSortOrderAsc,
 	"DESC": ListInternetGatewaysSortOrderDesc,
 }
@@ -152,8 +186,16 @@ var mappingListInternetGatewaysSortOrder = map[string]ListInternetGatewaysSortOr
 // GetListInternetGatewaysSortOrderEnumValues Enumerates the set of values for ListInternetGatewaysSortOrderEnum
 func GetListInternetGatewaysSortOrderEnumValues() []ListInternetGatewaysSortOrderEnum {
 	values := make([]ListInternetGatewaysSortOrderEnum, 0)
-	for _, v := range mappingListInternetGatewaysSortOrder {
+	for _, v := range mappingListInternetGatewaysSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListInternetGatewaysSortOrderEnumStringValues Enumerates the set of values in String for ListInternetGatewaysSortOrderEnum
+func GetListInternetGatewaysSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

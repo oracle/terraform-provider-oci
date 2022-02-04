@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CloudExadataInfrastructureSummary Details of the cloud Exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
@@ -79,6 +81,21 @@ func (m CloudExadataInfrastructureSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CloudExadataInfrastructureSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCloudExadataInfrastructureSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCloudExadataInfrastructureSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CloudExadataInfrastructureSummaryLifecycleStateEnum Enum with underlying type: string
 type CloudExadataInfrastructureSummaryLifecycleStateEnum string
 
@@ -93,7 +110,7 @@ const (
 	CloudExadataInfrastructureSummaryLifecycleStateMaintenanceInProgress CloudExadataInfrastructureSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
 )
 
-var mappingCloudExadataInfrastructureSummaryLifecycleState = map[string]CloudExadataInfrastructureSummaryLifecycleStateEnum{
+var mappingCloudExadataInfrastructureSummaryLifecycleStateEnum = map[string]CloudExadataInfrastructureSummaryLifecycleStateEnum{
 	"PROVISIONING":            CloudExadataInfrastructureSummaryLifecycleStateProvisioning,
 	"AVAILABLE":               CloudExadataInfrastructureSummaryLifecycleStateAvailable,
 	"UPDATING":                CloudExadataInfrastructureSummaryLifecycleStateUpdating,
@@ -106,8 +123,21 @@ var mappingCloudExadataInfrastructureSummaryLifecycleState = map[string]CloudExa
 // GetCloudExadataInfrastructureSummaryLifecycleStateEnumValues Enumerates the set of values for CloudExadataInfrastructureSummaryLifecycleStateEnum
 func GetCloudExadataInfrastructureSummaryLifecycleStateEnumValues() []CloudExadataInfrastructureSummaryLifecycleStateEnum {
 	values := make([]CloudExadataInfrastructureSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingCloudExadataInfrastructureSummaryLifecycleState {
+	for _, v := range mappingCloudExadataInfrastructureSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCloudExadataInfrastructureSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for CloudExadataInfrastructureSummaryLifecycleStateEnum
+func GetCloudExadataInfrastructureSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+		"MAINTENANCE_IN_PROGRESS",
+	}
 }

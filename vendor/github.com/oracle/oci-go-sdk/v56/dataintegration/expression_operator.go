@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExpressionOperator An operator for expressions
@@ -124,6 +126,21 @@ func (m ExpressionOperator) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExpressionOperator) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExpressionOperatorTriggerRuleEnum[string(m.TriggerRule)]; !ok && m.TriggerRule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggerRule: %s. Supported values are: %s.", m.TriggerRule, strings.Join(GetExpressionOperatorTriggerRuleEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m ExpressionOperator) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeExpressionOperator ExpressionOperator
@@ -148,7 +165,7 @@ const (
 	ExpressionOperatorTriggerRuleComplete ExpressionOperatorTriggerRuleEnum = "ALL_COMPLETE"
 )
 
-var mappingExpressionOperatorTriggerRule = map[string]ExpressionOperatorTriggerRuleEnum{
+var mappingExpressionOperatorTriggerRuleEnum = map[string]ExpressionOperatorTriggerRuleEnum{
 	"ALL_SUCCESS":  ExpressionOperatorTriggerRuleSuccess,
 	"ALL_FAILED":   ExpressionOperatorTriggerRuleFailed,
 	"ALL_COMPLETE": ExpressionOperatorTriggerRuleComplete,
@@ -157,8 +174,17 @@ var mappingExpressionOperatorTriggerRule = map[string]ExpressionOperatorTriggerR
 // GetExpressionOperatorTriggerRuleEnumValues Enumerates the set of values for ExpressionOperatorTriggerRuleEnum
 func GetExpressionOperatorTriggerRuleEnumValues() []ExpressionOperatorTriggerRuleEnum {
 	values := make([]ExpressionOperatorTriggerRuleEnum, 0)
-	for _, v := range mappingExpressionOperatorTriggerRule {
+	for _, v := range mappingExpressionOperatorTriggerRuleEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExpressionOperatorTriggerRuleEnumStringValues Enumerates the set of values in String for ExpressionOperatorTriggerRuleEnum
+func GetExpressionOperatorTriggerRuleEnumStringValues() []string {
+	return []string{
+		"ALL_SUCCESS",
+		"ALL_FAILED",
+		"ALL_COMPLETE",
+	}
 }

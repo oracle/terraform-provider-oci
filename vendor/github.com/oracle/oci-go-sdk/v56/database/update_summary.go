@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateSummary A maintenance update for a cloud VM cluster. Applies to Exadata Cloud Service instances only.
@@ -51,6 +53,33 @@ func (m UpdateSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateSummaryUpdateTypeEnum[string(m.UpdateType)]; !ok && m.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", m.UpdateType, strings.Join(GetUpdateSummaryUpdateTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingUpdateSummaryLastActionEnum[string(m.LastAction)]; !ok && m.LastAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastAction: %s. Supported values are: %s.", m.LastAction, strings.Join(GetUpdateSummaryLastActionEnumStringValues(), ",")))
+	}
+	for _, val := range m.AvailableActions {
+		if _, ok := mappingUpdateSummaryAvailableActionsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableActions: %s. Supported values are: %s.", val, strings.Join(GetUpdateSummaryAvailableActionsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingUpdateSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetUpdateSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateSummaryLastActionEnum Enum with underlying type: string
 type UpdateSummaryLastActionEnum string
 
@@ -62,7 +91,7 @@ const (
 	UpdateSummaryLastActionRollback        UpdateSummaryLastActionEnum = "ROLLBACK"
 )
 
-var mappingUpdateSummaryLastAction = map[string]UpdateSummaryLastActionEnum{
+var mappingUpdateSummaryLastActionEnum = map[string]UpdateSummaryLastActionEnum{
 	"ROLLING_APPLY":     UpdateSummaryLastActionRollingApply,
 	"NON_ROLLING_APPLY": UpdateSummaryLastActionNonRollingApply,
 	"PRECHECK":          UpdateSummaryLastActionPrecheck,
@@ -72,10 +101,20 @@ var mappingUpdateSummaryLastAction = map[string]UpdateSummaryLastActionEnum{
 // GetUpdateSummaryLastActionEnumValues Enumerates the set of values for UpdateSummaryLastActionEnum
 func GetUpdateSummaryLastActionEnumValues() []UpdateSummaryLastActionEnum {
 	values := make([]UpdateSummaryLastActionEnum, 0)
-	for _, v := range mappingUpdateSummaryLastAction {
+	for _, v := range mappingUpdateSummaryLastActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateSummaryLastActionEnumStringValues Enumerates the set of values in String for UpdateSummaryLastActionEnum
+func GetUpdateSummaryLastActionEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"NON_ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
 }
 
 // UpdateSummaryAvailableActionsEnum Enum with underlying type: string
@@ -89,7 +128,7 @@ const (
 	UpdateSummaryAvailableActionsRollback        UpdateSummaryAvailableActionsEnum = "ROLLBACK"
 )
 
-var mappingUpdateSummaryAvailableActions = map[string]UpdateSummaryAvailableActionsEnum{
+var mappingUpdateSummaryAvailableActionsEnum = map[string]UpdateSummaryAvailableActionsEnum{
 	"ROLLING_APPLY":     UpdateSummaryAvailableActionsRollingApply,
 	"NON_ROLLING_APPLY": UpdateSummaryAvailableActionsNonRollingApply,
 	"PRECHECK":          UpdateSummaryAvailableActionsPrecheck,
@@ -99,10 +138,20 @@ var mappingUpdateSummaryAvailableActions = map[string]UpdateSummaryAvailableActi
 // GetUpdateSummaryAvailableActionsEnumValues Enumerates the set of values for UpdateSummaryAvailableActionsEnum
 func GetUpdateSummaryAvailableActionsEnumValues() []UpdateSummaryAvailableActionsEnum {
 	values := make([]UpdateSummaryAvailableActionsEnum, 0)
-	for _, v := range mappingUpdateSummaryAvailableActions {
+	for _, v := range mappingUpdateSummaryAvailableActionsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateSummaryAvailableActionsEnumStringValues Enumerates the set of values in String for UpdateSummaryAvailableActionsEnum
+func GetUpdateSummaryAvailableActionsEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"NON_ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
 }
 
 // UpdateSummaryUpdateTypeEnum Enum with underlying type: string
@@ -115,7 +164,7 @@ const (
 	UpdateSummaryUpdateTypeOsUpdate  UpdateSummaryUpdateTypeEnum = "OS_UPDATE"
 )
 
-var mappingUpdateSummaryUpdateType = map[string]UpdateSummaryUpdateTypeEnum{
+var mappingUpdateSummaryUpdateTypeEnum = map[string]UpdateSummaryUpdateTypeEnum{
 	"GI_UPGRADE": UpdateSummaryUpdateTypeGiUpgrade,
 	"GI_PATCH":   UpdateSummaryUpdateTypeGiPatch,
 	"OS_UPDATE":  UpdateSummaryUpdateTypeOsUpdate,
@@ -124,10 +173,19 @@ var mappingUpdateSummaryUpdateType = map[string]UpdateSummaryUpdateTypeEnum{
 // GetUpdateSummaryUpdateTypeEnumValues Enumerates the set of values for UpdateSummaryUpdateTypeEnum
 func GetUpdateSummaryUpdateTypeEnumValues() []UpdateSummaryUpdateTypeEnum {
 	values := make([]UpdateSummaryUpdateTypeEnum, 0)
-	for _, v := range mappingUpdateSummaryUpdateType {
+	for _, v := range mappingUpdateSummaryUpdateTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateSummaryUpdateTypeEnumStringValues Enumerates the set of values in String for UpdateSummaryUpdateTypeEnum
+func GetUpdateSummaryUpdateTypeEnumStringValues() []string {
+	return []string{
+		"GI_UPGRADE",
+		"GI_PATCH",
+		"OS_UPDATE",
+	}
 }
 
 // UpdateSummaryLifecycleStateEnum Enum with underlying type: string
@@ -141,7 +199,7 @@ const (
 	UpdateSummaryLifecycleStateFailed     UpdateSummaryLifecycleStateEnum = "FAILED"
 )
 
-var mappingUpdateSummaryLifecycleState = map[string]UpdateSummaryLifecycleStateEnum{
+var mappingUpdateSummaryLifecycleStateEnum = map[string]UpdateSummaryLifecycleStateEnum{
 	"AVAILABLE":   UpdateSummaryLifecycleStateAvailable,
 	"SUCCESS":     UpdateSummaryLifecycleStateSuccess,
 	"IN_PROGRESS": UpdateSummaryLifecycleStateInProgress,
@@ -151,8 +209,18 @@ var mappingUpdateSummaryLifecycleState = map[string]UpdateSummaryLifecycleStateE
 // GetUpdateSummaryLifecycleStateEnumValues Enumerates the set of values for UpdateSummaryLifecycleStateEnum
 func GetUpdateSummaryLifecycleStateEnumValues() []UpdateSummaryLifecycleStateEnum {
 	values := make([]UpdateSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingUpdateSummaryLifecycleState {
+	for _, v := range mappingUpdateSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for UpdateSummaryLifecycleStateEnum
+func GetUpdateSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"SUCCESS",
+		"IN_PROGRESS",
+		"FAILED",
+	}
 }

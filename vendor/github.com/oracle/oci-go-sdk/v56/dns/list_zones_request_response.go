@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListZonesRequest wrapper for the ListZones operation
@@ -80,6 +82,10 @@ func (request ListZonesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListZonesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -93,6 +99,32 @@ func (request ListZonesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListZonesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListZonesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListZonesZoneTypeEnum[string(request.ZoneType)]; !ok && request.ZoneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ZoneType: %s. Supported values are: %s.", request.ZoneType, strings.Join(GetListZonesZoneTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListZonesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListZonesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListZonesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListZonesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListZonesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListZonesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListZonesScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListZonesScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListZonesResponse wrapper for the ListZones operation
@@ -135,7 +167,7 @@ const (
 	ListZonesZoneTypeSecondary ListZonesZoneTypeEnum = "SECONDARY"
 )
 
-var mappingListZonesZoneType = map[string]ListZonesZoneTypeEnum{
+var mappingListZonesZoneTypeEnum = map[string]ListZonesZoneTypeEnum{
 	"PRIMARY":   ListZonesZoneTypePrimary,
 	"SECONDARY": ListZonesZoneTypeSecondary,
 }
@@ -143,10 +175,18 @@ var mappingListZonesZoneType = map[string]ListZonesZoneTypeEnum{
 // GetListZonesZoneTypeEnumValues Enumerates the set of values for ListZonesZoneTypeEnum
 func GetListZonesZoneTypeEnumValues() []ListZonesZoneTypeEnum {
 	values := make([]ListZonesZoneTypeEnum, 0)
-	for _, v := range mappingListZonesZoneType {
+	for _, v := range mappingListZonesZoneTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListZonesZoneTypeEnumStringValues Enumerates the set of values in String for ListZonesZoneTypeEnum
+func GetListZonesZoneTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"SECONDARY",
+	}
 }
 
 // ListZonesLifecycleStateEnum Enum with underlying type: string
@@ -162,7 +202,7 @@ const (
 	ListZonesLifecycleStateUpdating ListZonesLifecycleStateEnum = "UPDATING"
 )
 
-var mappingListZonesLifecycleState = map[string]ListZonesLifecycleStateEnum{
+var mappingListZonesLifecycleStateEnum = map[string]ListZonesLifecycleStateEnum{
 	"ACTIVE":   ListZonesLifecycleStateActive,
 	"CREATING": ListZonesLifecycleStateCreating,
 	"DELETED":  ListZonesLifecycleStateDeleted,
@@ -174,10 +214,22 @@ var mappingListZonesLifecycleState = map[string]ListZonesLifecycleStateEnum{
 // GetListZonesLifecycleStateEnumValues Enumerates the set of values for ListZonesLifecycleStateEnum
 func GetListZonesLifecycleStateEnumValues() []ListZonesLifecycleStateEnum {
 	values := make([]ListZonesLifecycleStateEnum, 0)
-	for _, v := range mappingListZonesLifecycleState {
+	for _, v := range mappingListZonesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListZonesLifecycleStateEnumStringValues Enumerates the set of values in String for ListZonesLifecycleStateEnum
+func GetListZonesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"DELETED",
+		"DELETING",
+		"FAILED",
+		"UPDATING",
+	}
 }
 
 // ListZonesSortByEnum Enum with underlying type: string
@@ -190,7 +242,7 @@ const (
 	ListZonesSortByTimecreated ListZonesSortByEnum = "timeCreated"
 )
 
-var mappingListZonesSortBy = map[string]ListZonesSortByEnum{
+var mappingListZonesSortByEnum = map[string]ListZonesSortByEnum{
 	"name":        ListZonesSortByName,
 	"zoneType":    ListZonesSortByZonetype,
 	"timeCreated": ListZonesSortByTimecreated,
@@ -199,10 +251,19 @@ var mappingListZonesSortBy = map[string]ListZonesSortByEnum{
 // GetListZonesSortByEnumValues Enumerates the set of values for ListZonesSortByEnum
 func GetListZonesSortByEnumValues() []ListZonesSortByEnum {
 	values := make([]ListZonesSortByEnum, 0)
-	for _, v := range mappingListZonesSortBy {
+	for _, v := range mappingListZonesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListZonesSortByEnumStringValues Enumerates the set of values in String for ListZonesSortByEnum
+func GetListZonesSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"zoneType",
+		"timeCreated",
+	}
 }
 
 // ListZonesSortOrderEnum Enum with underlying type: string
@@ -214,7 +275,7 @@ const (
 	ListZonesSortOrderDesc ListZonesSortOrderEnum = "DESC"
 )
 
-var mappingListZonesSortOrder = map[string]ListZonesSortOrderEnum{
+var mappingListZonesSortOrderEnum = map[string]ListZonesSortOrderEnum{
 	"ASC":  ListZonesSortOrderAsc,
 	"DESC": ListZonesSortOrderDesc,
 }
@@ -222,10 +283,18 @@ var mappingListZonesSortOrder = map[string]ListZonesSortOrderEnum{
 // GetListZonesSortOrderEnumValues Enumerates the set of values for ListZonesSortOrderEnum
 func GetListZonesSortOrderEnumValues() []ListZonesSortOrderEnum {
 	values := make([]ListZonesSortOrderEnum, 0)
-	for _, v := range mappingListZonesSortOrder {
+	for _, v := range mappingListZonesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListZonesSortOrderEnumStringValues Enumerates the set of values in String for ListZonesSortOrderEnum
+func GetListZonesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListZonesScopeEnum Enum with underlying type: string
@@ -237,7 +306,7 @@ const (
 	ListZonesScopePrivate ListZonesScopeEnum = "PRIVATE"
 )
 
-var mappingListZonesScope = map[string]ListZonesScopeEnum{
+var mappingListZonesScopeEnum = map[string]ListZonesScopeEnum{
 	"GLOBAL":  ListZonesScopeGlobal,
 	"PRIVATE": ListZonesScopePrivate,
 }
@@ -245,8 +314,16 @@ var mappingListZonesScope = map[string]ListZonesScopeEnum{
 // GetListZonesScopeEnumValues Enumerates the set of values for ListZonesScopeEnum
 func GetListZonesScopeEnumValues() []ListZonesScopeEnum {
 	values := make([]ListZonesScopeEnum, 0)
-	for _, v := range mappingListZonesScope {
+	for _, v := range mappingListZonesScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListZonesScopeEnumStringValues Enumerates the set of values in String for ListZonesScopeEnum
+func GetListZonesScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

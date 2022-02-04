@@ -22,7 +22,7 @@ const (
 	ManagedInstanceSortByOsName                       ManagedInstanceSortByEnum = "osName"
 )
 
-var mappingManagedInstanceSortBy = map[string]ManagedInstanceSortByEnum{
+var mappingManagedInstanceSortByEnum = map[string]ManagedInstanceSortByEnum{
 	"timeFirstSeen":                ManagedInstanceSortByTimeFirstSeen,
 	"timeLastSeen":                 ManagedInstanceSortByTimeLastSeen,
 	"approximateJreCount":          ManagedInstanceSortByApproximateJreCount,
@@ -34,8 +34,20 @@ var mappingManagedInstanceSortBy = map[string]ManagedInstanceSortByEnum{
 // GetManagedInstanceSortByEnumValues Enumerates the set of values for ManagedInstanceSortByEnum
 func GetManagedInstanceSortByEnumValues() []ManagedInstanceSortByEnum {
 	values := make([]ManagedInstanceSortByEnum, 0)
-	for _, v := range mappingManagedInstanceSortBy {
+	for _, v := range mappingManagedInstanceSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetManagedInstanceSortByEnumStringValues Enumerates the set of values in String for ManagedInstanceSortByEnum
+func GetManagedInstanceSortByEnumStringValues() []string {
+	return []string{
+		"timeFirstSeen",
+		"timeLastSeen",
+		"approximateJreCount",
+		"approximateInstallationCount",
+		"approximateApplicationCount",
+		"osName",
+	}
 }

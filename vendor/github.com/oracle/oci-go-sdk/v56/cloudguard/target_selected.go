@@ -11,7 +11,9 @@ package cloudguard
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // TargetSelected Target Selection eg select ALL or select on basis of TargetResourceTypes or TargetIds.
@@ -69,6 +71,18 @@ func (m targetselected) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m targetselected) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // TargetSelectedKindEnum Enum with underlying type: string
 type TargetSelectedKindEnum string
 
@@ -79,7 +93,7 @@ const (
 	TargetSelectedKindTargetids   TargetSelectedKindEnum = "TARGETIDS"
 )
 
-var mappingTargetSelectedKind = map[string]TargetSelectedKindEnum{
+var mappingTargetSelectedKindEnum = map[string]TargetSelectedKindEnum{
 	"ALL":         TargetSelectedKindAll,
 	"TARGETTYPES": TargetSelectedKindTargettypes,
 	"TARGETIDS":   TargetSelectedKindTargetids,
@@ -88,8 +102,17 @@ var mappingTargetSelectedKind = map[string]TargetSelectedKindEnum{
 // GetTargetSelectedKindEnumValues Enumerates the set of values for TargetSelectedKindEnum
 func GetTargetSelectedKindEnumValues() []TargetSelectedKindEnum {
 	values := make([]TargetSelectedKindEnum, 0)
-	for _, v := range mappingTargetSelectedKind {
+	for _, v := range mappingTargetSelectedKindEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetTargetSelectedKindEnumStringValues Enumerates the set of values in String for TargetSelectedKindEnum
+func GetTargetSelectedKindEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"TARGETTYPES",
+		"TARGETIDS",
+	}
 }

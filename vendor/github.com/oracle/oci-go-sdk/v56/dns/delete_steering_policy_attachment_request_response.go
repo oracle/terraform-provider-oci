@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // DeleteSteeringPolicyAttachmentRequest wrapper for the DeleteSteeringPolicyAttachment operation
@@ -53,6 +55,10 @@ func (request DeleteSteeringPolicyAttachmentRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request DeleteSteeringPolicyAttachmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,20 @@ func (request DeleteSteeringPolicyAttachmentRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteSteeringPolicyAttachmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request DeleteSteeringPolicyAttachmentRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDeleteSteeringPolicyAttachmentScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetDeleteSteeringPolicyAttachmentScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // DeleteSteeringPolicyAttachmentResponse wrapper for the DeleteSteeringPolicyAttachment operation
@@ -97,7 +117,7 @@ const (
 	DeleteSteeringPolicyAttachmentScopePrivate DeleteSteeringPolicyAttachmentScopeEnum = "PRIVATE"
 )
 
-var mappingDeleteSteeringPolicyAttachmentScope = map[string]DeleteSteeringPolicyAttachmentScopeEnum{
+var mappingDeleteSteeringPolicyAttachmentScopeEnum = map[string]DeleteSteeringPolicyAttachmentScopeEnum{
 	"GLOBAL":  DeleteSteeringPolicyAttachmentScopeGlobal,
 	"PRIVATE": DeleteSteeringPolicyAttachmentScopePrivate,
 }
@@ -105,8 +125,16 @@ var mappingDeleteSteeringPolicyAttachmentScope = map[string]DeleteSteeringPolicy
 // GetDeleteSteeringPolicyAttachmentScopeEnumValues Enumerates the set of values for DeleteSteeringPolicyAttachmentScopeEnum
 func GetDeleteSteeringPolicyAttachmentScopeEnumValues() []DeleteSteeringPolicyAttachmentScopeEnum {
 	values := make([]DeleteSteeringPolicyAttachmentScopeEnum, 0)
-	for _, v := range mappingDeleteSteeringPolicyAttachmentScope {
+	for _, v := range mappingDeleteSteeringPolicyAttachmentScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDeleteSteeringPolicyAttachmentScopeEnumStringValues Enumerates the set of values in String for DeleteSteeringPolicyAttachmentScopeEnum
+func GetDeleteSteeringPolicyAttachmentScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

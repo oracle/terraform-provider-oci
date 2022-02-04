@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListResolverEndpointsRequest wrapper for the ListResolverEndpoints operation
@@ -57,6 +59,10 @@ func (request ListResolverEndpointsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListResolverEndpointsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -70,6 +76,29 @@ func (request ListResolverEndpointsRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListResolverEndpointsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListResolverEndpointsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListResolverEndpointsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListResolverEndpointsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResolverEndpointsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListResolverEndpointsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingResolverEndpointSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetResolverEndpointSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListResolverEndpointsScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListResolverEndpointsScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListResolverEndpointsResponse wrapper for the ListResolverEndpoints operation
@@ -109,7 +138,7 @@ const (
 	ListResolverEndpointsSortOrderDesc ListResolverEndpointsSortOrderEnum = "DESC"
 )
 
-var mappingListResolverEndpointsSortOrder = map[string]ListResolverEndpointsSortOrderEnum{
+var mappingListResolverEndpointsSortOrderEnum = map[string]ListResolverEndpointsSortOrderEnum{
 	"ASC":  ListResolverEndpointsSortOrderAsc,
 	"DESC": ListResolverEndpointsSortOrderDesc,
 }
@@ -117,10 +146,18 @@ var mappingListResolverEndpointsSortOrder = map[string]ListResolverEndpointsSort
 // GetListResolverEndpointsSortOrderEnumValues Enumerates the set of values for ListResolverEndpointsSortOrderEnum
 func GetListResolverEndpointsSortOrderEnumValues() []ListResolverEndpointsSortOrderEnum {
 	values := make([]ListResolverEndpointsSortOrderEnum, 0)
-	for _, v := range mappingListResolverEndpointsSortOrder {
+	for _, v := range mappingListResolverEndpointsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResolverEndpointsSortOrderEnumStringValues Enumerates the set of values in String for ListResolverEndpointsSortOrderEnum
+func GetListResolverEndpointsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListResolverEndpointsSortByEnum Enum with underlying type: string
@@ -132,7 +169,7 @@ const (
 	ListResolverEndpointsSortByTimecreated ListResolverEndpointsSortByEnum = "timeCreated"
 )
 
-var mappingListResolverEndpointsSortBy = map[string]ListResolverEndpointsSortByEnum{
+var mappingListResolverEndpointsSortByEnum = map[string]ListResolverEndpointsSortByEnum{
 	"name":        ListResolverEndpointsSortByName,
 	"timeCreated": ListResolverEndpointsSortByTimecreated,
 }
@@ -140,10 +177,18 @@ var mappingListResolverEndpointsSortBy = map[string]ListResolverEndpointsSortByE
 // GetListResolverEndpointsSortByEnumValues Enumerates the set of values for ListResolverEndpointsSortByEnum
 func GetListResolverEndpointsSortByEnumValues() []ListResolverEndpointsSortByEnum {
 	values := make([]ListResolverEndpointsSortByEnum, 0)
-	for _, v := range mappingListResolverEndpointsSortBy {
+	for _, v := range mappingListResolverEndpointsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResolverEndpointsSortByEnumStringValues Enumerates the set of values in String for ListResolverEndpointsSortByEnum
+func GetListResolverEndpointsSortByEnumStringValues() []string {
+	return []string{
+		"name",
+		"timeCreated",
+	}
 }
 
 // ListResolverEndpointsScopeEnum Enum with underlying type: string
@@ -155,7 +200,7 @@ const (
 	ListResolverEndpointsScopePrivate ListResolverEndpointsScopeEnum = "PRIVATE"
 )
 
-var mappingListResolverEndpointsScope = map[string]ListResolverEndpointsScopeEnum{
+var mappingListResolverEndpointsScopeEnum = map[string]ListResolverEndpointsScopeEnum{
 	"GLOBAL":  ListResolverEndpointsScopeGlobal,
 	"PRIVATE": ListResolverEndpointsScopePrivate,
 }
@@ -163,8 +208,16 @@ var mappingListResolverEndpointsScope = map[string]ListResolverEndpointsScopeEnu
 // GetListResolverEndpointsScopeEnumValues Enumerates the set of values for ListResolverEndpointsScopeEnum
 func GetListResolverEndpointsScopeEnumValues() []ListResolverEndpointsScopeEnum {
 	values := make([]ListResolverEndpointsScopeEnum, 0)
-	for _, v := range mappingListResolverEndpointsScope {
+	for _, v := range mappingListResolverEndpointsScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListResolverEndpointsScopeEnumStringValues Enumerates the set of values in String for ListResolverEndpointsScopeEnum
+func GetListResolverEndpointsScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

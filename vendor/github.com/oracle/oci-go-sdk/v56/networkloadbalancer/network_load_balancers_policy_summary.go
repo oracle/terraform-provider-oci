@@ -19,7 +19,7 @@ const (
 	NetworkLoadBalancersPolicySummaryFiveTuple  NetworkLoadBalancersPolicySummaryEnum = "FIVE_TUPLE"
 )
 
-var mappingNetworkLoadBalancersPolicySummary = map[string]NetworkLoadBalancersPolicySummaryEnum{
+var mappingNetworkLoadBalancersPolicySummaryEnum = map[string]NetworkLoadBalancersPolicySummaryEnum{
 	"TWO_TUPLE":   NetworkLoadBalancersPolicySummaryTwoTuple,
 	"THREE_TUPLE": NetworkLoadBalancersPolicySummaryThreeTuple,
 	"FIVE_TUPLE":  NetworkLoadBalancersPolicySummaryFiveTuple,
@@ -28,8 +28,17 @@ var mappingNetworkLoadBalancersPolicySummary = map[string]NetworkLoadBalancersPo
 // GetNetworkLoadBalancersPolicySummaryEnumValues Enumerates the set of values for NetworkLoadBalancersPolicySummaryEnum
 func GetNetworkLoadBalancersPolicySummaryEnumValues() []NetworkLoadBalancersPolicySummaryEnum {
 	values := make([]NetworkLoadBalancersPolicySummaryEnum, 0)
-	for _, v := range mappingNetworkLoadBalancersPolicySummary {
+	for _, v := range mappingNetworkLoadBalancersPolicySummaryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkLoadBalancersPolicySummaryEnumStringValues Enumerates the set of values in String for NetworkLoadBalancersPolicySummaryEnum
+func GetNetworkLoadBalancersPolicySummaryEnumStringValues() []string {
+	return []string{
+		"TWO_TUPLE",
+		"THREE_TUPLE",
+		"FIVE_TUPLE",
+	}
 }

@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeHostInsightResourceForecastTrendRequest wrapper for the SummarizeHostInsightResourceForecastTrend operation
@@ -129,6 +131,10 @@ func (request SummarizeHostInsightResourceForecastTrendRequest) String() string 
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeHostInsightResourceForecastTrendRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -142,6 +148,32 @@ func (request SummarizeHostInsightResourceForecastTrendRequest) BinaryRequestBod
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeHostInsightResourceForecastTrendRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeHostInsightResourceForecastTrendRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.PlatformType {
+		if _, ok := mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeHostInsightResourceForecastTrendPlatformTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeHostInsightResourceForecastTrendStatisticEnum[string(request.Statistic)]; !ok && request.Statistic != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Statistic: %s. Supported values are: %s.", request.Statistic, strings.Join(GetSummarizeHostInsightResourceForecastTrendStatisticEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeHostInsightResourceForecastTrendForecastModelEnum[string(request.ForecastModel)]; !ok && request.ForecastModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ForecastModel: %s. Supported values are: %s.", request.ForecastModel, strings.Join(GetSummarizeHostInsightResourceForecastTrendForecastModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeHostInsightResourceForecastTrendUtilizationLevelEnum[string(request.UtilizationLevel)]; !ok && request.UtilizationLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UtilizationLevel: %s. Supported values are: %s.", request.UtilizationLevel, strings.Join(GetSummarizeHostInsightResourceForecastTrendUtilizationLevelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeHostInsightResourceForecastTrendResponse wrapper for the SummarizeHostInsightResourceForecastTrend operation
@@ -177,7 +209,7 @@ const (
 	SummarizeHostInsightResourceForecastTrendPlatformTypeSunos   SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "SUNOS"
 )
 
-var mappingSummarizeHostInsightResourceForecastTrendPlatformType = map[string]SummarizeHostInsightResourceForecastTrendPlatformTypeEnum{
+var mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnum = map[string]SummarizeHostInsightResourceForecastTrendPlatformTypeEnum{
 	"LINUX":   SummarizeHostInsightResourceForecastTrendPlatformTypeLinux,
 	"SOLARIS": SummarizeHostInsightResourceForecastTrendPlatformTypeSolaris,
 	"SUNOS":   SummarizeHostInsightResourceForecastTrendPlatformTypeSunos,
@@ -186,10 +218,19 @@ var mappingSummarizeHostInsightResourceForecastTrendPlatformType = map[string]Su
 // GetSummarizeHostInsightResourceForecastTrendPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceForecastTrendPlatformTypeEnum
 func GetSummarizeHostInsightResourceForecastTrendPlatformTypeEnumValues() []SummarizeHostInsightResourceForecastTrendPlatformTypeEnum {
 	values := make([]SummarizeHostInsightResourceForecastTrendPlatformTypeEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceForecastTrendPlatformType {
+	for _, v := range mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeHostInsightResourceForecastTrendPlatformTypeEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceForecastTrendPlatformTypeEnum
+func GetSummarizeHostInsightResourceForecastTrendPlatformTypeEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"SOLARIS",
+		"SUNOS",
+	}
 }
 
 // SummarizeHostInsightResourceForecastTrendStatisticEnum Enum with underlying type: string
@@ -201,7 +242,7 @@ const (
 	SummarizeHostInsightResourceForecastTrendStatisticMax SummarizeHostInsightResourceForecastTrendStatisticEnum = "MAX"
 )
 
-var mappingSummarizeHostInsightResourceForecastTrendStatistic = map[string]SummarizeHostInsightResourceForecastTrendStatisticEnum{
+var mappingSummarizeHostInsightResourceForecastTrendStatisticEnum = map[string]SummarizeHostInsightResourceForecastTrendStatisticEnum{
 	"AVG": SummarizeHostInsightResourceForecastTrendStatisticAvg,
 	"MAX": SummarizeHostInsightResourceForecastTrendStatisticMax,
 }
@@ -209,10 +250,18 @@ var mappingSummarizeHostInsightResourceForecastTrendStatistic = map[string]Summa
 // GetSummarizeHostInsightResourceForecastTrendStatisticEnumValues Enumerates the set of values for SummarizeHostInsightResourceForecastTrendStatisticEnum
 func GetSummarizeHostInsightResourceForecastTrendStatisticEnumValues() []SummarizeHostInsightResourceForecastTrendStatisticEnum {
 	values := make([]SummarizeHostInsightResourceForecastTrendStatisticEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceForecastTrendStatistic {
+	for _, v := range mappingSummarizeHostInsightResourceForecastTrendStatisticEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeHostInsightResourceForecastTrendStatisticEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceForecastTrendStatisticEnum
+func GetSummarizeHostInsightResourceForecastTrendStatisticEnumStringValues() []string {
+	return []string{
+		"AVG",
+		"MAX",
+	}
 }
 
 // SummarizeHostInsightResourceForecastTrendForecastModelEnum Enum with underlying type: string
@@ -225,7 +274,7 @@ const (
 	SummarizeHostInsightResourceForecastTrendForecastModelMlNoAuto SummarizeHostInsightResourceForecastTrendForecastModelEnum = "ML_NO_AUTO"
 )
 
-var mappingSummarizeHostInsightResourceForecastTrendForecastModel = map[string]SummarizeHostInsightResourceForecastTrendForecastModelEnum{
+var mappingSummarizeHostInsightResourceForecastTrendForecastModelEnum = map[string]SummarizeHostInsightResourceForecastTrendForecastModelEnum{
 	"LINEAR":     SummarizeHostInsightResourceForecastTrendForecastModelLinear,
 	"ML_AUTO":    SummarizeHostInsightResourceForecastTrendForecastModelMlAuto,
 	"ML_NO_AUTO": SummarizeHostInsightResourceForecastTrendForecastModelMlNoAuto,
@@ -234,10 +283,19 @@ var mappingSummarizeHostInsightResourceForecastTrendForecastModel = map[string]S
 // GetSummarizeHostInsightResourceForecastTrendForecastModelEnumValues Enumerates the set of values for SummarizeHostInsightResourceForecastTrendForecastModelEnum
 func GetSummarizeHostInsightResourceForecastTrendForecastModelEnumValues() []SummarizeHostInsightResourceForecastTrendForecastModelEnum {
 	values := make([]SummarizeHostInsightResourceForecastTrendForecastModelEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceForecastTrendForecastModel {
+	for _, v := range mappingSummarizeHostInsightResourceForecastTrendForecastModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeHostInsightResourceForecastTrendForecastModelEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceForecastTrendForecastModelEnum
+func GetSummarizeHostInsightResourceForecastTrendForecastModelEnumStringValues() []string {
+	return []string{
+		"LINEAR",
+		"ML_AUTO",
+		"ML_NO_AUTO",
+	}
 }
 
 // SummarizeHostInsightResourceForecastTrendUtilizationLevelEnum Enum with underlying type: string
@@ -251,7 +309,7 @@ const (
 	SummarizeHostInsightResourceForecastTrendUtilizationLevelMediumLowUtilization  SummarizeHostInsightResourceForecastTrendUtilizationLevelEnum = "MEDIUM_LOW_UTILIZATION"
 )
 
-var mappingSummarizeHostInsightResourceForecastTrendUtilizationLevel = map[string]SummarizeHostInsightResourceForecastTrendUtilizationLevelEnum{
+var mappingSummarizeHostInsightResourceForecastTrendUtilizationLevelEnum = map[string]SummarizeHostInsightResourceForecastTrendUtilizationLevelEnum{
 	"HIGH_UTILIZATION":        SummarizeHostInsightResourceForecastTrendUtilizationLevelHighUtilization,
 	"LOW_UTILIZATION":         SummarizeHostInsightResourceForecastTrendUtilizationLevelLowUtilization,
 	"MEDIUM_HIGH_UTILIZATION": SummarizeHostInsightResourceForecastTrendUtilizationLevelMediumHighUtilization,
@@ -261,8 +319,18 @@ var mappingSummarizeHostInsightResourceForecastTrendUtilizationLevel = map[strin
 // GetSummarizeHostInsightResourceForecastTrendUtilizationLevelEnumValues Enumerates the set of values for SummarizeHostInsightResourceForecastTrendUtilizationLevelEnum
 func GetSummarizeHostInsightResourceForecastTrendUtilizationLevelEnumValues() []SummarizeHostInsightResourceForecastTrendUtilizationLevelEnum {
 	values := make([]SummarizeHostInsightResourceForecastTrendUtilizationLevelEnum, 0)
-	for _, v := range mappingSummarizeHostInsightResourceForecastTrendUtilizationLevel {
+	for _, v := range mappingSummarizeHostInsightResourceForecastTrendUtilizationLevelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeHostInsightResourceForecastTrendUtilizationLevelEnumStringValues Enumerates the set of values in String for SummarizeHostInsightResourceForecastTrendUtilizationLevelEnum
+func GetSummarizeHostInsightResourceForecastTrendUtilizationLevelEnumStringValues() []string {
+	return []string{
+		"HIGH_UTILIZATION",
+		"LOW_UTILIZATION",
+		"MEDIUM_HIGH_UTILIZATION",
+		"MEDIUM_LOW_UTILIZATION",
+	}
 }

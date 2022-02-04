@@ -11,7 +11,9 @@ package marketplace
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SearchListingsDetails A base request type that contains common criteria for Marketplace Search Listings details.
@@ -73,4 +75,19 @@ func (m searchlistingsdetails) GetMatchingContextType() MatchingContextTypeEnumE
 
 func (m searchlistingsdetails) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m searchlistingsdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingMatchingContextTypeEnumEnum[string(m.MatchingContextType)]; !ok && m.MatchingContextType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchingContextType: %s. Supported values are: %s.", m.MatchingContextType, strings.Join(GetMatchingContextTypeEnumEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

@@ -5,8 +5,10 @@
 package aianomalydetection
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAiPrivateEndpointsRequest wrapper for the ListAiPrivateEndpoints operation
@@ -56,6 +58,10 @@ func (request ListAiPrivateEndpointsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAiPrivateEndpointsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,26 @@ func (request ListAiPrivateEndpointsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAiPrivateEndpointsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAiPrivateEndpointsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingAiPrivateEndpointLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAiPrivateEndpointLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAiPrivateEndpointsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAiPrivateEndpointsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAiPrivateEndpointsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAiPrivateEndpointsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAiPrivateEndpointsResponse wrapper for the ListAiPrivateEndpoints operation
@@ -108,7 +134,7 @@ const (
 	ListAiPrivateEndpointsSortOrderDesc ListAiPrivateEndpointsSortOrderEnum = "DESC"
 )
 
-var mappingListAiPrivateEndpointsSortOrder = map[string]ListAiPrivateEndpointsSortOrderEnum{
+var mappingListAiPrivateEndpointsSortOrderEnum = map[string]ListAiPrivateEndpointsSortOrderEnum{
 	"ASC":  ListAiPrivateEndpointsSortOrderAsc,
 	"DESC": ListAiPrivateEndpointsSortOrderDesc,
 }
@@ -116,10 +142,18 @@ var mappingListAiPrivateEndpointsSortOrder = map[string]ListAiPrivateEndpointsSo
 // GetListAiPrivateEndpointsSortOrderEnumValues Enumerates the set of values for ListAiPrivateEndpointsSortOrderEnum
 func GetListAiPrivateEndpointsSortOrderEnumValues() []ListAiPrivateEndpointsSortOrderEnum {
 	values := make([]ListAiPrivateEndpointsSortOrderEnum, 0)
-	for _, v := range mappingListAiPrivateEndpointsSortOrder {
+	for _, v := range mappingListAiPrivateEndpointsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAiPrivateEndpointsSortOrderEnumStringValues Enumerates the set of values in String for ListAiPrivateEndpointsSortOrderEnum
+func GetListAiPrivateEndpointsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListAiPrivateEndpointsSortByEnum Enum with underlying type: string
@@ -131,7 +165,7 @@ const (
 	ListAiPrivateEndpointsSortByDisplayname ListAiPrivateEndpointsSortByEnum = "displayName"
 )
 
-var mappingListAiPrivateEndpointsSortBy = map[string]ListAiPrivateEndpointsSortByEnum{
+var mappingListAiPrivateEndpointsSortByEnum = map[string]ListAiPrivateEndpointsSortByEnum{
 	"timeCreated": ListAiPrivateEndpointsSortByTimecreated,
 	"displayName": ListAiPrivateEndpointsSortByDisplayname,
 }
@@ -139,8 +173,16 @@ var mappingListAiPrivateEndpointsSortBy = map[string]ListAiPrivateEndpointsSortB
 // GetListAiPrivateEndpointsSortByEnumValues Enumerates the set of values for ListAiPrivateEndpointsSortByEnum
 func GetListAiPrivateEndpointsSortByEnumValues() []ListAiPrivateEndpointsSortByEnum {
 	values := make([]ListAiPrivateEndpointsSortByEnum, 0)
-	for _, v := range mappingListAiPrivateEndpointsSortBy {
+	for _, v := range mappingListAiPrivateEndpointsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAiPrivateEndpointsSortByEnumStringValues Enumerates the set of values in String for ListAiPrivateEndpointsSortByEnum
+func GetListAiPrivateEndpointsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

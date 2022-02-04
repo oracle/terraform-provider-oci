@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListManagedListTypesRequest wrapper for the ListManagedListTypes operation
@@ -49,6 +51,10 @@ func (request ListManagedListTypesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListManagedListTypesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +68,26 @@ func (request ListManagedListTypesRequest) BinaryRequestBody() (*common.OCIReadS
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListManagedListTypesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListManagedListTypesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListManagedListTypesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListManagedListTypesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedListTypesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagedListTypesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagedListTypesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagedListTypesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListManagedListTypesResponse wrapper for the ListManagedListTypes operation
@@ -106,7 +132,7 @@ const (
 	ListManagedListTypesLifecycleStateFailed   ListManagedListTypesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListManagedListTypesLifecycleState = map[string]ListManagedListTypesLifecycleStateEnum{
+var mappingListManagedListTypesLifecycleStateEnum = map[string]ListManagedListTypesLifecycleStateEnum{
 	"CREATING": ListManagedListTypesLifecycleStateCreating,
 	"UPDATING": ListManagedListTypesLifecycleStateUpdating,
 	"ACTIVE":   ListManagedListTypesLifecycleStateActive,
@@ -119,10 +145,23 @@ var mappingListManagedListTypesLifecycleState = map[string]ListManagedListTypesL
 // GetListManagedListTypesLifecycleStateEnumValues Enumerates the set of values for ListManagedListTypesLifecycleStateEnum
 func GetListManagedListTypesLifecycleStateEnumValues() []ListManagedListTypesLifecycleStateEnum {
 	values := make([]ListManagedListTypesLifecycleStateEnum, 0)
-	for _, v := range mappingListManagedListTypesLifecycleState {
+	for _, v := range mappingListManagedListTypesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedListTypesLifecycleStateEnumStringValues Enumerates the set of values in String for ListManagedListTypesLifecycleStateEnum
+func GetListManagedListTypesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListManagedListTypesSortOrderEnum Enum with underlying type: string
@@ -134,7 +173,7 @@ const (
 	ListManagedListTypesSortOrderDesc ListManagedListTypesSortOrderEnum = "DESC"
 )
 
-var mappingListManagedListTypesSortOrder = map[string]ListManagedListTypesSortOrderEnum{
+var mappingListManagedListTypesSortOrderEnum = map[string]ListManagedListTypesSortOrderEnum{
 	"ASC":  ListManagedListTypesSortOrderAsc,
 	"DESC": ListManagedListTypesSortOrderDesc,
 }
@@ -142,10 +181,18 @@ var mappingListManagedListTypesSortOrder = map[string]ListManagedListTypesSortOr
 // GetListManagedListTypesSortOrderEnumValues Enumerates the set of values for ListManagedListTypesSortOrderEnum
 func GetListManagedListTypesSortOrderEnumValues() []ListManagedListTypesSortOrderEnum {
 	values := make([]ListManagedListTypesSortOrderEnum, 0)
-	for _, v := range mappingListManagedListTypesSortOrder {
+	for _, v := range mappingListManagedListTypesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedListTypesSortOrderEnumStringValues Enumerates the set of values in String for ListManagedListTypesSortOrderEnum
+func GetListManagedListTypesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListManagedListTypesSortByEnum Enum with underlying type: string
@@ -157,7 +204,7 @@ const (
 	ListManagedListTypesSortByRisklevel   ListManagedListTypesSortByEnum = "riskLevel"
 )
 
-var mappingListManagedListTypesSortBy = map[string]ListManagedListTypesSortByEnum{
+var mappingListManagedListTypesSortByEnum = map[string]ListManagedListTypesSortByEnum{
 	"displayName": ListManagedListTypesSortByDisplayname,
 	"riskLevel":   ListManagedListTypesSortByRisklevel,
 }
@@ -165,8 +212,16 @@ var mappingListManagedListTypesSortBy = map[string]ListManagedListTypesSortByEnu
 // GetListManagedListTypesSortByEnumValues Enumerates the set of values for ListManagedListTypesSortByEnum
 func GetListManagedListTypesSortByEnumValues() []ListManagedListTypesSortByEnum {
 	values := make([]ListManagedListTypesSortByEnum, 0)
-	for _, v := range mappingListManagedListTypesSortBy {
+	for _, v := range mappingListManagedListTypesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagedListTypesSortByEnumStringValues Enumerates the set of values in String for ListManagedListTypesSortByEnum
+func GetListManagedListTypesSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"riskLevel",
+	}
 }

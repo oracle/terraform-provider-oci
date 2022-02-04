@@ -20,7 +20,7 @@ const (
 	PricingStrategyEnumPerInstanceMonthlyInclusive PricingStrategyEnumEnum = "PER_INSTANCE_MONTHLY_INCLUSIVE"
 )
 
-var mappingPricingStrategyEnum = map[string]PricingStrategyEnumEnum{
+var mappingPricingStrategyEnumEnum = map[string]PricingStrategyEnumEnum{
 	"PER_OCPU_LINEAR":                PricingStrategyEnumPerOcpuLinear,
 	"PER_OCPU_MIN_BILLING":           PricingStrategyEnumPerOcpuMinBilling,
 	"PER_INSTANCE":                   PricingStrategyEnumPerInstance,
@@ -30,8 +30,18 @@ var mappingPricingStrategyEnum = map[string]PricingStrategyEnumEnum{
 // GetPricingStrategyEnumEnumValues Enumerates the set of values for PricingStrategyEnumEnum
 func GetPricingStrategyEnumEnumValues() []PricingStrategyEnumEnum {
 	values := make([]PricingStrategyEnumEnum, 0)
-	for _, v := range mappingPricingStrategyEnum {
+	for _, v := range mappingPricingStrategyEnumEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPricingStrategyEnumEnumStringValues Enumerates the set of values in String for PricingStrategyEnumEnum
+func GetPricingStrategyEnumEnumStringValues() []string {
+	return []string{
+		"PER_OCPU_LINEAR",
+		"PER_OCPU_MIN_BILLING",
+		"PER_INSTANCE",
+		"PER_INSTANCE_MONTHLY_INCLUSIVE",
+	}
 }

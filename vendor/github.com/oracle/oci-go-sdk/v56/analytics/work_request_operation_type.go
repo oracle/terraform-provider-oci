@@ -29,7 +29,7 @@ const (
 	WorkRequestOperationTypeDeletePrivateAccessChannel             WorkRequestOperationTypeEnum = "DELETE_PRIVATE_ACCESS_CHANNEL"
 )
 
-var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
+var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
 	"CREATE_ANALYTICS_INSTANCE":                  WorkRequestOperationTypeCreateAnalyticsInstance,
 	"DELETE_ANALYTICS_INSTANCE":                  WorkRequestOperationTypeDeleteAnalyticsInstance,
 	"START_ANALYTICS_INSTANCE":                   WorkRequestOperationTypeStartAnalyticsInstance,
@@ -48,8 +48,27 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
 func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
 	values := make([]WorkRequestOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestOperationType {
+	for _, v := range mappingWorkRequestOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestOperationTypeEnumStringValues Enumerates the set of values in String for WorkRequestOperationTypeEnum
+func GetWorkRequestOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_ANALYTICS_INSTANCE",
+		"DELETE_ANALYTICS_INSTANCE",
+		"START_ANALYTICS_INSTANCE",
+		"STOP_ANALYTICS_INSTANCE",
+		"SCALE_ANALYTICS_INSTANCE",
+		"CHANGE_ANALYTICS_INSTANCE_COMPARTMENT",
+		"CHANGE_ANALYTICS_INSTANCE_NETWORK_ENDPOINT",
+		"CREATE_VANITY_URL",
+		"UPDATE_VANITY_URL",
+		"DELETE_VANITY_URL",
+		"CREATE_PRIVATE_ACCESS_CHANNEL",
+		"UPDATE_PRIVATE_ACCESS_CHANNEL",
+		"DELETE_PRIVATE_ACCESS_CHANNEL",
+	}
 }

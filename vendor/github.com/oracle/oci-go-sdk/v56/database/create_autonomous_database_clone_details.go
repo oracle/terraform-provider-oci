@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateAutonomousDatabaseCloneDetails Details to create an Oracle Autonomous Database by cloning an existing Autonomous Database.
@@ -336,6 +338,30 @@ func (m CreateAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateAutonomousDatabaseCloneDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateAutonomousDatabaseCloneDetailsCloneTypeEnum[string(m.CloneType)]; !ok && m.CloneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneType: %s. Supported values are: %s.", m.CloneType, strings.Join(GetCreateAutonomousDatabaseCloneDetailsCloneTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingCreateAutonomousDatabaseBaseDbWorkloadEnum[string(m.DbWorkload)]; !ok && m.DbWorkload != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateAutonomousDatabaseBaseDbWorkloadEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateAutonomousDatabaseBaseLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum[string(m.AutonomousMaintenanceScheduleType)]; !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m CreateAutonomousDatabaseCloneDetails) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeCreateAutonomousDatabaseCloneDetails CreateAutonomousDatabaseCloneDetails
@@ -359,7 +385,7 @@ const (
 	CreateAutonomousDatabaseCloneDetailsCloneTypeMetadata CreateAutonomousDatabaseCloneDetailsCloneTypeEnum = "METADATA"
 )
 
-var mappingCreateAutonomousDatabaseCloneDetailsCloneType = map[string]CreateAutonomousDatabaseCloneDetailsCloneTypeEnum{
+var mappingCreateAutonomousDatabaseCloneDetailsCloneTypeEnum = map[string]CreateAutonomousDatabaseCloneDetailsCloneTypeEnum{
 	"FULL":     CreateAutonomousDatabaseCloneDetailsCloneTypeFull,
 	"METADATA": CreateAutonomousDatabaseCloneDetailsCloneTypeMetadata,
 }
@@ -367,8 +393,16 @@ var mappingCreateAutonomousDatabaseCloneDetailsCloneType = map[string]CreateAuto
 // GetCreateAutonomousDatabaseCloneDetailsCloneTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseCloneDetailsCloneTypeEnum
 func GetCreateAutonomousDatabaseCloneDetailsCloneTypeEnumValues() []CreateAutonomousDatabaseCloneDetailsCloneTypeEnum {
 	values := make([]CreateAutonomousDatabaseCloneDetailsCloneTypeEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseCloneDetailsCloneType {
+	for _, v := range mappingCreateAutonomousDatabaseCloneDetailsCloneTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateAutonomousDatabaseCloneDetailsCloneTypeEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseCloneDetailsCloneTypeEnum
+func GetCreateAutonomousDatabaseCloneDetailsCloneTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"METADATA",
+	}
 }

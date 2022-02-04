@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateBackupDestinationDetails Details for creating a backup destination.
@@ -108,6 +110,18 @@ func (m createbackupdestinationdetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createbackupdestinationdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateBackupDestinationDetailsTypeEnum Enum with underlying type: string
 type CreateBackupDestinationDetailsTypeEnum string
 
@@ -117,7 +131,7 @@ const (
 	CreateBackupDestinationDetailsTypeRecoveryAppliance CreateBackupDestinationDetailsTypeEnum = "RECOVERY_APPLIANCE"
 )
 
-var mappingCreateBackupDestinationDetailsType = map[string]CreateBackupDestinationDetailsTypeEnum{
+var mappingCreateBackupDestinationDetailsTypeEnum = map[string]CreateBackupDestinationDetailsTypeEnum{
 	"NFS":                CreateBackupDestinationDetailsTypeNfs,
 	"RECOVERY_APPLIANCE": CreateBackupDestinationDetailsTypeRecoveryAppliance,
 }
@@ -125,8 +139,16 @@ var mappingCreateBackupDestinationDetailsType = map[string]CreateBackupDestinati
 // GetCreateBackupDestinationDetailsTypeEnumValues Enumerates the set of values for CreateBackupDestinationDetailsTypeEnum
 func GetCreateBackupDestinationDetailsTypeEnumValues() []CreateBackupDestinationDetailsTypeEnum {
 	values := make([]CreateBackupDestinationDetailsTypeEnum, 0)
-	for _, v := range mappingCreateBackupDestinationDetailsType {
+	for _, v := range mappingCreateBackupDestinationDetailsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateBackupDestinationDetailsTypeEnumStringValues Enumerates the set of values in String for CreateBackupDestinationDetailsTypeEnum
+func GetCreateBackupDestinationDetailsTypeEnumStringValues() []string {
+	return []string{
+		"NFS",
+		"RECOVERY_APPLIANCE",
+	}
 }

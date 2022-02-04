@@ -10,7 +10,9 @@
 package blockchain
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WorkRequestResourceSubTypeDetail SubType information for a work request resource.
@@ -31,6 +33,21 @@ func (m WorkRequestResourceSubTypeDetail) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestResourceSubTypeDetail) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingWorkRequestResourceSubTypeDetailSubTypeStatusEnum[string(m.SubTypeStatus)]; !ok && m.SubTypeStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubTypeStatus: %s. Supported values are: %s.", m.SubTypeStatus, strings.Join(GetWorkRequestResourceSubTypeDetailSubTypeStatusEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WorkRequestResourceSubTypeDetailSubTypeStatusEnum Enum with underlying type: string
 type WorkRequestResourceSubTypeDetailSubTypeStatusEnum string
 
@@ -41,7 +58,7 @@ const (
 	WorkRequestResourceSubTypeDetailSubTypeStatusDeleted WorkRequestResourceSubTypeDetailSubTypeStatusEnum = "DELETED"
 )
 
-var mappingWorkRequestResourceSubTypeDetailSubTypeStatus = map[string]WorkRequestResourceSubTypeDetailSubTypeStatusEnum{
+var mappingWorkRequestResourceSubTypeDetailSubTypeStatusEnum = map[string]WorkRequestResourceSubTypeDetailSubTypeStatusEnum{
 	"CREATED": WorkRequestResourceSubTypeDetailSubTypeStatusCreated,
 	"UPDATED": WorkRequestResourceSubTypeDetailSubTypeStatusUpdated,
 	"DELETED": WorkRequestResourceSubTypeDetailSubTypeStatusDeleted,
@@ -50,8 +67,17 @@ var mappingWorkRequestResourceSubTypeDetailSubTypeStatus = map[string]WorkReques
 // GetWorkRequestResourceSubTypeDetailSubTypeStatusEnumValues Enumerates the set of values for WorkRequestResourceSubTypeDetailSubTypeStatusEnum
 func GetWorkRequestResourceSubTypeDetailSubTypeStatusEnumValues() []WorkRequestResourceSubTypeDetailSubTypeStatusEnum {
 	values := make([]WorkRequestResourceSubTypeDetailSubTypeStatusEnum, 0)
-	for _, v := range mappingWorkRequestResourceSubTypeDetailSubTypeStatus {
+	for _, v := range mappingWorkRequestResourceSubTypeDetailSubTypeStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkRequestResourceSubTypeDetailSubTypeStatusEnumStringValues Enumerates the set of values in String for WorkRequestResourceSubTypeDetailSubTypeStatusEnum
+func GetWorkRequestResourceSubTypeDetailSubTypeStatusEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"UPDATED",
+		"DELETED",
+	}
 }

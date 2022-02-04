@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ComputeCapacityReservation A template that defines the settings to use when creating compute capacity reservations.
@@ -82,6 +84,21 @@ func (m ComputeCapacityReservation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ComputeCapacityReservation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingComputeCapacityReservationLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetComputeCapacityReservationLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ComputeCapacityReservationLifecycleStateEnum Enum with underlying type: string
 type ComputeCapacityReservationLifecycleStateEnum string
 
@@ -95,7 +112,7 @@ const (
 	ComputeCapacityReservationLifecycleStateDeleting ComputeCapacityReservationLifecycleStateEnum = "DELETING"
 )
 
-var mappingComputeCapacityReservationLifecycleState = map[string]ComputeCapacityReservationLifecycleStateEnum{
+var mappingComputeCapacityReservationLifecycleStateEnum = map[string]ComputeCapacityReservationLifecycleStateEnum{
 	"ACTIVE":   ComputeCapacityReservationLifecycleStateActive,
 	"CREATING": ComputeCapacityReservationLifecycleStateCreating,
 	"UPDATING": ComputeCapacityReservationLifecycleStateUpdating,
@@ -107,8 +124,20 @@ var mappingComputeCapacityReservationLifecycleState = map[string]ComputeCapacity
 // GetComputeCapacityReservationLifecycleStateEnumValues Enumerates the set of values for ComputeCapacityReservationLifecycleStateEnum
 func GetComputeCapacityReservationLifecycleStateEnumValues() []ComputeCapacityReservationLifecycleStateEnum {
 	values := make([]ComputeCapacityReservationLifecycleStateEnum, 0)
-	for _, v := range mappingComputeCapacityReservationLifecycleState {
+	for _, v := range mappingComputeCapacityReservationLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetComputeCapacityReservationLifecycleStateEnumStringValues Enumerates the set of values in String for ComputeCapacityReservationLifecycleStateEnum
+func GetComputeCapacityReservationLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"CREATING",
+		"UPDATING",
+		"MOVING",
+		"DELETED",
+		"DELETING",
+	}
 }

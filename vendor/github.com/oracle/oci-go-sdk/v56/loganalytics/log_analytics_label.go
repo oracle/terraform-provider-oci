@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LogAnalyticsLabel LogAnalytics label
@@ -61,6 +63,24 @@ func (m LogAnalyticsLabel) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsLabel) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsLabelPriorityEnum[string(m.Priority)]; !ok && m.Priority != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Priority: %s. Supported values are: %s.", m.Priority, strings.Join(GetLogAnalyticsLabelPriorityEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLogAnalyticsLabelTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetLogAnalyticsLabelTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsLabelPriorityEnum Enum with underlying type: string
 type LogAnalyticsLabelPriorityEnum string
 
@@ -72,7 +92,7 @@ const (
 	LogAnalyticsLabelPriorityHigh   LogAnalyticsLabelPriorityEnum = "HIGH"
 )
 
-var mappingLogAnalyticsLabelPriority = map[string]LogAnalyticsLabelPriorityEnum{
+var mappingLogAnalyticsLabelPriorityEnum = map[string]LogAnalyticsLabelPriorityEnum{
 	"NONE":   LogAnalyticsLabelPriorityNone,
 	"LOW":    LogAnalyticsLabelPriorityLow,
 	"MEDIUM": LogAnalyticsLabelPriorityMedium,
@@ -82,10 +102,20 @@ var mappingLogAnalyticsLabelPriority = map[string]LogAnalyticsLabelPriorityEnum{
 // GetLogAnalyticsLabelPriorityEnumValues Enumerates the set of values for LogAnalyticsLabelPriorityEnum
 func GetLogAnalyticsLabelPriorityEnumValues() []LogAnalyticsLabelPriorityEnum {
 	values := make([]LogAnalyticsLabelPriorityEnum, 0)
-	for _, v := range mappingLogAnalyticsLabelPriority {
+	for _, v := range mappingLogAnalyticsLabelPriorityEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsLabelPriorityEnumStringValues Enumerates the set of values in String for LogAnalyticsLabelPriorityEnum
+func GetLogAnalyticsLabelPriorityEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"LOW",
+		"MEDIUM",
+		"HIGH",
+	}
 }
 
 // LogAnalyticsLabelTypeEnum Enum with underlying type: string
@@ -97,7 +127,7 @@ const (
 	LogAnalyticsLabelTypeProblem LogAnalyticsLabelTypeEnum = "PROBLEM"
 )
 
-var mappingLogAnalyticsLabelType = map[string]LogAnalyticsLabelTypeEnum{
+var mappingLogAnalyticsLabelTypeEnum = map[string]LogAnalyticsLabelTypeEnum{
 	"INFO":    LogAnalyticsLabelTypeInfo,
 	"PROBLEM": LogAnalyticsLabelTypeProblem,
 }
@@ -105,8 +135,16 @@ var mappingLogAnalyticsLabelType = map[string]LogAnalyticsLabelTypeEnum{
 // GetLogAnalyticsLabelTypeEnumValues Enumerates the set of values for LogAnalyticsLabelTypeEnum
 func GetLogAnalyticsLabelTypeEnumValues() []LogAnalyticsLabelTypeEnum {
 	values := make([]LogAnalyticsLabelTypeEnum, 0)
-	for _, v := range mappingLogAnalyticsLabelType {
+	for _, v := range mappingLogAnalyticsLabelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsLabelTypeEnumStringValues Enumerates the set of values in String for LogAnalyticsLabelTypeEnum
+func GetLogAnalyticsLabelTypeEnumStringValues() []string {
+	return []string{
+		"INFO",
+		"PROBLEM",
+	}
 }

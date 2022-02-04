@@ -5,8 +5,10 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListCustomProtectionRulesRequest wrapper for the ListCustomProtectionRules operation
@@ -61,6 +63,10 @@ func (request ListCustomProtectionRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListCustomProtectionRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +80,29 @@ func (request ListCustomProtectionRulesRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListCustomProtectionRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListCustomProtectionRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListCustomProtectionRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCustomProtectionRulesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListCustomProtectionRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCustomProtectionRulesSortOrderEnumStringValues(), ",")))
+	}
+	for _, val := range request.LifecycleState {
+		if _, ok := mappingLifecycleStatesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", val, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListCustomProtectionRulesResponse wrapper for the ListCustomProtectionRules operation
@@ -113,7 +142,7 @@ const (
 	ListCustomProtectionRulesSortByTimecreated       ListCustomProtectionRulesSortByEnum = "timeCreated"
 )
 
-var mappingListCustomProtectionRulesSortBy = map[string]ListCustomProtectionRulesSortByEnum{
+var mappingListCustomProtectionRulesSortByEnum = map[string]ListCustomProtectionRulesSortByEnum{
 	"id":                ListCustomProtectionRulesSortById,
 	"compartmentId":     ListCustomProtectionRulesSortByCompartmentid,
 	"displayName":       ListCustomProtectionRulesSortByDisplayname,
@@ -124,10 +153,21 @@ var mappingListCustomProtectionRulesSortBy = map[string]ListCustomProtectionRule
 // GetListCustomProtectionRulesSortByEnumValues Enumerates the set of values for ListCustomProtectionRulesSortByEnum
 func GetListCustomProtectionRulesSortByEnumValues() []ListCustomProtectionRulesSortByEnum {
 	values := make([]ListCustomProtectionRulesSortByEnum, 0)
-	for _, v := range mappingListCustomProtectionRulesSortBy {
+	for _, v := range mappingListCustomProtectionRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCustomProtectionRulesSortByEnumStringValues Enumerates the set of values in String for ListCustomProtectionRulesSortByEnum
+func GetListCustomProtectionRulesSortByEnumStringValues() []string {
+	return []string{
+		"id",
+		"compartmentId",
+		"displayName",
+		"modSecurityRuleId",
+		"timeCreated",
+	}
 }
 
 // ListCustomProtectionRulesSortOrderEnum Enum with underlying type: string
@@ -139,7 +179,7 @@ const (
 	ListCustomProtectionRulesSortOrderDesc ListCustomProtectionRulesSortOrderEnum = "DESC"
 )
 
-var mappingListCustomProtectionRulesSortOrder = map[string]ListCustomProtectionRulesSortOrderEnum{
+var mappingListCustomProtectionRulesSortOrderEnum = map[string]ListCustomProtectionRulesSortOrderEnum{
 	"ASC":  ListCustomProtectionRulesSortOrderAsc,
 	"DESC": ListCustomProtectionRulesSortOrderDesc,
 }
@@ -147,8 +187,16 @@ var mappingListCustomProtectionRulesSortOrder = map[string]ListCustomProtectionR
 // GetListCustomProtectionRulesSortOrderEnumValues Enumerates the set of values for ListCustomProtectionRulesSortOrderEnum
 func GetListCustomProtectionRulesSortOrderEnumValues() []ListCustomProtectionRulesSortOrderEnum {
 	values := make([]ListCustomProtectionRulesSortOrderEnum, 0)
-	for _, v := range mappingListCustomProtectionRulesSortOrder {
+	for _, v := range mappingListCustomProtectionRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListCustomProtectionRulesSortOrderEnumStringValues Enumerates the set of values in String for ListCustomProtectionRulesSortOrderEnum
+func GetListCustomProtectionRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

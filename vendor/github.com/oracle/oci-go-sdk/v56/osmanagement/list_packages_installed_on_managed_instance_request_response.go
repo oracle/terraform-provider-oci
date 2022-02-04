@@ -5,8 +5,10 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPackagesInstalledOnManagedInstanceRequest wrapper for the ListPackagesInstalledOnManagedInstance operation
@@ -53,6 +55,10 @@ func (request ListPackagesInstalledOnManagedInstanceRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPackagesInstalledOnManagedInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -66,6 +72,23 @@ func (request ListPackagesInstalledOnManagedInstanceRequest) BinaryRequestBody()
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPackagesInstalledOnManagedInstanceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPackagesInstalledOnManagedInstanceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPackagesInstalledOnManagedInstanceSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPackagesInstalledOnManagedInstanceSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPackagesInstalledOnManagedInstanceSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPackagesInstalledOnManagedInstanceSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPackagesInstalledOnManagedInstanceResponse wrapper for the ListPackagesInstalledOnManagedInstance operation
@@ -106,7 +129,7 @@ const (
 	ListPackagesInstalledOnManagedInstanceSortOrderDesc ListPackagesInstalledOnManagedInstanceSortOrderEnum = "DESC"
 )
 
-var mappingListPackagesInstalledOnManagedInstanceSortOrder = map[string]ListPackagesInstalledOnManagedInstanceSortOrderEnum{
+var mappingListPackagesInstalledOnManagedInstanceSortOrderEnum = map[string]ListPackagesInstalledOnManagedInstanceSortOrderEnum{
 	"ASC":  ListPackagesInstalledOnManagedInstanceSortOrderAsc,
 	"DESC": ListPackagesInstalledOnManagedInstanceSortOrderDesc,
 }
@@ -114,10 +137,18 @@ var mappingListPackagesInstalledOnManagedInstanceSortOrder = map[string]ListPack
 // GetListPackagesInstalledOnManagedInstanceSortOrderEnumValues Enumerates the set of values for ListPackagesInstalledOnManagedInstanceSortOrderEnum
 func GetListPackagesInstalledOnManagedInstanceSortOrderEnumValues() []ListPackagesInstalledOnManagedInstanceSortOrderEnum {
 	values := make([]ListPackagesInstalledOnManagedInstanceSortOrderEnum, 0)
-	for _, v := range mappingListPackagesInstalledOnManagedInstanceSortOrder {
+	for _, v := range mappingListPackagesInstalledOnManagedInstanceSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPackagesInstalledOnManagedInstanceSortOrderEnumStringValues Enumerates the set of values in String for ListPackagesInstalledOnManagedInstanceSortOrderEnum
+func GetListPackagesInstalledOnManagedInstanceSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListPackagesInstalledOnManagedInstanceSortByEnum Enum with underlying type: string
@@ -129,7 +160,7 @@ const (
 	ListPackagesInstalledOnManagedInstanceSortByDisplayname ListPackagesInstalledOnManagedInstanceSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListPackagesInstalledOnManagedInstanceSortBy = map[string]ListPackagesInstalledOnManagedInstanceSortByEnum{
+var mappingListPackagesInstalledOnManagedInstanceSortByEnum = map[string]ListPackagesInstalledOnManagedInstanceSortByEnum{
 	"TIMECREATED": ListPackagesInstalledOnManagedInstanceSortByTimecreated,
 	"DISPLAYNAME": ListPackagesInstalledOnManagedInstanceSortByDisplayname,
 }
@@ -137,8 +168,16 @@ var mappingListPackagesInstalledOnManagedInstanceSortBy = map[string]ListPackage
 // GetListPackagesInstalledOnManagedInstanceSortByEnumValues Enumerates the set of values for ListPackagesInstalledOnManagedInstanceSortByEnum
 func GetListPackagesInstalledOnManagedInstanceSortByEnumValues() []ListPackagesInstalledOnManagedInstanceSortByEnum {
 	values := make([]ListPackagesInstalledOnManagedInstanceSortByEnum, 0)
-	for _, v := range mappingListPackagesInstalledOnManagedInstanceSortBy {
+	for _, v := range mappingListPackagesInstalledOnManagedInstanceSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPackagesInstalledOnManagedInstanceSortByEnumStringValues Enumerates the set of values in String for ListPackagesInstalledOnManagedInstanceSortByEnum
+func GetListPackagesInstalledOnManagedInstanceSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }

@@ -5,8 +5,10 @@
 package nosql
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListIndexesRequest wrapper for the ListIndexes operation
@@ -62,6 +64,10 @@ func (request ListIndexesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListIndexesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +81,26 @@ func (request ListIndexesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListIndexesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListIndexesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListIndexesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListIndexesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListIndexesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListIndexesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListIndexesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListIndexesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListIndexesResponse wrapper for the ListIndexes operation
@@ -123,7 +149,7 @@ const (
 	ListIndexesLifecycleStateInactive ListIndexesLifecycleStateEnum = "INACTIVE"
 )
 
-var mappingListIndexesLifecycleState = map[string]ListIndexesLifecycleStateEnum{
+var mappingListIndexesLifecycleStateEnum = map[string]ListIndexesLifecycleStateEnum{
 	"ALL":      ListIndexesLifecycleStateAll,
 	"CREATING": ListIndexesLifecycleStateCreating,
 	"UPDATING": ListIndexesLifecycleStateUpdating,
@@ -137,10 +163,24 @@ var mappingListIndexesLifecycleState = map[string]ListIndexesLifecycleStateEnum{
 // GetListIndexesLifecycleStateEnumValues Enumerates the set of values for ListIndexesLifecycleStateEnum
 func GetListIndexesLifecycleStateEnumValues() []ListIndexesLifecycleStateEnum {
 	values := make([]ListIndexesLifecycleStateEnum, 0)
-	for _, v := range mappingListIndexesLifecycleState {
+	for _, v := range mappingListIndexesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIndexesLifecycleStateEnumStringValues Enumerates the set of values in String for ListIndexesLifecycleStateEnum
+func GetListIndexesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"INACTIVE",
+	}
 }
 
 // ListIndexesSortOrderEnum Enum with underlying type: string
@@ -152,7 +192,7 @@ const (
 	ListIndexesSortOrderDesc ListIndexesSortOrderEnum = "DESC"
 )
 
-var mappingListIndexesSortOrder = map[string]ListIndexesSortOrderEnum{
+var mappingListIndexesSortOrderEnum = map[string]ListIndexesSortOrderEnum{
 	"ASC":  ListIndexesSortOrderAsc,
 	"DESC": ListIndexesSortOrderDesc,
 }
@@ -160,10 +200,18 @@ var mappingListIndexesSortOrder = map[string]ListIndexesSortOrderEnum{
 // GetListIndexesSortOrderEnumValues Enumerates the set of values for ListIndexesSortOrderEnum
 func GetListIndexesSortOrderEnumValues() []ListIndexesSortOrderEnum {
 	values := make([]ListIndexesSortOrderEnum, 0)
-	for _, v := range mappingListIndexesSortOrder {
+	for _, v := range mappingListIndexesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIndexesSortOrderEnumStringValues Enumerates the set of values in String for ListIndexesSortOrderEnum
+func GetListIndexesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListIndexesSortByEnum Enum with underlying type: string
@@ -175,7 +223,7 @@ const (
 	ListIndexesSortByName        ListIndexesSortByEnum = "name"
 )
 
-var mappingListIndexesSortBy = map[string]ListIndexesSortByEnum{
+var mappingListIndexesSortByEnum = map[string]ListIndexesSortByEnum{
 	"timeCreated": ListIndexesSortByTimecreated,
 	"name":        ListIndexesSortByName,
 }
@@ -183,8 +231,16 @@ var mappingListIndexesSortBy = map[string]ListIndexesSortByEnum{
 // GetListIndexesSortByEnumValues Enumerates the set of values for ListIndexesSortByEnum
 func GetListIndexesSortByEnumValues() []ListIndexesSortByEnum {
 	values := make([]ListIndexesSortByEnum, 0)
-	for _, v := range mappingListIndexesSortBy {
+	for _, v := range mappingListIndexesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListIndexesSortByEnumStringValues Enumerates the set of values in String for ListIndexesSortByEnum
+func GetListIndexesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"name",
+	}
 }

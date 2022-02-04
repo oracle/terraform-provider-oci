@@ -10,7 +10,9 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ProblemHistorySummary Problem History Definition.
@@ -49,4 +51,25 @@ type ProblemHistorySummary struct {
 
 func (m ProblemHistorySummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ProblemHistorySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingActorTypeEnum[string(m.ActorType)]; !ok && m.ActorType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActorType: %s. Supported values are: %s.", m.ActorType, strings.Join(GetActorTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingProblemLifecycleDetailEnum[string(m.LifecycleDetail)]; !ok && m.LifecycleDetail != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetail: %s. Supported values are: %s.", m.LifecycleDetail, strings.Join(GetProblemLifecycleDetailEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingEventStatusEnum[string(m.EventStatus)]; !ok && m.EventStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EventStatus: %s. Supported values are: %s.", m.EventStatus, strings.Join(GetEventStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

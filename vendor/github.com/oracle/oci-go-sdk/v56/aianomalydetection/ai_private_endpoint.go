@@ -12,7 +12,9 @@
 package aianomalydetection
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AiPrivateEndpoint A private network reverse connection creates a connection from service to customer subnet over a private network.
@@ -66,6 +68,21 @@ func (m AiPrivateEndpoint) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m AiPrivateEndpoint) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingAiPrivateEndpointLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAiPrivateEndpointLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AiPrivateEndpointLifecycleStateEnum Enum with underlying type: string
 type AiPrivateEndpointLifecycleStateEnum string
 
@@ -79,7 +96,7 @@ const (
 	AiPrivateEndpointLifecycleStateFailed   AiPrivateEndpointLifecycleStateEnum = "FAILED"
 )
 
-var mappingAiPrivateEndpointLifecycleState = map[string]AiPrivateEndpointLifecycleStateEnum{
+var mappingAiPrivateEndpointLifecycleStateEnum = map[string]AiPrivateEndpointLifecycleStateEnum{
 	"CREATING": AiPrivateEndpointLifecycleStateCreating,
 	"UPDATING": AiPrivateEndpointLifecycleStateUpdating,
 	"ACTIVE":   AiPrivateEndpointLifecycleStateActive,
@@ -91,8 +108,20 @@ var mappingAiPrivateEndpointLifecycleState = map[string]AiPrivateEndpointLifecyc
 // GetAiPrivateEndpointLifecycleStateEnumValues Enumerates the set of values for AiPrivateEndpointLifecycleStateEnum
 func GetAiPrivateEndpointLifecycleStateEnumValues() []AiPrivateEndpointLifecycleStateEnum {
 	values := make([]AiPrivateEndpointLifecycleStateEnum, 0)
-	for _, v := range mappingAiPrivateEndpointLifecycleState {
+	for _, v := range mappingAiPrivateEndpointLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAiPrivateEndpointLifecycleStateEnumStringValues Enumerates the set of values in String for AiPrivateEndpointLifecycleStateEnum
+func GetAiPrivateEndpointLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

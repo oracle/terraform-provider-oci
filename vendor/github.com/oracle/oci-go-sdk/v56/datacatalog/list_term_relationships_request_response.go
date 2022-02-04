@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListTermRelationshipsRequest wrapper for the ListTermRelationships operation
@@ -66,6 +68,10 @@ func (request ListTermRelationshipsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListTermRelationshipsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -79,6 +85,32 @@ func (request ListTermRelationshipsRequest) BinaryRequestBody() (*common.OCIRead
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTermRelationshipsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListTermRelationshipsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListTermRelationshipsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListTermRelationshipsLifecycleStateEnumStringValues(), ",")))
+	}
+	for _, val := range request.Fields {
+		if _, ok := mappingListTermRelationshipsFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetListTermRelationshipsFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListTermRelationshipsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTermRelationshipsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListTermRelationshipsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListTermRelationshipsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListTermRelationshipsResponse wrapper for the ListTermRelationships operation
@@ -122,7 +154,7 @@ const (
 	ListTermRelationshipsLifecycleStateMoving   ListTermRelationshipsLifecycleStateEnum = "MOVING"
 )
 
-var mappingListTermRelationshipsLifecycleState = map[string]ListTermRelationshipsLifecycleStateEnum{
+var mappingListTermRelationshipsLifecycleStateEnum = map[string]ListTermRelationshipsLifecycleStateEnum{
 	"CREATING": ListTermRelationshipsLifecycleStateCreating,
 	"ACTIVE":   ListTermRelationshipsLifecycleStateActive,
 	"INACTIVE": ListTermRelationshipsLifecycleStateInactive,
@@ -136,10 +168,24 @@ var mappingListTermRelationshipsLifecycleState = map[string]ListTermRelationship
 // GetListTermRelationshipsLifecycleStateEnumValues Enumerates the set of values for ListTermRelationshipsLifecycleStateEnum
 func GetListTermRelationshipsLifecycleStateEnumValues() []ListTermRelationshipsLifecycleStateEnum {
 	values := make([]ListTermRelationshipsLifecycleStateEnum, 0)
-	for _, v := range mappingListTermRelationshipsLifecycleState {
+	for _, v := range mappingListTermRelationshipsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTermRelationshipsLifecycleStateEnumStringValues Enumerates the set of values in String for ListTermRelationshipsLifecycleStateEnum
+func GetListTermRelationshipsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"UPDATING",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"MOVING",
+	}
 }
 
 // ListTermRelationshipsFieldsEnum Enum with underlying type: string
@@ -159,7 +205,7 @@ const (
 	ListTermRelationshipsFieldsUri                    ListTermRelationshipsFieldsEnum = "uri"
 )
 
-var mappingListTermRelationshipsFields = map[string]ListTermRelationshipsFieldsEnum{
+var mappingListTermRelationshipsFieldsEnum = map[string]ListTermRelationshipsFieldsEnum{
 	"key":                    ListTermRelationshipsFieldsKey,
 	"displayName":            ListTermRelationshipsFieldsDisplayname,
 	"description":            ListTermRelationshipsFieldsDescription,
@@ -175,10 +221,26 @@ var mappingListTermRelationshipsFields = map[string]ListTermRelationshipsFieldsE
 // GetListTermRelationshipsFieldsEnumValues Enumerates the set of values for ListTermRelationshipsFieldsEnum
 func GetListTermRelationshipsFieldsEnumValues() []ListTermRelationshipsFieldsEnum {
 	values := make([]ListTermRelationshipsFieldsEnum, 0)
-	for _, v := range mappingListTermRelationshipsFields {
+	for _, v := range mappingListTermRelationshipsFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTermRelationshipsFieldsEnumStringValues Enumerates the set of values in String for ListTermRelationshipsFieldsEnum
+func GetListTermRelationshipsFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"relatedTermKey",
+		"relatedTermDisplayName",
+		"parentTermKey",
+		"parentTermDisplayName",
+		"lifecycleState",
+		"timeCreated",
+		"uri",
+	}
 }
 
 // ListTermRelationshipsSortByEnum Enum with underlying type: string
@@ -190,7 +252,7 @@ const (
 	ListTermRelationshipsSortByDisplayname ListTermRelationshipsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListTermRelationshipsSortBy = map[string]ListTermRelationshipsSortByEnum{
+var mappingListTermRelationshipsSortByEnum = map[string]ListTermRelationshipsSortByEnum{
 	"TIMECREATED": ListTermRelationshipsSortByTimecreated,
 	"DISPLAYNAME": ListTermRelationshipsSortByDisplayname,
 }
@@ -198,10 +260,18 @@ var mappingListTermRelationshipsSortBy = map[string]ListTermRelationshipsSortByE
 // GetListTermRelationshipsSortByEnumValues Enumerates the set of values for ListTermRelationshipsSortByEnum
 func GetListTermRelationshipsSortByEnumValues() []ListTermRelationshipsSortByEnum {
 	values := make([]ListTermRelationshipsSortByEnum, 0)
-	for _, v := range mappingListTermRelationshipsSortBy {
+	for _, v := range mappingListTermRelationshipsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTermRelationshipsSortByEnumStringValues Enumerates the set of values in String for ListTermRelationshipsSortByEnum
+func GetListTermRelationshipsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListTermRelationshipsSortOrderEnum Enum with underlying type: string
@@ -213,7 +283,7 @@ const (
 	ListTermRelationshipsSortOrderDesc ListTermRelationshipsSortOrderEnum = "DESC"
 )
 
-var mappingListTermRelationshipsSortOrder = map[string]ListTermRelationshipsSortOrderEnum{
+var mappingListTermRelationshipsSortOrderEnum = map[string]ListTermRelationshipsSortOrderEnum{
 	"ASC":  ListTermRelationshipsSortOrderAsc,
 	"DESC": ListTermRelationshipsSortOrderDesc,
 }
@@ -221,8 +291,16 @@ var mappingListTermRelationshipsSortOrder = map[string]ListTermRelationshipsSort
 // GetListTermRelationshipsSortOrderEnumValues Enumerates the set of values for ListTermRelationshipsSortOrderEnum
 func GetListTermRelationshipsSortOrderEnumValues() []ListTermRelationshipsSortOrderEnum {
 	values := make([]ListTermRelationshipsSortOrderEnum, 0)
-	for _, v := range mappingListTermRelationshipsSortOrder {
+	for _, v := range mappingListTermRelationshipsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListTermRelationshipsSortOrderEnumStringValues Enumerates the set of values in String for ListTermRelationshipsSortOrderEnum
+func GetListTermRelationshipsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

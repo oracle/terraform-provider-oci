@@ -22,7 +22,7 @@ const (
 	AnalyticsClusterMemoryEstimateStatusCanceled   AnalyticsClusterMemoryEstimateStatusEnum = "CANCELED"
 )
 
-var mappingAnalyticsClusterMemoryEstimateStatus = map[string]AnalyticsClusterMemoryEstimateStatusEnum{
+var mappingAnalyticsClusterMemoryEstimateStatusEnum = map[string]AnalyticsClusterMemoryEstimateStatusEnum{
 	"ACCEPTED":    AnalyticsClusterMemoryEstimateStatusAccepted,
 	"IN_PROGRESS": AnalyticsClusterMemoryEstimateStatusInProgress,
 	"FAILED":      AnalyticsClusterMemoryEstimateStatusFailed,
@@ -34,8 +34,20 @@ var mappingAnalyticsClusterMemoryEstimateStatus = map[string]AnalyticsClusterMem
 // GetAnalyticsClusterMemoryEstimateStatusEnumValues Enumerates the set of values for AnalyticsClusterMemoryEstimateStatusEnum
 func GetAnalyticsClusterMemoryEstimateStatusEnumValues() []AnalyticsClusterMemoryEstimateStatusEnum {
 	values := make([]AnalyticsClusterMemoryEstimateStatusEnum, 0)
-	for _, v := range mappingAnalyticsClusterMemoryEstimateStatus {
+	for _, v := range mappingAnalyticsClusterMemoryEstimateStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAnalyticsClusterMemoryEstimateStatusEnumStringValues Enumerates the set of values in String for AnalyticsClusterMemoryEstimateStatusEnum
+func GetAnalyticsClusterMemoryEstimateStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
 }

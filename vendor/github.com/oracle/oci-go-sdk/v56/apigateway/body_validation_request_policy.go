@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BodyValidationRequestPolicy Validate the payload body of the incoming API requests on a specific route.
@@ -44,6 +46,21 @@ type BodyValidationRequestPolicy struct {
 
 func (m BodyValidationRequestPolicy) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m BodyValidationRequestPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingBodyValidationRequestPolicyValidationModeEnum[string(m.ValidationMode)]; !ok && m.ValidationMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValidationMode: %s. Supported values are: %s.", m.ValidationMode, strings.Join(GetBodyValidationRequestPolicyValidationModeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -89,7 +106,7 @@ const (
 	BodyValidationRequestPolicyValidationModeDisabled   BodyValidationRequestPolicyValidationModeEnum = "DISABLED"
 )
 
-var mappingBodyValidationRequestPolicyValidationMode = map[string]BodyValidationRequestPolicyValidationModeEnum{
+var mappingBodyValidationRequestPolicyValidationModeEnum = map[string]BodyValidationRequestPolicyValidationModeEnum{
 	"ENFORCING":  BodyValidationRequestPolicyValidationModeEnforcing,
 	"PERMISSIVE": BodyValidationRequestPolicyValidationModePermissive,
 	"DISABLED":   BodyValidationRequestPolicyValidationModeDisabled,
@@ -98,8 +115,17 @@ var mappingBodyValidationRequestPolicyValidationMode = map[string]BodyValidation
 // GetBodyValidationRequestPolicyValidationModeEnumValues Enumerates the set of values for BodyValidationRequestPolicyValidationModeEnum
 func GetBodyValidationRequestPolicyValidationModeEnumValues() []BodyValidationRequestPolicyValidationModeEnum {
 	values := make([]BodyValidationRequestPolicyValidationModeEnum, 0)
-	for _, v := range mappingBodyValidationRequestPolicyValidationMode {
+	for _, v := range mappingBodyValidationRequestPolicyValidationModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBodyValidationRequestPolicyValidationModeEnumStringValues Enumerates the set of values in String for BodyValidationRequestPolicyValidationModeEnum
+func GetBodyValidationRequestPolicyValidationModeEnumStringValues() []string {
+	return []string{
+		"ENFORCING",
+		"PERMISSIVE",
+		"DISABLED",
+	}
 }

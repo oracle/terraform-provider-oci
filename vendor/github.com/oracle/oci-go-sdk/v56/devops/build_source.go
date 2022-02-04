@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // BuildSource Build source required for the Build stage.
@@ -99,6 +101,18 @@ func (m buildsource) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m buildsource) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // BuildSourceConnectionTypeEnum Enum with underlying type: string
 type BuildSourceConnectionTypeEnum string
 
@@ -109,7 +123,7 @@ const (
 	BuildSourceConnectionTypeDevopsCodeRepository BuildSourceConnectionTypeEnum = "DEVOPS_CODE_REPOSITORY"
 )
 
-var mappingBuildSourceConnectionType = map[string]BuildSourceConnectionTypeEnum{
+var mappingBuildSourceConnectionTypeEnum = map[string]BuildSourceConnectionTypeEnum{
 	"GITHUB":                 BuildSourceConnectionTypeGithub,
 	"GITLAB":                 BuildSourceConnectionTypeGitlab,
 	"DEVOPS_CODE_REPOSITORY": BuildSourceConnectionTypeDevopsCodeRepository,
@@ -118,8 +132,17 @@ var mappingBuildSourceConnectionType = map[string]BuildSourceConnectionTypeEnum{
 // GetBuildSourceConnectionTypeEnumValues Enumerates the set of values for BuildSourceConnectionTypeEnum
 func GetBuildSourceConnectionTypeEnumValues() []BuildSourceConnectionTypeEnum {
 	values := make([]BuildSourceConnectionTypeEnum, 0)
-	for _, v := range mappingBuildSourceConnectionType {
+	for _, v := range mappingBuildSourceConnectionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBuildSourceConnectionTypeEnumStringValues Enumerates the set of values in String for BuildSourceConnectionTypeEnum
+func GetBuildSourceConnectionTypeEnumStringValues() []string {
+	return []string{
+		"GITHUB",
+		"GITLAB",
+		"DEVOPS_CODE_REPOSITORY",
+	}
 }

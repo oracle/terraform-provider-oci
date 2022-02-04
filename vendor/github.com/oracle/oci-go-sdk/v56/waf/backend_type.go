@@ -18,15 +18,22 @@ const (
 	BackendTypeLoadBalancer BackendTypeEnum = "LOAD_BALANCER"
 )
 
-var mappingBackendType = map[string]BackendTypeEnum{
+var mappingBackendTypeEnum = map[string]BackendTypeEnum{
 	"LOAD_BALANCER": BackendTypeLoadBalancer,
 }
 
 // GetBackendTypeEnumValues Enumerates the set of values for BackendTypeEnum
 func GetBackendTypeEnumValues() []BackendTypeEnum {
 	values := make([]BackendTypeEnum, 0)
-	for _, v := range mappingBackendType {
+	for _, v := range mappingBackendTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetBackendTypeEnumStringValues Enumerates the set of values in String for BackendTypeEnum
+func GetBackendTypeEnumStringValues() []string {
+	return []string{
+		"LOAD_BALANCER",
+	}
 }

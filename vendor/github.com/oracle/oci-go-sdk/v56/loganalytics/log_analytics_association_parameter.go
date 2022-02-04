@@ -10,7 +10,9 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // LogAnalyticsAssociationParameter LogAnalyticsAssociationParameter
@@ -48,6 +50,21 @@ func (m LogAnalyticsAssociationParameter) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m LogAnalyticsAssociationParameter) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLogAnalyticsAssociationParameterStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetLogAnalyticsAssociationParameterStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // LogAnalyticsAssociationParameterStatusEnum Enum with underlying type: string
 type LogAnalyticsAssociationParameterStatusEnum string
 
@@ -57,7 +74,7 @@ const (
 	LogAnalyticsAssociationParameterStatusFailed    LogAnalyticsAssociationParameterStatusEnum = "FAILED"
 )
 
-var mappingLogAnalyticsAssociationParameterStatus = map[string]LogAnalyticsAssociationParameterStatusEnum{
+var mappingLogAnalyticsAssociationParameterStatusEnum = map[string]LogAnalyticsAssociationParameterStatusEnum{
 	"SUCCEEDED": LogAnalyticsAssociationParameterStatusSucceeded,
 	"FAILED":    LogAnalyticsAssociationParameterStatusFailed,
 }
@@ -65,8 +82,16 @@ var mappingLogAnalyticsAssociationParameterStatus = map[string]LogAnalyticsAssoc
 // GetLogAnalyticsAssociationParameterStatusEnumValues Enumerates the set of values for LogAnalyticsAssociationParameterStatusEnum
 func GetLogAnalyticsAssociationParameterStatusEnumValues() []LogAnalyticsAssociationParameterStatusEnum {
 	values := make([]LogAnalyticsAssociationParameterStatusEnum, 0)
-	for _, v := range mappingLogAnalyticsAssociationParameterStatus {
+	for _, v := range mappingLogAnalyticsAssociationParameterStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLogAnalyticsAssociationParameterStatusEnumStringValues Enumerates the set of values in String for LogAnalyticsAssociationParameterStatusEnum
+func GetLogAnalyticsAssociationParameterStatusEnumStringValues() []string {
+	return []string{
+		"SUCCEEDED",
+		"FAILED",
+	}
 }

@@ -5,8 +5,10 @@
 package email
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListSendersRequest wrapper for the ListSenders operation
@@ -62,6 +64,10 @@ func (request ListSendersRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListSendersRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +81,26 @@ func (request ListSendersRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListSendersRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListSendersRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSenderLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetSenderLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSendersSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSendersSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListSendersSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSendersSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListSendersResponse wrapper for the ListSenders operation
@@ -120,7 +146,7 @@ const (
 	ListSendersSortByEmailaddress ListSendersSortByEnum = "EMAILADDRESS"
 )
 
-var mappingListSendersSortBy = map[string]ListSendersSortByEnum{
+var mappingListSendersSortByEnum = map[string]ListSendersSortByEnum{
 	"TIMECREATED":  ListSendersSortByTimecreated,
 	"EMAILADDRESS": ListSendersSortByEmailaddress,
 }
@@ -128,10 +154,18 @@ var mappingListSendersSortBy = map[string]ListSendersSortByEnum{
 // GetListSendersSortByEnumValues Enumerates the set of values for ListSendersSortByEnum
 func GetListSendersSortByEnumValues() []ListSendersSortByEnum {
 	values := make([]ListSendersSortByEnum, 0)
-	for _, v := range mappingListSendersSortBy {
+	for _, v := range mappingListSendersSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSendersSortByEnumStringValues Enumerates the set of values in String for ListSendersSortByEnum
+func GetListSendersSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"EMAILADDRESS",
+	}
 }
 
 // ListSendersSortOrderEnum Enum with underlying type: string
@@ -143,7 +177,7 @@ const (
 	ListSendersSortOrderDesc ListSendersSortOrderEnum = "DESC"
 )
 
-var mappingListSendersSortOrder = map[string]ListSendersSortOrderEnum{
+var mappingListSendersSortOrderEnum = map[string]ListSendersSortOrderEnum{
 	"ASC":  ListSendersSortOrderAsc,
 	"DESC": ListSendersSortOrderDesc,
 }
@@ -151,8 +185,16 @@ var mappingListSendersSortOrder = map[string]ListSendersSortOrderEnum{
 // GetListSendersSortOrderEnumValues Enumerates the set of values for ListSendersSortOrderEnum
 func GetListSendersSortOrderEnumValues() []ListSendersSortOrderEnum {
 	values := make([]ListSendersSortOrderEnum, 0)
-	for _, v := range mappingListSendersSortOrder {
+	for _, v := range mappingListSendersSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListSendersSortOrderEnumStringValues Enumerates the set of values in String for ListSendersSortOrderEnum
+func GetListSendersSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

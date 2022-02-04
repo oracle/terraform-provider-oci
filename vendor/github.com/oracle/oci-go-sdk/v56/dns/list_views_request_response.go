@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListViewsRequest wrapper for the ListViews operation
@@ -60,6 +62,10 @@ func (request ListViewsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListViewsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +79,29 @@ func (request ListViewsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListViewsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListViewsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListViewsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListViewsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListViewsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListViewsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingViewSummaryLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetViewSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListViewsScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListViewsScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListViewsResponse wrapper for the ListViews operation
@@ -112,7 +141,7 @@ const (
 	ListViewsSortOrderDesc ListViewsSortOrderEnum = "DESC"
 )
 
-var mappingListViewsSortOrder = map[string]ListViewsSortOrderEnum{
+var mappingListViewsSortOrderEnum = map[string]ListViewsSortOrderEnum{
 	"ASC":  ListViewsSortOrderAsc,
 	"DESC": ListViewsSortOrderDesc,
 }
@@ -120,10 +149,18 @@ var mappingListViewsSortOrder = map[string]ListViewsSortOrderEnum{
 // GetListViewsSortOrderEnumValues Enumerates the set of values for ListViewsSortOrderEnum
 func GetListViewsSortOrderEnumValues() []ListViewsSortOrderEnum {
 	values := make([]ListViewsSortOrderEnum, 0)
-	for _, v := range mappingListViewsSortOrder {
+	for _, v := range mappingListViewsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListViewsSortOrderEnumStringValues Enumerates the set of values in String for ListViewsSortOrderEnum
+func GetListViewsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListViewsSortByEnum Enum with underlying type: string
@@ -135,7 +172,7 @@ const (
 	ListViewsSortByTimecreated ListViewsSortByEnum = "timeCreated"
 )
 
-var mappingListViewsSortBy = map[string]ListViewsSortByEnum{
+var mappingListViewsSortByEnum = map[string]ListViewsSortByEnum{
 	"displayName": ListViewsSortByDisplayname,
 	"timeCreated": ListViewsSortByTimecreated,
 }
@@ -143,10 +180,18 @@ var mappingListViewsSortBy = map[string]ListViewsSortByEnum{
 // GetListViewsSortByEnumValues Enumerates the set of values for ListViewsSortByEnum
 func GetListViewsSortByEnumValues() []ListViewsSortByEnum {
 	values := make([]ListViewsSortByEnum, 0)
-	for _, v := range mappingListViewsSortBy {
+	for _, v := range mappingListViewsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListViewsSortByEnumStringValues Enumerates the set of values in String for ListViewsSortByEnum
+func GetListViewsSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"timeCreated",
+	}
 }
 
 // ListViewsScopeEnum Enum with underlying type: string
@@ -158,7 +203,7 @@ const (
 	ListViewsScopePrivate ListViewsScopeEnum = "PRIVATE"
 )
 
-var mappingListViewsScope = map[string]ListViewsScopeEnum{
+var mappingListViewsScopeEnum = map[string]ListViewsScopeEnum{
 	"GLOBAL":  ListViewsScopeGlobal,
 	"PRIVATE": ListViewsScopePrivate,
 }
@@ -166,8 +211,16 @@ var mappingListViewsScope = map[string]ListViewsScopeEnum{
 // GetListViewsScopeEnumValues Enumerates the set of values for ListViewsScopeEnum
 func GetListViewsScopeEnumValues() []ListViewsScopeEnum {
 	values := make([]ListViewsScopeEnum, 0)
-	for _, v := range mappingListViewsScope {
+	for _, v := range mappingListViewsScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListViewsScopeEnumStringValues Enumerates the set of values in String for ListViewsScopeEnum
+func GetListViewsScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

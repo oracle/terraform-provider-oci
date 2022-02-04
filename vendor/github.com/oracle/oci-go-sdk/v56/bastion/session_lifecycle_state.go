@@ -21,7 +21,7 @@ const (
 	SessionLifecycleStateFailed   SessionLifecycleStateEnum = "FAILED"
 )
 
-var mappingSessionLifecycleState = map[string]SessionLifecycleStateEnum{
+var mappingSessionLifecycleStateEnum = map[string]SessionLifecycleStateEnum{
 	"CREATING": SessionLifecycleStateCreating,
 	"ACTIVE":   SessionLifecycleStateActive,
 	"DELETING": SessionLifecycleStateDeleting,
@@ -32,8 +32,19 @@ var mappingSessionLifecycleState = map[string]SessionLifecycleStateEnum{
 // GetSessionLifecycleStateEnumValues Enumerates the set of values for SessionLifecycleStateEnum
 func GetSessionLifecycleStateEnumValues() []SessionLifecycleStateEnum {
 	values := make([]SessionLifecycleStateEnum, 0)
-	for _, v := range mappingSessionLifecycleState {
+	for _, v := range mappingSessionLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSessionLifecycleStateEnumStringValues Enumerates the set of values in String for SessionLifecycleStateEnum
+func GetSessionLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

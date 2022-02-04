@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAwrDbsRequest wrapper for the ListAwrDbs operation
@@ -63,6 +65,10 @@ func (request ListAwrDbsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAwrDbsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -76,6 +82,23 @@ func (request ListAwrDbsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAwrDbsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAwrDbsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAwrDbsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAwrDbsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAwrDbsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAwrDbsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAwrDbsResponse wrapper for the ListAwrDbs operation
@@ -115,7 +138,7 @@ const (
 	ListAwrDbsSortByName            ListAwrDbsSortByEnum = "NAME"
 )
 
-var mappingListAwrDbsSortBy = map[string]ListAwrDbsSortByEnum{
+var mappingListAwrDbsSortByEnum = map[string]ListAwrDbsSortByEnum{
 	"END_INTERVAL_TIME": ListAwrDbsSortByEndIntervalTime,
 	"NAME":              ListAwrDbsSortByName,
 }
@@ -123,10 +146,18 @@ var mappingListAwrDbsSortBy = map[string]ListAwrDbsSortByEnum{
 // GetListAwrDbsSortByEnumValues Enumerates the set of values for ListAwrDbsSortByEnum
 func GetListAwrDbsSortByEnumValues() []ListAwrDbsSortByEnum {
 	values := make([]ListAwrDbsSortByEnum, 0)
-	for _, v := range mappingListAwrDbsSortBy {
+	for _, v := range mappingListAwrDbsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAwrDbsSortByEnumStringValues Enumerates the set of values in String for ListAwrDbsSortByEnum
+func GetListAwrDbsSortByEnumStringValues() []string {
+	return []string{
+		"END_INTERVAL_TIME",
+		"NAME",
+	}
 }
 
 // ListAwrDbsSortOrderEnum Enum with underlying type: string
@@ -138,7 +169,7 @@ const (
 	ListAwrDbsSortOrderDesc ListAwrDbsSortOrderEnum = "DESC"
 )
 
-var mappingListAwrDbsSortOrder = map[string]ListAwrDbsSortOrderEnum{
+var mappingListAwrDbsSortOrderEnum = map[string]ListAwrDbsSortOrderEnum{
 	"ASC":  ListAwrDbsSortOrderAsc,
 	"DESC": ListAwrDbsSortOrderDesc,
 }
@@ -146,8 +177,16 @@ var mappingListAwrDbsSortOrder = map[string]ListAwrDbsSortOrderEnum{
 // GetListAwrDbsSortOrderEnumValues Enumerates the set of values for ListAwrDbsSortOrderEnum
 func GetListAwrDbsSortOrderEnumValues() []ListAwrDbsSortOrderEnum {
 	values := make([]ListAwrDbsSortOrderEnum, 0)
-	for _, v := range mappingListAwrDbsSortOrder {
+	for _, v := range mappingListAwrDbsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAwrDbsSortOrderEnumStringValues Enumerates the set of values in String for ListAwrDbsSortOrderEnum
+func GetListAwrDbsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

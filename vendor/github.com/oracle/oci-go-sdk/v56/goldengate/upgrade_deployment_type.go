@@ -17,15 +17,22 @@ const (
 	UpgradeDeploymentTypeCurrentRelease UpgradeDeploymentTypeEnum = "CURRENT_RELEASE"
 )
 
-var mappingUpgradeDeploymentType = map[string]UpgradeDeploymentTypeEnum{
+var mappingUpgradeDeploymentTypeEnum = map[string]UpgradeDeploymentTypeEnum{
 	"CURRENT_RELEASE": UpgradeDeploymentTypeCurrentRelease,
 }
 
 // GetUpgradeDeploymentTypeEnumValues Enumerates the set of values for UpgradeDeploymentTypeEnum
 func GetUpgradeDeploymentTypeEnumValues() []UpgradeDeploymentTypeEnum {
 	values := make([]UpgradeDeploymentTypeEnum, 0)
-	for _, v := range mappingUpgradeDeploymentType {
+	for _, v := range mappingUpgradeDeploymentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpgradeDeploymentTypeEnumStringValues Enumerates the set of values in String for UpgradeDeploymentTypeEnum
+func GetUpgradeDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"CURRENT_RELEASE",
+	}
 }

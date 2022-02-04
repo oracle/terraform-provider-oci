@@ -5,8 +5,10 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListExternalPluggableDatabasesRequest wrapper for the ListExternalPluggableDatabases operation
@@ -58,6 +60,10 @@ func (request ListExternalPluggableDatabasesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListExternalPluggableDatabasesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,26 @@ func (request ListExternalPluggableDatabasesRequest) BinaryRequestBody() (*commo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListExternalPluggableDatabasesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListExternalPluggableDatabasesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListExternalPluggableDatabasesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListExternalPluggableDatabasesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListExternalPluggableDatabasesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListExternalPluggableDatabasesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExternalDatabaseBaseLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetExternalDatabaseBaseLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListExternalPluggableDatabasesResponse wrapper for the ListExternalPluggableDatabases operation
@@ -111,7 +137,7 @@ const (
 	ListExternalPluggableDatabasesSortByTimecreated ListExternalPluggableDatabasesSortByEnum = "TIMECREATED"
 )
 
-var mappingListExternalPluggableDatabasesSortBy = map[string]ListExternalPluggableDatabasesSortByEnum{
+var mappingListExternalPluggableDatabasesSortByEnum = map[string]ListExternalPluggableDatabasesSortByEnum{
 	"DISPLAYNAME": ListExternalPluggableDatabasesSortByDisplayname,
 	"TIMECREATED": ListExternalPluggableDatabasesSortByTimecreated,
 }
@@ -119,10 +145,18 @@ var mappingListExternalPluggableDatabasesSortBy = map[string]ListExternalPluggab
 // GetListExternalPluggableDatabasesSortByEnumValues Enumerates the set of values for ListExternalPluggableDatabasesSortByEnum
 func GetListExternalPluggableDatabasesSortByEnumValues() []ListExternalPluggableDatabasesSortByEnum {
 	values := make([]ListExternalPluggableDatabasesSortByEnum, 0)
-	for _, v := range mappingListExternalPluggableDatabasesSortBy {
+	for _, v := range mappingListExternalPluggableDatabasesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExternalPluggableDatabasesSortByEnumStringValues Enumerates the set of values in String for ListExternalPluggableDatabasesSortByEnum
+func GetListExternalPluggableDatabasesSortByEnumStringValues() []string {
+	return []string{
+		"DISPLAYNAME",
+		"TIMECREATED",
+	}
 }
 
 // ListExternalPluggableDatabasesSortOrderEnum Enum with underlying type: string
@@ -134,7 +168,7 @@ const (
 	ListExternalPluggableDatabasesSortOrderDesc ListExternalPluggableDatabasesSortOrderEnum = "DESC"
 )
 
-var mappingListExternalPluggableDatabasesSortOrder = map[string]ListExternalPluggableDatabasesSortOrderEnum{
+var mappingListExternalPluggableDatabasesSortOrderEnum = map[string]ListExternalPluggableDatabasesSortOrderEnum{
 	"ASC":  ListExternalPluggableDatabasesSortOrderAsc,
 	"DESC": ListExternalPluggableDatabasesSortOrderDesc,
 }
@@ -142,8 +176,16 @@ var mappingListExternalPluggableDatabasesSortOrder = map[string]ListExternalPlug
 // GetListExternalPluggableDatabasesSortOrderEnumValues Enumerates the set of values for ListExternalPluggableDatabasesSortOrderEnum
 func GetListExternalPluggableDatabasesSortOrderEnumValues() []ListExternalPluggableDatabasesSortOrderEnum {
 	values := make([]ListExternalPluggableDatabasesSortOrderEnum, 0)
-	for _, v := range mappingListExternalPluggableDatabasesSortOrder {
+	for _, v := range mappingListExternalPluggableDatabasesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListExternalPluggableDatabasesSortOrderEnumStringValues Enumerates the set of values in String for ListExternalPluggableDatabasesSortOrderEnum
+func GetListExternalPluggableDatabasesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

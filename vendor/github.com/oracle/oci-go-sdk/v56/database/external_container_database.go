@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ExternalContainerDatabase An Oracle Cloud Infrastructure resource that allows you to manage an external container database.
@@ -79,6 +81,27 @@ func (m ExternalContainerDatabase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExternalContainerDatabase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingExternalContainerDatabaseLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExternalContainerDatabaseLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingExternalContainerDatabaseDatabaseEditionEnum[string(m.DatabaseEdition)]; !ok && m.DatabaseEdition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetExternalContainerDatabaseDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingExternalContainerDatabaseDatabaseConfigurationEnum[string(m.DatabaseConfiguration)]; !ok && m.DatabaseConfiguration != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseConfiguration: %s. Supported values are: %s.", m.DatabaseConfiguration, strings.Join(GetExternalContainerDatabaseDatabaseConfigurationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ExternalContainerDatabaseLifecycleStateEnum Enum with underlying type: string
 type ExternalContainerDatabaseLifecycleStateEnum string
 
@@ -93,7 +116,7 @@ const (
 	ExternalContainerDatabaseLifecycleStateFailed       ExternalContainerDatabaseLifecycleStateEnum = "FAILED"
 )
 
-var mappingExternalContainerDatabaseLifecycleState = map[string]ExternalContainerDatabaseLifecycleStateEnum{
+var mappingExternalContainerDatabaseLifecycleStateEnum = map[string]ExternalContainerDatabaseLifecycleStateEnum{
 	"PROVISIONING":  ExternalContainerDatabaseLifecycleStateProvisioning,
 	"NOT_CONNECTED": ExternalContainerDatabaseLifecycleStateNotConnected,
 	"AVAILABLE":     ExternalContainerDatabaseLifecycleStateAvailable,
@@ -106,10 +129,23 @@ var mappingExternalContainerDatabaseLifecycleState = map[string]ExternalContaine
 // GetExternalContainerDatabaseLifecycleStateEnumValues Enumerates the set of values for ExternalContainerDatabaseLifecycleStateEnum
 func GetExternalContainerDatabaseLifecycleStateEnumValues() []ExternalContainerDatabaseLifecycleStateEnum {
 	values := make([]ExternalContainerDatabaseLifecycleStateEnum, 0)
-	for _, v := range mappingExternalContainerDatabaseLifecycleState {
+	for _, v := range mappingExternalContainerDatabaseLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalContainerDatabaseLifecycleStateEnumStringValues Enumerates the set of values in String for ExternalContainerDatabaseLifecycleStateEnum
+func GetExternalContainerDatabaseLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"NOT_CONNECTED",
+		"AVAILABLE",
+		"UPDATING",
+		"TERMINATING",
+		"TERMINATED",
+		"FAILED",
+	}
 }
 
 // ExternalContainerDatabaseDatabaseEditionEnum Enum with underlying type: string
@@ -123,7 +159,7 @@ const (
 	ExternalContainerDatabaseDatabaseEditionEnterpriseEditionExtremePerformance ExternalContainerDatabaseDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 )
 
-var mappingExternalContainerDatabaseDatabaseEdition = map[string]ExternalContainerDatabaseDatabaseEditionEnum{
+var mappingExternalContainerDatabaseDatabaseEditionEnum = map[string]ExternalContainerDatabaseDatabaseEditionEnum{
 	"STANDARD_EDITION":                       ExternalContainerDatabaseDatabaseEditionStandardEdition,
 	"ENTERPRISE_EDITION":                     ExternalContainerDatabaseDatabaseEditionEnterpriseEdition,
 	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    ExternalContainerDatabaseDatabaseEditionEnterpriseEditionHighPerformance,
@@ -133,10 +169,20 @@ var mappingExternalContainerDatabaseDatabaseEdition = map[string]ExternalContain
 // GetExternalContainerDatabaseDatabaseEditionEnumValues Enumerates the set of values for ExternalContainerDatabaseDatabaseEditionEnum
 func GetExternalContainerDatabaseDatabaseEditionEnumValues() []ExternalContainerDatabaseDatabaseEditionEnum {
 	values := make([]ExternalContainerDatabaseDatabaseEditionEnum, 0)
-	for _, v := range mappingExternalContainerDatabaseDatabaseEdition {
+	for _, v := range mappingExternalContainerDatabaseDatabaseEditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalContainerDatabaseDatabaseEditionEnumStringValues Enumerates the set of values in String for ExternalContainerDatabaseDatabaseEditionEnum
+func GetExternalContainerDatabaseDatabaseEditionEnumStringValues() []string {
+	return []string{
+		"STANDARD_EDITION",
+		"ENTERPRISE_EDITION",
+		"ENTERPRISE_EDITION_HIGH_PERFORMANCE",
+		"ENTERPRISE_EDITION_EXTREME_PERFORMANCE",
+	}
 }
 
 // ExternalContainerDatabaseDatabaseConfigurationEnum Enum with underlying type: string
@@ -148,7 +194,7 @@ const (
 	ExternalContainerDatabaseDatabaseConfigurationSingleInstance ExternalContainerDatabaseDatabaseConfigurationEnum = "SINGLE_INSTANCE"
 )
 
-var mappingExternalContainerDatabaseDatabaseConfiguration = map[string]ExternalContainerDatabaseDatabaseConfigurationEnum{
+var mappingExternalContainerDatabaseDatabaseConfigurationEnum = map[string]ExternalContainerDatabaseDatabaseConfigurationEnum{
 	"RAC":             ExternalContainerDatabaseDatabaseConfigurationRac,
 	"SINGLE_INSTANCE": ExternalContainerDatabaseDatabaseConfigurationSingleInstance,
 }
@@ -156,8 +202,16 @@ var mappingExternalContainerDatabaseDatabaseConfiguration = map[string]ExternalC
 // GetExternalContainerDatabaseDatabaseConfigurationEnumValues Enumerates the set of values for ExternalContainerDatabaseDatabaseConfigurationEnum
 func GetExternalContainerDatabaseDatabaseConfigurationEnumValues() []ExternalContainerDatabaseDatabaseConfigurationEnum {
 	values := make([]ExternalContainerDatabaseDatabaseConfigurationEnum, 0)
-	for _, v := range mappingExternalContainerDatabaseDatabaseConfiguration {
+	for _, v := range mappingExternalContainerDatabaseDatabaseConfigurationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetExternalContainerDatabaseDatabaseConfigurationEnumStringValues Enumerates the set of values in String for ExternalContainerDatabaseDatabaseConfigurationEnum
+func GetExternalContainerDatabaseDatabaseConfigurationEnumStringValues() []string {
+	return []string{
+		"RAC",
+		"SINGLE_INSTANCE",
+	}
 }

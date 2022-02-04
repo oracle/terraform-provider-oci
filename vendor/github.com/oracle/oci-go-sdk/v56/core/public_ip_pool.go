@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PublicIpPool A public IP pool is a set of public IP addresses represented as one or more IPv4 CIDR blocks. Resources like load balancers and compute instances can be allocated public IP addresses from a public IP pool.
@@ -55,6 +57,21 @@ func (m PublicIpPool) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PublicIpPool) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPublicIpPoolLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetPublicIpPoolLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PublicIpPoolLifecycleStateEnum Enum with underlying type: string
 type PublicIpPoolLifecycleStateEnum string
 
@@ -67,7 +84,7 @@ const (
 	PublicIpPoolLifecycleStateDeleted  PublicIpPoolLifecycleStateEnum = "DELETED"
 )
 
-var mappingPublicIpPoolLifecycleState = map[string]PublicIpPoolLifecycleStateEnum{
+var mappingPublicIpPoolLifecycleStateEnum = map[string]PublicIpPoolLifecycleStateEnum{
 	"INACTIVE": PublicIpPoolLifecycleStateInactive,
 	"UPDATING": PublicIpPoolLifecycleStateUpdating,
 	"ACTIVE":   PublicIpPoolLifecycleStateActive,
@@ -78,8 +95,19 @@ var mappingPublicIpPoolLifecycleState = map[string]PublicIpPoolLifecycleStateEnu
 // GetPublicIpPoolLifecycleStateEnumValues Enumerates the set of values for PublicIpPoolLifecycleStateEnum
 func GetPublicIpPoolLifecycleStateEnumValues() []PublicIpPoolLifecycleStateEnum {
 	values := make([]PublicIpPoolLifecycleStateEnum, 0)
-	for _, v := range mappingPublicIpPoolLifecycleState {
+	for _, v := range mappingPublicIpPoolLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPublicIpPoolLifecycleStateEnumStringValues Enumerates the set of values in String for PublicIpPoolLifecycleStateEnum
+func GetPublicIpPoolLifecycleStateEnumStringValues() []string {
+	return []string{
+		"INACTIVE",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

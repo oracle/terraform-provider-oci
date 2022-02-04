@@ -5,8 +5,10 @@
 package cloudguard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDetectorRecipeDetectorRulesRequest wrapper for the ListDetectorRecipeDetectorRules operation
@@ -55,6 +57,10 @@ func (request ListDetectorRecipeDetectorRulesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDetectorRecipeDetectorRulesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListDetectorRecipeDetectorRulesRequest) BinaryRequestBody() (*comm
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDetectorRecipeDetectorRulesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDetectorRecipeDetectorRulesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDetectorRecipeDetectorRulesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDetectorRecipeDetectorRulesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDetectorRecipeDetectorRulesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDetectorRecipeDetectorRulesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDetectorRecipeDetectorRulesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDetectorRecipeDetectorRulesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDetectorRecipeDetectorRulesResponse wrapper for the ListDetectorRecipeDetectorRules operation
@@ -112,7 +138,7 @@ const (
 	ListDetectorRecipeDetectorRulesLifecycleStateFailed   ListDetectorRecipeDetectorRulesLifecycleStateEnum = "FAILED"
 )
 
-var mappingListDetectorRecipeDetectorRulesLifecycleState = map[string]ListDetectorRecipeDetectorRulesLifecycleStateEnum{
+var mappingListDetectorRecipeDetectorRulesLifecycleStateEnum = map[string]ListDetectorRecipeDetectorRulesLifecycleStateEnum{
 	"CREATING": ListDetectorRecipeDetectorRulesLifecycleStateCreating,
 	"UPDATING": ListDetectorRecipeDetectorRulesLifecycleStateUpdating,
 	"ACTIVE":   ListDetectorRecipeDetectorRulesLifecycleStateActive,
@@ -125,10 +151,23 @@ var mappingListDetectorRecipeDetectorRulesLifecycleState = map[string]ListDetect
 // GetListDetectorRecipeDetectorRulesLifecycleStateEnumValues Enumerates the set of values for ListDetectorRecipeDetectorRulesLifecycleStateEnum
 func GetListDetectorRecipeDetectorRulesLifecycleStateEnumValues() []ListDetectorRecipeDetectorRulesLifecycleStateEnum {
 	values := make([]ListDetectorRecipeDetectorRulesLifecycleStateEnum, 0)
-	for _, v := range mappingListDetectorRecipeDetectorRulesLifecycleState {
+	for _, v := range mappingListDetectorRecipeDetectorRulesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDetectorRecipeDetectorRulesLifecycleStateEnumStringValues Enumerates the set of values in String for ListDetectorRecipeDetectorRulesLifecycleStateEnum
+func GetListDetectorRecipeDetectorRulesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListDetectorRecipeDetectorRulesSortOrderEnum Enum with underlying type: string
@@ -140,7 +179,7 @@ const (
 	ListDetectorRecipeDetectorRulesSortOrderDesc ListDetectorRecipeDetectorRulesSortOrderEnum = "DESC"
 )
 
-var mappingListDetectorRecipeDetectorRulesSortOrder = map[string]ListDetectorRecipeDetectorRulesSortOrderEnum{
+var mappingListDetectorRecipeDetectorRulesSortOrderEnum = map[string]ListDetectorRecipeDetectorRulesSortOrderEnum{
 	"ASC":  ListDetectorRecipeDetectorRulesSortOrderAsc,
 	"DESC": ListDetectorRecipeDetectorRulesSortOrderDesc,
 }
@@ -148,10 +187,18 @@ var mappingListDetectorRecipeDetectorRulesSortOrder = map[string]ListDetectorRec
 // GetListDetectorRecipeDetectorRulesSortOrderEnumValues Enumerates the set of values for ListDetectorRecipeDetectorRulesSortOrderEnum
 func GetListDetectorRecipeDetectorRulesSortOrderEnumValues() []ListDetectorRecipeDetectorRulesSortOrderEnum {
 	values := make([]ListDetectorRecipeDetectorRulesSortOrderEnum, 0)
-	for _, v := range mappingListDetectorRecipeDetectorRulesSortOrder {
+	for _, v := range mappingListDetectorRecipeDetectorRulesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDetectorRecipeDetectorRulesSortOrderEnumStringValues Enumerates the set of values in String for ListDetectorRecipeDetectorRulesSortOrderEnum
+func GetListDetectorRecipeDetectorRulesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDetectorRecipeDetectorRulesSortByEnum Enum with underlying type: string
@@ -163,7 +210,7 @@ const (
 	ListDetectorRecipeDetectorRulesSortByRisklevel   ListDetectorRecipeDetectorRulesSortByEnum = "riskLevel"
 )
 
-var mappingListDetectorRecipeDetectorRulesSortBy = map[string]ListDetectorRecipeDetectorRulesSortByEnum{
+var mappingListDetectorRecipeDetectorRulesSortByEnum = map[string]ListDetectorRecipeDetectorRulesSortByEnum{
 	"displayName": ListDetectorRecipeDetectorRulesSortByDisplayname,
 	"riskLevel":   ListDetectorRecipeDetectorRulesSortByRisklevel,
 }
@@ -171,8 +218,16 @@ var mappingListDetectorRecipeDetectorRulesSortBy = map[string]ListDetectorRecipe
 // GetListDetectorRecipeDetectorRulesSortByEnumValues Enumerates the set of values for ListDetectorRecipeDetectorRulesSortByEnum
 func GetListDetectorRecipeDetectorRulesSortByEnumValues() []ListDetectorRecipeDetectorRulesSortByEnum {
 	values := make([]ListDetectorRecipeDetectorRulesSortByEnum, 0)
-	for _, v := range mappingListDetectorRecipeDetectorRulesSortBy {
+	for _, v := range mappingListDetectorRecipeDetectorRulesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDetectorRecipeDetectorRulesSortByEnumStringValues Enumerates the set of values in String for ListDetectorRecipeDetectorRulesSortByEnum
+func GetListDetectorRecipeDetectorRulesSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"riskLevel",
+	}
 }

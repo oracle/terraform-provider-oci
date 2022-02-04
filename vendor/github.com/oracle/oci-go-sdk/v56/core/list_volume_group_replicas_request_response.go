@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListVolumeGroupReplicasRequest wrapper for the ListVolumeGroupReplicas operation
@@ -69,6 +71,10 @@ func (request ListVolumeGroupReplicasRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVolumeGroupReplicasRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,26 @@ func (request ListVolumeGroupReplicasRequest) BinaryRequestBody() (*common.OCIRe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVolumeGroupReplicasRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVolumeGroupReplicasRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListVolumeGroupReplicasSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListVolumeGroupReplicasSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListVolumeGroupReplicasSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListVolumeGroupReplicasSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingVolumeGroupReplicaLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetVolumeGroupReplicaLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVolumeGroupReplicasResponse wrapper for the ListVolumeGroupReplicas operation
@@ -121,7 +147,7 @@ const (
 	ListVolumeGroupReplicasSortByDisplayname ListVolumeGroupReplicasSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListVolumeGroupReplicasSortBy = map[string]ListVolumeGroupReplicasSortByEnum{
+var mappingListVolumeGroupReplicasSortByEnum = map[string]ListVolumeGroupReplicasSortByEnum{
 	"TIMECREATED": ListVolumeGroupReplicasSortByTimecreated,
 	"DISPLAYNAME": ListVolumeGroupReplicasSortByDisplayname,
 }
@@ -129,10 +155,18 @@ var mappingListVolumeGroupReplicasSortBy = map[string]ListVolumeGroupReplicasSor
 // GetListVolumeGroupReplicasSortByEnumValues Enumerates the set of values for ListVolumeGroupReplicasSortByEnum
 func GetListVolumeGroupReplicasSortByEnumValues() []ListVolumeGroupReplicasSortByEnum {
 	values := make([]ListVolumeGroupReplicasSortByEnum, 0)
-	for _, v := range mappingListVolumeGroupReplicasSortBy {
+	for _, v := range mappingListVolumeGroupReplicasSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVolumeGroupReplicasSortByEnumStringValues Enumerates the set of values in String for ListVolumeGroupReplicasSortByEnum
+func GetListVolumeGroupReplicasSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListVolumeGroupReplicasSortOrderEnum Enum with underlying type: string
@@ -144,7 +178,7 @@ const (
 	ListVolumeGroupReplicasSortOrderDesc ListVolumeGroupReplicasSortOrderEnum = "DESC"
 )
 
-var mappingListVolumeGroupReplicasSortOrder = map[string]ListVolumeGroupReplicasSortOrderEnum{
+var mappingListVolumeGroupReplicasSortOrderEnum = map[string]ListVolumeGroupReplicasSortOrderEnum{
 	"ASC":  ListVolumeGroupReplicasSortOrderAsc,
 	"DESC": ListVolumeGroupReplicasSortOrderDesc,
 }
@@ -152,8 +186,16 @@ var mappingListVolumeGroupReplicasSortOrder = map[string]ListVolumeGroupReplicas
 // GetListVolumeGroupReplicasSortOrderEnumValues Enumerates the set of values for ListVolumeGroupReplicasSortOrderEnum
 func GetListVolumeGroupReplicasSortOrderEnumValues() []ListVolumeGroupReplicasSortOrderEnum {
 	values := make([]ListVolumeGroupReplicasSortOrderEnum, 0)
-	for _, v := range mappingListVolumeGroupReplicasSortOrder {
+	for _, v := range mappingListVolumeGroupReplicasSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVolumeGroupReplicasSortOrderEnumStringValues Enumerates the set of values in String for ListVolumeGroupReplicasSortOrderEnum
+func GetListVolumeGroupReplicasSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

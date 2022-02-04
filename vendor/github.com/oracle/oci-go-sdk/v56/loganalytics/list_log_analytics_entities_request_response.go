@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListLogAnalyticsEntitiesRequest wrapper for the ListLogAnalyticsEntities operation
@@ -91,6 +93,10 @@ func (request ListLogAnalyticsEntitiesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLogAnalyticsEntitiesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -104,6 +110,35 @@ func (request ListLogAnalyticsEntitiesRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLogAnalyticsEntitiesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLogAnalyticsEntitiesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLogAnalyticsEntitiesLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListLogAnalyticsEntitiesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogAnalyticsEntitiesIsManagementAgentIdNullEnum[string(request.IsManagementAgentIdNull)]; !ok && request.IsManagementAgentIdNull != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsManagementAgentIdNull: %s. Supported values are: %s.", request.IsManagementAgentIdNull, strings.Join(GetListLogAnalyticsEntitiesIsManagementAgentIdNullEnumStringValues(), ",")))
+	}
+	for _, val := range request.CreationSourceType {
+		if _, ok := mappingCreationSourceTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CreationSourceType: %s. Supported values are: %s.", val, strings.Join(GetCreationSourceTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListLogAnalyticsEntitiesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLogAnalyticsEntitiesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLogAnalyticsEntitiesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLogAnalyticsEntitiesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLogAnalyticsEntitiesResponse wrapper for the ListLogAnalyticsEntities operation
@@ -142,7 +177,7 @@ const (
 	ListLogAnalyticsEntitiesLifecycleStateDeleted ListLogAnalyticsEntitiesLifecycleStateEnum = "DELETED"
 )
 
-var mappingListLogAnalyticsEntitiesLifecycleState = map[string]ListLogAnalyticsEntitiesLifecycleStateEnum{
+var mappingListLogAnalyticsEntitiesLifecycleStateEnum = map[string]ListLogAnalyticsEntitiesLifecycleStateEnum{
 	"ACTIVE":  ListLogAnalyticsEntitiesLifecycleStateActive,
 	"DELETED": ListLogAnalyticsEntitiesLifecycleStateDeleted,
 }
@@ -150,10 +185,18 @@ var mappingListLogAnalyticsEntitiesLifecycleState = map[string]ListLogAnalyticsE
 // GetListLogAnalyticsEntitiesLifecycleStateEnumValues Enumerates the set of values for ListLogAnalyticsEntitiesLifecycleStateEnum
 func GetListLogAnalyticsEntitiesLifecycleStateEnumValues() []ListLogAnalyticsEntitiesLifecycleStateEnum {
 	values := make([]ListLogAnalyticsEntitiesLifecycleStateEnum, 0)
-	for _, v := range mappingListLogAnalyticsEntitiesLifecycleState {
+	for _, v := range mappingListLogAnalyticsEntitiesLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogAnalyticsEntitiesLifecycleStateEnumStringValues Enumerates the set of values in String for ListLogAnalyticsEntitiesLifecycleStateEnum
+func GetListLogAnalyticsEntitiesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
 }
 
 // ListLogAnalyticsEntitiesIsManagementAgentIdNullEnum Enum with underlying type: string
@@ -165,7 +208,7 @@ const (
 	ListLogAnalyticsEntitiesIsManagementAgentIdNullFalse ListLogAnalyticsEntitiesIsManagementAgentIdNullEnum = "false"
 )
 
-var mappingListLogAnalyticsEntitiesIsManagementAgentIdNull = map[string]ListLogAnalyticsEntitiesIsManagementAgentIdNullEnum{
+var mappingListLogAnalyticsEntitiesIsManagementAgentIdNullEnum = map[string]ListLogAnalyticsEntitiesIsManagementAgentIdNullEnum{
 	"true":  ListLogAnalyticsEntitiesIsManagementAgentIdNullTrue,
 	"false": ListLogAnalyticsEntitiesIsManagementAgentIdNullFalse,
 }
@@ -173,10 +216,18 @@ var mappingListLogAnalyticsEntitiesIsManagementAgentIdNull = map[string]ListLogA
 // GetListLogAnalyticsEntitiesIsManagementAgentIdNullEnumValues Enumerates the set of values for ListLogAnalyticsEntitiesIsManagementAgentIdNullEnum
 func GetListLogAnalyticsEntitiesIsManagementAgentIdNullEnumValues() []ListLogAnalyticsEntitiesIsManagementAgentIdNullEnum {
 	values := make([]ListLogAnalyticsEntitiesIsManagementAgentIdNullEnum, 0)
-	for _, v := range mappingListLogAnalyticsEntitiesIsManagementAgentIdNull {
+	for _, v := range mappingListLogAnalyticsEntitiesIsManagementAgentIdNullEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogAnalyticsEntitiesIsManagementAgentIdNullEnumStringValues Enumerates the set of values in String for ListLogAnalyticsEntitiesIsManagementAgentIdNullEnum
+func GetListLogAnalyticsEntitiesIsManagementAgentIdNullEnumStringValues() []string {
+	return []string{
+		"true",
+		"false",
+	}
 }
 
 // ListLogAnalyticsEntitiesSortOrderEnum Enum with underlying type: string
@@ -188,7 +239,7 @@ const (
 	ListLogAnalyticsEntitiesSortOrderDesc ListLogAnalyticsEntitiesSortOrderEnum = "DESC"
 )
 
-var mappingListLogAnalyticsEntitiesSortOrder = map[string]ListLogAnalyticsEntitiesSortOrderEnum{
+var mappingListLogAnalyticsEntitiesSortOrderEnum = map[string]ListLogAnalyticsEntitiesSortOrderEnum{
 	"ASC":  ListLogAnalyticsEntitiesSortOrderAsc,
 	"DESC": ListLogAnalyticsEntitiesSortOrderDesc,
 }
@@ -196,10 +247,18 @@ var mappingListLogAnalyticsEntitiesSortOrder = map[string]ListLogAnalyticsEntiti
 // GetListLogAnalyticsEntitiesSortOrderEnumValues Enumerates the set of values for ListLogAnalyticsEntitiesSortOrderEnum
 func GetListLogAnalyticsEntitiesSortOrderEnumValues() []ListLogAnalyticsEntitiesSortOrderEnum {
 	values := make([]ListLogAnalyticsEntitiesSortOrderEnum, 0)
-	for _, v := range mappingListLogAnalyticsEntitiesSortOrder {
+	for _, v := range mappingListLogAnalyticsEntitiesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogAnalyticsEntitiesSortOrderEnumStringValues Enumerates the set of values in String for ListLogAnalyticsEntitiesSortOrderEnum
+func GetListLogAnalyticsEntitiesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListLogAnalyticsEntitiesSortByEnum Enum with underlying type: string
@@ -212,7 +271,7 @@ const (
 	ListLogAnalyticsEntitiesSortByName        ListLogAnalyticsEntitiesSortByEnum = "name"
 )
 
-var mappingListLogAnalyticsEntitiesSortBy = map[string]ListLogAnalyticsEntitiesSortByEnum{
+var mappingListLogAnalyticsEntitiesSortByEnum = map[string]ListLogAnalyticsEntitiesSortByEnum{
 	"timeCreated": ListLogAnalyticsEntitiesSortByTimecreated,
 	"timeUpdated": ListLogAnalyticsEntitiesSortByTimeupdated,
 	"name":        ListLogAnalyticsEntitiesSortByName,
@@ -221,8 +280,17 @@ var mappingListLogAnalyticsEntitiesSortBy = map[string]ListLogAnalyticsEntitiesS
 // GetListLogAnalyticsEntitiesSortByEnumValues Enumerates the set of values for ListLogAnalyticsEntitiesSortByEnum
 func GetListLogAnalyticsEntitiesSortByEnumValues() []ListLogAnalyticsEntitiesSortByEnum {
 	values := make([]ListLogAnalyticsEntitiesSortByEnum, 0)
-	for _, v := range mappingListLogAnalyticsEntitiesSortBy {
+	for _, v := range mappingListLogAnalyticsEntitiesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLogAnalyticsEntitiesSortByEnumStringValues Enumerates the set of values in String for ListLogAnalyticsEntitiesSortByEnum
+func GetListLogAnalyticsEntitiesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"timeUpdated",
+		"name",
+	}
 }

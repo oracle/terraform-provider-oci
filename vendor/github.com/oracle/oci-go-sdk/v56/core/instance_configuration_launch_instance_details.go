@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InstanceConfigurationLaunchInstanceDetails Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails`
@@ -176,6 +178,24 @@ func (m InstanceConfigurationLaunchInstanceDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m InstanceConfigurationLaunchInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingInstanceConfigurationLaunchInstanceDetailsLaunchModeEnum[string(m.LaunchMode)]; !ok && m.LaunchMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LaunchMode: %s. Supported values are: %s.", m.LaunchMode, strings.Join(GetInstanceConfigurationLaunchInstanceDetailsLaunchModeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum[string(m.PreferredMaintenanceAction)]; !ok && m.PreferredMaintenanceAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PreferredMaintenanceAction: %s. Supported values are: %s.", m.PreferredMaintenanceAction, strings.Join(GetInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UnmarshalJSON unmarshals from json
 func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
@@ -288,7 +308,7 @@ const (
 	InstanceConfigurationLaunchInstanceDetailsLaunchModeCustom          InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum = "CUSTOM"
 )
 
-var mappingInstanceConfigurationLaunchInstanceDetailsLaunchMode = map[string]InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum{
+var mappingInstanceConfigurationLaunchInstanceDetailsLaunchModeEnum = map[string]InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum{
 	"NATIVE":          InstanceConfigurationLaunchInstanceDetailsLaunchModeNative,
 	"EMULATED":        InstanceConfigurationLaunchInstanceDetailsLaunchModeEmulated,
 	"PARAVIRTUALIZED": InstanceConfigurationLaunchInstanceDetailsLaunchModeParavirtualized,
@@ -298,10 +318,20 @@ var mappingInstanceConfigurationLaunchInstanceDetailsLaunchMode = map[string]Ins
 // GetInstanceConfigurationLaunchInstanceDetailsLaunchModeEnumValues Enumerates the set of values for InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum
 func GetInstanceConfigurationLaunchInstanceDetailsLaunchModeEnumValues() []InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum {
 	values := make([]InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum, 0)
-	for _, v := range mappingInstanceConfigurationLaunchInstanceDetailsLaunchMode {
+	for _, v := range mappingInstanceConfigurationLaunchInstanceDetailsLaunchModeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceConfigurationLaunchInstanceDetailsLaunchModeEnumStringValues Enumerates the set of values in String for InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum
+func GetInstanceConfigurationLaunchInstanceDetailsLaunchModeEnumStringValues() []string {
+	return []string{
+		"NATIVE",
+		"EMULATED",
+		"PARAVIRTUALIZED",
+		"CUSTOM",
+	}
 }
 
 // InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum Enum with underlying type: string
@@ -313,7 +343,7 @@ const (
 	InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionReboot      InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum = "REBOOT"
 )
 
-var mappingInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceAction = map[string]InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum{
+var mappingInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum = map[string]InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum{
 	"LIVE_MIGRATE": InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionLiveMigrate,
 	"REBOOT":       InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionReboot,
 }
@@ -321,8 +351,16 @@ var mappingInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceAction 
 // GetInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnumValues Enumerates the set of values for InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum
 func GetInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnumValues() []InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum {
 	values := make([]InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum, 0)
-	for _, v := range mappingInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceAction {
+	for _, v := range mappingInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnumStringValues Enumerates the set of values in String for InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum
+func GetInstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnumStringValues() []string {
+	return []string{
+		"LIVE_MIGRATE",
+		"REBOOT",
+	}
 }

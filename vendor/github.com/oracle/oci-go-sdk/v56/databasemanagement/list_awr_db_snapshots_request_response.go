@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListAwrDbSnapshotsRequest wrapper for the ListAwrDbSnapshots operation
@@ -79,6 +81,10 @@ func (request ListAwrDbSnapshotsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListAwrDbSnapshotsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -92,6 +98,23 @@ func (request ListAwrDbSnapshotsRequest) BinaryRequestBody() (*common.OCIReadSee
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListAwrDbSnapshotsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListAwrDbSnapshotsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListAwrDbSnapshotsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAwrDbSnapshotsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListAwrDbSnapshotsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAwrDbSnapshotsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListAwrDbSnapshotsResponse wrapper for the ListAwrDbSnapshots operation
@@ -131,7 +154,7 @@ const (
 	ListAwrDbSnapshotsSortBySnapshotId ListAwrDbSnapshotsSortByEnum = "SNAPSHOT_ID"
 )
 
-var mappingListAwrDbSnapshotsSortBy = map[string]ListAwrDbSnapshotsSortByEnum{
+var mappingListAwrDbSnapshotsSortByEnum = map[string]ListAwrDbSnapshotsSortByEnum{
 	"TIME_BEGIN":  ListAwrDbSnapshotsSortByTimeBegin,
 	"SNAPSHOT_ID": ListAwrDbSnapshotsSortBySnapshotId,
 }
@@ -139,10 +162,18 @@ var mappingListAwrDbSnapshotsSortBy = map[string]ListAwrDbSnapshotsSortByEnum{
 // GetListAwrDbSnapshotsSortByEnumValues Enumerates the set of values for ListAwrDbSnapshotsSortByEnum
 func GetListAwrDbSnapshotsSortByEnumValues() []ListAwrDbSnapshotsSortByEnum {
 	values := make([]ListAwrDbSnapshotsSortByEnum, 0)
-	for _, v := range mappingListAwrDbSnapshotsSortBy {
+	for _, v := range mappingListAwrDbSnapshotsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAwrDbSnapshotsSortByEnumStringValues Enumerates the set of values in String for ListAwrDbSnapshotsSortByEnum
+func GetListAwrDbSnapshotsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_BEGIN",
+		"SNAPSHOT_ID",
+	}
 }
 
 // ListAwrDbSnapshotsSortOrderEnum Enum with underlying type: string
@@ -154,7 +185,7 @@ const (
 	ListAwrDbSnapshotsSortOrderDesc ListAwrDbSnapshotsSortOrderEnum = "DESC"
 )
 
-var mappingListAwrDbSnapshotsSortOrder = map[string]ListAwrDbSnapshotsSortOrderEnum{
+var mappingListAwrDbSnapshotsSortOrderEnum = map[string]ListAwrDbSnapshotsSortOrderEnum{
 	"ASC":  ListAwrDbSnapshotsSortOrderAsc,
 	"DESC": ListAwrDbSnapshotsSortOrderDesc,
 }
@@ -162,8 +193,16 @@ var mappingListAwrDbSnapshotsSortOrder = map[string]ListAwrDbSnapshotsSortOrderE
 // GetListAwrDbSnapshotsSortOrderEnumValues Enumerates the set of values for ListAwrDbSnapshotsSortOrderEnum
 func GetListAwrDbSnapshotsSortOrderEnumValues() []ListAwrDbSnapshotsSortOrderEnum {
 	values := make([]ListAwrDbSnapshotsSortOrderEnum, 0)
-	for _, v := range mappingListAwrDbSnapshotsSortOrder {
+	for _, v := range mappingListAwrDbSnapshotsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListAwrDbSnapshotsSortOrderEnumStringValues Enumerates the set of values in String for ListAwrDbSnapshotsSortOrderEnum
+func GetListAwrDbSnapshotsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

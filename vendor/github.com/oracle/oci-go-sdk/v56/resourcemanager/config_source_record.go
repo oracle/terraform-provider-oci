@@ -14,7 +14,9 @@ package resourcemanager
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ConfigSourceRecord Information about the Terraform configuration.
@@ -72,6 +74,18 @@ func (m configsourcerecord) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m configsourcerecord) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConfigSourceRecordConfigSourceRecordTypeEnum Enum with underlying type: string
 type ConfigSourceRecordConfigSourceRecordTypeEnum string
 
@@ -82,7 +96,7 @@ const (
 	ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource ConfigSourceRecordConfigSourceRecordTypeEnum = "OBJECT_STORAGE_CONFIG_SOURCE"
 )
 
-var mappingConfigSourceRecordConfigSourceRecordType = map[string]ConfigSourceRecordConfigSourceRecordTypeEnum{
+var mappingConfigSourceRecordConfigSourceRecordTypeEnum = map[string]ConfigSourceRecordConfigSourceRecordTypeEnum{
 	"ZIP_UPLOAD":                   ConfigSourceRecordConfigSourceRecordTypeZipUpload,
 	"GIT_CONFIG_SOURCE":            ConfigSourceRecordConfigSourceRecordTypeGitConfigSource,
 	"OBJECT_STORAGE_CONFIG_SOURCE": ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource,
@@ -91,8 +105,17 @@ var mappingConfigSourceRecordConfigSourceRecordType = map[string]ConfigSourceRec
 // GetConfigSourceRecordConfigSourceRecordTypeEnumValues Enumerates the set of values for ConfigSourceRecordConfigSourceRecordTypeEnum
 func GetConfigSourceRecordConfigSourceRecordTypeEnumValues() []ConfigSourceRecordConfigSourceRecordTypeEnum {
 	values := make([]ConfigSourceRecordConfigSourceRecordTypeEnum, 0)
-	for _, v := range mappingConfigSourceRecordConfigSourceRecordType {
+	for _, v := range mappingConfigSourceRecordConfigSourceRecordTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConfigSourceRecordConfigSourceRecordTypeEnumStringValues Enumerates the set of values in String for ConfigSourceRecordConfigSourceRecordTypeEnum
+func GetConfigSourceRecordConfigSourceRecordTypeEnumStringValues() []string {
+	return []string{
+		"ZIP_UPLOAD",
+		"GIT_CONFIG_SOURCE",
+		"OBJECT_STORAGE_CONFIG_SOURCE",
+	}
 }

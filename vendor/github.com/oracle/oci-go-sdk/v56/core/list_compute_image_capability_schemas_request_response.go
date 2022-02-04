@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListComputeImageCapabilitySchemasRequest wrapper for the ListComputeImageCapabilitySchemas operation
@@ -65,6 +67,10 @@ func (request ListComputeImageCapabilitySchemasRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListComputeImageCapabilitySchemasRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -78,6 +84,23 @@ func (request ListComputeImageCapabilitySchemasRequest) BinaryRequestBody() (*co
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListComputeImageCapabilitySchemasRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListComputeImageCapabilitySchemasRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListComputeImageCapabilitySchemasSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListComputeImageCapabilitySchemasSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListComputeImageCapabilitySchemasSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListComputeImageCapabilitySchemasSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListComputeImageCapabilitySchemasResponse wrapper for the ListComputeImageCapabilitySchemas operation
@@ -117,7 +140,7 @@ const (
 	ListComputeImageCapabilitySchemasSortByDisplayname ListComputeImageCapabilitySchemasSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListComputeImageCapabilitySchemasSortBy = map[string]ListComputeImageCapabilitySchemasSortByEnum{
+var mappingListComputeImageCapabilitySchemasSortByEnum = map[string]ListComputeImageCapabilitySchemasSortByEnum{
 	"TIMECREATED": ListComputeImageCapabilitySchemasSortByTimecreated,
 	"DISPLAYNAME": ListComputeImageCapabilitySchemasSortByDisplayname,
 }
@@ -125,10 +148,18 @@ var mappingListComputeImageCapabilitySchemasSortBy = map[string]ListComputeImage
 // GetListComputeImageCapabilitySchemasSortByEnumValues Enumerates the set of values for ListComputeImageCapabilitySchemasSortByEnum
 func GetListComputeImageCapabilitySchemasSortByEnumValues() []ListComputeImageCapabilitySchemasSortByEnum {
 	values := make([]ListComputeImageCapabilitySchemasSortByEnum, 0)
-	for _, v := range mappingListComputeImageCapabilitySchemasSortBy {
+	for _, v := range mappingListComputeImageCapabilitySchemasSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListComputeImageCapabilitySchemasSortByEnumStringValues Enumerates the set of values in String for ListComputeImageCapabilitySchemasSortByEnum
+func GetListComputeImageCapabilitySchemasSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListComputeImageCapabilitySchemasSortOrderEnum Enum with underlying type: string
@@ -140,7 +171,7 @@ const (
 	ListComputeImageCapabilitySchemasSortOrderDesc ListComputeImageCapabilitySchemasSortOrderEnum = "DESC"
 )
 
-var mappingListComputeImageCapabilitySchemasSortOrder = map[string]ListComputeImageCapabilitySchemasSortOrderEnum{
+var mappingListComputeImageCapabilitySchemasSortOrderEnum = map[string]ListComputeImageCapabilitySchemasSortOrderEnum{
 	"ASC":  ListComputeImageCapabilitySchemasSortOrderAsc,
 	"DESC": ListComputeImageCapabilitySchemasSortOrderDesc,
 }
@@ -148,8 +179,16 @@ var mappingListComputeImageCapabilitySchemasSortOrder = map[string]ListComputeIm
 // GetListComputeImageCapabilitySchemasSortOrderEnumValues Enumerates the set of values for ListComputeImageCapabilitySchemasSortOrderEnum
 func GetListComputeImageCapabilitySchemasSortOrderEnumValues() []ListComputeImageCapabilitySchemasSortOrderEnum {
 	values := make([]ListComputeImageCapabilitySchemasSortOrderEnum, 0)
-	for _, v := range mappingListComputeImageCapabilitySchemasSortOrder {
+	for _, v := range mappingListComputeImageCapabilitySchemasSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListComputeImageCapabilitySchemasSortOrderEnumStringValues Enumerates the set of values in String for ListComputeImageCapabilitySchemasSortOrderEnum
+func GetListComputeImageCapabilitySchemasSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

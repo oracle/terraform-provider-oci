@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateIpSecConnectionDetails The representation of CreateIpSecConnectionDetails
@@ -81,6 +83,21 @@ func (m CreateIpSecConnectionDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateIpSecConnectionDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum[string(m.CpeLocalIdentifierType)]; !ok && m.CpeLocalIdentifierType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CpeLocalIdentifierType: %s. Supported values are: %s.", m.CpeLocalIdentifierType, strings.Join(GetCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum Enum with underlying type: string
 type CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum string
 
@@ -90,7 +107,7 @@ const (
 	CreateIpSecConnectionDetailsCpeLocalIdentifierTypeHostname  CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum = "HOSTNAME"
 )
 
-var mappingCreateIpSecConnectionDetailsCpeLocalIdentifierType = map[string]CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum{
+var mappingCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum = map[string]CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum{
 	"IP_ADDRESS": CreateIpSecConnectionDetailsCpeLocalIdentifierTypeIpAddress,
 	"HOSTNAME":   CreateIpSecConnectionDetailsCpeLocalIdentifierTypeHostname,
 }
@@ -98,8 +115,16 @@ var mappingCreateIpSecConnectionDetailsCpeLocalIdentifierType = map[string]Creat
 // GetCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnumValues Enumerates the set of values for CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum
 func GetCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnumValues() []CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum {
 	values := make([]CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum, 0)
-	for _, v := range mappingCreateIpSecConnectionDetailsCpeLocalIdentifierType {
+	for _, v := range mappingCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnumStringValues Enumerates the set of values in String for CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum
+func GetCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnumStringValues() []string {
+	return []string{
+		"IP_ADDRESS",
+		"HOSTNAME",
+	}
 }

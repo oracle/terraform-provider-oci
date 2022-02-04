@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ConnectionDetails The connection details for a data asset.
@@ -206,6 +208,18 @@ func (m connectiondetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m connectiondetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ConnectionDetailsModelTypeEnum Enum with underlying type: string
 type ConnectionDetailsModelTypeEnum string
 
@@ -221,7 +235,7 @@ const (
 	ConnectionDetailsModelTypeAmazonS3Connection            ConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
 )
 
-var mappingConnectionDetailsModelType = map[string]ConnectionDetailsModelTypeEnum{
+var mappingConnectionDetailsModelTypeEnum = map[string]ConnectionDetailsModelTypeEnum{
 	"ORACLE_ADWC_CONNECTION":           ConnectionDetailsModelTypeOracleAdwcConnection,
 	"ORACLE_ATP_CONNECTION":            ConnectionDetailsModelTypeOracleAtpConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": ConnectionDetailsModelTypeOracleObjectStorageConnection,
@@ -235,8 +249,22 @@ var mappingConnectionDetailsModelType = map[string]ConnectionDetailsModelTypeEnu
 // GetConnectionDetailsModelTypeEnumValues Enumerates the set of values for ConnectionDetailsModelTypeEnum
 func GetConnectionDetailsModelTypeEnumValues() []ConnectionDetailsModelTypeEnum {
 	values := make([]ConnectionDetailsModelTypeEnum, 0)
-	for _, v := range mappingConnectionDetailsModelType {
+	for _, v := range mappingConnectionDetailsModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetConnectionDetailsModelTypeEnumStringValues Enumerates the set of values in String for ConnectionDetailsModelTypeEnum
+func GetConnectionDetailsModelTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_ADWC_CONNECTION",
+		"ORACLE_ATP_CONNECTION",
+		"ORACLE_OBJECT_STORAGE_CONNECTION",
+		"ORACLEDB_CONNECTION",
+		"MYSQL_CONNECTION",
+		"GENERIC_JDBC_CONNECTION",
+		"BICC_CONNECTION",
+		"AMAZON_S3_CONNECTION",
+	}
 }

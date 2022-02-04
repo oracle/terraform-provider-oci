@@ -11,7 +11,9 @@ package datascience
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ScalingPolicy The scaling policy to apply to each model of the deployment.
@@ -61,6 +63,18 @@ func (m scalingpolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m scalingpolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ScalingPolicyPolicyTypeEnum Enum with underlying type: string
 type ScalingPolicyPolicyTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	ScalingPolicyPolicyTypeFixedSize ScalingPolicyPolicyTypeEnum = "FIXED_SIZE"
 )
 
-var mappingScalingPolicyPolicyType = map[string]ScalingPolicyPolicyTypeEnum{
+var mappingScalingPolicyPolicyTypeEnum = map[string]ScalingPolicyPolicyTypeEnum{
 	"FIXED_SIZE": ScalingPolicyPolicyTypeFixedSize,
 }
 
 // GetScalingPolicyPolicyTypeEnumValues Enumerates the set of values for ScalingPolicyPolicyTypeEnum
 func GetScalingPolicyPolicyTypeEnumValues() []ScalingPolicyPolicyTypeEnum {
 	values := make([]ScalingPolicyPolicyTypeEnum, 0)
-	for _, v := range mappingScalingPolicyPolicyType {
+	for _, v := range mappingScalingPolicyPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetScalingPolicyPolicyTypeEnumStringValues Enumerates the set of values in String for ScalingPolicyPolicyTypeEnum
+func GetScalingPolicyPolicyTypeEnumStringValues() []string {
+	return []string{
+		"FIXED_SIZE",
+	}
 }

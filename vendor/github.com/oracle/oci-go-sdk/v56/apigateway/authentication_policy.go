@@ -13,7 +13,9 @@ package apigateway
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // AuthenticationPolicy Information on how to authenticate incoming requests.
@@ -78,6 +80,18 @@ func (m authenticationpolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m authenticationpolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // AuthenticationPolicyTypeEnum Enum with underlying type: string
 type AuthenticationPolicyTypeEnum string
 
@@ -87,7 +101,7 @@ const (
 	AuthenticationPolicyTypeJwtAuthentication    AuthenticationPolicyTypeEnum = "JWT_AUTHENTICATION"
 )
 
-var mappingAuthenticationPolicyType = map[string]AuthenticationPolicyTypeEnum{
+var mappingAuthenticationPolicyTypeEnum = map[string]AuthenticationPolicyTypeEnum{
 	"CUSTOM_AUTHENTICATION": AuthenticationPolicyTypeCustomAuthentication,
 	"JWT_AUTHENTICATION":    AuthenticationPolicyTypeJwtAuthentication,
 }
@@ -95,8 +109,16 @@ var mappingAuthenticationPolicyType = map[string]AuthenticationPolicyTypeEnum{
 // GetAuthenticationPolicyTypeEnumValues Enumerates the set of values for AuthenticationPolicyTypeEnum
 func GetAuthenticationPolicyTypeEnumValues() []AuthenticationPolicyTypeEnum {
 	values := make([]AuthenticationPolicyTypeEnum, 0)
-	for _, v := range mappingAuthenticationPolicyType {
+	for _, v := range mappingAuthenticationPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetAuthenticationPolicyTypeEnumStringValues Enumerates the set of values in String for AuthenticationPolicyTypeEnum
+func GetAuthenticationPolicyTypeEnumStringValues() []string {
+	return []string{
+		"CUSTOM_AUTHENTICATION",
+		"JWT_AUTHENTICATION",
+	}
 }

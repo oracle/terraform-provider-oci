@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // DrgRedundancyStatus The redundancy status of the DRG. For more information, see
@@ -32,6 +34,21 @@ func (m DrgRedundancyStatus) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m DrgRedundancyStatus) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingDrgRedundancyStatusStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetDrgRedundancyStatusStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // DrgRedundancyStatusStatusEnum Enum with underlying type: string
 type DrgRedundancyStatusStatusEnum string
 
@@ -47,7 +64,7 @@ const (
 	DrgRedundancyStatusStatusNotRedundantNoConnection            DrgRedundancyStatusStatusEnum = "NOT_REDUNDANT_NO_CONNECTION"
 )
 
-var mappingDrgRedundancyStatusStatus = map[string]DrgRedundancyStatusStatusEnum{
+var mappingDrgRedundancyStatusStatusEnum = map[string]DrgRedundancyStatusStatusEnum{
 	"NOT_AVAILABLE":                          DrgRedundancyStatusStatusNotAvailable,
 	"REDUNDANT":                              DrgRedundancyStatusStatusRedundant,
 	"NOT_REDUNDANT_SINGLE_IPSEC":             DrgRedundancyStatusStatusNotRedundantSingleIpsec,
@@ -61,8 +78,22 @@ var mappingDrgRedundancyStatusStatus = map[string]DrgRedundancyStatusStatusEnum{
 // GetDrgRedundancyStatusStatusEnumValues Enumerates the set of values for DrgRedundancyStatusStatusEnum
 func GetDrgRedundancyStatusStatusEnumValues() []DrgRedundancyStatusStatusEnum {
 	values := make([]DrgRedundancyStatusStatusEnum, 0)
-	for _, v := range mappingDrgRedundancyStatusStatus {
+	for _, v := range mappingDrgRedundancyStatusStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDrgRedundancyStatusStatusEnumStringValues Enumerates the set of values in String for DrgRedundancyStatusStatusEnum
+func GetDrgRedundancyStatusStatusEnumStringValues() []string {
+	return []string{
+		"NOT_AVAILABLE",
+		"REDUNDANT",
+		"NOT_REDUNDANT_SINGLE_IPSEC",
+		"NOT_REDUNDANT_SINGLE_VIRTUALCIRCUIT",
+		"NOT_REDUNDANT_MULTIPLE_IPSECS",
+		"NOT_REDUNDANT_MULTIPLE_VIRTUALCIRCUITS",
+		"NOT_REDUNDANT_MIX_CONNECTIONS",
+		"NOT_REDUNDANT_NO_CONNECTION",
+	}
 }

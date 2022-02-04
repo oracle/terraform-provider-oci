@@ -24,7 +24,7 @@ const (
 	ModelDeploymentLifecycleStateNeedsAttention ModelDeploymentLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
-var mappingModelDeploymentLifecycleState = map[string]ModelDeploymentLifecycleStateEnum{
+var mappingModelDeploymentLifecycleStateEnum = map[string]ModelDeploymentLifecycleStateEnum{
 	"CREATING":        ModelDeploymentLifecycleStateCreating,
 	"ACTIVE":          ModelDeploymentLifecycleStateActive,
 	"DELETING":        ModelDeploymentLifecycleStateDeleting,
@@ -38,8 +38,22 @@ var mappingModelDeploymentLifecycleState = map[string]ModelDeploymentLifecycleSt
 // GetModelDeploymentLifecycleStateEnumValues Enumerates the set of values for ModelDeploymentLifecycleStateEnum
 func GetModelDeploymentLifecycleStateEnumValues() []ModelDeploymentLifecycleStateEnum {
 	values := make([]ModelDeploymentLifecycleStateEnum, 0)
-	for _, v := range mappingModelDeploymentLifecycleState {
+	for _, v := range mappingModelDeploymentLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetModelDeploymentLifecycleStateEnumStringValues Enumerates the set of values in String for ModelDeploymentLifecycleStateEnum
+func GetModelDeploymentLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"FAILED",
+		"INACTIVE",
+		"UPDATING",
+		"DELETED",
+		"NEEDS_ATTENTION",
+	}
 }

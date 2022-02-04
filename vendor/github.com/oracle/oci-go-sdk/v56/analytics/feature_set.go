@@ -18,7 +18,7 @@ const (
 	FeatureSetEnterpriseAnalytics  FeatureSetEnum = "ENTERPRISE_ANALYTICS"
 )
 
-var mappingFeatureSet = map[string]FeatureSetEnum{
+var mappingFeatureSetEnum = map[string]FeatureSetEnum{
 	"SELF_SERVICE_ANALYTICS": FeatureSetSelfServiceAnalytics,
 	"ENTERPRISE_ANALYTICS":   FeatureSetEnterpriseAnalytics,
 }
@@ -26,8 +26,16 @@ var mappingFeatureSet = map[string]FeatureSetEnum{
 // GetFeatureSetEnumValues Enumerates the set of values for FeatureSetEnum
 func GetFeatureSetEnumValues() []FeatureSetEnum {
 	values := make([]FeatureSetEnum, 0)
-	for _, v := range mappingFeatureSet {
+	for _, v := range mappingFeatureSetEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFeatureSetEnumStringValues Enumerates the set of values in String for FeatureSetEnum
+func GetFeatureSetEnumStringValues() []string {
+	return []string{
+		"SELF_SERVICE_ANALYTICS",
+		"ENTERPRISE_ANALYTICS",
+	}
 }

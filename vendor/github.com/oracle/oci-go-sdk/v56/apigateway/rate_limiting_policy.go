@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // RateLimitingPolicy Limit the number of requests that should be handled for the specified window using a specfic key.
@@ -29,6 +31,21 @@ func (m RateLimitingPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RateLimitingPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingRateLimitingPolicyRateKeyEnum[string(m.RateKey)]; !ok && m.RateKey != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RateKey: %s. Supported values are: %s.", m.RateKey, strings.Join(GetRateLimitingPolicyRateKeyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RateLimitingPolicyRateKeyEnum Enum with underlying type: string
 type RateLimitingPolicyRateKeyEnum string
 
@@ -38,7 +55,7 @@ const (
 	RateLimitingPolicyRateKeyTotal    RateLimitingPolicyRateKeyEnum = "TOTAL"
 )
 
-var mappingRateLimitingPolicyRateKey = map[string]RateLimitingPolicyRateKeyEnum{
+var mappingRateLimitingPolicyRateKeyEnum = map[string]RateLimitingPolicyRateKeyEnum{
 	"CLIENT_IP": RateLimitingPolicyRateKeyClientIp,
 	"TOTAL":     RateLimitingPolicyRateKeyTotal,
 }
@@ -46,8 +63,16 @@ var mappingRateLimitingPolicyRateKey = map[string]RateLimitingPolicyRateKeyEnum{
 // GetRateLimitingPolicyRateKeyEnumValues Enumerates the set of values for RateLimitingPolicyRateKeyEnum
 func GetRateLimitingPolicyRateKeyEnumValues() []RateLimitingPolicyRateKeyEnum {
 	values := make([]RateLimitingPolicyRateKeyEnum, 0)
-	for _, v := range mappingRateLimitingPolicyRateKey {
+	for _, v := range mappingRateLimitingPolicyRateKeyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRateLimitingPolicyRateKeyEnumStringValues Enumerates the set of values in String for RateLimitingPolicyRateKeyEnum
+func GetRateLimitingPolicyRateKeyEnumStringValues() []string {
+	return []string{
+		"CLIENT_IP",
+		"TOTAL",
+	}
 }

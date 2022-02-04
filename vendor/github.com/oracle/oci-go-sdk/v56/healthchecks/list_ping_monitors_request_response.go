@@ -5,8 +5,10 @@
 package healthchecks
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListPingMonitorsRequest wrapper for the ListPingMonitors operation
@@ -54,6 +56,10 @@ func (request ListPingMonitorsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListPingMonitorsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -67,6 +73,23 @@ func (request ListPingMonitorsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPingMonitorsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListPingMonitorsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListPingMonitorsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListPingMonitorsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListPingMonitorsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPingMonitorsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListPingMonitorsResponse wrapper for the ListPingMonitors operation
@@ -109,7 +132,7 @@ const (
 	ListPingMonitorsSortByTimecreated ListPingMonitorsSortByEnum = "timeCreated"
 )
 
-var mappingListPingMonitorsSortBy = map[string]ListPingMonitorsSortByEnum{
+var mappingListPingMonitorsSortByEnum = map[string]ListPingMonitorsSortByEnum{
 	"id":          ListPingMonitorsSortById,
 	"displayName": ListPingMonitorsSortByDisplayname,
 	"timeCreated": ListPingMonitorsSortByTimecreated,
@@ -118,10 +141,19 @@ var mappingListPingMonitorsSortBy = map[string]ListPingMonitorsSortByEnum{
 // GetListPingMonitorsSortByEnumValues Enumerates the set of values for ListPingMonitorsSortByEnum
 func GetListPingMonitorsSortByEnumValues() []ListPingMonitorsSortByEnum {
 	values := make([]ListPingMonitorsSortByEnum, 0)
-	for _, v := range mappingListPingMonitorsSortBy {
+	for _, v := range mappingListPingMonitorsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPingMonitorsSortByEnumStringValues Enumerates the set of values in String for ListPingMonitorsSortByEnum
+func GetListPingMonitorsSortByEnumStringValues() []string {
+	return []string{
+		"id",
+		"displayName",
+		"timeCreated",
+	}
 }
 
 // ListPingMonitorsSortOrderEnum Enum with underlying type: string
@@ -133,7 +165,7 @@ const (
 	ListPingMonitorsSortOrderDesc ListPingMonitorsSortOrderEnum = "DESC"
 )
 
-var mappingListPingMonitorsSortOrder = map[string]ListPingMonitorsSortOrderEnum{
+var mappingListPingMonitorsSortOrderEnum = map[string]ListPingMonitorsSortOrderEnum{
 	"ASC":  ListPingMonitorsSortOrderAsc,
 	"DESC": ListPingMonitorsSortOrderDesc,
 }
@@ -141,8 +173,16 @@ var mappingListPingMonitorsSortOrder = map[string]ListPingMonitorsSortOrderEnum{
 // GetListPingMonitorsSortOrderEnumValues Enumerates the set of values for ListPingMonitorsSortOrderEnum
 func GetListPingMonitorsSortOrderEnumValues() []ListPingMonitorsSortOrderEnum {
 	values := make([]ListPingMonitorsSortOrderEnum, 0)
-	for _, v := range mappingListPingMonitorsSortOrder {
+	for _, v := range mappingListPingMonitorsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListPingMonitorsSortOrderEnumStringValues Enumerates the set of values in String for ListPingMonitorsSortOrderEnum
+func GetListPingMonitorsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

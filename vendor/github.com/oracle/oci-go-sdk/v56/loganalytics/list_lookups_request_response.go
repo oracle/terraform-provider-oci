@@ -5,8 +5,10 @@
 package loganalytics
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListLookupsRequest wrapper for the ListLookups operation
@@ -67,6 +69,10 @@ func (request ListLookupsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListLookupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -80,6 +86,32 @@ func (request ListLookupsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListLookupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListLookupsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListLookupsTypeEnum[string(request.Type)]; !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetListLookupsTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLookupsIsSystemEnum[string(request.IsSystem)]; !ok && request.IsSystem != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsSystem: %s. Supported values are: %s.", request.IsSystem, strings.Join(GetListLookupsIsSystemEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLookupsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListLookupsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLookupsStatusEnum[string(request.Status)]; !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListLookupsStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListLookupsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListLookupsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListLookupsResponse wrapper for the ListLookups operation
@@ -123,7 +155,7 @@ const (
 	ListLookupsTypeDictionary ListLookupsTypeEnum = "Dictionary"
 )
 
-var mappingListLookupsType = map[string]ListLookupsTypeEnum{
+var mappingListLookupsTypeEnum = map[string]ListLookupsTypeEnum{
 	"Lookup":     ListLookupsTypeLookup,
 	"Dictionary": ListLookupsTypeDictionary,
 }
@@ -131,10 +163,18 @@ var mappingListLookupsType = map[string]ListLookupsTypeEnum{
 // GetListLookupsTypeEnumValues Enumerates the set of values for ListLookupsTypeEnum
 func GetListLookupsTypeEnumValues() []ListLookupsTypeEnum {
 	values := make([]ListLookupsTypeEnum, 0)
-	for _, v := range mappingListLookupsType {
+	for _, v := range mappingListLookupsTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLookupsTypeEnumStringValues Enumerates the set of values in String for ListLookupsTypeEnum
+func GetListLookupsTypeEnumStringValues() []string {
+	return []string{
+		"Lookup",
+		"Dictionary",
+	}
 }
 
 // ListLookupsIsSystemEnum Enum with underlying type: string
@@ -147,7 +187,7 @@ const (
 	ListLookupsIsSystemBuiltIn ListLookupsIsSystemEnum = "BUILT_IN"
 )
 
-var mappingListLookupsIsSystem = map[string]ListLookupsIsSystemEnum{
+var mappingListLookupsIsSystemEnum = map[string]ListLookupsIsSystemEnum{
 	"ALL":      ListLookupsIsSystemAll,
 	"CUSTOM":   ListLookupsIsSystemCustom,
 	"BUILT_IN": ListLookupsIsSystemBuiltIn,
@@ -156,10 +196,19 @@ var mappingListLookupsIsSystem = map[string]ListLookupsIsSystemEnum{
 // GetListLookupsIsSystemEnumValues Enumerates the set of values for ListLookupsIsSystemEnum
 func GetListLookupsIsSystemEnumValues() []ListLookupsIsSystemEnum {
 	values := make([]ListLookupsIsSystemEnum, 0)
-	for _, v := range mappingListLookupsIsSystem {
+	for _, v := range mappingListLookupsIsSystemEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLookupsIsSystemEnumStringValues Enumerates the set of values in String for ListLookupsIsSystemEnum
+func GetListLookupsIsSystemEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"CUSTOM",
+		"BUILT_IN",
+	}
 }
 
 // ListLookupsSortByEnum Enum with underlying type: string
@@ -174,7 +223,7 @@ const (
 	ListLookupsSortByCreationtype ListLookupsSortByEnum = "creationType"
 )
 
-var mappingListLookupsSortBy = map[string]ListLookupsSortByEnum{
+var mappingListLookupsSortByEnum = map[string]ListLookupsSortByEnum{
 	"displayName":  ListLookupsSortByDisplayname,
 	"status":       ListLookupsSortByStatus,
 	"type":         ListLookupsSortByType,
@@ -185,10 +234,21 @@ var mappingListLookupsSortBy = map[string]ListLookupsSortByEnum{
 // GetListLookupsSortByEnumValues Enumerates the set of values for ListLookupsSortByEnum
 func GetListLookupsSortByEnumValues() []ListLookupsSortByEnum {
 	values := make([]ListLookupsSortByEnum, 0)
-	for _, v := range mappingListLookupsSortBy {
+	for _, v := range mappingListLookupsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLookupsSortByEnumStringValues Enumerates the set of values in String for ListLookupsSortByEnum
+func GetListLookupsSortByEnumStringValues() []string {
+	return []string{
+		"displayName",
+		"status",
+		"type",
+		"updatedTime",
+		"creationType",
+	}
 }
 
 // ListLookupsStatusEnum Enum with underlying type: string
@@ -202,7 +262,7 @@ const (
 	ListLookupsStatusInprogress ListLookupsStatusEnum = "INPROGRESS"
 )
 
-var mappingListLookupsStatus = map[string]ListLookupsStatusEnum{
+var mappingListLookupsStatusEnum = map[string]ListLookupsStatusEnum{
 	"ALL":        ListLookupsStatusAll,
 	"SUCCESSFUL": ListLookupsStatusSuccessful,
 	"FAILED":     ListLookupsStatusFailed,
@@ -212,10 +272,20 @@ var mappingListLookupsStatus = map[string]ListLookupsStatusEnum{
 // GetListLookupsStatusEnumValues Enumerates the set of values for ListLookupsStatusEnum
 func GetListLookupsStatusEnumValues() []ListLookupsStatusEnum {
 	values := make([]ListLookupsStatusEnum, 0)
-	for _, v := range mappingListLookupsStatus {
+	for _, v := range mappingListLookupsStatusEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLookupsStatusEnumStringValues Enumerates the set of values in String for ListLookupsStatusEnum
+func GetListLookupsStatusEnumStringValues() []string {
+	return []string{
+		"ALL",
+		"SUCCESSFUL",
+		"FAILED",
+		"INPROGRESS",
+	}
 }
 
 // ListLookupsSortOrderEnum Enum with underlying type: string
@@ -227,7 +297,7 @@ const (
 	ListLookupsSortOrderDesc ListLookupsSortOrderEnum = "DESC"
 )
 
-var mappingListLookupsSortOrder = map[string]ListLookupsSortOrderEnum{
+var mappingListLookupsSortOrderEnum = map[string]ListLookupsSortOrderEnum{
 	"ASC":  ListLookupsSortOrderAsc,
 	"DESC": ListLookupsSortOrderDesc,
 }
@@ -235,8 +305,16 @@ var mappingListLookupsSortOrder = map[string]ListLookupsSortOrderEnum{
 // GetListLookupsSortOrderEnumValues Enumerates the set of values for ListLookupsSortOrderEnum
 func GetListLookupsSortOrderEnumValues() []ListLookupsSortOrderEnum {
 	values := make([]ListLookupsSortOrderEnum, 0)
-	for _, v := range mappingListLookupsSortOrder {
+	for _, v := range mappingListLookupsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListLookupsSortOrderEnumStringValues Enumerates the set of values in String for ListLookupsSortOrderEnum
+func GetListLookupsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

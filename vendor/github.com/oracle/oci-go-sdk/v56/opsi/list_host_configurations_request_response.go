@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListHostConfigurationsRequest wrapper for the ListHostConfigurations operation
@@ -95,6 +97,10 @@ func (request ListHostConfigurationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListHostConfigurationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -108,6 +114,29 @@ func (request ListHostConfigurationsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListHostConfigurationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListHostConfigurationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.PlatformType {
+		if _, ok := mappingListHostConfigurationsPlatformTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", val, strings.Join(GetListHostConfigurationsPlatformTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingListHostConfigurationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListHostConfigurationsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListHostConfigurationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListHostConfigurationsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListHostConfigurationsResponse wrapper for the ListHostConfigurations operation
@@ -151,7 +180,7 @@ const (
 	ListHostConfigurationsPlatformTypeSunos   ListHostConfigurationsPlatformTypeEnum = "SUNOS"
 )
 
-var mappingListHostConfigurationsPlatformType = map[string]ListHostConfigurationsPlatformTypeEnum{
+var mappingListHostConfigurationsPlatformTypeEnum = map[string]ListHostConfigurationsPlatformTypeEnum{
 	"LINUX":   ListHostConfigurationsPlatformTypeLinux,
 	"SOLARIS": ListHostConfigurationsPlatformTypeSolaris,
 	"SUNOS":   ListHostConfigurationsPlatformTypeSunos,
@@ -160,10 +189,19 @@ var mappingListHostConfigurationsPlatformType = map[string]ListHostConfiguration
 // GetListHostConfigurationsPlatformTypeEnumValues Enumerates the set of values for ListHostConfigurationsPlatformTypeEnum
 func GetListHostConfigurationsPlatformTypeEnumValues() []ListHostConfigurationsPlatformTypeEnum {
 	values := make([]ListHostConfigurationsPlatformTypeEnum, 0)
-	for _, v := range mappingListHostConfigurationsPlatformType {
+	for _, v := range mappingListHostConfigurationsPlatformTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHostConfigurationsPlatformTypeEnumStringValues Enumerates the set of values in String for ListHostConfigurationsPlatformTypeEnum
+func GetListHostConfigurationsPlatformTypeEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"SOLARIS",
+		"SUNOS",
+	}
 }
 
 // ListHostConfigurationsSortOrderEnum Enum with underlying type: string
@@ -175,7 +213,7 @@ const (
 	ListHostConfigurationsSortOrderDesc ListHostConfigurationsSortOrderEnum = "DESC"
 )
 
-var mappingListHostConfigurationsSortOrder = map[string]ListHostConfigurationsSortOrderEnum{
+var mappingListHostConfigurationsSortOrderEnum = map[string]ListHostConfigurationsSortOrderEnum{
 	"ASC":  ListHostConfigurationsSortOrderAsc,
 	"DESC": ListHostConfigurationsSortOrderDesc,
 }
@@ -183,10 +221,18 @@ var mappingListHostConfigurationsSortOrder = map[string]ListHostConfigurationsSo
 // GetListHostConfigurationsSortOrderEnumValues Enumerates the set of values for ListHostConfigurationsSortOrderEnum
 func GetListHostConfigurationsSortOrderEnumValues() []ListHostConfigurationsSortOrderEnum {
 	values := make([]ListHostConfigurationsSortOrderEnum, 0)
-	for _, v := range mappingListHostConfigurationsSortOrder {
+	for _, v := range mappingListHostConfigurationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHostConfigurationsSortOrderEnumStringValues Enumerates the set of values in String for ListHostConfigurationsSortOrderEnum
+func GetListHostConfigurationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListHostConfigurationsSortByEnum Enum with underlying type: string
@@ -198,7 +244,7 @@ const (
 	ListHostConfigurationsSortByPlatformtype ListHostConfigurationsSortByEnum = "platformType"
 )
 
-var mappingListHostConfigurationsSortBy = map[string]ListHostConfigurationsSortByEnum{
+var mappingListHostConfigurationsSortByEnum = map[string]ListHostConfigurationsSortByEnum{
 	"hostName":     ListHostConfigurationsSortByHostname,
 	"platformType": ListHostConfigurationsSortByPlatformtype,
 }
@@ -206,8 +252,16 @@ var mappingListHostConfigurationsSortBy = map[string]ListHostConfigurationsSortB
 // GetListHostConfigurationsSortByEnumValues Enumerates the set of values for ListHostConfigurationsSortByEnum
 func GetListHostConfigurationsSortByEnumValues() []ListHostConfigurationsSortByEnum {
 	values := make([]ListHostConfigurationsSortByEnum, 0)
-	for _, v := range mappingListHostConfigurationsSortBy {
+	for _, v := range mappingListHostConfigurationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListHostConfigurationsSortByEnumStringValues Enumerates the set of values in String for ListHostConfigurationsSortByEnum
+func GetListHostConfigurationsSortByEnumStringValues() []string {
+	return []string{
+		"hostName",
+		"platformType",
+	}
 }

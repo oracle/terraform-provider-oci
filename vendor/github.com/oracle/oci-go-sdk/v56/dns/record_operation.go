@@ -11,7 +11,9 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // RecordOperation An extension of the existing record resource, describing either a
@@ -68,6 +70,21 @@ func (m RecordOperation) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RecordOperation) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingRecordOperationOperationEnum[string(m.Operation)]; !ok && m.Operation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operation: %s. Supported values are: %s.", m.Operation, strings.Join(GetRecordOperationOperationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // RecordOperationOperationEnum Enum with underlying type: string
 type RecordOperationOperationEnum string
 
@@ -79,7 +96,7 @@ const (
 	RecordOperationOperationRemove   RecordOperationOperationEnum = "REMOVE"
 )
 
-var mappingRecordOperationOperation = map[string]RecordOperationOperationEnum{
+var mappingRecordOperationOperationEnum = map[string]RecordOperationOperationEnum{
 	"REQUIRE":  RecordOperationOperationRequire,
 	"PROHIBIT": RecordOperationOperationProhibit,
 	"ADD":      RecordOperationOperationAdd,
@@ -89,8 +106,18 @@ var mappingRecordOperationOperation = map[string]RecordOperationOperationEnum{
 // GetRecordOperationOperationEnumValues Enumerates the set of values for RecordOperationOperationEnum
 func GetRecordOperationOperationEnumValues() []RecordOperationOperationEnum {
 	values := make([]RecordOperationOperationEnum, 0)
-	for _, v := range mappingRecordOperationOperation {
+	for _, v := range mappingRecordOperationOperationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRecordOperationOperationEnumStringValues Enumerates the set of values in String for RecordOperationOperationEnum
+func GetRecordOperationOperationEnumStringValues() []string {
+	return []string{
+		"REQUIRE",
+		"PROHIBIT",
+		"ADD",
+		"REMOVE",
+	}
 }

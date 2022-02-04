@@ -10,7 +10,9 @@
 package oce
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateOceInstanceDetails The information to be updated.
@@ -41,6 +43,24 @@ func (m UpdateOceInstanceDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateOceInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingLicenseTypeEnum[string(m.InstanceLicenseType)]; !ok && m.InstanceLicenseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceLicenseType: %s. Supported values are: %s.", m.InstanceLicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingUpdateOceInstanceDetailsInstanceUsageTypeEnum[string(m.InstanceUsageType)]; !ok && m.InstanceUsageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceUsageType: %s. Supported values are: %s.", m.InstanceUsageType, strings.Join(GetUpdateOceInstanceDetailsInstanceUsageTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateOceInstanceDetailsInstanceUsageTypeEnum Enum with underlying type: string
 type UpdateOceInstanceDetailsInstanceUsageTypeEnum string
 
@@ -50,7 +70,7 @@ const (
 	UpdateOceInstanceDetailsInstanceUsageTypeNonprimary UpdateOceInstanceDetailsInstanceUsageTypeEnum = "NONPRIMARY"
 )
 
-var mappingUpdateOceInstanceDetailsInstanceUsageType = map[string]UpdateOceInstanceDetailsInstanceUsageTypeEnum{
+var mappingUpdateOceInstanceDetailsInstanceUsageTypeEnum = map[string]UpdateOceInstanceDetailsInstanceUsageTypeEnum{
 	"PRIMARY":    UpdateOceInstanceDetailsInstanceUsageTypePrimary,
 	"NONPRIMARY": UpdateOceInstanceDetailsInstanceUsageTypeNonprimary,
 }
@@ -58,8 +78,16 @@ var mappingUpdateOceInstanceDetailsInstanceUsageType = map[string]UpdateOceInsta
 // GetUpdateOceInstanceDetailsInstanceUsageTypeEnumValues Enumerates the set of values for UpdateOceInstanceDetailsInstanceUsageTypeEnum
 func GetUpdateOceInstanceDetailsInstanceUsageTypeEnumValues() []UpdateOceInstanceDetailsInstanceUsageTypeEnum {
 	values := make([]UpdateOceInstanceDetailsInstanceUsageTypeEnum, 0)
-	for _, v := range mappingUpdateOceInstanceDetailsInstanceUsageType {
+	for _, v := range mappingUpdateOceInstanceDetailsInstanceUsageTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateOceInstanceDetailsInstanceUsageTypeEnumStringValues Enumerates the set of values in String for UpdateOceInstanceDetailsInstanceUsageTypeEnum
+func GetUpdateOceInstanceDetailsInstanceUsageTypeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"NONPRIMARY",
+	}
 }

@@ -22,7 +22,7 @@ const (
 	WorkloadTypeApex WorkloadTypeEnum = "APEX"
 )
 
-var mappingWorkloadType = map[string]WorkloadTypeEnum{
+var mappingWorkloadTypeEnum = map[string]WorkloadTypeEnum{
 	"OLTP": WorkloadTypeOltp,
 	"DW":   WorkloadTypeDw,
 	"AJD":  WorkloadTypeAjd,
@@ -32,8 +32,18 @@ var mappingWorkloadType = map[string]WorkloadTypeEnum{
 // GetWorkloadTypeEnumValues Enumerates the set of values for WorkloadTypeEnum
 func GetWorkloadTypeEnumValues() []WorkloadTypeEnum {
 	values := make([]WorkloadTypeEnum, 0)
-	for _, v := range mappingWorkloadType {
+	for _, v := range mappingWorkloadTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWorkloadTypeEnumStringValues Enumerates the set of values in String for WorkloadTypeEnum
+func GetWorkloadTypeEnumStringValues() []string {
+	return []string{
+		"OLTP",
+		"DW",
+		"AJD",
+		"APEX",
+	}
 }

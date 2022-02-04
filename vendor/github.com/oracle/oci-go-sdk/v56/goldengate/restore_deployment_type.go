@@ -17,15 +17,22 @@ const (
 	RestoreDeploymentTypeDefault RestoreDeploymentTypeEnum = "DEFAULT"
 )
 
-var mappingRestoreDeploymentType = map[string]RestoreDeploymentTypeEnum{
+var mappingRestoreDeploymentTypeEnum = map[string]RestoreDeploymentTypeEnum{
 	"DEFAULT": RestoreDeploymentTypeDefault,
 }
 
 // GetRestoreDeploymentTypeEnumValues Enumerates the set of values for RestoreDeploymentTypeEnum
 func GetRestoreDeploymentTypeEnumValues() []RestoreDeploymentTypeEnum {
 	values := make([]RestoreDeploymentTypeEnum, 0)
-	for _, v := range mappingRestoreDeploymentType {
+	for _, v := range mappingRestoreDeploymentTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRestoreDeploymentTypeEnumStringValues Enumerates the set of values in String for RestoreDeploymentTypeEnum
+func GetRestoreDeploymentTypeEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+	}
 }

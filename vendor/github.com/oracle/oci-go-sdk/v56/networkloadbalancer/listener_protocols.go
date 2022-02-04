@@ -20,7 +20,7 @@ const (
 	ListenerProtocolsTcpAndUdp ListenerProtocolsEnum = "TCP_AND_UDP"
 )
 
-var mappingListenerProtocols = map[string]ListenerProtocolsEnum{
+var mappingListenerProtocolsEnum = map[string]ListenerProtocolsEnum{
 	"ANY":         ListenerProtocolsAny,
 	"TCP":         ListenerProtocolsTcp,
 	"UDP":         ListenerProtocolsUdp,
@@ -30,8 +30,18 @@ var mappingListenerProtocols = map[string]ListenerProtocolsEnum{
 // GetListenerProtocolsEnumValues Enumerates the set of values for ListenerProtocolsEnum
 func GetListenerProtocolsEnumValues() []ListenerProtocolsEnum {
 	values := make([]ListenerProtocolsEnum, 0)
-	for _, v := range mappingListenerProtocols {
+	for _, v := range mappingListenerProtocolsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListenerProtocolsEnumStringValues Enumerates the set of values in String for ListenerProtocolsEnum
+func GetListenerProtocolsEnumStringValues() []string {
+	return []string{
+		"ANY",
+		"TCP",
+		"UDP",
+		"TCP_AND_UDP",
+	}
 }

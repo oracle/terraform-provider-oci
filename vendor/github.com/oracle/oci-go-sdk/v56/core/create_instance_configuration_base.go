@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateInstanceConfigurationBase Creation details for an instance configuration.
@@ -115,6 +117,18 @@ func (m createinstanceconfigurationbase) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m createinstanceconfigurationbase) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateInstanceConfigurationBaseSourceEnum Enum with underlying type: string
 type CreateInstanceConfigurationBaseSourceEnum string
 
@@ -124,7 +138,7 @@ const (
 	CreateInstanceConfigurationBaseSourceInstance CreateInstanceConfigurationBaseSourceEnum = "INSTANCE"
 )
 
-var mappingCreateInstanceConfigurationBaseSource = map[string]CreateInstanceConfigurationBaseSourceEnum{
+var mappingCreateInstanceConfigurationBaseSourceEnum = map[string]CreateInstanceConfigurationBaseSourceEnum{
 	"NONE":     CreateInstanceConfigurationBaseSourceNone,
 	"INSTANCE": CreateInstanceConfigurationBaseSourceInstance,
 }
@@ -132,8 +146,16 @@ var mappingCreateInstanceConfigurationBaseSource = map[string]CreateInstanceConf
 // GetCreateInstanceConfigurationBaseSourceEnumValues Enumerates the set of values for CreateInstanceConfigurationBaseSourceEnum
 func GetCreateInstanceConfigurationBaseSourceEnumValues() []CreateInstanceConfigurationBaseSourceEnum {
 	values := make([]CreateInstanceConfigurationBaseSourceEnum, 0)
-	for _, v := range mappingCreateInstanceConfigurationBaseSource {
+	for _, v := range mappingCreateInstanceConfigurationBaseSourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateInstanceConfigurationBaseSourceEnumStringValues Enumerates the set of values in String for CreateInstanceConfigurationBaseSourceEnum
+func GetCreateInstanceConfigurationBaseSourceEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"INSTANCE",
+	}
 }

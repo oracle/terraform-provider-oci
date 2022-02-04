@@ -10,7 +10,9 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // MountTarget Provides access to a collection of file systems through one or more VNICs on a
@@ -79,6 +81,21 @@ func (m MountTarget) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m MountTarget) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingMountTargetLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMountTargetLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MountTargetLifecycleStateEnum Enum with underlying type: string
 type MountTargetLifecycleStateEnum string
 
@@ -91,7 +108,7 @@ const (
 	MountTargetLifecycleStateFailed   MountTargetLifecycleStateEnum = "FAILED"
 )
 
-var mappingMountTargetLifecycleState = map[string]MountTargetLifecycleStateEnum{
+var mappingMountTargetLifecycleStateEnum = map[string]MountTargetLifecycleStateEnum{
 	"CREATING": MountTargetLifecycleStateCreating,
 	"ACTIVE":   MountTargetLifecycleStateActive,
 	"DELETING": MountTargetLifecycleStateDeleting,
@@ -102,8 +119,19 @@ var mappingMountTargetLifecycleState = map[string]MountTargetLifecycleStateEnum{
 // GetMountTargetLifecycleStateEnumValues Enumerates the set of values for MountTargetLifecycleStateEnum
 func GetMountTargetLifecycleStateEnumValues() []MountTargetLifecycleStateEnum {
 	values := make([]MountTargetLifecycleStateEnum, 0)
-	for _, v := range mappingMountTargetLifecycleState {
+	for _, v := range mappingMountTargetLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetMountTargetLifecycleStateEnumStringValues Enumerates the set of values in String for MountTargetLifecycleStateEnum
+func GetMountTargetLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }

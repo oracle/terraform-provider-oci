@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetViewRequest wrapper for the GetView operation
@@ -51,6 +53,10 @@ func (request GetViewRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetViewRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +70,20 @@ func (request GetViewRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bo
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetViewRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetViewRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetViewScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetGetViewScopeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetViewResponse wrapper for the GetView operation
@@ -109,7 +129,7 @@ const (
 	GetViewScopePrivate GetViewScopeEnum = "PRIVATE"
 )
 
-var mappingGetViewScope = map[string]GetViewScopeEnum{
+var mappingGetViewScopeEnum = map[string]GetViewScopeEnum{
 	"GLOBAL":  GetViewScopeGlobal,
 	"PRIVATE": GetViewScopePrivate,
 }
@@ -117,8 +137,16 @@ var mappingGetViewScope = map[string]GetViewScopeEnum{
 // GetGetViewScopeEnumValues Enumerates the set of values for GetViewScopeEnum
 func GetGetViewScopeEnumValues() []GetViewScopeEnum {
 	values := make([]GetViewScopeEnum, 0)
-	for _, v := range mappingGetViewScope {
+	for _, v := range mappingGetViewScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetViewScopeEnumStringValues Enumerates the set of values in String for GetViewScopeEnum
+func GetGetViewScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }

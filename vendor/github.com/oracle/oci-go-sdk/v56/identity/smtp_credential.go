@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SmtpCredential Simple Mail Transfer Protocol (SMTP) credentials are needed to send email through Email Delivery.
@@ -57,6 +59,21 @@ func (m SmtpCredential) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SmtpCredential) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSmtpCredentialLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSmtpCredentialLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SmtpCredentialLifecycleStateEnum Enum with underlying type: string
 type SmtpCredentialLifecycleStateEnum string
 
@@ -69,7 +86,7 @@ const (
 	SmtpCredentialLifecycleStateDeleted  SmtpCredentialLifecycleStateEnum = "DELETED"
 )
 
-var mappingSmtpCredentialLifecycleState = map[string]SmtpCredentialLifecycleStateEnum{
+var mappingSmtpCredentialLifecycleStateEnum = map[string]SmtpCredentialLifecycleStateEnum{
 	"CREATING": SmtpCredentialLifecycleStateCreating,
 	"ACTIVE":   SmtpCredentialLifecycleStateActive,
 	"INACTIVE": SmtpCredentialLifecycleStateInactive,
@@ -80,8 +97,19 @@ var mappingSmtpCredentialLifecycleState = map[string]SmtpCredentialLifecycleStat
 // GetSmtpCredentialLifecycleStateEnumValues Enumerates the set of values for SmtpCredentialLifecycleStateEnum
 func GetSmtpCredentialLifecycleStateEnumValues() []SmtpCredentialLifecycleStateEnum {
 	values := make([]SmtpCredentialLifecycleStateEnum, 0)
-	for _, v := range mappingSmtpCredentialLifecycleState {
+	for _, v := range mappingSmtpCredentialLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSmtpCredentialLifecycleStateEnumStringValues Enumerates the set of values in String for SmtpCredentialLifecycleStateEnum
+func GetSmtpCredentialLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

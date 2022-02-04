@@ -20,7 +20,7 @@ const (
 	LicenseTypeStarter LicenseTypeEnum = "STARTER"
 )
 
-var mappingLicenseType = map[string]LicenseTypeEnum{
+var mappingLicenseTypeEnum = map[string]LicenseTypeEnum{
 	"NEW":     LicenseTypeNew,
 	"BYOL":    LicenseTypeByol,
 	"PREMIUM": LicenseTypePremium,
@@ -30,8 +30,18 @@ var mappingLicenseType = map[string]LicenseTypeEnum{
 // GetLicenseTypeEnumValues Enumerates the set of values for LicenseTypeEnum
 func GetLicenseTypeEnumValues() []LicenseTypeEnum {
 	values := make([]LicenseTypeEnum, 0)
-	for _, v := range mappingLicenseType {
+	for _, v := range mappingLicenseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLicenseTypeEnumStringValues Enumerates the set of values in String for LicenseTypeEnum
+func GetLicenseTypeEnumStringValues() []string {
+	return []string{
+		"NEW",
+		"BYOL",
+		"PREMIUM",
+		"STARTER",
+	}
 }

@@ -5,8 +5,10 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListComputeCapacityReservationsRequest wrapper for the ListComputeCapacityReservations operation
@@ -69,6 +71,10 @@ func (request ListComputeCapacityReservationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListComputeCapacityReservationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -82,6 +88,26 @@ func (request ListComputeCapacityReservationsRequest) BinaryRequestBody() (*comm
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListComputeCapacityReservationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListComputeCapacityReservationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingComputeCapacityReservationLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetComputeCapacityReservationLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListComputeCapacityReservationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListComputeCapacityReservationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListComputeCapacityReservationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListComputeCapacityReservationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListComputeCapacityReservationsResponse wrapper for the ListComputeCapacityReservations operation
@@ -121,7 +147,7 @@ const (
 	ListComputeCapacityReservationsSortByDisplayname ListComputeCapacityReservationsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListComputeCapacityReservationsSortBy = map[string]ListComputeCapacityReservationsSortByEnum{
+var mappingListComputeCapacityReservationsSortByEnum = map[string]ListComputeCapacityReservationsSortByEnum{
 	"TIMECREATED": ListComputeCapacityReservationsSortByTimecreated,
 	"DISPLAYNAME": ListComputeCapacityReservationsSortByDisplayname,
 }
@@ -129,10 +155,18 @@ var mappingListComputeCapacityReservationsSortBy = map[string]ListComputeCapacit
 // GetListComputeCapacityReservationsSortByEnumValues Enumerates the set of values for ListComputeCapacityReservationsSortByEnum
 func GetListComputeCapacityReservationsSortByEnumValues() []ListComputeCapacityReservationsSortByEnum {
 	values := make([]ListComputeCapacityReservationsSortByEnum, 0)
-	for _, v := range mappingListComputeCapacityReservationsSortBy {
+	for _, v := range mappingListComputeCapacityReservationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListComputeCapacityReservationsSortByEnumStringValues Enumerates the set of values in String for ListComputeCapacityReservationsSortByEnum
+func GetListComputeCapacityReservationsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListComputeCapacityReservationsSortOrderEnum Enum with underlying type: string
@@ -144,7 +178,7 @@ const (
 	ListComputeCapacityReservationsSortOrderDesc ListComputeCapacityReservationsSortOrderEnum = "DESC"
 )
 
-var mappingListComputeCapacityReservationsSortOrder = map[string]ListComputeCapacityReservationsSortOrderEnum{
+var mappingListComputeCapacityReservationsSortOrderEnum = map[string]ListComputeCapacityReservationsSortOrderEnum{
 	"ASC":  ListComputeCapacityReservationsSortOrderAsc,
 	"DESC": ListComputeCapacityReservationsSortOrderDesc,
 }
@@ -152,8 +186,16 @@ var mappingListComputeCapacityReservationsSortOrder = map[string]ListComputeCapa
 // GetListComputeCapacityReservationsSortOrderEnumValues Enumerates the set of values for ListComputeCapacityReservationsSortOrderEnum
 func GetListComputeCapacityReservationsSortOrderEnumValues() []ListComputeCapacityReservationsSortOrderEnum {
 	values := make([]ListComputeCapacityReservationsSortOrderEnum, 0)
-	for _, v := range mappingListComputeCapacityReservationsSortOrder {
+	for _, v := range mappingListComputeCapacityReservationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListComputeCapacityReservationsSortOrderEnumStringValues Enumerates the set of values in String for ListComputeCapacityReservationsSortOrderEnum
+func GetListComputeCapacityReservationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

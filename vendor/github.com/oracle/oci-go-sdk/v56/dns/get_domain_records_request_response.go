@@ -5,8 +5,10 @@
 package dns
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetDomainRecordsRequest wrapper for the GetDomainRecords operation
@@ -79,6 +81,10 @@ func (request GetDomainRecordsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetDomainRecordsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -92,6 +98,26 @@ func (request GetDomainRecordsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetDomainRecordsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetDomainRecordsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetDomainRecordsScopeEnum[string(request.Scope)]; !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetGetDomainRecordsScopeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingGetDomainRecordsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetGetDomainRecordsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingGetDomainRecordsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetGetDomainRecordsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetDomainRecordsResponse wrapper for the GetDomainRecords operation
@@ -139,7 +165,7 @@ const (
 	GetDomainRecordsScopePrivate GetDomainRecordsScopeEnum = "PRIVATE"
 )
 
-var mappingGetDomainRecordsScope = map[string]GetDomainRecordsScopeEnum{
+var mappingGetDomainRecordsScopeEnum = map[string]GetDomainRecordsScopeEnum{
 	"GLOBAL":  GetDomainRecordsScopeGlobal,
 	"PRIVATE": GetDomainRecordsScopePrivate,
 }
@@ -147,10 +173,18 @@ var mappingGetDomainRecordsScope = map[string]GetDomainRecordsScopeEnum{
 // GetGetDomainRecordsScopeEnumValues Enumerates the set of values for GetDomainRecordsScopeEnum
 func GetGetDomainRecordsScopeEnumValues() []GetDomainRecordsScopeEnum {
 	values := make([]GetDomainRecordsScopeEnum, 0)
-	for _, v := range mappingGetDomainRecordsScope {
+	for _, v := range mappingGetDomainRecordsScopeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetDomainRecordsScopeEnumStringValues Enumerates the set of values in String for GetDomainRecordsScopeEnum
+func GetGetDomainRecordsScopeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"PRIVATE",
+	}
 }
 
 // GetDomainRecordsSortByEnum Enum with underlying type: string
@@ -162,7 +196,7 @@ const (
 	GetDomainRecordsSortByTtl   GetDomainRecordsSortByEnum = "ttl"
 )
 
-var mappingGetDomainRecordsSortBy = map[string]GetDomainRecordsSortByEnum{
+var mappingGetDomainRecordsSortByEnum = map[string]GetDomainRecordsSortByEnum{
 	"rtype": GetDomainRecordsSortByRtype,
 	"ttl":   GetDomainRecordsSortByTtl,
 }
@@ -170,10 +204,18 @@ var mappingGetDomainRecordsSortBy = map[string]GetDomainRecordsSortByEnum{
 // GetGetDomainRecordsSortByEnumValues Enumerates the set of values for GetDomainRecordsSortByEnum
 func GetGetDomainRecordsSortByEnumValues() []GetDomainRecordsSortByEnum {
 	values := make([]GetDomainRecordsSortByEnum, 0)
-	for _, v := range mappingGetDomainRecordsSortBy {
+	for _, v := range mappingGetDomainRecordsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetDomainRecordsSortByEnumStringValues Enumerates the set of values in String for GetDomainRecordsSortByEnum
+func GetGetDomainRecordsSortByEnumStringValues() []string {
+	return []string{
+		"rtype",
+		"ttl",
+	}
 }
 
 // GetDomainRecordsSortOrderEnum Enum with underlying type: string
@@ -185,7 +227,7 @@ const (
 	GetDomainRecordsSortOrderDesc GetDomainRecordsSortOrderEnum = "DESC"
 )
 
-var mappingGetDomainRecordsSortOrder = map[string]GetDomainRecordsSortOrderEnum{
+var mappingGetDomainRecordsSortOrderEnum = map[string]GetDomainRecordsSortOrderEnum{
 	"ASC":  GetDomainRecordsSortOrderAsc,
 	"DESC": GetDomainRecordsSortOrderDesc,
 }
@@ -193,8 +235,16 @@ var mappingGetDomainRecordsSortOrder = map[string]GetDomainRecordsSortOrderEnum{
 // GetGetDomainRecordsSortOrderEnumValues Enumerates the set of values for GetDomainRecordsSortOrderEnum
 func GetGetDomainRecordsSortOrderEnumValues() []GetDomainRecordsSortOrderEnum {
 	values := make([]GetDomainRecordsSortOrderEnum, 0)
-	for _, v := range mappingGetDomainRecordsSortOrder {
+	for _, v := range mappingGetDomainRecordsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetDomainRecordsSortOrderEnumStringValues Enumerates the set of values in String for GetDomainRecordsSortOrderEnum
+func GetGetDomainRecordsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

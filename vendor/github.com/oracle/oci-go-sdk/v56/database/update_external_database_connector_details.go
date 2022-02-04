@@ -11,7 +11,9 @@ package database
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateExternalDatabaseConnectorDetails Details for updating an external database connector.
@@ -96,6 +98,18 @@ func (m updateexternaldatabaseconnectordetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m updateexternaldatabaseconnectordetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateExternalDatabaseConnectorDetailsConnectorTypeEnum Enum with underlying type: string
 type UpdateExternalDatabaseConnectorDetailsConnectorTypeEnum string
 
@@ -104,15 +118,22 @@ const (
 	UpdateExternalDatabaseConnectorDetailsConnectorTypeMacs UpdateExternalDatabaseConnectorDetailsConnectorTypeEnum = "MACS"
 )
 
-var mappingUpdateExternalDatabaseConnectorDetailsConnectorType = map[string]UpdateExternalDatabaseConnectorDetailsConnectorTypeEnum{
+var mappingUpdateExternalDatabaseConnectorDetailsConnectorTypeEnum = map[string]UpdateExternalDatabaseConnectorDetailsConnectorTypeEnum{
 	"MACS": UpdateExternalDatabaseConnectorDetailsConnectorTypeMacs,
 }
 
 // GetUpdateExternalDatabaseConnectorDetailsConnectorTypeEnumValues Enumerates the set of values for UpdateExternalDatabaseConnectorDetailsConnectorTypeEnum
 func GetUpdateExternalDatabaseConnectorDetailsConnectorTypeEnumValues() []UpdateExternalDatabaseConnectorDetailsConnectorTypeEnum {
 	values := make([]UpdateExternalDatabaseConnectorDetailsConnectorTypeEnum, 0)
-	for _, v := range mappingUpdateExternalDatabaseConnectorDetailsConnectorType {
+	for _, v := range mappingUpdateExternalDatabaseConnectorDetailsConnectorTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateExternalDatabaseConnectorDetailsConnectorTypeEnumStringValues Enumerates the set of values in String for UpdateExternalDatabaseConnectorDetailsConnectorTypeEnum
+func GetUpdateExternalDatabaseConnectorDetailsConnectorTypeEnumStringValues() []string {
+	return []string{
+		"MACS",
+	}
 }

@@ -11,7 +11,9 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WindowsUpdateSummary An update available for a Windows managed instance.
@@ -37,4 +39,22 @@ type WindowsUpdateSummary struct {
 
 func (m WindowsUpdateSummary) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WindowsUpdateSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingUpdateTypesEnum[string(m.UpdateType)]; !ok && m.UpdateType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", m.UpdateType, strings.Join(GetUpdateTypesEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingIsEligibleForInstallationEnum[string(m.Installable)]; !ok && m.Installable != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Installable: %s. Supported values are: %s.", m.Installable, strings.Join(GetIsEligibleForInstallationEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }

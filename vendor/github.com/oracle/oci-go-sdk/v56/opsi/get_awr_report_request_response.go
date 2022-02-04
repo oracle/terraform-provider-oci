@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetAwrReportRequest wrapper for the GetAwrReport operation
@@ -56,6 +58,10 @@ func (request GetAwrReportRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetAwrReportRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -69,6 +75,20 @@ func (request GetAwrReportRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetAwrReportRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetAwrReportRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetAwrReportReportFormatEnum[string(request.ReportFormat)]; !ok && request.ReportFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReportFormat: %s. Supported values are: %s.", request.ReportFormat, strings.Join(GetGetAwrReportReportFormatEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetAwrReportResponse wrapper for the GetAwrReport operation
@@ -103,7 +123,7 @@ const (
 	GetAwrReportReportFormatText GetAwrReportReportFormatEnum = "TEXT"
 )
 
-var mappingGetAwrReportReportFormat = map[string]GetAwrReportReportFormatEnum{
+var mappingGetAwrReportReportFormatEnum = map[string]GetAwrReportReportFormatEnum{
 	"HTML": GetAwrReportReportFormatHtml,
 	"TEXT": GetAwrReportReportFormatText,
 }
@@ -111,8 +131,16 @@ var mappingGetAwrReportReportFormat = map[string]GetAwrReportReportFormatEnum{
 // GetGetAwrReportReportFormatEnumValues Enumerates the set of values for GetAwrReportReportFormatEnum
 func GetGetAwrReportReportFormatEnumValues() []GetAwrReportReportFormatEnum {
 	values := make([]GetAwrReportReportFormatEnum, 0)
-	for _, v := range mappingGetAwrReportReportFormat {
+	for _, v := range mappingGetAwrReportReportFormatEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetAwrReportReportFormatEnumStringValues Enumerates the set of values in String for GetAwrReportReportFormatEnum
+func GetGetAwrReportReportFormatEnumStringValues() []string {
+	return []string{
+		"HTML",
+		"TEXT",
+	}
 }

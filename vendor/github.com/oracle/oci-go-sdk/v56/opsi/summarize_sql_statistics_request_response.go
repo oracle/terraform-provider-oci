@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeSqlStatisticsRequest wrapper for the SummarizeSqlStatistics operation
@@ -130,6 +132,10 @@ func (request SummarizeSqlStatisticsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeSqlStatisticsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -143,6 +149,35 @@ func (request SummarizeSqlStatisticsRequest) BinaryRequestBody() (*common.OCIRea
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeSqlStatisticsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeSqlStatisticsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.DatabaseType {
+		if _, ok := mappingSummarizeSqlStatisticsDatabaseTypeEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", val, strings.Join(GetSummarizeSqlStatisticsDatabaseTypeEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := mappingSummarizeSqlStatisticsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeSqlStatisticsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeSqlStatisticsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeSqlStatisticsSortByEnumStringValues(), ",")))
+	}
+	for _, val := range request.Category {
+		if _, ok := mappingSummarizeSqlStatisticsCategoryEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Category: %s. Supported values are: %s.", val, strings.Join(GetSummarizeSqlStatisticsCategoryEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeSqlStatisticsResponse wrapper for the SummarizeSqlStatistics operation
@@ -186,7 +221,7 @@ const (
 	SummarizeSqlStatisticsDatabaseTypeExternalNoncdb SummarizeSqlStatisticsDatabaseTypeEnum = "EXTERNAL-NONCDB"
 )
 
-var mappingSummarizeSqlStatisticsDatabaseType = map[string]SummarizeSqlStatisticsDatabaseTypeEnum{
+var mappingSummarizeSqlStatisticsDatabaseTypeEnum = map[string]SummarizeSqlStatisticsDatabaseTypeEnum{
 	"ADW-S":           SummarizeSqlStatisticsDatabaseTypeAdwS,
 	"ATP-S":           SummarizeSqlStatisticsDatabaseTypeAtpS,
 	"ADW-D":           SummarizeSqlStatisticsDatabaseTypeAdwD,
@@ -198,10 +233,22 @@ var mappingSummarizeSqlStatisticsDatabaseType = map[string]SummarizeSqlStatistic
 // GetSummarizeSqlStatisticsDatabaseTypeEnumValues Enumerates the set of values for SummarizeSqlStatisticsDatabaseTypeEnum
 func GetSummarizeSqlStatisticsDatabaseTypeEnumValues() []SummarizeSqlStatisticsDatabaseTypeEnum {
 	values := make([]SummarizeSqlStatisticsDatabaseTypeEnum, 0)
-	for _, v := range mappingSummarizeSqlStatisticsDatabaseType {
+	for _, v := range mappingSummarizeSqlStatisticsDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeSqlStatisticsDatabaseTypeEnumStringValues Enumerates the set of values in String for SummarizeSqlStatisticsDatabaseTypeEnum
+func GetSummarizeSqlStatisticsDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"ADW-S",
+		"ATP-S",
+		"ADW-D",
+		"ATP-D",
+		"EXTERNAL-PDB",
+		"EXTERNAL-NONCDB",
+	}
 }
 
 // SummarizeSqlStatisticsSortOrderEnum Enum with underlying type: string
@@ -213,7 +260,7 @@ const (
 	SummarizeSqlStatisticsSortOrderDesc SummarizeSqlStatisticsSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeSqlStatisticsSortOrder = map[string]SummarizeSqlStatisticsSortOrderEnum{
+var mappingSummarizeSqlStatisticsSortOrderEnum = map[string]SummarizeSqlStatisticsSortOrderEnum{
 	"ASC":  SummarizeSqlStatisticsSortOrderAsc,
 	"DESC": SummarizeSqlStatisticsSortOrderDesc,
 }
@@ -221,10 +268,18 @@ var mappingSummarizeSqlStatisticsSortOrder = map[string]SummarizeSqlStatisticsSo
 // GetSummarizeSqlStatisticsSortOrderEnumValues Enumerates the set of values for SummarizeSqlStatisticsSortOrderEnum
 func GetSummarizeSqlStatisticsSortOrderEnumValues() []SummarizeSqlStatisticsSortOrderEnum {
 	values := make([]SummarizeSqlStatisticsSortOrderEnum, 0)
-	for _, v := range mappingSummarizeSqlStatisticsSortOrder {
+	for _, v := range mappingSummarizeSqlStatisticsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeSqlStatisticsSortOrderEnumStringValues Enumerates the set of values in String for SummarizeSqlStatisticsSortOrderEnum
+func GetSummarizeSqlStatisticsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeSqlStatisticsSortByEnum Enum with underlying type: string
@@ -253,7 +308,7 @@ const (
 	SummarizeSqlStatisticsSortByChangeininefficiencyinpct          SummarizeSqlStatisticsSortByEnum = "changeInInefficiencyInPct"
 )
 
-var mappingSummarizeSqlStatisticsSortBy = map[string]SummarizeSqlStatisticsSortByEnum{
+var mappingSummarizeSqlStatisticsSortByEnum = map[string]SummarizeSqlStatisticsSortByEnum{
 	"databaseTimeInSec":                  SummarizeSqlStatisticsSortByDatabasetimeinsec,
 	"executionsPerHour":                  SummarizeSqlStatisticsSortByExecutionsperhour,
 	"executionsCount":                    SummarizeSqlStatisticsSortByExecutionscount,
@@ -278,10 +333,35 @@ var mappingSummarizeSqlStatisticsSortBy = map[string]SummarizeSqlStatisticsSortB
 // GetSummarizeSqlStatisticsSortByEnumValues Enumerates the set of values for SummarizeSqlStatisticsSortByEnum
 func GetSummarizeSqlStatisticsSortByEnumValues() []SummarizeSqlStatisticsSortByEnum {
 	values := make([]SummarizeSqlStatisticsSortByEnum, 0)
-	for _, v := range mappingSummarizeSqlStatisticsSortBy {
+	for _, v := range mappingSummarizeSqlStatisticsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeSqlStatisticsSortByEnumStringValues Enumerates the set of values in String for SummarizeSqlStatisticsSortByEnum
+func GetSummarizeSqlStatisticsSortByEnumStringValues() []string {
+	return []string{
+		"databaseTimeInSec",
+		"executionsPerHour",
+		"executionsCount",
+		"cpuTimeInSec",
+		"ioTimeInSec",
+		"inefficientWaitTimeInSec",
+		"responseTimeInSec",
+		"planCount",
+		"variability",
+		"averageActiveSessions",
+		"databaseTimePct",
+		"inefficiencyInPct",
+		"changeInCpuTimeInPct",
+		"changeInIoTimeInPct",
+		"changeInInefficientWaitTimeInPct",
+		"changeInResponseTimeInPct",
+		"changeInAverageActiveSessionsInPct",
+		"changeInExecutionsPerHourInPct",
+		"changeInInefficiencyInPct",
+	}
 }
 
 // SummarizeSqlStatisticsCategoryEnum Enum with underlying type: string
@@ -316,7 +396,7 @@ const (
 	SummarizeSqlStatisticsCategoryInefficientChangingPlansAndIncreasingInefficientWait SummarizeSqlStatisticsCategoryEnum = "INEFFICIENT_CHANGING_PLANS_AND_INCREASING_INEFFICIENT_WAIT"
 )
 
-var mappingSummarizeSqlStatisticsCategory = map[string]SummarizeSqlStatisticsCategoryEnum{
+var mappingSummarizeSqlStatisticsCategoryEnum = map[string]SummarizeSqlStatisticsCategoryEnum{
 	"DEGRADING":                                   SummarizeSqlStatisticsCategoryDegrading,
 	"VARIANT":                                     SummarizeSqlStatisticsCategoryVariant,
 	"INEFFICIENT":                                 SummarizeSqlStatisticsCategoryInefficient,
@@ -347,8 +427,39 @@ var mappingSummarizeSqlStatisticsCategory = map[string]SummarizeSqlStatisticsCat
 // GetSummarizeSqlStatisticsCategoryEnumValues Enumerates the set of values for SummarizeSqlStatisticsCategoryEnum
 func GetSummarizeSqlStatisticsCategoryEnumValues() []SummarizeSqlStatisticsCategoryEnum {
 	values := make([]SummarizeSqlStatisticsCategoryEnum, 0)
-	for _, v := range mappingSummarizeSqlStatisticsCategory {
+	for _, v := range mappingSummarizeSqlStatisticsCategoryEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeSqlStatisticsCategoryEnumStringValues Enumerates the set of values in String for SummarizeSqlStatisticsCategoryEnum
+func GetSummarizeSqlStatisticsCategoryEnumStringValues() []string {
+	return []string{
+		"DEGRADING",
+		"VARIANT",
+		"INEFFICIENT",
+		"CHANGING_PLANS",
+		"IMPROVING",
+		"DEGRADING_VARIANT",
+		"DEGRADING_INEFFICIENT",
+		"DEGRADING_CHANGING_PLANS",
+		"DEGRADING_INCREASING_IO",
+		"DEGRADING_INCREASING_CPU",
+		"DEGRADING_INCREASING_INEFFICIENT_WAIT",
+		"DEGRADING_CHANGING_PLANS_AND_INCREASING_IO",
+		"DEGRADING_CHANGING_PLANS_AND_INCREASING_CPU",
+		"DEGRADING_CHANGING_PLANS_AND_INCREASING_INEFFICIENT_WAIT",
+		"VARIANT_INEFFICIENT",
+		"VARIANT_CHANGING_PLANS",
+		"VARIANT_INCREASING_IO",
+		"VARIANT_INCREASING_CPU",
+		"VARIANT_INCREASING_INEFFICIENT_WAIT",
+		"VARIANT_CHANGING_PLANS_AND_INCREASING_IO",
+		"VARIANT_CHANGING_PLANS_AND_INCREASING_CPU",
+		"VARIANT_CHANGING_PLANS_AND_INCREASING_INEFFICIENT_WAIT",
+		"INEFFICIENT_CHANGING_PLANS",
+		"INEFFICIENT_INCREASING_INEFFICIENT_WAIT",
+		"INEFFICIENT_CHANGING_PLANS_AND_INCREASING_INEFFICIENT_WAIT",
+	}
 }

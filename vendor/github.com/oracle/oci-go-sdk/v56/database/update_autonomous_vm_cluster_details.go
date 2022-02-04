@@ -10,7 +10,9 @@
 package database
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateAutonomousVmClusterDetails Details for updating the Autonomous VM cluster.
@@ -33,6 +35,21 @@ func (m UpdateAutonomousVmClusterDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateAutonomousVmClusterDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateAutonomousVmClusterDetailsLicenseModelEnum[string(m.LicenseModel)]; !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateAutonomousVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateAutonomousVmClusterDetailsLicenseModelEnum Enum with underlying type: string
 type UpdateAutonomousVmClusterDetailsLicenseModelEnum string
 
@@ -42,7 +59,7 @@ const (
 	UpdateAutonomousVmClusterDetailsLicenseModelBringYourOwnLicense UpdateAutonomousVmClusterDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
 )
 
-var mappingUpdateAutonomousVmClusterDetailsLicenseModel = map[string]UpdateAutonomousVmClusterDetailsLicenseModelEnum{
+var mappingUpdateAutonomousVmClusterDetailsLicenseModelEnum = map[string]UpdateAutonomousVmClusterDetailsLicenseModelEnum{
 	"LICENSE_INCLUDED":       UpdateAutonomousVmClusterDetailsLicenseModelLicenseIncluded,
 	"BRING_YOUR_OWN_LICENSE": UpdateAutonomousVmClusterDetailsLicenseModelBringYourOwnLicense,
 }
@@ -50,8 +67,16 @@ var mappingUpdateAutonomousVmClusterDetailsLicenseModel = map[string]UpdateAuton
 // GetUpdateAutonomousVmClusterDetailsLicenseModelEnumValues Enumerates the set of values for UpdateAutonomousVmClusterDetailsLicenseModelEnum
 func GetUpdateAutonomousVmClusterDetailsLicenseModelEnumValues() []UpdateAutonomousVmClusterDetailsLicenseModelEnum {
 	values := make([]UpdateAutonomousVmClusterDetailsLicenseModelEnum, 0)
-	for _, v := range mappingUpdateAutonomousVmClusterDetailsLicenseModel {
+	for _, v := range mappingUpdateAutonomousVmClusterDetailsLicenseModelEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateAutonomousVmClusterDetailsLicenseModelEnumStringValues Enumerates the set of values in String for UpdateAutonomousVmClusterDetailsLicenseModelEnum
+func GetUpdateAutonomousVmClusterDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
 }

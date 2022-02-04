@@ -15,7 +15,9 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // VolumeGroup Specifies a volume group which is a collection of
@@ -74,6 +76,21 @@ type VolumeGroup struct {
 
 func (m VolumeGroup) String() string {
 	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m VolumeGroup) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingVolumeGroupLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeGroupLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // UnmarshalJSON unmarshals from json
@@ -157,7 +174,7 @@ const (
 	VolumeGroupLifecycleStateFaulty       VolumeGroupLifecycleStateEnum = "FAULTY"
 )
 
-var mappingVolumeGroupLifecycleState = map[string]VolumeGroupLifecycleStateEnum{
+var mappingVolumeGroupLifecycleStateEnum = map[string]VolumeGroupLifecycleStateEnum{
 	"PROVISIONING": VolumeGroupLifecycleStateProvisioning,
 	"AVAILABLE":    VolumeGroupLifecycleStateAvailable,
 	"TERMINATING":  VolumeGroupLifecycleStateTerminating,
@@ -168,8 +185,19 @@ var mappingVolumeGroupLifecycleState = map[string]VolumeGroupLifecycleStateEnum{
 // GetVolumeGroupLifecycleStateEnumValues Enumerates the set of values for VolumeGroupLifecycleStateEnum
 func GetVolumeGroupLifecycleStateEnumValues() []VolumeGroupLifecycleStateEnum {
 	values := make([]VolumeGroupLifecycleStateEnum, 0)
-	for _, v := range mappingVolumeGroupLifecycleState {
+	for _, v := range mappingVolumeGroupLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetVolumeGroupLifecycleStateEnumStringValues Enumerates the set of values in String for VolumeGroupLifecycleStateEnum
+func GetVolumeGroupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"PROVISIONING",
+		"AVAILABLE",
+		"TERMINATING",
+		"TERMINATED",
+		"FAULTY",
+	}
 }

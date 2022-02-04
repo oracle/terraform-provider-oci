@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDeployArtifactsRequest wrapper for the ListDeployArtifacts operation
@@ -58,6 +60,10 @@ func (request ListDeployArtifactsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDeployArtifactsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -71,6 +77,26 @@ func (request ListDeployArtifactsRequest) BinaryRequestBody() (*common.OCIReadSe
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDeployArtifactsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDeployArtifactsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingDeployArtifactLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDeployArtifactLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDeployArtifactsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDeployArtifactsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDeployArtifactsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDeployArtifactsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDeployArtifactsResponse wrapper for the ListDeployArtifacts operation
@@ -107,7 +133,7 @@ const (
 	ListDeployArtifactsSortOrderDesc ListDeployArtifactsSortOrderEnum = "DESC"
 )
 
-var mappingListDeployArtifactsSortOrder = map[string]ListDeployArtifactsSortOrderEnum{
+var mappingListDeployArtifactsSortOrderEnum = map[string]ListDeployArtifactsSortOrderEnum{
 	"ASC":  ListDeployArtifactsSortOrderAsc,
 	"DESC": ListDeployArtifactsSortOrderDesc,
 }
@@ -115,10 +141,18 @@ var mappingListDeployArtifactsSortOrder = map[string]ListDeployArtifactsSortOrde
 // GetListDeployArtifactsSortOrderEnumValues Enumerates the set of values for ListDeployArtifactsSortOrderEnum
 func GetListDeployArtifactsSortOrderEnumValues() []ListDeployArtifactsSortOrderEnum {
 	values := make([]ListDeployArtifactsSortOrderEnum, 0)
-	for _, v := range mappingListDeployArtifactsSortOrder {
+	for _, v := range mappingListDeployArtifactsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDeployArtifactsSortOrderEnumStringValues Enumerates the set of values in String for ListDeployArtifactsSortOrderEnum
+func GetListDeployArtifactsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDeployArtifactsSortByEnum Enum with underlying type: string
@@ -130,7 +164,7 @@ const (
 	ListDeployArtifactsSortByDisplayname ListDeployArtifactsSortByEnum = "displayName"
 )
 
-var mappingListDeployArtifactsSortBy = map[string]ListDeployArtifactsSortByEnum{
+var mappingListDeployArtifactsSortByEnum = map[string]ListDeployArtifactsSortByEnum{
 	"timeCreated": ListDeployArtifactsSortByTimecreated,
 	"displayName": ListDeployArtifactsSortByDisplayname,
 }
@@ -138,8 +172,16 @@ var mappingListDeployArtifactsSortBy = map[string]ListDeployArtifactsSortByEnum{
 // GetListDeployArtifactsSortByEnumValues Enumerates the set of values for ListDeployArtifactsSortByEnum
 func GetListDeployArtifactsSortByEnumValues() []ListDeployArtifactsSortByEnum {
 	values := make([]ListDeployArtifactsSortByEnum, 0)
-	for _, v := range mappingListDeployArtifactsSortBy {
+	for _, v := range mappingListDeployArtifactsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDeployArtifactsSortByEnumStringValues Enumerates the set of values in String for ListDeployArtifactsSortByEnum
+func GetListDeployArtifactsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

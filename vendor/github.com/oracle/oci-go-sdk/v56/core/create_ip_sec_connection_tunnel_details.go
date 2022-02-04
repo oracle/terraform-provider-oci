@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateIpSecConnectionTunnelDetails The representation of CreateIpSecConnectionTunnelDetails
@@ -57,6 +59,30 @@ func (m CreateIpSecConnectionTunnelDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateIpSecConnectionTunnelDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCreateIpSecConnectionTunnelDetailsRoutingEnum[string(m.Routing)]; !ok && m.Routing != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Routing: %s. Supported values are: %s.", m.Routing, strings.Join(GetCreateIpSecConnectionTunnelDetailsRoutingEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateIpSecConnectionTunnelDetailsIkeVersionEnum[string(m.IkeVersion)]; !ok && m.IkeVersion != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IkeVersion: %s. Supported values are: %s.", m.IkeVersion, strings.Join(GetCreateIpSecConnectionTunnelDetailsIkeVersionEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateIpSecConnectionTunnelDetailsOracleInitiationEnum[string(m.OracleInitiation)]; !ok && m.OracleInitiation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OracleInitiation: %s. Supported values are: %s.", m.OracleInitiation, strings.Join(GetCreateIpSecConnectionTunnelDetailsOracleInitiationEnumStringValues(), ",")))
+	}
+	if _, ok := mappingCreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum[string(m.NatTranslationEnabled)]; !ok && m.NatTranslationEnabled != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NatTranslationEnabled: %s. Supported values are: %s.", m.NatTranslationEnabled, strings.Join(GetCreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateIpSecConnectionTunnelDetailsRoutingEnum Enum with underlying type: string
 type CreateIpSecConnectionTunnelDetailsRoutingEnum string
 
@@ -67,7 +93,7 @@ const (
 	CreateIpSecConnectionTunnelDetailsRoutingPolicy CreateIpSecConnectionTunnelDetailsRoutingEnum = "POLICY"
 )
 
-var mappingCreateIpSecConnectionTunnelDetailsRouting = map[string]CreateIpSecConnectionTunnelDetailsRoutingEnum{
+var mappingCreateIpSecConnectionTunnelDetailsRoutingEnum = map[string]CreateIpSecConnectionTunnelDetailsRoutingEnum{
 	"BGP":    CreateIpSecConnectionTunnelDetailsRoutingBgp,
 	"STATIC": CreateIpSecConnectionTunnelDetailsRoutingStatic,
 	"POLICY": CreateIpSecConnectionTunnelDetailsRoutingPolicy,
@@ -76,10 +102,19 @@ var mappingCreateIpSecConnectionTunnelDetailsRouting = map[string]CreateIpSecCon
 // GetCreateIpSecConnectionTunnelDetailsRoutingEnumValues Enumerates the set of values for CreateIpSecConnectionTunnelDetailsRoutingEnum
 func GetCreateIpSecConnectionTunnelDetailsRoutingEnumValues() []CreateIpSecConnectionTunnelDetailsRoutingEnum {
 	values := make([]CreateIpSecConnectionTunnelDetailsRoutingEnum, 0)
-	for _, v := range mappingCreateIpSecConnectionTunnelDetailsRouting {
+	for _, v := range mappingCreateIpSecConnectionTunnelDetailsRoutingEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateIpSecConnectionTunnelDetailsRoutingEnumStringValues Enumerates the set of values in String for CreateIpSecConnectionTunnelDetailsRoutingEnum
+func GetCreateIpSecConnectionTunnelDetailsRoutingEnumStringValues() []string {
+	return []string{
+		"BGP",
+		"STATIC",
+		"POLICY",
+	}
 }
 
 // CreateIpSecConnectionTunnelDetailsIkeVersionEnum Enum with underlying type: string
@@ -91,7 +126,7 @@ const (
 	CreateIpSecConnectionTunnelDetailsIkeVersionV2 CreateIpSecConnectionTunnelDetailsIkeVersionEnum = "V2"
 )
 
-var mappingCreateIpSecConnectionTunnelDetailsIkeVersion = map[string]CreateIpSecConnectionTunnelDetailsIkeVersionEnum{
+var mappingCreateIpSecConnectionTunnelDetailsIkeVersionEnum = map[string]CreateIpSecConnectionTunnelDetailsIkeVersionEnum{
 	"V1": CreateIpSecConnectionTunnelDetailsIkeVersionV1,
 	"V2": CreateIpSecConnectionTunnelDetailsIkeVersionV2,
 }
@@ -99,10 +134,18 @@ var mappingCreateIpSecConnectionTunnelDetailsIkeVersion = map[string]CreateIpSec
 // GetCreateIpSecConnectionTunnelDetailsIkeVersionEnumValues Enumerates the set of values for CreateIpSecConnectionTunnelDetailsIkeVersionEnum
 func GetCreateIpSecConnectionTunnelDetailsIkeVersionEnumValues() []CreateIpSecConnectionTunnelDetailsIkeVersionEnum {
 	values := make([]CreateIpSecConnectionTunnelDetailsIkeVersionEnum, 0)
-	for _, v := range mappingCreateIpSecConnectionTunnelDetailsIkeVersion {
+	for _, v := range mappingCreateIpSecConnectionTunnelDetailsIkeVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateIpSecConnectionTunnelDetailsIkeVersionEnumStringValues Enumerates the set of values in String for CreateIpSecConnectionTunnelDetailsIkeVersionEnum
+func GetCreateIpSecConnectionTunnelDetailsIkeVersionEnumStringValues() []string {
+	return []string{
+		"V1",
+		"V2",
+	}
 }
 
 // CreateIpSecConnectionTunnelDetailsOracleInitiationEnum Enum with underlying type: string
@@ -114,7 +157,7 @@ const (
 	CreateIpSecConnectionTunnelDetailsOracleInitiationResponderOnly        CreateIpSecConnectionTunnelDetailsOracleInitiationEnum = "RESPONDER_ONLY"
 )
 
-var mappingCreateIpSecConnectionTunnelDetailsOracleInitiation = map[string]CreateIpSecConnectionTunnelDetailsOracleInitiationEnum{
+var mappingCreateIpSecConnectionTunnelDetailsOracleInitiationEnum = map[string]CreateIpSecConnectionTunnelDetailsOracleInitiationEnum{
 	"INITIATOR_OR_RESPONDER": CreateIpSecConnectionTunnelDetailsOracleInitiationInitiatorOrResponder,
 	"RESPONDER_ONLY":         CreateIpSecConnectionTunnelDetailsOracleInitiationResponderOnly,
 }
@@ -122,10 +165,18 @@ var mappingCreateIpSecConnectionTunnelDetailsOracleInitiation = map[string]Creat
 // GetCreateIpSecConnectionTunnelDetailsOracleInitiationEnumValues Enumerates the set of values for CreateIpSecConnectionTunnelDetailsOracleInitiationEnum
 func GetCreateIpSecConnectionTunnelDetailsOracleInitiationEnumValues() []CreateIpSecConnectionTunnelDetailsOracleInitiationEnum {
 	values := make([]CreateIpSecConnectionTunnelDetailsOracleInitiationEnum, 0)
-	for _, v := range mappingCreateIpSecConnectionTunnelDetailsOracleInitiation {
+	for _, v := range mappingCreateIpSecConnectionTunnelDetailsOracleInitiationEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateIpSecConnectionTunnelDetailsOracleInitiationEnumStringValues Enumerates the set of values in String for CreateIpSecConnectionTunnelDetailsOracleInitiationEnum
+func GetCreateIpSecConnectionTunnelDetailsOracleInitiationEnumStringValues() []string {
+	return []string{
+		"INITIATOR_OR_RESPONDER",
+		"RESPONDER_ONLY",
+	}
 }
 
 // CreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum Enum with underlying type: string
@@ -138,7 +189,7 @@ const (
 	CreateIpSecConnectionTunnelDetailsNatTranslationEnabledAuto     CreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum = "AUTO"
 )
 
-var mappingCreateIpSecConnectionTunnelDetailsNatTranslationEnabled = map[string]CreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum{
+var mappingCreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum = map[string]CreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum{
 	"ENABLED":  CreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnabled,
 	"DISABLED": CreateIpSecConnectionTunnelDetailsNatTranslationEnabledDisabled,
 	"AUTO":     CreateIpSecConnectionTunnelDetailsNatTranslationEnabledAuto,
@@ -147,8 +198,17 @@ var mappingCreateIpSecConnectionTunnelDetailsNatTranslationEnabled = map[string]
 // GetCreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnumValues Enumerates the set of values for CreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum
 func GetCreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnumValues() []CreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum {
 	values := make([]CreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum, 0)
-	for _, v := range mappingCreateIpSecConnectionTunnelDetailsNatTranslationEnabled {
+	for _, v := range mappingCreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnumStringValues Enumerates the set of values in String for CreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum
+func GetCreateIpSecConnectionTunnelDetailsNatTranslationEnabledEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+		"AUTO",
+	}
 }

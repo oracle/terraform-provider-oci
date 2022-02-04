@@ -11,7 +11,9 @@
 package loadbalancer
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // UpdateRoutingPolicyDetails An updated list of routing rules that overwrites the existing list of routing rules.
@@ -28,6 +30,21 @@ func (m UpdateRoutingPolicyDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateRoutingPolicyDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingUpdateRoutingPolicyDetailsConditionLanguageVersionEnum[string(m.ConditionLanguageVersion)]; !ok && m.ConditionLanguageVersion != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConditionLanguageVersion: %s. Supported values are: %s.", m.ConditionLanguageVersion, strings.Join(GetUpdateRoutingPolicyDetailsConditionLanguageVersionEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // UpdateRoutingPolicyDetailsConditionLanguageVersionEnum Enum with underlying type: string
 type UpdateRoutingPolicyDetailsConditionLanguageVersionEnum string
 
@@ -36,15 +53,22 @@ const (
 	UpdateRoutingPolicyDetailsConditionLanguageVersionV1 UpdateRoutingPolicyDetailsConditionLanguageVersionEnum = "V1"
 )
 
-var mappingUpdateRoutingPolicyDetailsConditionLanguageVersion = map[string]UpdateRoutingPolicyDetailsConditionLanguageVersionEnum{
+var mappingUpdateRoutingPolicyDetailsConditionLanguageVersionEnum = map[string]UpdateRoutingPolicyDetailsConditionLanguageVersionEnum{
 	"V1": UpdateRoutingPolicyDetailsConditionLanguageVersionV1,
 }
 
 // GetUpdateRoutingPolicyDetailsConditionLanguageVersionEnumValues Enumerates the set of values for UpdateRoutingPolicyDetailsConditionLanguageVersionEnum
 func GetUpdateRoutingPolicyDetailsConditionLanguageVersionEnumValues() []UpdateRoutingPolicyDetailsConditionLanguageVersionEnum {
 	values := make([]UpdateRoutingPolicyDetailsConditionLanguageVersionEnum, 0)
-	for _, v := range mappingUpdateRoutingPolicyDetailsConditionLanguageVersion {
+	for _, v := range mappingUpdateRoutingPolicyDetailsConditionLanguageVersionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetUpdateRoutingPolicyDetailsConditionLanguageVersionEnumStringValues Enumerates the set of values in String for UpdateRoutingPolicyDetailsConditionLanguageVersionEnum
+func GetUpdateRoutingPolicyDetailsConditionLanguageVersionEnumStringValues() []string {
+	return []string{
+		"V1",
+	}
 }

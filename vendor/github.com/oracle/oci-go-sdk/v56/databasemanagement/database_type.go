@@ -24,7 +24,7 @@ const (
 	DatabaseTypeDedicated    DatabaseTypeEnum = "DEDICATED"
 )
 
-var mappingDatabaseType = map[string]DatabaseTypeEnum{
+var mappingDatabaseTypeEnum = map[string]DatabaseTypeEnum{
 	"EXTERNAL_SIDB": DatabaseTypeExternalSidb,
 	"EXTERNAL_RAC":  DatabaseTypeExternalRac,
 	"CLOUD_SIDB":    DatabaseTypeCloudSidb,
@@ -36,8 +36,20 @@ var mappingDatabaseType = map[string]DatabaseTypeEnum{
 // GetDatabaseTypeEnumValues Enumerates the set of values for DatabaseTypeEnum
 func GetDatabaseTypeEnumValues() []DatabaseTypeEnum {
 	values := make([]DatabaseTypeEnum, 0)
-	for _, v := range mappingDatabaseType {
+	for _, v := range mappingDatabaseTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetDatabaseTypeEnumStringValues Enumerates the set of values in String for DatabaseTypeEnum
+func GetDatabaseTypeEnumStringValues() []string {
+	return []string{
+		"EXTERNAL_SIDB",
+		"EXTERNAL_RAC",
+		"CLOUD_SIDB",
+		"CLOUD_RAC",
+		"SHARED",
+		"DEDICATED",
+	}
 }

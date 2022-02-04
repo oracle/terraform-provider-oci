@@ -10,7 +10,9 @@
 package waas
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CachingRuleCriteria A caching rule criteria condition and value.
@@ -32,6 +34,21 @@ func (m CachingRuleCriteria) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CachingRuleCriteria) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCachingRuleCriteriaConditionEnum[string(m.Condition)]; !ok && m.Condition != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Condition: %s. Supported values are: %s.", m.Condition, strings.Join(GetCachingRuleCriteriaConditionEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CachingRuleCriteriaConditionEnum Enum with underlying type: string
 type CachingRuleCriteriaConditionEnum string
 
@@ -43,7 +60,7 @@ const (
 	CachingRuleCriteriaConditionPartContains CachingRuleCriteriaConditionEnum = "URL_PART_CONTAINS"
 )
 
-var mappingCachingRuleCriteriaCondition = map[string]CachingRuleCriteriaConditionEnum{
+var mappingCachingRuleCriteriaConditionEnum = map[string]CachingRuleCriteriaConditionEnum{
 	"URL_IS":             CachingRuleCriteriaConditionIs,
 	"URL_STARTS_WITH":    CachingRuleCriteriaConditionStartsWith,
 	"URL_PART_ENDS_WITH": CachingRuleCriteriaConditionPartEndsWith,
@@ -53,8 +70,18 @@ var mappingCachingRuleCriteriaCondition = map[string]CachingRuleCriteriaConditio
 // GetCachingRuleCriteriaConditionEnumValues Enumerates the set of values for CachingRuleCriteriaConditionEnum
 func GetCachingRuleCriteriaConditionEnumValues() []CachingRuleCriteriaConditionEnum {
 	values := make([]CachingRuleCriteriaConditionEnum, 0)
-	for _, v := range mappingCachingRuleCriteriaCondition {
+	for _, v := range mappingCachingRuleCriteriaConditionEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCachingRuleCriteriaConditionEnumStringValues Enumerates the set of values in String for CachingRuleCriteriaConditionEnum
+func GetCachingRuleCriteriaConditionEnumStringValues() []string {
+	return []string{
+		"URL_IS",
+		"URL_STARTS_WITH",
+		"URL_PART_ENDS_WITH",
+		"URL_PART_CONTAINS",
+	}
 }

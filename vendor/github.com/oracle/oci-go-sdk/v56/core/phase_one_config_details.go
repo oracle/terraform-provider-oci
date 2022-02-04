@@ -14,7 +14,9 @@
 package core
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // PhaseOneConfigDetails Phase 1 Configuration Details
@@ -40,6 +42,27 @@ func (m PhaseOneConfigDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m PhaseOneConfigDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingPhaseOneConfigDetailsAuthenticationAlgorithmEnum[string(m.AuthenticationAlgorithm)]; !ok && m.AuthenticationAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationAlgorithm: %s. Supported values are: %s.", m.AuthenticationAlgorithm, strings.Join(GetPhaseOneConfigDetailsAuthenticationAlgorithmEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPhaseOneConfigDetailsEncryptionAlgorithmEnum[string(m.EncryptionAlgorithm)]; !ok && m.EncryptionAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EncryptionAlgorithm: %s. Supported values are: %s.", m.EncryptionAlgorithm, strings.Join(GetPhaseOneConfigDetailsEncryptionAlgorithmEnumStringValues(), ",")))
+	}
+	if _, ok := mappingPhaseOneConfigDetailsDiffieHelmanGroupEnum[string(m.DiffieHelmanGroup)]; !ok && m.DiffieHelmanGroup != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiffieHelmanGroup: %s. Supported values are: %s.", m.DiffieHelmanGroup, strings.Join(GetPhaseOneConfigDetailsDiffieHelmanGroupEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // PhaseOneConfigDetailsAuthenticationAlgorithmEnum Enum with underlying type: string
 type PhaseOneConfigDetailsAuthenticationAlgorithmEnum string
 
@@ -50,7 +73,7 @@ const (
 	PhaseOneConfigDetailsAuthenticationAlgorithmSha196  PhaseOneConfigDetailsAuthenticationAlgorithmEnum = "SHA1_96"
 )
 
-var mappingPhaseOneConfigDetailsAuthenticationAlgorithm = map[string]PhaseOneConfigDetailsAuthenticationAlgorithmEnum{
+var mappingPhaseOneConfigDetailsAuthenticationAlgorithmEnum = map[string]PhaseOneConfigDetailsAuthenticationAlgorithmEnum{
 	"SHA2_384": PhaseOneConfigDetailsAuthenticationAlgorithmSha2384,
 	"SHA2_256": PhaseOneConfigDetailsAuthenticationAlgorithmSha2256,
 	"SHA1_96":  PhaseOneConfigDetailsAuthenticationAlgorithmSha196,
@@ -59,10 +82,19 @@ var mappingPhaseOneConfigDetailsAuthenticationAlgorithm = map[string]PhaseOneCon
 // GetPhaseOneConfigDetailsAuthenticationAlgorithmEnumValues Enumerates the set of values for PhaseOneConfigDetailsAuthenticationAlgorithmEnum
 func GetPhaseOneConfigDetailsAuthenticationAlgorithmEnumValues() []PhaseOneConfigDetailsAuthenticationAlgorithmEnum {
 	values := make([]PhaseOneConfigDetailsAuthenticationAlgorithmEnum, 0)
-	for _, v := range mappingPhaseOneConfigDetailsAuthenticationAlgorithm {
+	for _, v := range mappingPhaseOneConfigDetailsAuthenticationAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPhaseOneConfigDetailsAuthenticationAlgorithmEnumStringValues Enumerates the set of values in String for PhaseOneConfigDetailsAuthenticationAlgorithmEnum
+func GetPhaseOneConfigDetailsAuthenticationAlgorithmEnumStringValues() []string {
+	return []string{
+		"SHA2_384",
+		"SHA2_256",
+		"SHA1_96",
+	}
 }
 
 // PhaseOneConfigDetailsEncryptionAlgorithmEnum Enum with underlying type: string
@@ -75,7 +107,7 @@ const (
 	PhaseOneConfigDetailsEncryptionAlgorithm128Cbc PhaseOneConfigDetailsEncryptionAlgorithmEnum = "AES_128_CBC"
 )
 
-var mappingPhaseOneConfigDetailsEncryptionAlgorithm = map[string]PhaseOneConfigDetailsEncryptionAlgorithmEnum{
+var mappingPhaseOneConfigDetailsEncryptionAlgorithmEnum = map[string]PhaseOneConfigDetailsEncryptionAlgorithmEnum{
 	"AES_256_CBC": PhaseOneConfigDetailsEncryptionAlgorithm256Cbc,
 	"AES_192_CBC": PhaseOneConfigDetailsEncryptionAlgorithm192Cbc,
 	"AES_128_CBC": PhaseOneConfigDetailsEncryptionAlgorithm128Cbc,
@@ -84,10 +116,19 @@ var mappingPhaseOneConfigDetailsEncryptionAlgorithm = map[string]PhaseOneConfigD
 // GetPhaseOneConfigDetailsEncryptionAlgorithmEnumValues Enumerates the set of values for PhaseOneConfigDetailsEncryptionAlgorithmEnum
 func GetPhaseOneConfigDetailsEncryptionAlgorithmEnumValues() []PhaseOneConfigDetailsEncryptionAlgorithmEnum {
 	values := make([]PhaseOneConfigDetailsEncryptionAlgorithmEnum, 0)
-	for _, v := range mappingPhaseOneConfigDetailsEncryptionAlgorithm {
+	for _, v := range mappingPhaseOneConfigDetailsEncryptionAlgorithmEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPhaseOneConfigDetailsEncryptionAlgorithmEnumStringValues Enumerates the set of values in String for PhaseOneConfigDetailsEncryptionAlgorithmEnum
+func GetPhaseOneConfigDetailsEncryptionAlgorithmEnumStringValues() []string {
+	return []string{
+		"AES_256_CBC",
+		"AES_192_CBC",
+		"AES_128_CBC",
+	}
 }
 
 // PhaseOneConfigDetailsDiffieHelmanGroupEnum Enum with underlying type: string
@@ -103,7 +144,7 @@ const (
 	PhaseOneConfigDetailsDiffieHelmanGroupGroup24 PhaseOneConfigDetailsDiffieHelmanGroupEnum = "GROUP24"
 )
 
-var mappingPhaseOneConfigDetailsDiffieHelmanGroup = map[string]PhaseOneConfigDetailsDiffieHelmanGroupEnum{
+var mappingPhaseOneConfigDetailsDiffieHelmanGroupEnum = map[string]PhaseOneConfigDetailsDiffieHelmanGroupEnum{
 	"GROUP2":  PhaseOneConfigDetailsDiffieHelmanGroupGroup2,
 	"GROUP5":  PhaseOneConfigDetailsDiffieHelmanGroupGroup5,
 	"GROUP14": PhaseOneConfigDetailsDiffieHelmanGroupGroup14,
@@ -115,8 +156,20 @@ var mappingPhaseOneConfigDetailsDiffieHelmanGroup = map[string]PhaseOneConfigDet
 // GetPhaseOneConfigDetailsDiffieHelmanGroupEnumValues Enumerates the set of values for PhaseOneConfigDetailsDiffieHelmanGroupEnum
 func GetPhaseOneConfigDetailsDiffieHelmanGroupEnumValues() []PhaseOneConfigDetailsDiffieHelmanGroupEnum {
 	values := make([]PhaseOneConfigDetailsDiffieHelmanGroupEnum, 0)
-	for _, v := range mappingPhaseOneConfigDetailsDiffieHelmanGroup {
+	for _, v := range mappingPhaseOneConfigDetailsDiffieHelmanGroupEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetPhaseOneConfigDetailsDiffieHelmanGroupEnumStringValues Enumerates the set of values in String for PhaseOneConfigDetailsDiffieHelmanGroupEnum
+func GetPhaseOneConfigDetailsDiffieHelmanGroupEnumStringValues() []string {
+	return []string{
+		"GROUP2",
+		"GROUP5",
+		"GROUP14",
+		"GROUP19",
+		"GROUP20",
+		"GROUP24",
+	}
 }

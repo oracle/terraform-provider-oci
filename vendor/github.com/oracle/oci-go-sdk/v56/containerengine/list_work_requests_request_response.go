@@ -5,8 +5,10 @@
 package containerengine
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListWorkRequestsRequest wrapper for the ListWorkRequests operation
@@ -62,6 +64,10 @@ func (request ListWorkRequestsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListWorkRequestsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -75,6 +81,26 @@ func (request ListWorkRequestsRequest) BinaryRequestBody() (*common.OCIReadSeekC
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListWorkRequestsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListWorkRequestsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListWorkRequestsResourceTypeEnum[string(request.ResourceType)]; !ok && request.ResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", request.ResourceType, strings.Join(GetListWorkRequestsResourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWorkRequestsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkRequestsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWorkRequestsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWorkRequestsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListWorkRequestsResponse wrapper for the ListWorkRequests operation
@@ -113,7 +139,7 @@ const (
 	ListWorkRequestsResourceTypeNodepool ListWorkRequestsResourceTypeEnum = "NODEPOOL"
 )
 
-var mappingListWorkRequestsResourceType = map[string]ListWorkRequestsResourceTypeEnum{
+var mappingListWorkRequestsResourceTypeEnum = map[string]ListWorkRequestsResourceTypeEnum{
 	"CLUSTER":  ListWorkRequestsResourceTypeCluster,
 	"NODEPOOL": ListWorkRequestsResourceTypeNodepool,
 }
@@ -121,10 +147,18 @@ var mappingListWorkRequestsResourceType = map[string]ListWorkRequestsResourceTyp
 // GetListWorkRequestsResourceTypeEnumValues Enumerates the set of values for ListWorkRequestsResourceTypeEnum
 func GetListWorkRequestsResourceTypeEnumValues() []ListWorkRequestsResourceTypeEnum {
 	values := make([]ListWorkRequestsResourceTypeEnum, 0)
-	for _, v := range mappingListWorkRequestsResourceType {
+	for _, v := range mappingListWorkRequestsResourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWorkRequestsResourceTypeEnumStringValues Enumerates the set of values in String for ListWorkRequestsResourceTypeEnum
+func GetListWorkRequestsResourceTypeEnumStringValues() []string {
+	return []string{
+		"CLUSTER",
+		"NODEPOOL",
+	}
 }
 
 // ListWorkRequestsSortOrderEnum Enum with underlying type: string
@@ -136,7 +170,7 @@ const (
 	ListWorkRequestsSortOrderDesc ListWorkRequestsSortOrderEnum = "DESC"
 )
 
-var mappingListWorkRequestsSortOrder = map[string]ListWorkRequestsSortOrderEnum{
+var mappingListWorkRequestsSortOrderEnum = map[string]ListWorkRequestsSortOrderEnum{
 	"ASC":  ListWorkRequestsSortOrderAsc,
 	"DESC": ListWorkRequestsSortOrderDesc,
 }
@@ -144,10 +178,18 @@ var mappingListWorkRequestsSortOrder = map[string]ListWorkRequestsSortOrderEnum{
 // GetListWorkRequestsSortOrderEnumValues Enumerates the set of values for ListWorkRequestsSortOrderEnum
 func GetListWorkRequestsSortOrderEnumValues() []ListWorkRequestsSortOrderEnum {
 	values := make([]ListWorkRequestsSortOrderEnum, 0)
-	for _, v := range mappingListWorkRequestsSortOrder {
+	for _, v := range mappingListWorkRequestsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWorkRequestsSortOrderEnumStringValues Enumerates the set of values in String for ListWorkRequestsSortOrderEnum
+func GetListWorkRequestsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListWorkRequestsSortByEnum Enum with underlying type: string
@@ -163,7 +205,7 @@ const (
 	ListWorkRequestsSortByTimeFinished  ListWorkRequestsSortByEnum = "TIME_FINISHED"
 )
 
-var mappingListWorkRequestsSortBy = map[string]ListWorkRequestsSortByEnum{
+var mappingListWorkRequestsSortByEnum = map[string]ListWorkRequestsSortByEnum{
 	"ID":             ListWorkRequestsSortById,
 	"OPERATION_TYPE": ListWorkRequestsSortByOperationType,
 	"STATUS":         ListWorkRequestsSortByStatus,
@@ -175,8 +217,20 @@ var mappingListWorkRequestsSortBy = map[string]ListWorkRequestsSortByEnum{
 // GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
 func GetListWorkRequestsSortByEnumValues() []ListWorkRequestsSortByEnum {
 	values := make([]ListWorkRequestsSortByEnum, 0)
-	for _, v := range mappingListWorkRequestsSortBy {
+	for _, v := range mappingListWorkRequestsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListWorkRequestsSortByEnumStringValues Enumerates the set of values in String for ListWorkRequestsSortByEnum
+func GetListWorkRequestsSortByEnumStringValues() []string {
+	return []string{
+		"ID",
+		"OPERATION_TYPE",
+		"STATUS",
+		"TIME_ACCEPTED",
+		"TIME_STARTED",
+		"TIME_FINISHED",
+	}
 }

@@ -5,8 +5,10 @@
 package osmanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListScheduledJobsRequest wrapper for the ListScheduledJobs operation
@@ -68,6 +70,10 @@ func (request ListScheduledJobsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListScheduledJobsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -81,6 +87,32 @@ func (request ListScheduledJobsRequest) BinaryRequestBody() (*common.OCIReadSeek
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListScheduledJobsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListScheduledJobsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListScheduledJobsOperationTypeEnum[string(request.OperationType)]; !ok && request.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", request.OperationType, strings.Join(GetListScheduledJobsOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListScheduledJobsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListScheduledJobsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListScheduledJobsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListScheduledJobsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListScheduledJobsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListScheduledJobsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListScheduledJobsOsFamilyEnum[string(request.OsFamily)]; !ok && request.OsFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", request.OsFamily, strings.Join(GetListScheduledJobsOsFamilyEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListScheduledJobsResponse wrapper for the ListScheduledJobs operation
@@ -123,7 +155,7 @@ const (
 	ListScheduledJobsOperationTypeUpdateall ListScheduledJobsOperationTypeEnum = "UPDATEALL"
 )
 
-var mappingListScheduledJobsOperationType = map[string]ListScheduledJobsOperationTypeEnum{
+var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOperationTypeEnum{
 	"INSTALL":   ListScheduledJobsOperationTypeInstall,
 	"UPDATE":    ListScheduledJobsOperationTypeUpdate,
 	"REMOVE":    ListScheduledJobsOperationTypeRemove,
@@ -133,10 +165,20 @@ var mappingListScheduledJobsOperationType = map[string]ListScheduledJobsOperatio
 // GetListScheduledJobsOperationTypeEnumValues Enumerates the set of values for ListScheduledJobsOperationTypeEnum
 func GetListScheduledJobsOperationTypeEnumValues() []ListScheduledJobsOperationTypeEnum {
 	values := make([]ListScheduledJobsOperationTypeEnum, 0)
-	for _, v := range mappingListScheduledJobsOperationType {
+	for _, v := range mappingListScheduledJobsOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScheduledJobsOperationTypeEnumStringValues Enumerates the set of values in String for ListScheduledJobsOperationTypeEnum
+func GetListScheduledJobsOperationTypeEnumStringValues() []string {
+	return []string{
+		"INSTALL",
+		"UPDATE",
+		"REMOVE",
+		"UPDATEALL",
+	}
 }
 
 // ListScheduledJobsSortOrderEnum Enum with underlying type: string
@@ -148,7 +190,7 @@ const (
 	ListScheduledJobsSortOrderDesc ListScheduledJobsSortOrderEnum = "DESC"
 )
 
-var mappingListScheduledJobsSortOrder = map[string]ListScheduledJobsSortOrderEnum{
+var mappingListScheduledJobsSortOrderEnum = map[string]ListScheduledJobsSortOrderEnum{
 	"ASC":  ListScheduledJobsSortOrderAsc,
 	"DESC": ListScheduledJobsSortOrderDesc,
 }
@@ -156,10 +198,18 @@ var mappingListScheduledJobsSortOrder = map[string]ListScheduledJobsSortOrderEnu
 // GetListScheduledJobsSortOrderEnumValues Enumerates the set of values for ListScheduledJobsSortOrderEnum
 func GetListScheduledJobsSortOrderEnumValues() []ListScheduledJobsSortOrderEnum {
 	values := make([]ListScheduledJobsSortOrderEnum, 0)
-	for _, v := range mappingListScheduledJobsSortOrder {
+	for _, v := range mappingListScheduledJobsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScheduledJobsSortOrderEnumStringValues Enumerates the set of values in String for ListScheduledJobsSortOrderEnum
+func GetListScheduledJobsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListScheduledJobsSortByEnum Enum with underlying type: string
@@ -171,7 +221,7 @@ const (
 	ListScheduledJobsSortByDisplayname ListScheduledJobsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListScheduledJobsSortBy = map[string]ListScheduledJobsSortByEnum{
+var mappingListScheduledJobsSortByEnum = map[string]ListScheduledJobsSortByEnum{
 	"TIMECREATED": ListScheduledJobsSortByTimecreated,
 	"DISPLAYNAME": ListScheduledJobsSortByDisplayname,
 }
@@ -179,10 +229,18 @@ var mappingListScheduledJobsSortBy = map[string]ListScheduledJobsSortByEnum{
 // GetListScheduledJobsSortByEnumValues Enumerates the set of values for ListScheduledJobsSortByEnum
 func GetListScheduledJobsSortByEnumValues() []ListScheduledJobsSortByEnum {
 	values := make([]ListScheduledJobsSortByEnum, 0)
-	for _, v := range mappingListScheduledJobsSortBy {
+	for _, v := range mappingListScheduledJobsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScheduledJobsSortByEnumStringValues Enumerates the set of values in String for ListScheduledJobsSortByEnum
+func GetListScheduledJobsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListScheduledJobsLifecycleStateEnum Enum with underlying type: string
@@ -198,7 +256,7 @@ const (
 	ListScheduledJobsLifecycleStateFailed   ListScheduledJobsLifecycleStateEnum = "FAILED"
 )
 
-var mappingListScheduledJobsLifecycleState = map[string]ListScheduledJobsLifecycleStateEnum{
+var mappingListScheduledJobsLifecycleStateEnum = map[string]ListScheduledJobsLifecycleStateEnum{
 	"CREATING": ListScheduledJobsLifecycleStateCreating,
 	"UPDATING": ListScheduledJobsLifecycleStateUpdating,
 	"ACTIVE":   ListScheduledJobsLifecycleStateActive,
@@ -210,10 +268,22 @@ var mappingListScheduledJobsLifecycleState = map[string]ListScheduledJobsLifecyc
 // GetListScheduledJobsLifecycleStateEnumValues Enumerates the set of values for ListScheduledJobsLifecycleStateEnum
 func GetListScheduledJobsLifecycleStateEnumValues() []ListScheduledJobsLifecycleStateEnum {
 	values := make([]ListScheduledJobsLifecycleStateEnum, 0)
-	for _, v := range mappingListScheduledJobsLifecycleState {
+	for _, v := range mappingListScheduledJobsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScheduledJobsLifecycleStateEnumStringValues Enumerates the set of values in String for ListScheduledJobsLifecycleStateEnum
+func GetListScheduledJobsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
 }
 
 // ListScheduledJobsOsFamilyEnum Enum with underlying type: string
@@ -226,7 +296,7 @@ const (
 	ListScheduledJobsOsFamilyAll     ListScheduledJobsOsFamilyEnum = "ALL"
 )
 
-var mappingListScheduledJobsOsFamily = map[string]ListScheduledJobsOsFamilyEnum{
+var mappingListScheduledJobsOsFamilyEnum = map[string]ListScheduledJobsOsFamilyEnum{
 	"LINUX":   ListScheduledJobsOsFamilyLinux,
 	"WINDOWS": ListScheduledJobsOsFamilyWindows,
 	"ALL":     ListScheduledJobsOsFamilyAll,
@@ -235,8 +305,17 @@ var mappingListScheduledJobsOsFamily = map[string]ListScheduledJobsOsFamilyEnum{
 // GetListScheduledJobsOsFamilyEnumValues Enumerates the set of values for ListScheduledJobsOsFamilyEnum
 func GetListScheduledJobsOsFamilyEnumValues() []ListScheduledJobsOsFamilyEnum {
 	values := make([]ListScheduledJobsOsFamilyEnum, 0)
-	for _, v := range mappingListScheduledJobsOsFamily {
+	for _, v := range mappingListScheduledJobsOsFamilyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListScheduledJobsOsFamilyEnumStringValues Enumerates the set of values in String for ListScheduledJobsOsFamilyEnum
+func GetListScheduledJobsOsFamilyEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"WINDOWS",
+		"ALL",
+	}
 }

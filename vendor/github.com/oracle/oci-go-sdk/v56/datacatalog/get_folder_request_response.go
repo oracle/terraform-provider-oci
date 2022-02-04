@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetFolderRequest wrapper for the GetFolder operation
@@ -46,6 +48,10 @@ func (request GetFolderRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetFolderRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -59,6 +65,23 @@ func (request GetFolderRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetFolderRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetFolderRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetFolderFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetFolderFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetFolderResponse wrapper for the GetFolder operation
@@ -111,7 +134,7 @@ const (
 	GetFolderFieldsUri             GetFolderFieldsEnum = "uri"
 )
 
-var mappingGetFolderFields = map[string]GetFolderFieldsEnum{
+var mappingGetFolderFieldsEnum = map[string]GetFolderFieldsEnum{
 	"key":             GetFolderFieldsKey,
 	"displayName":     GetFolderFieldsDisplayname,
 	"description":     GetFolderFieldsDescription,
@@ -134,8 +157,31 @@ var mappingGetFolderFields = map[string]GetFolderFieldsEnum{
 // GetGetFolderFieldsEnumValues Enumerates the set of values for GetFolderFieldsEnum
 func GetGetFolderFieldsEnumValues() []GetFolderFieldsEnum {
 	values := make([]GetFolderFieldsEnum, 0)
-	for _, v := range mappingGetFolderFields {
+	for _, v := range mappingGetFolderFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetFolderFieldsEnumStringValues Enumerates the set of values in String for GetFolderFieldsEnum
+func GetGetFolderFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"parentFolderKey",
+		"path",
+		"dataAssetKey",
+		"properties",
+		"externalKey",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"timeExternal",
+		"lifecycleState",
+		"harvestStatus",
+		"lastJobKey",
+		"uri",
+	}
 }

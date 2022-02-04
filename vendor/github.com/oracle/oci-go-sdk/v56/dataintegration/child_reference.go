@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ChildReference Child reference contains application configuration information.
@@ -48,6 +50,21 @@ func (m ChildReference) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ChildReference) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingChildReferenceTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetChildReferenceTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ChildReferenceTypeEnum Enum with underlying type: string
 type ChildReferenceTypeEnum string
 
@@ -61,7 +78,7 @@ const (
 	ChildReferenceTypeGenericJdbcConnection         ChildReferenceTypeEnum = "GENERIC_JDBC_CONNECTION"
 )
 
-var mappingChildReferenceType = map[string]ChildReferenceTypeEnum{
+var mappingChildReferenceTypeEnum = map[string]ChildReferenceTypeEnum{
 	"ORACLEDB_CONNECTION":              ChildReferenceTypeOracledbConnection,
 	"ORACLE_OBJECT_STORAGE_CONNECTION": ChildReferenceTypeOracleObjectStorageConnection,
 	"ORACLE_ATP_CONNECTION":            ChildReferenceTypeOracleAtpConnection,
@@ -73,8 +90,20 @@ var mappingChildReferenceType = map[string]ChildReferenceTypeEnum{
 // GetChildReferenceTypeEnumValues Enumerates the set of values for ChildReferenceTypeEnum
 func GetChildReferenceTypeEnumValues() []ChildReferenceTypeEnum {
 	values := make([]ChildReferenceTypeEnum, 0)
-	for _, v := range mappingChildReferenceType {
+	for _, v := range mappingChildReferenceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetChildReferenceTypeEnumStringValues Enumerates the set of values in String for ChildReferenceTypeEnum
+func GetChildReferenceTypeEnumStringValues() []string {
+	return []string{
+		"ORACLEDB_CONNECTION",
+		"ORACLE_OBJECT_STORAGE_CONNECTION",
+		"ORACLE_ATP_CONNECTION",
+		"ORACLE_ADWC_CONNECTION",
+		"MYSQL_CONNECTION",
+		"GENERIC_JDBC_CONNECTION",
+	}
 }

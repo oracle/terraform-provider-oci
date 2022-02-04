@@ -17,15 +17,22 @@ const (
 	OdmsPhaseActionsWait OdmsPhaseActionsEnum = "WAIT"
 )
 
-var mappingOdmsPhaseActions = map[string]OdmsPhaseActionsEnum{
+var mappingOdmsPhaseActionsEnum = map[string]OdmsPhaseActionsEnum{
 	"WAIT": OdmsPhaseActionsWait,
 }
 
 // GetOdmsPhaseActionsEnumValues Enumerates the set of values for OdmsPhaseActionsEnum
 func GetOdmsPhaseActionsEnumValues() []OdmsPhaseActionsEnum {
 	values := make([]OdmsPhaseActionsEnum, 0)
-	for _, v := range mappingOdmsPhaseActions {
+	for _, v := range mappingOdmsPhaseActionsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOdmsPhaseActionsEnumStringValues Enumerates the set of values in String for OdmsPhaseActionsEnum
+func GetOdmsPhaseActionsEnumStringValues() []string {
+	return []string{
+		"WAIT",
+	}
 }

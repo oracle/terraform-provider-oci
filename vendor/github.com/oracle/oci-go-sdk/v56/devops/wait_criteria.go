@@ -11,7 +11,9 @@ package devops
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // WaitCriteria Specifies wait criteria for the Wait stage.
@@ -61,6 +63,18 @@ func (m waitcriteria) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m waitcriteria) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // WaitCriteriaWaitTypeEnum Enum with underlying type: string
 type WaitCriteriaWaitTypeEnum string
 
@@ -69,15 +83,22 @@ const (
 	WaitCriteriaWaitTypeAbsoluteWait WaitCriteriaWaitTypeEnum = "ABSOLUTE_WAIT"
 )
 
-var mappingWaitCriteriaWaitType = map[string]WaitCriteriaWaitTypeEnum{
+var mappingWaitCriteriaWaitTypeEnum = map[string]WaitCriteriaWaitTypeEnum{
 	"ABSOLUTE_WAIT": WaitCriteriaWaitTypeAbsoluteWait,
 }
 
 // GetWaitCriteriaWaitTypeEnumValues Enumerates the set of values for WaitCriteriaWaitTypeEnum
 func GetWaitCriteriaWaitTypeEnumValues() []WaitCriteriaWaitTypeEnum {
 	values := make([]WaitCriteriaWaitTypeEnum, 0)
-	for _, v := range mappingWaitCriteriaWaitType {
+	for _, v := range mappingWaitCriteriaWaitTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetWaitCriteriaWaitTypeEnumStringValues Enumerates the set of values in String for WaitCriteriaWaitTypeEnum
+func GetWaitCriteriaWaitTypeEnumStringValues() []string {
+	return []string{
+		"ABSOLUTE_WAIT",
+	}
 }

@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CustomerSecretKeySummary As the name suggests, a `CustomerSecretKeySummary` object contains information about a `CustomerSecretKey`.
@@ -47,6 +49,21 @@ func (m CustomerSecretKeySummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CustomerSecretKeySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingCustomerSecretKeySummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCustomerSecretKeySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CustomerSecretKeySummaryLifecycleStateEnum Enum with underlying type: string
 type CustomerSecretKeySummaryLifecycleStateEnum string
 
@@ -59,7 +76,7 @@ const (
 	CustomerSecretKeySummaryLifecycleStateDeleted  CustomerSecretKeySummaryLifecycleStateEnum = "DELETED"
 )
 
-var mappingCustomerSecretKeySummaryLifecycleState = map[string]CustomerSecretKeySummaryLifecycleStateEnum{
+var mappingCustomerSecretKeySummaryLifecycleStateEnum = map[string]CustomerSecretKeySummaryLifecycleStateEnum{
 	"CREATING": CustomerSecretKeySummaryLifecycleStateCreating,
 	"ACTIVE":   CustomerSecretKeySummaryLifecycleStateActive,
 	"INACTIVE": CustomerSecretKeySummaryLifecycleStateInactive,
@@ -70,8 +87,19 @@ var mappingCustomerSecretKeySummaryLifecycleState = map[string]CustomerSecretKey
 // GetCustomerSecretKeySummaryLifecycleStateEnumValues Enumerates the set of values for CustomerSecretKeySummaryLifecycleStateEnum
 func GetCustomerSecretKeySummaryLifecycleStateEnumValues() []CustomerSecretKeySummaryLifecycleStateEnum {
 	values := make([]CustomerSecretKeySummaryLifecycleStateEnum, 0)
-	for _, v := range mappingCustomerSecretKeySummaryLifecycleState {
+	for _, v := range mappingCustomerSecretKeySummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCustomerSecretKeySummaryLifecycleStateEnumStringValues Enumerates the set of values in String for CustomerSecretKeySummaryLifecycleStateEnum
+func GetCustomerSecretKeySummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

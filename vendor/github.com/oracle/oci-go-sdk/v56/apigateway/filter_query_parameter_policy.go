@@ -12,7 +12,9 @@
 package apigateway
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FilterQueryParameterPolicy Filter parameters from the query string as they pass through the gateway.  The gateway applies filters after other
@@ -31,6 +33,21 @@ func (m FilterQueryParameterPolicy) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FilterQueryParameterPolicy) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingFilterQueryParameterPolicyTypeEnum[string(m.Type)]; !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetFilterQueryParameterPolicyTypeEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FilterQueryParameterPolicyTypeEnum Enum with underlying type: string
 type FilterQueryParameterPolicyTypeEnum string
 
@@ -40,7 +57,7 @@ const (
 	FilterQueryParameterPolicyTypeBlock FilterQueryParameterPolicyTypeEnum = "BLOCK"
 )
 
-var mappingFilterQueryParameterPolicyType = map[string]FilterQueryParameterPolicyTypeEnum{
+var mappingFilterQueryParameterPolicyTypeEnum = map[string]FilterQueryParameterPolicyTypeEnum{
 	"ALLOW": FilterQueryParameterPolicyTypeAllow,
 	"BLOCK": FilterQueryParameterPolicyTypeBlock,
 }
@@ -48,8 +65,16 @@ var mappingFilterQueryParameterPolicyType = map[string]FilterQueryParameterPolic
 // GetFilterQueryParameterPolicyTypeEnumValues Enumerates the set of values for FilterQueryParameterPolicyTypeEnum
 func GetFilterQueryParameterPolicyTypeEnumValues() []FilterQueryParameterPolicyTypeEnum {
 	values := make([]FilterQueryParameterPolicyTypeEnum, 0)
-	for _, v := range mappingFilterQueryParameterPolicyType {
+	for _, v := range mappingFilterQueryParameterPolicyTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFilterQueryParameterPolicyTypeEnumStringValues Enumerates the set of values in String for FilterQueryParameterPolicyTypeEnum
+func GetFilterQueryParameterPolicyTypeEnumStringValues() []string {
+	return []string{
+		"ALLOW",
+		"BLOCK",
+	}
 }

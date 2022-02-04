@@ -5,8 +5,10 @@
 package devops
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListRefsRequest wrapper for the ListRefs operation
@@ -55,6 +57,10 @@ func (request ListRefsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListRefsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -68,6 +74,26 @@ func (request ListRefsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, b
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListRefsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListRefsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListRefsRefTypeEnum[string(request.RefType)]; !ok && request.RefType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefType: %s. Supported values are: %s.", request.RefType, strings.Join(GetListRefsRefTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRefsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRefsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListRefsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListRefsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListRefsResponse wrapper for the ListRefs operation
@@ -104,7 +130,7 @@ const (
 	ListRefsRefTypeTag    ListRefsRefTypeEnum = "TAG"
 )
 
-var mappingListRefsRefType = map[string]ListRefsRefTypeEnum{
+var mappingListRefsRefTypeEnum = map[string]ListRefsRefTypeEnum{
 	"BRANCH": ListRefsRefTypeBranch,
 	"TAG":    ListRefsRefTypeTag,
 }
@@ -112,10 +138,18 @@ var mappingListRefsRefType = map[string]ListRefsRefTypeEnum{
 // GetListRefsRefTypeEnumValues Enumerates the set of values for ListRefsRefTypeEnum
 func GetListRefsRefTypeEnumValues() []ListRefsRefTypeEnum {
 	values := make([]ListRefsRefTypeEnum, 0)
-	for _, v := range mappingListRefsRefType {
+	for _, v := range mappingListRefsRefTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRefsRefTypeEnumStringValues Enumerates the set of values in String for ListRefsRefTypeEnum
+func GetListRefsRefTypeEnumStringValues() []string {
+	return []string{
+		"BRANCH",
+		"TAG",
+	}
 }
 
 // ListRefsSortOrderEnum Enum with underlying type: string
@@ -127,7 +161,7 @@ const (
 	ListRefsSortOrderDesc ListRefsSortOrderEnum = "DESC"
 )
 
-var mappingListRefsSortOrder = map[string]ListRefsSortOrderEnum{
+var mappingListRefsSortOrderEnum = map[string]ListRefsSortOrderEnum{
 	"ASC":  ListRefsSortOrderAsc,
 	"DESC": ListRefsSortOrderDesc,
 }
@@ -135,10 +169,18 @@ var mappingListRefsSortOrder = map[string]ListRefsSortOrderEnum{
 // GetListRefsSortOrderEnumValues Enumerates the set of values for ListRefsSortOrderEnum
 func GetListRefsSortOrderEnumValues() []ListRefsSortOrderEnum {
 	values := make([]ListRefsSortOrderEnum, 0)
-	for _, v := range mappingListRefsSortOrder {
+	for _, v := range mappingListRefsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRefsSortOrderEnumStringValues Enumerates the set of values in String for ListRefsSortOrderEnum
+func GetListRefsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListRefsSortByEnum Enum with underlying type: string
@@ -150,7 +192,7 @@ const (
 	ListRefsSortByRefname ListRefsSortByEnum = "refName"
 )
 
-var mappingListRefsSortBy = map[string]ListRefsSortByEnum{
+var mappingListRefsSortByEnum = map[string]ListRefsSortByEnum{
 	"refType": ListRefsSortByReftype,
 	"refName": ListRefsSortByRefname,
 }
@@ -158,8 +200,16 @@ var mappingListRefsSortBy = map[string]ListRefsSortByEnum{
 // GetListRefsSortByEnumValues Enumerates the set of values for ListRefsSortByEnum
 func GetListRefsSortByEnumValues() []ListRefsSortByEnum {
 	values := make([]ListRefsSortByEnum, 0)
-	for _, v := range mappingListRefsSortBy {
+	for _, v := range mappingListRefsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListRefsSortByEnumStringValues Enumerates the set of values in String for ListRefsSortByEnum
+func GetListRefsSortByEnumStringValues() []string {
+	return []string{
+		"refType",
+		"refName",
+	}
 }

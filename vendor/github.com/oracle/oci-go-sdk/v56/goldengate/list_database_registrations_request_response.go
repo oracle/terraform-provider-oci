@@ -5,8 +5,10 @@
 package goldengate
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListDatabaseRegistrationsRequest wrapper for the ListDatabaseRegistrations operation
@@ -52,6 +54,10 @@ func (request ListDatabaseRegistrationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListDatabaseRegistrationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -65,6 +71,26 @@ func (request ListDatabaseRegistrationsRequest) BinaryRequestBody() (*common.OCI
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListDatabaseRegistrationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListDatabaseRegistrationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListDatabaseRegistrationsLifecycleStateEnum[string(request.LifecycleState)]; !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDatabaseRegistrationsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseRegistrationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatabaseRegistrationsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListDatabaseRegistrationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDatabaseRegistrationsSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListDatabaseRegistrationsResponse wrapper for the ListDatabaseRegistrations operation
@@ -111,7 +137,7 @@ const (
 	ListDatabaseRegistrationsLifecycleStateSucceeded      ListDatabaseRegistrationsLifecycleStateEnum = "SUCCEEDED"
 )
 
-var mappingListDatabaseRegistrationsLifecycleState = map[string]ListDatabaseRegistrationsLifecycleStateEnum{
+var mappingListDatabaseRegistrationsLifecycleStateEnum = map[string]ListDatabaseRegistrationsLifecycleStateEnum{
 	"CREATING":        ListDatabaseRegistrationsLifecycleStateCreating,
 	"UPDATING":        ListDatabaseRegistrationsLifecycleStateUpdating,
 	"ACTIVE":          ListDatabaseRegistrationsLifecycleStateActive,
@@ -129,10 +155,28 @@ var mappingListDatabaseRegistrationsLifecycleState = map[string]ListDatabaseRegi
 // GetListDatabaseRegistrationsLifecycleStateEnumValues Enumerates the set of values for ListDatabaseRegistrationsLifecycleStateEnum
 func GetListDatabaseRegistrationsLifecycleStateEnumValues() []ListDatabaseRegistrationsLifecycleStateEnum {
 	values := make([]ListDatabaseRegistrationsLifecycleStateEnum, 0)
-	for _, v := range mappingListDatabaseRegistrationsLifecycleState {
+	for _, v := range mappingListDatabaseRegistrationsLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseRegistrationsLifecycleStateEnumStringValues Enumerates the set of values in String for ListDatabaseRegistrationsLifecycleStateEnum
+func GetListDatabaseRegistrationsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"NEEDS_ATTENTION",
+		"IN_PROGRESS",
+		"CANCELING",
+		"CANCELED",
+		"SUCCEEDED",
+	}
 }
 
 // ListDatabaseRegistrationsSortOrderEnum Enum with underlying type: string
@@ -144,7 +188,7 @@ const (
 	ListDatabaseRegistrationsSortOrderDesc ListDatabaseRegistrationsSortOrderEnum = "DESC"
 )
 
-var mappingListDatabaseRegistrationsSortOrder = map[string]ListDatabaseRegistrationsSortOrderEnum{
+var mappingListDatabaseRegistrationsSortOrderEnum = map[string]ListDatabaseRegistrationsSortOrderEnum{
 	"ASC":  ListDatabaseRegistrationsSortOrderAsc,
 	"DESC": ListDatabaseRegistrationsSortOrderDesc,
 }
@@ -152,10 +196,18 @@ var mappingListDatabaseRegistrationsSortOrder = map[string]ListDatabaseRegistrat
 // GetListDatabaseRegistrationsSortOrderEnumValues Enumerates the set of values for ListDatabaseRegistrationsSortOrderEnum
 func GetListDatabaseRegistrationsSortOrderEnumValues() []ListDatabaseRegistrationsSortOrderEnum {
 	values := make([]ListDatabaseRegistrationsSortOrderEnum, 0)
-	for _, v := range mappingListDatabaseRegistrationsSortOrder {
+	for _, v := range mappingListDatabaseRegistrationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseRegistrationsSortOrderEnumStringValues Enumerates the set of values in String for ListDatabaseRegistrationsSortOrderEnum
+func GetListDatabaseRegistrationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListDatabaseRegistrationsSortByEnum Enum with underlying type: string
@@ -167,7 +219,7 @@ const (
 	ListDatabaseRegistrationsSortByDisplayname ListDatabaseRegistrationsSortByEnum = "displayName"
 )
 
-var mappingListDatabaseRegistrationsSortBy = map[string]ListDatabaseRegistrationsSortByEnum{
+var mappingListDatabaseRegistrationsSortByEnum = map[string]ListDatabaseRegistrationsSortByEnum{
 	"timeCreated": ListDatabaseRegistrationsSortByTimecreated,
 	"displayName": ListDatabaseRegistrationsSortByDisplayname,
 }
@@ -175,8 +227,16 @@ var mappingListDatabaseRegistrationsSortBy = map[string]ListDatabaseRegistration
 // GetListDatabaseRegistrationsSortByEnumValues Enumerates the set of values for ListDatabaseRegistrationsSortByEnum
 func GetListDatabaseRegistrationsSortByEnumValues() []ListDatabaseRegistrationsSortByEnum {
 	values := make([]ListDatabaseRegistrationsSortByEnum, 0)
-	for _, v := range mappingListDatabaseRegistrationsSortBy {
+	for _, v := range mappingListDatabaseRegistrationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListDatabaseRegistrationsSortByEnumStringValues Enumerates the set of values in String for ListDatabaseRegistrationsSortByEnum
+func GetListDatabaseRegistrationsSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

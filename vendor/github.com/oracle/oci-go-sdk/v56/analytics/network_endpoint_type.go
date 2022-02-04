@@ -18,7 +18,7 @@ const (
 	NetworkEndpointTypePrivate NetworkEndpointTypeEnum = "PRIVATE"
 )
 
-var mappingNetworkEndpointType = map[string]NetworkEndpointTypeEnum{
+var mappingNetworkEndpointTypeEnum = map[string]NetworkEndpointTypeEnum{
 	"PUBLIC":  NetworkEndpointTypePublic,
 	"PRIVATE": NetworkEndpointTypePrivate,
 }
@@ -26,8 +26,16 @@ var mappingNetworkEndpointType = map[string]NetworkEndpointTypeEnum{
 // GetNetworkEndpointTypeEnumValues Enumerates the set of values for NetworkEndpointTypeEnum
 func GetNetworkEndpointTypeEnumValues() []NetworkEndpointTypeEnum {
 	values := make([]NetworkEndpointTypeEnum, 0)
-	for _, v := range mappingNetworkEndpointType {
+	for _, v := range mappingNetworkEndpointTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkEndpointTypeEnumStringValues Enumerates the set of values in String for NetworkEndpointTypeEnum
+func GetNetworkEndpointTypeEnumStringValues() []string {
+	return []string{
+		"PUBLIC",
+		"PRIVATE",
+	}
 }

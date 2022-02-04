@@ -5,8 +5,10 @@
 package opsi
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeExadataInsightResourceUsageRequest wrapper for the SummarizeExadataInsightResourceUsage operation
@@ -121,6 +123,10 @@ func (request SummarizeExadataInsightResourceUsageRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeExadataInsightResourceUsageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -134,6 +140,23 @@ func (request SummarizeExadataInsightResourceUsageRequest) BinaryRequestBody() (
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeExadataInsightResourceUsageRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeExadataInsightResourceUsageRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeExadataInsightResourceUsageSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeExadataInsightResourceUsageSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeExadataInsightResourceUsageSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeExadataInsightResourceUsageSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeExadataInsightResourceUsageResponse wrapper for the SummarizeExadataInsightResourceUsage operation
@@ -173,7 +196,7 @@ const (
 	SummarizeExadataInsightResourceUsageSortOrderDesc SummarizeExadataInsightResourceUsageSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeExadataInsightResourceUsageSortOrder = map[string]SummarizeExadataInsightResourceUsageSortOrderEnum{
+var mappingSummarizeExadataInsightResourceUsageSortOrderEnum = map[string]SummarizeExadataInsightResourceUsageSortOrderEnum{
 	"ASC":  SummarizeExadataInsightResourceUsageSortOrderAsc,
 	"DESC": SummarizeExadataInsightResourceUsageSortOrderDesc,
 }
@@ -181,10 +204,18 @@ var mappingSummarizeExadataInsightResourceUsageSortOrder = map[string]SummarizeE
 // GetSummarizeExadataInsightResourceUsageSortOrderEnumValues Enumerates the set of values for SummarizeExadataInsightResourceUsageSortOrderEnum
 func GetSummarizeExadataInsightResourceUsageSortOrderEnumValues() []SummarizeExadataInsightResourceUsageSortOrderEnum {
 	values := make([]SummarizeExadataInsightResourceUsageSortOrderEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceUsageSortOrder {
+	for _, v := range mappingSummarizeExadataInsightResourceUsageSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceUsageSortOrderEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceUsageSortOrderEnum
+func GetSummarizeExadataInsightResourceUsageSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // SummarizeExadataInsightResourceUsageSortByEnum Enum with underlying type: string
@@ -198,7 +229,7 @@ const (
 	SummarizeExadataInsightResourceUsageSortByUsagechangepercent SummarizeExadataInsightResourceUsageSortByEnum = "usageChangePercent"
 )
 
-var mappingSummarizeExadataInsightResourceUsageSortBy = map[string]SummarizeExadataInsightResourceUsageSortByEnum{
+var mappingSummarizeExadataInsightResourceUsageSortByEnum = map[string]SummarizeExadataInsightResourceUsageSortByEnum{
 	"utilizationPercent": SummarizeExadataInsightResourceUsageSortByUtilizationpercent,
 	"usage":              SummarizeExadataInsightResourceUsageSortByUsage,
 	"capacity":           SummarizeExadataInsightResourceUsageSortByCapacity,
@@ -208,8 +239,18 @@ var mappingSummarizeExadataInsightResourceUsageSortBy = map[string]SummarizeExad
 // GetSummarizeExadataInsightResourceUsageSortByEnumValues Enumerates the set of values for SummarizeExadataInsightResourceUsageSortByEnum
 func GetSummarizeExadataInsightResourceUsageSortByEnumValues() []SummarizeExadataInsightResourceUsageSortByEnum {
 	values := make([]SummarizeExadataInsightResourceUsageSortByEnum, 0)
-	for _, v := range mappingSummarizeExadataInsightResourceUsageSortBy {
+	for _, v := range mappingSummarizeExadataInsightResourceUsageSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeExadataInsightResourceUsageSortByEnumStringValues Enumerates the set of values in String for SummarizeExadataInsightResourceUsageSortByEnum
+func GetSummarizeExadataInsightResourceUsageSortByEnumStringValues() []string {
+	return []string{
+		"utilizationPercent",
+		"usage",
+		"capacity",
+		"usageChangePercent",
+	}
 }

@@ -5,8 +5,10 @@
 package managementdashboard
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListManagementSavedSearchesRequest wrapper for the ListManagementSavedSearches operation
@@ -49,6 +51,10 @@ func (request ListManagementSavedSearchesRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListManagementSavedSearchesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -62,6 +68,23 @@ func (request ListManagementSavedSearchesRequest) BinaryRequestBody() (*common.O
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListManagementSavedSearchesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListManagementSavedSearchesRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListManagementSavedSearchesSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagementSavedSearchesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListManagementSavedSearchesSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagementSavedSearchesSortByEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListManagementSavedSearchesResponse wrapper for the ListManagementSavedSearches operation
@@ -101,7 +124,7 @@ const (
 	ListManagementSavedSearchesSortOrderDesc ListManagementSavedSearchesSortOrderEnum = "DESC"
 )
 
-var mappingListManagementSavedSearchesSortOrder = map[string]ListManagementSavedSearchesSortOrderEnum{
+var mappingListManagementSavedSearchesSortOrderEnum = map[string]ListManagementSavedSearchesSortOrderEnum{
 	"ASC":  ListManagementSavedSearchesSortOrderAsc,
 	"DESC": ListManagementSavedSearchesSortOrderDesc,
 }
@@ -109,10 +132,18 @@ var mappingListManagementSavedSearchesSortOrder = map[string]ListManagementSaved
 // GetListManagementSavedSearchesSortOrderEnumValues Enumerates the set of values for ListManagementSavedSearchesSortOrderEnum
 func GetListManagementSavedSearchesSortOrderEnumValues() []ListManagementSavedSearchesSortOrderEnum {
 	values := make([]ListManagementSavedSearchesSortOrderEnum, 0)
-	for _, v := range mappingListManagementSavedSearchesSortOrder {
+	for _, v := range mappingListManagementSavedSearchesSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementSavedSearchesSortOrderEnumStringValues Enumerates the set of values in String for ListManagementSavedSearchesSortOrderEnum
+func GetListManagementSavedSearchesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }
 
 // ListManagementSavedSearchesSortByEnum Enum with underlying type: string
@@ -124,7 +155,7 @@ const (
 	ListManagementSavedSearchesSortByDisplayname ListManagementSavedSearchesSortByEnum = "displayName"
 )
 
-var mappingListManagementSavedSearchesSortBy = map[string]ListManagementSavedSearchesSortByEnum{
+var mappingListManagementSavedSearchesSortByEnum = map[string]ListManagementSavedSearchesSortByEnum{
 	"timeCreated": ListManagementSavedSearchesSortByTimecreated,
 	"displayName": ListManagementSavedSearchesSortByDisplayname,
 }
@@ -132,8 +163,16 @@ var mappingListManagementSavedSearchesSortBy = map[string]ListManagementSavedSea
 // GetListManagementSavedSearchesSortByEnumValues Enumerates the set of values for ListManagementSavedSearchesSortByEnum
 func GetListManagementSavedSearchesSortByEnumValues() []ListManagementSavedSearchesSortByEnum {
 	values := make([]ListManagementSavedSearchesSortByEnum, 0)
-	for _, v := range mappingListManagementSavedSearchesSortBy {
+	for _, v := range mappingListManagementSavedSearchesSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListManagementSavedSearchesSortByEnumStringValues Enumerates the set of values in String for ListManagementSavedSearchesSortByEnum
+func GetListManagementSavedSearchesSortByEnumStringValues() []string {
+	return []string{
+		"timeCreated",
+		"displayName",
+	}
 }

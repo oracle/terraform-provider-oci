@@ -12,7 +12,9 @@ package computeinstanceagent
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // InstanceAgentCommandSourceDetails The source of the command.
@@ -70,6 +72,18 @@ func (m instanceagentcommandsourcedetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m instanceagentcommandsourcedetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // InstanceAgentCommandSourceDetailsSourceTypeEnum Enum with underlying type: string
 type InstanceAgentCommandSourceDetailsSourceTypeEnum string
 
@@ -80,7 +94,7 @@ const (
 	InstanceAgentCommandSourceDetailsSourceTypeObjectStorageTuple InstanceAgentCommandSourceDetailsSourceTypeEnum = "OBJECT_STORAGE_TUPLE"
 )
 
-var mappingInstanceAgentCommandSourceDetailsSourceType = map[string]InstanceAgentCommandSourceDetailsSourceTypeEnum{
+var mappingInstanceAgentCommandSourceDetailsSourceTypeEnum = map[string]InstanceAgentCommandSourceDetailsSourceTypeEnum{
 	"TEXT":                 InstanceAgentCommandSourceDetailsSourceTypeText,
 	"OBJECT_STORAGE_URI":   InstanceAgentCommandSourceDetailsSourceTypeObjectStorageUri,
 	"OBJECT_STORAGE_TUPLE": InstanceAgentCommandSourceDetailsSourceTypeObjectStorageTuple,
@@ -89,8 +103,17 @@ var mappingInstanceAgentCommandSourceDetailsSourceType = map[string]InstanceAgen
 // GetInstanceAgentCommandSourceDetailsSourceTypeEnumValues Enumerates the set of values for InstanceAgentCommandSourceDetailsSourceTypeEnum
 func GetInstanceAgentCommandSourceDetailsSourceTypeEnumValues() []InstanceAgentCommandSourceDetailsSourceTypeEnum {
 	values := make([]InstanceAgentCommandSourceDetailsSourceTypeEnum, 0)
-	for _, v := range mappingInstanceAgentCommandSourceDetailsSourceType {
+	for _, v := range mappingInstanceAgentCommandSourceDetailsSourceTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetInstanceAgentCommandSourceDetailsSourceTypeEnumStringValues Enumerates the set of values in String for InstanceAgentCommandSourceDetailsSourceTypeEnum
+func GetInstanceAgentCommandSourceDetailsSourceTypeEnumStringValues() []string {
+	return []string{
+		"TEXT",
+		"OBJECT_STORAGE_URI",
+		"OBJECT_STORAGE_TUPLE",
+	}
 }

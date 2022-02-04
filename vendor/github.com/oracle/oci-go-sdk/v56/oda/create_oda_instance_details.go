@@ -10,7 +10,9 @@
 package oda
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // CreateOdaInstanceDetails Properties that are required to create a Digital Assistant instance.
@@ -42,6 +44,21 @@ func (m CreateOdaInstanceDetails) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m CreateOdaInstanceDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingCreateOdaInstanceDetailsShapeNameEnum[string(m.ShapeName)]; !ok && m.ShapeName != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeName: %s. Supported values are: %s.", m.ShapeName, strings.Join(GetCreateOdaInstanceDetailsShapeNameEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // CreateOdaInstanceDetailsShapeNameEnum Enum with underlying type: string
 type CreateOdaInstanceDetailsShapeNameEnum string
 
@@ -51,7 +68,7 @@ const (
 	CreateOdaInstanceDetailsShapeNameProduction  CreateOdaInstanceDetailsShapeNameEnum = "PRODUCTION"
 )
 
-var mappingCreateOdaInstanceDetailsShapeName = map[string]CreateOdaInstanceDetailsShapeNameEnum{
+var mappingCreateOdaInstanceDetailsShapeNameEnum = map[string]CreateOdaInstanceDetailsShapeNameEnum{
 	"DEVELOPMENT": CreateOdaInstanceDetailsShapeNameDevelopment,
 	"PRODUCTION":  CreateOdaInstanceDetailsShapeNameProduction,
 }
@@ -59,8 +76,16 @@ var mappingCreateOdaInstanceDetailsShapeName = map[string]CreateOdaInstanceDetai
 // GetCreateOdaInstanceDetailsShapeNameEnumValues Enumerates the set of values for CreateOdaInstanceDetailsShapeNameEnum
 func GetCreateOdaInstanceDetailsShapeNameEnumValues() []CreateOdaInstanceDetailsShapeNameEnum {
 	values := make([]CreateOdaInstanceDetailsShapeNameEnum, 0)
-	for _, v := range mappingCreateOdaInstanceDetailsShapeName {
+	for _, v := range mappingCreateOdaInstanceDetailsShapeNameEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetCreateOdaInstanceDetailsShapeNameEnumStringValues Enumerates the set of values in String for CreateOdaInstanceDetailsShapeNameEnum
+func GetCreateOdaInstanceDetailsShapeNameEnumStringValues() []string {
+	return []string{
+		"DEVELOPMENT",
+		"PRODUCTION",
+	}
 }

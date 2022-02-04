@@ -19,7 +19,7 @@ const (
 	RelatedResourceEntityTypePluggabledatabase  RelatedResourceEntityTypeEnum = "PLUGGABLEDATABASE"
 )
 
-var mappingRelatedResourceEntityType = map[string]RelatedResourceEntityTypeEnum{
+var mappingRelatedResourceEntityTypeEnum = map[string]RelatedResourceEntityTypeEnum{
 	"AUTONOMOUSDATABASE": RelatedResourceEntityTypeAutonomousdatabase,
 	"DATABASE":           RelatedResourceEntityTypeDatabase,
 	"PLUGGABLEDATABASE":  RelatedResourceEntityTypePluggabledatabase,
@@ -28,8 +28,17 @@ var mappingRelatedResourceEntityType = map[string]RelatedResourceEntityTypeEnum{
 // GetRelatedResourceEntityTypeEnumValues Enumerates the set of values for RelatedResourceEntityTypeEnum
 func GetRelatedResourceEntityTypeEnumValues() []RelatedResourceEntityTypeEnum {
 	values := make([]RelatedResourceEntityTypeEnum, 0)
-	for _, v := range mappingRelatedResourceEntityType {
+	for _, v := range mappingRelatedResourceEntityTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetRelatedResourceEntityTypeEnumStringValues Enumerates the set of values in String for RelatedResourceEntityTypeEnum
+func GetRelatedResourceEntityTypeEnumStringValues() []string {
+	return []string{
+		"AUTONOMOUSDATABASE",
+		"DATABASE",
+		"PLUGGABLEDATABASE",
+	}
 }

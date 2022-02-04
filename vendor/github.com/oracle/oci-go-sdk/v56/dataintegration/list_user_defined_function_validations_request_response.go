@@ -5,8 +5,10 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListUserDefinedFunctionValidationsRequest wrapper for the ListUserDefinedFunctionValidations operation
@@ -60,6 +62,10 @@ func (request ListUserDefinedFunctionValidationsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListUserDefinedFunctionValidationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -73,6 +79,23 @@ func (request ListUserDefinedFunctionValidationsRequest) BinaryRequestBody() (*c
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListUserDefinedFunctionValidationsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListUserDefinedFunctionValidationsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListUserDefinedFunctionValidationsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListUserDefinedFunctionValidationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListUserDefinedFunctionValidationsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListUserDefinedFunctionValidationsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListUserDefinedFunctionValidationsResponse wrapper for the ListUserDefinedFunctionValidations operation
@@ -116,7 +139,7 @@ const (
 	ListUserDefinedFunctionValidationsSortByDisplayName ListUserDefinedFunctionValidationsSortByEnum = "DISPLAY_NAME"
 )
 
-var mappingListUserDefinedFunctionValidationsSortBy = map[string]ListUserDefinedFunctionValidationsSortByEnum{
+var mappingListUserDefinedFunctionValidationsSortByEnum = map[string]ListUserDefinedFunctionValidationsSortByEnum{
 	"TIME_CREATED": ListUserDefinedFunctionValidationsSortByTimeCreated,
 	"DISPLAY_NAME": ListUserDefinedFunctionValidationsSortByDisplayName,
 }
@@ -124,10 +147,18 @@ var mappingListUserDefinedFunctionValidationsSortBy = map[string]ListUserDefined
 // GetListUserDefinedFunctionValidationsSortByEnumValues Enumerates the set of values for ListUserDefinedFunctionValidationsSortByEnum
 func GetListUserDefinedFunctionValidationsSortByEnumValues() []ListUserDefinedFunctionValidationsSortByEnum {
 	values := make([]ListUserDefinedFunctionValidationsSortByEnum, 0)
-	for _, v := range mappingListUserDefinedFunctionValidationsSortBy {
+	for _, v := range mappingListUserDefinedFunctionValidationsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserDefinedFunctionValidationsSortByEnumStringValues Enumerates the set of values in String for ListUserDefinedFunctionValidationsSortByEnum
+func GetListUserDefinedFunctionValidationsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_CREATED",
+		"DISPLAY_NAME",
+	}
 }
 
 // ListUserDefinedFunctionValidationsSortOrderEnum Enum with underlying type: string
@@ -139,7 +170,7 @@ const (
 	ListUserDefinedFunctionValidationsSortOrderDesc ListUserDefinedFunctionValidationsSortOrderEnum = "DESC"
 )
 
-var mappingListUserDefinedFunctionValidationsSortOrder = map[string]ListUserDefinedFunctionValidationsSortOrderEnum{
+var mappingListUserDefinedFunctionValidationsSortOrderEnum = map[string]ListUserDefinedFunctionValidationsSortOrderEnum{
 	"ASC":  ListUserDefinedFunctionValidationsSortOrderAsc,
 	"DESC": ListUserDefinedFunctionValidationsSortOrderDesc,
 }
@@ -147,8 +178,16 @@ var mappingListUserDefinedFunctionValidationsSortOrder = map[string]ListUserDefi
 // GetListUserDefinedFunctionValidationsSortOrderEnumValues Enumerates the set of values for ListUserDefinedFunctionValidationsSortOrderEnum
 func GetListUserDefinedFunctionValidationsSortOrderEnumValues() []ListUserDefinedFunctionValidationsSortOrderEnum {
 	values := make([]ListUserDefinedFunctionValidationsSortOrderEnum, 0)
-	for _, v := range mappingListUserDefinedFunctionValidationsSortOrder {
+	for _, v := range mappingListUserDefinedFunctionValidationsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListUserDefinedFunctionValidationsSortOrderEnumStringValues Enumerates the set of values in String for ListUserDefinedFunctionValidationsSortOrderEnum
+func GetListUserDefinedFunctionValidationsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

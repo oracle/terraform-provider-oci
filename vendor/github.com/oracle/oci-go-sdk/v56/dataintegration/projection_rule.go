@@ -11,7 +11,9 @@ package dataintegration
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ProjectionRule Base type for how fields are projected. There are many different mechanisms for doing this such as by a name pattern, datatype and so on. See the `modelType` property for the types.
@@ -145,6 +147,18 @@ func (m projectionrule) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m projectionrule) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ProjectionRuleModelTypeEnum Enum with underlying type: string
 type ProjectionRuleModelTypeEnum string
 
@@ -157,7 +171,7 @@ const (
 	ProjectionRuleModelTypeRenameRule           ProjectionRuleModelTypeEnum = "RENAME_RULE"
 )
 
-var mappingProjectionRuleModelType = map[string]ProjectionRuleModelTypeEnum{
+var mappingProjectionRuleModelTypeEnum = map[string]ProjectionRuleModelTypeEnum{
 	"NAME_PATTERN_RULE":       ProjectionRuleModelTypeNamePatternRule,
 	"TYPE_LIST_RULE":          ProjectionRuleModelTypeTypeListRule,
 	"NAME_LIST_RULE":          ProjectionRuleModelTypeNameListRule,
@@ -168,8 +182,19 @@ var mappingProjectionRuleModelType = map[string]ProjectionRuleModelTypeEnum{
 // GetProjectionRuleModelTypeEnumValues Enumerates the set of values for ProjectionRuleModelTypeEnum
 func GetProjectionRuleModelTypeEnumValues() []ProjectionRuleModelTypeEnum {
 	values := make([]ProjectionRuleModelTypeEnum, 0)
-	for _, v := range mappingProjectionRuleModelType {
+	for _, v := range mappingProjectionRuleModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetProjectionRuleModelTypeEnumStringValues Enumerates the set of values in String for ProjectionRuleModelTypeEnum
+func GetProjectionRuleModelTypeEnumStringValues() []string {
+	return []string{
+		"NAME_PATTERN_RULE",
+		"TYPE_LIST_RULE",
+		"NAME_LIST_RULE",
+		"TYPED_NAME_PATTERN_RULE",
+		"RENAME_RULE",
+	}
 }

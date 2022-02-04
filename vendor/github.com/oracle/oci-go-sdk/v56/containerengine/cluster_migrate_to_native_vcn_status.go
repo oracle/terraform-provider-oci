@@ -12,7 +12,9 @@
 package containerengine
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // ClusterMigrateToNativeVcnStatus Information regarding a cluster's move to Native VCN.
@@ -29,6 +31,21 @@ func (m ClusterMigrateToNativeVcnStatus) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ClusterMigrateToNativeVcnStatus) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingClusterMigrateToNativeVcnStatusStateEnum[string(m.State)]; !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetClusterMigrateToNativeVcnStatusStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // ClusterMigrateToNativeVcnStatusStateEnum Enum with underlying type: string
 type ClusterMigrateToNativeVcnStatusStateEnum string
 
@@ -41,7 +58,7 @@ const (
 	ClusterMigrateToNativeVcnStatusStateCompleted           ClusterMigrateToNativeVcnStatusStateEnum = "COMPLETED"
 )
 
-var mappingClusterMigrateToNativeVcnStatusState = map[string]ClusterMigrateToNativeVcnStatusStateEnum{
+var mappingClusterMigrateToNativeVcnStatusStateEnum = map[string]ClusterMigrateToNativeVcnStatusStateEnum{
 	"NOT_STARTED":          ClusterMigrateToNativeVcnStatusStateNotStarted,
 	"REQUESTED":            ClusterMigrateToNativeVcnStatusStateRequested,
 	"IN_PROGRESS":          ClusterMigrateToNativeVcnStatusStateInProgress,
@@ -52,8 +69,19 @@ var mappingClusterMigrateToNativeVcnStatusState = map[string]ClusterMigrateToNat
 // GetClusterMigrateToNativeVcnStatusStateEnumValues Enumerates the set of values for ClusterMigrateToNativeVcnStatusStateEnum
 func GetClusterMigrateToNativeVcnStatusStateEnumValues() []ClusterMigrateToNativeVcnStatusStateEnum {
 	values := make([]ClusterMigrateToNativeVcnStatusStateEnum, 0)
-	for _, v := range mappingClusterMigrateToNativeVcnStatusState {
+	for _, v := range mappingClusterMigrateToNativeVcnStatusStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetClusterMigrateToNativeVcnStatusStateEnumStringValues Enumerates the set of values in String for ClusterMigrateToNativeVcnStatusStateEnum
+func GetClusterMigrateToNativeVcnStatusStateEnumStringValues() []string {
+	return []string{
+		"NOT_STARTED",
+		"REQUESTED",
+		"IN_PROGRESS",
+		"PENDING_DECOMMISSION",
+		"COMPLETED",
+	}
 }

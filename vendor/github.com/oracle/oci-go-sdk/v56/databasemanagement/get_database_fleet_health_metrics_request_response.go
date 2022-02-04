@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetDatabaseFleetHealthMetricsRequest wrapper for the GetDatabaseFleetHealthMetrics operation
@@ -61,6 +63,10 @@ func (request GetDatabaseFleetHealthMetricsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetDatabaseFleetHealthMetricsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -74,6 +80,20 @@ func (request GetDatabaseFleetHealthMetricsRequest) BinaryRequestBody() (*common
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetDatabaseFleetHealthMetricsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetDatabaseFleetHealthMetricsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGetDatabaseFleetHealthMetricsCompareTypeEnum[string(request.CompareType)]; !ok && request.CompareType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CompareType: %s. Supported values are: %s.", request.CompareType, strings.Join(GetGetDatabaseFleetHealthMetricsCompareTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetDatabaseFleetHealthMetricsResponse wrapper for the GetDatabaseFleetHealthMetrics operation
@@ -108,7 +128,7 @@ const (
 	GetDatabaseFleetHealthMetricsCompareTypeDay  GetDatabaseFleetHealthMetricsCompareTypeEnum = "DAY"
 )
 
-var mappingGetDatabaseFleetHealthMetricsCompareType = map[string]GetDatabaseFleetHealthMetricsCompareTypeEnum{
+var mappingGetDatabaseFleetHealthMetricsCompareTypeEnum = map[string]GetDatabaseFleetHealthMetricsCompareTypeEnum{
 	"HOUR": GetDatabaseFleetHealthMetricsCompareTypeHour,
 	"DAY":  GetDatabaseFleetHealthMetricsCompareTypeDay,
 }
@@ -116,8 +136,16 @@ var mappingGetDatabaseFleetHealthMetricsCompareType = map[string]GetDatabaseFlee
 // GetGetDatabaseFleetHealthMetricsCompareTypeEnumValues Enumerates the set of values for GetDatabaseFleetHealthMetricsCompareTypeEnum
 func GetGetDatabaseFleetHealthMetricsCompareTypeEnumValues() []GetDatabaseFleetHealthMetricsCompareTypeEnum {
 	values := make([]GetDatabaseFleetHealthMetricsCompareTypeEnum, 0)
-	for _, v := range mappingGetDatabaseFleetHealthMetricsCompareType {
+	for _, v := range mappingGetDatabaseFleetHealthMetricsCompareTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetDatabaseFleetHealthMetricsCompareTypeEnumStringValues Enumerates the set of values in String for GetDatabaseFleetHealthMetricsCompareTypeEnum
+func GetGetDatabaseFleetHealthMetricsCompareTypeEnumStringValues() []string {
+	return []string{
+		"HOUR",
+		"DAY",
+	}
 }

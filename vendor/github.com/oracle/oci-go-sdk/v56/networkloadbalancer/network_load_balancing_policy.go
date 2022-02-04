@@ -19,7 +19,7 @@ const (
 	NetworkLoadBalancingPolicyFiveTuple  NetworkLoadBalancingPolicyEnum = "FIVE_TUPLE"
 )
 
-var mappingNetworkLoadBalancingPolicy = map[string]NetworkLoadBalancingPolicyEnum{
+var mappingNetworkLoadBalancingPolicyEnum = map[string]NetworkLoadBalancingPolicyEnum{
 	"TWO_TUPLE":   NetworkLoadBalancingPolicyTwoTuple,
 	"THREE_TUPLE": NetworkLoadBalancingPolicyThreeTuple,
 	"FIVE_TUPLE":  NetworkLoadBalancingPolicyFiveTuple,
@@ -28,8 +28,17 @@ var mappingNetworkLoadBalancingPolicy = map[string]NetworkLoadBalancingPolicyEnu
 // GetNetworkLoadBalancingPolicyEnumValues Enumerates the set of values for NetworkLoadBalancingPolicyEnum
 func GetNetworkLoadBalancingPolicyEnumValues() []NetworkLoadBalancingPolicyEnum {
 	values := make([]NetworkLoadBalancingPolicyEnum, 0)
-	for _, v := range mappingNetworkLoadBalancingPolicy {
+	for _, v := range mappingNetworkLoadBalancingPolicyEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetNetworkLoadBalancingPolicyEnumStringValues Enumerates the set of values in String for NetworkLoadBalancingPolicyEnum
+func GetNetworkLoadBalancingPolicyEnumStringValues() []string {
+	return []string{
+		"TWO_TUPLE",
+		"THREE_TUPLE",
+		"FIVE_TUPLE",
+	}
 }

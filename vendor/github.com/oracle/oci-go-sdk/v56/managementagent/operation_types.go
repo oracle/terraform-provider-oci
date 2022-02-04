@@ -19,7 +19,7 @@ const (
 	OperationTypesAgentimageUpgrade    OperationTypesEnum = "AGENTIMAGE_UPGRADE"
 )
 
-var mappingOperationTypes = map[string]OperationTypesEnum{
+var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPGRADE_PLUGIN":         OperationTypesUpgradePlugin,
 	"CREATE_UPGRADE_PLUGINS": OperationTypesCreateUpgradePlugins,
 	"AGENTIMAGE_UPGRADE":     OperationTypesAgentimageUpgrade,
@@ -28,8 +28,17 @@ var mappingOperationTypes = map[string]OperationTypesEnum{
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
 func GetOperationTypesEnumValues() []OperationTypesEnum {
 	values := make([]OperationTypesEnum, 0)
-	for _, v := range mappingOperationTypes {
+	for _, v := range mappingOperationTypesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypesEnumStringValues Enumerates the set of values in String for OperationTypesEnum
+func GetOperationTypesEnumStringValues() []string {
+	return []string{
+		"UPGRADE_PLUGIN",
+		"CREATE_UPGRADE_PLUGINS",
+		"AGENTIMAGE_UPGRADE",
+	}
 }

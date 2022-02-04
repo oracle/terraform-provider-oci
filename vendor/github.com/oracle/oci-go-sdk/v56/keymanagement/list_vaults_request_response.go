@@ -5,8 +5,10 @@
 package keymanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // ListVaultsRequest wrapper for the ListVaults operation
@@ -51,6 +53,10 @@ func (request ListVaultsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request ListVaultsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -64,6 +70,23 @@ func (request ListVaultsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser,
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListVaultsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request ListVaultsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingListVaultsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListVaultsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListVaultsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListVaultsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // ListVaultsResponse wrapper for the ListVaults operation
@@ -104,7 +127,7 @@ const (
 	ListVaultsSortByDisplayname ListVaultsSortByEnum = "DISPLAYNAME"
 )
 
-var mappingListVaultsSortBy = map[string]ListVaultsSortByEnum{
+var mappingListVaultsSortByEnum = map[string]ListVaultsSortByEnum{
 	"TIMECREATED": ListVaultsSortByTimecreated,
 	"DISPLAYNAME": ListVaultsSortByDisplayname,
 }
@@ -112,10 +135,18 @@ var mappingListVaultsSortBy = map[string]ListVaultsSortByEnum{
 // GetListVaultsSortByEnumValues Enumerates the set of values for ListVaultsSortByEnum
 func GetListVaultsSortByEnumValues() []ListVaultsSortByEnum {
 	values := make([]ListVaultsSortByEnum, 0)
-	for _, v := range mappingListVaultsSortBy {
+	for _, v := range mappingListVaultsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVaultsSortByEnumStringValues Enumerates the set of values in String for ListVaultsSortByEnum
+func GetListVaultsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"DISPLAYNAME",
+	}
 }
 
 // ListVaultsSortOrderEnum Enum with underlying type: string
@@ -127,7 +158,7 @@ const (
 	ListVaultsSortOrderDesc ListVaultsSortOrderEnum = "DESC"
 )
 
-var mappingListVaultsSortOrder = map[string]ListVaultsSortOrderEnum{
+var mappingListVaultsSortOrderEnum = map[string]ListVaultsSortOrderEnum{
 	"ASC":  ListVaultsSortOrderAsc,
 	"DESC": ListVaultsSortOrderDesc,
 }
@@ -135,8 +166,16 @@ var mappingListVaultsSortOrder = map[string]ListVaultsSortOrderEnum{
 // GetListVaultsSortOrderEnumValues Enumerates the set of values for ListVaultsSortOrderEnum
 func GetListVaultsSortOrderEnumValues() []ListVaultsSortOrderEnum {
 	values := make([]ListVaultsSortOrderEnum, 0)
-	for _, v := range mappingListVaultsSortOrder {
+	for _, v := range mappingListVaultsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetListVaultsSortOrderEnumStringValues Enumerates the set of values in String for ListVaultsSortOrderEnum
+func GetListVaultsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

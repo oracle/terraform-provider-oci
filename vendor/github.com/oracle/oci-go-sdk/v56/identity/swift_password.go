@@ -10,7 +10,9 @@
 package identity
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SwiftPassword **Deprecated. Use AuthToken instead.**
@@ -55,6 +57,21 @@ func (m SwiftPassword) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SwiftPassword) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingSwiftPasswordLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSwiftPasswordLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SwiftPasswordLifecycleStateEnum Enum with underlying type: string
 type SwiftPasswordLifecycleStateEnum string
 
@@ -67,7 +84,7 @@ const (
 	SwiftPasswordLifecycleStateDeleted  SwiftPasswordLifecycleStateEnum = "DELETED"
 )
 
-var mappingSwiftPasswordLifecycleState = map[string]SwiftPasswordLifecycleStateEnum{
+var mappingSwiftPasswordLifecycleStateEnum = map[string]SwiftPasswordLifecycleStateEnum{
 	"CREATING": SwiftPasswordLifecycleStateCreating,
 	"ACTIVE":   SwiftPasswordLifecycleStateActive,
 	"INACTIVE": SwiftPasswordLifecycleStateInactive,
@@ -78,8 +95,19 @@ var mappingSwiftPasswordLifecycleState = map[string]SwiftPasswordLifecycleStateE
 // GetSwiftPasswordLifecycleStateEnumValues Enumerates the set of values for SwiftPasswordLifecycleStateEnum
 func GetSwiftPasswordLifecycleStateEnumValues() []SwiftPasswordLifecycleStateEnum {
 	values := make([]SwiftPasswordLifecycleStateEnum, 0)
-	for _, v := range mappingSwiftPasswordLifecycleState {
+	for _, v := range mappingSwiftPasswordLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSwiftPasswordLifecycleStateEnumStringValues Enumerates the set of values in String for SwiftPasswordLifecycleStateEnum
+func GetSwiftPasswordLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

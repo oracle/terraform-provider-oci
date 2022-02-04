@@ -5,8 +5,10 @@
 package datacatalog
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // GetNamespaceRequest wrapper for the GetNamespace operation
@@ -40,6 +42,10 @@ func (request GetNamespaceRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request GetNamespaceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -53,6 +59,23 @@ func (request GetNamespaceRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetNamespaceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request GetNamespaceRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	for _, val := range request.Fields {
+		if _, ok := mappingGetNamespaceFieldsEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Fields: %s. Supported values are: %s.", val, strings.Join(GetGetNamespaceFieldsEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // GetNamespaceResponse wrapper for the GetNamespace operation
@@ -97,7 +120,7 @@ const (
 	GetNamespaceFieldsProperties     GetNamespaceFieldsEnum = "properties"
 )
 
-var mappingGetNamespaceFields = map[string]GetNamespaceFieldsEnum{
+var mappingGetNamespaceFieldsEnum = map[string]GetNamespaceFieldsEnum{
 	"key":            GetNamespaceFieldsKey,
 	"displayName":    GetNamespaceFieldsDisplayname,
 	"description":    GetNamespaceFieldsDescription,
@@ -112,8 +135,23 @@ var mappingGetNamespaceFields = map[string]GetNamespaceFieldsEnum{
 // GetGetNamespaceFieldsEnumValues Enumerates the set of values for GetNamespaceFieldsEnum
 func GetGetNamespaceFieldsEnumValues() []GetNamespaceFieldsEnum {
 	values := make([]GetNamespaceFieldsEnum, 0)
-	for _, v := range mappingGetNamespaceFields {
+	for _, v := range mappingGetNamespaceFieldsEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGetNamespaceFieldsEnumStringValues Enumerates the set of values in String for GetNamespaceFieldsEnum
+func GetGetNamespaceFieldsEnumStringValues() []string {
+	return []string{
+		"key",
+		"displayName",
+		"description",
+		"lifecycleState",
+		"timeCreated",
+		"timeUpdated",
+		"createdById",
+		"updatedById",
+		"properties",
+	}
 }

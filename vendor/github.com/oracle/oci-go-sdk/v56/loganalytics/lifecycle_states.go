@@ -18,7 +18,7 @@ const (
 	LifecycleStatesDeleted LifecycleStatesEnum = "DELETED"
 )
 
-var mappingLifecycleStates = map[string]LifecycleStatesEnum{
+var mappingLifecycleStatesEnum = map[string]LifecycleStatesEnum{
 	"ACTIVE":  LifecycleStatesActive,
 	"DELETED": LifecycleStatesDeleted,
 }
@@ -26,8 +26,16 @@ var mappingLifecycleStates = map[string]LifecycleStatesEnum{
 // GetLifecycleStatesEnumValues Enumerates the set of values for LifecycleStatesEnum
 func GetLifecycleStatesEnumValues() []LifecycleStatesEnum {
 	values := make([]LifecycleStatesEnum, 0)
-	for _, v := range mappingLifecycleStates {
+	for _, v := range mappingLifecycleStatesEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetLifecycleStatesEnumStringValues Enumerates the set of values in String for LifecycleStatesEnum
+func GetLifecycleStatesEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
 }

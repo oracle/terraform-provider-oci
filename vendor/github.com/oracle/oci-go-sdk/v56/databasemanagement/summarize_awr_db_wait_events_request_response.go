@@ -5,8 +5,10 @@
 package databasemanagement
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
 	"net/http"
+	"strings"
 )
 
 // SummarizeAwrDbWaitEventsRequest wrapper for the SummarizeAwrDbWaitEvents operation
@@ -85,6 +87,10 @@ func (request SummarizeAwrDbWaitEventsRequest) String() string {
 // HTTPRequest implements the OCIRequest interface
 func (request SummarizeAwrDbWaitEventsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
+	_, err := request.ValidateEnumValue()
+	if err != nil {
+		return http.Request{}, err
+	}
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
@@ -98,6 +104,26 @@ func (request SummarizeAwrDbWaitEventsRequest) BinaryRequestBody() (*common.OCIR
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request SummarizeAwrDbWaitEventsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (request SummarizeAwrDbWaitEventsRequest) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSummarizeAwrDbWaitEventsSessionTypeEnum[string(request.SessionType)]; !ok && request.SessionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SessionType: %s. Supported values are: %s.", request.SessionType, strings.Join(GetSummarizeAwrDbWaitEventsSessionTypeEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbWaitEventsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeAwrDbWaitEventsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingSummarizeAwrDbWaitEventsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeAwrDbWaitEventsSortOrderEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
 }
 
 // SummarizeAwrDbWaitEventsResponse wrapper for the SummarizeAwrDbWaitEvents operation
@@ -138,7 +164,7 @@ const (
 	SummarizeAwrDbWaitEventsSessionTypeAll        SummarizeAwrDbWaitEventsSessionTypeEnum = "ALL"
 )
 
-var mappingSummarizeAwrDbWaitEventsSessionType = map[string]SummarizeAwrDbWaitEventsSessionTypeEnum{
+var mappingSummarizeAwrDbWaitEventsSessionTypeEnum = map[string]SummarizeAwrDbWaitEventsSessionTypeEnum{
 	"FOREGROUND": SummarizeAwrDbWaitEventsSessionTypeForeground,
 	"BACKGROUND": SummarizeAwrDbWaitEventsSessionTypeBackground,
 	"ALL":        SummarizeAwrDbWaitEventsSessionTypeAll,
@@ -147,10 +173,19 @@ var mappingSummarizeAwrDbWaitEventsSessionType = map[string]SummarizeAwrDbWaitEv
 // GetSummarizeAwrDbWaitEventsSessionTypeEnumValues Enumerates the set of values for SummarizeAwrDbWaitEventsSessionTypeEnum
 func GetSummarizeAwrDbWaitEventsSessionTypeEnumValues() []SummarizeAwrDbWaitEventsSessionTypeEnum {
 	values := make([]SummarizeAwrDbWaitEventsSessionTypeEnum, 0)
-	for _, v := range mappingSummarizeAwrDbWaitEventsSessionType {
+	for _, v := range mappingSummarizeAwrDbWaitEventsSessionTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbWaitEventsSessionTypeEnumStringValues Enumerates the set of values in String for SummarizeAwrDbWaitEventsSessionTypeEnum
+func GetSummarizeAwrDbWaitEventsSessionTypeEnumStringValues() []string {
+	return []string{
+		"FOREGROUND",
+		"BACKGROUND",
+		"ALL",
+	}
 }
 
 // SummarizeAwrDbWaitEventsSortByEnum Enum with underlying type: string
@@ -162,7 +197,7 @@ const (
 	SummarizeAwrDbWaitEventsSortByName      SummarizeAwrDbWaitEventsSortByEnum = "NAME"
 )
 
-var mappingSummarizeAwrDbWaitEventsSortBy = map[string]SummarizeAwrDbWaitEventsSortByEnum{
+var mappingSummarizeAwrDbWaitEventsSortByEnum = map[string]SummarizeAwrDbWaitEventsSortByEnum{
 	"TIME_BEGIN": SummarizeAwrDbWaitEventsSortByTimeBegin,
 	"NAME":       SummarizeAwrDbWaitEventsSortByName,
 }
@@ -170,10 +205,18 @@ var mappingSummarizeAwrDbWaitEventsSortBy = map[string]SummarizeAwrDbWaitEventsS
 // GetSummarizeAwrDbWaitEventsSortByEnumValues Enumerates the set of values for SummarizeAwrDbWaitEventsSortByEnum
 func GetSummarizeAwrDbWaitEventsSortByEnumValues() []SummarizeAwrDbWaitEventsSortByEnum {
 	values := make([]SummarizeAwrDbWaitEventsSortByEnum, 0)
-	for _, v := range mappingSummarizeAwrDbWaitEventsSortBy {
+	for _, v := range mappingSummarizeAwrDbWaitEventsSortByEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbWaitEventsSortByEnumStringValues Enumerates the set of values in String for SummarizeAwrDbWaitEventsSortByEnum
+func GetSummarizeAwrDbWaitEventsSortByEnumStringValues() []string {
+	return []string{
+		"TIME_BEGIN",
+		"NAME",
+	}
 }
 
 // SummarizeAwrDbWaitEventsSortOrderEnum Enum with underlying type: string
@@ -185,7 +228,7 @@ const (
 	SummarizeAwrDbWaitEventsSortOrderDesc SummarizeAwrDbWaitEventsSortOrderEnum = "DESC"
 )
 
-var mappingSummarizeAwrDbWaitEventsSortOrder = map[string]SummarizeAwrDbWaitEventsSortOrderEnum{
+var mappingSummarizeAwrDbWaitEventsSortOrderEnum = map[string]SummarizeAwrDbWaitEventsSortOrderEnum{
 	"ASC":  SummarizeAwrDbWaitEventsSortOrderAsc,
 	"DESC": SummarizeAwrDbWaitEventsSortOrderDesc,
 }
@@ -193,8 +236,16 @@ var mappingSummarizeAwrDbWaitEventsSortOrder = map[string]SummarizeAwrDbWaitEven
 // GetSummarizeAwrDbWaitEventsSortOrderEnumValues Enumerates the set of values for SummarizeAwrDbWaitEventsSortOrderEnum
 func GetSummarizeAwrDbWaitEventsSortOrderEnumValues() []SummarizeAwrDbWaitEventsSortOrderEnum {
 	values := make([]SummarizeAwrDbWaitEventsSortOrderEnum, 0)
-	for _, v := range mappingSummarizeAwrDbWaitEventsSortOrder {
+	for _, v := range mappingSummarizeAwrDbWaitEventsSortOrderEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSummarizeAwrDbWaitEventsSortOrderEnumStringValues Enumerates the set of values in String for SummarizeAwrDbWaitEventsSortOrderEnum
+func GetSummarizeAwrDbWaitEventsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

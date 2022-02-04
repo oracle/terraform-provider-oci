@@ -10,7 +10,9 @@
 package filestorage
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // SnapshotSummary Summary information for a snapshot.
@@ -64,6 +66,21 @@ func (m SnapshotSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m SnapshotSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingSnapshotSummaryLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSnapshotSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // SnapshotSummaryLifecycleStateEnum Enum with underlying type: string
 type SnapshotSummaryLifecycleStateEnum string
 
@@ -75,7 +92,7 @@ const (
 	SnapshotSummaryLifecycleStateDeleted  SnapshotSummaryLifecycleStateEnum = "DELETED"
 )
 
-var mappingSnapshotSummaryLifecycleState = map[string]SnapshotSummaryLifecycleStateEnum{
+var mappingSnapshotSummaryLifecycleStateEnum = map[string]SnapshotSummaryLifecycleStateEnum{
 	"CREATING": SnapshotSummaryLifecycleStateCreating,
 	"ACTIVE":   SnapshotSummaryLifecycleStateActive,
 	"DELETING": SnapshotSummaryLifecycleStateDeleting,
@@ -85,8 +102,18 @@ var mappingSnapshotSummaryLifecycleState = map[string]SnapshotSummaryLifecycleSt
 // GetSnapshotSummaryLifecycleStateEnumValues Enumerates the set of values for SnapshotSummaryLifecycleStateEnum
 func GetSnapshotSummaryLifecycleStateEnumValues() []SnapshotSummaryLifecycleStateEnum {
 	values := make([]SnapshotSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingSnapshotSummaryLifecycleState {
+	for _, v := range mappingSnapshotSummaryLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetSnapshotSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for SnapshotSummaryLifecycleStateEnum
+func GetSnapshotSummaryLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+	}
 }

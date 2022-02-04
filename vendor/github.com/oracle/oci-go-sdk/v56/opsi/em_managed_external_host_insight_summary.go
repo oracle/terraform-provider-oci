@@ -13,7 +13,9 @@ package opsi
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // EmManagedExternalHostInsightSummary Summary of an EM-managed external host insight resource.
@@ -165,6 +167,27 @@ func (m EmManagedExternalHostInsightSummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m EmManagedExternalHostInsightSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingEmManagedExternalHostInsightSummaryPlatformTypeEnum[string(m.PlatformType)]; !ok && m.PlatformType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", m.PlatformType, strings.Join(GetEmManagedExternalHostInsightSummaryPlatformTypeEnumStringValues(), ",")))
+	}
+
+	if _, ok := mappingResourceStatusEnum[string(m.Status)]; !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetResourceStatusEnumStringValues(), ",")))
+	}
+	if _, ok := mappingLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // MarshalJSON marshals to json representation
 func (m EmManagedExternalHostInsightSummary) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeEmManagedExternalHostInsightSummary EmManagedExternalHostInsightSummary
@@ -189,7 +212,7 @@ const (
 	EmManagedExternalHostInsightSummaryPlatformTypeSunos   EmManagedExternalHostInsightSummaryPlatformTypeEnum = "SUNOS"
 )
 
-var mappingEmManagedExternalHostInsightSummaryPlatformType = map[string]EmManagedExternalHostInsightSummaryPlatformTypeEnum{
+var mappingEmManagedExternalHostInsightSummaryPlatformTypeEnum = map[string]EmManagedExternalHostInsightSummaryPlatformTypeEnum{
 	"LINUX":   EmManagedExternalHostInsightSummaryPlatformTypeLinux,
 	"SOLARIS": EmManagedExternalHostInsightSummaryPlatformTypeSolaris,
 	"SUNOS":   EmManagedExternalHostInsightSummaryPlatformTypeSunos,
@@ -198,8 +221,17 @@ var mappingEmManagedExternalHostInsightSummaryPlatformType = map[string]EmManage
 // GetEmManagedExternalHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for EmManagedExternalHostInsightSummaryPlatformTypeEnum
 func GetEmManagedExternalHostInsightSummaryPlatformTypeEnumValues() []EmManagedExternalHostInsightSummaryPlatformTypeEnum {
 	values := make([]EmManagedExternalHostInsightSummaryPlatformTypeEnum, 0)
-	for _, v := range mappingEmManagedExternalHostInsightSummaryPlatformType {
+	for _, v := range mappingEmManagedExternalHostInsightSummaryPlatformTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetEmManagedExternalHostInsightSummaryPlatformTypeEnumStringValues Enumerates the set of values in String for EmManagedExternalHostInsightSummaryPlatformTypeEnum
+func GetEmManagedExternalHostInsightSummaryPlatformTypeEnumStringValues() []string {
+	return []string{
+		"LINUX",
+		"SOLARIS",
+		"SUNOS",
+	}
 }

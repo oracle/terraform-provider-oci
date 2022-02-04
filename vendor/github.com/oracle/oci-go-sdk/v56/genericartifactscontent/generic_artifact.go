@@ -11,7 +11,9 @@
 package genericartifactscontent
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // GenericArtifact The metadata of the artifact.
@@ -66,6 +68,21 @@ func (m GenericArtifact) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m GenericArtifact) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := mappingGenericArtifactLifecycleStateEnum[string(m.LifecycleState)]; !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetGenericArtifactLifecycleStateEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // GenericArtifactLifecycleStateEnum Enum with underlying type: string
 type GenericArtifactLifecycleStateEnum string
 
@@ -76,7 +93,7 @@ const (
 	GenericArtifactLifecycleStateDeleted   GenericArtifactLifecycleStateEnum = "DELETED"
 )
 
-var mappingGenericArtifactLifecycleState = map[string]GenericArtifactLifecycleStateEnum{
+var mappingGenericArtifactLifecycleStateEnum = map[string]GenericArtifactLifecycleStateEnum{
 	"AVAILABLE": GenericArtifactLifecycleStateAvailable,
 	"DELETING":  GenericArtifactLifecycleStateDeleting,
 	"DELETED":   GenericArtifactLifecycleStateDeleted,
@@ -85,8 +102,17 @@ var mappingGenericArtifactLifecycleState = map[string]GenericArtifactLifecycleSt
 // GetGenericArtifactLifecycleStateEnumValues Enumerates the set of values for GenericArtifactLifecycleStateEnum
 func GetGenericArtifactLifecycleStateEnumValues() []GenericArtifactLifecycleStateEnum {
 	values := make([]GenericArtifactLifecycleStateEnum, 0)
-	for _, v := range mappingGenericArtifactLifecycleState {
+	for _, v := range mappingGenericArtifactLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetGenericArtifactLifecycleStateEnumStringValues Enumerates the set of values in String for GenericArtifactLifecycleStateEnum
+func GetGenericArtifactLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"DELETING",
+		"DELETED",
+	}
 }

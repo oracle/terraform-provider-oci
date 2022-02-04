@@ -21,7 +21,7 @@ const (
 	OperationTypeDeleteSession OperationTypeEnum = "DELETE_SESSION"
 )
 
-var mappingOperationType = map[string]OperationTypeEnum{
+var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_BASTION": OperationTypeCreateBastion,
 	"UPDATE_BASTION": OperationTypeUpdateBastion,
 	"DELETE_BASTION": OperationTypeDeleteBastion,
@@ -32,8 +32,19 @@ var mappingOperationType = map[string]OperationTypeEnum{
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
 func GetOperationTypeEnumValues() []OperationTypeEnum {
 	values := make([]OperationTypeEnum, 0)
-	for _, v := range mappingOperationType {
+	for _, v := range mappingOperationTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetOperationTypeEnumStringValues Enumerates the set of values in String for OperationTypeEnum
+func GetOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_BASTION",
+		"UPDATE_BASTION",
+		"DELETE_BASTION",
+		"CREATE_SESSION",
+		"DELETE_SESSION",
+	}
 }

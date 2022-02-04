@@ -20,7 +20,7 @@ const (
 	HostEntitySourceEmManagedExternalHost   HostEntitySourceEnum = "EM_MANAGED_EXTERNAL_HOST"
 )
 
-var mappingHostEntitySource = map[string]HostEntitySourceEnum{
+var mappingHostEntitySourceEnum = map[string]HostEntitySourceEnum{
 	"MACS_MANAGED_EXTERNAL_HOST": HostEntitySourceMacsManagedExternalHost,
 	"EM_MANAGED_EXTERNAL_HOST":   HostEntitySourceEmManagedExternalHost,
 }
@@ -28,8 +28,16 @@ var mappingHostEntitySource = map[string]HostEntitySourceEnum{
 // GetHostEntitySourceEnumValues Enumerates the set of values for HostEntitySourceEnum
 func GetHostEntitySourceEnumValues() []HostEntitySourceEnum {
 	values := make([]HostEntitySourceEnum, 0)
-	for _, v := range mappingHostEntitySource {
+	for _, v := range mappingHostEntitySourceEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetHostEntitySourceEnumStringValues Enumerates the set of values in String for HostEntitySourceEnum
+func GetHostEntitySourceEnumStringValues() []string {
+	return []string{
+		"MACS_MANAGED_EXTERNAL_HOST",
+		"EM_MANAGED_EXTERNAL_HOST",
+	}
 }

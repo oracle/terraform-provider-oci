@@ -10,7 +10,9 @@
 package dataintegration
 
 import (
+	"fmt"
 	"github.com/oracle/oci-go-sdk/v56/common"
+	"strings"
 )
 
 // FunctionLibrarySummary The FunctionLibrary summary type contains the audit summary information and the definition of the Function Library.
@@ -55,6 +57,21 @@ func (m FunctionLibrarySummary) String() string {
 	return common.PointerString(m)
 }
 
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m FunctionLibrarySummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := mappingFunctionLibrarySummaryModelTypeEnum[string(m.ModelType)]; !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetFunctionLibrarySummaryModelTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
 // FunctionLibrarySummaryModelTypeEnum Enum with underlying type: string
 type FunctionLibrarySummaryModelTypeEnum string
 
@@ -63,15 +80,22 @@ const (
 	FunctionLibrarySummaryModelTypeFunctionLibrary FunctionLibrarySummaryModelTypeEnum = "FUNCTION_LIBRARY"
 )
 
-var mappingFunctionLibrarySummaryModelType = map[string]FunctionLibrarySummaryModelTypeEnum{
+var mappingFunctionLibrarySummaryModelTypeEnum = map[string]FunctionLibrarySummaryModelTypeEnum{
 	"FUNCTION_LIBRARY": FunctionLibrarySummaryModelTypeFunctionLibrary,
 }
 
 // GetFunctionLibrarySummaryModelTypeEnumValues Enumerates the set of values for FunctionLibrarySummaryModelTypeEnum
 func GetFunctionLibrarySummaryModelTypeEnumValues() []FunctionLibrarySummaryModelTypeEnum {
 	values := make([]FunctionLibrarySummaryModelTypeEnum, 0)
-	for _, v := range mappingFunctionLibrarySummaryModelType {
+	for _, v := range mappingFunctionLibrarySummaryModelTypeEnum {
 		values = append(values, v)
 	}
 	return values
+}
+
+// GetFunctionLibrarySummaryModelTypeEnumStringValues Enumerates the set of values in String for FunctionLibrarySummaryModelTypeEnum
+func GetFunctionLibrarySummaryModelTypeEnumStringValues() []string {
+	return []string{
+		"FUNCTION_LIBRARY",
+	}
 }
