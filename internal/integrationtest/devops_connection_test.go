@@ -32,13 +32,12 @@ var (
 	}
 
 	devopsConnectionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"connection_type": acctest.Representation{RepType: acctest.Optional, Create: `GithubAccessToken`},
-		"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_connection.test_connection.id}`},
-		"project_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
-		"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: devopsConnectionDataSourceFilterRepresentation}}
+		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_connection.test_connection.id}`},
+		"project_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: devopsConnectionDataSourceFilterRepresentation}}
 	devopsConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_connection.test_connection.id}`}},
@@ -159,7 +158,6 @@ func TestDevopsConnectionResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Update, devopsConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "connection_type", "GithubAccessToken"), //TODO: Needs to accept `GITHUB_ACCESS_TOKEN`
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
