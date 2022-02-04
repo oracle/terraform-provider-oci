@@ -134,26 +134,26 @@ func TestUnitHandleError(t *testing.T) {
 	temp := &MockStatefulResource{false}
 
 	//Nil Case
-	assert.Equal(t, nil, handleError(temp, nil))
+	assert.Equal(t, nil, HandleError(temp, nil))
 
 	//Timeout Error Case
 	mockError = &MockError{"We are facing timeout while waiting for state"}
-	response := handleError(temp, mockError)
+	response := HandleError(temp, mockError)
 	assert.Contains(t, response.Error(), "Operation Timeout")
 
 	//Timeout Error Case
 	mockError = &MockError{"We are facing unexpected state error"}
-	response = handleError(temp, mockError)
+	response = HandleError(temp, mockError)
 	assert.Contains(t, response.Error(), "Unexpected LifeCycle state")
 
 	//Timeout Error Case
 	mockError = &MockError{"We are facing work request error"}
-	response = handleError(temp, mockError)
+	response = HandleError(temp, mockError)
 	assert.Contains(t, response.Error(), "Work Request error")
 
 	//Unknown Error case
 	mockError = &MockError{"Unexpected Error"}
-	response = handleError(temp, mockError)
+	response = HandleError(temp, mockError)
 	assert.Contains(t, response.Error(), "Unexpected Error")
 
 	//Timeout Error Case
@@ -164,7 +164,7 @@ func TestUnitHandleError(t *testing.T) {
 		OpcRequestID: "Not Applicable",
 	}
 	serviceErrorCheck = func(err error) (failure oci_common.ServiceError, ok bool) { return mockServiceFailure, true }
-	response = handleError(temp, mockServiceFailure)
+	response = HandleError(temp, mockServiceFailure)
 	assert.Contains(t, response.Error(), "Request a service limit increase for this resource")
 
 }

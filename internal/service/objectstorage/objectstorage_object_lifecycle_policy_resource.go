@@ -15,7 +15,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -71,8 +70,8 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 						"time_amount": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateFunc:     utils.ValidateInt64TypeString,
-							DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 						"time_unit": {
 							Type:     schema.TypeString,
@@ -99,7 +98,7 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 										Type:     schema.TypeSet,
 										Optional: true,
 										Computed: true,
-										Set:      utils.LiteralTypeHashCodeForSets,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -108,7 +107,7 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 										Type:     schema.TypeSet,
 										Optional: true,
 										Computed: true,
-										Set:      utils.LiteralTypeHashCodeForSets,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -117,7 +116,7 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 										Type:     schema.TypeSet,
 										Optional: true,
 										Computed: true,
-										Set:      utils.LiteralTypeHashCodeForSets,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -504,19 +503,19 @@ func ObjectNameFilterToMap(obj *oci_object_storage.ObjectNameFilter) map[string]
 	for _, item := range obj.ExclusionPatterns {
 		exclusionPatterns = append(exclusionPatterns, item)
 	}
-	result["exclusion_patterns"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, exclusionPatterns)
+	result["exclusion_patterns"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, exclusionPatterns)
 
 	inclusionPatterns := []interface{}{}
 	for _, item := range obj.InclusionPatterns {
 		inclusionPatterns = append(inclusionPatterns, item)
 	}
-	result["inclusion_patterns"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, inclusionPatterns)
+	result["inclusion_patterns"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, inclusionPatterns)
 
 	inclusionPrefixes := []interface{}{}
 	for _, item := range obj.InclusionPrefixes {
 		inclusionPrefixes = append(inclusionPrefixes, item)
 	}
-	result["inclusion_prefixes"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, inclusionPrefixes)
+	result["inclusion_prefixes"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, inclusionPrefixes)
 	return result
 }
 

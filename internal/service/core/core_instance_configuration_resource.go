@@ -15,7 +15,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	oci_core "github.com/oracle/oci-go-sdk/v59/core"
 )
@@ -213,8 +212,8 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional:         true,
 													Computed:         true,
 													ForceNew:         true,
-													ValidateFunc:     utils.ValidateInt64TypeString,
-													DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+													ValidateFunc:     tfresource.ValidateInt64TypeString,
+													DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 												},
 												"source_details": {
 													Type:     schema.TypeList,
@@ -254,8 +253,8 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional:         true,
 													Computed:         true,
 													ForceNew:         true,
-													ValidateFunc:     utils.ValidateInt64TypeString,
-													DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+													ValidateFunc:     tfresource.ValidateInt64TypeString,
+													DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 												},
 
 												// Computed
@@ -442,7 +441,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Type:     schema.TypeSet,
 													Optional: true,
 													ForceNew: true,
-													Set:      utils.LiteralTypeHashCodeForSets,
+													Set:      tfresource.LiteralTypeHashCodeForSets,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -495,7 +494,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										Optional:         true,
 										Computed:         true,
 										ForceNew:         true,
-										DiffSuppressFunc: utils.JsonStringDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
 										Elem:             schema.TypeString,
 									},
 									"fault_domain": {
@@ -794,8 +793,8 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional:         true,
 													Computed:         true,
 													ForceNew:         true,
-													ValidateFunc:     utils.ValidateInt64TypeString,
-													DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+													ValidateFunc:     tfresource.ValidateInt64TypeString,
+													DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 												},
 												"image_id": {
 													Type:     schema.TypeString,
@@ -878,7 +877,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Type:     schema.TypeSet,
 													Optional: true,
 													ForceNew: true,
-													Set:      utils.LiteralTypeHashCodeForSets,
+													Set:      tfresource.LiteralTypeHashCodeForSets,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -1067,7 +1066,7 @@ func (s *CoreInstanceConfigurationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -1420,7 +1419,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
@@ -1494,7 +1493,7 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateIp != nil {
@@ -1544,7 +1543,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
@@ -1955,7 +1954,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_options")); ok {
@@ -1995,7 +1994,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 	}
 
 	if metadata, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metadata")); ok {
-		result.Metadata = utils.ObjectMapToStringMap(metadata.(map[string]interface{}))
+		result.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
 	if platformConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "platform_config")); ok {
@@ -2489,7 +2488,7 @@ func (s *CoreInstanceConfigurationResourceCrud) populateTopLevelPolymorphicCreat
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateInstanceConfiguration = details
 	case strings.ToLower("NONE"):
@@ -2520,7 +2519,7 @@ func (s *CoreInstanceConfigurationResourceCrud) populateTopLevelPolymorphicCreat
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateInstanceConfiguration = details
 	default:

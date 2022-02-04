@@ -14,7 +14,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func ManagementAgentManagementAgentInstallKeyResource() *schema.Resource {
@@ -51,7 +50,7 @@ func ManagementAgentManagementAgentInstallKeyResource() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 
 			// Computed

@@ -13,7 +13,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func CloudGuardTargetResource() *schema.Resource {
@@ -118,7 +117,7 @@ func CloudGuardTargetResource() *schema.Resource {
 															"condition": {
 																Type:             schema.TypeString,
 																Required:         true,
-																DiffSuppressFunc: utils.JsonStringDiffSuppressFunction,
+																DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
 															},
 
 															// Optional
@@ -512,7 +511,7 @@ func CloudGuardTargetResource() *schema.Resource {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: utils.JsonStringDiffSuppressFunction,
+													DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
 												},
 												"configurations": {
 													Type:     schema.TypeList,
@@ -889,7 +888,7 @@ func (s *CloudGuardTargetResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -984,7 +983,7 @@ func (s *CloudGuardTargetResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

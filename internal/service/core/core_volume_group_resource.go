@@ -12,7 +12,6 @@ import (
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -86,7 +85,7 @@ func CoreVolumeGroupResource() *schema.Resource {
 							ForceNew: true,
 							MaxItems: 64,
 							MinItems: 0,
-							Set:      utils.LiteralTypeHashCodeForSets,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -290,7 +289,7 @@ func (s *CoreVolumeGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
@@ -376,7 +375,7 @@ func (s *CoreVolumeGroupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if preserveVolumeReplica, ok := s.D.GetOkExists("preserve_volume_replica"); ok {
@@ -627,7 +626,7 @@ func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails, datas
 		if datasource {
 			result["volume_ids"] = volumeIds
 		} else {
-			result["volume_ids"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, volumeIds)
+			result["volume_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, volumeIds)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)

@@ -13,7 +13,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	oci_common "github.com/oracle/oci-go-sdk/v59/common"
 	oci_core "github.com/oracle/oci-go-sdk/v59/core"
@@ -71,7 +70,7 @@ func CoreLocalPeeringGatewayResource() *schema.Resource {
 				Optional:     true,
 				Computed:     true,
 				ForceNew:     true,
-				ValidateFunc: utils.ValidateNotEmptyString(), //Don't allow empty string, it results in a terraform error when switching from valid value to empty string
+				ValidateFunc: tfresource.ValidateNotEmptyString(), //Don't allow empty string, it results in a terraform error when switching from valid value to empty string
 			},
 
 			// Computed
@@ -252,7 +251,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
@@ -319,7 +318,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()

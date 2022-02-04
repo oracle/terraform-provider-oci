@@ -15,7 +15,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -78,8 +77,8 @@ func DatascienceJobResource() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 							ForceNew:         true,
-							ValidateFunc:     utils.ValidateInt64TypeString,
-							DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 
 						// Computed
@@ -139,8 +138,8 @@ func DatascienceJobResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				ForceNew:         true,
-				ValidateFunc:     utils.ValidateInt64TypeString,
-				DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 			},
 			"artifact_content_disposition": {
 				Type:     schema.TypeString,
@@ -362,7 +361,7 @@ func (s *DatascienceJobResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if jobConfigurationDetails, ok := s.D.GetOkExists("job_configuration_details"); ok {
@@ -471,7 +470,7 @@ func (s *DatascienceJobResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -600,7 +599,7 @@ func (s *DatascienceJobResourceCrud) mapToJobConfigurationDetails(fieldKeyFormat
 			details.CommandLineArguments = &tmp
 		}
 		if environmentVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_variables")); ok {
-			details.EnvironmentVariables = utils.ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
+			details.EnvironmentVariables = tfresource.ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
 		}
 		if maximumRuntimeInMinutes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_runtime_in_minutes")); ok {
 			tmp := maximumRuntimeInMinutes.(string)

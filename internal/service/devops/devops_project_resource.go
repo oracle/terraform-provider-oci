@@ -9,15 +9,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v59/common"
 	oci_devops "github.com/oracle/oci-go-sdk/v59/devops"
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
 func DevopsProjectResource() *schema.Resource {
@@ -201,7 +198,7 @@ func (s *DevopsProjectResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -389,7 +386,7 @@ func (s *DevopsProjectResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if notificationConfig, ok := s.D.GetOkExists("notification_config"); ok {

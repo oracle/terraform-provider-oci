@@ -10,7 +10,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
@@ -380,7 +379,7 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 	}
 
 	if configuration, ok := s.D.GetOkExists("configuration"); ok {
-		request.Configuration = utils.ObjectMapToStringMap(configuration.(map[string]interface{}))
+		request.Configuration = tfresource.ObjectMapToStringMap(configuration.(map[string]interface{}))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -412,7 +411,7 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if logsBucketUri, ok := s.D.GetOkExists("logs_bucket_uri"); ok {
@@ -510,7 +509,7 @@ func (s *DataflowInvokeRunResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
