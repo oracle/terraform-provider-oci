@@ -12,6 +12,10 @@ import (
 )
 
 // ListSubscriptionsRequest wrapper for the ListSubscriptions operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/ListSubscriptions.go.html to see an example of how to use ListSubscriptionsRequest.
 type ListSubscriptionsRequest struct {
 
 	// The home region's public name of the logged in user.

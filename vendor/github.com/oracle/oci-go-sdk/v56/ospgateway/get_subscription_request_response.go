@@ -12,6 +12,10 @@ import (
 )
 
 // GetSubscriptionRequest wrapper for the GetSubscription operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetSubscription.go.html to see an example of how to use GetSubscriptionRequest.
 type GetSubscriptionRequest struct {
 
 	// Subscription id(OCID).
