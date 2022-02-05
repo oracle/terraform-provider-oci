@@ -85,6 +85,10 @@ func (client *SubscriptionServiceClient) ConfigurationProvider() *common.Configu
 }
 
 // AuthorizeSubscriptionPayment PSD2 authorization for subscription payment
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/AuthorizeSubscriptionPayment.go.html to see an example of how to use AuthorizeSubscriptionPayment API.
 func (client SubscriptionServiceClient) AuthorizeSubscriptionPayment(ctx context.Context, request AuthorizeSubscriptionPaymentRequest) (response AuthorizeSubscriptionPaymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -141,6 +145,10 @@ func (client SubscriptionServiceClient) authorizeSubscriptionPayment(ctx context
 }
 
 // GetSubscription Get the subscription plan.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetSubscription.go.html to see an example of how to use GetSubscription API.
 func (client SubscriptionServiceClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -192,6 +200,10 @@ func (client SubscriptionServiceClient) getSubscription(ctx context.Context, req
 }
 
 // ListSubscriptions Get the subscription data for the compartment
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
 func (client SubscriptionServiceClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -243,6 +255,10 @@ func (client SubscriptionServiceClient) listSubscriptions(ctx context.Context, r
 }
 
 // PaySubscription Pay a subscription
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/PaySubscription.go.html to see an example of how to use PaySubscription API.
 func (client SubscriptionServiceClient) PaySubscription(ctx context.Context, request PaySubscriptionRequest) (response PaySubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -299,6 +315,10 @@ func (client SubscriptionServiceClient) paySubscription(ctx context.Context, req
 }
 
 // UpdateSubscription Update plan of the subscription.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/UpdateSubscription.go.html to see an example of how to use UpdateSubscription API.
 func (client SubscriptionServiceClient) UpdateSubscription(ctx context.Context, request UpdateSubscriptionRequest) (response UpdateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

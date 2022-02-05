@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateSubscriptionRequest wrapper for the UpdateSubscription operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/UpdateSubscription.go.html to see an example of how to use UpdateSubscriptionRequest.
 type UpdateSubscriptionRequest struct {
 
 	// Subscription id(OCID).
