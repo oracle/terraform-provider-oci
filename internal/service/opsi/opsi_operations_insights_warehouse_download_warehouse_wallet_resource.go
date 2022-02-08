@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_opsi "github.com/oracle/oci-go-sdk/v56/operationsinsights"
+	oci_opsi "github.com/oracle/oci-go-sdk/v57/operationsinsights"
 )
 
 func OpsiOperationsInsightsWarehouseDownloadWarehouseWalletResource() *schema.Resource {

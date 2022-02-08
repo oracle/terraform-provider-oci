@@ -13,7 +13,7 @@ import (
 
 	"fmt"
 
-	oci_core "github.com/oracle/oci-go-sdk/v56/core"
+	oci_core "github.com/oracle/oci-go-sdk/v57/core"
 )
 
 func DefaultCoreDhcpOptionsResource() *schema.Resource {

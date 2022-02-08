@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_waas "github.com/oracle/oci-go-sdk/v56/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v57/waas"
 )
 
 func WaasCustomProtectionRuleResource() *schema.Resource {
