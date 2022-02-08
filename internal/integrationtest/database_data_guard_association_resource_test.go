@@ -870,8 +870,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 	})
 }
 
-// issue-routing-tag: database/default
-
+// issue-routing-tag: database/ExaCC
 func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMClusterSetup(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingVMClusterSetup")
 	defer httpreplay.SaveScenario()
