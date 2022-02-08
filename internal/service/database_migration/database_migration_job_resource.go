@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database_migration "github.com/oracle/oci-go-sdk/v56/databasemigration"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v57/databasemigration"
 )
 
 func DatabaseMigrationJobResource() *schema.Resource {

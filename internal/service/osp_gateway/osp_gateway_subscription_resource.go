@@ -18,8 +18,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_osp_gateway "github.com/oracle/oci-go-sdk/v56/ospgateway"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_osp_gateway "github.com/oracle/oci-go-sdk/v57/ospgateway"
 )
 
 func OspGatewaySubscriptionResource() *schema.Resource {

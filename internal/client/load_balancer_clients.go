@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v56/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v57/loadbalancer"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
 )
 
 func init() {

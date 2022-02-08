@@ -15,7 +15,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v56/core"
+	oci_core "github.com/oracle/oci-go-sdk/v57/core"
 )
 
 func CoreRouteTableResource() *schema.Resource {

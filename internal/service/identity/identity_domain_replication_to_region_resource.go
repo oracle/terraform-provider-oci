@@ -15,8 +15,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v56/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v57/identity"
 )
 
 func IdentityDomainReplicationToRegionResource() *schema.Resource {
