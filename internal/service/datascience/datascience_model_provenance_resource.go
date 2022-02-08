@@ -16,7 +16,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v56/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v57/datascience"
 )
 
 func DatascienceModelProvenanceResource() *schema.Resource {

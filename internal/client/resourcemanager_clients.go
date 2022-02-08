@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v56/resourcemanager"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v57/resourcemanager"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
 )
 
 func init() {

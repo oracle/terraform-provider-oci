@@ -14,7 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_dataflow "github.com/oracle/oci-go-sdk/v56/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v57/dataflow"
 )
 
 func DataflowInvokeRunResource() *schema.Resource {

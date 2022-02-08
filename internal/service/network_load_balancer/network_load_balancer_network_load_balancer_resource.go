@@ -16,8 +16,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v56/networkloadbalancer"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v57/networkloadbalancer"
 )
 
 func NetworkLoadBalancerNetworkLoadBalancerResource() *schema.Resource {

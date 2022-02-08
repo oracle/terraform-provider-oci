@@ -14,8 +14,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v56/monitoring"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v57/monitoring"
 )
 
 func MonitoringAlarmResource() *schema.Resource {
