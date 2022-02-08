@@ -205,25 +205,25 @@ func (s *OceOceInstanceResourceCrud) ID() string {
 
 func (s *OceOceInstanceResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_oce.OceInstanceLifecycleStateCreating),
+		string(oci_oce.LifecycleStateCreating),
 	}
 }
 
 func (s *OceOceInstanceResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_oce.OceInstanceLifecycleStateActive),
+		string(oci_oce.LifecycleStateActive),
 	}
 }
 
 func (s *OceOceInstanceResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_oce.OceInstanceLifecycleStateDeleting),
+		string(oci_oce.LifecycleStateDeleting),
 	}
 }
 
 func (s *OceOceInstanceResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_oce.OceInstanceLifecycleStateDeleted),
+		string(oci_oce.LifecycleStateDeleted),
 	}
 }
 

@@ -321,7 +321,7 @@ func testAccCheckOceOceInstanceDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_oce.OceInstanceLifecycleStateDeleted): true,
+					string(oci_oce.LifecycleStateDeleted): true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
@@ -410,7 +410,7 @@ func getOceInstanceIds(compartment string) ([]string, error) {
 func oceInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if oceInstanceResponse, ok := response.Response.(oci_oce.GetOceInstanceResponse); ok {
-		return oceInstanceResponse.LifecycleState != oci_oce.OceInstanceLifecycleStateDeleted
+		return oceInstanceResponse.LifecycleState != oci_oce.LifecycleStateDeleted
 	}
 	return false
 }
