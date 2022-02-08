@@ -56,6 +56,8 @@ var serviceRetryPolicyFnMap = map[string]getRetryPolicyFunc{
 var ShortRetryTime = 2 * time.Minute
 var LongRetryTime = 10 * time.Minute
 var ConfiguredRetryDuration *time.Duration
+var isServiceErrorVar = oci_common.IsServiceError
+var isErrorAffectedByEventualConsistency = oci_common.IsErrorAffectedByEventualConsistency
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
@@ -175,7 +177,7 @@ func GetDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 }
 
 func isRetriableByEc(r oci_common.OCIOperationResponse) (bool, *time.Duration) {
-	if _, ok := oci_common.IsServiceError(r.Error); ok {
+	if _, ok := isServiceErrorVar(r.Error); ok {
 		now := time.Now()
 		if r.EndOfWindowTime == nil || r.EndOfWindowTime.Before(now) {
 			// either no eventually consistent effects, or they have disappeared by now
@@ -184,7 +186,7 @@ func isRetriableByEc(r oci_common.OCIOperationResponse) (bool, *time.Duration) {
 		}
 		// there were eventually consistent effects present at the time of the first request
 		// and they could still affect the retries
-		if oci_common.IsErrorAffectedByEventualConsistency(r.Error) {
+		if isErrorAffectedByEventualConsistency(r.Error) {
 			// and it's one of the three affected error codes
 			utils.Debugln(fmt.Sprintf("EC.ShouldRetryOperation, affected by EC, EC is present: endOfWindowTime = %v, now = %v", r.EndOfWindowTime, now))
 			return true, getRemainingEventualConsistencyDuration(r)
