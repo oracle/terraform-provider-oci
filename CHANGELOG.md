@@ -3,7 +3,7 @@
 ### Added
 - Support for osp_gateway service supporting invoices and subscriptions
 - Support for data science service to list fast launch job configs
-- Secret content support
+- Get Secret content support
 
 ### Fixed
 - Adding missing visualbuilder service code
