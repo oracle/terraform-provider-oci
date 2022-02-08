@@ -27,6 +27,21 @@ type OtherPaymentDetail struct {
 
 	// Amount that paid
 	AmountPaid *float32 `mandatory:"false" json:"amountPaid"`
+
+	// Last four routing digits of the card
+	EcheckRouting *string `mandatory:"false" json:"echeckRouting"`
+
+	// Name on the echeck card
+	NameOnCard *string `mandatory:"false" json:"nameOnCard"`
+
+	// Last four digits of the card
+	LastDigits *string `mandatory:"false" json:"lastDigits"`
+
+	// Expired date of the echeck card
+	TimeExpiration *common.SDKTime `mandatory:"false" json:"timeExpiration"`
+
+	// Echeck card type
+	CreditCardType OtherPaymentDetailCreditCardTypeEnum `mandatory:"false" json:"creditCardType,omitempty"`
 }
 
 //GetTimePaidOn returns TimePaidOn
@@ -53,6 +68,9 @@ func (m OtherPaymentDetail) String() string {
 // Not recommended for calling this function directly
 func (m OtherPaymentDetail) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := mappingOtherPaymentDetailCreditCardTypeEnum[string(m.CreditCardType)]; !ok && m.CreditCardType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CreditCardType: %s. Supported values are: %s.", m.CreditCardType, strings.Join(GetOtherPaymentDetailCreditCardTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -72,4 +90,50 @@ func (m OtherPaymentDetail) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// OtherPaymentDetailCreditCardTypeEnum Enum with underlying type: string
+type OtherPaymentDetailCreditCardTypeEnum string
+
+// Set of constants representing the allowable values for OtherPaymentDetailCreditCardTypeEnum
+const (
+	OtherPaymentDetailCreditCardTypeVisa       OtherPaymentDetailCreditCardTypeEnum = "VISA"
+	OtherPaymentDetailCreditCardTypeAmex       OtherPaymentDetailCreditCardTypeEnum = "AMEX"
+	OtherPaymentDetailCreditCardTypeMastercard OtherPaymentDetailCreditCardTypeEnum = "MASTERCARD"
+	OtherPaymentDetailCreditCardTypeDiscover   OtherPaymentDetailCreditCardTypeEnum = "DISCOVER"
+	OtherPaymentDetailCreditCardTypeJcb        OtherPaymentDetailCreditCardTypeEnum = "JCB"
+	OtherPaymentDetailCreditCardTypeDiner      OtherPaymentDetailCreditCardTypeEnum = "DINER"
+	OtherPaymentDetailCreditCardTypeElo        OtherPaymentDetailCreditCardTypeEnum = "ELO"
+)
+
+var mappingOtherPaymentDetailCreditCardTypeEnum = map[string]OtherPaymentDetailCreditCardTypeEnum{
+	"VISA":       OtherPaymentDetailCreditCardTypeVisa,
+	"AMEX":       OtherPaymentDetailCreditCardTypeAmex,
+	"MASTERCARD": OtherPaymentDetailCreditCardTypeMastercard,
+	"DISCOVER":   OtherPaymentDetailCreditCardTypeDiscover,
+	"JCB":        OtherPaymentDetailCreditCardTypeJcb,
+	"DINER":      OtherPaymentDetailCreditCardTypeDiner,
+	"ELO":        OtherPaymentDetailCreditCardTypeElo,
+}
+
+// GetOtherPaymentDetailCreditCardTypeEnumValues Enumerates the set of values for OtherPaymentDetailCreditCardTypeEnum
+func GetOtherPaymentDetailCreditCardTypeEnumValues() []OtherPaymentDetailCreditCardTypeEnum {
+	values := make([]OtherPaymentDetailCreditCardTypeEnum, 0)
+	for _, v := range mappingOtherPaymentDetailCreditCardTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetOtherPaymentDetailCreditCardTypeEnumStringValues Enumerates the set of values in String for OtherPaymentDetailCreditCardTypeEnum
+func GetOtherPaymentDetailCreditCardTypeEnumStringValues() []string {
+	return []string{
+		"VISA",
+		"AMEX",
+		"MASTERCARD",
+		"DISCOVER",
+		"JCB",
+		"DINER",
+		"ELO",
+	}
 }

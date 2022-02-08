@@ -81,6 +81,9 @@ type Listing struct {
 
 	Banner *UploadData `mandatory:"false" json:"banner"`
 
+	// The list of compatible architectures supported by the listing
+	CompatibleArchitectures []ListingCompatibleArchitecturesEnum `mandatory:"false" json:"compatibleArchitectures,omitempty"`
+
 	// The regions where you can deploy the listing. (Some listings have restrictions that limit their deployment to United States regions only.)
 	Regions []Region `mandatory:"false" json:"regions"`
 
@@ -113,6 +116,12 @@ func (m Listing) String() string {
 func (m Listing) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	for _, val := range m.CompatibleArchitectures {
+		if _, ok := mappingListingCompatibleArchitecturesEnum[string(val)]; !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CompatibleArchitectures: %s. Supported values are: %s.", val, strings.Join(GetListingCompatibleArchitecturesEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := mappingPackageTypeEnumEnum[string(m.PackageType)]; !ok && m.PackageType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", m.PackageType, strings.Join(GetPackageTypeEnumEnumStringValues(), ",")))
 	}
@@ -123,6 +132,37 @@ func (m Listing) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ListingCompatibleArchitecturesEnum Enum with underlying type: string
+type ListingCompatibleArchitecturesEnum string
+
+// Set of constants representing the allowable values for ListingCompatibleArchitecturesEnum
+const (
+	ListingCompatibleArchitecturesX86 ListingCompatibleArchitecturesEnum = "X86"
+	ListingCompatibleArchitecturesArm ListingCompatibleArchitecturesEnum = "ARM"
+)
+
+var mappingListingCompatibleArchitecturesEnum = map[string]ListingCompatibleArchitecturesEnum{
+	"X86": ListingCompatibleArchitecturesX86,
+	"ARM": ListingCompatibleArchitecturesArm,
+}
+
+// GetListingCompatibleArchitecturesEnumValues Enumerates the set of values for ListingCompatibleArchitecturesEnum
+func GetListingCompatibleArchitecturesEnumValues() []ListingCompatibleArchitecturesEnum {
+	values := make([]ListingCompatibleArchitecturesEnum, 0)
+	for _, v := range mappingListingCompatibleArchitecturesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListingCompatibleArchitecturesEnumStringValues Enumerates the set of values in String for ListingCompatibleArchitecturesEnum
+func GetListingCompatibleArchitecturesEnumStringValues() []string {
+	return []string{
+		"X86",
+		"ARM",
+	}
 }
 
 // ListingPackageTypeEnum is an alias to type: PackageTypeEnumEnum

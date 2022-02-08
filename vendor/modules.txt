@@ -322,6 +322,7 @@ github.com/oracle/oci-go-sdk/v56/operationsinsights
 github.com/oracle/oci-go-sdk/v56/operatoraccesscontrol
 github.com/oracle/oci-go-sdk/v56/optimizer
 github.com/oracle/oci-go-sdk/v56/osmanagement
+github.com/oracle/oci-go-sdk/v56/ospgateway
 github.com/oracle/oci-go-sdk/v56/resourcemanager
 github.com/oracle/oci-go-sdk/v56/sch
 github.com/oracle/oci-go-sdk/v56/servicecatalog

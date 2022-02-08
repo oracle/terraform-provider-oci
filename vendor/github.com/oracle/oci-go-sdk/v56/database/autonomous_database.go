@@ -442,6 +442,7 @@ const (
 	AutonomousDatabaseLifecycleStateRoleChangeInProgress    AutonomousDatabaseLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
 	AutonomousDatabaseLifecycleStateUpgrading               AutonomousDatabaseLifecycleStateEnum = "UPGRADING"
 	AutonomousDatabaseLifecycleStateInaccessible            AutonomousDatabaseLifecycleStateEnum = "INACCESSIBLE"
+	AutonomousDatabaseLifecycleStateStandby                 AutonomousDatabaseLifecycleStateEnum = "STANDBY"
 )
 
 var mappingAutonomousDatabaseLifecycleStateEnum = map[string]AutonomousDatabaseLifecycleStateEnum{
@@ -465,6 +466,7 @@ var mappingAutonomousDatabaseLifecycleStateEnum = map[string]AutonomousDatabaseL
 	"ROLE_CHANGE_IN_PROGRESS":   AutonomousDatabaseLifecycleStateRoleChangeInProgress,
 	"UPGRADING":                 AutonomousDatabaseLifecycleStateUpgrading,
 	"INACCESSIBLE":              AutonomousDatabaseLifecycleStateInaccessible,
+	"STANDBY":                   AutonomousDatabaseLifecycleStateStandby,
 }
 
 // GetAutonomousDatabaseLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseLifecycleStateEnum
@@ -499,6 +501,7 @@ func GetAutonomousDatabaseLifecycleStateEnumStringValues() []string {
 		"ROLE_CHANGE_IN_PROGRESS",
 		"UPGRADING",
 		"INACCESSIBLE",
+		"STANDBY",
 	}
 }
 

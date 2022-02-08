@@ -15,10 +15,22 @@ type PricingCurrencyEnumEnum string
 // Set of constants representing the allowable values for PricingCurrencyEnumEnum
 const (
 	PricingCurrencyEnumUsd PricingCurrencyEnumEnum = "USD"
+	PricingCurrencyEnumCad PricingCurrencyEnumEnum = "CAD"
+	PricingCurrencyEnumInr PricingCurrencyEnumEnum = "INR"
+	PricingCurrencyEnumGbp PricingCurrencyEnumEnum = "GBP"
+	PricingCurrencyEnumBrl PricingCurrencyEnumEnum = "BRL"
+	PricingCurrencyEnumJpy PricingCurrencyEnumEnum = "JPY"
+	PricingCurrencyEnumOmr PricingCurrencyEnumEnum = "OMR"
 )
 
 var mappingPricingCurrencyEnumEnum = map[string]PricingCurrencyEnumEnum{
 	"USD": PricingCurrencyEnumUsd,
+	"CAD": PricingCurrencyEnumCad,
+	"INR": PricingCurrencyEnumInr,
+	"GBP": PricingCurrencyEnumGbp,
+	"BRL": PricingCurrencyEnumBrl,
+	"JPY": PricingCurrencyEnumJpy,
+	"OMR": PricingCurrencyEnumOmr,
 }
 
 // GetPricingCurrencyEnumEnumValues Enumerates the set of values for PricingCurrencyEnumEnum
@@ -34,5 +46,11 @@ func GetPricingCurrencyEnumEnumValues() []PricingCurrencyEnumEnum {
 func GetPricingCurrencyEnumEnumStringValues() []string {
 	return []string{
 		"USD",
+		"CAD",
+		"INR",
+		"GBP",
+		"BRL",
+		"JPY",
+		"OMR",
 	}
 }

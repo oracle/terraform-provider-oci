@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Content and Experience API
+// Oracle Content Management API
 //
-// Oracle Content and Experience is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
+// Oracle Content Management is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
 //
 
 package oce
@@ -21,14 +21,7 @@ type UpdateOceInstanceDetails struct {
 	// OceInstance description
 	Description *string `mandatory:"false" json:"description"`
 
-	// A list of vanity domains to be updated for the instance. The value can be any valid domain/nested domain.
-	// If the property is not specified, or it is null, no update to existing vanityDomains.
-	// If the property is empty array, update will clear existing vanityDomains
-	// If the property has new value, the new vanityDomains value will replace existing vanityDomains previously set for the instance.
-	// Example: `{ "vanityDomains": ["mysite1.mycompany.com", "mysite2.mycompany.com"] }`
-	VanityDomains []string `mandatory:"false" json:"vanityDomains"`
-
-	// Deprecated. Web Application Firewall(WAF) primary domain. To set domain, use vanityDomains property instead.
+	// Web Application Firewall(WAF) primary domain
 	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
 
 	// Flag indicating whether the instance license is new cloud or bring your own license
@@ -36,6 +29,9 @@ type UpdateOceInstanceDetails struct {
 
 	// Instance type based on its usage
 	InstanceUsageType UpdateOceInstanceDetailsInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
+
+	// a list of add-on features for the ocm instance
+	AddOnFeatures []string `mandatory:"false" json:"addOnFeatures"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

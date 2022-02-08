@@ -85,9 +85,10 @@ func (client *AccountClient) ConfigurationProvider() *common.ConfigurationProvid
 }
 
 // GetLaunchEligibility Returns Tenant eligibility and other information for launching a PIC image
+// A default retry strategy applies to this operation GetLaunchEligibility()
 func (client AccountClient) GetLaunchEligibility(ctx context.Context, request GetLaunchEligibilityRequest) (response GetLaunchEligibilityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -136,9 +137,10 @@ func (client AccountClient) getLaunchEligibility(ctx context.Context, request co
 }
 
 // GetThirdPartyPaidListingEligibility Returns eligibility details of the tenancy to see and launch third party paid listings
+// A default retry strategy applies to this operation GetThirdPartyPaidListingEligibility()
 func (client AccountClient) GetThirdPartyPaidListingEligibility(ctx context.Context, request GetThirdPartyPaidListingEligibilityRequest) (response GetThirdPartyPaidListingEligibilityResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

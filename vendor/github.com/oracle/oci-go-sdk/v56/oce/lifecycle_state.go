@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Scanning API
+// Oracle Content Management API
 //
-// Use the Vulnerability Scanning Service (VSS) API to manage scan recipes, targets, and reports. For more information, see the Vulnerability Scanning documentation (https://docs.cloud.oracle.com/iaas/scanning/home.htm).
+// Oracle Content Management is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
 //
 
-package vulnerabilityscanning
+package oce
 
 // LifecycleStateEnum Enum with underlying type: string
 type LifecycleStateEnum string

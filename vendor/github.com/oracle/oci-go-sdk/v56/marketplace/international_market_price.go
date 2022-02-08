@@ -15,35 +15,32 @@ import (
 	"strings"
 )
 
-// LaunchEligibility Tenant eligibility and other information for launching a PIC image
-type LaunchEligibility struct {
+// InternationalMarketPrice The model for international market pricing.
+type InternationalMarketPrice struct {
 
-	// PIC Image ID
-	ImageId *string `mandatory:"true" json:"imageId"`
+	// The currency of the pricing model.
+	CurrencyCode PricingCurrencyEnumEnum `mandatory:"true" json:"currencyCode"`
 
-	// Is the tenant permitted to launch the PIC image
-	IsLaunchAllowed *bool `mandatory:"true" json:"isLaunchAllowed"`
+	// The pricing rate.
+	Rate *float64 `mandatory:"true" json:"rate"`
 
-	// related meters for the PIC image
-	Meters *string `mandatory:"false" json:"meters"`
-
-	// Reason the account is ineligible to launch paid listings
-	IneligibilityReason IneligibilityReasonEnumEnum `mandatory:"false" json:"ineligibilityReason,omitempty"`
+	// The symbol of the currency
+	CurrencySymbol *string `mandatory:"false" json:"currencySymbol"`
 }
 
-func (m LaunchEligibility) String() string {
+func (m InternationalMarketPrice) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m LaunchEligibility) ValidateEnumValue() (bool, error) {
+func (m InternationalMarketPrice) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
-	if _, ok := mappingIneligibilityReasonEnumEnum[string(m.IneligibilityReason)]; !ok && m.IneligibilityReason != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IneligibilityReason: %s. Supported values are: %s.", m.IneligibilityReason, strings.Join(GetIneligibilityReasonEnumEnumStringValues(), ",")))
+	if _, ok := mappingPricingCurrencyEnumEnum[string(m.CurrencyCode)]; !ok && m.CurrencyCode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurrencyCode: %s. Supported values are: %s.", m.CurrencyCode, strings.Join(GetPricingCurrencyEnumEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
