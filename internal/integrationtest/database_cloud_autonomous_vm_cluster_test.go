@@ -152,6 +152,7 @@ var (
 `
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseCloudAutonomousVmClusterResource_basic")
 	defer httpreplay.SaveScenario()

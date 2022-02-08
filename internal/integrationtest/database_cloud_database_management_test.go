@@ -104,6 +104,7 @@ var (
 		}`
 )
 
+// issue-routing-tag: database/ExaCS
 func TestDatabaseCloudDatabaseManagementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseCloudDatabaseManagementResource_basic")
 	defer httpreplay.SaveScenario()
