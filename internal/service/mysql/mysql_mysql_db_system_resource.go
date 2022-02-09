@@ -34,17 +34,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 		Delete: deleteMysqlMysqlDbSystem,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
-			},
-			"admin_username": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"availability_domain": {
 				Type:             schema.TypeString,
 				Required:         true,
@@ -68,6 +57,19 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			},
 
 			// Optional
+			"admin_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				ForceNew:  true,
+				Sensitive: true,
+			},
+			"admin_username": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"backup_policy": {
 				Type:     schema.TypeList,
 				Optional: true,
