@@ -76,6 +76,18 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"host_ocpu_count": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"host_shape_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"next_sku": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -223,6 +235,16 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if hostOcpuCount, ok := s.D.GetOkExists("host_ocpu_count"); ok {
+		tmp := float32(hostOcpuCount.(float64))
+		request.HostOcpuCount = &tmp
+	}
+
+	if hostShapeName, ok := s.D.GetOkExists("host_shape_name"); ok {
+		tmp := hostShapeName.(string)
+		request.HostShapeName = &tmp
 	}
 
 	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
@@ -472,6 +494,14 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 		s.D.Set("grace_period_end_date", s.Res.GracePeriodEndDate.String())
 	}
 
+	if s.Res.HostOcpuCount != nil {
+		s.D.Set("host_ocpu_count", *s.Res.HostOcpuCount)
+	}
+
+	if s.Res.HostShapeName != nil {
+		s.D.Set("host_shape_name", *s.Res.HostShapeName)
+	}
+
 	s.D.Set("next_sku", s.Res.NextSku)
 
 	if s.Res.ReplacementEsxiHostId != nil {
@@ -532,6 +562,14 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 
 	if obj.GracePeriodEndDate != nil {
 		result["grace_period_end_date"] = obj.GracePeriodEndDate.String()
+	}
+
+	if obj.HostOcpuCount != nil {
+		result["host_ocpu_count"] = float32(*obj.HostOcpuCount)
+	}
+
+	if obj.HostShapeName != nil {
+		result["host_shape_name"] = string(*obj.HostShapeName)
 	}
 
 	if obj.Id != nil {

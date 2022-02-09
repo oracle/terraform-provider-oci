@@ -59,11 +59,14 @@ var (
 		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"next_sku":                    acctest.Representation{RepType: acctest.Optional, Create: `MONTH`, Update: `HOUR`},
+		"host_ocpu_count":             acctest.Representation{RepType: acctest.Optional, Create: `8.0`},
+		"host_shape_name":             acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E3.Flex`},
 	}
-	replacementEsxiHostRepresentation = acctest.RepresentationCopyWithNewProperties(esxiHostRepresentation, map[string]interface{}{
+	replacementEsxiHostRepresentation = map[string]interface{}{
+		"sddc_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
 		"failed_esxi_host_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_ocvp_esxi_hosts.existing_esxi_hosts.esxi_host_collection[0].id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `replacement`},
-	})
+	}
 
 	EsxiHostResourceDependencies = SddcRequiredOnlyResource + acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "existing_esxi_hosts", acctest.Optional, acctest.Create, existingEsxiHostDataSourceRepresentation)
 )
@@ -93,7 +96,20 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Required, acctest.Create, esxiHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "current_sku"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "host_ocpu_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "host_shape_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "next_sku"),
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -111,14 +127,20 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Create, replacementEsxiHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", `replacement`),
 				resource.TestCheckResourceAttrSet(resourceName, "failed_esxi_host_id"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "host_ocpu_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "host_shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "next_sku", "MONTH"),
+				resource.TestCheckResourceAttrSet(resourceName, "next_sku"),
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -140,12 +162,15 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "esxi_host_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_instance_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", `replacement`),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "grace_period_end_date"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "host_ocpu_count", "8"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "host_shape_name", "VM.Standard.E3.Flex"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "next_sku", "MONTH"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -161,13 +186,20 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Create, esxiHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "host_ocpu_count", "8"),
+				resource.TestCheckResourceAttr(resourceName, "host_shape_name", "VM.Standard.E3.Flex"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "next_sku", "MONTH"),
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -187,13 +219,20 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", acctest.Optional, acctest.Update, esxiHostRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "host_ocpu_count", "8"),
+				resource.TestCheckResourceAttr(resourceName, "host_shape_name", "VM.Standard.E3.Flex"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "next_sku", "HOUR"),
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -221,6 +260,8 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "esxi_host_collection.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.sddc_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "esxi_host_collection.0.host_ocpu_count", "8"),
+				resource.TestCheckResourceAttr(datasourceName, "esxi_host_collection.0.host_shape_name", "VM.Standard.E3.Flex"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.compute_instance_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.time_updated"),
@@ -240,6 +281,8 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "host_ocpu_count", "8"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "host_shape_name", "VM.Standard.E3.Flex"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "next_sku", "HOUR"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
