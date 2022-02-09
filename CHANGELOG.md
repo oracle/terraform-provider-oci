@@ -1,4 +1,4 @@
-## 4.63.0 (Unreleased)
+## 4.63.0 (February 09, 2022)
 
 ### Added
 - Support for osp_gateway service supporting invoices and subscriptions
