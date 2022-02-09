@@ -16,6 +16,22 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
+var (
+	tfinstallVar                     = tfinstall.Find
+	testExportCompartmentVar         = testExportCompartment
+	isResourceSupportImportVar       = isResourceSupportImport
+	getEnvSettingWithBlankDefaultVar = utils.GetEnvSettingWithBlankDefault
+	newTerraformVar                  = tfexec.NewTerraform
+	RunExportCommandVar              = RunExportCommand
+)
+
+var tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
+	return tf.Init(context.Background(), initArgs...)
+}
+var tfPlanVar = func(tf *tfexec.Terraform, planArgs []tfexec.PlanOption) (bool, error) {
+	return tf.Plan(context.Background(), planArgs...)
+}
+
 func TestExportCompartmentWithResourceName(id *string, compartmentId *string, resourceName string) error {
 
 	// add logs for notifying execution
@@ -36,7 +52,7 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 	}
 
 	var err error
-	exportCommandArgs.GenerateState, err = isResourceSupportImport(resourceName)
+	exportCommandArgs.GenerateState, err = isResourceSupportImportVar(resourceName)
 	if err != nil {
 		return err
 	}
@@ -47,7 +63,7 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 				if hint.resourceClass == resourceName {
 					exportCommandArgs.Services = []string{serviceName}
 					exportCommandArgs.IDs = []string{*id}
-					return testExportCompartment(compartmentId, &exportCommandArgs)
+					return testExportCompartmentVar(compartmentId, &exportCommandArgs)
 				}
 			}
 		}
@@ -59,7 +75,7 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 				if hint.resourceClass == resourceName {
 					exportCommandArgs.Services = []string{serviceName}
 					exportCommandArgs.IDs = []string{*id}
-					return testExportCompartment(compartmentId, &exportCommandArgs)
+					return testExportCompartmentVar(compartmentId, &exportCommandArgs)
 				}
 			}
 		}
@@ -72,7 +88,7 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 func testExportCompartment(compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
 	// checking for provider_bin_path here because parent func will also be
 	// called for resources that do not support RD
-	if providerBinPath := utils.GetEnvSettingWithBlankDefault("provider_bin_path"); providerBinPath == "" {
+	if providerBinPath := getEnvSettingWithBlankDefaultVar("provider_bin_path"); providerBinPath == "" {
 		goPath := os.Getenv("GOPATH")
 		if goPath == "" {
 			return fmt.Errorf("not able to set 'provider_bin_path', either specificy 'provider_bin_path' env variable or set GOPATH to use default provider bin path ($GOPATH/bin)")
@@ -110,7 +126,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	}
 	log.Printf("[INFO] exportCommandArgs.Parallelism: %d", exportCommandArgs.Parallelism)
 
-	if errExport, status := RunExportCommand(exportCommandArgs); errExport != nil || status == StatusPartialSuccess {
+	if errExport, status := RunExportCommandVar(exportCommandArgs); errExport != nil || status == StatusPartialSuccess {
 		if errExport != nil {
 			return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport.Error())
 		}
@@ -123,26 +139,26 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 
 	// run init command
 
-	terraformBinPath := utils.GetEnvSettingWithBlankDefault(globalvar.TerraformBinPathName)
+	terraformBinPath := getEnvSettingWithBlankDefaultVar(globalvar.TerraformBinPathName)
 	if terraformBinPath == "" {
 		var err error
-		terraformBinPath, err = tfinstall.Find(context.Background(), tfinstall.LookPath())
+		terraformBinPath, err = tfinstallVar(context.Background(), tfinstall.LookPath())
 		if err != nil {
 			return err
 		}
 	}
-	tf, err := tfexec.NewTerraform(*exportCommandArgs.OutputDir, terraformBinPath)
+	tf, err := newTerraformVar(*exportCommandArgs.OutputDir, terraformBinPath)
 	if err != nil {
 		return err
 	}
-	backgroundCtx := context.Background()
+	//backgroundCtx := context.Background()
 
 	var initArgs []tfexec.InitOption
-	if pluginDir := utils.GetEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
+	if pluginDir := getEnvSettingWithBlankDefaultVar("provider_bin_path"); pluginDir != "" {
 		log.Printf("[INFO] plugin dir: '%s'", pluginDir)
 		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
 	}
-	if err := tf.Init(backgroundCtx, initArgs...); err != nil {
+	if err := tfInitVar(tf, initArgs); err != nil {
 		return err
 	}
 
@@ -169,7 +185,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 		planArgs = append(planArgs, tfexec.State(statefile))
 	}
 
-	if _, err := tf.Plan(backgroundCtx, planArgs...); err != nil {
+	if _, err := tfPlanVar(tf, planArgs); err != nil {
 		return fmt.Errorf("[ERROR] terraform plan command failed %s", err.Error())
 	}
 	return nil
@@ -181,7 +197,7 @@ func isResourceSupportImport(resourceName string) (support bool, err error) {
 	}
 	resource := tf_provider.ResourcesMap()[resourceName]
 	if resource == nil {
-		return false, fmt.Errorf("[ERROR]: resouce %v is not found in resource Map", resourceName)
+		return false, fmt.Errorf("[ERROR]: resource %v is not found in resource Map", resourceName)
 	}
 	return resource.Importer != nil, nil
 }
