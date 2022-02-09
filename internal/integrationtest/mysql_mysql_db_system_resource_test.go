@@ -93,8 +93,16 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 
 	var resId, resId2 string
 
+	// changing admin_password RepType to Optional. As it is an optional parameter for restore operation.
+	updatedAdminPasswordRepresentation := acctest.GetUpdatedRepresentationCopy("admin_password", acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
+		mysqlDbSystemRepresentation)
+
+	// changing admin_username RepType to Optional. As it is an optional parameter for restore operation.
+	updatedAdminUsernameRepresentation := acctest.GetUpdatedRepresentationCopy("admin_username", acctest.Representation{RepType: acctest.Optional, Create: `adminUser`},
+		updatedAdminPasswordRepresentation)
+
 	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("ip_address", acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.8`},
-		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(mysqlDbSystemRepresentation, []string{"data_storage_size_in_gb"}), map[string]interface{}{
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(updatedAdminUsernameRepresentation, []string{"data_storage_size_in_gb"}), map[string]interface{}{
 			"source": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemSourceRepresentation},
 		}))
 
@@ -104,8 +112,6 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, updatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
@@ -146,8 +152,6 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "true"),
@@ -191,8 +195,6 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 					"shutdown_type": acctest.Representation{RepType: acctest.Optional, Create: `FAST`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "true"),
@@ -235,8 +237,6 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 					"state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "true"),
