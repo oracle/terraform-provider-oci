@@ -379,6 +379,8 @@ resource "oci_ocvp_sddc" "test_sddc" {
   provisioning_vlan_id = oci_core_vlan.test_provisioning_vlan.id
   replication_vlan_id  = oci_core_vlan.test_replication_vlan.id
   initial_sku          = "HOUR"
+  initial_host_ocpu_count     = "52.0"
+  initial_host_shape_name     = "BM.DenseIO2.52"
   is_shielded_instance_enabled = false
   hcx_action = "upgrade"
   refresh_hcx_license_status = true
@@ -396,6 +398,8 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
   #Optional
   compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
   current_sku = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
+  host_ocpu_count             = "52.0"
+  host_shape_name             = "BM.DenseIO2.52"
   next_sku    = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
   #display_name  = var.esxihost_display_name
