@@ -72,6 +72,7 @@ import (
 	tf_osp_gateway "github.com/terraform-providers/terraform-provider-oci/internal/service/osp_gateway"
 	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
+	tf_stack_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/stack_monitoring"
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
@@ -541,6 +542,13 @@ func init() {
 	RegisterResource("oci_service_catalog_service_catalog", tf_service_catalog.ServiceCatalogServiceCatalogResource())
 	RegisterResource("oci_service_catalog_service_catalog_association", tf_service_catalog.ServiceCatalogServiceCatalogAssociationResource())
 	// service_manager_proxy service
+	// stack_monitoring service
+	RegisterResource("oci_stack_monitoring_discovery_job", tf_stack_monitoring.StackMonitoringDiscoveryJobResource())
+	RegisterResource("oci_stack_monitoring_monitored_resource", tf_stack_monitoring.StackMonitoringMonitoredResourceResource())
+	RegisterResource("oci_stack_monitoring_monitored_resources_associate_monitored_resource", tf_stack_monitoring.StackMonitoringMonitoredResourcesAssociateMonitoredResourceResource())
+	RegisterResource("oci_stack_monitoring_monitored_resources_list_member", tf_stack_monitoring.StackMonitoringMonitoredResourcesListMemberResource())
+	RegisterResource("oci_stack_monitoring_monitored_resources_search", tf_stack_monitoring.StackMonitoringMonitoredResourcesSearchResource())
+	RegisterResource("oci_stack_monitoring_monitored_resources_search_association", tf_stack_monitoring.StackMonitoringMonitoredResourcesSearchAssociationResource())
 	// streaming service
 	RegisterResource("oci_streaming_connect_harness", tf_streaming.StreamingConnectHarnessResource())
 	RegisterResource("oci_streaming_stream", tf_streaming.StreamingStreamResource())
