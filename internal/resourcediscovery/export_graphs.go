@@ -19,6 +19,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"ai_anomaly_detection":    aiAnomalyDetectionResourceGraph,
 	"ai_vision":               aiVisionResourceGraph,
 	"analytics":               analyticsResourceGraph,
+	"announcements_service":   announcementsServiceResourceGraph,
 	"apigateway":              apigatewayResourceGraph,
 	"apm":                     apmResourceGraph,
 	"apm_config":              apmConfigResourceGraph,
@@ -169,6 +170,12 @@ var aiVisionResourceGraph = TerraformResourceGraph{
 var analyticsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportAnalyticsAnalyticsInstanceHints},
+	},
+}
+
+var announcementsServiceResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportAnnouncementsServiceAnnouncementSubscriptionHints},
 	},
 }
 

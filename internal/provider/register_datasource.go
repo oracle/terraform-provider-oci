@@ -8,6 +8,7 @@ import (
 	tf_ai_anomaly_detection "github.com/oracle/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_ai_vision "github.com/oracle/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/oracle/terraform-provider-oci/internal/service/analytics"
+	tf_announcements_service "github.com/oracle/terraform-provider-oci/internal/service/announcements_service"
 	tf_apigateway "github.com/oracle/terraform-provider-oci/internal/service/apigateway"
 	tf_apm "github.com/oracle/terraform-provider-oci/internal/service/apm"
 	tf_apm_config "github.com/oracle/terraform-provider-oci/internal/service/apm_config"
@@ -124,6 +125,9 @@ func init() {
 	RegisterDatasource("oci_analytics_analytics_instance", tf_analytics.AnalyticsAnalyticsInstanceDataSource())
 	RegisterDatasource("oci_analytics_analytics_instance_private_access_channel", tf_analytics.AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
 	RegisterDatasource("oci_analytics_analytics_instances", tf_analytics.AnalyticsAnalyticsInstancesDataSource())
+	//announcements service
+	RegisterDatasource("oci_announcements_service_announcement_subscription", tf_announcements_service.AnnouncementsServiceAnnouncementSubscriptionDataSource())
+	RegisterDatasource("oci_announcements_service_announcement_subscriptions", tf_announcements_service.AnnouncementsServiceAnnouncementSubscriptionsDataSource())
 	// apigateway service
 	RegisterDatasource("oci_apigateway_api", tf_apigateway.ApigatewayApiDataSource())
 	RegisterDatasource("oci_apigateway_api_content", tf_apigateway.ApigatewayApiContentDataSource())
