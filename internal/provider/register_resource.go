@@ -8,6 +8,7 @@ import (
 	tf_ai_anomaly_detection "github.com/oracle/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_ai_vision "github.com/oracle/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/oracle/terraform-provider-oci/internal/service/analytics"
+	tf_announcements_service "github.com/oracle/terraform-provider-oci/internal/service/announcements_service"
 	tf_apigateway "github.com/oracle/terraform-provider-oci/internal/service/apigateway"
 	tf_apm "github.com/oracle/terraform-provider-oci/internal/service/apm"
 	tf_apm_config "github.com/oracle/terraform-provider-oci/internal/service/apm_config"
@@ -103,6 +104,10 @@ func init() {
 	RegisterResource("oci_analytics_analytics_instance", tf_analytics.AnalyticsAnalyticsInstanceResource())
 	RegisterResource("oci_analytics_analytics_instance_private_access_channel", tf_analytics.AnalyticsAnalyticsInstancePrivateAccessChannelResource())
 	RegisterResource("oci_analytics_analytics_instance_vanity_url", tf_analytics.AnalyticsAnalyticsInstanceVanityUrlResource())
+	// announcements_service service
+	RegisterResource("oci_announcements_service_announcement_subscription", tf_announcements_service.AnnouncementsServiceAnnouncementSubscriptionResource())
+	RegisterResource("oci_announcements_service_announcement_subscriptions_actions_change_compartment", tf_announcements_service.AnnouncementsServiceAnnouncementSubscriptionsActionsChangeCompartmentResource())
+	RegisterResource("oci_announcements_service_announcement_subscriptions_filter_group", tf_announcements_service.AnnouncementsServiceAnnouncementSubscriptionsFilterGroupResource())
 	// apigateway service
 	RegisterResource("oci_apigateway_api", tf_apigateway.ApigatewayApiResource())
 	RegisterResource("oci_apigateway_certificate", tf_apigateway.ApigatewayCertificateResource())
