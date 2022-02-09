@@ -17,7 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v56/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v57/budget"
 )
 
 func BudgetAlertRuleResource() *schema.Resource {

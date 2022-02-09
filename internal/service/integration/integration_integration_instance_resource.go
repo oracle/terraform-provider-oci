@@ -21,8 +21,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_integration "github.com/oracle/oci-go-sdk/v56/integration"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_integration "github.com/oracle/oci-go-sdk/v57/integration"
 )
 
 func IntegrationIntegrationInstanceResource() *schema.Resource {

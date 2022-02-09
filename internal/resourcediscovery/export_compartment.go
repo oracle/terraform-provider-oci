@@ -28,8 +28,8 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v56/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v57/identity"
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	tf_provider "github.com/terraform-providers/terraform-provider-oci/internal/provider"

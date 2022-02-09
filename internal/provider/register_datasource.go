@@ -67,6 +67,7 @@ import (
 	tf_opsi "github.com/terraform-providers/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
+	tf_osp_gateway "github.com/terraform-providers/terraform-provider-oci/internal/service/osp_gateway"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
@@ -553,6 +554,7 @@ func init() {
 	RegisterDatasource("oci_datascience_notebook_sessions", tf_datascience.DatascienceNotebookSessionsDataSource())
 	RegisterDatasource("oci_datascience_project", tf_datascience.DatascienceProjectDataSource())
 	RegisterDatasource("oci_datascience_projects", tf_datascience.DatascienceProjectsDataSource())
+	RegisterDatasource("oci_datascience_fast_launch_job_configs", tf_datascience.DatascienceFastLaunchJobConfigsDataSource())
 	// devops service
 	RegisterDatasource("oci_devops_build_pipeline", tf_devops.DevopsBuildPipelineDataSource())
 	RegisterDatasource("oci_devops_build_pipeline_stage", tf_devops.DevopsBuildPipelineStageDataSource())
@@ -936,6 +938,12 @@ func init() {
 	RegisterDatasource("oci_osmanagement_managed_instances", tf_osmanagement.OsmanagementManagedInstancesDataSource())
 	RegisterDatasource("oci_osmanagement_software_source", tf_osmanagement.OsmanagementSoftwareSourceDataSource())
 	RegisterDatasource("oci_osmanagement_software_sources", tf_osmanagement.OsmanagementSoftwareSourcesDataSource())
+	//osp_gateway
+	RegisterDatasource("oci_osp_gateway_invoice", tf_osp_gateway.OspGatewayInvoiceDataSource())
+	RegisterDatasource("oci_osp_gateway_invoices", tf_osp_gateway.OspGatewayInvoicesDataSource())
+	RegisterDatasource("oci_osp_gateway_invoices_invoice_lines", tf_osp_gateway.OspGatewayInvoicesInvoiceLinesDataSource())
+	RegisterDatasource("oci_osp_gateway_subscription", tf_osp_gateway.OspGatewaySubscriptionDataSource())
+	RegisterDatasource("oci_osp_gateway_subscriptions", tf_osp_gateway.OspGatewaySubscriptionsDataSource())
 	// resourcemanager service
 	RegisterDatasource("oci_resourcemanager_stack", tf_resourcemanager.ResourcemanagerStackDataSource())
 	RegisterDatasource("oci_resourcemanager_stack_tf_state", tf_resourcemanager.ResourcemanagerStackTfStateDataSource())
@@ -975,6 +983,8 @@ func init() {
 	RegisterDatasource("oci_vault_secrets", tf_vault.VaultSecretsDataSource())
 	// visual_builder service
 	RegisterDatasource("oci_visual_builder_vb_instance", tf_visual_builder.VisualBuilderVbInstanceDataSource())
+	RegisterDatasource("oci_visual_builder_vb_instances", tf_visual_builder.VisualBuilderVbInstancesDataSource())
+	RegisterDatasource("oci_visual_builder_vb_instance_applications", tf_visual_builder.VisualBuilderVbInstanceApplicationsDataSource())
 	// vulnerability_scanning service
 	RegisterDatasource("oci_vulnerability_scanning_container_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipeDataSource())
 	RegisterDatasource("oci_vulnerability_scanning_container_scan_recipes", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipesDataSource())

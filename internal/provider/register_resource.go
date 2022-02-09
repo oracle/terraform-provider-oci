@@ -67,6 +67,7 @@ import (
 	tf_opsi "github.com/terraform-providers/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
+	tf_osp_gateway "github.com/terraform-providers/terraform-provider-oci/internal/service/osp_gateway"
 	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
@@ -493,6 +494,8 @@ func init() {
 	RegisterResource("oci_osmanagement_managed_instance_group", tf_osmanagement.OsmanagementManagedInstanceGroupResource())
 	RegisterResource("oci_osmanagement_managed_instance_management", tf_osmanagement.OsmanagementManagedInstanceManagementResource())
 	RegisterResource("oci_osmanagement_software_source", tf_osmanagement.OsmanagementSoftwareSourceResource())
+	// osp_gateway
+	RegisterResource("oci_osp_gateway_subscription", tf_osp_gateway.OspGatewaySubscriptionResource())
 	// resourcemanager service
 	// sch service
 	RegisterResource("oci_sch_service_connector", tf_sch.SchServiceConnectorResource())

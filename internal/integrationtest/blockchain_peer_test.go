@@ -18,8 +18,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v56/blockchain"
-	"github.com/oracle/oci-go-sdk/v56/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v57/blockchain"
+	"github.com/oracle/oci-go-sdk/v57/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

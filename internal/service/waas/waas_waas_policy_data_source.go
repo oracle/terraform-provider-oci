@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_waas "github.com/oracle/oci-go-sdk/v56/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v57/waas"
 )
 
 func WaasWaasPolicyDataSource() *schema.Resource {
