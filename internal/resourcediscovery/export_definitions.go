@@ -38,6 +38,7 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/v65/ons"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/operationsinsights"
 	oci_sch "github.com/oracle/oci-go-sdk/v65/sch"
+	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 	oci_vault "github.com/oracle/oci-go-sdk/v65/vault"
 	oci_visual_builder "github.com/oracle/oci-go-sdk/v65/visualbuilder"
@@ -3048,6 +3049,48 @@ var exportSchServiceConnectorHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_sch.LifecycleStateActive),
 	},
+}
+
+var exportStackMonitoringMonitoredResourceHints = &TerraformResourceHints{
+	resourceClass:        "oci_stack_monitoring_monitored_resource",
+	datasourceClass:      "oci_stack_monitoring_monitored_resource",
+	resourceAbbreviation: "monitored_resource",
+	discoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.ResourceLifecycleStateActive),
+	},
+}
+
+var exportStackMonitoringDiscoveryJobHints = &TerraformResourceHints{
+	resourceClass:          "oci_stack_monitoring_discovery_job",
+	datasourceClass:        "oci_stack_monitoring_discovery_jobs",
+	datasourceItemsAttr:    "discovery_job_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "discovery_job",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.LifecycleStateActive),
+		string(oci_stack_monitoring.LifecycleStateFailed),
+	},
+}
+
+var exportStackMonitoringMonitoredResourcesListMemberHints = &TerraformResourceHints{
+	resourceClass:        "oci_stack_monitoring_monitored_resources_list_member",
+	resourceAbbreviation: "monitored_resources_list_member",
+}
+
+var exportStackMonitoringMonitoredResourcesSearchAssociationHints = &TerraformResourceHints{
+	resourceClass:        "oci_stack_monitoring_monitored_resources_search_association",
+	resourceAbbreviation: "monitored_resources_search_association",
+}
+
+var exportStackMonitoringMonitoredResourcesSearchHints = &TerraformResourceHints{
+	resourceClass:        "oci_stack_monitoring_monitored_resources_search",
+	resourceAbbreviation: "monitored_resources_search",
+}
+
+var exportStackMonitoringMonitoredResourcesAssociateMonitoredResourceHints = &TerraformResourceHints{
+	resourceClass:        "oci_stack_monitoring_monitored_resources_associate_monitored_resource",
+	resourceAbbreviation: "monitored_resources_associate_monitored_resource",
 }
 
 var exportStreamingConnectHarnessHints = &TerraformResourceHints{

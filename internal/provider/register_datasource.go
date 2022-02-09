@@ -80,6 +80,7 @@ import (
 	tf_secrets "github.com/terraform-providers/terraform-provider-oci/internal/service/secrets"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
+	tf_stack_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/stack_monitoring"
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
@@ -1089,6 +1090,11 @@ func init() {
 	// service_manager_proxy service
 	RegisterDatasource("oci_service_manager_proxy_service_environment", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentDataSource())
 	RegisterDatasource("oci_service_manager_proxy_service_environments", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentsDataSource())
+	// stack_monitoring service
+	RegisterDatasource("oci_stack_monitoring_discovery_job", tf_stack_monitoring.StackMonitoringDiscoveryJobDataSource())
+	RegisterDatasource("oci_stack_monitoring_discovery_jobs", tf_stack_monitoring.StackMonitoringDiscoveryJobsDataSource())
+	RegisterDatasource("oci_stack_monitoring_discovery_job_logs", tf_stack_monitoring.StackMonitoringDiscoveryJobLogsDataSource())
+	RegisterDatasource("oci_stack_monitoring_monitored_resource", tf_stack_monitoring.StackMonitoringMonitoredResourceDataSource())
 	// streaming service
 	RegisterDatasource("oci_streaming_connect_harness", tf_streaming.StreamingConnectHarnessDataSource())
 	RegisterDatasource("oci_streaming_connect_harnesses", tf_streaming.StreamingConnectHarnessesDataSource())
