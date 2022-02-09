@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v56/waas"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v57/waas"
 )
 
 func WaasHttpRedirectResource() *schema.Resource {

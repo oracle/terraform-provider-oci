@@ -16,8 +16,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_visual_builder "github.com/oracle/oci-go-sdk/v56/visualbuilder"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_visual_builder "github.com/oracle/oci-go-sdk/v57/visualbuilder"
 )
 
 func VisualBuilderVbInstanceResource() *schema.Resource {
@@ -411,6 +411,7 @@ func getErrorFromVisualBuilderVbInstanceWorkRequest(client *oci_visual_builder.V
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_visual_builder.ListWorkRequestErrorsRequest{
 			CompartmentId: compartmentId,
+			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},

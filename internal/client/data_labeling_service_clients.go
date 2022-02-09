@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v56/datalabelingservice"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v57/datalabelingservice"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
 )
 
 func init() {

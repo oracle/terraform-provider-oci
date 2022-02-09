@@ -12,8 +12,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v56/datacatalog"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v57/datacatalog"
 )
 
 func DatacatalogConnectionsDataSource() *schema.Resource {

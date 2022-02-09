@@ -18,8 +18,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v56/common"
-	oci_database "github.com/oracle/oci-go-sdk/v56/database"
+	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_database "github.com/oracle/oci-go-sdk/v57/database"
 )
 
 func DatabaseDataGuardAssociationResource() *schema.Resource {
