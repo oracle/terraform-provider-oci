@@ -6,6 +6,8 @@ import (
 	"reflect"
 	"testing"
 
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
@@ -781,6 +783,17 @@ func TestUnitGetTestClients(t *testing.T) {
 	}
 	d := r.Data(nil)
 	d.Set("auth", globalvar.AuthAPIKeySetting)
+	getEnvSettingWithDefaultVar = func(key string, value string) string {
+		return value
+	}
+	getEnvSettingWithBlankDefaultVar = func(key string) string {
+		return "dummy_value"
+	}
+	tfProviderConfigVar = func(d *schema.ResourceData) (interface{}, error) {
+		return &tf_client.OracleClients{
+			Configuration: map[string]string{"auth": "test"},
+		}, nil
+	}
 	type args struct {
 		data *schema.ResourceData
 	}
@@ -859,7 +872,9 @@ func TestUnitPreCheck(t *testing.T) {
 }
 
 func TestUnitProviderConfigTest(t *testing.T) {
-	ProviderConfigTest(t, true, true, globalvar.AuthAPIKeySetting, "", nil)
+	ProviderConfigTest(t, true, true, globalvar.AuthAPIKeySetting, "", func(d *schema.ResourceData) (interface{}, error) {
+		return &tf_client.OracleClients{}, nil
+	})
 }
 
 func TestUnitProviderTestConfig(t *testing.T) {

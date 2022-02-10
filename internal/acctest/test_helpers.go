@@ -5,6 +5,7 @@ package acctest
 
 import (
 	"bytes"
+	"crypto/rsa"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -38,8 +39,14 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
-var tmpl template.Template = *template.New("tmpl")
-var lineSeparator = "\n"
+var (
+	tmpl template.Template = *template.New("tmpl")
+
+	lineSeparator                    = "\n"
+	getEnvSettingWithBlankDefaultVar = utils.GetEnvSettingWithBlankDefault
+	getEnvSettingWithDefaultVar      = utils.GetEnvSettingWithDefault
+	tfProviderConfigVar              = tf_provider.ProviderConfig
+)
 
 // Applies values from a map to a string template
 func apply(template string, values map[string]string) string {
@@ -540,14 +547,14 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 func PreCheck(t *testing.T) {
 	envVarChecklist := []string{}
 	copy(envVarChecklist, requiredTestEnvVars)
-	if utils.GetEnvSettingWithDefault("use_obo_token", "false") != "false" {
+	if getEnvSettingWithDefaultVar("use_obo_token", "false") != "false" {
 		envVarChecklist = append(envVarChecklist, requiredOboTokenAuthEnvVars...)
 	} else {
 		envVarChecklist = append(envVarChecklist, requiredKeyAuthEnvVars...)
 	}
 
 	for _, envVar := range envVarChecklist {
-		if v := utils.GetEnvSettingWithBlankDefault(envVar); v == "" {
+		if v := getEnvSettingWithBlankDefaultVar(envVar); v == "" {
 			t.Fatal("TF_VAR_" + envVar + " must be set for acceptance tests")
 		}
 	}
@@ -590,7 +597,7 @@ func ProviderTestConfig() string {
 func CommonTestVariables() string {
 	return `
 	variable "tenancy_ocid" {
-		default = "` + utils.GetEnvSettingWithBlankDefault("tenancy_ocid") + `"
+		default = "` + getEnvSettingWithBlankDefaultVar("tenancy_ocid") + `"
 	}
 
 	variable "ssh_public_key" {
@@ -598,7 +605,7 @@ func CommonTestVariables() string {
 	}
 
 	variable "region" {
-		default = "` + utils.GetEnvSettingWithBlankDefault("region") + `"
+		default = "` + getEnvSettingWithBlankDefaultVar("region") + `"
 	}
 
 	`
@@ -609,23 +616,23 @@ func GetTestClients(data *schema.ResourceData) *tf_client.OracleClients {
 		Schema: tf_provider.SchemaMap(),
 	}
 	d := r.Data(nil)
-	d.SetId(utils.GetEnvSettingWithBlankDefault("tenancy_ocid"))
-	d.Set("tenancy_ocid", utils.GetEnvSettingWithBlankDefault("tenancy_ocid"))
-	d.Set("region", utils.GetEnvSettingWithDefault("region", "us-phoenix-1"))
+	d.SetId(getEnvSettingWithBlankDefaultVar("tenancy_ocid"))
+	d.Set("tenancy_ocid", getEnvSettingWithBlankDefaultVar("tenancy_ocid"))
+	d.Set("region", getEnvSettingWithDefaultVar("region", "us-phoenix-1"))
 
-	if auth := utils.GetEnvSettingWithDefault("auth", globalvar.AuthAPIKeySetting); auth == globalvar.AuthAPIKeySetting {
-		d.Set("auth", utils.GetEnvSettingWithDefault("auth", globalvar.AuthAPIKeySetting))
-		d.Set("user_ocid", utils.GetEnvSettingWithBlankDefault("user_ocid"))
-		d.Set("fingerprint", utils.GetEnvSettingWithBlankDefault("fingerprint"))
-		d.Set("private_key_path", utils.GetEnvSettingWithBlankDefault("private_key_path"))
-		d.Set("private_key_password", utils.GetEnvSettingWithBlankDefault("private_key_password"))
-		d.Set("private_key", utils.GetEnvSettingWithBlankDefault("private_key"))
+	if auth := getEnvSettingWithDefaultVar("auth", globalvar.AuthAPIKeySetting); auth == globalvar.AuthAPIKeySetting {
+		d.Set("auth", getEnvSettingWithDefaultVar("auth", globalvar.AuthAPIKeySetting))
+		d.Set("user_ocid", getEnvSettingWithBlankDefaultVar("user_ocid"))
+		d.Set("fingerprint", getEnvSettingWithBlankDefaultVar("fingerprint"))
+		d.Set("private_key_path", getEnvSettingWithBlankDefaultVar("private_key_path"))
+		d.Set("private_key_password", getEnvSettingWithBlankDefaultVar("private_key_password"))
+		d.Set("private_key", getEnvSettingWithBlankDefaultVar("private_key"))
 	} else {
-		d.Set("auth", utils.GetEnvSettingWithDefault("auth", auth))
+		d.Set("auth", getEnvSettingWithDefaultVar("auth", auth))
 	}
 
 	tf_provider.TerraformCLIVersion = globalvar.TestTerraformCLIVersion
-	client, err := tf_provider.ProviderConfig(d)
+	client, err := tfProviderConfigVar(d)
 	if err != nil {
 		panic(err)
 	}
@@ -914,7 +921,7 @@ func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, set
 func TestAccPreCheck(t *testing.T) {
 	envVarChecklist := []string{}
 	copy(envVarChecklist, requiredTestEnvVars)
-	if utils.GetEnvSettingWithDefault("use_obo_token", "false") != "false" {
+	if getEnvSettingWithDefaultVar("use_obo_token", "false") != "false" {
 		envVarChecklist = append(envVarChecklist, requiredOboTokenAuthEnvVars...)
 	} else {
 		envVarChecklist = append(envVarChecklist, requiredKeyAuthEnvVars...)
@@ -923,4 +930,30 @@ func TestAccPreCheck(t *testing.T) {
 	for _, envVar := range envVarChecklist {
 		assertEnvAvailable(envVar, t)
 	}
+}
+
+type MockConfigurationProvider struct {
+	keyProvider oci_common.KeyProvider
+}
+
+func (mcp MockConfigurationProvider) TenancyOCID() (string, error) {
+	return "dummyTanancyOcid", nil
+}
+func (mcp MockConfigurationProvider) UserOCID() (string, error) {
+	return "dummyUserOcid", nil
+}
+func (mcp MockConfigurationProvider) Region() (string, error) {
+	return "dummyRegionOcid", nil
+}
+func (mcp MockConfigurationProvider) AuthType() (oci_common.AuthConfig, error) {
+	return oci_common.AuthConfig{}, nil
+}
+func (mcp MockConfigurationProvider) PrivateRSAKey() (*rsa.PrivateKey, error) {
+	return &rsa.PrivateKey{}, nil
+}
+func (mcp MockConfigurationProvider) KeyID() (string, error) {
+	return "1", nil
+}
+func (mcp MockConfigurationProvider) KeyFingerprint() (string, error) {
+	return "dummyFingerPrint", nil
 }
