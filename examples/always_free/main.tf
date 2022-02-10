@@ -1,19 +1,22 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2022, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
 }
 
 variable "user_ocid" {
+  default = ""
 }
 
 variable "fingerprint" {
 }
 
 variable "private_key_path" {
+  default = ""
 }
 
 variable "ssh_public_key" {
+  default = ""
 }
 
 variable "compartment_ocid" {
@@ -30,34 +33,20 @@ provider "oci" {
   private_key_path = var.private_key_path
 }
 
-variable "ad_region_mapping" {
-  type = map(string)
-
-  default = {
-    us-phoenix-1 = 2
-    us-ashburn-1 = 3
-    us-seattle-1 = 2
-  }
+variable "instance_shape" {
+  default = "VM.Standard.A1.Flex" # Or VM.Standard.E2.1.Micro
 }
 
-variable "images" {
-  type = map(string)
+variable "instance_ocpus" { default = 1 }
 
-  default = {
-    # See https://docs.us-phoenix-1.oraclecloud.com/images/
-    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaadtmpmfm77czi5ghi5zh7uvkguu6dsecsg7kuo3eigc5663und4za"
-    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaayuihpsm2nfkxztdkottbjtfjqhgod7hfuirt2rqlewxrmdlgg75q"
-    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
-    uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
-    us-seattle-1   = "ocid1.image.region1.sea.aaaaaaaau2iablsucjq62zapd3fr4laaoiqviwsujgois2wcaejaazjnhivq"
-  }
-}
+variable "instance_shape_config_memory_in_gbs" { default = 6 }
 
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
-  ad_number      = var.ad_region_mapping[var.region]
+  ad_number      = 1
 }
+
+/* Network */
 
 resource "oci_core_virtual_network" "test_vcn" {
   cidr_block     = "10.1.0.0/16"
@@ -146,11 +135,18 @@ resource "oci_core_security_list" "test_security_list" {
   }
 }
 
+/* Instances */
+
 resource "oci_core_instance" "free_instance0" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
   display_name        = "freeInstance0"
-  shape               = "VM.Standard.E2.1.Micro"
+  shape               = var.instance_shape
+
+  shape_config {
+    ocpus = var.instance_ocpus
+    memory_in_gbs = var.instance_shape_config_memory_in_gbs
+  }
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.test_subnet.id
@@ -161,11 +157,11 @@ resource "oci_core_instance" "free_instance0" {
 
   source_details {
     source_type = "image"
-    source_id   = var.images[var.region]
+    source_id   = lookup(data.oci_core_images.test_images.images[0], "id")
   }
 
   metadata = {
-    ssh_authorized_keys = var.ssh_public_key
+    ssh_authorized_keys = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.public_key_openssh
   }
 }
 
@@ -173,7 +169,12 @@ resource "oci_core_instance" "free_instance1" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
   display_name        = "freeInstance1"
-  shape               = "VM.Standard.E2.1.Micro"
+  shape               = var.instance_shape
+
+  shape_config {
+    ocpus = 1
+    memory_in_gbs = 6
+  }
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.test_subnet.id
@@ -184,19 +185,35 @@ resource "oci_core_instance" "free_instance1" {
 
   source_details {
     source_type = "image"
-    source_id   = var.images[var.region]
+    source_id   = lookup(data.oci_core_images.test_images.images[0], "id")
   }
 
   metadata = {
-    ssh_authorized_keys = var.ssh_public_key
+    ssh_authorized_keys = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.public_key_openssh
   }
 }
 
-resource "oci_load_balancer" "free_load_balancer" {
+resource "tls_private_key" "compute_ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
+output "generated_private_key_pem" {
+  value     = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.private_key_pem
+  sensitive = true
+}
+
+/* Load Balancer */
+
+resource "oci_load_balancer_load_balancer" "free_load_balancer" {
   #Required
   compartment_id = var.compartment_ocid
   display_name   = "alwaysFreeLoadBalancer"
-  shape          = "10Mbps-Micro"
+  shape          = "flexible"
+  shape_details {
+    maximum_bandwidth_in_mbps = 10
+    minimum_bandwidth_in_mbps = 10
+  }
 
   subnet_ids = [
     oci_core_subnet.test_subnet.id,
@@ -205,7 +222,7 @@ resource "oci_load_balancer" "free_load_balancer" {
 
 resource "oci_load_balancer_backend_set" "free_load_balancer_backend_set" {
   name             = "lbBackendSet1"
-  load_balancer_id = oci_load_balancer.free_load_balancer.id
+  load_balancer_id = oci_load_balancer_load_balancer.free_load_balancer.id
   policy           = "ROUND_ROBIN"
 
   health_checker {
@@ -225,7 +242,7 @@ resource "oci_load_balancer_backend" "free_load_balancer_test_backend0" {
   #Required
   backendset_name  = oci_load_balancer_backend_set.free_load_balancer_backend_set.name
   ip_address       = oci_core_instance.free_instance0.public_ip
-  load_balancer_id = oci_load_balancer.free_load_balancer.id
+  load_balancer_id = oci_load_balancer_load_balancer.free_load_balancer.id
   port             = "80"
 }
 
@@ -233,19 +250,19 @@ resource "oci_load_balancer_backend" "free_load_balancer_test_backend1" {
   #Required
   backendset_name  = oci_load_balancer_backend_set.free_load_balancer_backend_set.name
   ip_address       = oci_core_instance.free_instance1.public_ip
-  load_balancer_id = oci_load_balancer.free_load_balancer.id
+  load_balancer_id = oci_load_balancer_load_balancer.free_load_balancer.id
   port             = "80"
 }
 
 resource "oci_load_balancer_hostname" "test_hostname1" {
   #Required
   hostname         = "app.free.com"
-  load_balancer_id = oci_load_balancer.free_load_balancer.id
+  load_balancer_id = oci_load_balancer_load_balancer.free_load_balancer.id
   name             = "hostname1"
 }
 
 resource "oci_load_balancer_listener" "load_balancer_listener0" {
-  load_balancer_id         = oci_load_balancer.free_load_balancer.id
+  load_balancer_id         = oci_load_balancer_load_balancer.free_load_balancer.id
   name                     = "http"
   default_backend_set_name = oci_load_balancer_backend_set.free_load_balancer_backend_set.name
   hostname_names           = [oci_load_balancer_hostname.test_hostname1.name]
@@ -271,16 +288,45 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
     status_code     = "405"
   }
 
-  load_balancer_id = oci_load_balancer.free_load_balancer.id
+  load_balancer_id = oci_load_balancer_load_balancer.free_load_balancer.id
   name             = "test_rule_set_name"
 }
 
+resource "tls_private_key" "example" {
+  algorithm   = "ECDSA"
+  ecdsa_curve = "P384"
+}
+
+resource "tls_self_signed_cert" "example" {
+  key_algorithm   = "ECDSA"
+  private_key_pem = tls_private_key.example.private_key_pem
+
+  subject {
+    organization = "Oracle"
+    country = "US"
+    locality = "Austin"
+    province = "TX"
+  }
+
+  validity_period_hours = 8760 # 1 year
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "server_auth",
+    "client_auth",
+    "cert_signing"
+  ]
+
+  is_ca_certificate = true
+}
+
 resource "oci_load_balancer_certificate" "load_balancer_certificate" {
-  load_balancer_id   = oci_load_balancer.free_load_balancer.id
-  ca_certificate     = "-----BEGIN CERTIFICATE-----\nMIIC9jCCAd4CCQD2rPUVJETHGzANBgkqhkiG9w0BAQsFADA9MQswCQYDVQQGEwJV\nUzELMAkGA1UECAwCV0ExEDAOBgNVBAcMB1NlYXR0bGUxDzANBgNVBAoMBk9yYWNs\nZTAeFw0xOTAxMTcyMjU4MDVaFw0yMTAxMTYyMjU4MDVaMD0xCzAJBgNVBAYTAlVT\nMQswCQYDVQQIDAJXQTEQMA4GA1UEBwwHU2VhdHRsZTEPMA0GA1UECgwGT3JhY2xl\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA30+wt7OlUB/YpmWbTRkx\nnLG0lKWiV+oupNKj8luXmC5jvOFTUejt1pQhpA47nCqywlOAfk2N8hJWTyJZUmKU\n+DWVV2So2B/obYxpiiyWF2tcF/cYi1kBYeAIu5JkVFwDe4ITK/oQUFEhIn3Qg/oC\nMQ2985/MTdCXONgnbmePU64GrJwfvOeJcQB3VIL1BBfISj4pPw5708qTRv5MJBOO\njLKRM68KXC5us4879IrSA77NQr1KwjGnQlykyCgGvvgwgrUTd5c/dH8EKrZVcFi6\nytM66P/1CTpk1YpbI4gqiG0HBbuXG4JRIjyzW4GT4JXeSjgvrkIYL8k/M4Az1WEc\n2wIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAuI53m8Va6EafDi6GQdQrzNNQFCAVQ\nxIABAB0uaSYCs3H+pqTktHzOrOluSUEogXRl0UU5/OuvxAz4idA4cfBdId4i7AcY\nqZsBjA/xqH/rxR3pcgfaGyxQzrUsJFf0ZwnzqYJs7fUvuatHJYi/cRBxrKR2+4Oj\nlUbb9TSmezlzHK5CaD5XzN+lZqbsSvN3OQbOryJCbtjZVQFGZ1SmL6OLrwpbBKuP\nn2ob+gaP57YSzO3zk1NDXMlQPHRsdSOqocyKx8y+7J0g6MqPvBzIe+wI3QW85MQY\nj1/IHmj84LNGp7pHCyiYx/oI+00gRch04H2pJv0TP3sAQ37gplBwDrUo\n-----END CERTIFICATE-----"
+  load_balancer_id   = oci_load_balancer_load_balancer.free_load_balancer.id
+  ca_certificate     = tls_self_signed_cert.example.cert_pem
   certificate_name   = "certificate1"
-  private_key        = "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEA30+wt7OlUB/YpmWbTRkxnLG0lKWiV+oupNKj8luXmC5jvOFT\nUejt1pQhpA47nCqywlOAfk2N8hJWTyJZUmKU+DWVV2So2B/obYxpiiyWF2tcF/cY\n\ni1kBYeAIu5JkVFwDe4ITK/oQUFEhIn3Qg/oCMQ2985/MTdCXONgnbmePU64GrJwf\nvOeJcQB3VIL1BBfISj4pPw5708qTRv5MJBOOjLKRM68KXC5us4879IrSA77NQr1K\nwjGnQlykyCgGvvgwgrUTd5c/dH8EKrZVcFi6ytM66P/1CTpk1YpbI4gqiG0HBbuX\nG4JRIjyzW4GT4JXeSjgvrkIYL8k/M4Az1WEc2wIDAQABAoIBAGQznukfG/uS/qTT\njNcQifl0p8HXfLwUIa/lsJkMTj6D+k8DkF59tVMGjv3NQSQ26JVX4J1L8XiAj+fc\nUtYr1Ap4CLX5PeYUkzesvKK6lPKXQvCh+Ip2eq9PVrvL2WcdDpb5695cy7suXD7c\n05aUtS0LrINH3eXAxkpEe5UHtQFni5YLrCLEXd+SSA3OKdCB+23HRELc1iCTvqjK\n5AtR916uHTBhtREHRMvWIdu4InRUsedlJhaJOLJ8G8r64JUtfm3wLUK1U8HFOsd0\nLAx9ZURU6cXl4osTWiy1vigGaM8Xuish2HkOLNYZADDUiDBB3SshmW5IDAJ5XTn5\nqVrszRECgYEA79j1y+WLTyV7yz7XkWk3OqoQXG4b2JfKItJI1M95UwllzQ8U/krM\n+QZjP3NTtB9i1YoHyaEfic103hV9Fkgz8jvKS5ocLGJulpN4CgqbHN6v9EJ3dqTk\no6X8mpx2eP2E0ngRekFyC/OCp0Zhe2KR9PXhijMa5eB2LTeCMIS/tzkCgYEA7lmk\nIdVjcpfqY7UFJ2R8zqPJHOne2+llrl9vzo6N5kx4DzAg7MP6XO9MekOvfmD1X1Lm\nFckXWFEF+0TlN5YvCTR/+OmVufYM3xp4GBT8RZdLFbyI4+xpAAeSC4SeM0ZkC9Jt\nrKqCS24+Kqy/+qSqtkxiPLQrXSdCSfCUlmn0ALMCgYBB7SLy3q+CG82BOk7Km18g\n8un4XhOtX1uiYqa+SCETH/wpd0HP/AOHV6gkIrEZS59BDuXBGFaw7BZ5jPKLE2Gj\n7adXTI797Dh1jydpqyyjrNo0i6iGpiBqkw9x+Bvged7ucy5qql6MxmxdSk01Owzf\nhk5uTEnScfZJy34vk+2WkQKBgBXx5uy+iuN4HTqE5i6UT/FunwusdLpmqNf/LXol\nIed8TumHEuD5wklgNvhi1vuZzb2zEkAbPa0B+L0DwN73UulUDhxK1WBDyTeZZklB\nVWDK5zzfGPNzRs+b4tRwp2gtKPT1sOde45QyWELxmNNo6dbS/ZB9Pijbfnz0S5n1\ns2OFAoGBAJUohI1+d2hKlkSUzpCorQarDe8lFVEbGMu0kX0JNDI7QU+H8vDp9NOl\nGqLm3sCVBYypT8sWfchgZpcVaLRLQCQtWy4+CbMN6DT3j/uBWeDpayU5Gvqt0/no\nvwqbG6b0NEYLRPLEdsS/c8TV9mMlvb0EW+GXfmkpTrTNt3hyXniu\n-----END RSA PRIVATE KEY-----"
-  public_certificate = "-----BEGIN CERTIFICATE-----\nMIIC9jCCAd4CCQD2rPUVJETHGzANBgkqhkiG9w0BAQsFADA9MQswCQYDVQQGEwJV\nUzELMAkGA1UECAwCV0ExEDAOBgNVBAcMB1NlYXR0bGUxDzANBgNVBAoMBk9yYWNs\nZTAeFw0xOTAxMTcyMjU4MDVaFw0yMTAxMTYyMjU4MDVaMD0xCzAJBgNVBAYTAlVT\nMQswCQYDVQQIDAJXQTEQMA4GA1UEBwwHU2VhdHRsZTEPMA0GA1UECgwGT3JhY2xl\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA30+wt7OlUB/YpmWbTRkx\nnLG0lKWiV+oupNKj8luXmC5jvOFTUejt1pQhpA47nCqywlOAfk2N8hJWTyJZUmKU\n+DWVV2So2B/obYxpiiyWF2tcF/cYi1kBYeAIu5JkVFwDe4ITK/oQUFEhIn3Qg/oC\nMQ2985/MTdCXONgnbmePU64GrJwfvOeJcQB3VIL1BBfISj4pPw5708qTRv5MJBOO\njLKRM68KXC5us4879IrSA77NQr1KwjGnQlykyCgGvvgwgrUTd5c/dH8EKrZVcFi6\nytM66P/1CTpk1YpbI4gqiG0HBbuXG4JRIjyzW4GT4JXeSjgvrkIYL8k/M4Az1WEc\n2wIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAuI53m8Va6EafDi6GQdQrzNNQFCAVQ\nxIABAB0uaSYCs3H+pqTktHzOrOluSUEogXRl0UU5/OuvxAz4idA4cfBdId4i7AcY\nqZsBjA/xqH/rxR3pcgfaGyxQzrUsJFf0ZwnzqYJs7fUvuatHJYi/cRBxrKR2+4Oj\nlUbb9TSmezlzHK5CaD5XzN+lZqbsSvN3OQbOryJCbtjZVQFGZ1SmL6OLrwpbBKuP\nn2ob+gaP57YSzO3zk1NDXMlQPHRsdSOqocyKx8y+7J0g6MqPvBzIe+wI3QW85MQY\nj1/IHmj84LNGp7pHCyiYx/oI+00gRch04H2pJv0TP3sAQ37gplBwDrUo\n-----END CERTIFICATE-----"
+  private_key        = tls_private_key.example.private_key_pem
+  public_certificate = tls_self_signed_cert.example.cert_pem
 
   lifecycle {
     create_before_destroy = true
@@ -288,7 +334,7 @@ resource "oci_load_balancer_certificate" "load_balancer_certificate" {
 }
 
 resource "oci_load_balancer_listener" "load_balancer_listener1" {
-  load_balancer_id         = oci_load_balancer.free_load_balancer.id
+  load_balancer_id         = oci_load_balancer_load_balancer.free_load_balancer.id
   name                     = "https"
   default_backend_set_name = oci_load_balancer_backend_set.free_load_balancer_backend_set.name
   port                     = 443
@@ -301,7 +347,7 @@ resource "oci_load_balancer_listener" "load_balancer_listener1" {
 }
 
 output "lb_public_ip" {
-  value = [oci_load_balancer.free_load_balancer.ip_address_details]
+  value = [oci_load_balancer_load_balancer.free_load_balancer.ip_address_details]
 }
 
 data "oci_core_vnic_attachments" "app_vnics" {
@@ -314,12 +360,14 @@ data "oci_core_vnic" "app_vnic" {
   vnic_id = data.oci_core_vnic_attachments.app_vnics.vnic_attachments[0]["vnic_id"]
 }
 
+# See https://docs.oracle.com/iaas/images/
 data "oci_core_images" "test_images" {
-  #Required
-  compartment_id = var.compartment_ocid
-
-  #Optional
-  shape = "VM.Standard.E2.1.Micro"
+  compartment_id           = var.compartment_ocid
+  operating_system         = "Oracle Linux"
+  operating_system_version = "8"
+  shape                    = var.instance_shape
+  sort_by                  = "TIMECREATED"
+  sort_order               = "DESC"
 }
 
 output "app" {
