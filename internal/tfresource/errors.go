@@ -147,7 +147,7 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 	}
 }
 
-func handleError(sync interface{}, err error) error {
+func HandleError(sync interface{}, err error) error {
 	if err != nil {
 		tfError := newCustomError(sync, err)
 		return tfError
