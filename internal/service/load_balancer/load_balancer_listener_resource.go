@@ -363,7 +363,7 @@ func (s *LoadBalancerListenerResourceCrud) Create() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = tfresource.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -372,7 +372,7 @@ func (s *LoadBalancerListenerResourceCrud) Create() error {
 
 func (s *LoadBalancerListenerResourceCrud) Get() (e error) {
 	// key: {workRequestID} || {loadBalancerID,name}
-	_, stillWorking, err := tfresource.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	_, stillWorking, err := loadBalancerResourceGet(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -519,7 +519,7 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = tfresource.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -556,7 +556,7 @@ func (s *LoadBalancerListenerResourceCrud) Delete() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = tfresource.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}

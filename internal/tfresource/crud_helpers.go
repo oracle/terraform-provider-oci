@@ -45,6 +45,16 @@ var (
 		Update: &TwentyMinutes,
 		Delete: &TwentyMinutes,
 	}
+	convertResFieldsToDSFields             = convertResourceFieldsToDatasourceFields
+	jsonMarshal                            = json.Marshal
+	waitForStateRefreshVar                 = WaitForStateRefresh
+	WaitForWorkRequestVar                  = WaitForWorkRequest
+	getWorkRequestErrorsVar                = getWorkRequestErrors
+	waitForStateRefreshForHybridPollingVar = waitForStateRefreshForHybridPolling
+	stateRefreshFuncVar                    = stateRefreshFunc
+	HandleErrorVar                         = HandleError
+	ShouldRetryVar                         = ShouldRetry
+	reflectValueOf                         = reflect.ValueOf
 )
 
 const (
@@ -70,7 +80,7 @@ func (s *BaseCrud) setState(sync StatefulResource) error {
 	// Pseudo code:
 	//   currentState := sync.Res.State || sync.Resource.State || sync.WorkRequest.State
 	//   s.D.Set("state", currentState)
-	v := reflect.ValueOf(sync).Elem()
+	v := reflectValueOf(sync).Elem()
 	for _, key := range []string{"Res", "Resource", "WorkRequest"} {
 		// Yes, this "valid"ation is terrible
 		if resourceReferenceValue := v.FieldByName(key); resourceReferenceValue.IsValid() {
@@ -107,155 +117,27 @@ func (s *BaseCrud) State() string {
 	return ""
 }
 
-func LoadBalancerResourceID(res interface{}, workReq *oci_load_balancer.WorkRequest) (id *string, workReqSucceeded bool) {
-	v := reflect.ValueOf(res).Elem()
-	if v.IsValid() {
-		// This is super fugly. It's this way because the LB API has no convention for ID formats.
-
-		// Load balancer
-		id := v.FieldByName("Id")
-		if id.IsValid() && !id.IsNil() {
-			s := id.Elem().String()
-			return &s, false
-		}
-		// backendset, listener
-		name := v.FieldByName("Name")
-		if name.IsValid() && !name.IsNil() {
-			s := name.Elem().String()
-			return &s, false
-		}
-		// certificate
-		certName := v.FieldByName("CertificateName")
-		if certName.IsValid() && !certName.IsNil() {
-			s := certName.Elem().String()
-			return &s, false
-		}
-		// backend TODO The following can probably be removed because the Backend object has a Name parameter)
-		ip := v.FieldByName("IpAddress")
-		port := v.FieldByName("Port")
-		if ip.IsValid() && !ip.IsNil() && port.IsValid() && !port.IsNil() {
-			s := ip.Elem().String() + ":" + strconv.Itoa(int(int(port.Elem().Int())))
-			return &s, false
-		}
-	}
-	if workReq != nil {
-		if workReq.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
-			return nil, true
-		} else {
-			return workReq.Id, false
-		}
-	}
-	return nil, false
+type schemaResourceData interface {
+	GetOkExists(string) (interface{}, bool)
+	SetId(string)
+	Timeout(string) time.Duration
+	Partial(bool)
+	HasChange(string) bool
+	GetChange(string) (interface{}, interface{})
 }
 
-func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) (id string, stillWorking bool, err error) {
-	// NOTE: if the id is for a work request, refresh its state and loadBalancerID.
-	if wr != nil && wr.Id != nil {
-		getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
-		getWorkRequestRequest.WorkRequestId = wr.Id
-		getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
-		updatedWorkRes, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
-		if err != nil {
-			return "", false, err
-		}
-		if wr != nil {
-			*wr = updatedWorkRes.WorkRequest
-			d.Set("state", wr.LifecycleState)
-			if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
-				return "", false, nil
-			}
-			if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateFailed {
-				return "", false, fmt.Errorf("WorkRequest FAILED: %+v", wr.ErrorDetails)
-			}
-		}
-		return "", true, nil
-	}
-	return id, false, nil
+type workReqClient interface {
+	GetWorkRequest(context.Context, oci_work_requests.GetWorkRequestRequest) (oci_work_requests.GetWorkRequestResponse, error)
+	ListWorkRequestErrors(context.Context, oci_work_requests.ListWorkRequestErrorsRequest) (oci_work_requests.ListWorkRequestErrorsResponse, error)
 }
 
-func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) error {
-	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
-			string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
-		},
-		Target: []string{
-			string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
-			string(oci_load_balancer.WorkRequestLifecycleStateFailed),
-		},
-		Refresh: func() (interface{}, string, error) {
-			getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
-			getWorkRequestRequest.WorkRequestId = wr.Id
-			getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
-			workRequestResponse, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
-			wr = &workRequestResponse.WorkRequest
-			return wr, string(wr.LifecycleState), err
-		},
-		Timeout: d.Timeout(schema.TimeoutCreate),
-	}
-
-	// Should not wait when in replay mode
-	if httpreplay.ShouldRetryImmediately() {
-		stateConf.PollInterval = 1
-	}
-
-	if _, e := stateConf.WaitForState(); e != nil {
-		return e
-	}
-
-	if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateFailed {
-		return fmt.Errorf("WorkRequest FAILED: %+v", wr.ErrorDetails)
-	}
-	return nil
-}
-
-func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error {
-	if e := sync.Create(); e != nil {
-		return handleError(sync, e)
-	}
-
-	// ID is required for state refresh
-	d.SetId(sync.ID())
-
-	var timeout time.Duration
-	shape := d.Get("shape")
-	timeout = d.Timeout(schema.TimeoutCreate)
-	if timeout == 0 {
-		if strings.HasPrefix(shape.(string), "Exadata") {
-			timeout = TwelveHours
-		} else {
-			timeout = TwoHours
-		}
-	}
-	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		if e := waitForStateRefresh(stateful, timeout, "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
-			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
-			if setDataErr := sync.SetData(); setDataErr != nil {
-				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
-			}
-			return e
-		}
-	}
-
-	d.SetId(sync.ID())
-	if e := sync.SetData(); e != nil {
-		return e
-	}
-
-	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
-		time.Sleep(ew.ExtraWaitPostCreateDelete())
-	}
-
-	return nil
-}
-
-func waitForStateRefreshForHybridPolling(workRequestClient *oci_work_requests.WorkRequestClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+func waitForStateRefreshForHybridPolling(workRequestClient workReqClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
 	disableFoundRetries bool, sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) error {
 	// TODO: try to move this onto sync
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
 		Target:  target,
-		Refresh: stateRefreshFunc(sync),
+		Refresh: stateRefreshFuncVar(sync),
 		Timeout: timeout,
 	}
 
@@ -269,7 +151,7 @@ func waitForStateRefreshForHybridPolling(workRequestClient *oci_work_requests.Wo
 		if _, ok := e.(*resource.UnexpectedStateError); ok {
 			retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
 			retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
-			e = getWorkRequestErrors(workRequestClient, workRequestIds, retryPolicy, entityType, action)
+			e = getWorkRequestErrorsVar(workRequestClient, workRequestIds, retryPolicy, entityType, action)
 			return e
 		}
 
@@ -286,14 +168,14 @@ func waitForStateRefreshForHybridPolling(workRequestClient *oci_work_requests.Wo
 	return nil
 }
 
-func ResourceRefreshForHybridPolling(workRequestClient *oci_work_requests.WorkRequestClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
-	disableFoundRetries bool, d *schema.ResourceData, sync ResourceCreator) error {
+func ResourceRefreshForHybridPolling(workRequestClient workReqClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	disableFoundRetries bool, d schemaResourceData, sync ResourceCreator) error {
 
 	// ID is required for state refresh
 	d.SetId(sync.ID())
 
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		if e := waitForStateRefreshForHybridPolling(workRequestClient, workRequestIds, entityType, action, disableFoundRetries, stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+		if e := waitForStateRefreshForHybridPollingVar(workRequestClient, workRequestIds, entityType, action, disableFoundRetries, stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
 			if stateful.State() == FAILED {
 				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 				// TODO: automatic retry on WorkRequestFailed
@@ -302,7 +184,7 @@ func ResourceRefreshForHybridPolling(workRequestClient *oci_work_requests.WorkRe
 
 			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
 			if setDataErr := sync.SetData(); setDataErr != nil {
-				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
+				log.Printf("[ERROR] error setting data after WaitForStateRefresh() error: %v", setDataErr)
 			}
 
 			return e
@@ -323,13 +205,13 @@ func ResourceRefreshForHybridPolling(workRequestClient *oci_work_requests.WorkRe
 
 func CreateResourceUsingHybridPolling(sync ResourceCreator) error {
 	if e := sync.Create(); e != nil {
-		return handleError(sync, e)
+		return HandleErrorVar(sync, e)
 	}
 
 	return nil
 }
 
-func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
+func CreateResource(d schemaResourceData, sync ResourceCreator) error {
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
@@ -338,14 +220,14 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 	}
 
 	if e := sync.Create(); e != nil {
-		return handleError(sync, e)
+		return HandleError(sync, e)
 	}
 
 	// ID is required for state refresh
 	d.SetId(sync.ID())
 
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
 			if stateful.State() == FAILED {
 				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 				// TODO: automatic retry on WorkRequestFailed
@@ -354,7 +236,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 
 			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
 			if setDataErr := sync.SetData(); setDataErr != nil {
-				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
+				log.Printf("[ERROR] error setting data after WaitForStateRefresh() error: %v", setDataErr)
 			}
 
 			return e
@@ -376,7 +258,7 @@ func ReadResource(sync ResourceReader) error {
 	if e := sync.Get(); e != nil {
 		log.Printf("ERROR IN GET: %v\n", e.Error())
 		handleMissingResourceError(sync, &e)
-		return handleError(sync, e)
+		return HandleError(sync, e)
 	}
 
 	if e := sync.SetData(); e != nil {
@@ -396,7 +278,7 @@ func ReadResource(sync ResourceReader) error {
 	return nil
 }
 
-func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
+func UpdateResource(d schemaResourceData, sync ResourceUpdater) error {
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
@@ -407,12 +289,12 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 	d.Partial(true)
 	if e := sync.Update(); e != nil {
 
-		return handleError(sync, e)
+		return HandleError(sync, e)
 	}
 	d.Partial(false)
 
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
 
 			return e
 		}
@@ -429,7 +311,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 // statefully (not immediately), poll State to ensure:
 // () -> Pending -> Deleted.
 // Finally, sets the ResourceData state to empty.
-func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
+func DeleteResource(d schemaResourceData, sync ResourceDeleter) error {
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
@@ -439,11 +321,11 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 
 	if e := sync.Delete(); e != nil {
 		handleMissingResourceError(sync, &e)
-		return handleError(sync, e)
+		return HandleError(sync, e)
 	}
 
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget()); e != nil {
+		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget()); e != nil {
 			handleMissingResourceError(sync, &e)
 			return e
 		}
@@ -478,9 +360,9 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 
 // Helper function to wait for Update to reach terminal state before doing another Update
 // Useful in situations where more than one Update is needed and prior Update needs to complete
-func WaitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
+func WaitForUpdatedState(d schemaResourceData, sync ResourceUpdater) error {
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
 			return e
 		}
 	}
@@ -490,10 +372,10 @@ func WaitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
 
 // Helper function to wait for Create to reach terminal state before doing another operation
 // Useful in situations where another operation is done right after Create
-func WaitForCreatedState(d *schema.ResourceData, sync ResourceCreator) error {
+func WaitForCreatedState(d schemaResourceData, sync ResourceCreator) error {
 	d.SetId(sync.ID())
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
 			return e
 		}
 	}
@@ -501,16 +383,16 @@ func WaitForCreatedState(d *schema.ResourceData, sync ResourceCreator) error {
 	return nil
 }
 
-// waitForStateRefresh takes a StatefulResource, a timeout duration, a list of states to treat as Pending, and a list of states to treat as Target. It uses those to wrap resource.StateChangeConf.WaitForState(). If the resource returns a missing status, it will not be treated as an error.
+// WaitForStateRefresh takes a StatefulResource, a timeout duration, a list of states to treat as Pending, and a list of states to treat as Target. It uses those to wrap resource.StateChangeConf.WaitForState(). If the resource returns a missing status, it will not be treated as an error.
 //
 // sync.D.Id must be set.
 // It does not set state from that refreshed state.
-func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) error {
+func WaitForStateRefresh(sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) error {
 	// TODO: try to move this onto sync
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
 		Target:  target,
-		Refresh: stateRefreshFunc(sync),
+		Refresh: stateRefreshFuncVar(sync),
 		Timeout: timeout,
 	}
 
@@ -551,6 +433,7 @@ func FilterMissingResourceError(sync ResourceVoider, err *error) {
 	}
 }
 
+// no unit test
 // In the Exadata case the service return the hostname provided by the service with a suffix
 func DbSystemHostnameDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
 	return EqualIgnoreCaseSuppressDiff(key, old, new, d) || NewIsPrefixOfOldDiffSuppress(key, old, new, d)
@@ -599,13 +482,11 @@ func GiVersionDiffSuppress(key string, old string, new string, d *schema.Resourc
 	if old == "" || new == "" {
 		return false
 	}
-	if new != "" {
-		oldVersion := strings.Split(old, ".")
-		newVersion := strings.Split(new, ".")
+	oldVersion := strings.Split(old, ".")
+	newVersion := strings.Split(new, ".")
 
-		if oldVersion[0] == newVersion[0] {
-			return true
-		}
+	if oldVersion[0] == newVersion[0] {
+		return true
 	}
 	return false
 }
@@ -627,7 +508,10 @@ func MySqlVersionDiffSuppress(key string, old string, new string, d *schema.Reso
 	return false
 }
 
-func LoadBlancersSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
+func LoadBalancersSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
+	return loadBalancersSuppressDiff(d)
+}
+func loadBalancersSuppressDiff(d schemaResourceData) bool {
 	if !d.HasChange("load_balancers") {
 		return true
 	}
@@ -700,7 +584,7 @@ func GenerateDataSourceID() string {
 	return time.Now().UTC().String()
 }
 
-func GenerateDataSourceHashID(idPrefix string, resourceSchema *schema.Resource, resourceData *schema.ResourceData) string {
+func GenerateDataSourceHashID(idPrefix string, resourceSchema *schema.Resource, resourceData schemaResourceData) string {
 	// Important, if you don't have an ID, make one up for your datasource
 	// or things will end in tears.
 
@@ -821,7 +705,7 @@ func GetDataSourceItemSchema(resourceSchema *schema.Resource) *schema.Resource {
 	resourceSchema.Create = nil
 	resourceSchema.Read = nil
 
-	return convertResourceFieldsToDatasourceFields(resourceSchema)
+	return convertResFieldsToDSFields(resourceSchema)
 }
 
 // Get the Singular DataSource Schema from Resource Schema with additional fields and Read Function
@@ -843,7 +727,7 @@ func GetSingularDataSourceItemSchema(resourceSchema *schema.Resource, addFieldMa
 	resourceSchema.Timeouts = nil
 	resourceSchema.CustomizeDiff = nil
 
-	var dataSourceSchema *schema.Resource = convertResourceFieldsToDatasourceFields(resourceSchema)
+	var dataSourceSchema *schema.Resource = convertResFieldsToDSFields(resourceSchema)
 
 	for key, value := range addFieldMap {
 		dataSourceSchema.Schema[key] = value
@@ -883,7 +767,7 @@ func GetRetryPolicyWithAdditionalRetryCondition(timeout time.Duration, retryCond
 	startTime := time.Now()
 	return &oci_common.RetryPolicy{
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
-			if ShouldRetry(response, false, service, startTime) {
+			if ShouldRetryVar(response, false, service, startTime) {
 				return true
 			}
 			if retryConditionFunction(response) {
@@ -903,7 +787,7 @@ func elaspedInMillisecond(start time.Time) int64 {
 	return time.Since(start).Nanoseconds() / int64(time.Millisecond)
 }
 
-func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.WorkRequestClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+func WaitForWorkRequestWithErrorHandling(workRequestClient workReqClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool) (*string, error) {
 	var identifier *string
 	workRequestIdsSet := map[string]bool{}
@@ -915,7 +799,7 @@ func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.Wo
 	}
 
 	for wId := range workRequestIdsSet {
-		id, err := WaitForWorkRequest(workRequestClient, &wId, entityType, action, timeout, disableFoundRetries, true)
+		id, err := WaitForWorkRequestVar(workRequestClient, &wId, entityType, action, timeout, disableFoundRetries, true)
 		if err != nil {
 			return id, err
 		}
@@ -925,7 +809,7 @@ func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.Wo
 
 }
 
-func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+func WaitForWorkRequest(workRequestClient workReqClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, expectIdentifier bool) (*string, error) {
 	retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
 	retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
@@ -987,7 +871,7 @@ func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, 
 			return nil, fmt.Errorf("work request succeeded but no identifier was found, workId: %s, entity: %s, action: %s",
 				*workRequestId, entityType, action)
 		}
-		return nil, getWorkRequestErrors(workRequestClient, workRequestId, retryPolicy, entityType, action)
+		return nil, getWorkRequestErrorsVar(workRequestClient, workRequestId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
@@ -1004,7 +888,7 @@ func workRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.
 		}
 
 		// Make sure we stop on default rules
-		if ShouldRetry(response, false, "work_request", startTime) {
+		if ShouldRetryVar(response, false, "work_request", startTime) {
 			return true
 		}
 
@@ -1016,7 +900,7 @@ func workRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.
 	}
 }
 
-func getWorkRequestErrors(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+func getWorkRequestErrors(workRequestClient workReqClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum) error {
 	response, err := workRequestClient.ListWorkRequestErrors(context.Background(), oci_work_requests.ListWorkRequestErrorsRequest{
 		WorkRequestId: workRequestId,
 		RequestMetadata: oci_common.RequestMetadata{
@@ -1049,7 +933,7 @@ func GenericMapToJsonMap(genericMap map[string]interface{}) map[string]interface
 		case string:
 			result[key] = v
 		default:
-			bytes, err := json.Marshal(v)
+			bytes, err := jsonMarshal(v)
 			if err != nil {
 				continue
 			}
@@ -1070,7 +954,7 @@ func GetTimeoutDuration(timeout string) *time.Duration {
 }
 
 func ConvertObjectToJsonString(object interface{}) (string, error) {
-	bytes, err := json.Marshal(object)
+	bytes, err := jsonMarshal(object)
 	if err != nil {
 		return "", err
 	}
