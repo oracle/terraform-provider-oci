@@ -132,7 +132,7 @@ func CoreInstancePoolResource() *schema.Resource {
 				Type:             schema.TypeList,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: tfresource.LoadBlancersSuppressDiff,
+				DiffSuppressFunc: tfresource.LoadBalancersSuppressDiff,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required

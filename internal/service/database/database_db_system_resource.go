@@ -859,7 +859,7 @@ func createDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateDBSystemResource(d, sync)
+	return createDBSystemResource(d, sync)
 }
 
 func readDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
@@ -3239,4 +3239,44 @@ func (s *DatabaseDbSystemResourceCrud) DatabaseToMap(obj *oci_database.Database)
 	}
 
 	return result
+}
+
+func createDBSystemResource(d *schema.ResourceData, sync tfresource.ResourceCreator) error {
+	if e := sync.Create(); e != nil {
+		return tfresource.HandleError(sync, e)
+	}
+
+	// ID is required for state refresh
+	d.SetId(sync.ID())
+
+	var timeout time.Duration
+	shape := d.Get("shape")
+	timeout = d.Timeout(schema.TimeoutCreate)
+	if timeout == 0 {
+		if strings.HasPrefix(shape.(string), "Exadata") {
+			timeout = tfresource.TwelveHours
+		} else {
+			timeout = tfresource.TwoHours
+		}
+	}
+	if stateful, ok := sync.(tfresource.StatefullyCreatedResource); ok {
+		if e := tfresource.WaitForStateRefresh(stateful, timeout, "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
+			if setDataErr := sync.SetData(); setDataErr != nil {
+				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
+			}
+			return e
+		}
+	}
+
+	d.SetId(sync.ID())
+	if e := sync.SetData(); e != nil {
+		return e
+	}
+
+	if ew, waitOK := sync.(tfresource.ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
+
+	return nil
 }
