@@ -24,8 +24,8 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"ddl_statement":  acctest.Representation{RepType: acctest.Required, Create: onDemandTableDdlStatement},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: "test_ondemand"},
-		"table_limits":   acctest.RepresentationGroup{acctest.Required, onDemandTableLimitsRepresentation},
-		"lifecycle":      acctest.RepresentationGroup{acctest.Required, ignoreOnDemandTableLimitsReadWrite},
+		"table_limits":   acctest.RepresentationGroup{RepType: acctest.Required, Group: onDemandTableLimitsRepresentation},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreOnDemandTableLimitsReadWrite},
 	}
 	onDemandTableLimitsRepresentation = map[string]interface{}{
 		"max_read_units":     acctest.Representation{RepType: acctest.Required, Create: `0`},
@@ -41,7 +41,7 @@ var (
 	onDemandToPrevisonTableRepresentation  = acctest.RepresentationCopyWithNewProperties(
 		onDemandNoLfcTableLimitsRepresentation,
 		map[string]interface{}{
-			"table_limits": acctest.RepresentationGroup{acctest.Required, tableTableLimitsRepresentation},
+			"table_limits": acctest.RepresentationGroup{RepType: acctest.Required, Group: tableTableLimitsRepresentation},
 		},
 	)
 
@@ -49,7 +49,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `test_ondemand`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{acctest.Required, onDemandTableDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: onDemandTableDataSourceFilterRepresentation}}
 	onDemandTableDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_nosql_table.test_ondemand.id}`}},
@@ -61,6 +61,7 @@ var (
 	}
 )
 
+// issue-routing-tag: nosql/default
 func TestNosqlTableResource_test(t *testing.T) {
 	httpreplay.SetScenario("TestNosqlTableResource_test")
 	defer httpreplay.SaveScenario()

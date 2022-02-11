@@ -55,7 +55,7 @@ var (
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_auto_reclaimable": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"lifecycle":           acctest.RepresentationGroup{acctest.Required, ignoreTableDefinedTags},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTableDefinedTags},
 	}
 	tableTableLimitsRepresentation = map[string]interface{}{
 		"max_read_units":     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
