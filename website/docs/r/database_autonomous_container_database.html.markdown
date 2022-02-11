@@ -22,7 +22,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	patch_model = var.autonomous_container_database_patch_model
 
 	#Optional
-	autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
+	cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 	autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
 	backup_config {
 
@@ -64,7 +64,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 		weeks_of_month = var.autonomous_container_database_maintenance_window_details_weeks_of_month
 	}
 	peer_autonomous_container_database_display_name = var.autonomous_container_database_peer_autonomous_container_database_display_name
-	peer_autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
+	peer_cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 	protection_mode = var.autonomous_container_database_protection_mode
 	peer_autonomous_container_database_backup_config {
 
@@ -94,8 +94,9 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 
 The following arguments are supported:
 
-* `autonomous_exadata_infrastructure_id` - (Optional) The OCID of the Autonomous Exadata Infrastructure.
+* `autonomous_exadata_infrastructure_id` - (End of Life) The OCID of the Autonomous Exadata Infrastructure. Please use cloud_autonomous_vm_cluster_id instead.
 * `autonomous_vm_cluster_id` - (Optional) The OCID of the Autonomous VM Cluster.
+* `cloud_autonomous_vm_cluster_id` - (Optional) The OCID of the Cloud Autonomous VM Cluster.
 * `backup_config` - (Optional) (Updatable) Backup options for the Autonomous Container Database. 
 	* `backup_destination_details` - (Optional) (Updatable) Backup destination details.
 		* `id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
@@ -124,7 +125,8 @@ The following arguments are supported:
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `patch_model` - (Required) (Updatable) Database Patch model preference.
 * `peer_autonomous_container_database_display_name` - (Optional) The display name for the peer Autonomous Container Database.
-* `peer_autonomous_exadata_infrastructure_id` - (Optional) The OCID of the peer Autonomous Exadata Infrastructure for autonomous dataguard.
+* `peer_autonomous_exadata_infrastructure_id` - (End of Life) The OCID of the peer Autonomous Exadata Infrastructure for autonomous dataguard. Please use peer_cloud_autonomous_vm_cluster_id instead.
+* `peer_cloud_autonomous_vm_cluster_id` - The OCID of the peer Autonomous Cloud VM Cluster for autonomous dataguard.  
 * `protection_mode` - (Optional) The protection mode of this Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 * `peer_autonomous_container_database_backup_config` - (Optional) 
 	* `backup_destination_details` - (Optional) Backup destination details.
@@ -141,7 +143,7 @@ The following arguments are supported:
 * `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
 * `standby_maintenance_buffer_in_days` - (Optional) (Updatable) The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before scheduled maintenance of the primary database.  
 * `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
-* `rotate_key_trigger` - (Optional) (Updatable) An optional property when flipped triggers rotation of KMS key. It is only applicable on dedicated container databases i.e. where `autonomous_exadata_infrastructure_id` is set.
+* `rotate_key_trigger` - (Optional) (Updatable) An optional property when flipped triggers rotation of KMS key. It is only applicable on dedicated container databases i.e. where `cloud_autonomous_vm_cluster_id` is set.
 * `standby_maintenance_buffer_in_days` - (Optional) (Updatable) The scheduling detail for the quarterly maintenance window of standby Autonomous Container Database. This value represents the number of days before the primary database maintenance schedule. 
 
 
@@ -152,8 +154,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `autonomous_exadata_infrastructure_id` - The OCID of the Autonomous Exadata Infrastructure.
+* `autonomous_exadata_infrastructure_id` - (End of Life)The OCID of the Autonomous Exadata Infrastructure. Please use cloud_autonomous_vm_cluster_id instead.
 * `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
+* `cloud_autonomous_vm_cluster_id` - The OCID of the Cloud Autonomous VM Cluster.
 * `availability_domain` - The availability domain of the Autonomous Container Database.
 * `backup_config` - Backup options for the Autonomous Container Database. 
 	* `backup_destination_details` - Backup destination details.
