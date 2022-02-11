@@ -24,6 +24,7 @@ const (
 	ServiceListDataSafeDev6  ServiceListEnum = "DataSafe-dev6"
 	ServiceListDataSafeDev7  ServiceListEnum = "DataSafe-dev7"
 	ServiceListDataSafeDev8  ServiceListEnum = "DataSafe-dev8"
+	ServiceListDataSafeDev9  ServiceListEnum = "DataSafe-dev9"
 	ServiceListDataSafeLrg1  ServiceListEnum = "DataSafe-lrg1"
 	ServiceListDataSafeLrg2  ServiceListEnum = "DataSafe-lrg2"
 	ServiceListDataSafeLrg3  ServiceListEnum = "DataSafe-lrg3"
@@ -44,6 +45,7 @@ var mappingServiceListEnum = map[string]ServiceListEnum{
 	"DataSafe-dev6":  ServiceListDataSafeDev6,
 	"DataSafe-dev7":  ServiceListDataSafeDev7,
 	"DataSafe-dev8":  ServiceListDataSafeDev8,
+	"DataSafe-dev9":  ServiceListDataSafeDev9,
 	"DataSafe-lrg1":  ServiceListDataSafeLrg1,
 	"DataSafe-lrg2":  ServiceListDataSafeLrg2,
 	"DataSafe-lrg3":  ServiceListDataSafeLrg3,
@@ -75,6 +77,7 @@ func GetServiceListEnumStringValues() []string {
 		"DataSafe-dev6",
 		"DataSafe-dev7",
 		"DataSafe-dev8",
+		"DataSafe-dev9",
 		"DataSafe-lrg1",
 		"DataSafe-lrg2",
 		"DataSafe-lrg3",

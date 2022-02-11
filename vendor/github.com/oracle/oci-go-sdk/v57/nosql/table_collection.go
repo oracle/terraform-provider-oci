@@ -29,6 +29,12 @@ type TableCollection struct {
 
 	// The current number of reclaimable tables in the tenancy.
 	AutoReclaimableTables *int `mandatory:"false" json:"autoReclaimableTables"`
+
+	// The current number of on demand capacity tables in the tenancy.
+	OnDemandCapacityTables *int `mandatory:"false" json:"onDemandCapacityTables"`
+
+	// The maximum number of on demand capacity tables allowed in the tenancy.
+	MaxOnDemandCapacityTables *int `mandatory:"false" json:"maxOnDemandCapacityTables"`
 }
 
 func (m TableCollection) String() string {

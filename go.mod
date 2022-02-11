@@ -8,6 +8,7 @@ require (
 	github.com/hashicorp/terraform-plugin-sdk v1.17.2
 	github.com/oracle/oci-go-sdk/v57 v57.0.0
 	github.com/stretchr/testify v1.7.0
+	github.com/zclconf/go-cty v1.8.2
 	golang.org/x/mod v0.4.2
 	gopkg.in/yaml.v2 v2.3.0
 )
@@ -73,7 +74,6 @@ require (
 	github.com/ulikunitz/xz v0.5.8 // indirect
 	github.com/vmihailenco/msgpack/v4 v4.3.12 // indirect
 	github.com/vmihailenco/tagparser v0.1.1 // indirect
-	github.com/zclconf/go-cty v1.8.2 // indirect
 	github.com/zclconf/go-cty-yaml v1.0.2 // indirect
 	go.opencensus.io v0.22.4 // indirect
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
@@ -93,6 +93,6 @@ require (
 )
 
 // Uncomment this line to get OCI Go SDK from local source instead of github
-//replace github.com/oracle/oci-go-sdk => ../../oracle/oci-go-sdk
+replace github.com/oracle/oci-go-sdk/v57 v57.0.0 => ./vendor/github.com/oracle/oci-go-sdk
 
 go 1.17
