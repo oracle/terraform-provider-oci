@@ -21,6 +21,9 @@ type ListTargetDatabasesRequest struct {
 	// A filter to return only resources that match the specified compartment OCID.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
+	// A filter to return the target databases that are associated to the resource id passed in as a parameter value.
+	AssociatedResourceId *string `mandatory:"false" contributesTo:"query" name:"associatedResourceId"`
+
 	// A filter to return the target database that matches the specified OCID.
 	TargetDatabaseId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseId"`
 

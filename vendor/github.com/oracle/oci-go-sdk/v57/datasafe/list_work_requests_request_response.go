@@ -24,8 +24,18 @@ type ListWorkRequestsRequest struct {
 	// A filter to return only work requests that match the specific operation type.
 	OperationType *string `mandatory:"false" contributesTo:"query" name:"operationType"`
 
+	// The field used for sorting. Only one sorting order (sortOrder) can be specified.
+	// The default order for STARTTIME and FINISHTIME is descending.
+	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either ascending (ASC) or descending (DESC).
+	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
 	// A filter to return only work requests that match the specified resource OCID.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
+	// A filter to return only work requests that are associated to the specified target database OCID.
+	TargetDatabaseId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseId"`
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -72,6 +82,12 @@ func (request ListWorkRequestsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListWorkRequestsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := mappingListWorkRequestsSortByEnum[string(request.SortBy)]; !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWorkRequestsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := mappingListWorkRequestsSortOrderEnum[string(request.SortOrder)]; !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkRequestsSortOrderEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -101,4 +117,66 @@ func (response ListWorkRequestsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListWorkRequestsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListWorkRequestsSortByEnum Enum with underlying type: string
+type ListWorkRequestsSortByEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsSortByEnum
+const (
+	ListWorkRequestsSortByStarttime  ListWorkRequestsSortByEnum = "STARTTIME"
+	ListWorkRequestsSortByFinishtime ListWorkRequestsSortByEnum = "FINISHTIME"
+)
+
+var mappingListWorkRequestsSortByEnum = map[string]ListWorkRequestsSortByEnum{
+	"STARTTIME":  ListWorkRequestsSortByStarttime,
+	"FINISHTIME": ListWorkRequestsSortByFinishtime,
+}
+
+// GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
+func GetListWorkRequestsSortByEnumValues() []ListWorkRequestsSortByEnum {
+	values := make([]ListWorkRequestsSortByEnum, 0)
+	for _, v := range mappingListWorkRequestsSortByEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsSortByEnumStringValues Enumerates the set of values in String for ListWorkRequestsSortByEnum
+func GetListWorkRequestsSortByEnumStringValues() []string {
+	return []string{
+		"STARTTIME",
+		"FINISHTIME",
+	}
+}
+
+// ListWorkRequestsSortOrderEnum Enum with underlying type: string
+type ListWorkRequestsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsSortOrderEnum
+const (
+	ListWorkRequestsSortOrderAsc  ListWorkRequestsSortOrderEnum = "ASC"
+	ListWorkRequestsSortOrderDesc ListWorkRequestsSortOrderEnum = "DESC"
+)
+
+var mappingListWorkRequestsSortOrderEnum = map[string]ListWorkRequestsSortOrderEnum{
+	"ASC":  ListWorkRequestsSortOrderAsc,
+	"DESC": ListWorkRequestsSortOrderDesc,
+}
+
+// GetListWorkRequestsSortOrderEnumValues Enumerates the set of values for ListWorkRequestsSortOrderEnum
+func GetListWorkRequestsSortOrderEnumValues() []ListWorkRequestsSortOrderEnum {
+	values := make([]ListWorkRequestsSortOrderEnum, 0)
+	for _, v := range mappingListWorkRequestsSortOrderEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsSortOrderEnumStringValues Enumerates the set of values in String for ListWorkRequestsSortOrderEnum
+func GetListWorkRequestsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
 }

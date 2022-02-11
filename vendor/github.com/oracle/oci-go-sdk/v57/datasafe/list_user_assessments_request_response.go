@@ -43,7 +43,7 @@ type ListUserAssessmentsRequest struct {
 	// A filter to return only user assessments that are set as baseline.
 	IsBaseline *bool `mandatory:"false" contributesTo:"query" name:"isBaseline"`
 
-	// A filter to return only items that match the specified target.
+	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
 	// A filter to return only items that match the specified assessment type.
@@ -57,9 +57,9 @@ type ListUserAssessmentsRequest struct {
 	// **Example:** 2016-12-19T16:39:57.600Z
 	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
 
-	// Search for items that were created before a specific date.
+	// Search for resources that were created before a specific date.
 	// Specifying this parameter corresponding `timeCreatedLessThan`
-	// parameter will retrieve all items created before the
+	// parameter will retrieve all resources created before the
 	// specified created date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as
 	// defined by RFC 3339.
 	// **Example:** 2016-12-19T16:39:57.600Z

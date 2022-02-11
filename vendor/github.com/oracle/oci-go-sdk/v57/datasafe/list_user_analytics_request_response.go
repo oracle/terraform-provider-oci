@@ -49,7 +49,7 @@ type ListUserAnalyticsRequest struct {
 	// A filter to return only items that match the specified user name.
 	UserName *string `mandatory:"false" contributesTo:"query" name:"userName"`
 
-	// A filter to return only items that match the specified target.
+	// A filter to return only items related to a specific target OCID.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
 	// A filter to return users whose last login time in the database is greater than or equal to the date and time specified, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
