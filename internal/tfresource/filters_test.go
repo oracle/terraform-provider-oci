@@ -5,11 +5,12 @@ package tfresource
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"strconv"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v57/core"
