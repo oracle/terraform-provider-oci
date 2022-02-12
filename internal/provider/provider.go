@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math"
 	"os"
 	"path"
 	"path/filepath"
@@ -246,7 +245,7 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 		val := time.Duration(retryDurationSeconds.(int)) * time.Second
 		if retryDurationSeconds.(int) < 0 {
 			// Retry for maximum amount of time, if a negative value was specified
-			val = time.Duration(math.MaxInt64)
+			val = time.Duration(globalvar.MaxInt64)
 		}
 		tf_resource.ConfiguredRetryDuration = &val
 	}
