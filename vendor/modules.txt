@@ -317,6 +317,7 @@ github.com/oklog/run
 # github.com/oracle/oci-go-sdk/v57 v57.0.0 => ./vendor/github.com/oracle/oci-go-sdk
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v57/aianomalydetection
+github.com/oracle/oci-go-sdk/v57/aivision
 github.com/oracle/oci-go-sdk/v57/analytics
 github.com/oracle/oci-go-sdk/v57/apigateway
 github.com/oracle/oci-go-sdk/v57/apmconfig
