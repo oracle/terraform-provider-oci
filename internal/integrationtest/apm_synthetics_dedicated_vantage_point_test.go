@@ -10,13 +10,16 @@ import (
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v55/apmsynthetics"
-	"github.com/oracle/oci-go-sdk/v55/common"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
+	"github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -29,41 +32,38 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_dedicated_vantage_point", "test_dedicated_vantage_point", acctest.Optional, acctest.Update, dedicatedVantagePointRepresentation)
 
 	dedicatedVantagePointSingularDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"dedicated_vantage_point_id": Representation{RepType: Required, Create: `${oci_apm_synthetics_dedicated_vantage_point.test_dedicated_vantage_point.id}`},
+		"apm_domain_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.apm_domain_id}`},
+		"dedicated_vantage_point_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_synthetics_dedicated_vantage_point.test_dedicated_vantage_point.id}`},
 	}
 
 	dedicatedVantagePointDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${var.apm_domain_id}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"name":          acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"status":        acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: dedicatedVantagePointDataSourceFilterRepresentation}}
 	dedicatedVantagePointDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apm_synthetics_dedicated_vantage_point.test_dedicated_vantage_point.id}`}},
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `display_name`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apm_synthetics_dedicated_vantage_point.test_dedicated_vantage_point.display_name}`}},
 	}
 
 	dedicatedVantagePointRepresentation = map[string]interface{}{
-		"apm_domain_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"apm_domain_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.apm_domain_id}`},
 		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `displayName`},
 		"dvp_stack_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: dedicatedVantagePointDvpStackDetailsRepresentation},
-		"region":            acctest.Representation{RepType: acctest.Required, Create: `region`, Update: `region2`},
+		"region":            acctest.Representation{RepType: acctest.Required, Create: `${var.dvp_region}`},
 		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"status":            acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 	}
 	dedicatedVantagePointDvpStackDetailsRepresentation = map[string]interface{}{
-		"dvp_stack_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_resourcemanager_stack.test_stack.id}`},
+		"dvp_stack_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.dvp_stack_id}`},
 		"dvp_stack_type": acctest.Representation{RepType: acctest.Required, Create: `ORACLE_RM_STACK`},
-		"dvp_stream_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_streaming_stream.test_stream.id}`},
-		"dvp_version":    acctest.Representation{RepType: acctest.Required, Create: `dvpVersion`, Update: `dvpVersion2`},
+		"dvp_stream_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.dvp_stream_id}`},
+		"dvp_version":    acctest.Representation{RepType: acctest.Required, Create: `${var.dvp_version}`},
 	}
 
-	DedicatedVantagePointResourceDependencies = GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
-		DefinedTagsDependencies +
-		GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
+	DedicatedVantagePointResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: apm_synthetics/default
@@ -72,6 +72,23 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
+
+	//This is a manual test. It requires apm_domain_id, dvp_stack_id,
+	//dvp_stream_id, dvp_version and dvp_region as environment variables.
+	apmDomainId := utils.GetEnvSettingWithBlankDefault("apm_domain_id")
+	dvpStackId := utils.GetEnvSettingWithBlankDefault("dvp_stack_id")
+	dvpStreamId := utils.GetEnvSettingWithBlankDefault("dvp_stream_id")
+	dvpVersion := utils.GetEnvSettingWithBlankDefault("dvp_version")
+	dvpRegion := utils.GetEnvSettingWithBlankDefault("dvp_region")
+
+	if apmDomainId == "" || dvpStackId == "" || dvpStreamId == "" || dvpVersion == "" || dvpRegion == "" {
+		t.Skip("Set apm_domain_id, dvp_stack_id, dvp_stream_id, dvp_version and dvp_region to run this test")
+	}
+	apmDomainIdVariableStr := fmt.Sprintf("variable \"apm_domain_id\" { default = \"%s\" }\n", apmDomainId)
+	dvpStackIdVariableStr := fmt.Sprintf("variable \"dvp_stack_id\" { default = \"%s\" }\n", dvpStackId)
+	dvpStreamIdVariableStr := fmt.Sprintf("variable \"dvp_stream_id\" { default = \"%s\" }\n", dvpStreamId)
+	dvpVersionVariableStr := fmt.Sprintf("variable \"dvp_version\" { default = \"%s\" }\n", dvpVersion)
+	dvpRegionVariableStr := fmt.Sprintf("variable \"dvp_region\" { default = \"%s\" }\n", dvpRegion)
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -83,12 +100,14 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DedicatedVantagePointResourceDependencies+
+		apmDomainIdVariableStr+dvpStackIdVariableStr+dvpStreamIdVariableStr+dvpVersionVariableStr+dvpRegionVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_dedicated_vantage_point", "test_dedicated_vantage_point", acctest.Optional, acctest.Create, dedicatedVantagePointRepresentation), "apmsynthetics", "dedicatedVantagePoint", t)
 
 	acctest.ResourceTest(t, testAccCheckApmSyntheticsDedicatedVantagePointDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DedicatedVantagePointResourceDependencies +
+				apmDomainIdVariableStr + dvpStackIdVariableStr + dvpStreamIdVariableStr + dvpVersionVariableStr + dvpRegionVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_dedicated_vantage_point", "test_dedicated_vantage_point", acctest.Required, acctest.Create, dedicatedVantagePointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -97,8 +116,8 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "dvp_stack_details.0.dvp_stack_id"),
 				resource.TestCheckResourceAttr(resourceName, "dvp_stack_details.0.dvp_stack_type", "ORACLE_RM_STACK"),
 				resource.TestCheckResourceAttrSet(resourceName, "dvp_stack_details.0.dvp_stream_id"),
-				resource.TestCheckResourceAttr(resourceName, "dvp_stack_details.0.dvp_version", "dvpVersion"),
-				resource.TestCheckResourceAttr(resourceName, "region", "region"),
+				resource.TestCheckResourceAttr(resourceName, "dvp_stack_details.0.dvp_version", dvpVersion),
+				resource.TestCheckResourceAttr(resourceName, "region", dvpRegion),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -109,11 +128,13 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVantagePointResourceDependencies,
+			Config: config + compartmentIdVariableStr + DedicatedVantagePointResourceDependencies +
+				apmDomainIdVariableStr + dvpStackIdVariableStr + dvpStreamIdVariableStr + dvpVersionVariableStr + dvpRegionVariableStr,
 		},
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DedicatedVantagePointResourceDependencies +
+				apmDomainIdVariableStr + dvpStackIdVariableStr + dvpStreamIdVariableStr + dvpVersionVariableStr + dvpRegionVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_dedicated_vantage_point", "test_dedicated_vantage_point", acctest.Optional, acctest.Create, dedicatedVantagePointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -122,12 +143,12 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "dvp_stack_details.0.dvp_stack_id"),
 				resource.TestCheckResourceAttr(resourceName, "dvp_stack_details.0.dvp_stack_type", "ORACLE_RM_STACK"),
 				resource.TestCheckResourceAttrSet(resourceName, "dvp_stack_details.0.dvp_stream_id"),
-				resource.TestCheckResourceAttr(resourceName, "dvp_stack_details.0.dvp_version", "dvpVersion"),
+				resource.TestCheckResourceAttr(resourceName, "dvp_stack_details.0.dvp_version", dvpVersion),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "monitor_status_count_map.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "name"),
-				resource.TestCheckResourceAttr(resourceName, "region", "region"),
+				resource.TestCheckResourceAttr(resourceName, "region", dvpRegion),
 				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
@@ -145,6 +166,7 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DedicatedVantagePointResourceDependencies +
+				apmDomainIdVariableStr + dvpStackIdVariableStr + dvpStreamIdVariableStr + dvpVersionVariableStr + dvpRegionVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_dedicated_vantage_point", "test_dedicated_vantage_point", acctest.Optional, acctest.Update, dedicatedVantagePointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
@@ -153,12 +175,12 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "dvp_stack_details.0.dvp_stack_id"),
 				resource.TestCheckResourceAttr(resourceName, "dvp_stack_details.0.dvp_stack_type", "ORACLE_RM_STACK"),
 				resource.TestCheckResourceAttrSet(resourceName, "dvp_stack_details.0.dvp_stream_id"),
-				resource.TestCheckResourceAttr(resourceName, "dvp_stack_details.0.dvp_version", "dvpVersion2"),
+				resource.TestCheckResourceAttr(resourceName, "dvp_stack_details.0.dvp_version", dvpVersion),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "monitor_status_count_map.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "name"),
-				resource.TestCheckResourceAttr(resourceName, "region", "region2"),
+				resource.TestCheckResourceAttr(resourceName, "region", dvpRegion),
 				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
 
 				func(s *terraform.State) (err error) {
@@ -175,6 +197,7 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_dedicated_vantage_points", "test_dedicated_vantage_points", acctest.Optional, acctest.Update, dedicatedVantagePointDataSourceRepresentation) +
 				compartmentIdVariableStr + DedicatedVantagePointResourceDependencies +
+				apmDomainIdVariableStr + dvpStackIdVariableStr + dvpStreamIdVariableStr + dvpVersionVariableStr + dvpRegionVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_dedicated_vantage_point", "test_dedicated_vantage_point", acctest.Optional, acctest.Update, dedicatedVantagePointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
@@ -190,6 +213,7 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_dedicated_vantage_point", "test_dedicated_vantage_point", acctest.Required, acctest.Create, dedicatedVantagePointSingularDataSourceRepresentation) +
+				apmDomainIdVariableStr + dvpStackIdVariableStr + dvpStreamIdVariableStr + dvpVersionVariableStr + dvpRegionVariableStr +
 				compartmentIdVariableStr + DedicatedVantagePointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
@@ -198,12 +222,12 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dvp_stack_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dvp_stack_details.0.dvp_stack_type", "ORACLE_RM_STACK"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "dvp_stack_details.0.dvp_version", "dvpVersion2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dvp_stack_details.0.dvp_version", dvpVersion),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "monitor_status_count_map.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "region", "region2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "region", dvpRegion),
 				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -211,7 +235,8 @@ func TestApmSyntheticsDedicatedVantagePointResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + DedicatedVantagePointResourceConfig,
+			Config: config + compartmentIdVariableStr + DedicatedVantagePointResourceConfig +
+				apmDomainIdVariableStr + dvpStackIdVariableStr + dvpStreamIdVariableStr + dvpVersionVariableStr + dvpRegionVariableStr,
 		},
 		// verify resource import
 		{
@@ -263,26 +288,26 @@ func testAccCheckApmSyntheticsDedicatedVantagePointDestroy(s *terraform.State) e
 }
 
 func init() {
-	if DependencyGraph == nil {
-		initDependencyGraph()
+	if acctest.DependencyGraph == nil {
+		acctest.InitDependencyGraph()
 	}
-	if !InSweeperExcludeList("ApmSyntheticsDedicatedVantagePoint") {
+	if !acctest.InSweeperExcludeList("ApmSyntheticsDedicatedVantagePoint") {
 		resource.AddTestSweepers("ApmSyntheticsDedicatedVantagePoint", &resource.Sweeper{
 			Name:         "ApmSyntheticsDedicatedVantagePoint",
-			Dependencies: DependencyGraph["dedicatedVantagePoint"],
+			Dependencies: acctest.DependencyGraph["dedicatedVantagePoint"],
 			F:            sweepApmSyntheticsDedicatedVantagePointResource,
 		})
 	}
 }
 
 func sweepApmSyntheticsDedicatedVantagePointResource(compartment string) error {
-	apmSyntheticClient := GetTestClients(&schema.ResourceData{}).apmSyntheticClient()
+	apmSyntheticClient := acctest.GetTestClients(&schema.ResourceData{}).ApmSyntheticClient()
 	dedicatedVantagePointIds, err := getDedicatedVantagePointIds(compartment)
 	if err != nil {
 		return err
 	}
 	for _, dedicatedVantagePointId := range dedicatedVantagePointIds {
-		if ok := SweeperDefaultResourceId[dedicatedVantagePointId]; !ok {
+		if ok := acctest.SweeperDefaultResourceId[dedicatedVantagePointId]; !ok {
 			deleteDedicatedVantagePointRequest := oci_apm_synthetics.DeleteDedicatedVantagePointRequest{}
 
 			deleteDedicatedVantagePointRequest.DedicatedVantagePointId = &dedicatedVantagePointId
@@ -299,16 +324,15 @@ func sweepApmSyntheticsDedicatedVantagePointResource(compartment string) error {
 }
 
 func getDedicatedVantagePointIds(compartment string) ([]string, error) {
-	ids := GetResourceIdsToSweep(compartment, "DedicatedVantagePointId")
+	ids := acctest.GetResourceIdsToSweep(compartment, "DedicatedVantagePointId")
 	if ids != nil {
 		return ids, nil
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	apmSyntheticClient := GetTestClients(&schema.ResourceData{}).apmSyntheticClient()
+	apmSyntheticClient := acctest.GetTestClients(&schema.ResourceData{}).ApmSyntheticClient()
 
 	listDedicatedVantagePointsRequest := oci_apm_synthetics.ListDedicatedVantagePointsRequest{}
-	listDedicatedVantagePointsRequest.CompartmentId = &compartmentId
 
 	apmDomainIds, error := getApmDomainIds(compartment)
 	if error != nil {
@@ -325,7 +349,7 @@ func getDedicatedVantagePointIds(compartment string) ([]string, error) {
 		for _, dedicatedVantagePoint := range listDedicatedVantagePointsResponse.Items {
 			id := *dedicatedVantagePoint.Id
 			resourceIds = append(resourceIds, id)
-			AddResourceIdToSweeperResourceIdMap(compartmentId, "DedicatedVantagePointId", id)
+			acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "DedicatedVantagePointId", id)
 		}
 
 	}

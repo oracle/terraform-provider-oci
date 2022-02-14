@@ -11,10 +11,13 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v55/apmsynthetics"
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
 )
 
 func ApmSyntheticsDedicatedVantagePointResource() *schema.Resource {
@@ -102,8 +105,6 @@ func ApmSyntheticsDedicatedVantagePointResource() *schema.Resource {
 			"monitor_status_count_map": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -187,7 +188,7 @@ type ApmSyntheticsDedicatedVantagePointResourceCrud struct {
 }
 
 func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) ID() string {
-	return GetDedicatedVantagePointCompositeId(s.D.Get("id").(string))
+	return GetDedicatedVantagePointCompositeId(*s.Res.Id, s.D.Get("apm_domain_id").(string))
 }
 
 func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) Create() error {
@@ -199,7 +200,7 @@ func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) Create() error {
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -223,7 +224,7 @@ func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if region, ok := s.D.GetOkExists("region"); ok {
@@ -257,11 +258,12 @@ func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DedicatedVantagePointId = &tmp
 
-	dedicatedVantagePointId, err := parseDedicatedVantagePointCompositeId(s.D.Id())
+	dedicatedVantagePointId, apmDomainId, err := parseDedicatedVantagePointCompositeId(s.D.Id())
 	if err == nil {
 		request.DedicatedVantagePointId = &dedicatedVantagePointId
+		request.ApmDomainId = &apmDomainId
 	} else {
-		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+		log.Printf("[WARN] Get() unable to parse current ID: %s apmDomainId: %s", s.D.Id(), apmDomainId)
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
@@ -286,8 +288,16 @@ func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DedicatedVantagePointId = &tmp
 
+	dedicatedVantagePointId, apmDomainId, err := parseDedicatedVantagePointCompositeId(s.D.Id())
+	if err == nil {
+		request.DedicatedVantagePointId = &dedicatedVantagePointId
+		request.ApmDomainId = &apmDomainId
+	} else {
+		log.Printf("[WARN] Update() unable to parse current ID: %s apmDomainId: %s", s.D.Id(), apmDomainId)
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -306,7 +316,7 @@ func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if region, ok := s.D.GetOkExists("region"); ok {
@@ -340,6 +350,13 @@ func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DedicatedVantagePointId = &tmp
 
+	dedicatedVantagePointId, apmDomainId, err1 := parseDedicatedVantagePointCompositeId(s.D.Id())
+	if err1 == nil {
+		request.DedicatedVantagePointId = &dedicatedVantagePointId
+	} else {
+		log.Printf("[WARN] Delete() unable to parse current ID: %s apmDomainId: %s", s.D.Id(), apmDomainId)
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
 
 	_, err := s.Client.DeleteDedicatedVantagePoint(context.Background(), request)
@@ -348,15 +365,18 @@ func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) Delete() error {
 
 func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) SetData() error {
 
-	dedicatedVantagePointId, err := parseDedicatedVantagePointCompositeId(s.D.Id())
+	dedicatedVantagePointId, apmDomainId, err := parseDedicatedVantagePointCompositeId(s.D.Id())
 	if err == nil {
-		s.D.SetId(dedicatedVantagePointId)
+		s.D.Set("dedicated_vantage_point_id", dedicatedVantagePointId)
+		if apmDomainId != "" {
+
+		}
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.DisplayName != nil {
@@ -402,14 +422,14 @@ func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) SetData() error {
 	return nil
 }
 
-func GetDedicatedVantagePointCompositeId(dedicatedVantagePointId string) string {
+func GetDedicatedVantagePointCompositeId(dedicatedVantagePointId string, apmDomainId string) string {
 	apmDomainId = url.PathEscape(apmDomainId)
 	dedicatedVantagePointId = url.PathEscape(dedicatedVantagePointId)
 	compositeId := "dedicatedVantagePoints/" + dedicatedVantagePointId + "/apmDomainId/" + apmDomainId
 	return compositeId
 }
 
-func parseDedicatedVantagePointCompositeId(compositeId string) (dedicatedVantagePointId string, err error) {
+func parseDedicatedVantagePointCompositeId(compositeId string) (dedicatedVantagePointId string, apmDomainId string, err error) {
 	parts := strings.Split(compositeId, "/")
 	match, _ := regexp.MatchString("dedicatedVantagePoints/.*/apmDomainId/.*", compositeId)
 	if !match || len(parts) != 4 {
@@ -426,7 +446,7 @@ func DedicatedVantagePointSummaryToMap(obj oci_apm_synthetics.DedicatedVantagePo
 	result := map[string]interface{}{}
 
 	if obj.DefinedTags != nil {
-		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
 
 	if obj.DisplayName != nil {
@@ -475,7 +495,7 @@ func DedicatedVantagePointSummaryToMap(obj oci_apm_synthetics.DedicatedVantagePo
 func DvpStackDetailsToMap(obj *oci_apm_synthetics.DvpStackDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
-	case oci_apm_synthetics.OracleRMStack:
+	case oci_apm_synthetics.OracleRmStack:
 		result["dvp_stack_type"] = "ORACLE_RM_STACK"
 
 		if v.DvpStackId != nil {
@@ -485,6 +505,10 @@ func DvpStackDetailsToMap(obj *oci_apm_synthetics.DvpStackDetails) map[string]in
 		if v.DvpStreamId != nil {
 			result["dvp_stream_id"] = string(*v.DvpStreamId)
 		}
+
+		if v.DvpVersion != nil {
+			result["dvp_version"] = string(*v.DvpVersion)
+		}
 	default:
 		log.Printf("[WARN] Received 'dvp_stack_type' of unknown type %v", *obj)
 		return nil
@@ -493,24 +517,23 @@ func DvpStackDetailsToMap(obj *oci_apm_synthetics.DvpStackDetails) map[string]in
 	return result
 }
 
-func MonitorStatusCountMapToMap(obj *oci_apm_synthetics.MonitorStatusCountMap) map[string]interface{} {
-	result := map[string]interface{}{}
+func (s *ApmSyntheticsDedicatedVantagePointResourceCrud) mapToDvpStackDetails(fieldKeyFormat string) (oci_apm_synthetics.OracleRmStack, error) {
+	result := oci_apm_synthetics.OracleRmStack{}
 
-	if obj.Disabled != nil {
-		result["disabled"] = int(*obj.Disabled)
+	if dvpVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dvp_version")); ok {
+		tmp := dvpVersion.(string)
+		result.DvpVersion = &tmp
 	}
 
-	if obj.Enabled != nil {
-		result["enabled"] = int(*obj.Enabled)
+	if dvpStackId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dvp_stack_id")); ok {
+		tmp := dvpStackId.(string)
+		result.DvpStackId = &tmp
 	}
 
-	if obj.Invalid != nil {
-		result["invalid"] = int(*obj.Invalid)
+	if dvpStreamId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dvp_stream_id")); ok {
+		tmp := dvpStreamId.(string)
+		result.DvpStreamId = &tmp
 	}
 
-	if obj.Total != nil {
-		result["total"] = int(*obj.Total)
-	}
-
-	return result
+	return result, nil
 }

@@ -134,7 +134,10 @@ func init() {
 	// apm_config service
 	RegisterDatasource("oci_apm_config_config", tf_apm_config.ApmConfigConfigDataSource())
 	RegisterDatasource("oci_apm_config_configs", tf_apm_config.ApmConfigConfigsDataSource())
+
 	// apm_synthetics service
+	RegisterDatasource("oci_apm_synthetics_dedicated_vantage_points", tf_apm_synthetics.ApmSyntheticsDedicatedVantagePointsDataSource())
+	RegisterDatasource("oci_apm_synthetics_dedicated_vantage_point", tf_apm_synthetics.ApmSyntheticsDedicatedVantagePointDataSource())
 	RegisterDatasource("oci_apm_synthetics_monitor", tf_apm_synthetics.ApmSyntheticsMonitorDataSource())
 	RegisterDatasource("oci_apm_synthetics_monitors", tf_apm_synthetics.ApmSyntheticsMonitorsDataSource())
 	RegisterDatasource("oci_apm_synthetics_public_vantage_point", tf_apm_synthetics.ApmSyntheticsPublicVantagePointDataSource())
