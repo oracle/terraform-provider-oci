@@ -5,9 +5,13 @@ package apm_synthetics
 
 import (
 	"context"
+	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v55/apmsynthetics"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
 func ApmSyntheticsDedicatedVantagePointDataSource() *schema.Resource {
@@ -51,7 +55,13 @@ func (s *ApmSyntheticsDedicatedVantagePointDataSourceCrud) Get() error {
 
 	if dedicatedVantagePointId, ok := s.D.GetOkExists("dedicated_vantage_point_id"); ok {
 		tmp := dedicatedVantagePointId.(string)
-		request.DedicatedVantagePointId = &tmp
+		dedicatedVantagePointId, apmDomainId, err := parseDedicatedVantagePointCompositeId(tmp)
+		if err == nil {
+			request.DedicatedVantagePointId = &dedicatedVantagePointId
+			request.ApmDomainId = &apmDomainId
+		} else {
+			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm_synthetics")
@@ -70,10 +80,10 @@ func (s *ApmSyntheticsDedicatedVantagePointDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(*s.Res.Id)
+	s.D.SetId(GetDedicatedVantagePointCompositeId(*s.Res.Id, s.D.Get("apm_domain_id").(string)))
 
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.DisplayName != nil {

@@ -6,8 +6,11 @@ package apm_synthetics
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v55/apmsynthetics"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v65/apmsynthetics"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
 func ApmSyntheticsDedicatedVantagePointsDataSource() *schema.Resource {
@@ -78,15 +81,6 @@ func (s *ApmSyntheticsDedicatedVantagePointsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
-	}
-
-	if name, ok := s.D.GetOkExists("name"); ok {
-		tmp := name.(string)
-		request.Name = &tmp
-	}
-
-	if status, ok := s.D.GetOkExists("status"); ok {
-		request.Status = oci_apm_synthetics.ListDedicatedVantagePointsStatusEnum(status.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm_synthetics")
