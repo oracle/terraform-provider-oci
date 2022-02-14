@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_bds_bds_instance_api_key"
 sidebar_current: "docs-oci-datasource-bds-bds_instance_api_key"
 description: |-
-Provides details about a specific Bds Instance Api Key in Oracle Cloud Infrastructure Big Data Service service
+  Provides details about a specific Bds Instance Api Key in Oracle Cloud Infrastructure Big Data Service service
 ---
 
 # Data Source: oci_bds_bds_instance_api_key

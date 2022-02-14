@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_volume_attachment"
 sidebar_current: "docs-oci-resource-core-volume_attachment"
 description: |-
-Provides the Volume Attachment resource in Oracle Cloud Infrastructure Core service
+  Provides the Volume Attachment resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_volume_attachment
