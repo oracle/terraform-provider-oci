@@ -16,6 +16,7 @@ import (
 
 	oci_common "github.com/oracle/oci-go-sdk/v59/common"
 	oci_osp_gateway "github.com/oracle/oci-go-sdk/v59/ospgateway"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
