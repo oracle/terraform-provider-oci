@@ -68,6 +68,38 @@ func TestUnitTfHclVersion11_getVarHclString(t *testing.T) {
 	}
 }
 
+func TestUnitTfHclVersion11_getReference(t *testing.T) {
+	type fields struct {
+		Value TfVersionEnum
+	}
+	type args struct {
+		varName string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   string
+	}{
+		{
+			"reference",
+			fields{TfVersion11},
+			args{"reference"},
+			"\"reference\"",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tfversion := &TfHclVersion11{
+				Value: tt.fields.Value,
+			}
+			if got := tfversion.getReference(tt.args.varName); got != tt.want {
+				t.Errorf("TfHclVersion11.getReference() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_getDataSourceHclString(t *testing.T) {
 	type fields struct {
@@ -226,6 +258,38 @@ func TestUnitTfHclVersion12_getVarHclString(t *testing.T) {
 			}
 			if got := tfversion.getVarHclString(tt.args.varName); got != tt.want {
 				t.Errorf("TfHclVersion12.getVarHclString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestUnitTfHclVersion12_getReference(t *testing.T) {
+	type fields struct {
+		Value TfVersionEnum
+	}
+	type args struct {
+		varName string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   string
+	}{
+		{
+			"reference",
+			fields{TfVersion12},
+			args{"reference"},
+			"reference",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tfversion := &TfHclVersion12{
+				Value: tt.fields.Value,
+			}
+			if got := tfversion.getReference(tt.args.varName); got != tt.want {
+				t.Errorf("TfHclVersion12.getReference() = %v, want %v", got, tt.want)
 			}
 		})
 	}
