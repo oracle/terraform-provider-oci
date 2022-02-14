@@ -39,6 +39,10 @@ For example: vcn can have default dhcpOptions, routeTables and securityLists whi
 */
 var SweeperDefaultResourceId = make(map[string]bool)
 
+var identityClientListAvailabilityDomains = func(client *oci_identity.IdentityClient, adRequest oci_identity.ListAvailabilityDomainsRequest) (oci_identity.ListAvailabilityDomainsResponse, error) {
+	return client.ListAvailabilityDomains(context.Background(), adRequest)
+}
+
 // issue-routing-tag: terraform/default
 func TestMain(m *testing.M) {
 	resource.TestMain(m)
@@ -79,7 +83,7 @@ func GetAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	identityClient := GetTestClients(&schema.ResourceData{}).IdentityClient()
 	adRequest := oci_identity.ListAvailabilityDomainsRequest{}
 	adRequest.CompartmentId = &compartmentId
-	ads, err := identityClient.ListAvailabilityDomains(context.Background(), adRequest)
+	ads, err := identityClientListAvailabilityDomains(identityClient, adRequest)
 	if err != nil {
 		return availabilityDomains, fmt.Errorf("Error getting availability domains for compartment id : %s , %s \n", compartmentId, err)
 	}

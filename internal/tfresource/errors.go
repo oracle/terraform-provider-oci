@@ -18,6 +18,8 @@ import (
 
 type errorTypeEnum string
 
+var serviceErrorCheck = func(err error) (failure oci_common.ServiceError, ok bool) { return oci_common.IsServiceError(err) }
+
 const (
 	ServiceError         errorTypeEnum = "ServiceError"
 	TimeoutError         errorTypeEnum = "TimeoutError"
@@ -43,7 +45,7 @@ func newCustomError(sync interface{}, err error) error {
 	errorMessage := err.Error()
 
 	// Service error
-	if failure, isServiceError := oci_common.IsServiceError(err); isServiceError {
+	if failure, isServiceError := serviceErrorCheck(err); isServiceError {
 		tfError = customError{
 			TypeOfError:   ServiceError,
 			ErrorCode:     failure.GetHTTPStatusCode(),
@@ -201,9 +203,13 @@ func getResourceOCID(sync interface{}) string {
 }
 
 func GetVersionAndDateError() string {
-	result := fmt.Sprintf("Provider version: %s, released on %s. ", globalvar.Version, globalvar.ReleaseDate)
+	return getVersionAndDateErrorImpl(globalvar.Version, globalvar.ReleaseDate)
+}
+
+func getVersionAndDateErrorImpl(version string, date string) string {
+	result := fmt.Sprintf("Provider version: %s, released on %s. ", version, date)
 	today := time.Now()
-	releaseDate, _ := time.Parse("2006-01-02", globalvar.ReleaseDate)
+	releaseDate, _ := time.Parse("2006-01-02", date)
 	days := today.Sub(releaseDate).Hours() / 24
 
 	if days > 8 {

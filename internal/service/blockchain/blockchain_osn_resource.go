@@ -17,6 +17,7 @@ import (
 
 	oci_blockchain "github.com/oracle/oci-go-sdk/v59/blockchain"
 	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
