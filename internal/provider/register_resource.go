@@ -100,7 +100,9 @@ func init() {
 	// apm_config service
 	RegisterResource("oci_apm_apm_domain", tf_apm.ApmApmDomainResource())
 	RegisterResource("oci_apm_config_config", tf_apm_config.ApmConfigConfigResource())
-	// apm_synthetics service
+
+	//apm synthetics
+	RegisterResource("oci_apm_synthetics_dedicated_vantage_point", tf_apm_synthetics.ApmSyntheticsDedicatedVantagePointResource())
 	RegisterResource("oci_apm_synthetics_monitor", tf_apm_synthetics.ApmSyntheticsMonitorResource())
 	RegisterResource("oci_apm_synthetics_script", tf_apm_synthetics.ApmSyntheticsScriptResource())
 	// appmgmt_control service
