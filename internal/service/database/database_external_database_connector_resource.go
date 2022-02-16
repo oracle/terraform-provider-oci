@@ -53,6 +53,7 @@ func DatabaseExternalDatabaseConnectorResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"DETAILS",
 								"NAME_REFERENCE",
+								"SSL_DETAILS",
 							}, true),
 						},
 						"password": {
@@ -62,6 +63,11 @@ func DatabaseExternalDatabaseConnectorResource() *schema.Resource {
 							Sensitive: true,
 						},
 						"role": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"ssl_secret_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -445,6 +451,28 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) mapToDatabaseConnectionC
 			details.CredentialName = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("SSL_DETAILS"):
+		details := oci_database.DatabaseSslConnectionCredentials{}
+		if credentialName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_name")); ok {
+			tmp := credentialName.(string)
+			details.CredentialName = &tmp
+		}
+		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		if role, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "role")); ok {
+			details.Role = oci_database.DatabaseSslConnectionCredentialsRoleEnum(role.(string))
+		}
+		if sslSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssl_secret_id")); ok {
+			tmp := sslSecretId.(string)
+			details.SslSecretId = &tmp
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown credential_type '%v' was specified", credentialType)
 	}
@@ -476,6 +504,27 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) DatabaseConnectionCreden
 		if v.CredentialName != nil {
 			result["credential_name"] = string(*v.CredentialName)
 		}
+	case oci_database.DatabaseSslConnectionCredentials:
+		result["credential_type"] = "SSL_DETAILS"
+
+		if v.CredentialName != nil {
+			result["credential_name"] = string(*v.CredentialName)
+		}
+
+		if password, ok := s.D.GetOkExists("connection_credentials.0.password"); ok && password != nil {
+			result["password"] = password.(string)
+		}
+
+		result["role"] = string(v.Role)
+
+		if v.SslSecretId != nil {
+			result["ssl_secret_id"] = string(*v.SslSecretId)
+		}
+
+		if username, ok := s.D.GetOkExists("connection_credentials.0.username"); ok && username != nil {
+			result["username"] = username.(string)
+		}
+
 	default:
 		log.Printf("[WARN] Received 'credential_type' of unknown type %v", *obj)
 		return nil

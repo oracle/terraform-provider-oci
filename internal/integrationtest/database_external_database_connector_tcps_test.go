@@ -6,10 +6,12 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-
 	"strconv"
-	"testing"
 	"time"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+
+	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -20,36 +22,35 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
-	ExternalDatabaseConnectorRequiredOnlyResource = ExternalDatabaseConnectorResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, externalDatabaseConnectorRepresentation)
+	ExternalDatabaseTcpsConnectorRequiredOnlyResource = ExternalDatabaseTcpsConnectorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, externalDatabaseConnectorTcpsRepresentation)
 
-	ExternalDatabaseConnectorResourceConfig = ExternalDatabaseConnectorResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Update, externalDatabaseConnectorRepresentation)
+	ExternalDatabaseTcpsConnectorResourceConfig = ExternalDatabaseTcpsConnectorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Update, externalDatabaseConnectorTcpsRepresentation)
 
-	externalDatabaseConnectorSingularDataSourceRepresentation = map[string]interface{}{
+	externalDatabaseConnectorTcpsSingularDataSourceRepresentation = map[string]interface{}{
 		"external_database_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_database_connector.test_external_database_connector.id}`},
 	}
 
-	externalDatabaseConnectorDataSourceRepresentation = map[string]interface{}{
+	externalDatabaseConnectorTcpsDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"external_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
 		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `myTestConn`, Update: `displayName2`},
 		"state":                acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":               acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorDataSourceFilterRepresentation}}
-	externalDatabaseConnectorDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":               acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorTcpsDataSourceFilterRepresentation}}
+	externalDatabaseConnectorTcpsDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_external_database_connector.test_external_database_connector.id}`}},
 	}
 
-	externalDatabaseConnectorRepresentation = map[string]interface{}{
-		"connection_credentials": acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorConnectionCredentialsRepresentation},
-		"connection_string":      acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorConnectionStringRepresentation},
+	externalDatabaseConnectorTcpsRepresentation = map[string]interface{}{
+		"connection_credentials": acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorTcpsConnectionCredentialsRepresentation},
+		"connection_string":      acctest.RepresentationGroup{RepType: acctest.Required, Group: externalDatabaseConnectorTcpsConnectionStringRepresentation},
 		"connector_agent_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `myTestConn`, Update: `displayName2`},
 		"external_database_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
@@ -58,27 +59,29 @@ var (
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	externalDatabaseConnectorConnectionCredentialsRepresentation = map[string]interface{}{
+	externalDatabaseConnectorTcpsConnectionCredentialsRepresentation = map[string]interface{}{
 		"credential_name": acctest.Representation{RepType: acctest.Required, Create: `credential.name`},
-		"credential_type": acctest.Representation{RepType: acctest.Optional, Create: `DETAILS`},
+		"credential_type": acctest.Representation{RepType: acctest.Required, Create: `SSL_DETAILS`},
 		"password":        acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
 		"role":            acctest.Representation{RepType: acctest.Required, Create: `SYSDBA`, Update: `NORMAL`},
 		"username":        acctest.Representation{RepType: acctest.Required, Create: `testUser`, Update: `username2`},
+		"ssl_secret_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.sslSecretId}`},
 	}
-	externalDatabaseConnectorConnectionStringRepresentation = map[string]interface{}{
+
+	externalDatabaseConnectorTcpsConnectionStringRepresentation = map[string]interface{}{
 		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myHost.test`, Update: `hostname2`},
-		"port":     acctest.Representation{RepType: acctest.Required, Create: `1024`, Update: `1025`},
-		"protocol": acctest.Representation{RepType: acctest.Required, Create: `TCP`},
+		"port":     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"protocol": acctest.Representation{RepType: acctest.Required, Create: `TCPS`},
 		"service":  acctest.Representation{RepType: acctest.Required, Create: `testService`, Update: `service2`},
 	}
 
-	ExternalDatabaseConnectorResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, externalNonContainerDatabaseRepresentation) +
+	ExternalDatabaseTcpsConnectorResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", acctest.Required, acctest.Create, externalNonContainerDatabaseRepresentation) +
 		DefinedTagsDependencies
 )
 
 // issue-routing-tag: database/default
-func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseExternalDatabaseConnectorResource_basic")
+func TestDatabaseExternalDatabaseTcpsConnectorResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseExternalDatabaseTcpsConnectorResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -89,28 +92,33 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 	agentId := utils.GetEnvSettingWithBlankDefault("connector_agent_id")
 	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
 
+	sslSecretId := utils.GetEnvSettingWithBlankDefault("secret_id")
+	sslSecretIdVariableStr := fmt.Sprintf("variable \"sslSecretId\" { default = \"%s\" }\n", sslSecretId)
+
 	resourceName := "oci_database_external_database_connector.test_external_database_connector"
 	datasourceName := "data.oci_database_external_database_connectors.test_external_database_connectors"
 	singularDatasourceName := "data.oci_database_external_database_connector.test_external_database_connector"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdVariableStr+ExternalDatabaseConnectorResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Create, externalDatabaseConnectorRepresentation), "database", "externalDatabaseConnector", t)
 
-	acctest.ResourceTest(t, testAccCheckDatabaseExternalDatabaseConnectorDestroy, []resource.TestStep{
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdVariableStr+sslSecretIdVariableStr+ExternalDatabaseTcpsConnectorResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Create, externalDatabaseConnectorTcpsRepresentation), "database", "externalDatabaseConnector", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseExternalDatabaseTcpsConnectorDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, externalDatabaseConnectorRepresentation),
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + sslSecretIdVariableStr + ExternalDatabaseTcpsConnectorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, externalDatabaseConnectorTcpsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "SYSDBA"),
+				resource.TestCheckResourceAttrSet(resourceName, "connection_credentials.0.ssl_secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.0.hostname", "myHost.test"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.0.port", "10"),
-				resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCPS"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.0.service", "testService"),
 				resource.TestCheckResourceAttrSet(resourceName, "connector_agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestConn"),
@@ -125,23 +133,24 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies,
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + sslSecretIdVariableStr + ExternalDatabaseTcpsConnectorResourceDependencies,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Create, externalDatabaseConnectorRepresentation),
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + sslSecretIdVariableStr + ExternalDatabaseTcpsConnectorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Create, externalDatabaseConnectorTcpsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
-				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_type", "DETAILS"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_type", "SSL_DETAILS"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "SYSDBA"),
+				resource.TestCheckResourceAttrSet(resourceName, "connection_credentials.0.ssl_secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.0.hostname", "myHost.test"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.0.port", "10"),
-				resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCPS"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.0.service", "testService"),
 				resource.TestCheckResourceAttrSet(resourceName, "connector_agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "connector_type", "MACS"),
@@ -166,18 +175,19 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Update, externalDatabaseConnectorRepresentation),
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + sslSecretIdVariableStr + ExternalDatabaseTcpsConnectorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Update, externalDatabaseConnectorTcpsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
-				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_type", "DETAILS"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_type", "SSL_DETAILS"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "NORMAL"),
+				resource.TestCheckResourceAttrSet(resourceName, "connection_credentials.0.ssl_secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.0.hostname", "hostname2"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.0.port", "11"),
-				resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCPS"),
 				resource.TestCheckResourceAttr(resourceName, "connection_string.0.service", "service2"),
 				resource.TestCheckResourceAttrSet(resourceName, "connector_agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "connector_type", "MACS"),
@@ -200,9 +210,9 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_database_connectors", "test_external_database_connectors", acctest.Optional, acctest.Update, externalDatabaseConnectorDataSourceRepresentation) +
-				compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Update, externalDatabaseConnectorRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_database_connectors", "test_external_database_connectors", acctest.Optional, acctest.Update, externalDatabaseConnectorTcpsDataSourceRepresentation) +
+				compartmentIdVariableStr + agentIdVariableStr + sslSecretIdVariableStr + ExternalDatabaseTcpsConnectorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Optional, acctest.Update, externalDatabaseConnectorTcpsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -213,12 +223,13 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.compartment_id"),
 				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.credential_name", "credential.name"),
-				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.credential_type", "DETAILS"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.credential_type", "SSL_DETAILS"),
 				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.role", "NORMAL"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.connection_credentials.0.ssl_secret_id"),
 				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.hostname", "hostname2"),
 				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.port", "11"),
-				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.protocol", "TCPS"),
 				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.service", "service2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.connector_agent_id"),
 				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connector_type", "MACS"),
@@ -233,20 +244,20 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, externalDatabaseConnectorSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", acctest.Required, acctest.Create, externalDatabaseConnectorTcpsSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + agentIdVariableStr + sslSecretIdVariableStr + ExternalDatabaseTcpsConnectorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_database_connector_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.credential_name", "credential.name"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.credential_type", "DETAILS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.credential_type", "SSL_DETAILS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.role", "NORMAL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.hostname", "hostname2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.port", "11"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.protocol", "TCPS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.service", "service2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connector_type", "MACS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
@@ -256,15 +267,13 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
-
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + agentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + sslSecretIdVariableStr + ExternalDatabaseTcpsConnectorResourceConfig,
 		},
-
 		// verify resource import
 		{
-			Config:            config + ExternalDatabaseConnectorRequiredOnlyResource,
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -276,7 +285,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 	})
 }
 
-func testAccCheckDatabaseExternalDatabaseConnectorDestroy(s *terraform.State) error {
+func testAccCheckDatabaseExternalDatabaseTcpsConnectorDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*client.OracleClients).DatabaseClient()
 	for _, rs := range s.RootModule().Resources {
@@ -320,18 +329,18 @@ func init() {
 	if acctest.DependencyGraph == nil {
 		acctest.InitDependencyGraph()
 	}
-	if !acctest.InSweeperExcludeList("DatabaseExternalDatabaseConnector") {
-		resource.AddTestSweepers("DatabaseExternalDatabaseConnector", &resource.Sweeper{
-			Name:         "DatabaseExternalDatabaseConnector",
+	if !acctest.InSweeperExcludeList("DatabaseExternalDatabaseTcpsConnector") {
+		resource.AddTestSweepers("DatabaseExternalDatabaseTcpsConnector", &resource.Sweeper{
+			Name:         "DatabaseExternalDatabaseTcpsConnector",
 			Dependencies: acctest.DependencyGraph["externalDatabaseConnector"],
-			F:            sweepDatabaseExternalDatabaseConnectorResource,
+			F:            sweepDatabaseExternalDatabaseTcpsConnectorResource,
 		})
 	}
 }
 
-func sweepDatabaseExternalDatabaseConnectorResource(compartment string) error {
+func sweepDatabaseExternalDatabaseTcpsConnectorResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	externalDatabaseConnectorIds, err := getExternalDatabaseConnectorIds(compartment)
+	externalDatabaseConnectorIds, err := getExternalDatabaseTcpsConnectorIds(compartment)
 	if err != nil {
 		return err
 	}
@@ -347,14 +356,14 @@ func sweepDatabaseExternalDatabaseConnectorResource(compartment string) error {
 				fmt.Printf("Error deleting ExternalDatabaseConnector %s %s, It is possible that the resource is already deleted. Please verify manually \n", externalDatabaseConnectorId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &externalDatabaseConnectorId, externalDatabaseConnectorSweepWaitCondition, time.Duration(3*time.Minute),
-				externalDatabaseConnectorSweepResponseFetchOperation, "database", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &externalDatabaseConnectorId, externalDatabaseTcpsConnectorSweepWaitCondition, time.Duration(3*time.Minute),
+				externalDatabaseTcpsConnectorSweepResponseFetchOperation, "database", true)
 		}
 	}
 	return nil
 }
 
-func getExternalDatabaseConnectorIds(compartment string) ([]string, error) {
+func getExternalDatabaseTcpsConnectorIds(compartment string) ([]string, error) {
 	ids := acctest.GetResourceIdsToSweep(compartment, "ExternalDatabaseConnectorId")
 	if ids != nil {
 		return ids, nil
@@ -389,7 +398,7 @@ func getExternalDatabaseConnectorIds(compartment string) ([]string, error) {
 	return resourceIds, nil
 }
 
-func externalDatabaseConnectorSweepWaitCondition(response common.OCIOperationResponse) bool {
+func externalDatabaseTcpsConnectorSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if externalDatabaseConnectorResponse, ok := response.Response.(oci_database.GetExternalDatabaseConnectorResponse); ok {
 		return externalDatabaseConnectorResponse.GetLifecycleState() != oci_database.ExternalDatabaseConnectorLifecycleStateTerminated
@@ -397,7 +406,7 @@ func externalDatabaseConnectorSweepWaitCondition(response common.OCIOperationRes
 	return false
 }
 
-func externalDatabaseConnectorSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+func externalDatabaseTcpsConnectorSweepResponseFetchOperation(client *client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
 	_, err := client.DatabaseClient().GetExternalDatabaseConnector(context.Background(), oci_database.GetExternalDatabaseConnectorRequest{
 		ExternalDatabaseConnectorId: resourceId,
 		RequestMetadata: common.RequestMetadata{
