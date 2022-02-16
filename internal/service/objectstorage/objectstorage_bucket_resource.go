@@ -20,8 +20,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v57/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v57/objectstorage"
+	oci_common "github.com/oracle/oci-go-sdk/v58/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v58/objectstorage"
 )
 
 func ObjectStorageBucketResource() *schema.Resource {

@@ -21,8 +21,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v57/common"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v57/databasemigration"
+	oci_common "github.com/oracle/oci-go-sdk/v58/common"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v58/databasemigration"
 )
 
 func DatabaseMigrationMigrationResource() *schema.Resource {

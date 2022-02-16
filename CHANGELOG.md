@@ -1,3 +1,14 @@
+## 4.64.0 (Unreleased)
+
+### Added
+- Support for NoSQL service supporting auto scaling pricing model
+- Support for BDS instance metastore config resource and data sources
+- Support for Vision service
+
+### Bug Fix
+- IPA instance pools 409 conflict issue and pool ignore size issue
+- core service - fix agent_config section in core instance resource for updates
+
 ## 4.63.0 (February 09, 2022)
 
 ### Added

@@ -14,9 +14,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v57/common"
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
-	oci_identity "github.com/oracle/oci-go-sdk/v57/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v58/common"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	oci_identity "github.com/oracle/oci-go-sdk/v58/identity"
 )
 
 const (

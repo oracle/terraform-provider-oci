@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
 )
 
 func CoreDrgAttachmentsListResource() *schema.Resource {
@@ -126,6 +126,10 @@ func (s *CoreDrgAttachmentsListResourceCrud) Create() error {
 }
 
 func (s *CoreDrgAttachmentsListResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res {

@@ -16,7 +16,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
 )
 
 func CoreDrgAttachmentResource() *schema.Resource {
@@ -385,6 +385,10 @@ func (s *CoreDrgAttachmentResourceCrud) Delete() error {
 }
 
 func (s *CoreDrgAttachmentResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -18,7 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
 )
 
 const (
@@ -361,6 +361,10 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 
 	s.Res = &response.InstancePool
 
+	if waitErr := tfresource.WaitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
@@ -467,7 +471,8 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 		}
 	}
 
-	if size, ok := s.D.GetOkExists("size"); ok {
+	// update the request with size variable if size value has changed and size exists.
+	if size, ok := s.D.GetOkExists("size"); ok && s.D.HasChange("size") {
 		tmp := size.(int)
 		request.Size = &tmp
 	}
@@ -480,6 +485,11 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 	}
 
 	s.Res = &response.InstancePool
+
+	// This update does not support work-request
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
 
 	if _, ok := s.D.GetOkExists("state"); ok && s.D.HasChange("state") {
 		oldRaw, newRaw := s.D.GetChange("state")
@@ -561,6 +571,8 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 			s.D.Set("size", *s.Res.Size)
 		}
 		s.D.Set("actual_size", *s.Res.Size)
+		// update the size as well if it was modified outside terraform like autoscaling.
+		s.D.Set("size", *s.Res.Size)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

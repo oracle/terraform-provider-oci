@@ -18,8 +18,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_analytics "github.com/oracle/oci-go-sdk/v57/analytics"
-	"github.com/oracle/oci-go-sdk/v57/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v58/analytics"
+	"github.com/oracle/oci-go-sdk/v58/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"

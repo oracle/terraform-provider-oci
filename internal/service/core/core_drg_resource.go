@@ -14,8 +14,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v57/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v58/workrequests"
 )
 
 func CoreDrgResource() *schema.Resource {
@@ -308,6 +308,10 @@ func (s *CoreDrgResourceCrud) Delete() error {
 }
 
 func (s *CoreDrgResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

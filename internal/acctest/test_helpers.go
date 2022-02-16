@@ -28,7 +28,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_common "github.com/oracle/oci-go-sdk/v58/common"
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	tf_provider "github.com/terraform-providers/terraform-provider-oci/internal/provider"
@@ -908,6 +908,8 @@ func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, set
 		return fmt.Errorf("%s: Set Attribute '%s' does not contain an element with attributes %v %v\nAttributesInStatefile: %v", name, setKey, properties, presentProperties, is.Attributes)
 	}
 }
+
+// TestAccPreCheck Acc precheck test
 
 func TestAccPreCheck(t *testing.T) {
 	envVarChecklist := []string{}

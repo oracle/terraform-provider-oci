@@ -17,7 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
 )
 
 func CoreDrgRouteDistributionStatementResource() *schema.Resource {
@@ -310,6 +310,9 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Delete() error {
 }
 
 func (s *CoreDrgRouteDistributionStatementResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
 
 	if s.Res.Action != "" {
 		s.D.Set("action", s.Res.Action)
