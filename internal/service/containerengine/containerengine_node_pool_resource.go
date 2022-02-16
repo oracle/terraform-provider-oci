@@ -409,18 +409,8 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"system_tags": {
-							Type:     schema.TypeMap,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
 					},
 				},
-			},
-			"system_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
 			},
 		},
 	}
@@ -1030,10 +1020,6 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("subnet_ids", nil)
 	}
 
-	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
-	}
-
 	return nil
 }
 
@@ -1279,10 +1265,6 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
-	}
-
-	if obj.SystemTags != nil {
-		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
 	return result

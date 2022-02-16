@@ -58,15 +58,10 @@ var (
 		"node_metadata":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
 		"quantity_per_subnet": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
 		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
-		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreNodePoolSystemTagsChangesRep},
 	}
 	nodePoolInitialNodeLabelsRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
-	}
-
-	ignoreNodePoolSystemTagsChangesRep = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
 	}
 
 	routeTableRouteRulesforNodePoolRepresentation = map[string]interface{}{
