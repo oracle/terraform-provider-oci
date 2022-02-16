@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v57/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v57/operationsinsights"
+	oci_common "github.com/oracle/oci-go-sdk/v58/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v58/operationsinsights"
 )
 
 func OpsiOperationsInsightsWarehouseRotateWarehouseWalletResource() *schema.Resource {

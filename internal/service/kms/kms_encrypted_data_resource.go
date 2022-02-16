@@ -15,7 +15,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_kms "github.com/oracle/oci-go-sdk/v57/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v58/keymanagement"
 )
 
 func KmsEncryptedDataResource() *schema.Resource {

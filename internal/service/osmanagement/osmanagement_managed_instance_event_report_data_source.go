@@ -11,8 +11,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v57/common"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v57/osmanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v58/common"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v58/osmanagement"
 )
 
 func OsmanagementManagedInstanceEventReportDataSource() *schema.Resource {
