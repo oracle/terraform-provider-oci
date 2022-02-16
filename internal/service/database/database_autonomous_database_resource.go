@@ -311,6 +311,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					"BACKUP_FROM_ID",
 					"BACKUP_FROM_TIMESTAMP",
 					"CLONE_TO_REFRESHABLE",
+					"CROSS_REGION_DATAGUARD",
 					"DATABASE",
 					"NONE",
 				}, true),
@@ -362,6 +363,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					"PRIMARY",
 					"STANDBY",
 				}, true),
+			},
+			"switchover_to_remote_peer_id": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"rotate_key_trigger": {
 				Type:     schema.TypeBool,
@@ -544,6 +550,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
+			"dataguard_region_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"failed_data_recovery_in_seconds": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -624,6 +634,13 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
+			"peer_db_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"permission_level": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -671,6 +688,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_data_guard_role_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -700,7 +721,15 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_data_guard_role_changed": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_deletion_of_free_autonomous_database": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_local_data_guard_enabled": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -959,6 +988,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) CreatedPending() []string {
 func (s *DatabaseAutonomousDatabaseResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
+		string(oci_database.AutonomousDatabaseLifecycleStateStandby),
 	}
 }
 
@@ -1264,6 +1294,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.OcpuCount = &tmp
 	}
 
+	if peerDbId, ok := s.D.GetOkExists("peer_db_id"); ok {
+		tmp := peerDbId.(string)
+		request.PeerDbId = &tmp
+	}
+
 	if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok && s.D.HasChange("refreshable_mode") {
 		request.RefreshableMode = oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeEnum(refreshableMode.(string))
 	}
@@ -1418,6 +1453,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("database_management_status", s.Res.DatabaseManagementStatus)
 
+	s.D.Set("dataguard_region_type", s.Res.DataguardRegionType)
+
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
@@ -1538,6 +1575,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("operations_insights_status", s.Res.OperationsInsightsStatus)
 
+	s.D.Set("peer_db_ids", s.Res.PeerDbIds)
+
 	s.D.Set("permission_level", s.Res.PermissionLevel)
 
 	if s.Res.PrivateEndpoint != nil {
@@ -1598,8 +1637,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeDataGuardRoleChanged != nil {
+		s.D.Set("time_data_guard_role_changed", s.Res.TimeDataGuardRoleChanged.String())
+	}
+
 	if s.Res.TimeDeletionOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_deletion_of_free_autonomous_database", s.Res.TimeDeletionOfFreeAutonomousDatabase.String())
+	}
+
+	if s.Res.TimeLocalDataGuardEnabled != nil {
+		s.D.Set("time_local_data_guard_enabled", s.Res.TimeLocalDataGuardEnabled.String())
 	}
 
 	if s.Res.TimeMaintenanceBegin != nil {
@@ -1766,6 +1813,10 @@ func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseS
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeDataGuardRoleChanged != nil {
+		result["time_data_guard_role_changed"] = obj.TimeDataGuardRoleChanged.String()
+	}
 
 	return result
 }
@@ -2485,6 +2536,190 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		request.CreateAutonomousDatabaseDetails = details
+	case strings.ToLower("CROSS_REGION_DATAGUARD"):
+		details := oci_database.CreateCrossRegionAutonomousDatabaseDataGuardDetails{}
+		if sourceId, ok := s.D.GetOkExists("source_id"); ok {
+			tmp := sourceId.(string)
+			details.SourceId = &tmp
+		}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			details.AdminPassword = &tmp
+		}
+		if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
+			tmp := arePrimaryWhitelistedIpsUsed.(bool)
+			details.ArePrimaryWhitelistedIpsUsed = &tmp
+		}
+		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
+			tmp := autonomousContainerDatabaseId.(string)
+			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
+			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok {
+			interfaces := customerContacts.([]interface{})
+			tmp := make([]oci_database.CustomerContact, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+				converted, err := s.mapToCustomerContact(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
+				details.CustomerContacts = tmp
+			}
+		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
+		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+			tmp := dataStorageSizeInTBs.(int)
+			details.DataStorageSizeInTBs = &tmp
+		}
+		if dbName, ok := s.D.GetOkExists("db_name"); ok {
+			tmp := dbName.(string)
+			details.DbName = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
+			tmp := isAccessControlEnabled.(bool)
+			details.IsAccessControlEnabled = &tmp
+		}
+		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
+			tmp := isAutoScalingEnabled.(bool)
+			details.IsAutoScalingEnabled = &tmp
+		}
+		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			tmp := isDataGuardEnabled.(bool)
+			details.IsDataGuardEnabled = &tmp
+		}
+		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
+			tmp := isDedicated.(bool)
+			details.IsDedicated = &tmp
+		}
+		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
+			tmp := isFreeTier.(bool)
+			details.IsFreeTier = &tmp
+		}
+		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
+			tmp := isMtlsConnectionRequired.(bool)
+			details.IsMtlsConnectionRequired = &tmp
+		}
+		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
+			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
+			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
+		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := ocpuCount.(float32)
+			details.OcpuCount = &tmp
+		}
+		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+			tmp := privateEndpointLabel.(string)
+			details.PrivateEndpointLabel = &tmp
+		}
+		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+			interfaces := scheduledOperations.([]interface{})
+			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
+				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
+				details.ScheduledOperations = tmp
+			}
+		}
+		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+			interfaces := standbyWhitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
+				details.StandbyWhitelistedIps = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
+			set := whitelistedIps.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("whitelisted_ips") {
+				details.WhitelistedIps = tmp
+			}
+		}
+		request.CreateAutonomousDatabaseDetails = details
 	case strings.ToLower("DATABASE"):
 		details := oci_database.CreateAutonomousDatabaseCloneDetails{}
 		if cloneType, ok := s.D.GetOkExists("clone_type"); ok {
@@ -3021,6 +3256,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 		return err
 	}
 
+	//	Local peer
 	if switchoverTo, ok := s.D.GetOkExists("switchover_to"); ok && s.D.HasChange("switchover_to") {
 		oldRaw, newRaw := s.D.GetChange("switchover_to")
 		oldRaw = strings.ToUpper(oldRaw.(string))
@@ -3035,8 +3271,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 							fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "standby_db", 0)
 							if standbyState, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
 								wantedStandByState := oci_database.AutonomousDatabaseStandbySummaryLifecycleStateEnum(strings.ToUpper(standbyState.(string)))
-								if wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateAvailable {
-									if err := s.switchoverDatabase(); err != nil {
+								if (wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateAvailable) || (wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateStandby) {
+									if err := s.switchoverDatabase(""); err != nil {
 										s.D.Set("switchover_to", oldRaw.(string))
 										return err
 									}
@@ -3045,7 +3281,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 								} else {
 									s.D.Set("switchover_to", oldRaw.(string))
 
-									return fmt.Errorf("Autonomous standby state: %s is not present in [AVAILABLE] states", wantedStandByState)
+									return fmt.Errorf("Autonomous standby state: %s is not present in [AVAILABLE, STANDBY] states", wantedStandByState)
 								}
 							}
 						}
@@ -3069,14 +3305,38 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 		}
 	}
 
+	//	Remote peer
+	if _, ok := s.D.GetOkExists("switchover_to_remote_peer_id"); ok && s.D.HasChange("switchover_to_remote_peer_id") {
+		oldIdRaw, newIdRaw := s.D.GetChange("switchover_to_remote_peer_id")
+		oldId := strings.ToLower(strings.TrimSpace(oldIdRaw.(string)))
+		newId := strings.ToLower(strings.TrimSpace(newIdRaw.(string)))
+
+		if newId != "" {
+			_, dgRegionTypeExists := s.D.GetOkExists("dataguard_region_type")
+			_, dgRoleExists := s.D.GetOkExists("role")
+			if !dgRegionTypeExists || !dgRoleExists {
+				return fmt.Errorf("Autonomous Data Guard not found in enabled state")
+			}
+
+			if err := s.switchoverDatabase(newId); err != nil {
+				s.D.Set("switchover_to_remote_peer_id", oldId)
+				return err
+			}
+		}
+		s.D.Set("switchover_to_remote_peer_id", newId)
+	}
+
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase(peerDbId string) error {
 	request := oci_database.SwitchoverAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
+	if peerDbId != "" {
+		request.PeerDbId = &peerDbId
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 

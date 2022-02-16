@@ -270,6 +270,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"dataguard_region_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"db_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -428,6 +432,13 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"peer_db_ids": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"private_endpoint": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -520,6 +531,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_data_guard_role_changed": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -554,7 +569,15 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_data_guard_role_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_deletion_of_free_autonomous_database": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_local_data_guard_enabled": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -764,6 +787,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		autonomousDatabasesClone["database_management_status"] = r.DatabaseManagementStatus
 
+		autonomousDatabasesClone["dataguard_region_type"] = r.DataguardRegionType
+
 		if r.DbName != nil {
 			autonomousDatabasesClone["db_name"] = *r.DbName
 		}
@@ -882,6 +907,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		autonomousDatabasesClone["open_mode"] = r.OpenMode
 
+		autonomousDatabasesClone["peer_db_ids"] = r.PeerDbIds
+
 		if r.PrivateEndpoint != nil {
 			autonomousDatabasesClone["private_endpoint"] = *r.PrivateEndpoint
 		}
@@ -938,8 +965,16 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeDataGuardRoleChanged != nil {
+			autonomousDatabasesClone["time_data_guard_role_changed"] = r.TimeDataGuardRoleChanged.String()
+		}
+
 		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
 			autonomousDatabasesClone["time_deletion_of_free_autonomous_database"] = r.TimeDeletionOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeLocalDataGuardEnabled != nil {
+			autonomousDatabasesClone["time_local_data_guard_enabled"] = r.TimeLocalDataGuardEnabled.String()
 		}
 
 		if r.TimeMaintenanceBegin != nil {

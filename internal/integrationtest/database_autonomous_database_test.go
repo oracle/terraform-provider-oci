@@ -59,7 +59,7 @@ var (
 		"admin_password":                       acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
 		"db_version":                           acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
 		"db_workload":                          acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
-		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":                         acctest.Representation{RepType: acctest.Optional, Create: `example_autonomous_database`, Update: `displayName2`},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_auto_scaling_enabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -762,6 +762,10 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				"is_shrink_only",
 			},
 			ResourceName: resourceName,
+		},
+		//	Remove required only resource
+		{
+			Config: config + compartmentIdVariableStr,
 		},
 		// test ADW db_workload
 		// verify Create with optionals
