@@ -82,6 +82,31 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"international_market_price": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"currency_code": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"currency_symbol": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"rate": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"pay_go_strategy": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -354,6 +379,22 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 	return nil
 }
 
+func MarketplaceListingInternationalMarketPriceToMap(obj *oci_marketplace.InternationalMarketPrice) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["currency_code"] = string(obj.CurrencyCode)
+
+	if obj.CurrencySymbol != nil {
+		result["currency_symbol"] = string(*obj.CurrencySymbol)
+	}
+
+	if obj.Rate != nil {
+		result["rate"] = float64(*obj.Rate)
+	}
+
+	return result
+}
+
 func MarketplaceListingPackageRegionToMap(obj oci_marketplace.Region) interface{} {
 	result := map[string]interface{}{}
 
@@ -416,6 +457,10 @@ func MarketplaceListingPackagePricingModelToMap(obj *oci_marketplace.PricingMode
 	result := map[string]interface{}{}
 
 	result["currency"] = string(obj.Currency)
+
+	if obj.InternationalMarketPrice != nil {
+		result["international_market_price"] = []interface{}{MarketplaceListingInternationalMarketPriceToMap(obj.InternationalMarketPrice)}
+	}
 
 	result["pay_go_strategy"] = string(obj.PayGoStrategy)
 

@@ -62,6 +62,10 @@ The following attributes are exported:
 * `package_type` - The specified package's type.
 * `pricing` - The model for pricing.
 	* `currency` - The currency of the pricing model.
+	* `international_market_price` - The model for international market pricing.
+		* `currency_code` - The currency of the pricing model.
+		* `currency_symbol` - The symbol of the currency
+		* `rate` - The pricing rate.
 	* `pay_go_strategy` - The type of pricing for a PAYGO model, eg PER_OCPU_LINEAR, PER_OCPU_MIN_BILLING, PER_INSTANCE.  Null if type is not PAYGO.
 	* `rate` - The pricing rate.
 	* `type` - The type of the pricing model.

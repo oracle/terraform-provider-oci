@@ -57,6 +57,7 @@ The following attributes are exported:
 	* `mime_type` - The MIME type of the upload data.
 	* `name` - The name used to refer to the upload data.
 * `categories` - Product categories that the listing belongs to.
+* `compatible_architectures` - The list of compatible architectures supported by the listing
 * `default_package_version` - The default package version.
 * `documentation_links` - Links to additional documentation provided by the publisher specifically for the listing.
 	* `document_category` - The category that the document belongs to.

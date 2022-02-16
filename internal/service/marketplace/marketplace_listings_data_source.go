@@ -87,6 +87,71 @@ func MarketplaceListingsDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"banner": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"content_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"file_extension": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"mime_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"compatible_architectures": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"default_package_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"documentation_links": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"document_category": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -396,6 +461,8 @@ func (s *MarketplaceListingsDataSourceCrud) SetData() error {
 		listing := map[string]interface{}{}
 
 		listing["categories"] = r.Categories
+
+		listing["compatible_architectures"] = r.CompatibleArchitectures
 
 		if r.Icon != nil {
 			listing["icon"] = []interface{}{UploadDataToMap(r.Icon)}
