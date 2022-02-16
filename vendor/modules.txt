@@ -385,6 +385,7 @@ github.com/oracle/oci-go-sdk/v58/osmanagement
 github.com/oracle/oci-go-sdk/v58/ospgateway
 github.com/oracle/oci-go-sdk/v58/resourcemanager
 github.com/oracle/oci-go-sdk/v58/sch
+github.com/oracle/oci-go-sdk/v58/secrets
 github.com/oracle/oci-go-sdk/v58/servicecatalog
 github.com/oracle/oci-go-sdk/v58/servicemanagerproxy
 github.com/oracle/oci-go-sdk/v58/streaming
