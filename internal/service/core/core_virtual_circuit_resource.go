@@ -826,7 +826,7 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 
 	// Do not include default empty cross_connect_or_cross_connect_group_id in request payload unless it has changed
 	if crossConnectOrCrossConnectGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cross_connect_or_cross_connect_group_id")); ok &&
-		(crossConnectOrCrossConnectGroupId != "" && s.D.HasChange("cross_connect_or_cross_connect_group_id")) {
+		(crossConnectOrCrossConnectGroupId != "" || s.D.HasChange("cross_connect_or_cross_connect_group_id")) {
 		tmp := crossConnectOrCrossConnectGroupId.(string)
 		result.CrossConnectOrCrossConnectGroupId = &tmp
 	}
@@ -858,7 +858,7 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 		}
 	}
 
-	if vlan, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan")); ok && s.D.HasChange("vlan") {
+	if vlan, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan")); ok || s.D.HasChange("vlan") {
 		tmp := vlan.(int)
 		// Do not include default 0 vlan in request payload unless it has changed
 		if tmp > 0 || s.D.HasChange("vlan") {
