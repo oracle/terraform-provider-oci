@@ -6,7 +6,6 @@ require (
 	github.com/hashicorp/hcl2 v0.0.0-20190618163856-0b64543c968c
 	github.com/hashicorp/terraform-exec v0.13.3
 	github.com/hashicorp/terraform-plugin-sdk v1.17.2
-	github.com/oracle/oci-go-sdk/v57 v57.0.0
 	github.com/stretchr/testify v1.7.0
 	github.com/zclconf/go-cty v1.8.2
 	golang.org/x/mod v0.4.2
@@ -67,6 +66,7 @@ require (
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
 	github.com/mitchellh/reflectwalk v1.0.1 // indirect
 	github.com/oklog/run v1.0.0 // indirect
+	github.com/oracle/oci-go-sdk/v58 v58.0.0
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/posener/complete v1.2.1 // indirect
 	github.com/sony/gobreaker v0.4.2-0.20210216022020-dd874f9dd33b // indirect
@@ -93,6 +93,6 @@ require (
 )
 
 // Uncomment this line to get OCI Go SDK from local source instead of github
-replace github.com/oracle/oci-go-sdk/v57 v57.0.0 => ./vendor/github.com/oracle/oci-go-sdk
+//replace github.com/oracle/oci-go-sdk => ../../oracle/oci-go-sdk
 
 go 1.17

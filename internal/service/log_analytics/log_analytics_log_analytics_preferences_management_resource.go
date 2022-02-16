@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v57/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v58/loganalytics"
 )
 
 func LogAnalyticsLogAnalyticsPreferencesManagementResource() *schema.Resource {

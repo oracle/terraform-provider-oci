@@ -18,8 +18,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_bds "github.com/oracle/oci-go-sdk/v57/bds"
-	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_bds "github.com/oracle/oci-go-sdk/v58/bds"
+	oci_common "github.com/oracle/oci-go-sdk/v58/common"
 )
 
 func BdsAutoScalingConfigurationResource() *schema.Resource {

@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v57/database"
+	oci_database "github.com/oracle/oci-go-sdk/v58/database"
 )
 
 func DatabaseDatabaseSoftwareImagesDataSource() *schema.Resource {
