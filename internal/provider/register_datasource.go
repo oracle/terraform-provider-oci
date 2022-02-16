@@ -71,6 +71,7 @@ import (
 	tf_osp_gateway "github.com/terraform-providers/terraform-provider-oci/internal/service/osp_gateway"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
+	tf_secrets "github.com/terraform-providers/terraform-provider-oci/internal/service/secrets"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
@@ -954,6 +955,9 @@ func init() {
 	// sch service
 	RegisterDatasource("oci_sch_service_connector", tf_sch.SchServiceConnectorDataSource())
 	RegisterDatasource("oci_sch_service_connectors", tf_sch.SchServiceConnectorsDataSource())
+	// secrets service
+	RegisterDatasource("oci_secrets_secretbundle", tf_secrets.SecretsSecretbundleDataSource())
+	RegisterDatasource("oci_secrets_secretbundle_versions", tf_secrets.SecretsSecretbundleVersionsDataSource())
 	// service_catalog service
 	RegisterDatasource("oci_service_catalog_private_application", tf_service_catalog.ServiceCatalogPrivateApplicationDataSource())
 	RegisterDatasource("oci_service_catalog_private_application_package", tf_service_catalog.ServiceCatalogPrivateApplicationPackageDataSource())
