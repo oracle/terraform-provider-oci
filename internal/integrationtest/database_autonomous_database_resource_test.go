@@ -80,7 +80,7 @@ var (
 		"data_storage_size_in_tbs": acctest.Representation{RepType: acctest.Required, Create: `1`},
 		"db_name":                  acctest.Representation{RepType: acctest.Required, Create: adbDataSafeName},
 		"db_workload":              acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
-		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":             acctest.Representation{RepType: acctest.Optional, Create: `example_autonomous_database`, Update: `displayName2`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_auto_scaling_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -1569,7 +1569,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 
 	autonomousDatabaseDbVersionUpdateRepresentation := acctest.GetUpdatedRepresentationCopy("admin_password", acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbDbVersionName},
-			acctest.GetUpdatedRepresentationCopy("defined_tags", acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+			acctest.GetUpdatedRepresentationCopy("defined_tags", acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
 				acctest.GetUpdatedRepresentationCopy("display_name", acctest.Representation{RepType: acctest.Optional, Create: `example_autonomous_database`},
 					acctest.GetUpdatedRepresentationCopy("freeform_tags", acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 						acctest.GetUpdatedRepresentationCopy("db_version", acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`, Update: `19c`},
@@ -1757,6 +1757,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_local_data_guard_enabled"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1988,6 +1989,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_local_data_guard_enabled"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -2026,6 +2028,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "switchover_to", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_local_data_guard_enabled"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -2063,6 +2066,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_of_last_switchover"),
 				resource.TestCheckResourceAttr(resourceName, "switchover_to", "STANDBY"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_local_data_guard_enabled"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -2100,6 +2104,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_of_last_switchover"),
 				resource.TestCheckResourceAttr(resourceName, "switchover_to", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_local_data_guard_enabled"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -2162,6 +2167,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_last_switchover"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_local_data_guard_enabled"),
 			),
 		},
 	})
@@ -3278,7 +3284,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_CrossRegionClone(t *testing.
 	}
 
 	var err error
-	PrimarySourceId, err = createAdbInRegion(acctest.GetTestClients(&schema.ResourceData{}), sourceRegion)
+	PrimarySourceId, _, err = createAdbInRegion(acctest.GetTestClients(&schema.ResourceData{}), sourceRegion)
 	if err != nil {
 		log.Printf("[WARN] failed to createAdbInRegion with the error %v", err)
 	}

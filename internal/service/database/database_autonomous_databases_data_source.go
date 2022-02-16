@@ -238,6 +238,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["database_management_status"] = r.DatabaseManagementStatus
 
+		autonomousDatabase["dataguard_region_type"] = r.DataguardRegionType
+
 		if r.DbName != nil {
 			autonomousDatabase["db_name"] = *r.DbName
 		}
@@ -358,6 +360,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["operations_insights_status"] = r.OperationsInsightsStatus
 
+		autonomousDatabase["peer_db_ids"] = r.PeerDbIds
+
 		autonomousDatabase["permission_level"] = r.PermissionLevel
 
 		if r.PrivateEndpoint != nil {
@@ -416,8 +420,16 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeDataGuardRoleChanged != nil {
+			autonomousDatabase["time_data_guard_role_changed"] = r.TimeDataGuardRoleChanged.String()
+		}
+
 		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
 			autonomousDatabase["time_deletion_of_free_autonomous_database"] = r.TimeDeletionOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeLocalDataGuardEnabled != nil {
+			autonomousDatabase["time_local_data_guard_enabled"] = r.TimeLocalDataGuardEnabled.String()
 		}
 
 		if r.TimeMaintenanceBegin != nil {
