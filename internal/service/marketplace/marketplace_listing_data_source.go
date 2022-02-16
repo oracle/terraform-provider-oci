@@ -63,6 +63,13 @@ func MarketplaceListingDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"compatible_architectures": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"default_package_version": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -537,6 +544,8 @@ func (s *MarketplaceListingDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("categories", s.Res.Categories)
+
+	s.D.Set("compatible_architectures", s.Res.CompatibleArchitectures)
 
 	if s.Res.DefaultPackageVersion != nil {
 		s.D.Set("default_package_version", *s.Res.DefaultPackageVersion)
