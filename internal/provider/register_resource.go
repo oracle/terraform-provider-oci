@@ -501,6 +501,7 @@ func init() {
 	// resourcemanager service
 	// sch service
 	RegisterResource("oci_sch_service_connector", tf_sch.SchServiceConnectorResource())
+	// secrets service
 	// service_catalog service
 	RegisterResource("oci_service_catalog_private_application", tf_service_catalog.ServiceCatalogPrivateApplicationResource())
 	RegisterResource("oci_service_catalog_service_catalog", tf_service_catalog.ServiceCatalogServiceCatalogResource())
