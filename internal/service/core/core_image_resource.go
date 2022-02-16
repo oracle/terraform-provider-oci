@@ -16,8 +16,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v57/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v58/workrequests"
 )
 
 func CoreImageResource() *schema.Resource {

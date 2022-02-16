@@ -21,8 +21,8 @@ import (
 	"net/url"
 	"regexp"
 
-	oci_common "github.com/oracle/oci-go-sdk/v57/common"
-	oci_kms "github.com/oracle/oci-go-sdk/v57/keymanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v58/common"
+	oci_kms "github.com/oracle/oci-go-sdk/v58/keymanagement"
 )
 
 func KmsKeyVersionResource() *schema.Resource {

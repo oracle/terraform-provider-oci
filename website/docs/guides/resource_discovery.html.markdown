@@ -116,6 +116,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `output_path` - Absolute path to output generated configurations and state files of the exported compartment
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `ai_anomaly_detection` - Discovers ai_anomaly_detection resources within the specified compartment
+    * `ai_vision` - Discovers ai_vision resources within the specified compartment
     * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `apm` - Discovers apm resources within the specified compartment
@@ -286,6 +287,13 @@ ai_anomaly_detection
 * oci\_ai\_anomaly\_detection\_project
 * oci\_ai\_anomaly\_detection\_ai\_private\_endpoint
 
+ai_vision
+    
+* oci\_ai\_vision\_document\_job
+* oci\_ai\_vision\_image\_job
+* oci\_ai\_vision\_project
+* oci\_ai\_vision\_model
+
 analytics
     
 * oci\_analytics\_analytics\_instance
@@ -330,6 +338,7 @@ bds
 * oci\_bds\_bds\_instance
 * oci\_bds\_auto\_scaling\_configuration
 * oci\_bds\_bds\_instance\_api\_key
+* oci\_bds\_bds\_instance\_metastore\_config
 
 blockchain
     

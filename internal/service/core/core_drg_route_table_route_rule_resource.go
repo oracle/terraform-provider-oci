@@ -16,7 +16,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
 )
 
 func CoreDrgRouteTableRouteRuleResource() *schema.Resource {
@@ -170,6 +170,9 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Create() error {
 }
 
 func (s *CoreDrgRouteTableRouteRuleResourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
 
 	drgRouteTableId, drgRouteRuleId, err := parseDrgRouteTableRouteRuleCompositeId(s.D.Id())
 	if err == nil {

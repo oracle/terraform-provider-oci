@@ -22,9 +22,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v57/common"
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v57/workrequests"
+	"github.com/oracle/oci-go-sdk/v58/common"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v58/workrequests"
 )
 
 func CoreInstanceResource() *schema.Resource {
@@ -1822,13 +1822,36 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstanceAgentConfigDetails(fieldKe
 func (s *CoreInstanceResourceCrud) mapToUpdateInstanceAgentConfigDetails(fieldKeyFormat string) (oci_core.UpdateInstanceAgentConfigDetails, error) {
 	result := oci_core.UpdateInstanceAgentConfigDetails{}
 
+	if areAllPluginsDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_all_plugins_disabled")); ok {
+		tmp := areAllPluginsDisabled.(bool)
+		result.AreAllPluginsDisabled = &tmp
+	}
+
 	if isMonitoringDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monitoring_disabled")); ok {
 		tmp := isMonitoringDisabled.(bool)
 		result.IsMonitoringDisabled = &tmp
 	}
+
 	if isManagementDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_management_disabled")); ok {
 		tmp := isManagementDisabled.(bool)
 		result.IsManagementDisabled = &tmp
+	}
+
+	if pluginsConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "plugins_config")); ok {
+		interfaces := pluginsConfig.([]interface{})
+		tmp := make([]oci_core.InstanceAgentPluginConfigDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "plugins_config"), stateDataIndex)
+			converted, err := s.mapToInstanceAgentPluginConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "plugins_config")) {
+			result.PluginsConfig = tmp
+		}
 	}
 
 	return result, nil

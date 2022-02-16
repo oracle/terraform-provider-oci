@@ -5,6 +5,7 @@ package provider
 
 import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
+	tf_ai_vision "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
 	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
@@ -154,6 +155,8 @@ func init() {
 	RegisterDatasource("oci_bds_bds_instance", tf_bds.BdsBdsInstanceDataSource())
 	RegisterDatasource("oci_bds_bds_instance_api_key", tf_bds.BdsBdsInstanceApiKeyDataSource())
 	RegisterDatasource("oci_bds_bds_instance_api_keys", tf_bds.BdsBdsInstanceApiKeysDataSource())
+	RegisterDatasource("oci_bds_bds_instance_metastore_config", tf_bds.BdsBdsInstanceMetastoreConfigDataSource())
+	RegisterDatasource("oci_bds_bds_instance_metastore_configs", tf_bds.BdsBdsInstanceMetastoreConfigsDataSource())
 	RegisterDatasource("oci_bds_bds_instances", tf_bds.BdsBdsInstancesDataSource())
 	// blockchain service
 	RegisterDatasource("oci_blockchain_blockchain_platform", tf_blockchain.BlockchainBlockchainPlatformDataSource())
@@ -981,6 +984,11 @@ func init() {
 	RegisterDatasource("oci_vault_secret", tf_vault.VaultSecretDataSource())
 	RegisterDatasource("oci_vault_secret_version", tf_vault.VaultSecretVersionDataSource())
 	RegisterDatasource("oci_vault_secrets", tf_vault.VaultSecretsDataSource())
+	//oci vision service
+	RegisterDatasource("oci_ai_vision_model", tf_ai_vision.AiVisionModelDataSource())
+	RegisterDatasource("oci_ai_vision_models", tf_ai_vision.AiVisionModelsDataSource())
+	RegisterDatasource("oci_ai_vision_project", tf_ai_vision.AiVisionProjectDataSource())
+	RegisterDatasource("oci_ai_vision_projects", tf_ai_vision.AiVisionProjectsDataSource())
 	// visual_builder service
 	RegisterDatasource("oci_visual_builder_vb_instance", tf_visual_builder.VisualBuilderVbInstanceDataSource())
 	RegisterDatasource("oci_visual_builder_vb_instances", tf_visual_builder.VisualBuilderVbInstancesDataSource())

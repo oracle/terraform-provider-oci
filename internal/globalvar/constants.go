@@ -61,6 +61,7 @@ These missing attributes are also added to the lifecycle ignore_changes.
 	EnvLogFile                          = "TF_LOG_PATH"
 	EnvOCITFLogFile                     = "OCI_TF_LOG_PATH" // Log path for Custom TF logger - TFProviderLogger
 	TerraformBinPathName                = "terraform_bin_path"
+	MaxInt64                            = 1<<63 - 1 // TODO : Fix needed for GoLang SDK v1.17.2
 )
 
 const (

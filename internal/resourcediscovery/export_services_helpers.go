@@ -9,21 +9,22 @@ import (
 	"strings"
 	"time"
 
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v57/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v58/loganalytics"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v57/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v58/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
 
 	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
 
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v57/networkloadbalancer"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v58/networkloadbalancer"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v57/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v57/loadbalancer"
-	oci_objectstorage "github.com/oracle/oci-go-sdk/v57/objectstorage"
+	oci_identity "github.com/oracle/oci-go-sdk/v58/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v58/loadbalancer"
+	oci_objectstorage "github.com/oracle/oci-go-sdk/v58/objectstorage"
 
+	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
@@ -1371,5 +1372,17 @@ func processCertificates(ctx *resourceDiscoveryContext, resources []*OCIResource
 		resource.sourceAttributes["certificate_config"] = []interface{}{certificateConfigMap}
 	}
 
+	return resources, nil
+}
+
+func processBdsInstanceMetastoreConfigs(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
+		metastoreConfigId := resource.id
+		bdsInstanceId := resource.parent.id
+		resource.importId = tf_bds.GetBdsInstanceMetastoreConfigCompositeId(bdsInstanceId, metastoreConfigId)
+	}
 	return resources, nil
 }

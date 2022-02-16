@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v57/usageapi"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v58/usageapi"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

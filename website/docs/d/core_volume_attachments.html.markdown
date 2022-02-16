@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_volume_attachments"
 sidebar_current: "docs-oci-datasource-core-volume_attachments"
 description: |-
-Provides the list of Volume Attachments in Oracle Cloud Infrastructure Core service
+  Provides the list of Volume Attachments in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_volume_attachments

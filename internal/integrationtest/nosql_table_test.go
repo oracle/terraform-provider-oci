@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v57/common"
-	oci_nosql "github.com/oracle/oci-go-sdk/v57/nosql"
+	"github.com/oracle/oci-go-sdk/v58/common"
+	oci_nosql "github.com/oracle/oci-go-sdk/v58/nosql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -55,11 +55,16 @@ var (
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_auto_reclaimable": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTableDefinedTags},
 	}
 	tableTableLimitsRepresentation = map[string]interface{}{
 		"max_read_units":     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"max_storage_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"max_write_units":    acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"capacity_mode":      acctest.Representation{RepType: acctest.Optional, Create: `PROVISIONED`},
+	}
+	ignoreTableDefinedTags = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
 	TableResourceDependencies = DefinedTagsDependencies
@@ -125,6 +130,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.capacity_mode", "PROVISIONED"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
@@ -156,6 +162,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.capacity_mode", "PROVISIONED"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
@@ -182,6 +189,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.capacity_mode", "PROVISIONED"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "11"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "11"),
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "11"),
@@ -227,6 +235,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "schema.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.capacity_mode", "PROVISIONED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_read_units", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_storage_in_gbs", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_write_units", "11"),
