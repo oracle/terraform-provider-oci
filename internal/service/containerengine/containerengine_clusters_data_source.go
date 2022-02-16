@@ -173,10 +173,6 @@ func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 
 		cluster["state"] = r.LifecycleState
 
-		if r.SystemTags != nil {
-			cluster["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
-		}
-
 		if r.VcnId != nil {
 			cluster["vcn_id"] = *r.VcnId
 		}

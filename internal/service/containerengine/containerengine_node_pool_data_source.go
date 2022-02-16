@@ -156,9 +156,5 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)
 
-	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
-	}
-
 	return nil
 }
