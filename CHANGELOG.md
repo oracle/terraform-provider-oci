@@ -1,4 +1,4 @@
-## 4.64.0 (Unreleased)
+## 4.64.0 (February 16, 2022)
 
 ### Added
 - Support for NoSQL service supporting auto scaling pricing model
