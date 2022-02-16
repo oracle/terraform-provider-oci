@@ -138,6 +138,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("database_management_status", s.Res.DatabaseManagementStatus)
 
+	s.D.Set("dataguard_region_type", s.Res.DataguardRegionType)
+
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
@@ -254,6 +256,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("operations_insights_status", s.Res.OperationsInsightsStatus)
 
+	s.D.Set("peer_db_ids", s.Res.PeerDbIds)
+
 	s.D.Set("permission_level", s.Res.PermissionLevel)
 
 	if s.Res.PrivateEndpoint != nil {
@@ -312,8 +316,16 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeDataGuardRoleChanged != nil {
+		s.D.Set("time_data_guard_role_changed", s.Res.TimeDataGuardRoleChanged.String())
+	}
+
 	if s.Res.TimeDeletionOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_deletion_of_free_autonomous_database", s.Res.TimeDeletionOfFreeAutonomousDatabase.String())
+	}
+
+	if s.Res.TimeLocalDataGuardEnabled != nil {
+		s.D.Set("time_local_data_guard_enabled", s.Res.TimeLocalDataGuardEnabled.String())
 	}
 
 	if s.Res.TimeMaintenanceBegin != nil {

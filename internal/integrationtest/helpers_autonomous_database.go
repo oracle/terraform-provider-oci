@@ -16,65 +16,52 @@ import (
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
-	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 )
 
-func createAdbInRegion(clients *tf_client.OracleClients, region string) (string, error) {
+func createAdbInRegion(clients *tf_client.OracleClients, region string) (string, string, error) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 
-	databaseClient, err := oci_database.NewDatabaseClientWithConfigurationProvider(*clients.DatabaseClient().ConfigurationProvider())
+	databaseClient, err := createDatabaseClient(clients, region)
 	if err != nil {
-		return "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
+		return "", "", err
 	}
-	err = tf_client.ConfigureClientVar(&databaseClient.BaseClient)
-	if err != nil {
-		return "", fmt.Errorf("cannot configure client for the source region: %v", err)
-	}
-	databaseClient.SetRegion(region)
-	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.IdentityClient().ConfigurationProvider())
-	if err != nil {
-		return "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
-	}
-	err = tf_client.ConfigureClientVar(&identityClient.BaseClient)
-	if err != nil {
-		return "", fmt.Errorf("cannot configure client for the source region: %v", err)
-	}
-	identityClient.SetRegion(region)
 
-	cpu_core_count := 1
-	data_storage_size_in_tbs := 1
-	admin_password := string("BEstrO0ng_#11")
-	db_name := utils.RandomString(13, utils.Charset)
-	display_name := string("example_cr_source")
-	is_dedicated := false
+	cpuCoreCount := 1
+	dataStorageSizeInTbs := 1
+	adminPassword := string("BEstrO0ng_#11")
+	dbName := utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
+	displayName := string("example_cr_source")
+	dbVersion := "19c"
+	isDedicated := false
 
 	createAdbResponse, err := databaseClient.CreateAutonomousDatabase(context.Background(), oci_database.CreateAutonomousDatabaseRequest{
 		CreateAutonomousDatabaseDetails: oci_database.CreateAutonomousDatabaseDetails{
 			CompartmentId:        &compartmentId,
-			CpuCoreCount:         &cpu_core_count,
-			DataStorageSizeInTBs: &data_storage_size_in_tbs,
-			AdminPassword:        &admin_password,
-			DbName:               &db_name,
-			DisplayName:          &display_name,
-			IsDedicated:          &is_dedicated,
+			CpuCoreCount:         &cpuCoreCount,
+			DataStorageSizeInTBs: &dataStorageSizeInTbs,
+			AdminPassword:        &adminPassword,
+			DbName:               &dbName,
+			DisplayName:          &displayName,
+			IsDedicated:          &isDedicated,
+			DbVersion:            &dbVersion,
 		},
 		RequestMetadata: oci_common.RequestMetadata{
 			RetryPolicy: tfresource.GetRetryPolicy(false, "database"),
 		},
 	})
 	if err != nil {
-		return "", fmt.Errorf("[WARN] failed to Create adb with the error %v", err)
+		return "", "", fmt.Errorf("[WARN] failed to Create adb with the error %v", err)
 	}
 	retryPolicy := tfresource.GetRetryPolicy(false, "database")
 	retryPolicy.ShouldRetryOperation = acctest.ConditionShouldRetry(time.Duration(10*time.Minute), adbSweepWaitCondition, "database", false)
 
 	if err != nil {
-		return "", fmt.Errorf("[WARN] wait for adbSweepWaitCondition failed for %s resource with error %v", *createAdbResponse.Id, err)
+		return "", "", fmt.Errorf("[WARN] wait for adbSweepWaitCondition failed for %s resource with error %v", *createAdbResponse.Id, err)
 	} else {
 		log.Printf("[INFO] end of WaitTillCondition for resource %s ", *createAdbResponse.Id)
 	}
 
-	return *createAdbResponse.Id, nil
+	return *createAdbResponse.Id, *createAdbResponse.DbName, nil
 }
 
 func adbSweepWaitCondition(response oci_common.OCIOperationResponse) bool {
@@ -83,4 +70,120 @@ func adbSweepWaitCondition(response oci_common.OCIOperationResponse) bool {
 		return autonomousDatabaseResponse.LifecycleState == oci_database.AutonomousDatabaseLifecycleStateProvisioning
 	}
 	return false
+}
+
+func updateAdbInRegion(clients *tf_client.OracleClients, region string, autonomousDatabaseId string) (string, error) {
+	databaseClient, err := createDatabaseClient(clients, region)
+	if err != nil {
+		return "", err
+	}
+
+	cpuCoreCount := 2
+	dataStorageSizeInTBs := 2
+
+	updateAdbResponse, err := databaseClient.UpdateAutonomousDatabase(context.Background(), oci_database.UpdateAutonomousDatabaseRequest{
+		AutonomousDatabaseId: &autonomousDatabaseId,
+		UpdateAutonomousDatabaseDetails: oci_database.UpdateAutonomousDatabaseDetails{
+			CpuCoreCount:         &cpuCoreCount,
+			DataStorageSizeInTBs: &dataStorageSizeInTBs,
+		},
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: tfresource.GetRetryPolicy(false, "database"),
+		},
+	})
+	if err != nil {
+		return "", fmt.Errorf("[WARN] failed to update source autonomous database with the error %v", err)
+	}
+	return *updateAdbResponse.Id, nil
+}
+
+func deleteAdbInRegion(clients *tf_client.OracleClients, region string, autonomousDatabaseId string) error {
+	databaseClient, err := createDatabaseClient(clients, region)
+	if err != nil {
+		return err
+	}
+
+	if autonomousDatabaseId != "" {
+		deleteAutonomousRequest := oci_database.DeleteAutonomousDatabaseRequest{}
+		deleteAutonomousRequest.AutonomousDatabaseId = &autonomousDatabaseId
+
+		_, err := databaseClient.DeleteAutonomousDatabase(context.Background(), deleteAutonomousRequest)
+		if err != nil {
+			return fmt.Errorf("failed to delete source autonomous database resource with error : %v", err)
+		}
+	}
+	return nil
+}
+
+func adbWaitTillLifecycleStateAvailableCondition(response oci_common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if autonomousDatabaseResponse, ok := response.Response.(oci_database.GetAutonomousDatabaseResponse); ok {
+		return autonomousDatabaseResponse.LifecycleState != oci_database.AutonomousDatabaseLifecycleStateAvailable
+	}
+	return false
+}
+
+func adbWaitTillLifecycleStateStandbyCondition(response oci_common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if autonomousDatabaseResponse, ok := response.Response.(oci_database.GetAutonomousDatabaseResponse); ok {
+		return autonomousDatabaseResponse.LifecycleState != oci_database.AutonomousDatabaseLifecycleStateStandby
+	}
+	return false
+}
+
+func getAdbFromSourceRegion(client *tf_client.OracleClients, resourceId *string, retryPolicy *oci_common.RetryPolicy) error {
+	databaseClient, err := createDatabaseClient(client, utils.GetEnvSettingWithBlankDefault("source_region"))
+
+	_, err = databaseClient.GetAutonomousDatabase(context.Background(), oci_database.GetAutonomousDatabaseRequest{
+		AutonomousDatabaseId: resourceId,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
+}
+
+func getAdbFromCurrentRegion(client *tf_client.OracleClients, resourceId *string, retryPolicy *oci_common.RetryPolicy) error {
+	databaseClient, err := createDatabaseClient(client, utils.GetEnvSettingWithBlankDefault("region"))
+
+	_, err = databaseClient.GetAutonomousDatabase(context.Background(), oci_database.GetAutonomousDatabaseRequest{
+		AutonomousDatabaseId: resourceId,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
+}
+
+func triggerSwitchoverOnAdbInRegion(clients *tf_client.OracleClients, region string, autonomousDatabaseId string, peerAdbId string) error {
+	databaseClient, err := createDatabaseClient(clients, region)
+	if err != nil {
+		return err
+	}
+
+	if autonomousDatabaseId != "" {
+		switchoverAutonomousRequest := oci_database.SwitchoverAutonomousDatabaseRequest{}
+		switchoverAutonomousRequest.AutonomousDatabaseId = &autonomousDatabaseId
+		switchoverAutonomousRequest.PeerDbId = &peerAdbId
+
+		_, err := databaseClient.SwitchoverAutonomousDatabase(context.Background(), switchoverAutonomousRequest)
+		if err != nil {
+			return fmt.Errorf("failed to delete source autonomous database resource with error : %v", err)
+		}
+	}
+
+	return nil
+}
+
+func createDatabaseClient(clients *tf_client.OracleClients, region string) (client oci_database.DatabaseClient, err error) {
+	databaseClient, err := oci_database.NewDatabaseClientWithConfigurationProvider(*clients.DatabaseClient().ConfigurationProvider())
+	if err != nil {
+		return client, fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+	}
+	err = tf_client.ConfigureClientVar(&databaseClient.BaseClient)
+	if err != nil {
+		return client, fmt.Errorf("cannot configure client for the source region: %v", err)
+	}
+	databaseClient.SetRegion(region)
+	return databaseClient, nil
 }
