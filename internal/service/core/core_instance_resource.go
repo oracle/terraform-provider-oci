@@ -22,9 +22,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v57/common"
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v57/workrequests"
+	"github.com/oracle/oci-go-sdk/v58/common"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v58/workrequests"
 )
 
 func CoreInstanceResource() *schema.Resource {

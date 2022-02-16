@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v57/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v57/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v58/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v58/workrequests"
 )
 
 func DatabaseExternalPluggableDatabaseResource() *schema.Resource {

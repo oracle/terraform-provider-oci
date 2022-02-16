@@ -18,7 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_events "github.com/oracle/oci-go-sdk/v57/events"
+	oci_events "github.com/oracle/oci-go-sdk/v58/events"
 )
 
 func EventsRuleResource() *schema.Resource {

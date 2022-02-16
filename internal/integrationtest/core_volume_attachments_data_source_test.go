@@ -9,14 +9,14 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 
-	"github.com/oracle/oci-go-sdk/v57/common"
+	"github.com/oracle/oci-go-sdk/v58/common"
 
-	oci_core "github.com/oracle/oci-go-sdk/v57/core"
+	oci_core "github.com/oracle/oci-go-sdk/v58/core"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v57/core"
+	"github.com/oracle/oci-go-sdk/v58/core"
 	"github.com/stretchr/testify/suite"
 )
 

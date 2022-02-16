@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v57/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v58/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 
@@ -23,7 +23,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/stretchr/testify/assert"
 
-	oci_common "github.com/oracle/oci-go-sdk/v57/common"
+	oci_common "github.com/oracle/oci-go-sdk/v58/common"
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/provider"

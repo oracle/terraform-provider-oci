@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v57/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v58/mysql"
 )
 
 func MysqlMysqlBackupResource() *schema.Resource {
