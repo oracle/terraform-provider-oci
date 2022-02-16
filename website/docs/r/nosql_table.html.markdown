@@ -20,6 +20,11 @@ resource "oci_nosql_table" "test_table" {
 	compartment_id = var.compartment_id
 	ddl_statement = var.table_ddl_statement
 	name = var.table_name
+
+	#Optional
+	defined_tags = var.table_defined_tags
+	freeform_tags = {"bar-key"= "value"}
+	is_auto_reclaimable = var.table_is_auto_reclaimable
 	table_limits {
 		#Required
 		max_read_units = var.table_table_limits_max_read_units
@@ -29,11 +34,6 @@ resource "oci_nosql_table" "test_table" {
 		#Optional
 		capacity_mode = var.table_table_limits_capacity_mode
 	}
-
-	#Optional
-	defined_tags = var.table_defined_tags
-	freeform_tags = {"bar-key"= "value"}
-	is_auto_reclaimable = var.table_is_auto_reclaimable
 }
 ```
 
@@ -47,7 +47,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_auto_reclaimable` - (Optional) True if table can be reclaimed after an idle period.
 * `name` - (Required) Table name.
-* `table_limits` - (Required) (Updatable) Throughput and storage limits configuration of a table.
+* `table_limits` - (Optional) (Updatable) Throughput and storage limits configuration of a table. It is required for top level table, must be null for child table as child table shares its top parent table's limits.
 	* `capacity_mode` - (Optional) (Updatable) The capacity mode of the table.  If capacityMode = ON_DEMAND, maxReadUnits and maxWriteUnits are not used, and both will have the value of zero. 
 	* `max_read_units` - (Required) (Updatable) Maximum sustained read throughput limit for the table.
 	* `max_storage_in_gbs` - (Required) (Updatable) Maximum size of storage used by the table.
