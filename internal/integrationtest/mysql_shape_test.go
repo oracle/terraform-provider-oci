@@ -19,7 +19,7 @@ var (
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"is_supported_for":    acctest.Representation{RepType: acctest.Optional, Create: []string{`DBSYSTEM`}},
-		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`},
+		"name":                acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E2.2`},
 	}
 
 	MySQLShapeResourceConfig = AvailabilityDomainConfig
@@ -63,7 +63,7 @@ func TestMysqlShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "is_supported_for.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "VM.Standard.E2.2"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.cpu_core_count"),

@@ -119,6 +119,7 @@ The following attributes are exported:
 	* `time_updated` - The time the Channel was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `compartment_id` - The OCID of the compartment the DB System belongs in.
 * `configuration_id` - The OCID of the Configuration to be used for Instances in this DB System.
+* `crash_recovery` - Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled, and whether to enable or disable syncing of the Binary Logs. 
 * `current_placement` - The availability domain and fault domain a DB System is placed in.
 	* `availability_domain` - The availability domain in which the DB System is placed.
 	* `fault_domain` - The fault domain in which the DB System is placed.
