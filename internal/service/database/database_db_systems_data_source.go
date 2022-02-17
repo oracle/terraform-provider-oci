@@ -216,6 +216,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["maintenance_window"] = nil
 		}
 
+		if r.MemorySizeInGBs != nil {
+			dbSystem["memory_size_in_gbs"] = *r.MemorySizeInGBs
+		}
+
 		if r.NextMaintenanceRunId != nil {
 			dbSystem["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
@@ -259,6 +263,8 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 		dbSystem["ssh_public_keys"] = r.SshPublicKeys
 
 		dbSystem["state"] = r.LifecycleState
+
+		dbSystem["storage_volume_performance_mode"] = r.StorageVolumePerformanceMode
 
 		if r.SubnetId != nil {
 			dbSystem["subnet_id"] = *r.SubnetId

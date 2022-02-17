@@ -45,6 +45,8 @@ var (
 		"delete_standby_db_home_on_delete": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"protection_mode":                  acctest.Representation{RepType: acctest.Required, Create: `MAXIMUM_PERFORMANCE`},
 		"transport_type":                   acctest.Representation{RepType: acctest.Required, Create: `ASYNC`},
+		"cpu_core_count":                   acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"storage_volume_performance_mode":  acctest.Representation{RepType: acctest.Optional, Create: `BALANCED`},
 		"is_active_data_guard_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
@@ -265,6 +267,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Create, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
 				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
@@ -276,6 +279,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
 				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_volume_performance_mode", "BALANCED"),
 				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 
 				func(s *terraform.State) (err error) {
@@ -294,7 +298,8 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, dataGuardAssociationRepresentationExistingDbSystem),
-			Check: resource.ComposeAggregateTestCheckFunc(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "10"),
 				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
@@ -306,6 +311,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
 				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_volume_performance_mode", "BALANCED"),
 				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 
 				func(s *terraform.State) (err error) {
