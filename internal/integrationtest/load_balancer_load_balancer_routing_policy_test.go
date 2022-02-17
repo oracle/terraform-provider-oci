@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
 
@@ -24,6 +24,8 @@ import (
 )
 
 var (
+	LoadBalancerRoutingPolicyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", acctest.Required, acctest.Create, loadBalancerRoutingPolicyRepresentation)
+
 	LoadBalancerRoutingPolicyResourceConfig = LoadBalancerRoutingPolicyResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", acctest.Optional, acctest.Update, loadBalancerRoutingPolicyRepresentation)
 
@@ -166,13 +168,9 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.name", "name2"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + LoadBalancerRoutingPolicyRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

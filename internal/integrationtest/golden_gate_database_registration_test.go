@@ -17,9 +17,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v60/goldengate"
 
@@ -95,6 +95,8 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 			"wallet":                acctest.Representation{RepType: acctest.Optional, Create: `wallet`, Update: `wallet2`},
 			"lifecycle":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 		}
+
+		GoldenGateDatabaseRegistrationRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", acctest.Required, acctest.Create, databaseRegistrationRepresentation)
 
 		DatabaseRegistrationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", acctest.Optional, acctest.Update, databaseRegistrationRepresentation)
 
@@ -286,15 +288,9 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "username", "username2"),
 			),
 		},
-
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + DatabaseRegistrationResourceConfig,
-		},
-
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + GoldenGateDatabaseRegistrationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

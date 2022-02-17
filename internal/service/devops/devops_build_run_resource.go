@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
@@ -134,8 +134,6 @@ func DevopsBuildRunResource() *schema.Resource {
 			"build_outputs": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -146,8 +144,6 @@ func DevopsBuildRunResource() *schema.Resource {
 						"artifact_override_parameters": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -186,8 +182,6 @@ func DevopsBuildRunResource() *schema.Resource {
 						"delivered_artifacts": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -250,8 +244,6 @@ func DevopsBuildRunResource() *schema.Resource {
 						"exported_variables": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -289,8 +281,6 @@ func DevopsBuildRunResource() *schema.Resource {
 			"build_run_progress": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -317,8 +307,6 @@ func DevopsBuildRunResource() *schema.Resource {
 			"build_run_source": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -341,8 +329,6 @@ func DevopsBuildRunResource() *schema.Resource {
 						"trigger_info": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -367,8 +353,6 @@ func DevopsBuildRunResource() *schema.Resource {
 												"filter": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -386,8 +370,6 @@ func DevopsBuildRunResource() *schema.Resource {
 															"include": {
 																Type:     schema.TypeList,
 																Computed: true,
-																MaxItems: 1,
-																MinItems: 1,
 																Elem: &schema.Resource{
 																	Schema: map[string]*schema.Schema{
 																		// Required

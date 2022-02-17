@@ -24,9 +24,9 @@ import (
 
 	"os"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
 
@@ -402,7 +402,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + ObjectRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -440,7 +440,7 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
@@ -468,7 +468,7 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 						acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, objectRepresentation)) +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
 						acctest.GetUpdatedRepresentationCopy("content_length_limit", acctest.Representation{RepType: acctest.Optional, Create: `17`, Update: `15`}, objectSingularDataSourceRepresentation)),
-				ExpectError: regexp.MustCompile("the requested object's content length is"),
+				ExpectError: regexp.MustCompile("the requested object's content length is 16 the limit is set to 15"),
 			},
 		},
 	})
@@ -507,7 +507,7 @@ func TestObjectStorageObjectResource_metadata(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckObjectStorageObjectDestroy,
@@ -730,7 +730,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckObjectStorageObjectDestroy,
@@ -885,7 +885,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + ObjectRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
@@ -906,6 +906,11 @@ var (
 	ObjectResourceConfigWithSourceSinglePart = ObjectResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy(
 			"source", acctest.Representation{RepType: acctest.Optional, Create: ""}, objectSourceRepresentation))
+
+	ObjectCopyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object_copy", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
+		"source_uri_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: objectSourceUriDetailsRepresentationSourceEtag},
+		"object":             acctest.Representation{RepType: acctest.Optional, Create: `my-test-object-1-copy`},
+	}))
 
 	ObjectResourceConfigWithSourceURIFromContentObject = ObjectResourceConfigWithSourceURIFromContentObjectDependency +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object_copy", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
@@ -992,7 +997,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckObjectStorageObjectDestroy,
@@ -1176,7 +1181,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify import copy of the content object
 			{
-				Config:            config,
+				Config:            config + ObjectCopyRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

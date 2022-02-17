@@ -21,8 +21,8 @@ import (
 
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
@@ -257,8 +257,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 			"connection_strings": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -285,8 +283,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 			"database_management_config": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -312,8 +308,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 			"db_backup_config": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required

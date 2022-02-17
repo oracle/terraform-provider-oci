@@ -6,7 +6,7 @@ package service_manager_proxy
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_service_manager_proxy "github.com/oracle/oci-go-sdk/v60/servicemanagerproxy"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"

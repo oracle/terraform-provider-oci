@@ -19,7 +19,7 @@ import (
 
 	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v60/networkloadbalancer"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
 	oci_objectstorage "github.com/oracle/oci-go-sdk/v60/objectstorage"

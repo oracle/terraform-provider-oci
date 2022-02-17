@@ -14,11 +14,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
 )
@@ -510,9 +511,8 @@ func (s *ObjectStorageBucketResourceCrud) SetData() error {
 
 	s.D.Set("bucket_id", *s.Res.Id)
 
-	bucket, namespace, err := parseBucketCompositeId(s.D.Id())
+	_, namespace, err := parseBucketCompositeId(s.D.Id())
 	if err == nil {
-		s.D.Set("bucket", &bucket)
 		s.D.Set("namespace", &namespace)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
@@ -990,5 +990,5 @@ func retentionRulesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", timeRuleLocked))
 	}
 
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }

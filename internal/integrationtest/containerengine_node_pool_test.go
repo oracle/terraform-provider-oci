@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v60/containerengine"
 
@@ -302,13 +302,9 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "2"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + NodePoolRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

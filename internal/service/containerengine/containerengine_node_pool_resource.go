@@ -14,11 +14,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -294,8 +294,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			"node_source": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -340,8 +338,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						"error": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -1419,7 +1415,7 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 	if subnetId, ok := m["subnet_id"]; ok && subnetId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", subnetId))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodePoolNodeConfigDetails, error) {

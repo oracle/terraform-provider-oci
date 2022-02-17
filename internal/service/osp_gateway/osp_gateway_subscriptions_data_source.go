@@ -6,7 +6,7 @@ package osp_gateway
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_osp_gateway "github.com/oracle/oci-go-sdk/v60/ospgateway"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"

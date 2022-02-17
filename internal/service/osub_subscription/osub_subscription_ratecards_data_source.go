@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 	oci_osub_subscription "github.com/oracle/oci-go-sdk/v60/osubsubscription"
 
@@ -58,8 +58,6 @@ func OsubSubscriptionRatecardsDataSource() *schema.Resource {
 						"currency": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -101,8 +99,6 @@ func OsubSubscriptionRatecardsDataSource() *schema.Resource {
 						"product": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

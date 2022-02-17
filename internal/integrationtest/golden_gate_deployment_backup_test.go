@@ -16,9 +16,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v60/goldengate"
 
@@ -65,6 +65,8 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 			"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 		}
+
+		DeploymentBackupRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, deploymentBackupRepresentation)
 
 		deploymentBackupDataSourceFilterRepresentation = map[string]interface{}{
 			"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -248,15 +250,9 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + DeploymentBackupResourceConfig,
-		},
-
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DeploymentBackupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

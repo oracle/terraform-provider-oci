@@ -14,8 +14,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
 )
@@ -207,11 +207,10 @@ func (s *ObjectStorageReplicationPolicyResourceCrud) Delete() error {
 
 func (s *ObjectStorageReplicationPolicyResourceCrud) SetData() error {
 
-	bucket, namespace, replicationId, err := ParseReplicationPolicyCompositeId(s.D.Id())
+	bucket, namespace, _, err := ParseReplicationPolicyCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("bucket", &bucket)
 		s.D.Set("namespace", &namespace)
-		s.D.Set("replication_id", &replicationId)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}

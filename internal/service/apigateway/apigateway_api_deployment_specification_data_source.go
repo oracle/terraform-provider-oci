@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/oracle/oci-go-sdk/v60/apigateway"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v60/apigateway"
 
@@ -38,8 +38,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"access_log": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -57,8 +55,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"execution_log": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -93,8 +89,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"authentication": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -131,8 +125,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"public_keys": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -261,8 +253,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"cors": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -312,8 +302,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"mutual_tls": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -338,8 +326,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"rate_limiting": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -374,8 +360,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"backend": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -446,8 +430,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"logging_policies": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -458,8 +440,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"access_log": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -477,8 +457,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"execution_log": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -514,8 +492,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"request_policies": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -526,8 +502,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"authorization": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -552,8 +526,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"body_validation": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -591,8 +563,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"cors": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -642,8 +612,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"header_transformations": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -654,8 +622,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												"filter_headers": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -690,8 +656,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												"rename_headers": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -726,8 +690,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												"set_headers": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -772,8 +734,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"header_validations": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -812,8 +772,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"query_parameter_transformations": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -824,8 +782,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												"filter_query_parameters": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -860,8 +816,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												"rename_query_parameters": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -896,8 +850,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												"set_query_parameters": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -942,8 +894,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"query_parameter_validations": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -982,8 +932,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"response_cache_lookup": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -1019,8 +967,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 						"response_policies": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -1031,8 +977,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"header_transformations": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -1043,8 +987,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												"filter_headers": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -1079,8 +1021,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												"rename_headers": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -1115,8 +1055,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 												"set_headers": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -1161,8 +1099,6 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									"response_cache_store": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required

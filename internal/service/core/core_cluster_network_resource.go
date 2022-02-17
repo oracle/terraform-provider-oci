@@ -10,9 +10,9 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
@@ -738,7 +738,7 @@ func secondaryVnicSubnetsHashCodeForSets(v interface{}) int {
 	if subnetId, ok := m["subnet_id"]; ok && subnetId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", subnetId))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func (s *CoreClusterNetworkResourceCrud) updateCompartment(compartment interface{}) error {

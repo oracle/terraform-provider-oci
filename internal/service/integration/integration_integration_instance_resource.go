@@ -13,12 +13,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 	oci_integration "github.com/oracle/oci-go-sdk/v60/integration"
@@ -1017,7 +1017,7 @@ func allowlistedHttpVcnsHashCodeForSets(v interface{}) int {
 	if id, ok := m["id"]; ok && id != "" {
 		buf.WriteString(fmt.Sprintf("%v-", id))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func alternateCustomEndpointsHashCodeForSets(v interface{}) int {
@@ -1029,7 +1029,7 @@ func alternateCustomEndpointsHashCodeForSets(v interface{}) int {
 	if hostname, ok := m["hostname"]; ok && hostname != "" {
 		buf.WriteString(fmt.Sprintf("%v-", hostname))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func (s *IntegrationIntegrationInstanceResourceCrud) updateCompartment(compartment interface{}) error {

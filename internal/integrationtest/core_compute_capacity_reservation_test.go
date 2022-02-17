@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 
@@ -268,13 +268,10 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "used_instance_count"),
 			),
 		},
-		// Step 7: remove singular datasource from previous step so that it doesn't conflict with import tests
+		// verify resource import
+
 		{
-			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceConfig,
-		},
-		// Step 8: verify resource import
-		{
-			Config:                  config,
+			Config:                  config + ComputeCapacityReservationRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

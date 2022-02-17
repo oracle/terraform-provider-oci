@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -16,6 +16,8 @@ import (
 )
 
 var (
+	InstanceWithPreemptibleInstanceRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, instanceWithPreemptibleInstanceConfigRepresentation)
+
 	instanceWithPreemptibleInstanceConfigRepresentation = map[string]interface{}{
 		"availability_domain":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -119,13 +121,9 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + InstanceWithPreemptibleInstanceConfigResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + InstanceWithPreemptibleInstanceRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

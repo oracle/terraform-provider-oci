@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -283,10 +283,6 @@ func (s *IdentityIdentityProviderResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.InactiveStatus != nil {
 			s.D.Set("inactive_state", strconv.FormatInt(*v.InactiveStatus, 10))

@@ -6,7 +6,7 @@ package artifacts
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_artifacts "github.com/oracle/oci-go-sdk/v60/artifacts"
 
@@ -194,10 +194,6 @@ func (s *ArtifactsContainerImageSignatureResourceCrud) Delete() error {
 }
 
 func (s *ArtifactsContainerImageSignatureResourceCrud) SetData() error {
-
-	if s.Res.Id != nil {
-		s.D.Set("image_signature_id", *s.Res.Id)
-	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

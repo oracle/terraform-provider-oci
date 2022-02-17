@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v60/managementagent"
 
@@ -25,6 +25,8 @@ import (
 )
 
 var (
+	ManagementAgentRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Required, acctest.Create, managementAgentRepresentation)
+
 	ManagementAgentResourceConfig = ManagementAgentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Optional, acctest.Update, managementAgentRepresentation)
 
@@ -188,14 +190,9 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", acctest.Required, acctest.Create, managementAgentPluginDataSourceRepresentation),
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + ManagementAgentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       false,
 			ImportStateVerifyIgnore: []string{},

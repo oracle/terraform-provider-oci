@@ -12,7 +12,7 @@ import (
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
@@ -448,8 +448,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			"maintenance_window": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -481,8 +479,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 						"hours_of_day": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 20,
-							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},
@@ -523,8 +519,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 						"weeks_of_month": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 4,
-							MinItems: 1,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},

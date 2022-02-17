@@ -7,8 +7,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -76,7 +77,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckLoadBalancerRuleSetDestroy,
@@ -251,15 +252,9 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_rule_set"),
 				),
 			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", acctest.Optional, acctest.Create, allowRuleSetRepresentationWithTwoItems),
-			},
 			// verify resource import
 			{
-				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", acctest.Optional, acctest.Create, allowRuleSetRepresentationWithTwoItems),
+				Config:            config + RuleSetRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

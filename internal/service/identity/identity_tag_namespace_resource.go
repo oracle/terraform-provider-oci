@@ -8,7 +8,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -205,7 +205,6 @@ func (s *IdentityTagNamespaceResourceCrud) Create() error {
 		// List all namespaces using the datasource to find that namespace with the matching name.
 		s.D.Set("compartment_id", request.CompartmentId)
 		s.D.Set("name", request.Name)
-		s.D.Set("include_subcompartments", false)
 		dsCrud := &IdentityTagNamespacesDataSourceCrud{s.D, s.Client, nil}
 		if dsErr := dsCrud.Get(); dsErr != nil {
 			//return original error when datasource call fails

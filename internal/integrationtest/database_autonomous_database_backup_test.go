@@ -12,13 +12,15 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
+	AutonomousDatabaseBackupRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, autonomousDatabaseBackupRepresentation)
+
 	adbBackupDbName = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
 	AutonomousDatabaseBackupResourceConfig = AutonomousDatabaseBackupResourceDependencies +
@@ -67,7 +69,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, autonomousDatabaseBackupRepresentation), "database", "autonomousDatabaseBackup", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		//0. verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, autonomousDatabaseBackupRepresentation),
@@ -86,7 +88,8 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 				},
 			),
 		},
-		//1. verify datasource
+
+		// verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_backups", "test_autonomous_database_backups", acctest.Optional, acctest.Update, autonomousDatabaseBackupDataSourceRepresentation) +
@@ -109,7 +112,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.type"),
 			),
 		},
-		//2. verify singular datasource
+		// verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, autonomousDatabaseBackupSingularDataSourceRepresentation) +
@@ -128,13 +131,9 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
 			),
 		},
-		//3. remove singular datasource from previous step so that it doesn't conflict with import tests
+		// verify resource import
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
-		},
-		//4. verify resource import
-		{
-			Config:                  config,
+			Config:                  config + AutonomousDatabaseBackupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

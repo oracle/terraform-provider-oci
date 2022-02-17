@@ -15,8 +15,8 @@ import (
 
 	"github.com/oracle/oci-go-sdk/v60/common"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -192,13 +192,9 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 					}),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + RrsetResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + RrsetRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getRrSetImportId(resourceName),

@@ -12,8 +12,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -227,16 +227,9 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + ResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, resolverRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, resolverEndpointRepresentation),
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + ResolverEndpointRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getResolverEndpointImportId(resourceName),

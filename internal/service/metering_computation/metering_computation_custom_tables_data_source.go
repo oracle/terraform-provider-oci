@@ -6,7 +6,7 @@ package metering_computation
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_metering_computation "github.com/oracle/oci-go-sdk/v60/usageapi"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"

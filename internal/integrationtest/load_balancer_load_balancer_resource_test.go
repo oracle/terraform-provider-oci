@@ -14,15 +14,16 @@ import (
 
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/loadbalancer"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceLoadBalancerLBTestSuite struct {
 	suite.Suite
-	Providers    map[string]terraform.ResourceProvider
+	Providers    map[string]*schema.Provider
 	Config       string
 	ResourceName string
 }
@@ -305,7 +306,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckLoadBalancerLoadBalancerDestroy,
@@ -493,7 +494,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + LoadBalancerRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

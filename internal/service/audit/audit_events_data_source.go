@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_audit "github.com/oracle/oci-go-sdk/v60/audit"
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 
@@ -54,8 +54,6 @@ func AuditAuditEventsDataSource() *schema.Resource {
 						"data": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -101,8 +99,6 @@ func AuditAuditEventsDataSource() *schema.Resource {
 									"identity": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -156,8 +152,6 @@ func AuditAuditEventsDataSource() *schema.Resource {
 									"request": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -201,8 +195,6 @@ func AuditAuditEventsDataSource() *schema.Resource {
 									"response": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -238,8 +230,6 @@ func AuditAuditEventsDataSource() *schema.Resource {
 									"state_change": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required

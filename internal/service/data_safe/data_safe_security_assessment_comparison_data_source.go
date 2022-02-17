@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v60/datasafe"
 )
 
@@ -64,8 +64,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"baseline": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -76,8 +74,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -89,8 +85,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -135,8 +129,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"current": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -147,8 +139,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -160,8 +150,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -244,8 +232,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"baseline": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -256,8 +242,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -269,8 +253,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -315,8 +297,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"current": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -327,8 +307,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -340,8 +318,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -432,8 +408,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"baseline": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -444,8 +418,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -457,8 +429,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -503,8 +473,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"current": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -515,8 +483,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -528,8 +494,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -612,8 +576,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"baseline": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -624,8 +586,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -637,8 +597,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -683,8 +641,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"current": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -695,8 +651,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -708,8 +662,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -792,8 +744,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"baseline": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -804,8 +754,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -817,8 +765,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -863,8 +809,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"current": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -875,8 +819,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -888,8 +830,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -972,8 +912,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"baseline": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -984,8 +922,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -997,8 +933,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -1043,8 +977,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"current": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -1055,8 +987,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -1068,8 +998,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -1152,8 +1080,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"baseline": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -1164,8 +1090,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -1177,8 +1101,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
@@ -1223,8 +1145,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 									"current": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -1235,8 +1155,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -1248,8 +1166,6 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												"references": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required

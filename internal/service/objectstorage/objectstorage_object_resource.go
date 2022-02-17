@@ -22,7 +22,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
 )
 
@@ -949,8 +949,6 @@ func (s *ObjectStorageObjectResourceCrud) setDataObjectHead() error {
 
 	s.D.Set("storage_tier", string(response.StorageTier))
 
-	s.D.Set("archival_state", string(s.Res.ObjectResponse.ArchivalState))
-
 	if response.OpcMeta != nil {
 		if err := s.D.Set("metadata", response.OpcMeta); err != nil {
 			log.Printf("Unable to set 'metadata'. Error: %q", err)
@@ -991,12 +989,15 @@ func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 	s.D.Set("object", s.Res.ObjectName)
 
 	contentReader := s.Res.ObjectResponse.Content
-	contentArray, err := ioutil.ReadAll(contentReader)
-	if err != nil {
-		log.Printf("Unable to read 'content' from response. Error: %q", err)
-		return err
+	if contentReader != nil {
+		contentArray, err := ioutil.ReadAll(contentReader)
+		if err != nil {
+			log.Printf("Unable to read 'content' from response. Error: %q", err)
+			return err
+		}
+		h := md5.Sum(contentArray)
+		s.D.Set("content", hex.EncodeToString(h[:]))
 	}
-	s.D.Set("content", contentArray)
 
 	if s.Res.ObjectResponse.CacheControl != nil {
 		s.D.Set("cache_control", *s.Res.ObjectResponse.CacheControl)

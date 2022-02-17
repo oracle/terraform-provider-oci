@@ -11,9 +11,9 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/v60/osmanagement"
 )
 
@@ -446,7 +446,7 @@ func softwareSourceHashCodeForSets(v interface{}) int {
 	if name, ok := m["name"]; ok && name != "" {
 		buf.WriteString(fmt.Sprintf("%v-", name))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func (s *OsmanagementManagedInstanceManagementResourceCrud) createParentSoftwareSource(managedInstanceId *string) error {
@@ -697,7 +697,7 @@ func managedInstanceGroupsHashCodeForSets(v interface{}) int {
 	if id, ok := m["id"]; ok && id != "" {
 		buf.WriteString(fmt.Sprintf("%v-", id))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func (s *OsmanagementManagedInstanceManagementResourceCrud) mapToId(fieldKeyFormat string) (oci_osmanagement.Id, error) {

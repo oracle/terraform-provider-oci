@@ -10,9 +10,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -1147,7 +1148,7 @@ func autoScalingConfigurationPolicyRulesHashCodeForSets(v interface{}) int {
 			}
 		}
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 func (s *AutoScalingAutoScalingConfigurationResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_auto_scaling.ChangeAutoScalingConfigurationCompartmentRequest{}

@@ -12,10 +12,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_events "github.com/oracle/oci-go-sdk/v60/events"
 )
@@ -644,7 +644,7 @@ func actionsHashCodeForSets(v interface{}) int {
 	if topicId, ok := m["topic_id"]; ok && topicId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", topicId))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 func (s *EventsRuleResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_events.ChangeRuleCompartmentRequest{}

@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
@@ -59,8 +59,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"apex_details": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -101,8 +99,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"backup_config": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -128,8 +124,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"connection_strings": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -209,8 +203,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"connection_urls": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -461,8 +453,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 									"day_of_week": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -499,8 +489,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"standby_db": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

@@ -7,7 +7,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v60/optimizer"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -76,8 +76,6 @@ func OptimizerRecommendationStrategyDataSource() *schema.Resource {
 												"default_value": {
 													Type:     schema.TypeList,
 													Computed: true,
-													MaxItems: 1,
-													MinItems: 1,
 													Elem:     schema.TypeString,
 												},
 												"description": {

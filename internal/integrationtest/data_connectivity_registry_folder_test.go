@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_data_connectivity "github.com/oracle/oci-go-sdk/v60/dataconnectivity"
 
@@ -378,13 +378,9 @@ func TestDataConnectivityRegistryFolderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "object_status", "8"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + RegistryFolderResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + RegistryFolderRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"object_version"},

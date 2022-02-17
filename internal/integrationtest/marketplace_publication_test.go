@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_marketplace "github.com/oracle/oci-go-sdk/v60/marketplace"
 
@@ -24,6 +24,8 @@ import (
 )
 
 var (
+	PublicationRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Required, acctest.Create, publicationRepresentation)
+
 	PublicationResourceConfig = PublicationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", acctest.Optional, acctest.Update, publicationRepresentation)
 
@@ -328,13 +330,9 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + PublicationResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + PublicationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

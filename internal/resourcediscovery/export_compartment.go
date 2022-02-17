@@ -27,7 +27,7 @@ import (
 	"github.com/hashicorp/terraform-exec/tfinstall"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
 
@@ -1072,7 +1072,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 
 	for _, tfAttribute := range sortedKeys {
 		tfSchema := resourceSchema.Schema[tfAttribute]
-		if tfSchema.Deprecated != "" || tfSchema.Removed != "" || (!tfSchema.Required && !tfSchema.Optional) {
+		if tfSchema.Deprecated != "" || (!tfSchema.Required && !tfSchema.Optional) {
 			continue
 		}
 

@@ -12,7 +12,7 @@ import (
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )

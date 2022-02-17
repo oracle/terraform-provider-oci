@@ -12,9 +12,9 @@ import (
 
 	"regexp"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 
@@ -279,14 +279,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "vpus_per_gb", "20"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		// verify resource import
 		{
-			Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Optional, acctest.Update, volumeRepresentation),
-		},
-		//verify resource import
-		{
-			Config:            config,
+			Config:            config + VolumeRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -314,7 +309,7 @@ func TestCoreVolumeResource_expectError(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckCoreVolumeDestroy,
@@ -407,7 +402,7 @@ func TestCoreVolumeResource_int64_interpolation(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckCoreVolumeDestroy,
@@ -464,7 +459,7 @@ func TestCoreVolumeResource_validations(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckCoreVolumeDestroy,

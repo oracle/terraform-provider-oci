@@ -15,8 +15,8 @@ import (
 
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_certificates_management "github.com/oracle/oci-go-sdk/v60/certificatesmanagement"
 )
@@ -346,8 +346,6 @@ func CertificatesManagementCertificateAuthorityResource() *schema.Resource {
 			"current_version": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -366,8 +364,6 @@ func CertificatesManagementCertificateAuthorityResource() *schema.Resource {
 						"revocation_status": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -408,8 +404,6 @@ func CertificatesManagementCertificateAuthorityResource() *schema.Resource {
 						"validity": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -459,8 +453,6 @@ func CertificatesManagementCertificateAuthorityResource() *schema.Resource {
 			"subject": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required

@@ -6,7 +6,7 @@ package vault
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_vault "github.com/oracle/oci-go-sdk/v60/vault"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"

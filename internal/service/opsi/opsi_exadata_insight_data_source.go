@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v60/opsi"
 )
 
@@ -70,10 +70,6 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
 	case oci_opsi.EmManagedExternalExadataInsight:
 		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_EXADATA")
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)

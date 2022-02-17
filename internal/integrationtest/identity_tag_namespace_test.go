@@ -14,9 +14,9 @@ import (
 
 	"github.com/oracle/oci-go-sdk/v60/common"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -192,7 +192,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + TagNamespaceRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

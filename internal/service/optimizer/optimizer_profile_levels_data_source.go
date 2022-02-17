@@ -6,7 +6,7 @@ package optimizer
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v60/optimizer"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -99,7 +99,6 @@ func OptimizerProfileLevelsDataSource() *schema.Resource {
 									"valid_intervals": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MinItems: 1,
 										Elem: &schema.Schema{
 											Type: schema.TypeInt,
 										},
