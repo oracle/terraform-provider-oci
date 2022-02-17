@@ -344,6 +344,10 @@ func ContainerengineClusterResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"vcn_hostname_endpoint": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -1108,6 +1112,10 @@ func ClusterEndpointsToMap(obj *oci_containerengine.ClusterEndpoints) map[string
 
 	if obj.PublicEndpoint != nil {
 		result["public_endpoint"] = string(*obj.PublicEndpoint)
+	}
+
+	if obj.VcnHostnameEndpoint != nil {
+		result["vcn_hostname_endpoint"] = string(*obj.VcnHostnameEndpoint)
 	}
 
 	return result
