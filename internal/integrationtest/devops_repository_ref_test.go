@@ -16,9 +16,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
 
@@ -26,6 +26,8 @@ import (
 )
 
 var (
+	RepositoryRefRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Required, acctest.Create, repositoryRefRepresentation)
+
 	RepositoryRefResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_repository_ref", "test_repository_ref", acctest.Optional, acctest.Update, repositoryRefRepresentation)
 
 	repositoryRefSingularDataSourceRepresentation = map[string]interface{}{
@@ -141,13 +143,9 @@ func TestDevopsRepositoryRefResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "ref_type", "BRANCH"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + commitIdStr + RepositoryRefResourceDependencies + RepositoryRefResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + RepositoryRefRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

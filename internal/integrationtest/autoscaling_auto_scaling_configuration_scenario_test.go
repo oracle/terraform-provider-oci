@@ -16,14 +16,17 @@ import (
 
 	"github.com/oracle/oci-go-sdk/v60/common"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/stretchr/testify/suite"
 
 	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 var (
+	AutoScalingConfigurationOptionalOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, autoScalingConfigurationRepresentation2)
+
 	AutoScalingConfigurationResourceConfigForScheduledExecution = AutoScalingConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, autoScalingConfigurationRepresentation2)
 
@@ -82,7 +85,7 @@ var (
 
 type ResourceAutoScalingConfigurationTestSuite struct {
 	suite.Suite
-	Providers              map[string]terraform.ResourceProvider
+	Providers              map[string]*schema.Provider
 	Config                 string
 	OperatingSystem        string
 	OperatingSystemVersion string
@@ -502,13 +505,9 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceConfigForScheduledExecution,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + AutoScalingConfigurationOptionalOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -714,13 +713,9 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceConfigForScheduledExecutionResourceAction,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + AutoScalingConfigurationRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

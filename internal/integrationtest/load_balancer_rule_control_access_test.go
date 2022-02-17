@@ -9,14 +9,17 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
+	RuleSetControlAccessRequiredOnlyRepresentation = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", acctest.Required, acctest.Create, ruleSetControlAccessRepresentation)
+
 	ruleSetControlAccessSingularDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `example_control_access_rule_set`},
@@ -68,7 +71,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckLoadBalancerRuleSetDestroy,
@@ -186,15 +189,9 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 						[]string{}),
 				),
 			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", acctest.Optional, acctest.Update, ruleSetControlAccessRepresentation),
-			},
 			// verify resource import
 			{
-				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", acctest.Optional, acctest.Update, ruleSetControlAccessRepresentation),
+				Config:            config + RuleSetControlAccessRequiredOnlyRepresentation,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

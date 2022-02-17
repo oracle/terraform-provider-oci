@@ -15,9 +15,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_dns "github.com/oracle/oci-go-sdk/v60/dns"
 
@@ -25,6 +25,8 @@ import (
 )
 
 var (
+	ZoneRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, zoneRepresentationPrimary)
+
 	zoneDataSourceRepresentationRequiredOnly = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
@@ -315,7 +317,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            tokenFn(config, nil),
+			Config:            tokenFn(config+ZoneRequiredOnlyResource, nil),
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getZoneImportId(resourceName),

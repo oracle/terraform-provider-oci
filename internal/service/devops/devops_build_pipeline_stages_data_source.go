@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
 )
 
@@ -43,7 +43,6 @@ func DevopsBuildPipelineStagesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -121,8 +120,6 @@ func DevopsBuildPipelineStagesDataSource() *schema.Resource {
 									"build_pipeline_stage_predecessor_collection": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												"items": {

@@ -8,8 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -17,6 +18,10 @@ import (
 )
 
 var (
+	LoadBalancerRealmRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
+		"ip_mode": acctest.Representation{RepType: acctest.Optional, Create: `IPV6`},
+	}))
+
 	govLoadBalancerSubnetDependencies = AvailabilityDomainConfig + `
 	data "oci_load_balancer_shapes" "t" {
 		compartment_id = "${var.compartment_id}"
@@ -68,7 +73,7 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckLoadBalancerLoadBalancerDestroy,
@@ -157,7 +162,7 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + LoadBalancerRealmRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

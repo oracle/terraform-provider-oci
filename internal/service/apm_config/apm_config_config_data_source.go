@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apm_config "github.com/oracle/oci-go-sdk/v60/apmconfig"
 )
 
@@ -108,10 +108,6 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
@@ -157,11 +153,6 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		if v.Id != nil {
-			log.Printf("SETTING metric group Id to " + *v.Id)
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
@@ -194,11 +185,6 @@ func (s *ApmConfigConfigDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			log.Printf("SETTING filter ID to " + *v.Id)
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())

@@ -21,8 +21,8 @@ import (
 	oci_analytics "github.com/oracle/oci-go-sdk/v60/analytics"
 	"github.com/oracle/oci-go-sdk/v60/common"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -170,7 +170,7 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config:            config,
+			Config:            config + AnalyticsInstanceVanityUrlRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

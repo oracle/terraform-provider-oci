@@ -3,8 +3,7 @@ package acctest
 import (
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
@@ -20,9 +19,9 @@ type ConfigFunc func(d *schema.ResourceData) (interface{}, error)
 func init() {
 	TestAccProvider = ProviderTestCopy(func(d *schema.ResourceData) (interface{}, error) {
 		return GetTestClients(d), nil
-	}).(*schema.Provider)
+	})
 
-	TestAccProviders = map[string]terraform.ResourceProvider{
+	TestAccProviders = map[string]*schema.Provider{
 		"oci": TestAccProvider,
 	}
 }

@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -18,6 +18,12 @@ import (
 )
 
 var (
+	DedicatedVmHostDenseIO2RequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostRepresentation_DenseIO2Shape)
+
+	DedicatedVmHostE2RequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostRepresentation_E2Shape)
+
+	DedicatedVmHostE3RequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, dedicatedVmHostRepresentation_E3Shape)
+
 	DedicatedVmHostResourceConfig_E3Shape = DedicatedVmHostResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, dedicatedVmHostRepresentation_E3Shape)
 
@@ -281,13 +287,9 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_ocpus"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DedicatedVmHostDenseIO2RequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -477,13 +479,9 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_ocpus"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DedicatedVmHostE2RequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -673,13 +671,9 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_ocpus"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DedicatedVmHostE3RequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

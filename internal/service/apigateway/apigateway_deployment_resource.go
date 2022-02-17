@@ -11,16 +11,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_apigateway "github.com/oracle/oci-go-sdk/v60/apigateway"
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func ApigatewayDeploymentResource() *schema.Resource {
@@ -4090,5 +4090,5 @@ func mediaTypeHashCodeForBodyValidationContentSets(v interface{}) int {
 	if validation_type, ok := m["validation_type"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", validation_type))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }

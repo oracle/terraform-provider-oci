@@ -26,9 +26,9 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -495,6 +495,12 @@ func (t *OciTestT) Error(args ...interface{}) {
 	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
+func (t *OciTestT) Errorf(format string, args ...interface{}) {
+	t.T.Errorf(format, args...)
+	str := fmt.Sprintf("%v", args)
+	t.ErrorMessages = append(t.ErrorMessages, str)
+}
+
 func (t *OciTestT) Fatal(args ...interface{}) {
 	t.T.Fatal(args...)
 	str := fmt.Sprintf("%v", args)
@@ -513,6 +519,54 @@ func (t *OciTestT) Parallel() {
 	t.T.Parallel()
 }
 
+func (t *OciTestT) Fail() {
+	t.T.Fail()
+}
+
+func (t *OciTestT) FailNow() {
+	t.T.FailNow()
+}
+
+func (t *OciTestT) Failed() bool {
+	return t.T.Failed()
+}
+
+func (t *OciTestT) Fatalf(format string, args ...interface{}) {
+	t.T.Fatalf(format, args...)
+	str := fmt.Sprintf("%v", args)
+	t.ErrorMessages = append(t.ErrorMessages, str)
+}
+
+func (t *OciTestT) Log(args ...interface{}) {
+	t.T.Log(args...)
+	str := fmt.Sprintf("%v", args)
+	t.ErrorMessages = append(t.ErrorMessages, str)
+}
+
+func (t *OciTestT) Logf(format string, args ...interface{}) {
+	t.T.Logf(format, args...)
+	str := fmt.Sprintf("%v", args)
+	t.ErrorMessages = append(t.ErrorMessages, str)
+}
+
+func (t *OciTestT) SkipNow() {
+	t.T.SkipNow()
+}
+
+func (t *OciTestT) Skipf(format string, args ...interface{}) {
+	t.T.Skipf(format, args...)
+	str := fmt.Sprintf("%v", args)
+	t.ErrorMessages = append(t.ErrorMessages, str)
+}
+
+func (t *OciTestT) Skipped() bool {
+	return t.T.Skipped()
+}
+
+func (t *OciTestT) Helper() {
+	t.T.Helper()
+}
+
 // Method to execute tests
 func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps []resource.TestStep) {
 	// set Generic preconfiguration method if not explicitly set
@@ -525,7 +579,7 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 	ociTest := OciTestT{t, make([]string, 0)}
 	resource.Test(&ociTest, resource.TestCase{
 		PreCheck: func() { PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": TestAccProvider,
 		},
 		CheckDestroy: checkDestroyFunc,
@@ -565,14 +619,14 @@ var requiredTestEnvVars = []string{"compartment_ocid", "compartment_id_for_creat
 var requiredKeyAuthEnvVars = []string{"tenancy_ocid", "user_ocid", "fingerprint"}
 var requiredOboTokenAuthEnvVars = []string{"tenancy_ocid", "obo_token"}
 var TestAccProvider *schema.Provider
-var TestAccProviders map[string]terraform.ResourceProvider
+var TestAccProviders map[string]*schema.Provider
 
 const (
 	requestQueryOpcTimeMaintenanceRebootDue = "opc-time-maintenance-reboot-due"
 )
 
 // Provider is the adapter for terraform, that gives access to all the resources
-func ProviderTestCopy(configfn schema.ConfigureFunc) terraform.ResourceProvider {
+func ProviderTestCopy(configfn schema.ConfigureFunc) *schema.Provider {
 	result := &schema.Provider{
 		DataSourcesMap: tf_provider.DataSourcesMap(),
 		Schema:         tf_provider.SchemaMap(),

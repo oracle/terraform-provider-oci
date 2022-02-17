@@ -14,7 +14,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
@@ -207,10 +207,9 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Delete() error {
 
 func (s *DatabaseDbNodeConsoleConnectionResourceCrud) SetData() error {
 
-	dbNodeId, id, err := ParseDbNodeConsoleConnectionCompositeId(s.D.Id())
+	dbNodeId, _, err := ParseDbNodeConsoleConnectionCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("db_node_id", &dbNodeId)
-		s.D.Set("id", &id)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}

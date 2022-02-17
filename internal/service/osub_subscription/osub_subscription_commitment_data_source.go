@@ -6,7 +6,7 @@ package osub_subscription
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_osub_subscription "github.com/oracle/oci-go-sdk/v60/osubsubscription"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"

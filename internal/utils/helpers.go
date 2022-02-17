@@ -4,7 +4,9 @@
 package utils
 
 import (
+	"bytes"
 	"fmt"
+	"hash/crc32"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -16,7 +18,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
@@ -293,4 +295,49 @@ func WriteTempFile(data string, originFileName string) (err error) {
 		_, _ = f.WriteString(data)
 	}
 	return err
+}
+
+func ValidateSourceValue(i interface{}, k string) (s []string, es []error) {
+	v, ok := i.(string)
+	if !ok {
+		es = append(es, fmt.Errorf("expected type of %s to be string", k))
+		return
+	}
+	info, err := os.Stat(v)
+	if err != nil {
+		es = append(es, fmt.Errorf("cannot get file information for the specified source: %s", v))
+		return
+	}
+	if info.Size() > 10000*50*1024*1024*1024 {
+		es = append(es, fmt.Errorf("the specified source: %s file is too large", v))
+	}
+	return
+}
+
+// GetStringHashcode hashes a string to a unique hashcode.
+//
+// crc32 returns a uint32, but for our use we need
+// and non negative integer. Here we cast to an integer
+// and invert it if the result is negative.
+func GetStringHashcode(s string) int {
+	v := int(crc32.ChecksumIEEE([]byte(s)))
+	if v >= 0 {
+		return v
+	}
+	if -v >= 0 {
+		return -v
+	}
+	// v == MinInt
+	return 0
+}
+
+// GetStringsHashcode hashes a list of strings to a unique hashcode.
+func GetStringsHashcode(strings []string) string {
+	var buf bytes.Buffer
+
+	for _, s := range strings {
+		buf.WriteString(fmt.Sprintf("%s-", s))
+	}
+
+	return fmt.Sprintf("%d", GetStringHashcode(buf.String()))
 }

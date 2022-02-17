@@ -10,7 +10,7 @@ import (
 
 	"reflect"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func propertiesDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {

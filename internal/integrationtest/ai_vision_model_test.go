@@ -16,9 +16,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v60/aivision"
 	"github.com/oracle/oci-go-sdk/v60/common"
 
@@ -270,13 +270,9 @@ func TestAiVisionModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "training_dataset.0.object", "a_hymenoptera_v3.json"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + VisionModelResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + VisionModelRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

@@ -7,12 +7,17 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+)
+
+var (
+	VcnRealmOptionalsResource = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`}}))
 )
 
 // issue-routing-tag: core/virtualNetwork
@@ -139,16 +144,9 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_domain_name"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-				})),
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + VcnRealmOptionalsResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
