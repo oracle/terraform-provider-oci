@@ -11,10 +11,9 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database_management "github.com/oracle/oci-go-sdk/v60/databasemanagement"
 )
@@ -119,7 +118,7 @@ func managedDatabaseHashCodeForSets(v interface{}) int {
 	if id, ok := m["id"]; ok && id != "" {
 		buf.WriteString(fmt.Sprintf("%v-", id))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func createDatabaseManagementManagedDatabaseGroup(d *schema.ResourceData, m interface{}) error {

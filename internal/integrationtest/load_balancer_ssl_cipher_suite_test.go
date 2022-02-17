@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
 
@@ -24,6 +24,8 @@ import (
 )
 
 var (
+	SslCipherSuiteRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Create, sslCipherSuiteRepresentation)
+
 	SslCipherSuiteResourceConfig = SslCipherSuiteResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Update, sslCipherSuiteRepresentation)
 
@@ -128,13 +130,9 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_cipher_suite"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + SslCipherSuiteRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

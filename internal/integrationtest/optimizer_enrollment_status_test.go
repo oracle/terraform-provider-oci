@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -18,6 +18,8 @@ import (
 )
 
 var (
+	EnrollmentStatusRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", acctest.Required, acctest.Create, enrollmentStatusRepresentation)
+
 	EnrollmentStatusResourceConfig = EnrollmentStatusResourceDependencies +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", acctest.Required, acctest.Create, enrollmentStatusDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", acctest.Optional, acctest.Update, enrollmentStatusRepresentation)
@@ -136,13 +138,9 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + EnrollmentStatusResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + EnrollmentStatusRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

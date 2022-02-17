@@ -28,7 +28,7 @@ type JobShapeSummary struct {
 	MemoryInGBs *int `mandatory:"true" json:"memoryInGBs"`
 
 	// The family that the compute shape belongs to.
-	ShapeSeries JobShapeSeriesEnum `mandatory:"true" json:"shapeSeries"`
+	ShapeSeries JobShapeSummaryShapeSeriesEnum `mandatory:"true" json:"shapeSeries"`
 }
 
 func (m JobShapeSummary) String() string {
@@ -40,12 +40,62 @@ func (m JobShapeSummary) String() string {
 // Not recommended for calling this function directly
 func (m JobShapeSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingJobShapeSeriesEnum(string(m.ShapeSeries)); !ok && m.ShapeSeries != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeSeries: %s. Supported values are: %s.", m.ShapeSeries, strings.Join(GetJobShapeSeriesEnumStringValues(), ",")))
+	if _, ok := GetMappingJobShapeSummaryShapeSeriesEnum(string(m.ShapeSeries)); !ok && m.ShapeSeries != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeSeries: %s. Supported values are: %s.", m.ShapeSeries, strings.Join(GetJobShapeSummaryShapeSeriesEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// JobShapeSummaryShapeSeriesEnum Enum with underlying type: string
+type JobShapeSummaryShapeSeriesEnum string
+
+// Set of constants representing the allowable values for JobShapeSummaryShapeSeriesEnum
+const (
+	JobShapeSummaryShapeSeriesAmdRome      JobShapeSummaryShapeSeriesEnum = "AMD_ROME"
+	JobShapeSummaryShapeSeriesIntelSkylake JobShapeSummaryShapeSeriesEnum = "INTEL_SKYLAKE"
+	JobShapeSummaryShapeSeriesNvidiaGpu    JobShapeSummaryShapeSeriesEnum = "NVIDIA_GPU"
+	JobShapeSummaryShapeSeriesLegacy       JobShapeSummaryShapeSeriesEnum = "LEGACY"
+)
+
+var mappingJobShapeSummaryShapeSeriesEnum = map[string]JobShapeSummaryShapeSeriesEnum{
+	"AMD_ROME":      JobShapeSummaryShapeSeriesAmdRome,
+	"INTEL_SKYLAKE": JobShapeSummaryShapeSeriesIntelSkylake,
+	"NVIDIA_GPU":    JobShapeSummaryShapeSeriesNvidiaGpu,
+	"LEGACY":        JobShapeSummaryShapeSeriesLegacy,
+}
+
+var mappingJobShapeSummaryShapeSeriesEnumLowerCase = map[string]JobShapeSummaryShapeSeriesEnum{
+	"amd_rome":      JobShapeSummaryShapeSeriesAmdRome,
+	"intel_skylake": JobShapeSummaryShapeSeriesIntelSkylake,
+	"nvidia_gpu":    JobShapeSummaryShapeSeriesNvidiaGpu,
+	"legacy":        JobShapeSummaryShapeSeriesLegacy,
+}
+
+// GetJobShapeSummaryShapeSeriesEnumValues Enumerates the set of values for JobShapeSummaryShapeSeriesEnum
+func GetJobShapeSummaryShapeSeriesEnumValues() []JobShapeSummaryShapeSeriesEnum {
+	values := make([]JobShapeSummaryShapeSeriesEnum, 0)
+	for _, v := range mappingJobShapeSummaryShapeSeriesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetJobShapeSummaryShapeSeriesEnumStringValues Enumerates the set of values in String for JobShapeSummaryShapeSeriesEnum
+func GetJobShapeSummaryShapeSeriesEnumStringValues() []string {
+	return []string{
+		"AMD_ROME",
+		"INTEL_SKYLAKE",
+		"NVIDIA_GPU",
+		"LEGACY",
+	}
+}
+
+// GetMappingJobShapeSummaryShapeSeriesEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingJobShapeSummaryShapeSeriesEnum(val string) (JobShapeSummaryShapeSeriesEnum, bool) {
+	enum, ok := mappingJobShapeSummaryShapeSeriesEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

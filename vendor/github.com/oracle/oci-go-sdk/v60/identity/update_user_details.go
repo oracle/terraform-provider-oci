@@ -22,8 +22,7 @@ type UpdateUserDetails struct {
 	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The email you assign to the user during creation. The email must be unique across all users in the tenancy.
-	// (For tenancies that support identity domains) You must provide an email for each user.
+	// The email address you assign to the user. Has to be unique across the tenancy.
 	Email *string `mandatory:"false" json:"email"`
 
 	// DB username of the DB credential. Has to be unique across the tenancy.

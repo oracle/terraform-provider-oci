@@ -15,10 +15,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
 )
@@ -1146,5 +1146,5 @@ func backendHashCodeForSets(v interface{}) int {
 	if weight, ok := m["weight"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", weight))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }

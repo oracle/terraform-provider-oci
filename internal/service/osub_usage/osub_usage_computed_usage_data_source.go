@@ -6,7 +6,7 @@ package osub_usage
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_osub_usage "github.com/oracle/oci-go-sdk/v60/osubusage"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"

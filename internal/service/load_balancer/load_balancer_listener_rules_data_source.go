@@ -6,7 +6,7 @@ package load_balancer
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -43,8 +43,6 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 						"rule": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -111,8 +109,6 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 									"redirect_uri": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required

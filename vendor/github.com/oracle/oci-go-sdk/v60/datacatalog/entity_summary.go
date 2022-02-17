@@ -78,9 +78,6 @@ type EntitySummary struct {
 	// URI to the data entity instance in the API.
 	Uri *string `mandatory:"false" json:"uri"`
 
-	// URL of the data entity in the object store.
-	ObjectStorageUrl *string `mandatory:"false" json:"objectStorageUrl"`
-
 	// State of the data entity.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

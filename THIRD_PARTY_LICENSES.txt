@@ -1040,7 +1040,7 @@ COPYRIGHT: copyright information not found
 LICENSE: MPL-2.0-no-copyleft-exception
 
 ===
-# github.com/hashicorp/terraform-plugin-sdk 1.15.0
+# github.com/hashicorp/terraform-plugin-sdk/v2/v2 1.15.0
 COPYRIGHT: copyright information not found
 LICENSE: MPL-2.0-no-copyleft-exception
 

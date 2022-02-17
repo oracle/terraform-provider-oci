@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 
@@ -539,14 +539,9 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "type", "PRIVATE"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, virtualCircuitRepresentation),
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + VirtualCircuitRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

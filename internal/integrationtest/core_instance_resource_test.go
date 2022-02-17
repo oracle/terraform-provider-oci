@@ -16,8 +16,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -162,7 +163,7 @@ var (
 
 type ResourceCoreInstanceTestSuite struct {
 	suite.Suite
-	Providers    map[string]terraform.ResourceProvider
+	Providers    map[string]*schema.Provider
 	Config       string
 	ResourceName string
 }
@@ -1614,7 +1615,7 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 	singularDatasourceName := "data.oci_core_instance.test_instance"
 
 	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
@@ -1722,7 +1723,7 @@ func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T
 	singularDatasourceName := "data.oci_core_instance.test_instance"
 
 	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
@@ -1831,7 +1832,7 @@ func TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource(t *testin
 	singularDatasourceName := "data.oci_core_instance.test_instance"
 
 	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
@@ -1939,7 +1940,7 @@ func TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource(t *testing.
 	datasourceName := "data.oci_core_instances.test_instances"
 	singularDatasourceName := "data.oci_core_instance.test_instance"
 	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
@@ -2045,7 +2046,7 @@ func TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource(t *testing.T)
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
@@ -2330,7 +2331,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,

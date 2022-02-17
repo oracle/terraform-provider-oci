@@ -30,11 +30,6 @@ const (
 	WorkRequestOperationTypeProjectDelete             WorkRequestOperationTypeEnum = "PROJECT_DELETE"
 	WorkRequestOperationTypeWorkrequestCancel         WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
 	WorkRequestOperationTypeJobDelete                 WorkRequestOperationTypeEnum = "JOB_DELETE"
-	WorkRequestOperationTypePipelineCreate            WorkRequestOperationTypeEnum = "PIPELINE_CREATE"
-	WorkRequestOperationTypePipelineDelete            WorkRequestOperationTypeEnum = "PIPELINE_DELETE"
-	WorkRequestOperationTypePipelineRunCreate         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CREATE"
-	WorkRequestOperationTypePipelineRunCancel         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CANCEL"
-	WorkRequestOperationTypePipelineRunDelete         WorkRequestOperationTypeEnum = "PIPELINE_RUN_DELETE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -50,11 +45,6 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PROJECT_DELETE":              WorkRequestOperationTypeProjectDelete,
 	"WORKREQUEST_CANCEL":          WorkRequestOperationTypeWorkrequestCancel,
 	"JOB_DELETE":                  WorkRequestOperationTypeJobDelete,
-	"PIPELINE_CREATE":             WorkRequestOperationTypePipelineCreate,
-	"PIPELINE_DELETE":             WorkRequestOperationTypePipelineDelete,
-	"PIPELINE_RUN_CREATE":         WorkRequestOperationTypePipelineRunCreate,
-	"PIPELINE_RUN_CANCEL":         WorkRequestOperationTypePipelineRunCancel,
-	"PIPELINE_RUN_DELETE":         WorkRequestOperationTypePipelineRunDelete,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -70,11 +60,6 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"project_delete":              WorkRequestOperationTypeProjectDelete,
 	"workrequest_cancel":          WorkRequestOperationTypeWorkrequestCancel,
 	"job_delete":                  WorkRequestOperationTypeJobDelete,
-	"pipeline_create":             WorkRequestOperationTypePipelineCreate,
-	"pipeline_delete":             WorkRequestOperationTypePipelineDelete,
-	"pipeline_run_create":         WorkRequestOperationTypePipelineRunCreate,
-	"pipeline_run_cancel":         WorkRequestOperationTypePipelineRunCancel,
-	"pipeline_run_delete":         WorkRequestOperationTypePipelineRunDelete,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -101,11 +86,6 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PROJECT_DELETE",
 		"WORKREQUEST_CANCEL",
 		"JOB_DELETE",
-		"PIPELINE_CREATE",
-		"PIPELINE_DELETE",
-		"PIPELINE_RUN_CREATE",
-		"PIPELINE_RUN_CANCEL",
-		"PIPELINE_RUN_DELETE",
 	}
 }
 

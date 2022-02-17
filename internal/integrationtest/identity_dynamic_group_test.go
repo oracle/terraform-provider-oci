@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
 
@@ -177,7 +177,7 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DynamicGroupRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

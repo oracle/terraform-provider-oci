@@ -21,16 +21,15 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/meta"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-
 	"crypto/tls"
 	"crypto/x509"
 	"net"
 	"net/http"
 	"runtime"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/v2/meta"
 
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 	oci_common_auth "github.com/oracle/oci-go-sdk/v60/common/auth"
@@ -113,7 +112,7 @@ func init() {
 	}
 }
 
-func Provider() terraform.ResourceProvider {
+func Provider() *schema.Provider {
 	ociProvider = &schema.Provider{
 		DataSourcesMap: DataSourcesMap(),
 		Schema:         SchemaMap(),

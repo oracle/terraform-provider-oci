@@ -9,8 +9,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -301,10 +301,6 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.InstanceId != nil {
 			s.D.Set("instance_id", *v.InstanceId)
 		}
@@ -383,10 +379,6 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.InstanceId != nil {
 			s.D.Set("instance_id", *v.InstanceId)
 		}
@@ -435,10 +427,6 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
-		}
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
 		}
 
 		if v.InstanceId != nil {

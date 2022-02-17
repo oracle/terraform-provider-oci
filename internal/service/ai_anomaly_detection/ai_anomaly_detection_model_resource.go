@@ -14,8 +14,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v60/aianomalydetection"
 	oci_common "github.com/oracle/oci-go-sdk/v60/common"
@@ -114,8 +114,6 @@ func AiAnomalyDetectionModelResource() *schema.Resource {
 			"model_training_results": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -138,8 +136,6 @@ func AiAnomalyDetectionModelResource() *schema.Resource {
 						"row_reduction_details": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

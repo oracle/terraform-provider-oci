@@ -14,8 +14,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -196,13 +196,9 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "work_request_count"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + ManagedInstanceResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + ManagedInstanceRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

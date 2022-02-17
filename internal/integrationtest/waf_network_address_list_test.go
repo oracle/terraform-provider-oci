@@ -16,9 +16,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_waf "github.com/oracle/oci-go-sdk/v60/waf"
 
@@ -26,6 +26,10 @@ import (
 )
 
 var (
+	NetworkAddressListVcnRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list_vcn", acctest.Required, acctest.Create, networkAddressListRepresentationVcn)
+
+	NetworkAddressListRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Required, acctest.Create, networkAddressListRepresentation)
+
 	NetworkAddressListResourceConfig = NetworkAddressListResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_waf_network_address_list", "test_network_address_list", acctest.Optional, acctest.Update, networkAddressListRepresentation)
 
@@ -271,14 +275,9 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceNameVcn, "vcn_addresses.0.vcn_id"),
 			),
 		},
-
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + NetworkAddressListVcnResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + NetworkAddressListVcnRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"addresses"},
@@ -424,14 +423,9 @@ func TestWafNetworkAddressListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "type", "ADDRESSES"),
 			),
 		},
-
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + NetworkAddressListResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + NetworkAddressListRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

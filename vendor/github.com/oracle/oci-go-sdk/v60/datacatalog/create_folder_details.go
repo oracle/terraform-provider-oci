@@ -53,9 +53,6 @@ type CreateFolderDetails struct {
 
 	// Folder harvesting status.
 	HarvestStatus HarvestStatusEnum `mandatory:"false" json:"harvestStatus,omitempty"`
-
-	// Type key of the object. Type keys can be found via the '/types' endpoint.
-	TypeKey *string `mandatory:"false" json:"typeKey"`
 }
 
 func (m CreateFolderDetails) String() string {

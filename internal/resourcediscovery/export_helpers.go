@@ -26,7 +26,7 @@ import (
 
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 

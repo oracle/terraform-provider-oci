@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 
@@ -28,6 +28,8 @@ import (
 )
 
 var (
+	DbNodeConsoleConnectionRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", acctest.Required, acctest.Create, dbNodeConsoleConnectionRepresentation)
+
 	DbNodeConsoleConnectionResourceConfig = DbNodeConsoleConnectionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", acctest.Optional, acctest.Update, dbNodeConsoleConnectionRepresentation)
 
@@ -133,13 +135,9 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + DbNodeConsoleConnectionResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + DbNodeConsoleConnectionRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

@@ -6,7 +6,7 @@ package apm_synthetics
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v60/apmsynthetics"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -47,8 +47,6 @@ func ApmSyntheticsPublicVantagePointDataSource() *schema.Resource {
 						"geo": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

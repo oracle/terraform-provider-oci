@@ -7,7 +7,7 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -36,8 +36,6 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 						"bgp_session_info": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -103,8 +101,6 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 						"encryption_domain_config": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -148,8 +144,6 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 						"phase_one_details": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -207,8 +201,6 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 						"phase_two_details": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

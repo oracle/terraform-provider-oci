@@ -29,8 +29,7 @@ type CreateUserDetails struct {
 	// (For tenancies that support identity domains) You can have an empty description.
 	Description *string `mandatory:"true" json:"description"`
 
-	// The email you assign to the user during creation. The email must be unique across all users in the tenancy.
-	// (For tenancies that support identity domains) You must provide an email for each user.
+	// The email you assign to the user. Has to be unique across the tenancy.
 	Email *string `mandatory:"false" json:"email"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -5,9 +5,6 @@ package common
 
 import (
 	"fmt"
-	"net/http"
-	"os"
-	"strconv"
 	"time"
 
 	"github.com/sony/gobreaker"
@@ -26,8 +23,6 @@ const (
 	DefaultCircuitBreakerName string = "DefaultCircuitBreaker"
 	// DefaultCircuitBreakerServiceName is the servicename of the circuit breaker
 	DefaultCircuitBreakerServiceName string = ""
-	// DefaultCircuitBreakerHistoryCount is the default count of failed response history in circuit breaker
-	DefaultCircuitBreakerHistoryCount int = 5
 )
 
 // CircuitBreakerSetting wraps all exposed configurable params of circuit breaker
@@ -54,77 +49,27 @@ type CircuitBreakerSetting struct {
 	// the default value is {409, "IncorrectState"}
 	successStatErrCodeMap map[StatErrCode]bool
 	// serviceName is the name of the service which can be set using withServiceName option for NewCircuitBreaker.
-	// the default value is empty string
+	// The default value is empty string
 	serviceName string
-	// numberOfRecordedHistoryResponse is the number of failure responses stored in Circuit breaker history for debugging purpose
-	// the default value is 5
-	numberOfRecordedHistoryResponse int
 }
 
 // Convert CircuitBreakerSetting to human-readable string representation
 func (cbst CircuitBreakerSetting) String() string {
-	return fmt.Sprintf("{name=%v, isEnabled=%v, closeStateWindow=%v, openStateWindow=%v, failureRateThreshold=%v, minimumRequests=%v, successStatCodeMap=%v, successStatErrCodeMap=%v, serviceName=%v, historyCount=%v}",
-		cbst.name, cbst.isEnabled, cbst.closeStateWindow, cbst.openStateWindow, cbst.failureRateThreshold, cbst.minimumRequests, cbst.successStatCodeMap, cbst.successStatErrCodeMap, cbst.serviceName, cbst.numberOfRecordedHistoryResponse)
-}
-
-// ResponseHistory wraps the response params
-type ResponseHistory struct {
-	timestamp    time.Time
-	opcReqID     string
-	errorCode    string
-	errorMessage string
-}
-
-// AddToHistory processed the response and adds to response history queue
-func (ocb *OciCircuitBreaker) AddToHistory(resp *http.Response, err ServiceError) {
-	respHist := new(ResponseHistory)
-	respHist.opcReqID = err.GetOpcRequestID()
-	respHist.errorCode = err.GetCode()
-	respHist.errorMessage = err.GetMessage()
-	respHist.timestamp, _ = time.Parse(time.RFC1123, resp.Header.Get("Date"))
-	ocb.historyQueue = append(ocb.historyQueue, *respHist)
-
-	// cleaning up older values
-	if len(ocb.historyQueue) > ocb.Cbst.numberOfRecordedHistoryResponse {
-		// We have reached the capacity. Clean up the oldest value
-		ocb.historyQueue = ocb.historyQueue[1:]
-	}
-	for index := len(ocb.historyQueue) - 1; index >= 0; index-- {
-		if time.Since(ocb.historyQueue[index].timestamp) > ocb.Cbst.closeStateWindow {
-			// This response is older than the circuit breaker closeStateWindow.
-			// Remove all the older responses from 0 to index
-			ocb.historyQueue = ocb.historyQueue[index+1:]
-			break
-		}
-	}
-	return
-}
-
-// GetHistory processes the rsponse in queue to construct a String
-func (ocb *OciCircuitBreaker) GetHistory() string {
-	getHistoryString := ""
-	for _, value := range ocb.historyQueue {
-		getHistoryString += fmt.Sprintf("Opc-Req-id - %v\nErrorCode - %v\nErrorMessage - %v\n\n", value.opcReqID, value.errorCode, value.errorMessage)
-	}
-	return getHistoryString
+	return fmt.Sprintf("{name=%v, isEnabled=%v, closeStateWindow=%v, openStateWindow=%v, failureRateThreshold=%v, minimumRequests=%v, successStatCodeMap=%v, successStatErrCodeMap=%v, serviceName=%v}",
+		cbst.name, cbst.isEnabled, cbst.closeStateWindow, cbst.openStateWindow, cbst.failureRateThreshold, cbst.minimumRequests, cbst.successStatCodeMap, cbst.successStatErrCodeMap, cbst.serviceName)
 }
 
 // OciCircuitBreaker wraps all exposed configurable params of circuit breaker and 3P gobreaker CircuirBreaker
 type OciCircuitBreaker struct {
-	Cbst         *CircuitBreakerSetting
-	Cb           *gobreaker.CircuitBreaker
-	historyQueue []ResponseHistory
+	Cbst *CircuitBreakerSetting
+	Cb   *gobreaker.CircuitBreaker
 }
 
 // NewOciCircuitBreaker is used for initializing specified oci circuit breaker configuration with circuit breaker settings
 func NewOciCircuitBreaker(cbst *CircuitBreakerSetting, gbcb *gobreaker.CircuitBreaker) *OciCircuitBreaker {
 	ocb := new(OciCircuitBreaker)
 	ocb.Cbst = cbst
-	if ocb.Cbst.numberOfRecordedHistoryResponse == 0 {
-		ocb.Cbst.numberOfRecordedHistoryResponse = getDefaultNumHistoryCount()
-	}
 	ocb.Cb = gbcb
-	ocb.historyQueue = make([]ResponseHistory, 0, ocb.Cbst.numberOfRecordedHistoryResponse)
 
 	return ocb
 }
@@ -158,8 +103,7 @@ func DefaultCircuitBreakerSetting() *CircuitBreakerSetting {
 		WithFailureRateThreshold(CircuitBreakerDefaultFailureRateThreshold),
 		WithMinimumRequests(CircuitBreakerDefaultVolumeThreshold),
 		WithSuccessStatErrCodeMap(successStatErrCodeMap),
-		WithSuccessStatCodeMap(successStatCodeMap),
-		WithHistoryCount(getDefaultNumHistoryCount()))
+		WithSuccessStatCodeMap(successStatCodeMap))
 }
 
 // DefaultCircuitBreakerSettingWithServiceName is used for set circuit breaker with default config
@@ -183,8 +127,7 @@ func DefaultCircuitBreakerSettingWithServiceName() *CircuitBreakerSetting {
 		WithMinimumRequests(CircuitBreakerDefaultVolumeThreshold),
 		WithSuccessStatErrCodeMap(successStatErrCodeMap),
 		WithSuccessStatCodeMap(successStatCodeMap),
-		WithServiceName(DefaultCircuitBreakerServiceName),
-		WithHistoryCount(getDefaultNumHistoryCount()))
+		WithServiceName(DefaultCircuitBreakerServiceName))
 }
 
 // NoCircuitBreakerSetting is used for disable Circuit Breaker
@@ -326,26 +269,6 @@ func WithServiceName(serviceName string) CircuitBreakerOption {
 	return func(cbst *CircuitBreakerSetting) {
 		cbst.serviceName = serviceName
 	}
-}
-
-// WithHistoryCount to set the number of failed responses
-func WithHistoryCount(count int) CircuitBreakerOption {
-	// this is the CircuitBreakerOption function type
-	return func(cbst *CircuitBreakerSetting) {
-		cbst.numberOfRecordedHistoryResponse = count
-	}
-}
-
-// getDefaultNumHistoryCount to set the number of failed responses
-func getDefaultNumHistoryCount() int {
-	if val, isSet := os.LookupEnv(circuitBreakerNumberOfHistoryResponseEnv); isSet {
-		count, err := strconv.Atoi(val)
-		if err == nil && count > 0 {
-			return count
-		}
-	}
-	Debugf("Invalid history count specified. Resetting to default value")
-	return DefaultCircuitBreakerHistoryCount
 }
 
 // GlobalCircuitBreakerSetting is global level circuit breaker setting, it would impact all services, the precedence is lower

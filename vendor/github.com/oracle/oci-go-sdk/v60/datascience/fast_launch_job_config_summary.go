@@ -31,7 +31,7 @@ type FastLaunchJobConfigSummary struct {
 	MemoryInGBs *int `mandatory:"true" json:"memoryInGBs"`
 
 	// The family that the compute shape belongs to.
-	ShapeSeries JobShapeSeriesEnum `mandatory:"true" json:"shapeSeries"`
+	ShapeSeries FastLaunchJobConfigSummaryShapeSeriesEnum `mandatory:"true" json:"shapeSeries"`
 
 	// The managed egress support
 	ManagedEgressSupport FastLaunchJobConfigSummaryManagedEgressSupportEnum `mandatory:"true" json:"managedEgressSupport"`
@@ -46,8 +46,8 @@ func (m FastLaunchJobConfigSummary) String() string {
 // Not recommended for calling this function directly
 func (m FastLaunchJobConfigSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingJobShapeSeriesEnum(string(m.ShapeSeries)); !ok && m.ShapeSeries != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeSeries: %s. Supported values are: %s.", m.ShapeSeries, strings.Join(GetJobShapeSeriesEnumStringValues(), ",")))
+	if _, ok := GetMappingFastLaunchJobConfigSummaryShapeSeriesEnum(string(m.ShapeSeries)); !ok && m.ShapeSeries != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeSeries: %s. Supported values are: %s.", m.ShapeSeries, strings.Join(GetFastLaunchJobConfigSummaryShapeSeriesEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingFastLaunchJobConfigSummaryManagedEgressSupportEnum(string(m.ManagedEgressSupport)); !ok && m.ManagedEgressSupport != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedEgressSupport: %s. Supported values are: %s.", m.ManagedEgressSupport, strings.Join(GetFastLaunchJobConfigSummaryManagedEgressSupportEnumStringValues(), ",")))
@@ -57,6 +57,56 @@ func (m FastLaunchJobConfigSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// FastLaunchJobConfigSummaryShapeSeriesEnum Enum with underlying type: string
+type FastLaunchJobConfigSummaryShapeSeriesEnum string
+
+// Set of constants representing the allowable values for FastLaunchJobConfigSummaryShapeSeriesEnum
+const (
+	FastLaunchJobConfigSummaryShapeSeriesAmdRome      FastLaunchJobConfigSummaryShapeSeriesEnum = "AMD_ROME"
+	FastLaunchJobConfigSummaryShapeSeriesIntelSkylake FastLaunchJobConfigSummaryShapeSeriesEnum = "INTEL_SKYLAKE"
+	FastLaunchJobConfigSummaryShapeSeriesNvidiaGpu    FastLaunchJobConfigSummaryShapeSeriesEnum = "NVIDIA_GPU"
+	FastLaunchJobConfigSummaryShapeSeriesLegacy       FastLaunchJobConfigSummaryShapeSeriesEnum = "LEGACY"
+)
+
+var mappingFastLaunchJobConfigSummaryShapeSeriesEnum = map[string]FastLaunchJobConfigSummaryShapeSeriesEnum{
+	"AMD_ROME":      FastLaunchJobConfigSummaryShapeSeriesAmdRome,
+	"INTEL_SKYLAKE": FastLaunchJobConfigSummaryShapeSeriesIntelSkylake,
+	"NVIDIA_GPU":    FastLaunchJobConfigSummaryShapeSeriesNvidiaGpu,
+	"LEGACY":        FastLaunchJobConfigSummaryShapeSeriesLegacy,
+}
+
+var mappingFastLaunchJobConfigSummaryShapeSeriesEnumLowerCase = map[string]FastLaunchJobConfigSummaryShapeSeriesEnum{
+	"amd_rome":      FastLaunchJobConfigSummaryShapeSeriesAmdRome,
+	"intel_skylake": FastLaunchJobConfigSummaryShapeSeriesIntelSkylake,
+	"nvidia_gpu":    FastLaunchJobConfigSummaryShapeSeriesNvidiaGpu,
+	"legacy":        FastLaunchJobConfigSummaryShapeSeriesLegacy,
+}
+
+// GetFastLaunchJobConfigSummaryShapeSeriesEnumValues Enumerates the set of values for FastLaunchJobConfigSummaryShapeSeriesEnum
+func GetFastLaunchJobConfigSummaryShapeSeriesEnumValues() []FastLaunchJobConfigSummaryShapeSeriesEnum {
+	values := make([]FastLaunchJobConfigSummaryShapeSeriesEnum, 0)
+	for _, v := range mappingFastLaunchJobConfigSummaryShapeSeriesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFastLaunchJobConfigSummaryShapeSeriesEnumStringValues Enumerates the set of values in String for FastLaunchJobConfigSummaryShapeSeriesEnum
+func GetFastLaunchJobConfigSummaryShapeSeriesEnumStringValues() []string {
+	return []string{
+		"AMD_ROME",
+		"INTEL_SKYLAKE",
+		"NVIDIA_GPU",
+		"LEGACY",
+	}
+}
+
+// GetMappingFastLaunchJobConfigSummaryShapeSeriesEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFastLaunchJobConfigSummaryShapeSeriesEnum(val string) (FastLaunchJobConfigSummaryShapeSeriesEnum, bool) {
+	enum, ok := mappingFastLaunchJobConfigSummaryShapeSeriesEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // FastLaunchJobConfigSummaryManagedEgressSupportEnum Enum with underlying type: string

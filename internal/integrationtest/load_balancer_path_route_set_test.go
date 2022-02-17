@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
 
@@ -24,6 +24,8 @@ import (
 )
 
 var (
+	PathRouteSetRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", acctest.Required, acctest.Create, pathRouteSetRepresentation)
+
 	pathRouteSetDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: pathRouteSetDataSourceFilterRepresentation}}
@@ -138,7 +140,7 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + PathRouteSetRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

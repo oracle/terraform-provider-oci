@@ -27,9 +27,6 @@ type CreateBackendDetails struct {
 	// Example: `webServer1`
 	Name *string `mandatory:"false" json:"name"`
 
-	// IP version associated with the `CreateBackendDetails` object.
-	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
-
 	// The IP address of the backend server.
 	// Example: `10.0.0.3`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
@@ -72,9 +69,6 @@ func (m CreateBackendDetails) String() string {
 func (m CreateBackendDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingIpVersionEnum(string(m.IpVersion)); !ok && m.IpVersion != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpVersion: %s. Supported values are: %s.", m.IpVersion, strings.Join(GetIpVersionEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

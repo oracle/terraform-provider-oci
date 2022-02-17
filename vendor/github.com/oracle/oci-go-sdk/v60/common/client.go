@@ -93,9 +93,6 @@ const (
 	// isDefaultCircuitBreakerEnabled is the key for set default circuit breaker disabled from env var
 	isDefaultCircuitBreakerEnabled = "OCI_SDK_DEFAULT_CIRCUITBREAKER_ENABLED"
 
-	//circuitBreakerNumberOfHistoryResponseEnv is the number of recorded history responses
-	circuitBreakerNumberOfHistoryResponseEnv = "OCI_SDK_CIRCUITBREAKER_NUM_HISTORY_RESPONSE"
-
 	maxAttemptsForRefreshableRetry = 3
 )
 
@@ -602,13 +599,6 @@ func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Requ
 		resp, cbErr := ociGoBreaker.Cb.Execute(func() (interface{}, error) {
 			return client.httpDo(request)
 		})
-		if httpResp, ok := resp.(*http.Response); ok {
-			if httpResp != nil && httpResp.StatusCode != 200 {
-				if failure, ok := IsServiceError(cbErr); ok {
-					ociGoBreaker.AddToHistory(resp.(*http.Response), failure)
-				}
-			}
-		}
 		if cbErr != nil && IsCircuitBreakerError(cbErr) {
 			cbErr = getCircuitBreakerError(request, cbErr, ociGoBreaker)
 		}

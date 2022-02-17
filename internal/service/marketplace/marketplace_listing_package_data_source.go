@@ -7,7 +7,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_marketplace "github.com/oracle/oci-go-sdk/v60/marketplace"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -269,7 +269,7 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		}
 
 		if v.ListingId != nil {
-			s.D.Set("Listing_id", v.ListingId)
+			s.D.Set("listing_id", v.ListingId)
 		}
 
 		s.D.Set("package_type", oci_marketplace.PackageTypeEnumImage)

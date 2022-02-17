@@ -16,9 +16,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v60/dataflow"
 
@@ -339,16 +339,9 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", warehouseBucketUri),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + classNameStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
-					"class_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_class_name_updated}`},
-				})),
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DataFlowApplicationRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

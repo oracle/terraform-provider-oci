@@ -6,7 +6,7 @@ package core
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -149,10 +149,6 @@ func (s *CoreVcnsDataSourceCrud) SetData() error {
 		}
 
 		vcn["ipv6cidr_blocks"] = r.Ipv6CidrBlocks
-
-		if r.Ipv6CidrBlocks != nil && len(r.Ipv6CidrBlocks) > 0 {
-			s.D.Set("is_ipv6enabled", true)
-		}
 
 		vcn["state"] = r.LifecycleState
 

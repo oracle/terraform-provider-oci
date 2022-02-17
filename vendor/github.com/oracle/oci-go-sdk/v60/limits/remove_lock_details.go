@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// RemoveLockDetails Request payload to remove the resource lock.
+// RemoveLockDetails Request payload to remove lock to the resource.
 type RemoveLockDetails struct {
 
-	// Lock type.
+	// Type of the lock.
 	Type RemoveLockDetailsTypeEnum `mandatory:"true" json:"type"`
 }
 

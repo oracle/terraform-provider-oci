@@ -131,10 +131,11 @@ func IsCircuitBreakerError(err error) bool {
 }
 
 func getCircuitBreakerError(request *http.Request, err error, cbr *OciCircuitBreaker) error {
-	cbErr := fmt.Errorf(" %s, so this request was not sent to the %s service.\n\n The circuit breaker was opened because the %s service failed too many times recently. "+
-		"Because the circuit breaker has been opened, requests within a %.2f second window of when the circuit breaker opened will not be sent to the %s service.\n\n"+
-		"URL which circuit breaker prevented request to - %s \n Circuit Breaker Info \n Name - %s \n State - %s \n Number of requests - %d \n Number of success - %d \n Number of failures - %d \n\n Errors from %s service which opened the circuit breaker:\n\n%s \n",
-		err, cbr.Cbst.serviceName, cbr.Cbst.serviceName, cbr.Cbst.openStateWindow.Seconds(), cbr.Cbst.serviceName, request.URL.Host+request.URL.Path, cbr.Cbst.name, cbr.Cb.State().String(), cbr.Cb.Counts().Requests, cbr.Cb.Counts().TotalSuccesses, cbr.Cb.Counts().TotalFailures, cbr.Cbst.serviceName, cbr.GetHistory())
+	cbErr := fmt.Errorf(" %s. This request was not sent to the service. Look for earlier errors to determine why the circuit breaker was opened.\n An open circuit breaker means %s service failed too many times in the recent past. "+
+		"Because the circuit breaker has been opened, requests within the openStateWindow of %.2f seconds since the circuit breaker was opened will not be sent to the service.\n"+
+		"For more information on the exact errors with which the %s service responds to your requests, enable Info-level logs and rerun your code.\n "+
+		"URL which circuit breaker prevented request to - %s \n Circuit Breaker Info \n Name - %s \n State - %s \n  Number of requests - %d \n Number of success - %d \n Number of failures - %d ",
+		err, cbr.Cbst.serviceName, cbr.Cbst.openStateWindow.Seconds(), cbr.Cbst.serviceName, request.URL.Host+request.URL.Path, cbr.Cbst.name, cbr.Cb.State().String(), cbr.Cb.Counts().Requests, cbr.Cb.Counts().TotalSuccesses, cbr.Cb.Counts().TotalFailures)
 	return cbErr
 }
 

@@ -10,8 +10,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -51,7 +51,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseResource
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{

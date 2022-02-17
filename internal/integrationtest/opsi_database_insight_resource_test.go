@@ -10,8 +10,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -76,7 +76,7 @@ func TestOpsiResourceDatabaseInsight(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DatabaseInsightRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

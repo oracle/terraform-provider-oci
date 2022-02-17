@@ -44,9 +44,6 @@ type CreateBdsInstanceDetails struct {
 
 	NetworkConfig *NetworkConfig `mandatory:"false" json:"networkConfig"`
 
-	// The user-defined kerberos realm name.
-	KerberosRealmName *string `mandatory:"false" json:"kerberosRealmName"`
-
 	// Simple key-value pair that is applied without any predefined name, type, or scope.
 	// Exists for cross-compatibility only. For example, `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

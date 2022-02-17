@@ -58,14 +58,8 @@ type FolderSummary struct {
 	// Example: `2019-03-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the folder was last updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339). Example: 2019-03-25T21:10:29.600Z
-	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
-
 	// URI of the folder resource within the data catalog API.
 	Uri *string `mandatory:"false" json:"uri"`
-
-	// URL of the folder in the object store.
-	ObjectStorageUrl *string `mandatory:"false" json:"objectStorageUrl"`
 
 	// State of the folder.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
