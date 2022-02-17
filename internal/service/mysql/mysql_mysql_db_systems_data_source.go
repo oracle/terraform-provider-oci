@@ -165,6 +165,8 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			mysqlDbSystem["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		mysqlDbSystem["crash_recovery"] = r.CrashRecovery
+
 		if r.CurrentPlacement != nil {
 			mysqlDbSystem["current_placement"] = []interface{}{DbSystemPlacementToMap(r.CurrentPlacement)}
 		} else {

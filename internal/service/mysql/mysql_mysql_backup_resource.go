@@ -153,6 +153,10 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"crash_recovery": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"data_storage_size_in_gb": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -666,6 +670,8 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface
 	if obj.ConfigurationId != nil {
 		result["configuration_id"] = string(*obj.ConfigurationId)
 	}
+
+	result["crash_recovery"] = string(obj.CrashRecovery)
 
 	if obj.DataStorageSizeInGBs != nil {
 		result["data_storage_size_in_gb"] = int(*obj.DataStorageSizeInGBs)

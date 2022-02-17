@@ -94,7 +94,7 @@ variable "InstanceImageOCID" {
 	variable "MysqlHAConfigurationOCID" {
 		type = "map"
 		default = {
-			us-ashburn-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm56fwjwfymixnulmbq3v77p5v4lcbb6qhkftxf2trq"
+			us-ashburn-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaantprksu6phqfgr5xvyut46wdfesdszonbclybfwvahgysfjbrb4q"
 			us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaantprksu6phqfgr5xvyut46wdfesdszonbclybfwvahgysfjbrb4q"
 		}
 	}
