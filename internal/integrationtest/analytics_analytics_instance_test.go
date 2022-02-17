@@ -11,9 +11,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
@@ -49,22 +50,26 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_analytics_analytics_instance.test_analytics_instance.id}`}},
 	}
 
-	analyticsinstanceName           = utils.RandomString(15, utils.CharsetWithoutDigits)
-	analyticsinstanceOptionalName   = utils.RandomString(15, utils.CharsetWithoutDigits)
+	analyticsinstanceName         = utils.RandomString(15, utils.CharsetWithoutDigits)
+	analyticsinstanceOptionalName = utils.RandomString(15, utils.CharsetWithoutDigits)
+	vaultName                     = utils.RandomString(15, utils.CharsetWithoutDigits)
+
 	analyticsInstanceRepresentation = map[string]interface{}{
-		"capacity":       acctest.RepresentationGroup{RepType: acctest.Required, Group: analyticsInstanceCapacityRepresentation},
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"feature_set":    acctest.Representation{RepType: acctest.Required, Create: `ENTERPRISE_ANALYTICS`},
-		"license_type":   acctest.Representation{RepType: acctest.Required, Create: `LICENSE_INCLUDED`, Update: `BRING_YOUR_OWN_LICENSE`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: analyticsinstanceOptionalName},
-		//"defined_tags":       acctest.Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"capacity":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: analyticsInstanceCapacityRepresentation},
+		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"feature_set":              acctest.Representation{RepType: acctest.Required, Create: `ENTERPRISE_ANALYTICS`},
+		"license_type":             acctest.Representation{RepType: acctest.Required, Create: `LICENSE_INCLUDED`, Update: `BRING_YOUR_OWN_LICENSE`},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: analyticsinstanceOptionalName},
+		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]string{"Oracle-Tags": {"CreatedBy": "rbm"}}, Update: map[string]map[string]string{"Oracle-Tags": {"CreatedBy": "dave"}}},
 		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"email_notification":       acctest.Representation{RepType: acctest.Optional, Create: `emailNotification`, Update: `emailNotification2`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":               acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, Update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"idcs_access_token":        acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
-		"network_endpoint_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: analyticsInstanceNetworkEndpointDetailsRepresentation},
-		"state":                    acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
+		"network_endpoint_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: analyticsInstanceNetworkEndpointDetailsRepresentation},
+		"state":                    acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `ACTIVE`},
 	}
+
 	analyticsInstanceCapacityRepresentation = map[string]interface{}{
 		"capacity_type":  acctest.Representation{RepType: acctest.Required, Create: `OLPU_COUNT`},
 		"capacity_value": acctest.Representation{RepType: acctest.Required, Create: `2`},
@@ -80,8 +85,15 @@ var (
 		"capacity_value": acctest.Representation{RepType: acctest.Required, Create: `4`},
 	}
 
+	analyticsInstanceVaultRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: vaultName},
+		"vault_type":     acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
+	}
+
 	AnalyticsInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
+		KeyResourceDependencyConfig
 )
 
 // issue-routing-tag: analytics/default
@@ -126,6 +138,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 				resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceName),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -133,11 +146,11 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies,
 		},
+
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
@@ -147,18 +160,21 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification"),
 				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -172,61 +188,76 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		// verify update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+
+			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification"),
 				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
+						return fmt.Errorf("Resource recreated when it was supposed to be updated")
 					}
 					return err
 				},
 			),
 		},
 
+		// Before testing update, set kms_key_id back to empty string.  In fact, this also effectively tests updating it, but we want to have a key in there after the final
+		// update test, or there are problems with the import check at the end.
+		// It is necessary to revert the compartment back first, since the new compartment may not have the required permissions to update the key.
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`}})),
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
+						"kms_key_id": acctest.Representation{RepType: acctest.Optional, Create: ``}})),
+		},
+
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update, analyticsInstanceRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
-				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-				resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -238,6 +269,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify up scaling
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
@@ -250,6 +282,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "4"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
 				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
@@ -258,7 +291,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 				resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -279,6 +312,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
 				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
@@ -291,6 +325,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -313,6 +348,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
 				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
@@ -344,6 +380,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
 				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
@@ -410,6 +447,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "capacity.0.capacity_value", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "email_notification", "emailNotification2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
@@ -420,7 +458,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_url"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
