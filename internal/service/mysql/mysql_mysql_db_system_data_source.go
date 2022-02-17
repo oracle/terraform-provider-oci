@@ -96,6 +96,8 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("configuration_id", *s.Res.ConfigurationId)
 	}
 
+	s.D.Set("crash_recovery", s.Res.CrashRecovery)
+
 	if s.Res.CurrentPlacement != nil {
 		s.D.Set("current_placement", []interface{}{DbSystemPlacementToMap(s.Res.CurrentPlacement)})
 	} else {

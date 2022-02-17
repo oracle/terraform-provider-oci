@@ -36,6 +36,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		window_start_time = var.mysql_db_system_backup_policy_window_start_time
 	}
 	configuration_id = oci_audit_configuration.test_configuration.id
+	crash_recovery = var.mysql_db_system_crash_recovery
 	data_storage_size_in_gb = var.mysql_db_system_data_storage_size_in_gb
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.mysql_db_system_description
@@ -92,6 +93,7 @@ The following arguments are supported:
 		At some point in the window, the system may incur a brief service disruption as the backup is performed. 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `configuration_id` - (Optional) The OCID of the Configuration to be used for this DB System.
+* `crash_recovery` - (Optional) (Updatable) Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled, and whether to enable or disable syncing of the Binary Logs. 
 * `data_storage_size_in_gb` - (Optional) Initial size of the data volume in GBs that will be created and attached. Keep in mind that this only specifies the size of the database data volume, the log volume for the database will be scaled appropriately with its shape. It is required if you are creating a new database. It cannot be set if you are creating a database from a backup.
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) User-provided data about the DB System.
@@ -200,6 +202,7 @@ The following attributes are exported:
 	* `time_updated` - The time the Channel was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `compartment_id` - The OCID of the compartment the DB System belongs in.
 * `configuration_id` - The OCID of the Configuration to be used for Instances in this DB System.
+* `crash_recovery` - Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled, and whether to enable or disable syncing of the Binary Logs. 
 * `current_placement` - The availability domain and fault domain a DB System is placed in.
 	* `availability_domain` - The availability domain in which the DB System is placed.
 	* `fault_domain` - The fault domain in which the DB System is placed.
