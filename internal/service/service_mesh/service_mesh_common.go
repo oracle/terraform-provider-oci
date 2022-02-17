@@ -3,7 +3,9 @@ package service_mesh
 import (
 	"bytes"
 	"fmt"
+
 	oci_service_mesh "github.com/oracle/oci-go-sdk/v65/servicemesh"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
