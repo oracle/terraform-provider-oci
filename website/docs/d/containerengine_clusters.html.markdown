@@ -55,6 +55,7 @@ The following attributes are exported:
 	* `kubernetes` - The non-native networking Kubernetes API server endpoint.
 	* `private_endpoint` - The private native networking Kubernetes API server endpoint.
 	* `public_endpoint` - The public native networking Kubernetes API server endpoint, if one was requested.
+	* `vcn_hostname_endpoint` - The FQDN assigned to the Kubernetes API private endpoint. Example: 'https://yourVcnHostnameEndpoint' 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the cluster.
 * `image_policy_config` - The image verification policy for signature validation. 
