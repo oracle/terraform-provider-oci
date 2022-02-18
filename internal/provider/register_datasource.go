@@ -24,6 +24,7 @@ import (
 	tf_computeinstanceagent "github.com/terraform-providers/terraform-provider-oci/internal/service/computeinstanceagent"
 	tf_containerengine "github.com/terraform-providers/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_data_connectivity "github.com/terraform-providers/terraform-provider-oci/internal/service/data_connectivity"
 	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_data_safe "github.com/terraform-providers/terraform-provider-oci/internal/service/data_safe"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
@@ -335,6 +336,17 @@ func init() {
 	RegisterDatasource("oci_core_vnic", tf_core.CoreVnicDataSource())
 	RegisterDatasource("oci_core_vnic_attachments", tf_core.CoreVnicAttachmentsDataSource())
 	RegisterDatasource("oci_core_volume", tf_core.CoreVolumeDataSource())
+	// data_connectivity service
+	RegisterDatasource("oci_data_connectivity_registry", tf_data_connectivity.DataConnectivityRegistryDataSource())
+	RegisterDatasource("oci_data_connectivity_registries", tf_data_connectivity.DataConnectivityRegistriesDataSource())
+	RegisterDatasource("oci_data_connectivity_registry_connection", tf_data_connectivity.DataConnectivityRegistryConnectionDataSource())
+	RegisterDatasource("oci_data_connectivity_registry_connections", tf_data_connectivity.DataConnectivityRegistryConnectionsDataSource())
+	RegisterDatasource("oci_data_connectivity_registry_data_asset", tf_data_connectivity.DataConnectivityRegistryDataAssetDataSource())
+	RegisterDatasource("oci_data_connectivity_registry_data_assets", tf_data_connectivity.DataConnectivityRegistryDataAssetsDataSource())
+	RegisterDatasource("oci_data_connectivity_registry_folder", tf_data_connectivity.DataConnectivityRegistryFolderDataSource())
+	RegisterDatasource("oci_data_connectivity_registry_folders", tf_data_connectivity.DataConnectivityRegistryFoldersDataSource())
+	RegisterDatasource("oci_data_connectivity_registry_type", tf_data_connectivity.DataConnectivityRegistryTypeDataSource())
+	RegisterDatasource("oci_data_connectivity_registry_types", tf_data_connectivity.DataConnectivityRegistryTypesDataSource())
 	RegisterDatasource("oci_core_volume_attachments", tf_core.CoreVolumeAttachmentsDataSource())
 	RegisterDatasource("oci_core_volume_backup_policies", tf_core.CoreVolumeBackupPoliciesDataSource())
 	RegisterDatasource("oci_core_volume_backup_policy_assignments", tf_core.CoreVolumeBackupPolicyAssignmentsDataSource())
