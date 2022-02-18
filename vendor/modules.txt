@@ -343,6 +343,7 @@ github.com/oracle/oci-go-sdk/v58/databasemanagement
 github.com/oracle/oci-go-sdk/v58/databasemigration
 github.com/oracle/oci-go-sdk/v58/databasetools
 github.com/oracle/oci-go-sdk/v58/datacatalog
+github.com/oracle/oci-go-sdk/v58/dataconnectivity
 github.com/oracle/oci-go-sdk/v58/dataflow
 github.com/oracle/oci-go-sdk/v58/dataintegration
 github.com/oracle/oci-go-sdk/v58/datalabelingservice
