@@ -15,6 +15,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/v58/containerengine"
 	oci_database_migration "github.com/oracle/oci-go-sdk/v58/databasemigration"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v58/datacatalog"
+	oci_data_connectivity "github.com/oracle/oci-go-sdk/v58/dataconnectivity"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v58/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v58/dataintegration"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v58/datalabelingservice"
@@ -1009,6 +1010,45 @@ var exportCoreDrgRouteDistributionHints = &TerraformResourceHints{
 var exportCoreDrgRouteTableRouteRuleHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_drg_route_table_route_rule",
 	resourceAbbreviation: "drg_route_table_route_rule",
+}
+
+var exportDataConnectivityRegistryHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_connectivity_registry",
+	datasourceClass:        "oci_data_connectivity_registries",
+	datasourceItemsAttr:    "registry_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "registry",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_connectivity.RegistryLifecycleStateActive),
+	},
+}
+
+var exportDataConnectivityRegistryConnectionHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_connectivity_registry_connection",
+	datasourceClass:        "oci_data_connectivity_registry_connections",
+	datasourceItemsAttr:    "connection_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "registry_connection",
+	requireResourceRefresh: true,
+}
+
+var exportDataConnectivityRegistryDataAssetHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_connectivity_registry_data_asset",
+	datasourceClass:        "oci_data_connectivity_registry_data_assets",
+	datasourceItemsAttr:    "data_asset_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "registry_data_asset",
+	requireResourceRefresh: true,
+}
+
+var exportDataConnectivityRegistryFolderHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_connectivity_registry_folder",
+	datasourceClass:        "oci_data_connectivity_registry_folders",
+	datasourceItemsAttr:    "folder_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "registry_folder",
+	requireResourceRefresh: true,
 }
 
 var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{

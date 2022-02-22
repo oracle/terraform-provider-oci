@@ -35,7 +35,7 @@ resource "oci_dns_resolver" "test_resolver" {
 		#Required
 		action = var.resolver_rules_action
 		destination_addresses = var.resolver_rules_destination_addresses
-		source_endpoint_name = var.resolver_rules_source_endpoint_name
+		source_endpoint_name = oci_data_connectivity_endpoint.test_endpoint.name
 
 		#Optional
 		client_address_conditions = var.resolver_rules_client_address_conditions
