@@ -6,6 +6,7 @@
 - Support for Terraform changes for LLDP
 - Support for MySQL service - Add ability to Disable Crash Recovery
 - Support for Get secret content
+- Support for darwin_arm64
 
 ### Bug Fix
 - Missing issue routing tags for database tests
