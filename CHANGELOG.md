@@ -1,3 +1,16 @@
+## 4.65.0 (Unreleased)
+
+### Added
+- Support for ShapeConfig in List Shape in Core service
+- Support for DataConnectivity Service
+- Support for Terraform changes for LLDP
+- Support for MySQL service - Add ability to Disable Crash Recovery
+- Support for Get secret content
+
+### Bug Fix
+- Missing issue routing tags for database tests
+- Fix devops build service create buildRun test
+
 ## 4.64.0 (Unreleased)
 
 ### Added
