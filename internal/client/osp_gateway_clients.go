@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_osp_gateway "github.com/oracle/oci-go-sdk/v58/ospgateway"
+	oci_osp_gateway "github.com/oracle/oci-go-sdk/v59/ospgateway"
 
-	oci_common "github.com/oracle/oci-go-sdk/v58/common"
+	oci_common "github.com/oracle/oci-go-sdk/v59/common"
 )
 
 func init() {

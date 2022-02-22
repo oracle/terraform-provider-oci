@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v58/common"
-	oci_oce "github.com/oracle/oci-go-sdk/v58/oce"
+	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+	oci_oce "github.com/oracle/oci-go-sdk/v59/oce"
 )
 
 func OceOceInstanceResource() *schema.Resource {

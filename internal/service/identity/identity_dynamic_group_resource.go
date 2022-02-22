@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v58/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v59/identity"
 )
 
 func IdentityDynamicGroupResource() *schema.Resource {
