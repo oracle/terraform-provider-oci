@@ -19,7 +19,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 
-	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	oci_core "github.com/oracle/oci-go-sdk/v59/core"
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"

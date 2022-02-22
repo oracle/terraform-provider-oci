@@ -18,8 +18,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v58/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v58/logging"
+	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v59/logging"
 )
 
 func LoggingUnifiedAgentConfigurationResource() *schema.Resource {

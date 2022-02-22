@@ -11,8 +11,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v58/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v58/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v59/devops"
 )
 
 func DevopsRepositoryCommitsDataSource() *schema.Resource {

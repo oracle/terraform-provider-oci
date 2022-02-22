@@ -9,20 +9,20 @@ import (
 	"strings"
 	"time"
 
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v58/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v59/loganalytics"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v58/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v59/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
 
 	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
 
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v58/networkloadbalancer"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v59/networkloadbalancer"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v58/identity"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v58/loadbalancer"
-	oci_objectstorage "github.com/oracle/oci-go-sdk/v58/objectstorage"
+	oci_identity "github.com/oracle/oci-go-sdk/v59/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v59/loadbalancer"
+	oci_objectstorage "github.com/oracle/oci-go-sdk/v59/objectstorage"
 
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
