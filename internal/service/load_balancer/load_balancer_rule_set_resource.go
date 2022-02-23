@@ -21,7 +21,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v58/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v59/loadbalancer"
 )
 
 func LoadBalancerRuleSetResource() *schema.Resource {
