@@ -43,6 +43,7 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 
 	#Optional
 	bandwidth_shape_name = var.virtual_circuit_bandwidth_shape_name
+	bgp_admin_state = var.virtual_circuit_bgp_admin_state
 	cross_connect_mappings {
 
 		#Optional
@@ -60,6 +61,7 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 	display_name = var.virtual_circuit_display_name
 	freeform_tags = {"Department"= "Finance"}
 	ip_mtu = var.virtual_circuit_ip_mtu
+	is_bfd_enabled = var.virtual_circuit_is_bfd_enabled
 	gateway_id = oci_core_gateway.test_gateway.id
 	provider_service_id = data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id
 	provider_service_key_name = var.virtual_circuit_provider_service_key_name
@@ -76,8 +78,9 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 
 The following arguments are supported:
 
-* `bandwidth_shape_name` - (Optional) (Updatable) The provisioned data rate of the connection. To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps` 
-* `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the virtual circuit. 
+* `bandwidth_shape_name` - (Optional) (Updatable) The provisioned data rate of the connection. To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps`
+* `bgp_admin_state` - (Optional) (Updatable) Set to ENABLED to activate the bgp session of virtual circuit, DISABLED to deactivate. 
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the virtual circuit.
 * `cross_connect_mappings` - (Optional) (Updatable) Create a `CrossConnectMapping` for each cross-connect or cross-connect group this virtual circuit will run on. 
 	* `bgp_md5auth_key` - (Optional) (Updatable) The key for BGP MD5 authentication. Only applicable if your system requires MD5 authentication. If empty or not set (null), that means you don't use BGP MD5 authentication. 
 	* `cross_connect_or_cross_connect_group_id` - (Optional) (Updatable) The OCID of the cross-connect or cross-connect group for this mapping. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider). 
@@ -110,10 +113,11 @@ The following arguments are supported:
 * `customer_bgp_asn` - (Optional) (Updatable) Deprecated. Instead use `customerAsn`. If you specify values for both, the request will be rejected. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `gateway_id` - (Optional) (Updatable) For private virtual circuits only. The OCID of the [dynamic routing gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Drg) that this virtual circuit uses. 
-* `ip_mtu` - (Optional) (Updatable) The layer-3 IP MTU to be used for this VirtualCircuit
-* `provider_service_id` - (Optional) The OCID of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see [ListFastConnectProviderServices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderServices). 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `gateway_id` - (Optional) (Updatable) For private virtual circuits only. The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [dynamic routing gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Drg) that this virtual circuit uses. 
+* `ip_mtu` - (Optional) (Updatable) The layer 3 IP MTU to use with this virtual circuit.
+* `is_bfd_enabled` - (Optional) (Updatable) Set to true to enable BFD for ipv4 Bgp Peering, false to disable. If not set, default is false 
+* `provider_service_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see [ListFastConnectProviderServices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderServices).
 * `provider_service_key_name` - (Optional) (Updatable) The service key name offered by the provider (if the customer is connecting via a provider). 
 * `public_prefixes` - (Optional) (Updatable) For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. 
 	* `cidr_block` - (Required) (Updatable) An individual public IP prefix (CIDR) to add to the public virtual circuit. All prefix sizes are allowed. 
@@ -130,6 +134,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `bandwidth_shape_name` - The provisioned data rate of the connection. To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps` 
+* `bgp_admin_state` - Set to ENABLED to activate the  bgp session of virtual circuit, DISABLED to deactivate. 
 * `bgp_ipv6session_state` - The state of the Ipv6 BGP session associated with the virtual circuit.
 * `bgp_management` - Deprecated. Instead use the information in [FastConnectProviderService](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/). 
 * `bgp_session_state` - The state of the Ipv4 BGP session associated with the virtual circuit.
@@ -166,10 +171,11 @@ The following attributes are exported:
 * `customer_bgp_asn` - Deprecated. Instead use `customerAsn`. If you specify values for both, the request will be rejected. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `gateway_id` - The OCID of the customer's [dynamic routing gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Drg) that this virtual circuit uses. Applicable only to private virtual circuits. 
-* `id` - The virtual circuit's Oracle ID (OCID).
-* `ip_mtu` - The layer-3 IP MTU to be used for this VirtualCircuit
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `gateway_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's [dynamic routing gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Drg) that this virtual circuit uses. Applicable only to private virtual circuits. 
+* `id` - The virtual circuit's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
+* `ip_mtu` - The layer 3 IP MTU to use on this virtual circuit.
+* `is_bfd_enabled` - Set to true to enable BFD for ipv4 Bgp Peering, false to disable. If not set, default is false
 * `oracle_bgp_asn` - The Oracle BGP ASN.
 * `provider_service_id` - The OCID of the service offered by the provider (if the customer is connecting via a provider). 
 * `provider_service_key_name` - The service key name offered by the provider (if the customer is connecting via a provider). 

@@ -72,12 +72,13 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `volume_group_id` - The OCID of the source volume group.
-* `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+* `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
 	Allowed values:
 	* `0`: Represents Lower Cost option.
 	* `10`: Represents Balanced option.
 	* `20`: Represents Higher Performance option.
+	* `30`-`120`: Represents the Ultra High Performance option.
 
-	For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB. 
+	For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB. 
 
