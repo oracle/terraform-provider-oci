@@ -89,6 +89,11 @@ func CoreDrgAttachmentResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"vcn_route_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 						"ipsec_connection_id": {
@@ -467,7 +472,9 @@ func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkCreateDetails(f
 			tmp := network_detail_id.(string)
 			details.Id = &tmp
 		}
-
+		if vcnRouteType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcn_route_type")); ok {
+			details.VcnRouteType = oci_core.VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum(vcnRouteType.(string))
+		}
 		baseObject = details
 
 	default:
@@ -493,6 +500,9 @@ func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkUpdateDetails(f
 			tmp := routeTableId.(string)
 			details.RouteTableId = &tmp
 		}
+		if vcnRouteType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcn_route_type")); ok {
+			details.VcnRouteType = oci_core.VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum(vcnRouteType.(string))
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
@@ -509,6 +519,8 @@ func DrgAttachmentNetworkDetailsToMap(obj *oci_core.DrgAttachmentNetworkDetails)
 		if v.RouteTableId != nil {
 			result["route_table_id"] = string(*v.RouteTableId)
 		}
+
+		result["vcn_route_type"] = string(v.VcnRouteType)
 
 		if v.Id != nil {
 			result["id"] = string(*v.Id)
