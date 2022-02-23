@@ -71,6 +71,8 @@ func (s *CoreVirtualCircuitDataSourceCrud) SetData() error {
 		s.D.Set("bandwidth_shape_name", *s.Res.BandwidthShapeName)
 	}
 
+	s.D.Set("bgp_admin_state", s.Res.BgpAdminState)
+
 	s.D.Set("bgp_ipv6session_state", s.Res.BgpIpv6SessionState)
 
 	s.D.Set("bgp_management", s.Res.BgpManagement)
@@ -110,6 +112,10 @@ func (s *CoreVirtualCircuitDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("ip_mtu", s.Res.IpMtu)
+
+	if s.Res.IsBfdEnabled != nil {
+		s.D.Set("is_bfd_enabled", *s.Res.IsBfdEnabled)
+	}
 
 	if s.Res.OracleBgpAsn != nil {
 		s.D.Set("oracle_bgp_asn", *s.Res.OracleBgpAsn)
