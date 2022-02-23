@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_core_tunnel_security_associations
 This data source provides the list of Tunnel Security Associations in Oracle Cloud Infrastructure Core service.
 
-Lists the tunnel Security Associations information for the specified IPSec Tunnel ID.
+Lists the tunnel security associations information for the specified IPSec tunnel ID.
 
 
 ## Example Usage
@@ -41,9 +41,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `cpe_subnet` - IP and mask of the Partner Subnet for Policy Based VPNs or Static Routes
-* `oracle_subnet` - IP and mask of the Local Subnet for Policy Based VPNs or Static Routes
-* `time` - Seconds in current state
-* `tunnel_sa_error_info` - Current state if status is not up, including phase1/phase2 and possible reason for tunnel not up
-* `tunnel_sa_status` - Phase 1 Status of the Tunnel
+* `cpe_subnet` - The IP address and mask of the partner subnet used in policy based VPNs or static routes.
+* `oracle_subnet` - The IP address and mask of the local subnet used in policy based VPNs or static routes.
+* `time` - Time in the current state, in seconds.
+* `tunnel_sa_error_info` - Current state if the IPSec tunnel status is not `UP`, including phase one and phase two details and a possible reason the tunnel is not `UP`. 
+* `tunnel_sa_status` - The IPSec tunnel's phase one status.
 

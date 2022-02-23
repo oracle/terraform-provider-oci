@@ -141,6 +141,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_update(
 	})
 }
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationResource_update(t *testing.T) {
 
 	httpreplay.SetScenario("TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationResource_update")

@@ -89,9 +89,13 @@ func TestCoreShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.billing_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.gpus"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disk_description"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_billed_for_stopped_instance"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_flexible"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_live_migration_supported"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_subcore"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks_total_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.max_vnic_attachments"),
@@ -100,6 +104,9 @@ func TestCoreShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.networking_bandwidth_in_gbps"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.ocpus"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.processor_description"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.quota_names.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.recommended_alternatives.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.resize_compatible_shapes.#"),
 			),
 		},
 

@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v58/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
 )
 
 func MysqlMysqlDbSystemDataSource() *schema.Resource {
@@ -95,6 +95,8 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 	if s.Res.ConfigurationId != nil {
 		s.D.Set("configuration_id", *s.Res.ConfigurationId)
 	}
+
+	s.D.Set("crash_recovery", s.Res.CrashRecovery)
 
 	if s.Res.CurrentPlacement != nil {
 		s.D.Set("current_placement", []interface{}{DbSystemPlacementToMap(s.Res.CurrentPlacement)})

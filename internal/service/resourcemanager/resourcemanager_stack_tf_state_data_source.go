@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v58/resourcemanager"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v59/resourcemanager"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

@@ -40,6 +40,11 @@ var (
 		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemMaintenanceRepresentation},
 		"port":                    acctest.Representation{RepType: acctest.Optional, Create: `3306`},
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRep},
+	}
+
+	ignoreDefinedTagsChangesForMysqlRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
 	}
 
 	MysqlDbSystemSourceBackupResourceDependencies = MysqlDbSystemResourceDependencies + utils.MysqlHAConfigurationIdVariable +
@@ -268,6 +273,109 @@ func TestMysqlMysqlDbSystemResource_HA(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "is_highly_available", "true"),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: mysql/default
+func TestMysqlMysqlDbSystemResource_crashRecovery(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_crashRecovery")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+
+	var resId, resId2 string
+
+	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("crash_recovery", acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		acctest.RepresentationCopyWithNewProperties(mysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		}))
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "01:00-00:00"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "crash_recovery", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "description", "MySQL Database Service"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DBSystem001"),
+				resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
+				resource.TestCheckResourceAttr(resourceName, "port", "3306"),
+				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "01:00-00:00"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "crash_recovery", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
+				resource.TestCheckResourceAttr(resourceName, "port", "3306"),
+				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
 			),
 		},
 	})

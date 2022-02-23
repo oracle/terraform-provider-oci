@@ -18,8 +18,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_ai_vision "github.com/oracle/oci-go-sdk/v58/aivision"
-	oci_common "github.com/oracle/oci-go-sdk/v58/common"
+	oci_ai_vision "github.com/oracle/oci-go-sdk/v59/aivision"
+	oci_common "github.com/oracle/oci-go-sdk/v59/common"
 )
 
 func AiVisionModelResource() *schema.Resource {

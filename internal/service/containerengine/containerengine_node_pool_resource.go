@@ -23,8 +23,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v58/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v58/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v59/containerengine"
 )
 
 func ContainerengineNodePoolResource() *schema.Resource {

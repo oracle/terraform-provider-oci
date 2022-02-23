@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v58/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v58/mysql"
+	"github.com/oracle/oci-go-sdk/v59/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -59,6 +59,7 @@ var (
 		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E2.2`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemBackupPolicyRepresentation},
+		"crash_recovery":          acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `MySQL Database Service`, Update: `description2`},
@@ -71,7 +72,13 @@ var (
 		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemMaintenanceRepresentation},
 		"port":                    acctest.Representation{RepType: acctest.Optional, Create: `3306`},
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRepBasic},
 	}
+
+	ignoreDefinedTagsChangesForMysqlRepBasic = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags", "backup_policy[0].defined_tags"}},
+	}
+
 	mysqlDbSystemBackupPolicyRepresentation = map[string]interface{}{
 		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -79,6 +86,15 @@ var (
 		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"window_start_time": acctest.Representation{RepType: acctest.Optional, Create: `01:00-00:00`, Update: `02:00-00:00`},
 	}
+
+	mysqlDbSystemBackupPolicyNotUpdateableRepresentation = map[string]interface{}{
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"window_start_time": acctest.Representation{RepType: acctest.Optional, Create: `01:00-00:00`},
+	}
+
 	mysqlDbSystemMaintenanceRepresentation = map[string]interface{}{
 		"window_start_time": acctest.Representation{RepType: acctest.Required, Create: `sun 01:00`},
 	}
@@ -151,6 +167,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "01:00-00:00"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
 				resource.TestCheckResourceAttr(resourceName, "description", "MySQL Database Service"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "DBSystem001"),
@@ -200,6 +217,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -251,6 +269,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.analytics_cluster.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.current_placement.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.display_name", "displayName2"),
@@ -286,6 +305,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "channels.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "current_placement.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_gb", "50"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),

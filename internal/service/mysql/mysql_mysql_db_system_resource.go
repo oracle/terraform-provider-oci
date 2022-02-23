@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v58/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
 )
 
 func MysqlMysqlDbSystemResource() *schema.Resource {
@@ -118,6 +118,11 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"crash_recovery": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"data_storage_size_in_gb": {
 				Type:     schema.TypeInt,
@@ -741,6 +746,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.ConfigurationId = &tmp
 	}
 
+	if crashRecovery, ok := s.D.GetOkExists("crash_recovery"); ok {
+		request.CrashRecovery = oci_mysql.CrashRecoveryStatusEnum(crashRecovery.(string))
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
@@ -877,6 +886,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
+	if crashRecovery, ok := s.D.GetOkExists("crash_recovery"); ok && s.D.HasChange("crash_recovery") {
+		request.CrashRecovery = oci_mysql.CrashRecoveryStatusEnum(crashRecovery.(string))
+	}
+
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
 
@@ -965,6 +978,8 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	if s.Res.ConfigurationId != nil {
 		s.D.Set("configuration_id", *s.Res.ConfigurationId)
 	}
+
+	s.D.Set("crash_recovery", s.Res.CrashRecovery)
 
 	if s.Res.CurrentPlacement != nil {
 		s.D.Set("current_placement", []interface{}{DbSystemPlacementToMap(s.Res.CurrentPlacement)})

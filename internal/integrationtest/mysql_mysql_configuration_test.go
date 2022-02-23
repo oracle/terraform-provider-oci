@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	"github.com/oracle/oci-go-sdk/v58/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v58/mysql"
+	"github.com/oracle/oci-go-sdk/v59/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"

@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_dashboard "github.com/oracle/oci-go-sdk/v58/managementdashboard"
+	oci_management_dashboard "github.com/oracle/oci-go-sdk/v59/managementdashboard"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

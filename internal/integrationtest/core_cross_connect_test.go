@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v58/common"
-	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	"github.com/oracle/oci-go-sdk/v59/common"
+	oci_core "github.com/oracle/oci-go-sdk/v59/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -239,6 +239,8 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.oci_logical_device_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.oci_physical_device_name"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.0.state", "ENABLED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.port_name"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.port_speed_shape_name", "10 Gbps"),
@@ -266,6 +268,8 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "oci_logical_device_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "oci_physical_device_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.state", "ENABLED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "port_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port_speed_shape_name", "10 Gbps"),

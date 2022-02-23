@@ -20,8 +20,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_bastion "github.com/oracle/oci-go-sdk/v58/bastion"
-	"github.com/oracle/oci-go-sdk/v58/common"
+	oci_bastion "github.com/oracle/oci-go-sdk/v59/bastion"
+	"github.com/oracle/oci-go-sdk/v59/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

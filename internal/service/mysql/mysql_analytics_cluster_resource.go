@@ -17,7 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v58/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
 )
 
 func MysqlAnalyticsClusterResource() *schema.Resource {

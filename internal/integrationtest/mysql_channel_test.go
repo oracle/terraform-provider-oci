@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v58/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v58/mysql"
+	"github.com/oracle/oci-go-sdk/v59/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -53,6 +53,11 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlChannel},
+	}
+
+	ignoreDefinedTagsChangesForMysqlChannel = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
 	}
 
 	sslCaCertificateRepresentation = map[string]interface{}{

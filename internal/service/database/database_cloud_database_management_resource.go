@@ -10,8 +10,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v58/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v58/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
 )
 
 func DatabaseCloudDatabaseManagementResource() *schema.Resource {

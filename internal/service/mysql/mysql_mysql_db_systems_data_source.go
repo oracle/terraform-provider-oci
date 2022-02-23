@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v58/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -164,6 +164,8 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 		if r.AvailabilityDomain != nil {
 			mysqlDbSystem["availability_domain"] = *r.AvailabilityDomain
 		}
+
+		mysqlDbSystem["crash_recovery"] = r.CrashRecovery
 
 		if r.CurrentPlacement != nil {
 			mysqlDbSystem["current_placement"] = []interface{}{DbSystemPlacementToMap(r.CurrentPlacement)}

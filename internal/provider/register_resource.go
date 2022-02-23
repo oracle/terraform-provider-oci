@@ -23,6 +23,7 @@ import (
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_containerengine "github.com/terraform-providers/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_data_connectivity "github.com/terraform-providers/terraform-provider-oci/internal/service/data_connectivity"
 	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_data_safe "github.com/terraform-providers/terraform-provider-oci/internal/service/data_safe"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
@@ -205,6 +206,11 @@ func init() {
 	RegisterResource("oci_core_volume_backup_policy_assignment", tf_core.CoreVolumeBackupPolicyAssignmentResource())
 	RegisterResource("oci_core_volume_group", tf_core.CoreVolumeGroupResource())
 	RegisterResource("oci_core_volume_group_backup", tf_core.CoreVolumeGroupBackupResource())
+	// data_connectivity service
+	RegisterResource("oci_data_connectivity_registry", tf_data_connectivity.DataConnectivityRegistryResource())
+	RegisterResource("oci_data_connectivity_registry_connection", tf_data_connectivity.DataConnectivityRegistryConnectionResource())
+	RegisterResource("oci_data_connectivity_registry_data_asset", tf_data_connectivity.DataConnectivityRegistryDataAssetResource())
+	RegisterResource("oci_data_connectivity_registry_folder", tf_data_connectivity.DataConnectivityRegistryFolderResource())
 	// data_labeling_service service
 	RegisterResource("oci_data_labeling_service_dataset", tf_data_labeling_service.DataLabelingServiceDatasetResource())
 	// data_safe service
@@ -501,6 +507,7 @@ func init() {
 	// resourcemanager service
 	// sch service
 	RegisterResource("oci_sch_service_connector", tf_sch.SchServiceConnectorResource())
+	// secrets service
 	// service_catalog service
 	RegisterResource("oci_service_catalog_private_application", tf_service_catalog.ServiceCatalogPrivateApplicationResource())
 	RegisterResource("oci_service_catalog_service_catalog", tf_service_catalog.ServiceCatalogServiceCatalogResource())

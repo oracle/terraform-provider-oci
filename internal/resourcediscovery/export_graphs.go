@@ -31,6 +31,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"cloud_guard":             cloudGuardResourceGraph,
 	"containerengine":         containerengineResourceGraph,
 	"core":                    coreResourceGraph,
+	"data_connectivity":       dataConnectivityResourceGraph,
 	"data_labeling_service":   dataLabelingServiceResourceGraph,
 	"data_safe":               dataSafeResourceGraph,
 	"database":                databaseResourceGraph,
@@ -439,6 +440,42 @@ var coreResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportCoreDrgRouteTableRouteRuleHints,
 			datasourceQueryParams: map[string]string{
 				"drg_route_table_id": "id",
+			},
+		},
+	},
+}
+
+var dataConnectivityResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDataConnectivityRegistryHints},
+	},
+	"oci_data_connectivity_registry": {
+		{
+			TerraformResourceHints: exportDataConnectivityRegistryConnectionHints,
+			datasourceQueryParams: map[string]string{
+				"data_asset_key": "data_asset_key",
+				"registry_id":    "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportDataConnectivityRegistryDataAssetHints,
+			datasourceQueryParams: map[string]string{
+				"registry_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportDataConnectivityRegistryFolderHints,
+			datasourceQueryParams: map[string]string{
+				"registry_id": "id",
+			},
+		},
+	},
+	"oci_data_connectivity_registry_data_asset": {
+		{
+			TerraformResourceHints: exportDataConnectivityRegistryConnectionHints,
+			datasourceQueryParams: map[string]string{
+				"data_asset_key": "key",
+				"registry_id":    "registry_id",
 			},
 		},
 	},

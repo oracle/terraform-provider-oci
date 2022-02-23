@@ -22,9 +22,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v58/common"
-	oci_core "github.com/oracle/oci-go-sdk/v58/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v58/workrequests"
+	"github.com/oracle/oci-go-sdk/v59/common"
+	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
 )
 
 func CoreInstanceResource() *schema.Resource {
@@ -1221,6 +1221,11 @@ func (s *CoreInstanceResourceCrud) Delete() error {
 	if preserveBootVolume, ok := s.D.GetOkExists("preserve_boot_volume"); ok {
 		tmp := preserveBootVolume.(bool)
 		request.PreserveBootVolume = &tmp
+	}
+
+	if preserveDataVolumes, ok := s.D.GetOkExists("preserve_data_volumes"); ok {
+		tmp := preserveDataVolumes.(bool)
+		request.PreserveDataVolumes = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
