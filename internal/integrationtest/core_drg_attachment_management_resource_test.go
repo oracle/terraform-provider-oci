@@ -117,6 +117,7 @@ func TestCoreDrgAttachmentManagementResource_basic(t *testing.T) {
 }
 
 // Verifying Create and Update Requests for RPC attachment
+// issue-routing-tag: core/virtualNetwork
 func TestCoreDrgAttachmentManagementRPC(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgAttachmentManagementRPC")
 	defer httpreplay.SaveScenario()

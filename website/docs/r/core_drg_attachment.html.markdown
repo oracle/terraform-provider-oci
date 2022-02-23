@@ -42,6 +42,7 @@ resource "oci_core_drg_attachment" "test_drg_attachment" {
 
 		#Optional
 		route_table_id = oci_core_route_table.test_route_table.id
+		vcn_route_type = var.drg_attachment_network_details_vcn_route_type
 	}
 }
 ```
@@ -67,7 +68,8 @@ The following arguments are supported:
 		* [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
 		* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm) 
 	* `type` - (Required) (Updatable) The type can be one of these values: `IPSEC_TUNNEL`, `REMOTE_PEERING_CONNECTION`, `VCN`, `VIRTUAL_CIRCUIT`
-* `route_table_id` - (Deprecated) (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the DRG attachment.
+	* `vcn_route_type` - (Optional) (Updatable) Indicates whether the VCN CIDR(s) or the individual Subnet CIDR(s) are imported from the attachment.  Routes from the VCN Ingress Route Table are always imported. 
+* `route_table_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the DRG attachment.
 
 	If you don't specify a route table here, the DRG attachment is created without an associated route table. The Networking service does NOT automatically associate the attached VCN's default route table with the DRG attachment. For information about why you would associate a route table with a DRG attachment, see:
 	* [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
@@ -103,6 +105,7 @@ The following attributes are exported:
 		* [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
 		* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
 	* `type` - The type can be one of these values: `IPSEC_TUNNEL`, `REMOTE_PEERING_CONNECTION`, `VCN`, `VIRTUAL_CIRCUIT`
+	* `vcn_route_type` - Indicates whether the VCN CIDR(s) or the individual Subnet CIDR(s) are imported from the attachment.  Routes from the VCN Ingress Route Table are always imported. 
 * `route_table_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the DRG attachment is using.
 
 	For information about why you would associate a route table with a DRG attachment, see:
