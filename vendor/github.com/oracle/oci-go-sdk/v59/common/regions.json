@@ -268,5 +268,17 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "eu-madrid-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "sgu", 
+        "realmDomainComponent": "oraclecloud16.com", 
+        "regionIdentifier": "us-westjordan-1", 
+        "realmKey": "oc16"
+    }, 
+    {
+        "regionKey": "dac", 
+        "realmDomainComponent": "oraclecloud15.com", 
+        "regionIdentifier": "ap-dcc-gazipur-1", 
+        "realmKey": "oc15"
     }
 ]

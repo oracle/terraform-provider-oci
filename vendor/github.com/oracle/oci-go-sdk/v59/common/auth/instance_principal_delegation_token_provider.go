@@ -82,3 +82,7 @@ func (p instancePrincipalDelegationTokenConfigurationProvider) AuthType() (commo
 	token := p.delegationToken
 	return common.AuthConfig{common.InstancePrincipalDelegationToken, false, &token}, nil
 }
+
+func (p instancePrincipalDelegationTokenConfigurationProvider) Refreshable() bool {
+	return true
+}

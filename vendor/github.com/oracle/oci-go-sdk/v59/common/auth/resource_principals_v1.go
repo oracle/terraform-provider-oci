@@ -7,12 +7,12 @@ import (
 	"context"
 	"crypto/rsa"
 	"fmt"
-	"github.com/oracle/oci-go-sdk/v59/common"
-
 	"net/http"
 	"net/url"
 	"sync"
 	"time"
+
+	"github.com/oracle/oci-go-sdk/v59/common"
 )
 
 // resourcePrincipalFederationClient is the client used to to talk acquire resource principals
@@ -268,6 +268,10 @@ func (p resourcePrincipalConfigurationProvider) Region() (string, error) {
 		return string(region), nil
 	}
 	return string(*p.region), nil
+}
+
+func (p resourcePrincipalConfigurationProvider) Refreshable() bool {
+	return true
 }
 
 // resourcePrincipalConfigurationProviderForInstanceWithClients returns a configuration for instance principals
