@@ -1,4 +1,4 @@
-## 4.65.0 (Unreleased)
+## 4.65.0 (February 23, 2022)
 
 ### Added
 - Support for ShapeConfig in List Shape in Core service
