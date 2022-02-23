@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_core_ipsec_connection_tunnel_error
 This data source provides details about a specific Ipsec Connection Tunnel Error resource in Oracle Cloud Infrastructure Core service.
 
-Get the identified error for the specified IPSec Tunnel ID.
+Gets the identified error for the specified IPSec tunnel ID.
 
 
 ## Example Usage
@@ -35,10 +35,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `error_code` - unique code describes error type
-* `error_description` - detailed description of the error
-* `id` - unique id generated for each error report
-* `oci_resources_link` - link to oracle resources
-* `solution` - how to resolve the error
-* `timestamp` - timestamp when error occurred.
+* `error_code` - Unique code describes the error type.
+* `error_description` - A detailed description of the error.
+* `id` - Unique ID generated for each error report.
+* `oci_resources_link` - Link to more Oracle resources or relevant documentation.
+* `solution` - Resolution for the error.
+* `timestamp` - Timestamp when the error occurred.
 

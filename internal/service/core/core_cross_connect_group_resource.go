@@ -14,7 +14,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	oci_core "github.com/oracle/oci-go-sdk/v59/core"
 )
 
 func CoreCrossConnectGroupResource() *schema.Resource {
@@ -115,6 +115,14 @@ func CoreCrossConnectGroupResource() *schema.Resource {
 			},
 
 			// Computed
+			"oci_logical_device_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"oci_physical_device_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -372,6 +380,14 @@ func (s *CoreCrossConnectGroupResourceCrud) SetData() error {
 		s.D.Set("macsec_properties", []interface{}{MacsecPropertiesToMap(s.Res.MacsecProperties)})
 	} else {
 		s.D.Set("macsec_properties", nil)
+	}
+
+	if s.Res.OciLogicalDeviceName != nil {
+		s.D.Set("oci_logical_device_name", *s.Res.OciLogicalDeviceName)
+	}
+
+	if s.Res.OciPhysicalDeviceName != nil {
+		s.D.Set("oci_physical_device_name", *s.Res.OciPhysicalDeviceName)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

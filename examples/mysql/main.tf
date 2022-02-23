@@ -93,6 +93,8 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     backup_id   = oci_mysql_mysql_backup.test_mysql_backup.id
     source_type = "BACKUP"
   }
+
+  crash_recovery = "ENABLED"
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {

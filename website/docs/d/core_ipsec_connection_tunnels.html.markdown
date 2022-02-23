@@ -85,46 +85,52 @@ The following attributes are exported:
 
 		Example: `2001:db8::1/64` 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the tunnel. 
-* `cpe_ip` - The IP address of the CPE's VPN headend.  Example: `203.0.113.22` 
+* `cpe_ip` - The IP address of the CPE device's VPN headend.  Example: `203.0.113.22` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `dpd_mode` - dpd mode
-* `dpd_timeout_in_sec` - Dead peer detection (DPD) timeout in seconds.
+* `dpd_mode` - Dead peer detection (DPD) mode set on the Oracle side of the connection. This mode sets whether Oracle can only respond to a request from the CPE device to start DPD, or both respond to and initiate requests. 
+* `dpd_timeout_in_sec` - DPD timeout in seconds.
 * `encryption_domain_config` - Configuration information used by the encryption domain policy.
 	* `cpe_traffic_selector` - Lists IPv4 or IPv6-enabled subnets in your on-premises network.
 	* `oracle_traffic_selector` - Lists IPv4 or IPv6-enabled subnets in your Oracle tenancy.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tunnel.
 * `ike_version` - Internet Key Exchange protocol version. 
-* `nat_translation_enabled` - Whether NAT-T Enabled on the tunnel
-* `oracle_can_initiate` - Indicates whether Oracle can either initiate the tunnel or respond, or respond only.
-* `phase_one_details` - Tunnel detail information specific to IPSec phase 1.
-	* `custom_authentication_algorithm` - Custom authentication algorithm 
-	* `custom_dh_group` - Custom Diffie-Hellman group. 
-	* `custom_encryption_algorithm` - Custom encryption algorithm. 
-	* `is_custom_phase_one_config` - Indicates whether custom phase one configuration is enabled.
-	* `is_ike_established` - Indicates whether IKE Phase 1 is established.
-	* `lifetime` - The total configured lifetime of an IKE security association.
+* `nat_translation_enabled` - By default (the `AUTO` setting), IKE sends packets with a source and destination port set to 500, and when it detects that the port used to forward packets has changed (most likely because a NAT device is between the CPE device and the Oracle VPN headend) it will try to negotiate the use of NAT-T.
+
+	The `ENABLED` option sets the IKE protocol to use port 4500 instead of 500 and forces encapsulating traffic with the ESP protocol inside UDP packets.
+
+	The `DISABLED` option directs IKE to completely refuse to negotiate NAT-T even if it senses there may be a NAT device in use.
+
+	 . 
+* `oracle_can_initiate` - Indicates whether Oracle can only respond to a request to start an IPSec tunnel from the CPE device, or both respond to and initiate requests. 
+* `phase_one_details` - IPSec tunnel details specific to ISAKMP phase one.
+	* `custom_authentication_algorithm` - The proposed custom authentication algorithm.
+	* `custom_dh_group` - The proposed custom Diffie-Hellman group.
+	* `custom_encryption_algorithm` - The proposed custom encryption algorithm.
+	* `is_custom_phase_one_config` - Indicates whether custom phase one configuration is enabled. If this option is not enabled, default settings are proposed. 
+	* `is_ike_established` - Indicates whether IKE phase one is established.
+	* `lifetime` - The total configured lifetime of the IKE security association.
 	* `negotiated_authentication_algorithm` - The negotiated authentication algorithm.
 	* `negotiated_dh_group` - The negotiated Diffie-Hellman group.
 	* `negotiated_encryption_algorithm` - The negotiated encryption algorithm.
-	* `remaining_lifetime` - The lifetime remaining before the key is refreshed.
+	* `remaining_lifetime` - The remaining lifetime before the key is refreshed.
 	* `remaining_lifetime_last_retrieved` - The date and time we retrieved the remaining lifetime, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `phase_two_details` - Tunnel detail information specific to IPSec phase 2.
-	* `custom_authentication_algorithm` - Phase Two authentication algorithm supported during tunnel negotiation. 
-	* `custom_encryption_algorithm` - Custom Encryption Algorithm 
-	* `dh_group` - Proposed Diffie-Hellman group. 
-	* `is_custom_phase_two_config` - Indicates whether custom phase two configuration is enabled.
-	* `is_esp_established` - ESP Phase 2 established
-	* `is_pfs_enabled` - Is PFS (perfect forward secrecy) enabled
-	* `lifetime` - The total configured lifetime of an IKE security association.
-	* `negotiated_authentication_algorithm` - The negotiated authentication algorithm.
+* `phase_two_details` - IPsec tunnel detail information specific to phase two.
+	* `custom_authentication_algorithm` - Phase two authentication algorithm proposed during tunnel negotiation. 
+	* `custom_encryption_algorithm` - The proposed custom phase two encryption algorithm. 
+	* `dh_group` - The proposed Diffie-Hellman group. 
+	* `is_custom_phase_two_config` - Indicates whether custom phase two configuration is enabled. If this option is not enabled, default settings are proposed. 
+	* `is_esp_established` - Indicates that ESP phase two is established.
+	* `is_pfs_enabled` - Indicates that PFS (perfect forward secrecy) is enabled.
+	* `lifetime` - The total configured lifetime of the IKE security association.
+	* `negotiated_authentication_algorithm` - The negotiated phase two authentication algorithm.
 	* `negotiated_dh_group` - The negotiated Diffie-Hellman group.
 	* `negotiated_encryption_algorithm` - The negotiated encryption algorithm.
-	* `remaining_lifetime` - The lifetime remaining before the key is refreshed.
-	* `remaining_lifetime_last_retrieved` - The date and time we retrieved the remaining lifetime, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `routing` - The type of routing used for this tunnel (either BGP dynamic routing or static routing). 
+	* `remaining_lifetime` - The remaining lifetime before the key is refreshed.
+	* `remaining_lifetime_last_retrieved` - The date and time the remaining lifetime was last retrieved, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `routing` - The type of routing used for this tunnel (BGP dynamic routing, static routing, or policy-based routing). 
 * `state` - The tunnel's lifecycle state.
 * `status` - The status of the tunnel based on IPSec protocol characteristics.
-* `time_created` - The date and time the IPSec connection tunnel was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `time_status_updated` - When the status of the tunnel last changed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `vpn_ip` - The IP address of Oracle's VPN headend.  Example: `203.0.113.21` 
+* `time_created` - The date and time the IPSec tunnel was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `time_status_updated` - When the status of the IPSec tunnel last changed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `vpn_ip` - The IP address of the Oracle VPN headend for the connection.  Example: `203.0.113.21` 
 

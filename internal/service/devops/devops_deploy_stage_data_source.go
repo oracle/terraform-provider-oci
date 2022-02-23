@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_devops "github.com/oracle/oci-go-sdk/v58/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v59/devops"
 )
 
 func DevopsDeployStageDataSource() *schema.Resource {

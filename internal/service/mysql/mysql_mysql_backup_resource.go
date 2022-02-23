@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v58/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
 )
 
 func MysqlMysqlBackupResource() *schema.Resource {
@@ -150,6 +150,10 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							},
 						},
 						"configuration_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"crash_recovery": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -666,6 +670,8 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface
 	if obj.ConfigurationId != nil {
 		result["configuration_id"] = string(*obj.ConfigurationId)
 	}
+
+	result["crash_recovery"] = string(obj.CrashRecovery)
 
 	if obj.DataStorageSizeInGBs != nil {
 		result["data_storage_size_in_gb"] = int(*obj.DataStorageSizeInGBs)

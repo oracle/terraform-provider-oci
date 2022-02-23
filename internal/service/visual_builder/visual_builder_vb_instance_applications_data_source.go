@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_visual_builder "github.com/oracle/oci-go-sdk/v58/visualbuilder"
+	oci_visual_builder "github.com/oracle/oci-go-sdk/v59/visualbuilder"
 )
 
 func VisualBuilderVbInstanceApplicationsDataSource() *schema.Resource {

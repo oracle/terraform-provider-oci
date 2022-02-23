@@ -30,13 +30,12 @@ var (
 	}
 
 	devopsGitlabConnectionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"connection_type": acctest.Representation{RepType: acctest.Optional, Create: `GitlabAccessToken`},
-		"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_connection.test_connection.id}`},
-		"project_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
-		"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: devopsGitlabConnectionDataSourceFilterRepresentation}}
+		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_connection.test_connection.id}`},
+		"project_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: devopsGitlabConnectionDataSourceFilterRepresentation}}
 	devopsGitlabConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_connection.test_connection.id}`}},
@@ -157,7 +156,6 @@ func TestDevopsGitlabConnectionResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Optional, acctest.Update, devopsGitlabConnectionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "connection_type", "GitlabAccessToken"), //TODO: Needs to accept `GITLAB_ACCESS_TOKEN`
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "project_id"),

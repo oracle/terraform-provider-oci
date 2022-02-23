@@ -18,7 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v58/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v59/dns"
 )
 
 func DnsRrsetResource() *schema.Resource {

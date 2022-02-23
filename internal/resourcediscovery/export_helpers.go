@@ -9,6 +9,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/data_connectivity"
+
 	tf_datascience "github.com/terraform-providers/terraform-provider-oci/internal/service/datascience"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/devops"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
@@ -54,6 +56,9 @@ func init() {
 	exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
 	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
+	exportDataConnectivityRegistryConnectionHints.getIdFn = getDataConnectivityRegistryConnectionId
+	exportDataConnectivityRegistryDataAssetHints.getIdFn = getDataConnectivityRegistryDataAssetId
+	exportDataConnectivityRegistryFolderHints.getIdFn = getDataConnectivityRegistryFolderId
 	exportDatabaseAutonomousContainerDatabaseDataguardAssociationHints.getIdFn = getDatabaseAutonomousContainerDatabaseDataguardAssociationId
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
@@ -228,6 +233,36 @@ func getCoreDrgRouteTableRouteRuleId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find drgRouteTableId for Core DrgRouteTableRouteRule")
 	}
 	return tf_core.GetDrgRouteTableRouteRuleCompositeId(drgRouteTableId, drgRouteRuleId), nil
+}
+
+func getDataConnectivityRegistryConnectionId(resource *OCIResource) (string, error) {
+
+	connectionKey, ok := resource.sourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find connectionKey for DataConnectivity RegistryConnection")
+	}
+	registryId := resource.parent.sourceAttributes["registry_id"].(string)
+	return data_connectivity.GetRegistryConnectionCompositeId(connectionKey, registryId), nil
+}
+
+func getDataConnectivityRegistryDataAssetId(resource *OCIResource) (string, error) {
+
+	dataAssetKey, ok := resource.sourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find dataAssetKey for DataConnectivity RegistryDataAsset")
+	}
+	registryId := resource.parent.id
+	return data_connectivity.GetRegistryDataAssetCompositeId(dataAssetKey, registryId), nil
+}
+
+func getDataConnectivityRegistryFolderId(resource *OCIResource) (string, error) {
+
+	folderKey, ok := resource.sourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find folderKey for DataConnectivity RegistryFolder")
+	}
+	registryId := resource.parent.id
+	return data_connectivity.GetRegistryFolderCompositeId(folderKey, registryId), nil
 }
 
 func getDatabaseAutonomousContainerDatabaseDataguardAssociationId(resource *OCIResource) (string, error) {

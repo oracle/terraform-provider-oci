@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v58/common"
-	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	"github.com/oracle/oci-go-sdk/v59/common"
+	oci_core "github.com/oracle/oci-go-sdk/v59/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -428,6 +428,7 @@ func drgAttachmentSweepResponseFetchOperation(client *tf_client.OracleClients, r
 }
 
 // Adding a test case for testing the Update request. Updating both drg_route_table_id from and route_table_id simultaneously.
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreDrgAttachmentUpdateRequest_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgAttachmentResource_basic")
 	defer httpreplay.SaveScenario()

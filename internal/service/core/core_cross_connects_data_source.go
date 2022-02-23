@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v58/core"
+	oci_core "github.com/oracle/oci-go-sdk/v59/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -149,6 +149,14 @@ func (s *CoreCrossConnectsDataSourceCrud) SetData() error {
 			crossConnect["macsec_properties"] = []interface{}{MacsecPropertiesToMap(r.MacsecProperties)}
 		} else {
 			crossConnect["macsec_properties"] = nil
+		}
+
+		if r.OciLogicalDeviceName != nil {
+			crossConnect["oci_logical_device_name"] = *r.OciLogicalDeviceName
+		}
+
+		if r.OciPhysicalDeviceName != nil {
+			crossConnect["oci_physical_device_name"] = *r.OciPhysicalDeviceName
 		}
 
 		if r.PortName != nil {

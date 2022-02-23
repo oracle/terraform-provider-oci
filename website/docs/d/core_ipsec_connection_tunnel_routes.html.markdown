@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_core_ipsec_connection_tunnel_routes
 This data source provides the list of Ipsec Connection Tunnel Routes in Oracle Cloud Infrastructure Core service.
 
-The routes advertised to the Customer and the routes received from the Customer.
+The routes advertised to the on-premises network and the routes received from the on-premises network.
 
 
 ## Example Usage
@@ -30,7 +30,7 @@ data "oci_core_ipsec_connection_tunnel_routes" "test_ipsec_connection_tunnel_rou
 
 The following arguments are supported:
 
-* `advertiser` - (Optional) Specifies the advertiser of the routes. If set to ORACLE, then returns only the routes advertised by ORACLE, else if set to CUSTOMER, then returns only the routes advertised by the CUSTOMER. 
+* `advertiser` - (Optional) Specifies the advertiser of the routes. If set to `ORACLE`, this returns only the routes advertised by Oracle. When set to `CUSTOMER`, this returns only the routes advertised by the CPE. 
 * `ipsec_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPSec connection.
 * `tunnel_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tunnel.
 
@@ -45,9 +45,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `advertiser` - Route advertiser
-* `age` - The age of the route
-* `as_path` - List of ASNs in AS Path
-* `is_best_path` - Is this the best route
-* `prefix` - BGP Network Layer Reachability Information
+* `advertiser` - The source of the route advertisement.
+* `age` - The age of the route.
+* `as_path` - A list of ASNs in AS_Path.
+* `is_best_path` - Indicates this is the best route.
+* `prefix` - The BGP network layer reachability information.
 
