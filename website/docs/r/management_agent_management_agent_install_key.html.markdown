@@ -23,6 +23,7 @@ resource "oci_management_agent_management_agent_install_key" "test_management_ag
 
 	#Optional
 	allowed_key_install_count = var.management_agent_install_key_allowed_key_install_count
+	is_unlimited = var.management_agent_install_key_is_unlimited
 	time_expires = var.management_agent_install_key_time_expires
 }
 ```
@@ -34,6 +35,7 @@ The following arguments are supported:
 * `allowed_key_install_count` - (Optional) Total number of install for this keys
 * `compartment_id` - (Required) Compartment Identifier
 * `display_name` - (Required) (Updatable) Management Agent install Key Name
+* `is_unlimited` - (Optional) If set to true, the install key has no expiration date or usage limit. Defaults to false
 * `time_expires` - (Optional) date after which key would expire after creation
 
 
@@ -50,6 +52,7 @@ The following attributes are exported:
 * `current_key_install_count` - Total number of install for this keys
 * `display_name` - Management Agent Install Key Name
 * `id` - Agent install Key identifier
+* `is_unlimited` - If set to true, the install key has no expiration date or usage limit. Properties allowedKeyInstallCount and timeExpires are ignored if set to true. Defaults to false.
 * `key` - Management Agent Install Key
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `state` - Status of Key

@@ -45,6 +45,12 @@ func ManagementAgentManagementAgentInstallKeyResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_unlimited": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"time_expires": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -173,6 +179,11 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if isUnlimited, ok := s.D.GetOkExists("is_unlimited"); ok {
+		tmp := isUnlimited.(bool)
+		request.IsUnlimited = &tmp
+	}
+
 	if timeExpires, ok := s.D.GetOkExists("time_expires"); ok {
 		tmp, err := time.Parse(time.RFC3339Nano, timeExpires.(string))
 		if err != nil {
@@ -267,6 +278,10 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.IsUnlimited != nil {
+		s.D.Set("is_unlimited", *s.Res.IsUnlimited)
 	}
 
 	if s.Res.Key != nil {

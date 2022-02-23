@@ -41,6 +41,15 @@ resource "oci_management_agent_management_agent_install_key" "test_management_ag
   time_expires              = "2022-05-27T17:27:44.398Z"
 }
 
+resource "oci_management_agent_management_agent_install_key" "test_management_agent_install_key_unlimited" {
+  #Required
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  display_name              = "displayName"
+  is_unlimited              = true
+}
+
 data "oci_management_agent_management_agent_install_keys" "test_management_agent_install_keys" {
   #Required
   compartment_id = var.compartment_ocid

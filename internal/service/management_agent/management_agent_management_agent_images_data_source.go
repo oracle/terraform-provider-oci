@@ -56,6 +56,14 @@ func ManagementAgentManagementAgentImagesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"package_architecture_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"package_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"platform_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -167,6 +175,10 @@ func (s *ManagementAgentManagementAgentImagesDataSourceCrud) SetData() error {
 		if r.ObjectUrl != nil {
 			managementAgentImage["object_url"] = *r.ObjectUrl
 		}
+
+		managementAgentImage["package_architecture_type"] = r.PackageArchitectureType
+
+		managementAgentImage["package_type"] = r.PackageType
 
 		if r.PlatformName != nil {
 			managementAgentImage["platform_name"] = *r.PlatformName
