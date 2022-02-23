@@ -149,6 +149,10 @@ func (s *ManagementAgentManagementAgentInstallKeysDataSourceCrud) SetData() erro
 			managementAgentInstallKey["id"] = *r.Id
 		}
 
+		if r.IsUnlimited != nil {
+			managementAgentInstallKey["is_unlimited"] = *r.IsUnlimited
+		}
+
 		if r.LifecycleDetails != nil {
 			managementAgentInstallKey["lifecycle_details"] = *r.LifecycleDetails
 		}
