@@ -50,6 +50,8 @@ func TestManagementAgentManagementAgentImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.checksum"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.object_url"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.package_architecture_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.package_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.platform_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.platform_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.size"),

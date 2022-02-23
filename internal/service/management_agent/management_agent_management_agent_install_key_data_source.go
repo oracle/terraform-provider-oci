@@ -87,6 +87,10 @@ func (s *ManagementAgentManagementAgentInstallKeyDataSourceCrud) SetData() error
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.IsUnlimited != nil {
+		s.D.Set("is_unlimited", *s.Res.IsUnlimited)
+	}
+
 	if s.Res.Key != nil {
 		s.D.Set("key", *s.Res.Key)
 	}
