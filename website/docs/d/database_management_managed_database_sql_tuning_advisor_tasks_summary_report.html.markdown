@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_management_managed_database_sql_tuning_advisor_tasks_summary_report
 This data source provides details about a specific Managed Database Sql Tuning Advisor Tasks Summary Report resource in Oracle Cloud Infrastructure Database Management service.
 
-Gets the summary report for the specific SQL Tuning Advisor task.
+Gets the summary report for the specified SQL Tuning Advisor task.
 
 
 ## Example Usage
@@ -61,31 +61,31 @@ The following attributes are exported:
 	* `problem_type` - Type of statistics problem related to the object.
 	* `reference_count` - The number of the times the object is referenced within the SQL Tuning advisor task findings.
 	* `schema` - Schema of the object.
-* `statistics` - Statistics of statements and findings for the SQL Tuning Advisor summary report.
-	* `finding_benefits` - The finding benefits data for the SQL Tuning Advisor summary report.
-		* `db_time_after_implemented` - The count of database time benefit after SQL recommendations are implemented.
-		* `db_time_after_recommended` - The count of Potential database time after SQL recommendations are implemented.
-		* `db_time_before_implemented` - The count of database time benefit before SQL recommendations are implemented.
-		* `db_time_before_recommended` - The count of Potential database time before SQL recommendations are implemented.
-	* `finding_counts` - The finding counts data for the SQL Tuning Advisor summary report.
-		* `alternate_plan` - The count of distinct SQL statements with alternative plan recommendations.
-		* `implemented_sql_profile` - The count of distinct SQL statements with implemented SQL profiles.
-		* `index` - The count of distinct SQL statements with index recommendations.
-		* `recommended_sql_profile` - The count of distinct SQL statements with recommended SQL profiles.
-		* `restructure` - The count of distinct SQL statements with restructure SQL recommendations.
-		* `statistics` - The count of distinct SQL statements with stale/missing optimizer statistics recommendations.
-	* `statement_counts` - The statement counts data for the SQL Tuning Advisor summary report.
-		* `distinct_sql` - The count of distinct SQL statements.
-		* `error_count` - The count of distinct SQL statements with errors.
-		* `finding_count` - The count of distinct SQL statements with findings.
-		* `total_sql` - The total count of SQL statements.
-* `task_info` - SQL Tuning advisor task general info.
-	* `description` - The SQL Tuning Advisor task description. Not defined on Auto SQL Tuning tasks.
-	* `id` - The SQL Tuning Advisor task id. It is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-	* `name` - The SQL Tuning Advisor task name.
-	* `owner` - The SQL Tuning Advisor task user owner.
-	* `running_time` - The total running time in seconds. Not defined on Auto SQL Tuning tasks.
-	* `status` - The SQL Tuning Advisor task status. Not defined on Auto SQL Tuning tasks.
-	* `time_ended` - End timestamp of task execution.
-	* `time_started` - Start timestamp of task execution.
+* `statistics` - The statistics of the statements and findings in the SQL Tuning Advisor summary report.
+	* `finding_benefits` - The benefits of the findings in the SQL Tuning Advisor summary report.
+		* `db_time_after_implemented` - The actual database time of the SQL statements for which SQL Tuning Advisor recommendations are implemented.
+		* `db_time_after_recommended` - The estimated database time of the above SQL statements, if SQL Tuning Advisor recommendations are implemented.
+		* `db_time_before_implemented` - The actual database time of the above SQL statements, before SQL Tuning Advisor recommendations are implemented.
+		* `db_time_before_recommended` - The actual database time of the SQL statements for which SQL Tuning Advisor recommendations are not implemented.
+	* `finding_counts` - The number of findings in the SQL Tuning Advisor summary report.
+		* `alternate_plan` - The number of distinct SQL statements with alternative plan recommendations.
+		* `implemented_sql_profile` - The number of distinct SQL statements with implemented SQL profiles.
+		* `index` - The number of distinct SQL statements with index recommendations.
+		* `recommended_sql_profile` - The number of distinct SQL statements with recommended SQL profiles.
+		* `restructure` - The number of distinct SQL statements with restructured SQL recommendations.
+		* `statistics` - The number of distinct SQL statements with stale or missing optimizer statistics recommendations.
+	* `statement_counts` - The number of statements in the SQL Tuning Advisor summary report.
+		* `distinct_sql` - The number of distinct SQL statements.
+		* `error_count` - The number of distinct SQL statements with errors.
+		* `finding_count` - The number of distinct SQL statements with findings.
+		* `total_sql` - The total number of SQL statements.
+* `task_info` - The general information regarding the SQL Tuning Advisor task.
+	* `description` - The description of the SQL Tuning Advisor task. This is not defined for Auto SQL Tuning tasks.
+	* `id` - The ID of the SQL Tuning Advisor task. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	* `name` - The name of the SQL Tuning Advisor task.
+	* `owner` - The owner of the SQL Tuning Advisor task.
+	* `running_time` - The total running time in seconds. This is not defined for Auto SQL Tuning tasks.
+	* `status` - The status of the SQL Tuning Advisor task. This is not defined for Auto SQL Tuning tasks.
+	* `time_ended` - The end time of the task execution.
+	* `time_started` - The start time of the task execution.
 
