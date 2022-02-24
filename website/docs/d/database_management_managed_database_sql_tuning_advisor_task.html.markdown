@@ -44,16 +44,16 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `items` - A list of SQL Tuning Advisor tasks.
-	* `days_to_expire` - Days to expire the task. If the value equals -1 then the task has no expiration time (UNLIMITED).
-	* `description` - The description of the task.
-	* `instance_id` - The instance id of the task. It is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-	* `name` - The name of the task.
-	* `owner` - The owner of the task.
-	* `recommendation_count` - Number of recommendations produced.
-	* `sql_tuning_advisor_task_id` - Unique identifier of the task. It is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-	* `task_status` - The status of the task.
-	* `time_created` - Creation date of the task.
-	* `time_execution_ended` - End timestamp of task execution.
-	* `time_execution_started` - Start timestamp of task execution.
-	* `total_sql_statements` - The total number of SQL statements related to the SQL tuning advisor task.
+	* `days_to_expire` - The number of days left before the task expires. If the value equals -1, then the task has no expiration time (UNLIMITED).
+	* `description` - The description of the SQL Tuning Advisor task.
+	* `instance_id` - The instance ID of the SQL Tuning Advisor task. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	* `name` - The name of the SQL Tuning Advisor task.
+	* `owner` - The owner of the SQL Tuning Advisor task.
+	* `recommendation_count` - The number of recommendations provided for the SQL Tuning Advisor task.
+	* `sql_tuning_advisor_task_id` - The unique identifier of the SQL Tuning Advisor task. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	* `task_status` - The status of the SQL Tuning Advisor task.
+	* `time_created` - The Creation date of the SQL Tuning Advisor task.
+	* `time_execution_ended` - The end time of the task execution.
+	* `time_execution_started` - The start time of the task execution.
+	* `total_sql_statements` - The total number of SQL statements related to the SQL Tuning Advisor task.
 

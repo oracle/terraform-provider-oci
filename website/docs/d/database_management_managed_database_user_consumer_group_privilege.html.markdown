@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_management_managed_database_user_consumer_group_privilege
 This data source provides details about a specific Managed Database User Consumer Group Privilege resource in Oracle Cloud Infrastructure Database Management service.
 
-Gets the list of Consumer Group Privileges granted for the specified user.
+Gets the list of consumer group privileges granted to a specific user.
 
 ## Example Usage
 
@@ -38,8 +38,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `items` - An array of User resources.
-	* `grant_option` - Indicates whether the grant was with the GRANT option (YES) or not (NO).
-	* `initial_group` - Indicates whether the consumer group is designated as the default for this user or role (YES) or not (NO)
-	* `name` - The name of granted consumer group.
+* `items` - An array of consumer group privileges.
+	* `grant_option` - Indicates whether the privilege is granted with the GRANT option (YES) or not (NO).
+	* `initial_group` - Indicates whether the consumer group is designated as the default for this user or role (YES) or not (NO).
+	* `name` - The name of the granted consumer group privilege.
 
