@@ -38,7 +38,7 @@ var (
 
 	modelForModelDeploymentRepresentation = map[string]interface{}{
 		"artifact_content_length":      acctest.Representation{RepType: acctest.Required, Create: `6954`},
-		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../examples/datascience/artifact.zip`},
+		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/artifact.zip`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"project_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=tfTestArtifact.zip`},
@@ -46,7 +46,7 @@ var (
 
 	modelForUpdateModelDeploymentRepresentation = map[string]interface{}{
 		"artifact_content_length":      acctest.Representation{RepType: acctest.Required, Create: `6954`},
-		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../examples/datascience/artifact.zip`},
+		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/artifact.zip`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"project_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=tfTestArtifact.zip`},

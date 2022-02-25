@@ -88,6 +88,12 @@ func (s *DatascienceNotebookSessionDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.NotebookSessionConfigDetails != nil {
+		s.D.Set("notebook_session_config_details", []interface{}{NotebookSessionConfigDetailsToMap(s.Res.NotebookSessionConfigDetails)})
+	} else {
+		s.D.Set("notebook_session_config_details", nil)
+	}
+
 	if s.Res.NotebookSessionConfigurationDetails != nil {
 		s.D.Set("notebook_session_configuration_details", []interface{}{NotebookSessionConfigurationDetailsToMap(s.Res.NotebookSessionConfigurationDetails)})
 	} else {
