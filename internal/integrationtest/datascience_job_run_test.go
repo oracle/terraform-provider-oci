@@ -74,10 +74,10 @@ var (
 	}
 
 	JobRunResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, shapeDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Required, acctest.Create, mlJobWithArtifactNoLogging) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -128,6 +128,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + JobRunResourceDependencies,
 			},
+
 			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + JobRunResourceDependencies +
@@ -193,6 +194,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					},
 				),
 			},
+
 			// verify datasource
 			{
 				Config: config +
@@ -220,6 +222,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "job_runs.0.time_accepted"),
 				),
 			},
+
 			// verify singular datasource
 			{
 				Config: config +
@@ -245,10 +248,12 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_accepted"),
 				),
 			},
+
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
 				Config: config + compartmentIdVariableStr + JobRunResourceConfig,
 			},
+
 			// verify resource import
 			{
 				Config:            config,
