@@ -155,6 +155,12 @@ func (s *DatascienceNotebookSessionsDataSourceCrud) SetData() error {
 			notebookSession["id"] = *r.Id
 		}
 
+		if r.NotebookSessionConfigDetails != nil {
+			notebookSession["notebook_session_config_details"] = []interface{}{NotebookSessionConfigDetailsToMap(r.NotebookSessionConfigDetails)}
+		} else {
+			notebookSession["notebook_session_config_details"] = nil
+		}
+
 		if r.NotebookSessionConfigurationDetails != nil {
 			notebookSession["notebook_session_configuration_details"] = []interface{}{NotebookSessionConfigurationDetailsToMap(r.NotebookSessionConfigurationDetails)}
 		} else {
