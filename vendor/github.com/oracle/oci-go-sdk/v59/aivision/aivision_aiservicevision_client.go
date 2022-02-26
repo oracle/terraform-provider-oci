@@ -89,9 +89,10 @@ func (client *AIServiceVisionClient) ConfigurationProvider() *common.Configurati
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/AnalyzeDocument.go.html to see an example of how to use AnalyzeDocument API.
+// A default retry strategy applies to this operation AnalyzeDocument()
 func (client AIServiceVisionClient) AnalyzeDocument(ctx context.Context, request AnalyzeDocumentRequest) (response AnalyzeDocumentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -144,9 +145,10 @@ func (client AIServiceVisionClient) analyzeDocument(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/AnalyzeImage.go.html to see an example of how to use AnalyzeImage API.
+// A default retry strategy applies to this operation AnalyzeImage()
 func (client AIServiceVisionClient) AnalyzeImage(ctx context.Context, request AnalyzeImageRequest) (response AnalyzeImageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

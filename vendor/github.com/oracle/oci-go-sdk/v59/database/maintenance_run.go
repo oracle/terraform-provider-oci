@@ -69,6 +69,39 @@ type MaintenanceRun struct {
 
 	// Contain the patch failure count.
 	PatchFailureCount *int `mandatory:"false" json:"patchFailureCount"`
+
+	// The target software version for the database server patching operation.
+	TargetDbServerVersion *string `mandatory:"false" json:"targetDbServerVersion"`
+
+	// The target Cell version that is to be patched to.
+	TargetStorageServerVersion *string `mandatory:"false" json:"targetStorageServerVersion"`
+
+	// If true, enables the configuration of a custom action timeout (waiting period) between database servers patching operations.
+	IsCustomActionTimeoutEnabled *bool `mandatory:"false" json:"isCustomActionTimeoutEnabled"`
+
+	// Determines the amount of time the system will wait before the start of each database server patching operation.
+	// Specify a number of minutes, from 15 to 120.
+	CustomActionTimeoutInMins *int `mandatory:"false" json:"customActionTimeoutInMins"`
+
+	// Extend current custom action timeout between the current database servers during waiting state, from 0 (zero) to 30 minutes.
+	CurrentCustomActionTimeoutInMins *int `mandatory:"false" json:"currentCustomActionTimeoutInMins"`
+
+	// The status of the patching operation.
+	PatchingStatus MaintenanceRunPatchingStatusEnum `mandatory:"false" json:"patchingStatus,omitempty"`
+
+	// The time when the patching operation started.
+	PatchingStartTime *common.SDKTime `mandatory:"false" json:"patchingStartTime"`
+
+	// The time when the patching operation ended.
+	PatchingEndTime *common.SDKTime `mandatory:"false" json:"patchingEndTime"`
+
+	EstimatedPatchingTime *EstimatedPatchingTime `mandatory:"false" json:"estimatedPatchingTime"`
+
+	// The name of the current infrastruture component that is getting patched.
+	CurrentPatchingComponent *string `mandatory:"false" json:"currentPatchingComponent"`
+
+	// The estimated start time of the next infrastruture component patching operation.
+	EstimatedComponentPatchingStartTime *common.SDKTime `mandatory:"false" json:"estimatedComponentPatchingStartTime"`
 }
 
 func (m MaintenanceRun) String() string {
@@ -95,6 +128,9 @@ func (m MaintenanceRun) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingMaintenanceRunPatchingModeEnum(string(m.PatchingMode)); !ok && m.PatchingMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchingMode: %s. Supported values are: %s.", m.PatchingMode, strings.Join(GetMaintenanceRunPatchingModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMaintenanceRunPatchingStatusEnum(string(m.PatchingStatus)); !ok && m.PatchingStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchingStatus: %s. Supported values are: %s.", m.PatchingStatus, strings.Join(GetMaintenanceRunPatchingStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -369,5 +405,51 @@ func GetMaintenanceRunPatchingModeEnumStringValues() []string {
 // GetMappingMaintenanceRunPatchingModeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingMaintenanceRunPatchingModeEnum(val string) (MaintenanceRunPatchingModeEnum, bool) {
 	enum, ok := mappingMaintenanceRunPatchingModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// MaintenanceRunPatchingStatusEnum Enum with underlying type: string
+type MaintenanceRunPatchingStatusEnum string
+
+// Set of constants representing the allowable values for MaintenanceRunPatchingStatusEnum
+const (
+	MaintenanceRunPatchingStatusPatching  MaintenanceRunPatchingStatusEnum = "PATCHING"
+	MaintenanceRunPatchingStatusWaiting   MaintenanceRunPatchingStatusEnum = "WAITING"
+	MaintenanceRunPatchingStatusScheduled MaintenanceRunPatchingStatusEnum = "SCHEDULED"
+)
+
+var mappingMaintenanceRunPatchingStatusEnum = map[string]MaintenanceRunPatchingStatusEnum{
+	"PATCHING":  MaintenanceRunPatchingStatusPatching,
+	"WAITING":   MaintenanceRunPatchingStatusWaiting,
+	"SCHEDULED": MaintenanceRunPatchingStatusScheduled,
+}
+
+var mappingMaintenanceRunPatchingStatusEnumLowerCase = map[string]MaintenanceRunPatchingStatusEnum{
+	"patching":  MaintenanceRunPatchingStatusPatching,
+	"waiting":   MaintenanceRunPatchingStatusWaiting,
+	"scheduled": MaintenanceRunPatchingStatusScheduled,
+}
+
+// GetMaintenanceRunPatchingStatusEnumValues Enumerates the set of values for MaintenanceRunPatchingStatusEnum
+func GetMaintenanceRunPatchingStatusEnumValues() []MaintenanceRunPatchingStatusEnum {
+	values := make([]MaintenanceRunPatchingStatusEnum, 0)
+	for _, v := range mappingMaintenanceRunPatchingStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMaintenanceRunPatchingStatusEnumStringValues Enumerates the set of values in String for MaintenanceRunPatchingStatusEnum
+func GetMaintenanceRunPatchingStatusEnumStringValues() []string {
+	return []string{
+		"PATCHING",
+		"WAITING",
+		"SCHEDULED",
+	}
+}
+
+// GetMappingMaintenanceRunPatchingStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMaintenanceRunPatchingStatusEnum(val string) (MaintenanceRunPatchingStatusEnum, bool) {
+	enum, ok := mappingMaintenanceRunPatchingStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

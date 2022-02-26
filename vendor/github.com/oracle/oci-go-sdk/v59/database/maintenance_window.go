@@ -21,6 +21,17 @@ type MaintenanceWindow struct {
 	// The maintenance window scheduling preference.
 	Preference MaintenanceWindowPreferenceEnum `mandatory:"true" json:"preference"`
 
+	// Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
+	// *IMPORTANT*: Non-rolling infrastructure patching involves system down time. See Oracle-Managed Infrastructure Maintenance Updates (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information.
+	PatchingMode MaintenanceWindowPatchingModeEnum `mandatory:"false" json:"patchingMode,omitempty"`
+
+	// If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
+	IsCustomActionTimeoutEnabled *bool `mandatory:"false" json:"isCustomActionTimeoutEnabled"`
+
+	// Determines the amount of time the system will wait before the start of each database server patching operation.
+	// Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive).
+	CustomActionTimeoutInMins *int `mandatory:"false" json:"customActionTimeoutInMins"`
+
 	// Months during the year when maintenance should be performed.
 	Months []Month `mandatory:"false" json:"months"`
 
@@ -53,6 +64,9 @@ func (m MaintenanceWindow) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Preference: %s. Supported values are: %s.", m.Preference, strings.Join(GetMaintenanceWindowPreferenceEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingMaintenanceWindowPatchingModeEnum(string(m.PatchingMode)); !ok && m.PatchingMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchingMode: %s. Supported values are: %s.", m.PatchingMode, strings.Join(GetMaintenanceWindowPatchingModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -98,5 +112,47 @@ func GetMaintenanceWindowPreferenceEnumStringValues() []string {
 // GetMappingMaintenanceWindowPreferenceEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingMaintenanceWindowPreferenceEnum(val string) (MaintenanceWindowPreferenceEnum, bool) {
 	enum, ok := mappingMaintenanceWindowPreferenceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// MaintenanceWindowPatchingModeEnum Enum with underlying type: string
+type MaintenanceWindowPatchingModeEnum string
+
+// Set of constants representing the allowable values for MaintenanceWindowPatchingModeEnum
+const (
+	MaintenanceWindowPatchingModeRolling    MaintenanceWindowPatchingModeEnum = "ROLLING"
+	MaintenanceWindowPatchingModeNonrolling MaintenanceWindowPatchingModeEnum = "NONROLLING"
+)
+
+var mappingMaintenanceWindowPatchingModeEnum = map[string]MaintenanceWindowPatchingModeEnum{
+	"ROLLING":    MaintenanceWindowPatchingModeRolling,
+	"NONROLLING": MaintenanceWindowPatchingModeNonrolling,
+}
+
+var mappingMaintenanceWindowPatchingModeEnumLowerCase = map[string]MaintenanceWindowPatchingModeEnum{
+	"rolling":    MaintenanceWindowPatchingModeRolling,
+	"nonrolling": MaintenanceWindowPatchingModeNonrolling,
+}
+
+// GetMaintenanceWindowPatchingModeEnumValues Enumerates the set of values for MaintenanceWindowPatchingModeEnum
+func GetMaintenanceWindowPatchingModeEnumValues() []MaintenanceWindowPatchingModeEnum {
+	values := make([]MaintenanceWindowPatchingModeEnum, 0)
+	for _, v := range mappingMaintenanceWindowPatchingModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMaintenanceWindowPatchingModeEnumStringValues Enumerates the set of values in String for MaintenanceWindowPatchingModeEnum
+func GetMaintenanceWindowPatchingModeEnumStringValues() []string {
+	return []string{
+		"ROLLING",
+		"NONROLLING",
+	}
+}
+
+// GetMappingMaintenanceWindowPatchingModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMaintenanceWindowPatchingModeEnum(val string) (MaintenanceWindowPatchingModeEnum, bool) {
+	enum, ok := mappingMaintenanceWindowPatchingModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

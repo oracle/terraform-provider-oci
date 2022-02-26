@@ -300,6 +300,16 @@ type AutonomousDatabase struct {
 
 	// list of scheduled operations
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
+
+	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
+	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
+
+	// The amount of storage currently allocated for the database tables and billed for, rounded up. When auto-scaling is not enabled, this value is equal to the `dataStorageSizeInTBs` value. You can compare this value to the `actualUsedDataStorageSizeInTBs` value to determine if a manual shrink operation is appropriate for your allocated storage.
+	// **Note:** Auto-scaling does not automatically decrease allocated storage when data is deleted from the database.
+	AllocatedStorageSizeInTBs *float64 `mandatory:"false" json:"allocatedStorageSizeInTBs"`
+
+	// The current amount of storage in use for user and system data, in terabytes (TB).
+	ActualUsedDataStorageSizeInTBs *float64 `mandatory:"false" json:"actualUsedDataStorageSizeInTBs"`
 }
 
 func (m AutonomousDatabase) String() string {

@@ -153,6 +153,9 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// list of scheduled operations
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
 
+	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
+	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
+
 	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 	RefreshableMode CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
 
@@ -332,6 +335,11 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetAutonomousMaintenanc
 //GetScheduledOperations returns ScheduledOperations
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
+}
+
+//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsAutoScalingForStorageEnabled() *bool {
+	return m.IsAutoScalingForStorageEnabled
 }
 
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) String() string {

@@ -153,6 +153,9 @@ type CreateAutonomousDatabaseCloneDetails struct {
 	// list of scheduled operations
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
 
+	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
+	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseCloneDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
@@ -332,6 +335,11 @@ func (m CreateAutonomousDatabaseCloneDetails) GetAutonomousMaintenanceScheduleTy
 //GetScheduledOperations returns ScheduledOperations
 func (m CreateAutonomousDatabaseCloneDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
+}
+
+//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+func (m CreateAutonomousDatabaseCloneDetails) GetIsAutoScalingForStorageEnabled() *bool {
+	return m.IsAutoScalingForStorageEnabled
 }
 
 func (m CreateAutonomousDatabaseCloneDetails) String() string {

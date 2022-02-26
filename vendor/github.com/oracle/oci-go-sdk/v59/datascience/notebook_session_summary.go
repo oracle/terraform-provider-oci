@@ -43,6 +43,8 @@ type NotebookSessionSummary struct {
 
 	NotebookSessionConfigurationDetails *NotebookSessionConfigurationDetails `mandatory:"false" json:"notebookSessionConfigurationDetails"`
 
+	NotebookSessionConfigDetails *NotebookSessionConfigDetails `mandatory:"false" json:"notebookSessionConfigDetails"`
+
 	// The URL to interact with the notebook session.
 	NotebookSessionUrl *string `mandatory:"false" json:"notebookSessionUrl"`
 
