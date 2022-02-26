@@ -66,6 +66,8 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("add_on_features", s.Res.AddOnFeatures)
+
 	if s.Res.AdminEmail != nil {
 		s.D.Set("admin_email", *s.Res.AdminEmail)
 	}
@@ -97,6 +99,8 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 	s.D.Set("instance_license_type", s.Res.InstanceLicenseType)
 
 	s.D.Set("instance_usage_type", s.Res.InstanceUsageType)
+
+	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

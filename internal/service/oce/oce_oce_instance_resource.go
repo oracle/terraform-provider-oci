@@ -73,6 +73,14 @@ func OceOceInstanceResource() *schema.Resource {
 			},
 
 			// Optional
+			"add_on_features": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -125,6 +133,10 @@ func OceOceInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"idcs_tenancy": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -228,6 +240,19 @@ func (s *OceOceInstanceResourceCrud) DeletedTarget() []string {
 
 func (s *OceOceInstanceResourceCrud) Create() error {
 	request := oci_oce.CreateOceInstanceRequest{}
+
+	if addOnFeatures, ok := s.D.GetOkExists("add_on_features"); ok {
+		interfaces := addOnFeatures.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("add_on_features") {
+			request.AddOnFeatures = tmp
+		}
+	}
 
 	if adminEmail, ok := s.D.GetOkExists("admin_email"); ok {
 		tmp := adminEmail.(string)
@@ -462,6 +487,19 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 	}
 	request := oci_oce.UpdateOceInstanceRequest{}
 
+	if addOnFeatures, ok := s.D.GetOkExists("add_on_features"); ok {
+		interfaces := addOnFeatures.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("add_on_features") {
+			request.AddOnFeatures = tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -527,6 +565,8 @@ func (s *OceOceInstanceResourceCrud) Delete() error {
 }
 
 func (s *OceOceInstanceResourceCrud) SetData() error {
+	s.D.Set("add_on_features", s.Res.AddOnFeatures)
+
 	if s.Res.AdminEmail != nil {
 		s.D.Set("admin_email", *s.Res.AdminEmail)
 	}
@@ -558,6 +598,8 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 	s.D.Set("instance_license_type", s.Res.InstanceLicenseType)
 
 	s.D.Set("instance_usage_type", s.Res.InstanceUsageType)
+
+	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

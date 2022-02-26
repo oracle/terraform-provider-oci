@@ -119,6 +119,8 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		oceInstance["add_on_features"] = r.AddOnFeatures
+
 		if r.AdminEmail != nil {
 			oceInstance["admin_email"] = *r.AdminEmail
 		}
@@ -150,6 +152,8 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 		oceInstance["instance_license_type"] = r.InstanceLicenseType
 
 		oceInstance["instance_usage_type"] = r.InstanceUsageType
+
+		oceInstance["lifecycle_details"] = r.LifecycleDetails
 
 		if r.Name != nil {
 			oceInstance["name"] = *r.Name
