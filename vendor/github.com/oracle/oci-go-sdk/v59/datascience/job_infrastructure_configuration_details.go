@@ -50,6 +50,10 @@ func (m *jobinfrastructureconfigurationdetails) UnmarshalPolymorphicJSON(data []
 
 	var err error
 	switch m.JobInfrastructureType {
+	case "ME_STANDALONE":
+		mm := ManagedEgressStandaloneJobInfrastructureConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STANDALONE":
 		mm := StandaloneJobInfrastructureConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -80,15 +84,18 @@ type JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum string
 
 // Set of constants representing the allowable values for JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum
 const (
-	JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "STANDALONE"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone   JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "STANDALONE"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "ME_STANDALONE"
 )
 
 var mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
-	"STANDALONE": JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
+	"STANDALONE":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
+	"ME_STANDALONE": JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
 }
 
 var mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumLowerCase = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
-	"standalone": JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
+	"standalone":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
+	"me_standalone": JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
 }
 
 // GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumValues Enumerates the set of values for JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum
@@ -104,6 +111,7 @@ func GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumValues() [
 func GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumStringValues() []string {
 	return []string{
 		"STANDALONE",
+		"ME_STANDALONE",
 	}
 }
 

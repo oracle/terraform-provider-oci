@@ -33,6 +33,10 @@ type VcnDrgAttachmentNetworkCreateDetails struct {
 	//   * Transit Routing: Access to Multiple VCNs in Same Region (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
 	//   * Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
+	// Indicates whether the VCN CIDR(s) or the individual Subnet CIDR(s) are imported from the attachment.
+	// Routes from the VCN Ingress Route Table are always imported.
+	VcnRouteType VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum `mandatory:"false" json:"vcnRouteType,omitempty"`
 }
 
 //GetId returns Id
@@ -50,6 +54,9 @@ func (m VcnDrgAttachmentNetworkCreateDetails) String() string {
 func (m VcnDrgAttachmentNetworkCreateDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum(string(m.VcnRouteType)); !ok && m.VcnRouteType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VcnRouteType: %s. Supported values are: %s.", m.VcnRouteType, strings.Join(GetVcnDrgAttachmentNetworkDetailsVcnRouteTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

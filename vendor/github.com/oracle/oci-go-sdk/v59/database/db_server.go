@@ -63,6 +63,8 @@ type DbServer struct {
 	// The date and time that the Db Server was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	DbServerPatchingDetails *DbServerPatchingDetails `mandatory:"false" json:"dbServerPatchingDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

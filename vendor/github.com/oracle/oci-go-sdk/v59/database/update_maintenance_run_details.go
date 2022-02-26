@@ -33,6 +33,19 @@ type UpdateMaintenanceRunDetails struct {
 	// Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 	// *IMPORTANT*: Non-rolling infrastructure patching involves system down time. See Oracle-Managed Infrastructure Maintenance Updates (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information.
 	PatchingMode UpdateMaintenanceRunDetailsPatchingModeEnum `mandatory:"false" json:"patchingMode,omitempty"`
+
+	// If true, enables the configuration of a custom action timeout (waiting period) between database servers patching operations.
+	IsCustomActionTimeoutEnabled *bool `mandatory:"false" json:"isCustomActionTimeoutEnabled"`
+
+	// Determines the amount of time the system will wait before the start of each database server patching operation.
+	// Specify a number of minutes from 15 to 120.
+	CustomActionTimeoutInMins *int `mandatory:"false" json:"customActionTimeoutInMins"`
+
+	// The current custom action timeout between the current database servers during waiting state in addition to custom action timeout, from 0 (zero) to 30 minutes.
+	CurrentCustomActionTimeoutInMins *int `mandatory:"false" json:"currentCustomActionTimeoutInMins"`
+
+	// If true, then the patching is resumed and the next component will be patched immediately.
+	IsResumePatching *bool `mandatory:"false" json:"isResumePatching"`
 }
 
 func (m UpdateMaintenanceRunDetails) String() string {

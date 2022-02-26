@@ -150,6 +150,9 @@ type CreateAutonomousDatabaseDetails struct {
 	// list of scheduled operations
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
 
+	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
+	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
+
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
@@ -326,6 +329,11 @@ func (m CreateAutonomousDatabaseDetails) GetAutonomousMaintenanceScheduleType() 
 //GetScheduledOperations returns ScheduledOperations
 func (m CreateAutonomousDatabaseDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
+}
+
+//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+func (m CreateAutonomousDatabaseDetails) GetIsAutoScalingForStorageEnabled() *bool {
+	return m.IsAutoScalingForStorageEnabled
 }
 
 func (m CreateAutonomousDatabaseDetails) String() string {

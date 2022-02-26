@@ -171,6 +171,9 @@ type CreateAutonomousDatabaseBase interface {
 
 	// list of scheduled operations
 	GetScheduledOperations() []ScheduledOperationDetails
+
+	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
+	GetIsAutoScalingForStorageEnabled() *bool
 }
 
 type createautonomousdatabasebase struct {
@@ -207,6 +210,7 @@ type createautonomousdatabasebase struct {
 	IsMtlsConnectionRequired                 *bool                                                             `mandatory:"false" json:"isMtlsConnectionRequired"`
 	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 	ScheduledOperations                      []ScheduledOperationDetails                                       `mandatory:"false" json:"scheduledOperations"`
+	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 	Source                                   string                                                            `json:"source"`
 }
 
@@ -253,6 +257,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsMtlsConnectionRequired = s.Model.IsMtlsConnectionRequired
 	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
 	m.ScheduledOperations = s.Model.ScheduledOperations
+	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
 	m.Source = s.Model.Source
 
 	return err
@@ -454,6 +459,11 @@ func (m createautonomousdatabasebase) GetAutonomousMaintenanceScheduleType() Cre
 //GetScheduledOperations returns ScheduledOperations
 func (m createautonomousdatabasebase) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
+}
+
+//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+func (m createautonomousdatabasebase) GetIsAutoScalingForStorageEnabled() *bool {
+	return m.IsAutoScalingForStorageEnabled
 }
 
 func (m createautonomousdatabasebase) String() string {

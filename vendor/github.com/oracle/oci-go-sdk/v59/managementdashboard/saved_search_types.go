@@ -23,6 +23,8 @@ const (
 	SavedSearchTypesSearchDontShowInDashboard SavedSearchTypesEnum = "SEARCH_DONT_SHOW_IN_DASHBOARD"
 	SavedSearchTypesWidgetShowInDashboard     SavedSearchTypesEnum = "WIDGET_SHOW_IN_DASHBOARD"
 	SavedSearchTypesWidgetDontShowInDashboard SavedSearchTypesEnum = "WIDGET_DONT_SHOW_IN_DASHBOARD"
+	SavedSearchTypesFilterShowInDashboard     SavedSearchTypesEnum = "FILTER_SHOW_IN_DASHBOARD"
+	SavedSearchTypesFilterDontShowInDashboard SavedSearchTypesEnum = "FILTER_DONT_SHOW_IN_DASHBOARD"
 )
 
 var mappingSavedSearchTypesEnum = map[string]SavedSearchTypesEnum{
@@ -30,6 +32,8 @@ var mappingSavedSearchTypesEnum = map[string]SavedSearchTypesEnum{
 	"SEARCH_DONT_SHOW_IN_DASHBOARD": SavedSearchTypesSearchDontShowInDashboard,
 	"WIDGET_SHOW_IN_DASHBOARD":      SavedSearchTypesWidgetShowInDashboard,
 	"WIDGET_DONT_SHOW_IN_DASHBOARD": SavedSearchTypesWidgetDontShowInDashboard,
+	"FILTER_SHOW_IN_DASHBOARD":      SavedSearchTypesFilterShowInDashboard,
+	"FILTER_DONT_SHOW_IN_DASHBOARD": SavedSearchTypesFilterDontShowInDashboard,
 }
 
 var mappingSavedSearchTypesEnumLowerCase = map[string]SavedSearchTypesEnum{
@@ -37,6 +41,8 @@ var mappingSavedSearchTypesEnumLowerCase = map[string]SavedSearchTypesEnum{
 	"search_dont_show_in_dashboard": SavedSearchTypesSearchDontShowInDashboard,
 	"widget_show_in_dashboard":      SavedSearchTypesWidgetShowInDashboard,
 	"widget_dont_show_in_dashboard": SavedSearchTypesWidgetDontShowInDashboard,
+	"filter_show_in_dashboard":      SavedSearchTypesFilterShowInDashboard,
+	"filter_dont_show_in_dashboard": SavedSearchTypesFilterDontShowInDashboard,
 }
 
 // GetSavedSearchTypesEnumValues Enumerates the set of values for SavedSearchTypesEnum
@@ -55,6 +61,8 @@ func GetSavedSearchTypesEnumStringValues() []string {
 		"SEARCH_DONT_SHOW_IN_DASHBOARD",
 		"WIDGET_SHOW_IN_DASHBOARD",
 		"WIDGET_DONT_SHOW_IN_DASHBOARD",
+		"FILTER_SHOW_IN_DASHBOARD",
+		"FILTER_DONT_SHOW_IN_DASHBOARD",
 	}
 }
 
