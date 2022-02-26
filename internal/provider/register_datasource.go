@@ -955,6 +955,7 @@ func init() {
 	RegisterDatasource("oci_ocvp_esxi_host", tf_ocvp.OcvpEsxiHostDataSource())
 	RegisterDatasource("oci_ocvp_esxi_hosts", tf_ocvp.OcvpEsxiHostsDataSource())
 	RegisterDatasource("oci_ocvp_sddc", tf_ocvp.OcvpSddcDataSource())
+	RegisterDatasource("oci_ocvp_supported_host_shapes", tf_ocvp.OcvpSupportedHostShapesDataSource())
 	RegisterDatasource("oci_ocvp_sddcs", tf_ocvp.OcvpSddcsDataSource())
 	RegisterDatasource("oci_ocvp_supported_skus", tf_ocvp.OcvpSupportedSkusDataSource())
 	RegisterDatasource("oci_ocvp_supported_vmware_software_versions", tf_ocvp.OcvpSupportedVmwareSoftwareVersionsDataSource())

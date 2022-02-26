@@ -62,6 +62,7 @@ var (
 	}
 	replacementEsxiHostRepresentation = acctest.RepresentationCopyWithNewProperties(esxiHostRepresentation, map[string]interface{}{
 		"failed_esxi_host_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_ocvp_esxi_hosts.existing_esxi_hosts.esxi_host_collection[0].id}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `replacement`},
 	})
 
 	EsxiHostResourceDependencies = SddcRequiredOnlyResource + acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "existing_esxi_hosts", acctest.Optional, acctest.Create, existingEsxiHostDataSourceRepresentation)
@@ -112,7 +113,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", `replacement`),
 				resource.TestCheckResourceAttrSet(resourceName, "failed_esxi_host_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -140,7 +141,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "MONTH"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", `replacement`),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "grace_period_end_date"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
