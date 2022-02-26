@@ -133,6 +133,10 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("is_hcx_pending_downgrade", *s.Res.IsHcxPendingDowngrade)
 	}
 
+	if s.Res.IsShieldedInstanceEnabled != nil {
+		s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
+	}
+
 	if s.Res.NsxEdgeUplink1VlanId != nil {
 		s.D.Set("nsx_edge_uplink1vlan_id", *s.Res.NsxEdgeUplink1VlanId)
 	}
