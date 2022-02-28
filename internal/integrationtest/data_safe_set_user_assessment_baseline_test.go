@@ -28,9 +28,7 @@ var (
 		"user_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment1.id}`},
 	}
 
-	SetUserAssessmentBaselineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment1", acctest.Required, acctest.Create, userAssessmentRepresentation) +
+	SetUserAssessmentBaselineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment1", acctest.Required, acctest.Create, userAssessmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment2", acctest.Required, acctest.Create, userAssessmentRepresentation)
 )
 
@@ -44,17 +42,20 @@ func TestDataSafeSetUserAssessmentBaselineResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
+	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
+
 	resourceName := "oci_data_safe_set_user_assessment_baseline.test_set_user_assessment_baseline"
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SetUserAssessmentBaselineResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+SetUserAssessmentBaselineResourceDependencies+targetIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_set_user_assessment_baseline", "test_set_user_assessment_baseline", acctest.Optional, acctest.Create, setUserAssessmentBaselineRepresentation), "datasafe", "setUserAssessmentBaseline", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SetUserAssessmentBaselineResourceDependencies +
+			Config: config + compartmentIdVariableStr + SetUserAssessmentBaselineResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_set_user_assessment_baseline", "test_set_user_assessment_baseline", acctest.Optional, acctest.Create, setUserAssessmentBaselineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "user_assessment_id"),
@@ -63,11 +64,11 @@ func TestDataSafeSetUserAssessmentBaselineResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + SetUserAssessmentBaselineResourceDependencies,
+			Config: config + compartmentIdVariableStr + SetUserAssessmentBaselineResourceDependencies + targetIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SetUserAssessmentBaselineResourceDependencies +
+			Config: config + compartmentIdVariableStr + SetUserAssessmentBaselineResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_set_user_assessment_baseline", "test_set_user_assessment_baseline", acctest.Optional, acctest.Create, setUserAssessmentBaselineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "assessment_ids.#", "1"),
@@ -85,7 +86,7 @@ func TestDataSafeSetUserAssessmentBaselineResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config: config + compartmentIdVariableStr + SetUserAssessmentBaselineResourceDependencies +
+			Config: config + compartmentIdVariableStr + SetUserAssessmentBaselineResourceDependencies + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_unset_user_assessment_baseline", "test_unset_user_assessment_baseline", acctest.Required, acctest.Create, unsetAssessmentBaselineRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// resource.TestCheckResourceAttrSet(resourceNameAssessment, "user_assessment_id"),

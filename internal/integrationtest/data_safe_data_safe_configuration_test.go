@@ -25,6 +25,10 @@ var (
 	DataSafeConfigurationResourceConfig = DataSafeConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", acctest.Optional, acctest.Update, dataSafeConfigurationRepresentation)
 
+	ignoreChangesDefinedTagsRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	dataSafeConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 	}
@@ -32,6 +36,7 @@ var (
 	dataSafeConfigurationRepresentation = map[string]interface{}{
 		"is_enabled":     acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesDefinedTagsRepresentation},
 	}
 
 	DataSafeConfigurationResourceDependencies = ""

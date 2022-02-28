@@ -106,7 +106,7 @@ func (s *DataSafeUnsetUserAssessmentBaselineResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUnsetUserAssessmentBaselineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutCreate))
+	return s.getUnsetUserAssessmentBaselineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeUnsetUserAssessmentBaselineResourceCrud) getUnsetUserAssessmentBaselineFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
