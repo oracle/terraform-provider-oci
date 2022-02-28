@@ -6,6 +6,7 @@ package osp_gateway
 import (
 	"context"
 	"log"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_osp_gateway "github.com/oracle/oci-go-sdk/v64/ospgateway"
@@ -236,11 +237,39 @@ func OspGatewayInvoiceDataSource() *schema.Resource {
 							Type:     schema.TypeFloat,
 							Computed: true,
 						},
+						"credit_card_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"echeck_routing": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"last_digits": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"name_on_card": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"paid_by": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"payment_method": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"paypal_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"paypal_reference": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_expiration": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -529,13 +558,89 @@ func CountryToMap(obj *oci_osp_gateway.Country) map[string]interface{} {
 
 func PaymentDetailToMap(obj *oci_osp_gateway.PaymentDetail) map[string]interface{} {
 	result := map[string]interface{}{}
-	switch (*obj).(type) {
+	switch v := (*obj).(type) {
 	case oci_osp_gateway.CreditCardPaymentDetail:
 		result["payment_method"] = "CREDIT_CARD"
+
+		result["credit_card_type"] = string(v.CreditCardType)
+
+		if v.LastDigits != nil {
+			result["last_digits"] = string(*v.LastDigits)
+		}
+
+		if v.NameOnCard != nil {
+			result["name_on_card"] = string(*v.NameOnCard)
+		}
+
+		if v.TimeExpiration != nil {
+			result["time_expiration"] = v.TimeExpiration.Format(time.RFC3339Nano)
+		}
+
+		if v.AmountPaid != nil {
+			result["amount_paid"] = float32(*v.AmountPaid)
+		}
+
+		if v.PaidBy != nil {
+			result["paid_by"] = string(*v.PaidBy)
+		}
+
+		if v.TimePaidOn != nil {
+			result["time_paid_on"] = v.TimePaidOn.String()
+		}
 	case oci_osp_gateway.OtherPaymentDetail:
 		result["payment_method"] = "OTHER"
+
+		result["credit_card_type"] = string(v.CreditCardType)
+
+		if v.EcheckRouting != nil {
+			result["echeck_routing"] = string(*v.EcheckRouting)
+		}
+
+		if v.LastDigits != nil {
+			result["last_digits"] = string(*v.LastDigits)
+		}
+
+		if v.NameOnCard != nil {
+			result["name_on_card"] = string(*v.NameOnCard)
+		}
+
+		if v.TimeExpiration != nil {
+			result["time_expiration"] = v.TimeExpiration.Format(time.RFC3339Nano)
+		}
+
+		if v.AmountPaid != nil {
+			result["amount_paid"] = float32(*v.AmountPaid)
+		}
+
+		if v.PaidBy != nil {
+			result["paid_by"] = string(*v.PaidBy)
+		}
+
+		if v.TimePaidOn != nil {
+			result["time_paid_on"] = v.TimePaidOn.String()
+		}
 	case oci_osp_gateway.PaypalPaymentDetail:
 		result["payment_method"] = "PAYPAL"
+
+		if v.PaypalId != nil {
+			result["paypal_id"] = string(*v.PaypalId)
+		}
+
+		if v.PaypalReference != nil {
+			result["paypal_reference"] = string(*v.PaypalReference)
+		}
+
+		if v.AmountPaid != nil {
+			result["amount_paid"] = float32(*v.AmountPaid)
+		}
+
+		if v.PaidBy != nil {
+			result["paid_by"] = string(*v.PaidBy)
+		}
+
+		if v.TimePaidOn != nil {
+			result["time_paid_on"] = v.TimePaidOn.String()
+		}
 	default:
 		log.Printf("[WARN] Received 'payment_method' of unknown type %v", *obj)
 		return nil

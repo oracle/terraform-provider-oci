@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v64/common"
 	oci_osp_gateway "github.com/oracle/oci-go-sdk/v64/ospgateway"
@@ -214,11 +215,57 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									// Required
 									"payment_method": {
-										Type:     schema.TypeString,
-										Required: true,
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"CREDIT_CARD",
+											"PAYPAL",
+										}, true),
 									},
 
 									// Optional
+									"credit_card_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"email_address": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"ext_billing_agreement_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"first_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"last_digits": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"last_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"name_on_card": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"time_expiration": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+									},
 									"wallet_instrument_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -451,7 +498,39 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"credit_card_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"email_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ext_billing_agreement_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"first_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"last_digits": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"last_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"name_on_card": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"payment_method": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_expiration": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -981,9 +1060,59 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToPaymentOption(fieldKeyFormat s
 	switch strings.ToLower(paymentMethod) {
 	case strings.ToLower("CREDIT_CARD"):
 		details := oci_osp_gateway.CreditCardPaymentOption{}
+		if creditCardType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credit_card_type")); ok {
+			details.CreditCardType = oci_osp_gateway.CreditCardTypeEnum(creditCardType.(string))
+		}
+		if lastDigits, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_digits")); ok {
+			tmp := lastDigits.(string)
+			details.LastDigits = &tmp
+		}
+		if nameOnCard, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name_on_card")); ok {
+			tmp := nameOnCard.(string)
+			details.NameOnCard = &tmp
+		}
+		if timeExpiration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_expiration")); ok {
+			tmp, err := time.Parse(time.RFC3339, timeExpiration.(string))
+			if err != nil {
+				return details, err
+			}
+			details.TimeExpiration = &oci_common.SDKTime{Time: tmp}
+		}
+		if walletInstrumentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_instrument_id")); ok {
+			tmp := walletInstrumentId.(string)
+			details.WalletInstrumentId = &tmp
+		}
+		if walletTransactionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_transaction_id")); ok {
+			tmp := walletTransactionId.(string)
+			details.WalletTransactionId = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("PAYPAL"):
 		details := oci_osp_gateway.PaypalPaymentOption{}
+		if emailAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "email_address")); ok {
+			tmp := emailAddress.(string)
+			details.EmailAddress = &tmp
+		}
+		if extBillingAgreementId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ext_billing_agreement_id")); ok {
+			tmp := extBillingAgreementId.(string)
+			details.ExtBillingAgreementId = &tmp
+		}
+		if firstName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "first_name")); ok {
+			tmp := firstName.(string)
+			details.FirstName = &tmp
+		}
+		if lastName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_name")); ok {
+			tmp := lastName.(string)
+			details.LastName = &tmp
+		}
+		if walletInstrumentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_instrument_id")); ok {
+			tmp := walletInstrumentId.(string)
+			details.WalletInstrumentId = &tmp
+		}
+		if walletTransactionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_transaction_id")); ok {
+			tmp := walletTransactionId.(string)
+			details.WalletTransactionId = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown payment_method '%v' was specified", paymentMethod)
@@ -993,11 +1122,41 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToPaymentOption(fieldKeyFormat s
 
 func PaymentOptionToMap(obj oci_osp_gateway.PaymentOption) map[string]interface{} {
 	result := map[string]interface{}{}
-	switch (obj).(type) {
+	switch v := (obj).(type) {
 	case oci_osp_gateway.CreditCardPaymentOption:
 		result["payment_method"] = "CREDIT_CARD"
+
+		result["credit_card_type"] = string(v.CreditCardType)
+
+		if v.LastDigits != nil {
+			result["last_digits"] = string(*v.LastDigits)
+		}
+
+		if v.NameOnCard != nil {
+			result["name_on_card"] = string(*v.NameOnCard)
+		}
+
+		if v.TimeExpiration != nil {
+			result["time_expiration"] = v.TimeExpiration.Format(time.RFC3339Nano)
+		}
 	case oci_osp_gateway.PaypalPaymentOption:
 		result["payment_method"] = "PAYPAL"
+
+		if v.EmailAddress != nil {
+			result["email_address"] = string(*v.EmailAddress)
+		}
+
+		if v.ExtBillingAgreementId != nil {
+			result["ext_billing_agreement_id"] = string(*v.ExtBillingAgreementId)
+		}
+
+		if v.FirstName != nil {
+			result["first_name"] = string(*v.FirstName)
+		}
+
+		if v.LastName != nil {
+			result["last_name"] = string(*v.LastName)
+		}
 	default:
 		log.Printf("[WARN] Received 'payment_method' of unknown type %v", obj)
 		return nil
