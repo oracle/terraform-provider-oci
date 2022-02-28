@@ -23,9 +23,7 @@ var (
 		"user_assessment_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment4.id}`},
 	}
 
-	UserAssessmentComparisonResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment3", acctest.Required, acctest.Create, userAssessmentRepresentation) +
+	UserAssessmentComparisonResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment3", acctest.Required, acctest.Create, userAssessmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment4", acctest.Required, acctest.Create, userAssessmentRepresentation)
 )
 
@@ -39,6 +37,9 @@ func TestDataSafeUserAssessmentComparisonResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
+	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
+
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
@@ -46,7 +47,7 @@ func TestDataSafeUserAssessmentComparisonResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_comparison", "test_user_assessment_comparison", acctest.Required, acctest.Create, userAssessmentComparisonSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + UserAssessmentComparisonResourceConfig,
+				compartmentIdVariableStr + UserAssessmentComparisonResourceConfig + targetIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					if failure, isServiceError := oci_common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {

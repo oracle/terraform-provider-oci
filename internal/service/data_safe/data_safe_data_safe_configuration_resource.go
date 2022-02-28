@@ -182,7 +182,7 @@ func (s *DataSafeDataSafeConfigurationResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSafeConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDataSafeConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeDataSafeConfigurationResourceCrud) getDataSafeConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -260,8 +260,8 @@ func dataSafeConfigurationWaitForWorkRequest(wId *string, entityType string, act
 	var identifier *string
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
-		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
-			if res.ActionType == action {
+		if strings.Contains(strings.ToLower(*res.EntityType), "datasafeinstance") || strings.Contains(strings.ToLower(*res.EntityType), "configuration") {
+			if res.ActionType == oci_data_safe.WorkRequestResourceActionTypeCreated || res.ActionType == oci_data_safe.WorkRequestResourceActionTypeUpdated {
 				identifier = res.Identifier
 				break
 			}

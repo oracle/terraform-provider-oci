@@ -37,7 +37,7 @@ var (
 
 	securityAssessmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 		"type":           acctest.Representation{RepType: acctest.Optional, Create: `SAVED`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: securityAssessmentDataSourceFilterRepresentation}}
 	securityAssessmentDataSourceFilterRepresentation = map[string]interface{}{
@@ -47,7 +47,7 @@ var (
 
 	securityAssessmentRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `EBS assessment`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -56,7 +56,7 @@ var (
 
 	securityAssessmentChangeCompartmentRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `EBS assessment`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -68,9 +68,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	SecurityAssessmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
-		DefinedTagsDependencies
+	SecurityAssessmentResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -86,19 +84,25 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
+	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
+
+	autonomousDatabaseId := utils.GetEnvSettingWithBlankDefault("autonomous_database_id")
+	autonomousDbIdVariableStr := fmt.Sprintf("variable \"autonomous_db_id\" { default = \"%s\" }\n", autonomousDatabaseId)
+
 	resourceName := "oci_data_safe_security_assessment.test_security_assessment"
 	datasourceName := "data.oci_data_safe_security_assessments.test_security_assessments"
 	singularDatasourceName := "data.oci_data_safe_security_assessment.test_security_assessment"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SecurityAssessmentResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+SecurityAssessmentResourceDependencies+targetIdVariableStr+autonomousDbIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Create, securityAssessmentRepresentation), "datasafe", "securityAssessment", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeSecurityAssessmentDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies +
+			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Create, securityAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -117,7 +121,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies +
+			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Create, securityAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -145,7 +149,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SecurityAssessmentResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(securityAssessmentRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -173,7 +177,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies +
+			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Update, securityAssessmentChangeCompartmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -198,7 +202,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessments", "test_security_assessments", acctest.Optional, acctest.Update, securityAssessmentDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityAssessmentResourceDependencies +
+				compartmentIdVariableStr + SecurityAssessmentResourceDependencies + targetIdVariableStr + autonomousDbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Optional, acctest.Update, securityAssessmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -222,7 +226,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", acctest.Required, acctest.Create, securityAssessmentSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityAssessmentRequiredOnlyResource,
+				compartmentIdVariableStr + SecurityAssessmentRequiredOnlyResource + targetIdVariableStr + autonomousDbIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_assessment_id"),
 
@@ -242,9 +246,13 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
 			),
 		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceConfig + targetIdVariableStr + autonomousDbIdVariableStr,
+		},
 		// verify resource import
 		{
-			Config:            config + SecurityAssessmentRequiredOnlyResource,
+			Config:            config + targetIdVariableStr + autonomousDbIdVariableStr,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
