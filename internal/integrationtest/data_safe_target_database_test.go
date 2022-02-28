@@ -86,6 +86,7 @@ var (
 
 // issue-routing-tag: data_safe/default
 func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
+	t.Skip("Needs real ADB, not a fake resource. Skipping due to resource and maintainability constraints")
 	httpreplay.SetScenario("TestDataSafeTargetDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 

@@ -24,9 +24,7 @@ var (
 		"severity":                  acctest.Representation{RepType: acctest.Optional, Create: `HIGH`},
 	}
 
-	SecurityAssessmentFindingResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Required, acctest.Create, targetDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment_findings", acctest.Required, acctest.Create, securityAssessmentRepresentation)
+	SecurityAssessmentFindingResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment_findings", acctest.Required, acctest.Create, securityAssessmentRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -39,6 +37,9 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
+	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
+
 	datasourceName := "data.oci_data_safe_security_assessment_findings.test_security_assessment_findings"
 
 	acctest.SaveConfigContent("", "", "", t)
@@ -48,7 +49,7 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_findings", "test_security_assessment_findings", acctest.Required, acctest.Create, securityAssessmentFindingDataSourceRepresentation) +
-				compartmentIdVariableStr + SecurityAssessmentFindingResourceConfig,
+				compartmentIdVariableStr + SecurityAssessmentFindingResourceConfig + targetIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.1.key"),
