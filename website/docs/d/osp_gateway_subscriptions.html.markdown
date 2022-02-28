@@ -64,7 +64,15 @@ The following attributes are exported:
 		* `cloud_account_name` - Cloud account name.
 		* `promo_type` - Promotion type code.
 * `payment_options` - Payment option list of a subscription.
+	* `credit_card_type` - Credit card type.
+	* `email_address` - The email address of the paypal user.
+	* `ext_billing_agreement_id` - Agreement id for the paypal account.
+	* `first_name` - First name of the paypal user.
+	* `last_digits` - Last four digits of the card.
+	* `last_name` - Last name of the paypal user.
+	* `name_on_card` - Name on the credit card.
 	* `payment_method` - Payment method
+	* `time_expiration` - Expired date of the credit card.
 	* `wallet_instrument_id` - Wallet instrument internal id.
 	* `wallet_transaction_id` - Wallet transaction id.
 * `plan_type` - Subscription plan type.
