@@ -32,6 +32,9 @@ type InstanceActionRequest struct {
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// Instance Power Action details This feature is currently in preview and may change before public release. Do not use it for production workloads.
+	InstancePowerActionDetails `contributesTo:"body"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -120,6 +123,7 @@ const (
 	InstanceActionActionValidatelivemigrate     InstanceActionActionEnum = "VALIDATELIVEMIGRATE"
 	InstanceActionActionSenddiagnosticinterrupt InstanceActionActionEnum = "SENDDIAGNOSTICINTERRUPT"
 	InstanceActionActionExtendscheduledstop     InstanceActionActionEnum = "EXTENDSCHEDULEDSTOP"
+	InstanceActionActionDiagnosticreboot        InstanceActionActionEnum = "DIAGNOSTICREBOOT"
 )
 
 var mappingInstanceActionActionEnum = map[string]InstanceActionActionEnum{
@@ -131,6 +135,7 @@ var mappingInstanceActionActionEnum = map[string]InstanceActionActionEnum{
 	"VALIDATELIVEMIGRATE":     InstanceActionActionValidatelivemigrate,
 	"SENDDIAGNOSTICINTERRUPT": InstanceActionActionSenddiagnosticinterrupt,
 	"EXTENDSCHEDULEDSTOP":     InstanceActionActionExtendscheduledstop,
+	"DIAGNOSTICREBOOT":        InstanceActionActionDiagnosticreboot,
 }
 
 // GetInstanceActionActionEnumValues Enumerates the set of values for InstanceActionActionEnum
@@ -153,5 +158,6 @@ func GetInstanceActionActionEnumStringValues() []string {
 		"VALIDATELIVEMIGRATE",
 		"SENDDIAGNOSTICINTERRUPT",
 		"EXTENDSCHEDULEDSTOP",
+		"DIAGNOSTICREBOOT",
 	}
 }

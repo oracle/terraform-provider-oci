@@ -39,6 +39,9 @@ type SupportedHostShapeSummary struct {
 
 	// Description of the shape.
 	Description *string `mandatory:"false" json:"description"`
+
+	// Indicates whether the shape supports shielded instances.
+	IsSupportShieldedInstances *bool `mandatory:"false" json:"isSupportShieldedInstances"`
 }
 
 func (m SupportedHostShapeSummary) String() string {

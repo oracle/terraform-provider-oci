@@ -126,6 +126,9 @@ type CreateSddcDetails struct {
 	// The initial OCPU count of the SDDC's ESXi hosts.
 	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
 
+	// Indicates whether shielded instance is enabled for this SDDC.
+	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

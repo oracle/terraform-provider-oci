@@ -92,6 +92,9 @@ type SddcSummary struct {
 	// The current state of the SDDC.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// Indicates whether shielded instance is enabled at the SDDC level.
+	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
+
 	// The initial OCPU count of the SDDC's ESXi hosts.
 	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
 

@@ -14,6 +14,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v59/common"
 	"strings"
@@ -81,6 +82,8 @@ type UpdateInstanceDetails struct {
 
 	ShapeConfig *UpdateInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
+	SourceDetails UpdateInstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
+
 	// The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 	// * `LIVE_MIGRATE` - Run maintenance using a live migration.
 	// * `REBOOT` - Run maintenance using a reboot.
@@ -121,6 +124,72 @@ func (m UpdateInstanceDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CapacityReservationId      *string                                             `json:"capacityReservationId"`
+		DefinedTags                map[string]map[string]interface{}                   `json:"definedTags"`
+		DisplayName                *string                                             `json:"displayName"`
+		FreeformTags               map[string]string                                   `json:"freeformTags"`
+		AgentConfig                *UpdateInstanceAgentConfigDetails                   `json:"agentConfig"`
+		Metadata                   map[string]string                                   `json:"metadata"`
+		ExtendedMetadata           map[string]interface{}                              `json:"extendedMetadata"`
+		Shape                      *string                                             `json:"shape"`
+		ShapeConfig                *UpdateInstanceShapeConfigDetails                   `json:"shapeConfig"`
+		SourceDetails              updateinstancesourcedetails                         `json:"sourceDetails"`
+		PreferredMaintenanceAction UpdateInstanceDetailsPreferredMaintenanceActionEnum `json:"preferredMaintenanceAction"`
+		InstanceOptions            *InstanceOptions                                    `json:"instanceOptions"`
+		FaultDomain                *string                                             `json:"faultDomain"`
+		LaunchOptions              *UpdateLaunchOptions                                `json:"launchOptions"`
+		AvailabilityConfig         *UpdateInstanceAvailabilityConfigDetails            `json:"availabilityConfig"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CapacityReservationId = model.CapacityReservationId
+
+	m.DefinedTags = model.DefinedTags
+
+	m.DisplayName = model.DisplayName
+
+	m.FreeformTags = model.FreeformTags
+
+	m.AgentConfig = model.AgentConfig
+
+	m.Metadata = model.Metadata
+
+	m.ExtendedMetadata = model.ExtendedMetadata
+
+	m.Shape = model.Shape
+
+	m.ShapeConfig = model.ShapeConfig
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceDetails = nn.(UpdateInstanceSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
+
+	m.PreferredMaintenanceAction = model.PreferredMaintenanceAction
+
+	m.InstanceOptions = model.InstanceOptions
+
+	m.FaultDomain = model.FaultDomain
+
+	m.LaunchOptions = model.LaunchOptions
+
+	m.AvailabilityConfig = model.AvailabilityConfig
+
+	return
 }
 
 // UpdateInstanceDetailsPreferredMaintenanceActionEnum Enum with underlying type: string

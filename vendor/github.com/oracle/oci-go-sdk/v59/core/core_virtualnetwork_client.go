@@ -55,7 +55,7 @@ func NewVirtualNetworkClientWithOboToken(configProvider common.ConfigurationProv
 
 func newVirtualNetworkClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client VirtualNetworkClient, err error) {
 	// VirtualNetwork service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -18767,6 +18767,62 @@ func (client VirtualNetworkClient) removeImportDrgRouteDistribution(ctx context.
 	return response, err
 }
 
+// RemoveIpv6VcnCidr Removing an existing IPv6 CIDR from a VCN.
+func (client VirtualNetworkClient) RemoveIpv6VcnCidr(ctx context.Context, request RemoveIpv6VcnCidrRequest) (response RemoveIpv6VcnCidrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeIpv6VcnCidr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveIpv6VcnCidrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveIpv6VcnCidrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveIpv6VcnCidrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveIpv6VcnCidrResponse")
+	}
+	return
+}
+
+// removeIpv6VcnCidr implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) removeIpv6VcnCidr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vcns/{vcnId}/actions/removeIpv6Cidr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveIpv6VcnCidrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveNetworkSecurityGroupSecurityRules Removes one or more security rules from the specified network security group.
 func (client VirtualNetworkClient) RemoveNetworkSecurityGroupSecurityRules(ctx context.Context, request RemoveNetworkSecurityGroupSecurityRulesRequest) (response RemoveNetworkSecurityGroupSecurityRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -19089,6 +19145,63 @@ func (client VirtualNetworkClient) rollbackUpgradeDrg(ctx context.Context, reque
 	}
 
 	var response RollbackUpgradeDrgResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RouteVnicIngressTrafficToDestinationSmartNic Starts routing VNIC's ingress traffic to destination smart NIC. This API is called by compute after
+// resuming instances, getting live migrated, on the destination smart NIC.
+func (client VirtualNetworkClient) RouteVnicIngressTrafficToDestinationSmartNic(ctx context.Context, request RouteVnicIngressTrafficToDestinationSmartNicRequest) (response RouteVnicIngressTrafficToDestinationSmartNicResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.routeVnicIngressTrafficToDestinationSmartNic, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RouteVnicIngressTrafficToDestinationSmartNicResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RouteVnicIngressTrafficToDestinationSmartNicResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RouteVnicIngressTrafficToDestinationSmartNicResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RouteVnicIngressTrafficToDestinationSmartNicResponse")
+	}
+	return
+}
+
+// routeVnicIngressTrafficToDestinationSmartNic implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) routeVnicIngressTrafficToDestinationSmartNic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/{internalVnicId}/attachment/action/routeVnicIngressTrafficToDestinationSmartNic", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RouteVnicIngressTrafficToDestinationSmartNicResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

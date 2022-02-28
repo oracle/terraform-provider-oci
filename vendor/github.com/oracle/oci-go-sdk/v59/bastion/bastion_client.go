@@ -51,7 +51,7 @@ func NewBastionClientWithOboToken(configProvider common.ConfigurationProvider, o
 
 func newBastionClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client BastionClient, err error) {
 	// Bastion service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

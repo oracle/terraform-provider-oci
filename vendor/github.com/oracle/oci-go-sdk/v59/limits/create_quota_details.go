@@ -31,6 +31,9 @@ type CreateQuotaDetails struct {
 	// An array of quota statements written in the declarative quota statement language.
 	Statements []string `mandatory:"true" json:"statements"`
 
+	// Locks associated with this resource.
+	Locks []AddLockDetails `mandatory:"false" json:"locks"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

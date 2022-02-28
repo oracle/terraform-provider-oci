@@ -84,6 +84,12 @@ type CreateSubnetDetails struct {
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
+	// The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet that meets the following criteria:
+	// - The CIDR blocks must be valid.
+	// - Multiple CIDR blocks must not overlap each other or the on-premises network CIDR block.
+	// - The number of CIDR blocks must not exceed the limit of IPv6 CIDR blocks allowed to a subnet.
+	Ipv6CidrBlocks []string `mandatory:"false" json:"ipv6CidrBlocks"`
+
 	// Indicates whether learning mode is enabled for this subnet. The default is `false`.
 	// **Note:** When a subnet has learning mode enabled, only certain types
 	// of resources can be launched in the subnet.

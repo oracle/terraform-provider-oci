@@ -316,6 +316,9 @@ type Sddc struct {
 
 	// The initial OCPU count of the SDDC's ESXi hosts.
 	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
+
+	// Indicates whether shielded instance is enabled at the SDDC level.
+	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
 }
 
 func (m Sddc) String() string {

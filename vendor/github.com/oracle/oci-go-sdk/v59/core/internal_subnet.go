@@ -61,6 +61,11 @@ type InternalSubnet struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
+	// The subnet's physical availability domain. This attribute will be null if this is a regional subnet
+	// instead of an AD-specific subnet. Oracle recommends creating regional subnets.
+	// Example: `PHX-AD-1`
+	InternalAvailabilityDomain *string `mandatory:"false" json:"internalAvailabilityDomain"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -97,6 +102,9 @@ type InternalSubnet struct {
 	// The subnet size is always /64. See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
+
+	// The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet.
+	Ipv6CidrBlocks []string `mandatory:"false" json:"ipv6CidrBlocks"`
 
 	// For an IPv6-enabled subnet, this is the IPv6 address of the virtual router.
 	// Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678`

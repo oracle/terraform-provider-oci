@@ -36,6 +36,13 @@ type CreateVcnDetails struct {
 	// **Important:** Do *not* specify a value for `cidrBlock`. Use this parameter instead.
 	CidrBlocks []string `mandatory:"false" json:"cidrBlocks"`
 
+	// Specifies whether to skip Oracle allocated IPv6 GUA. By default, Oracle will allocate one GUA of /56
+	// size for an IPv6 enabled VCN.
+	IsOracleGuaAllocationEnabled *bool `mandatory:"false" json:"isOracleGuaAllocationEnabled"`
+
+	// The list of BYOIPv6 OCIDs and BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges.
+	Byoipv6CidrDetails []Byoipv6CidrDetails `mandatory:"false" json:"byoipv6CidrDetails"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`

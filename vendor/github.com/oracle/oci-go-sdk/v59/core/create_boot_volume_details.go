@@ -61,10 +61,10 @@ type CreateBootVolumeDetails struct {
 	// representing the Block Volume service's elastic performance options.
 	// See Block Volume Performance Levels (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 	// Allowed values:
-	//   * `10`: Represents the Balanced option.
-	//   * `20`: Represents the Higher Performance option.
+	//   * `10`: Represents Balanced option.
+	//   * `20`: Represents Higher Performance option.
 	//   * `30`-`120`: Represents the Ultra High Performance option.
-	// For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB.
+	// For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
 	// Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated.

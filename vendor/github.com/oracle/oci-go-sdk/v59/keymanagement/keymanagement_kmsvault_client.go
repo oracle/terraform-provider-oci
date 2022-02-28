@@ -52,7 +52,7 @@ func NewKmsVaultClientWithOboToken(configProvider common.ConfigurationProvider, 
 
 func newKmsVaultClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client KmsVaultClient, err error) {
 	// KmsVault service default circuit breaker is enabled
-	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName())
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

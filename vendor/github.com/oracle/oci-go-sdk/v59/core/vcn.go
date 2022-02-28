@@ -42,6 +42,9 @@ type Vcn struct {
 	// The VCN's current state.
 	LifecycleState VcnLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The list of BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges.
+	Byoipv6CidrBlocks []string `mandatory:"false" json:"byoipv6CidrBlocks"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the VCN's default set of DHCP options.
 	DefaultDhcpOptionsId *string `mandatory:"false" json:"defaultDhcpOptionsId"`
 
