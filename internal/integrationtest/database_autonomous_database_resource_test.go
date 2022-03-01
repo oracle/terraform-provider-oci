@@ -1773,6 +1773,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_local_data_guard_enabled"),
+				resource.TestCheckResourceAttr(resourceName, "standby_db.0.state", "STANDBY"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
