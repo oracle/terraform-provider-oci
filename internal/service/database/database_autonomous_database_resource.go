@@ -3287,7 +3287,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 							fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "standby_db", 0)
 							if standbyState, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
 								wantedStandByState := oci_database.AutonomousDatabaseStandbySummaryLifecycleStateEnum(strings.ToUpper(standbyState.(string)))
-								if wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateAvailable {
+								if (wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateAvailable) || (wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateStandby) {
 									if err := s.switchoverDatabase(""); err != nil {
 										s.D.Set("switchover_to", oldRaw.(string))
 										return err
