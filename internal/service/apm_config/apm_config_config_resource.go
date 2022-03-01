@@ -17,7 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_apm_config "github.com/oracle/oci-go-sdk/v59/apmconfig"
+	oci_apm_config "github.com/oracle/oci-go-sdk/v60/apmconfig"
 )
 
 func ApmConfigConfigResource() *schema.Resource {

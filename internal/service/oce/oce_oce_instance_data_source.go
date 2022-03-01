@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_oce "github.com/oracle/oci-go-sdk/v59/oce"
+	oci_oce "github.com/oracle/oci-go-sdk/v60/oce"
 )
 
 func OceOceInstanceDataSource() *schema.Resource {

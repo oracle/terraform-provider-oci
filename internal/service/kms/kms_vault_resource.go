@@ -20,8 +20,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_kms "github.com/oracle/oci-go-sdk/v59/keymanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_kms "github.com/oracle/oci-go-sdk/v60/keymanagement"
 )
 
 func KmsVaultResource() *schema.Resource {

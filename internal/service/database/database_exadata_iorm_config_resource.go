@@ -11,13 +11,13 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
 func DatabaseExadataIormConfigResource() *schema.Resource {

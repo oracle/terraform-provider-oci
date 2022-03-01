@@ -15,12 +15,12 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/oracle/oci-go-sdk/v59/common"
+	"github.com/oracle/oci-go-sdk/v60/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v59/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v60/datascience"
 )
 
 func DatascienceModelResource() *schema.Resource {

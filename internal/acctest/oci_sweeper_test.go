@@ -11,7 +11,7 @@ import (
 	"reflect"
 	"testing"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v59/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
 )
 
 func setUp(t *testing.T) {

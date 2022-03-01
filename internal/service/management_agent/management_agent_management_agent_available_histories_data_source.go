@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v59/managementagent"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v60/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

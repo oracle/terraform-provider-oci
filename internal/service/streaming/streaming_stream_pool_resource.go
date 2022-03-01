@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_streaming "github.com/oracle/oci-go-sdk/v59/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v60/streaming"
 )
 
 func StreamingStreamPoolResource() *schema.Resource {

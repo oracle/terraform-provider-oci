@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_sch "github.com/oracle/oci-go-sdk/v59/sch"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_sch "github.com/oracle/oci-go-sdk/v60/sch"
 )
 
 func SchServiceConnectorResource() *schema.Resource {

@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_waf "github.com/oracle/oci-go-sdk/v59/waf"
+	oci_waf "github.com/oracle/oci-go-sdk/v60/waf"
 )
 
 func WafWebAppFirewallPoliciesDataSource() *schema.Resource {

@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v59/dataintegration"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v60/dataintegration"
 )
 
 func DataintegrationWorkspaceResource() *schema.Resource {

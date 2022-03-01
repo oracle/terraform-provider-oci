@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v59/datascience"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v60/datascience"
 )
 
 func DatascienceJobResource() *schema.Resource {
