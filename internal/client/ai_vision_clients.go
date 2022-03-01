@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_ai_vision "github.com/oracle/oci-go-sdk/v59/aivision"
+	oci_ai_vision "github.com/oracle/oci-go-sdk/v60/aivision"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 )
 
 func init() {

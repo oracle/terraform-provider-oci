@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_vault "github.com/oracle/oci-go-sdk/v59/vault"
+	oci_vault "github.com/oracle/oci-go-sdk/v60/vault"
 )
 
 func VaultSecretVersionDataSource() *schema.Resource {

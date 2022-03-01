@@ -8,7 +8,7 @@ package devops
 //	"context"
 //
 //	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-//	oci_devops "github.com/oracle/oci-go-sdk/v59/devops"
+//	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
 //)
 //
 //func DevopsExternalGitRepositoryDataSource() *schema.Resource {
