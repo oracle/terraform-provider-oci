@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 // Not supplying filters should not restrict results

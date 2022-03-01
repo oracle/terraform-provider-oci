@@ -14,8 +14,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 func CoreRemotePeeringConnectionResource() *schema.Resource {
