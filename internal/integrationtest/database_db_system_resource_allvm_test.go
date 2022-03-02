@@ -36,10 +36,19 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 
 	var resId, resId2 string
 
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	kmsKeyVersionId := utils.GetEnvSettingWithBlankDefault("kms_key_version_id")
+	kmsKeyVersionIdVariableStr := fmt.Sprintf("variable \"kms_key_version_id\" { default = \"%s\" }\n", kmsKeyVersionId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: ResourceDatabaseBaseConfig + ResourceDatabaseTokenFn(`
+			Config: ResourceDatabaseBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + ResourceDatabaseTokenFn(`
 				resource "oci_database_db_system" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
@@ -67,7 +76,10 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							freeform_tags = {"Department" = "Finance"}
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
-							pdb_name = "pdbName"
+							kms_key_id = "${var.kms_key_id}"
+                            vault_id = "${var.vault_id}"
+                            kms_key_version_id = "${var.kms_key_version_id}"
+                            pdb_name = "pdbName"
 							db_backup_config {
 								auto_backup_enabled = true
 								auto_backup_window = "SLOT_TWO"
@@ -249,6 +261,9 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.state"),
 				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.time_created"),
+				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.kms_key_version_id"),
+				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.vault_id"),
 				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.connection_strings.0.cdb_default"),
 				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.connection_strings.0.all_connection_strings.cdbDefault"),
 
@@ -270,6 +285,9 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_database.t", "pdb_name", "pdbName"),
 				resource.TestCheckResourceAttr("data.oci_database_database.t", "state", string(database.DatabaseLifecycleStateAvailable)),
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "time_created"),
+				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "kms_key_id"),
+				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "kms_key_version_id"),
+				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "vault_id"),
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "connection_strings.0.cdb_default"),
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "connection_strings.0.all_connection_strings.cdbDefault"),
 
