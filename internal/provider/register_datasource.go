@@ -70,6 +70,7 @@ import (
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_osp_gateway "github.com/terraform-providers/terraform-provider-oci/internal/service/osp_gateway"
+	tf_osub_usage "github.com/terraform-providers/terraform-provider-oci/internal/service/osub_usage"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
 	tf_secrets "github.com/terraform-providers/terraform-provider-oci/internal/service/secrets"
@@ -959,6 +960,10 @@ func init() {
 	RegisterDatasource("oci_osp_gateway_invoices", tf_osp_gateway.OspGatewayInvoicesDataSource())
 	RegisterDatasource("oci_osp_gateway_invoices_invoice_lines", tf_osp_gateway.OspGatewayInvoicesInvoiceLinesDataSource())
 	RegisterDatasource("oci_osp_gateway_subscription", tf_osp_gateway.OspGatewaySubscriptionDataSource())
+	// osub_usage service
+	RegisterDatasource("oci_osub_usage_computed_usage", tf_osub_usage.OsubUsageComputedUsageDataSource())
+	RegisterDatasource("oci_osub_usage_computed_usages", tf_osub_usage.OsubUsageComputedUsagesDataSource())
+	RegisterDatasource("oci_osub_usage_computed_usage_aggregateds", tf_osub_usage.OsubUsageComputedUsageAggregatedsDataSource())
 	RegisterDatasource("oci_osp_gateway_subscriptions", tf_osp_gateway.OspGatewaySubscriptionsDataSource())
 	// resourcemanager service
 	RegisterDatasource("oci_resourcemanager_stack", tf_resourcemanager.ResourcemanagerStackDataSource())
