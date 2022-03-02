@@ -648,3 +648,36 @@ func TestUnitSecurityToken_basic(t *testing.T) {
 	_, err = client.ListRegions(context.Background())
 	assert.NoError(t, err)
 }
+
+// issue-routing-tag: terraform/default
+func TestUnitResourcePrincipal_basic(t *testing.T) {
+	t.Skip("Run manually with a valid Resource Principle Session Token.")
+	httpreplay.SetScenario("TestUnitResourcePrincipal_basic")
+	defer httpreplay.SaveScenario()
+
+	r := &schema.Resource{
+		Schema: provider.SchemaMap(),
+	}
+	d := r.Data(nil)
+	d.Set("auth", globalvar.ResourcePrincipal)
+
+	// Run CLI command "oci session authenticate" to get token and profile
+	clients := &tf_client.OracleClients{
+		SdkClientMap:  make(map[string]interface{}, len(tf_client.OracleClientRegistrationsVar.RegisteredClients)),
+		Configuration: make(map[string]string),
+	}
+	sdkConfigProvider, err := provider.GetSdkConfigProvider(d, clients)
+
+	// Assert creation of IdentityClient With ConfigurationProvider
+	client, err := oci_identity.NewIdentityClientWithConfigurationProvider(sdkConfigProvider)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, client.Host)
+
+	// Assert that Authorization header KeyId contains ST$
+	keyId, _ := sdkConfigProvider.KeyID()
+	assert.True(t, strings.HasPrefix(keyId, "ST$"))
+
+	// Assert that this auth type can successfully authenticate and authorize list regions
+	_, err = client.ListRegions(context.Background())
+	assert.NoError(t, err)
+}
