@@ -387,6 +387,7 @@ github.com/oracle/oci-go-sdk/v60/opsi
 github.com/oracle/oci-go-sdk/v60/optimizer
 github.com/oracle/oci-go-sdk/v60/osmanagement
 github.com/oracle/oci-go-sdk/v60/ospgateway
+github.com/oracle/oci-go-sdk/v60/osubbillingschedule
 github.com/oracle/oci-go-sdk/v60/osuborganizationsubscription
 github.com/oracle/oci-go-sdk/v60/osubsubscription
 github.com/oracle/oci-go-sdk/v60/osubusage
