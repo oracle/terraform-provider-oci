@@ -11,6 +11,7 @@ import (
 	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
 	tf_apm_config "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_config"
 	tf_apm_synthetics "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_synthetics"
+	tf_apm_traces "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_traces"
 	tf_appmgmt_control "github.com/terraform-providers/terraform-provider-oci/internal/service/appmgmt_control"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
@@ -122,6 +123,12 @@ func init() {
 	// apm service
 	RegisterDatasource("oci_apm_apm_domain", tf_apm.ApmApmDomainDataSource())
 	RegisterDatasource("oci_apm_apm_domains", tf_apm.ApmApmDomainsDataSource())
+
+	// apm_traces service
+	RegisterDatasource("oci_apm_traces_query_quick_picks", tf_apm_traces.ApmTracesQueryQuickPicksDataSource())
+	RegisterDatasource("oci_apm_traces_trace", tf_apm_traces.ApmTracesTraceDataSource())
+	RegisterDatasource("oci_apm_traces_trace_aggregated_snapshot_data", tf_apm_traces.ApmTracesTraceAggregatedSnapshotDataDataSource())
+	RegisterDatasource("oci_apm_traces_trace_snapshot_data", tf_apm_traces.ApmTracesTraceSnapshotDataDataSource())
 	RegisterDatasource("oci_apm_data_keys", tf_apm.ApmDataKeysDataSource())
 	// apm_config service
 	RegisterDatasource("oci_apm_config_config", tf_apm_config.ApmConfigConfigDataSource())
