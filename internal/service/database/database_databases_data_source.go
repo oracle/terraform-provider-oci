@@ -192,6 +192,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["kms_key_id"] = *r.KmsKeyId
 		}
 
+		if r.KmsKeyVersionId != nil {
+			database["kms_key_version_id"] = *r.KmsKeyVersionId
+		}
+
 		if r.LastBackupTimestamp != nil {
 			database["last_backup_timestamp"] = r.LastBackupTimestamp.String()
 		}
@@ -220,6 +224,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			database["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VaultId != nil {
+			database["vault_id"] = *r.VaultId
 		}
 
 		if r.VmClusterId != nil {

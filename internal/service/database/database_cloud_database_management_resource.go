@@ -61,7 +61,55 @@ func DatabaseCloudDatabaseManagementResource() *schema.Resource {
 			},
 			"enable_management": {
 				Type:     schema.TypeBool,
-				Required: true,
+				Computed: true,
+			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"kms_key_version_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"last_backup_timestamp": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ncharacter_set": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"pdb_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"sid_prefix": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"source_database_point_in_time_recovery_timestamp": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vault_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vm_cluster_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 
 			// Computed
@@ -239,6 +287,13 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Update() error {
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
+		if s.Res.KmsKeyVersionId != nil {
+			s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
+		}
+
+		if s.Res.LastBackupTimestamp != nil {
+			s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
+		}
 		response, err := s.Client.ModifyDatabaseManagement(context.Background(), request)
 		if err != nil {
 			return err
@@ -286,6 +341,13 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Delete() error {
 		operation = enableManagement.(bool)
 	}
 
+	if s.Res.VaultId != nil {
+		s.D.Set("vault_id", *s.Res.VaultId)
+	}
+
+	if s.Res.VmClusterId != nil {
+		s.D.Set("vm_cluster_id", *s.Res.VmClusterId)
+	}
 	if !operation {
 		return nil
 	}
