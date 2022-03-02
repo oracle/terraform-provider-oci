@@ -324,6 +324,11 @@ func (r *resourceDiscoveryBaseStep) mergeTempStateFiles(tmpStateOutputDir string
 	}
 	return nil
 }
+
+var terraformInitMockVar = func(r *resourceDiscoveryBaseStep, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+	return r.ctx.terraform.Init(backgroundCtx, initArgs...)
+}
+
 func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 	defer elapsed(fmt.Sprintf("writing temp state for %d '%s' resources", len(r.getDiscoveredResources()), r.name), nil, 0)()
 	// Run terraform init if not already done
@@ -343,7 +348,7 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 				initArgs = append(initArgs, tfexec.PluginDir(r.ctx.terraformProviderBinaryPath))
 			}
 
-			if err := r.ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
+			if err := terraformInitMockVar(r, backgroundCtx, initArgs); err != nil {
 				return err
 			}
 			isInitDone = true
@@ -848,7 +853,7 @@ func processBdsInstanceApiKeys(ctx *resourceDiscoveryContext, resources []*OCIRe
 /*
 mergeState merges 2 json state files
 */
-func mergeState(state1 interface{}, state2 interface{}) (interface{}, error) {
+var mergeState = func(state1 interface{}, state2 interface{}) (interface{}, error) {
 
 	state1Bytes, _ := json.MarshalIndent(state1, "", "\t")
 	state2Bytes, _ := json.MarshalIndent(state2, "", "\t")

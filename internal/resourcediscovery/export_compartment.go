@@ -1289,7 +1289,7 @@ func (ociRes *OCIResource) getHCLString(builder *strings.Builder, interpolationM
 	return getHclStringFromGenericMap(builder, ociRes, resourceInterpolationMap)
 }
 
-func getHclStringFromGenericMap(builder *strings.Builder, ociRes *OCIResource, interpolationMap map[string]string) error {
+var getHclStringFromGenericMap = func(builder *strings.Builder, ociRes *OCIResource, interpolationMap map[string]string) error {
 	resourceSchema := resourcesMap[ociRes.terraformClass]
 
 	builder.WriteString(fmt.Sprintf("resource %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
@@ -1606,7 +1606,7 @@ func escapeTFStrings(val string) string {
 	return val
 }
 
-func generateTerraformNameFromResource(resourceAttributes map[string]interface{}, resourceSchema map[string]*schema.Schema) (string, error) {
+var generateTerraformNameFromResource = func(resourceAttributes map[string]interface{}, resourceSchema map[string]*schema.Schema) (string, error) {
 	possibleNameAttributes := []string{
 		"display_name",
 		"name",
