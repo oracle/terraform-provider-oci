@@ -27,8 +27,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v59/objectstorage"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -103,7 +103,7 @@ var (
 	ObjectResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
 
-	Md5Base64Encoded2, _ = utils.HexToB64(utils.GetMd5Hash("<a1>content</a1>"))
+	Md5Base64Encoded2, _ = tfresource.HexToB64(tfresource.GetMd5Hash("<a1>content</a1>"))
 )
 
 // issue-routing-tag: object_storage/default
@@ -125,8 +125,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 	md5sum := hex.EncodeToString(hexSum[:])
 	hexSum2 := md5.Sum([]byte("<a1>content</a1>"))
 	md5sum2 := hex.EncodeToString(hexSum2[:])
-	md5B64Encode, _ := utils.HexToB64(md5sum)
-	md5B64Encode2, _ := utils.HexToB64(md5sum2)
+	md5B64Encode, _ := tfresource.HexToB64(md5sum)
+	md5B64Encode2, _ := tfresource.HexToB64(md5sum2)
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectResourceDependencies+

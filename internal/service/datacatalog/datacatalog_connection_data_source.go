@@ -8,10 +8,9 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v59/datacatalog"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v60/datacatalog"
 )
 
 func DatacatalogConnectionDataSource() *schema.Resource {
@@ -31,7 +30,7 @@ func DatacatalogConnectionDataSource() *schema.Resource {
 	fieldMap["fields"] = &schema.Schema{
 		Type:     schema.TypeSet,
 		Optional: true,
-		Set:      utils.LiteralTypeHashCodeForSets,
+		Set:      tfresource.LiteralTypeHashCodeForSets,
 		Elem: &schema.Schema{
 			Type: schema.TypeString,
 		},

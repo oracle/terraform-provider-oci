@@ -65,6 +65,7 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.cpu_core_count"),
 					resource.TestCheckResourceAttr(datasourceName, "db_servers.0.db_node_ids.#", "0"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.db_node_storage_size_in_gbs"),
+					resource.TestCheckResourceAttr(datasourceName, "db_servers.0.db_server_patching_details.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.display_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.exadata_infrastructure_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_servers.0.id"),
@@ -83,15 +84,14 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, dbServerDataSourceRepresentation) +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_server", "test_db_server", acctest.Required, acctest.Create, dbServerSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DbServerResourceConfig,
-
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_server_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
-
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cpu_core_count"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_node_ids.#", "0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_storage_size_in_gbs"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_server_patching_details.#", "0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "max_cpu_count"),

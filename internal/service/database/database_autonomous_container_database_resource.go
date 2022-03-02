@@ -9,13 +9,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
 func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
@@ -178,6 +177,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 						},
 
 						// Optional
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"days_of_week": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -206,6 +210,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -228,6 +237,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"weeks_of_month": {
 							Type:     schema.TypeList,
@@ -443,6 +457,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"days_of_week": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -469,6 +487,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -489,6 +511,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 									},
 								},
 							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"preference": {
 							Type:     schema.TypeString,
@@ -693,7 +719,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutomaticFailoverEnabled, ok := s.D.GetOkExists("is_automatic_failover_enabled"); ok {
@@ -860,7 +886,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
@@ -1154,6 +1180,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow
 		}
 	}
 
+	if customActionTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_action_timeout_in_mins")); ok {
+		tmp := customActionTimeoutInMins.(int)
+		result.CustomActionTimeoutInMins = &tmp
+	}
+
 	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
 		interfaces := daysOfWeek.([]interface{})
 		tmp := make([]oci_database.DayOfWeek, len(interfaces))
@@ -1184,6 +1215,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow
 		}
 	}
 
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		if tmp > 0 {
@@ -1206,6 +1242,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "months")) {
 			result.Months = tmp
 		}
+	}
+
+	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
+		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
 	}
 
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {

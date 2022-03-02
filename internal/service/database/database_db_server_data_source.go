@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
 func DatabaseDbServerDataSource() *schema.Resource {
@@ -44,6 +44,35 @@ func DatabaseDbServerDataSource() *schema.Resource {
 			"db_node_storage_size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
+			},
+			"db_server_patching_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"estimated_patch_duration": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"patching_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_patching_ended": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_patching_started": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"defined_tags": {
 				Type:     schema.TypeMap,
@@ -161,6 +190,12 @@ func (s *DatabaseDbServerDataSourceCrud) SetData() error {
 		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
 	}
 
+	if s.Res.DbServerPatchingDetails != nil {
+		s.D.Set("db_server_patching_details", []interface{}{DbServerPatchingDetailsToMap(s.Res.DbServerPatchingDetails)})
+	} else {
+		s.D.Set("db_server_patching_details", nil)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -200,4 +235,24 @@ func (s *DatabaseDbServerDataSourceCrud) SetData() error {
 	s.D.Set("vm_cluster_ids", s.Res.VmClusterIds)
 
 	return nil
+}
+
+func DbServerPatchingDetailsToMap(obj *oci_database.DbServerPatchingDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EstimatedPatchDuration != nil {
+		result["estimated_patch_duration"] = int(*obj.EstimatedPatchDuration)
+	}
+
+	result["patching_status"] = string(obj.PatchingStatus)
+
+	if obj.TimePatchingEnded != nil {
+		result["time_patching_ended"] = obj.TimePatchingEnded.String()
+	}
+
+	if obj.TimePatchingStarted != nil {
+		result["time_patching_started"] = obj.TimePatchingStarted.String()
+	}
+
+	return result
 }

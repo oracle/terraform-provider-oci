@@ -14,14 +14,13 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v59/logging"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v60/logging"
 )
 
 func LoggingLogResource() *schema.Resource {
@@ -257,7 +256,7 @@ func (s *LoggingLogResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -476,7 +475,7 @@ func (s *LoggingLogResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -643,7 +642,7 @@ func (s *LoggingLogResourceCrud) mapToSource(fieldKeyFormat string) (oci_logging
 			details.Category = &tmp
 		}
 		if parameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "parameters")); ok {
-			details.Parameters = utils.ObjectMapToStringMap(parameters.(map[string]interface{}))
+			details.Parameters = tfresource.ObjectMapToStringMap(parameters.(map[string]interface{}))
 		}
 		if resource_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource")); ok {
 			tmp := resource_.(string)

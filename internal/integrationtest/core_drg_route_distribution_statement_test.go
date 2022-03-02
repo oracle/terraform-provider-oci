@@ -44,6 +44,13 @@ var (
 		"priority":                  acctest.Representation{RepType: acctest.Required, Create: `30`, Update: `35`},
 	}
 
+	drgRouteDistributionStatementRepresentation4 = map[string]interface{}{
+		"drg_route_distribution_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
+		"action":                    acctest.Representation{RepType: acctest.Required, Create: `ACCEPT`},
+		"match_criteria":            acctest.RepresentationGroup{RepType: acctest.Required, Group: drgRouteDistributionStatementStatementsMatchCriteriaRepresentation4},
+		"priority":                  acctest.Representation{RepType: acctest.Required, Create: `40`, Update: `45`},
+	}
+
 	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation = map[string]interface{}{
 		"match_type":      acctest.Representation{RepType: acctest.Required, Create: `DRG_ATTACHMENT_TYPE`},
 		"attachment_type": acctest.Representation{RepType: acctest.Required, Create: `VCN`, Update: `VIRTUAL_CIRCUIT`},
@@ -57,6 +64,10 @@ var (
 	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation3 = map[string]interface{}{
 		"match_type":        acctest.Representation{RepType: acctest.Required, Create: `DRG_ATTACHMENT_ID`},
 		"drg_attachment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg_attachment.test_drg_attachment2.id}`},
+	}
+
+	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation4 = map[string]interface{}{
+		"match_type": acctest.Representation{RepType: acctest.Required, Create: `MATCH_ALL`},
 	}
 
 	DrgRouteDistributionStatementResourceDependencies = DefinedTagsDependencies +
@@ -82,6 +93,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 	resourceName1 := "oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement2"
 	resourceName2 := "oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement3"
 	resourceName3 := "oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement4"
+	resourceName4 := "oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement5"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
@@ -165,7 +177,8 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement2", acctest.Optional, acctest.Create, drgRouteDistributionStatementRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement3", acctest.Required, acctest.Create, drgRouteDistributionStatementRepresentation2) +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", acctest.Required, acctest.Create, drgRouteDistributionStatementRepresentation3),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", acctest.Required, acctest.Create, drgRouteDistributionStatementRepresentation3) +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement5", acctest.Required, acctest.Create, drgRouteDistributionStatementRepresentation4),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//check first resource
 				resource.TestCheckResourceAttrSet(resourceName1, "drg_route_distribution_id"),
@@ -191,6 +204,14 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName3, "match_criteria.0.match_type", "DRG_ATTACHMENT_ID"),
 				resource.TestCheckResourceAttr(resourceName3, "priority", "30"),
 				resource.TestCheckResourceAttrSet(resourceName3, "id"),
+				// check fourth resource
+				resource.TestCheckResourceAttrSet(resourceName4, "drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(resourceName4, "action", "ACCEPT"),
+				resource.TestCheckResourceAttr(resourceName4, "match_criteria.#", "1"),
+				//resource.TestCheckResourceAttrSet(resourceName4, "match_criteria.0.drg_attachment_id"),
+				resource.TestCheckResourceAttr(resourceName4, "match_criteria.0.match_type", "MATCH_ALL"),
+				resource.TestCheckResourceAttr(resourceName4, "priority", "40"),
+				resource.TestCheckResourceAttrSet(resourceName4, "id"),
 			),
 		},
 		// delete

@@ -8,11 +8,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v59/certificatesmanagement"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v60/certificatesmanagement"
 )
 
 func CertificatesManagementCaBundleResource() *schema.Resource {
@@ -185,7 +184,7 @@ func (s *CertificatesManagementCaBundleResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -255,7 +254,7 @@ func (s *CertificatesManagementCaBundleResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if request.CaBundlePem != nil || request.DefinedTags != nil || request.Description != nil || request.FreeformTags != nil {

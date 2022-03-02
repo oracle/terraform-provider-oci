@@ -10,12 +10,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/customdiff"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v59/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v60/functions"
 )
 
 // The Functions API uses `imageDigest` as an optional I/O parameter. If unspecified, the controlplane
@@ -93,8 +92,8 @@ func FunctionsFunctionResource() *schema.Resource {
 			"memory_in_mbs": {
 				Type:             schema.TypeString,
 				Required:         true,
-				ValidateFunc:     utils.ValidateInt64TypeString,
-				DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 			},
 
 			// Optional
@@ -255,7 +254,7 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 	}
 
 	if config, ok := s.D.GetOkExists("config"); ok {
-		request.Config = utils.ObjectMapToStringMap(config.(map[string]interface{}))
+		request.Config = tfresource.ObjectMapToStringMap(config.(map[string]interface{}))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -272,7 +271,7 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if image, ok := s.D.GetOkExists("image"); ok {
@@ -346,7 +345,7 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 	request := oci_functions.UpdateFunctionRequest{}
 
 	if config, ok := s.D.GetOkExists("config"); ok {
-		request.Config = utils.ObjectMapToStringMap(config.(map[string]interface{}))
+		request.Config = tfresource.ObjectMapToStringMap(config.(map[string]interface{}))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -358,7 +357,7 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()

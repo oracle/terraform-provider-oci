@@ -13,13 +13,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v59/objectstorage"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
 )
 
 func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
@@ -65,7 +64,7 @@ func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 
 			// Optional

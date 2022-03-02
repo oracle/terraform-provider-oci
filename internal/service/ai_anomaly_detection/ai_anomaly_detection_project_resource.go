@@ -12,13 +12,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v59/aianomalydetection"
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v60/aianomalydetection"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 )
 
 func AiAnomalyDetectionProjectResource() *schema.Resource {
@@ -180,7 +179,7 @@ func (s *AiAnomalyDetectionProjectResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
@@ -369,7 +368,7 @@ func (s *AiAnomalyDetectionProjectResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()

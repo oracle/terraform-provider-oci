@@ -7,14 +7,14 @@ import (
 	"fmt"
 	"strings"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v59/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v60/functions"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v59/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v60/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 
 	utils "github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )

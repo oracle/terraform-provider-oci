@@ -12,9 +12,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 func CoreSubnetResource() *schema.Resource {
@@ -110,7 +109,7 @@ func CoreSubnetResource() *schema.Resource {
 				Computed: true,
 				MaxItems: 5,
 				MinItems: 0,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -255,7 +254,7 @@ func (s *CoreSubnetResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ipv6CidrBlock, ok := s.D.GetOkExists("ipv6cidr_block"); ok {
@@ -366,7 +365,7 @@ func (s *CoreSubnetResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ipv6CidrBlock, ok := s.D.GetOkExists("ipv6cidr_block"); ok && s.D.HasChange("ipv6cidr_block") {
@@ -477,7 +476,7 @@ func (s *CoreSubnetResourceCrud) SetData() error {
 	for _, item := range s.Res.SecurityListIds {
 		securityListIds = append(securityListIds, item)
 	}
-	s.D.Set("security_list_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, securityListIds))
+	s.D.Set("security_list_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, securityListIds))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

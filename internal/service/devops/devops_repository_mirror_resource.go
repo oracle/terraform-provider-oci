@@ -15,8 +15,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v59/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
 )
 
 func DevopsRepositoryMirrorResource() *schema.Resource {

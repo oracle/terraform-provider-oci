@@ -12,12 +12,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v59/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func IdentityDomainResource() *schema.Resource {
@@ -329,7 +328,7 @@ func (s *IdentityDomainResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if homeRegion, ok := s.D.GetOkExists("home_region"); ok {
@@ -554,7 +553,7 @@ func (s *IdentityDomainResourceCrud) Update() error {
 	request.DomainId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isHiddenOnLogin, ok := s.D.GetOkExists("is_hidden_on_login"); ok {

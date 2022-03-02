@@ -13,12 +13,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_apm_config "github.com/oracle/oci-go-sdk/v59/apmconfig"
+	oci_apm_config "github.com/oracle/oci-go-sdk/v60/apmconfig"
 )
 
 func ApmConfigConfigResource() *schema.Resource {
@@ -772,7 +771,7 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicCreateConfigReq
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
 			tmp := opcDryRun.(string)
@@ -841,7 +840,7 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicCreateConfigReq
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
 			tmp := opcDryRun.(string)
@@ -878,7 +877,7 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicCreateConfigReq
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
 			tmp := opcDryRun.(string)
@@ -942,7 +941,7 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicUpdateConfigReq
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
 			tmp := opcDryRun.(string)
@@ -1007,7 +1006,7 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicUpdateConfigReq
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
 			tmp := opcDryRun.(string)
@@ -1040,7 +1039,7 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicUpdateConfigReq
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
 			tmp := opcDryRun.(string)

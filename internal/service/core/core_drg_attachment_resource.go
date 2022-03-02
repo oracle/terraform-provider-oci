@@ -14,9 +14,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 func CoreDrgAttachmentResource() *schema.Resource {
@@ -85,6 +84,11 @@ func CoreDrgAttachmentResource() *schema.Resource {
 
 						// Optional
 						"route_table_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"vcn_route_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -257,7 +261,7 @@ func (s *CoreDrgAttachmentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if networkDetails, ok := s.D.GetOkExists("network_details"); ok {
@@ -342,7 +346,7 @@ func (s *CoreDrgAttachmentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if networkDetails, ok := s.D.GetOkExists("network_details"); ok && s.D.HasChange("network_details") {
@@ -467,7 +471,9 @@ func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkCreateDetails(f
 			tmp := network_detail_id.(string)
 			details.Id = &tmp
 		}
-
+		if vcnRouteType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcn_route_type")); ok {
+			details.VcnRouteType = oci_core.VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum(vcnRouteType.(string))
+		}
 		baseObject = details
 
 	default:
@@ -493,6 +499,9 @@ func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkUpdateDetails(f
 			tmp := routeTableId.(string)
 			details.RouteTableId = &tmp
 		}
+		if vcnRouteType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcn_route_type")); ok {
+			details.VcnRouteType = oci_core.VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum(vcnRouteType.(string))
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
@@ -509,6 +518,8 @@ func DrgAttachmentNetworkDetailsToMap(obj *oci_core.DrgAttachmentNetworkDetails)
 		if v.RouteTableId != nil {
 			result["route_table_id"] = string(*v.RouteTableId)
 		}
+
+		result["vcn_route_type"] = string(v.VcnRouteType)
 
 		if v.Id != nil {
 			result["id"] = string(*v.Id)

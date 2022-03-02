@@ -11,13 +11,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 )
 
 func DatabaseBackupDestinationResource() *schema.Resource {
@@ -314,7 +313,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if localMountPointPath, ok := s.D.GetOkExists("local_mount_point_path"); ok && s.D.HasChange("local_mount_point_path") {
@@ -592,7 +591,7 @@ func (s *DatabaseBackupDestinationResourceCrud) populateTopLevelPolymorphicCreat
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateBackupDestinationDetails = details
 	case strings.ToLower("RECOVERY_APPLIANCE"):
@@ -629,7 +628,7 @@ func (s *DatabaseBackupDestinationResourceCrud) populateTopLevelPolymorphicCreat
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateBackupDestinationDetails = details
 	default:

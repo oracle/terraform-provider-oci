@@ -10,11 +10,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v59/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v60/loganalytics"
 )
 
 func LogAnalyticsLogAnalyticsResourceCategoriesManagementResource() *schema.Resource {
@@ -50,7 +49,7 @@ func LogAnalyticsLogAnalyticsResourceCategoriesManagementResource() *schema.Reso
 			"resource_categories": {
 				Type:     schema.TypeSet,
 				Required: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -270,7 +269,7 @@ func (s *LogAnalyticsLogAnalyticsResourceCategoriesManagementResourceCrud) SetDa
 			checkItems = append(checkItems, item)
 		}
 
-		s.D.Set("resource_categories", schema.NewSet(utils.LiteralTypeHashCodeForSets, checkItems))
+		s.D.Set("resource_categories", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, checkItems))
 	}
 
 	return nil

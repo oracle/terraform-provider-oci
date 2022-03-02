@@ -15,13 +15,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v59/datascience"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v60/datascience"
 )
 
 func DatascienceJobResource() *schema.Resource {
@@ -78,8 +77,8 @@ func DatascienceJobResource() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 							ForceNew:         true,
-							ValidateFunc:     utils.ValidateInt64TypeString,
-							DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 
 						// Computed
@@ -103,6 +102,7 @@ func DatascienceJobResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"ME_STANDALONE",
 								"STANDALONE",
 							}, true),
 						},
@@ -110,12 +110,13 @@ func DatascienceJobResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"subnet_id": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 
 						// Optional
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -137,8 +138,8 @@ func DatascienceJobResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				ForceNew:         true,
-				ValidateFunc:     utils.ValidateInt64TypeString,
-				DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 			},
 			"artifact_content_disposition": {
 				Type:     schema.TypeString,
@@ -360,7 +361,7 @@ func (s *DatascienceJobResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if jobConfigurationDetails, ok := s.D.GetOkExists("job_configuration_details"); ok {
@@ -469,7 +470,7 @@ func (s *DatascienceJobResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -598,7 +599,7 @@ func (s *DatascienceJobResourceCrud) mapToJobConfigurationDetails(fieldKeyFormat
 			details.CommandLineArguments = &tmp
 		}
 		if environmentVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_variables")); ok {
-			details.EnvironmentVariables = utils.ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
+			details.EnvironmentVariables = tfresource.ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
 		}
 		if maximumRuntimeInMinutes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_runtime_in_minutes")); ok {
 			tmp := maximumRuntimeInMinutes.(string)
@@ -649,6 +650,17 @@ func (s *DatascienceJobResourceCrud) mapToJobInfrastructureConfigurationDetails(
 		jobInfrastructureType = "" // default value
 	}
 	switch strings.ToLower(jobInfrastructureType) {
+	case strings.ToLower("ME_STANDALONE"):
+		details := oci_datascience.ManagedEgressStandaloneJobInfrastructureConfigurationDetails{}
+		if blockStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs")); ok {
+			tmp := blockStorageSizeInGBs.(int)
+			details.BlockStorageSizeInGBs = &tmp
+		}
+		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
+			tmp := shapeName.(string)
+			details.ShapeName = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("STANDALONE"):
 		details := oci_datascience.StandaloneJobInfrastructureConfigurationDetails{}
 		if blockStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs")); ok {
@@ -673,6 +685,16 @@ func (s *DatascienceJobResourceCrud) mapToJobInfrastructureConfigurationDetails(
 func JobInfrastructureConfigurationDetailsToMap(obj *oci_datascience.JobInfrastructureConfigurationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_datascience.ManagedEgressStandaloneJobInfrastructureConfigurationDetails:
+		result["job_infrastructure_type"] = "ME_STANDALONE"
+
+		if v.BlockStorageSizeInGBs != nil {
+			result["block_storage_size_in_gbs"] = int(*v.BlockStorageSizeInGBs)
+		}
+
+		if v.ShapeName != nil {
+			result["shape_name"] = string(*v.ShapeName)
+		}
 	case oci_datascience.StandaloneJobInfrastructureConfigurationDetails:
 		result["job_infrastructure_type"] = "STANDALONE"
 

@@ -13,11 +13,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v59/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v60/loganalytics"
 )
 
 func LogAnalyticsLogAnalyticsEntityResource() *schema.Resource {
@@ -227,7 +226,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostname, ok := s.D.GetOkExists("hostname"); ok {
@@ -251,7 +250,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Create() error {
 	}
 
 	if properties, ok := s.D.GetOkExists("properties"); ok {
-		request.Properties = utils.ObjectMapToStringMap(properties.(map[string]interface{}))
+		request.Properties = tfresource.ObjectMapToStringMap(properties.(map[string]interface{}))
 	}
 
 	if sourceId, ok := s.D.GetOkExists("source_id"); ok {
@@ -326,7 +325,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostname, ok := s.D.GetOkExists("hostname"); ok {
@@ -353,7 +352,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Update() error {
 	}
 
 	if properties, ok := s.D.GetOkExists("properties"); ok {
-		request.Properties = utils.ObjectMapToStringMap(properties.(map[string]interface{}))
+		request.Properties = tfresource.ObjectMapToStringMap(properties.(map[string]interface{}))
 	}
 
 	if timezoneRegion, ok := s.D.GetOkExists("timezone_region"); ok {

@@ -17,7 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 func CoreDrgRouteDistributionStatementResource() *schema.Resource {
@@ -61,6 +61,7 @@ func CoreDrgRouteDistributionStatementResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"DRG_ATTACHMENT_ID",
 								"DRG_ATTACHMENT_TYPE",
+								"MATCH_ALL",
 								"",
 							}, true),
 						},
@@ -370,7 +371,7 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) mapToDrgRouteDistributio
 	if ok {
 		matchType = matchTypeRaw.(string)
 	} else {
-		matchType = "" // default value
+		matchType = "MATCH_ALL" //default value in case we pass an empty list/null
 		return baseObject, nil
 	}
 	switch strings.ToLower(matchType) {
@@ -386,6 +387,9 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) mapToDrgRouteDistributio
 		if attachmentType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attachment_type")); ok {
 			details.AttachmentType = oci_core.DrgAttachmentTypeDrgRouteDistributionMatchCriteriaAttachmentTypeEnum(attachmentType.(string))
 		}
+		baseObject = details
+	case strings.ToLower("MATCH_ALL"):
+		details := oci_core.DrgAttachmentMatchAllDrgRouteDistributionMatchCriteria{}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown match_type '%v' was specified", matchType)
@@ -406,6 +410,8 @@ func DrgRouteDistributionMatchCriteriaToMap(obj oci_core.DrgRouteDistributionMat
 		result["match_type"] = "DRG_ATTACHMENT_TYPE"
 
 		result["attachment_type"] = string(v.AttachmentType)
+	case oci_core.DrgAttachmentMatchAllDrgRouteDistributionMatchCriteria:
+		result["match_type"] = "MATCH_ALL"
 	default:
 		log.Printf("[WARN] Received 'match_type' of unknown type %v", obj)
 		return nil

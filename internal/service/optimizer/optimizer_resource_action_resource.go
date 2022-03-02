@@ -9,12 +9,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v59/optimizer"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v60/optimizer"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func OptimizerResourceActionResource() *schema.Resource {
@@ -44,7 +43,7 @@ func OptimizerResourceActionResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			// Computed
 			"action": {

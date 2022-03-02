@@ -11,12 +11,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_devops "github.com/oracle/oci-go-sdk/v59/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
 )
 
 func DevopsDeploymentResource() *schema.Resource {
@@ -1081,7 +1080,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicCreateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeploymentDetails = details
 	case strings.ToLower("PIPELINE_REDEPLOYMENT"):
@@ -1106,7 +1105,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicCreateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeploymentDetails = details
 	case strings.ToLower("SINGLE_STAGE_DEPLOYMENT"):
@@ -1171,7 +1170,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicCreateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeploymentDetails = details
 	default:
@@ -1206,7 +1205,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicUpdateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeploymentDetails = details
 	case strings.ToLower("PIPELINE_REDEPLOYMENT"):
@@ -1225,7 +1224,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicUpdateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeploymentDetails = details
 	case strings.ToLower("SINGLE_STAGE_DEPLOYMENT"):
@@ -1244,7 +1243,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicUpdateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeploymentDetails = details
 	default:

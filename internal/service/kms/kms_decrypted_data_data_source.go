@@ -8,12 +8,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v59/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v60/keymanagement"
 )
 
 func KmsDecryptedDataDataSource() *schema.Resource {
@@ -80,7 +79,7 @@ func (s *DecryptedDataDataSourceCrud) Get() error {
 	request := oci_kms.DecryptRequest{}
 
 	if associatedData, ok := s.D.GetOkExists("associated_data"); ok {
-		request.AssociatedData = utils.ObjectMapToStringMap(associatedData.(map[string]interface{}))
+		request.AssociatedData = tfresource.ObjectMapToStringMap(associatedData.(map[string]interface{}))
 	}
 
 	if ciphertext, ok := s.D.GetOkExists("ciphertext"); ok {

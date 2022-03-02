@@ -12,14 +12,13 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v59/databasetools"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v60/databasetools"
 )
 
 func DatabaseToolsDatabaseToolsConnectionResource() *schema.Resource {
@@ -1315,7 +1314,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 	case strings.ToLower("ORACLE_DATABASE"):
 		details := oci_database_tools.CreateDatabaseToolsConnectionOracleDatabaseDetails{}
 		if advancedProperties, ok := s.D.GetOkExists("advanced_properties"); ok {
-			details.AdvancedProperties = utils.ObjectMapToStringMap(advancedProperties.(map[string]interface{}))
+			details.AdvancedProperties = tfresource.ObjectMapToStringMap(advancedProperties.(map[string]interface{}))
 		}
 		if connectionString, ok := s.D.GetOkExists("connection_string"); ok {
 			tmp := connectionString.(string)
@@ -1381,7 +1380,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDatabaseToolsConnectionDetails = details
 	default:
@@ -1403,7 +1402,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 	case strings.ToLower("ORACLE_DATABASE"):
 		details := oci_database_tools.UpdateDatabaseToolsConnectionOracleDatabaseDetails{}
 		if advancedProperties, ok := s.D.GetOkExists("advanced_properties"); ok {
-			details.AdvancedProperties = utils.ObjectMapToStringMap(advancedProperties.(map[string]interface{}))
+			details.AdvancedProperties = tfresource.ObjectMapToStringMap(advancedProperties.(map[string]interface{}))
 		}
 		if connectionString, ok := s.D.GetOkExists("connection_string"); ok {
 			tmp := connectionString.(string)
@@ -1467,7 +1466,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDatabaseToolsConnectionDetails = details
 	default:

@@ -20,9 +20,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v59/objectstorage"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -113,30 +113,6 @@ func validateLowerCaseKeysInMetadata(raw interface{}, fieldName string) ([]strin
 	return nil, errors
 }
 
-func validateSourceValue(i interface{}, k string) (s []string, es []error) {
-	v, ok := i.(string)
-	if !ok {
-		es = append(es, fmt.Errorf("expected type of %s to be string", k))
-		return
-	}
-	info, err := os.Stat(v)
-	if err != nil {
-		es = append(es, fmt.Errorf("cannot get file information for the specified source: %s", v))
-		return
-	}
-	if info.Size() > MaxCount*MaxPartSize {
-		es = append(es, fmt.Errorf("the specified source: %s file is too large", v))
-	}
-	return
-}
-
-// Borrowed from https://mijailovic.net/2017/05/09/error-handling-patterns-in-go/
-func safeClose(c io.Closer, err *error) {
-	if cerr := c.Close(); cerr != nil && *err == nil {
-		*err = cerr
-	}
-}
-
 func singlePartUpload(multipartUploadData MultipartUploadData) (string, error) {
 
 	sourcePath := *multipartUploadData.SourcePath
@@ -147,7 +123,7 @@ func singlePartUpload(multipartUploadData MultipartUploadData) (string, error) {
 		return "", err
 	}
 
-	defer safeClose(sourceFile, &err)
+	defer tfresource.SafeClose(sourceFile, &err)
 
 	tmpSize := sourceInfo.Size()
 
@@ -238,7 +214,7 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 	if err != nil {
 		return "", fmt.Errorf("error opening source file for upload \"%v\": %s", source, err)
 	}
-	defer safeClose(file, &err)
+	defer tfresource.SafeClose(file, &err)
 
 	sourceBlocks, err := objectMultiPartSplit(file)
 	if err != nil {

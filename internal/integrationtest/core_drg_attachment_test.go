@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -33,7 +33,7 @@ var (
 		"attachment_type":    acctest.Representation{RepType: acctest.Optional, Create: `VCN`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"drg_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg.test_drg.id}`},
-		"drg_route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"drg_route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`, Update: `${oci_core_drg_route_table.test_drg_route_table_2.id}`},
 		"network_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `ATTACHED`},
 		"vcn_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
@@ -55,7 +55,8 @@ var (
 	drgAttachmentNetworkDetailsRepresentation = map[string]interface{}{
 		"id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `VCN`},
-		"route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`, Update: `${oci_core_route_table.test_route_table_2.id}`},
+		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`, Update: `${oci_core_route_table.test_route_table_2.id}`},
+		"vcn_route_type": acctest.Representation{RepType: acctest.Optional, Create: `VCN_CIDRS`, Update: `SUBNET_CIDRS`},
 	}
 
 	drgAttachmentRepresentationNoRouteTable = map[string]interface{}{
@@ -150,6 +151,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.id"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.route_table_id"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.0.type", "VCN"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.vcn_route_type", "VCN_CIDRS"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -181,6 +183,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.id"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.route_table_id"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.0.type", "VCN"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.vcn_route_type", "SUBNET_CIDRS"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -289,6 +292,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.network_details.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.network_details.0.route_table_id"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.network_details.0.type", "VCN"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.network_details.0.vcn_route_type", "SUBNET_CIDRS"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.route_table_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.time_created"),

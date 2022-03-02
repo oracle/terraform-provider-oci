@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
 func DatabaseExadataInfrastructuresDataSource() *schema.Resource {
@@ -160,6 +160,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
 		}
 
+		if r.DbServerVersion != nil {
+			exadataInfrastructure["db_server_version"] = *r.DbServerVersion
+		}
+
 		if r.DefinedTags != nil {
 			exadataInfrastructure["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
@@ -230,6 +234,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.StorageCount != nil {
 			exadataInfrastructure["storage_count"] = *r.StorageCount
+		}
+
+		if r.StorageServerVersion != nil {
+			exadataInfrastructure["storage_server_version"] = *r.StorageServerVersion
 		}
 
 		if r.TimeCreated != nil {

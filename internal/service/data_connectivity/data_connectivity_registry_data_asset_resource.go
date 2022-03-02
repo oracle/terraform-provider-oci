@@ -16,12 +16,12 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_data_connectivity "github.com/oracle/oci-go-sdk/v60/dataconnectivity"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_data_connectivity "github.com/oracle/oci-go-sdk/v59/dataconnectivity"
 )
 
 func DataConnectivityRegistryDataAssetResource() *schema.Resource {
@@ -224,13 +224,13 @@ func DataConnectivityRegistryDataAssetResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									"time_updated": {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									"updated_by": {
 										Type:     schema.TypeString,
@@ -413,13 +413,13 @@ func DataConnectivityRegistryDataAssetResource() *schema.Resource {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+													DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 												},
 												"time_updated": {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+													DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 												},
 												"updated_by": {
 													Type:     schema.TypeString,
@@ -540,13 +540,13 @@ func DataConnectivityRegistryDataAssetResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									"time_updated": {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									"updated_by_user_id": {
 										Type:     schema.TypeString,
@@ -689,13 +689,13 @@ func DataConnectivityRegistryDataAssetResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 						"time_updated": {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 						"updated_by": {
 							Type:     schema.TypeString,
@@ -1020,13 +1020,13 @@ func DataConnectivityRegistryDataAssetResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 						"time_updated": {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 						"updated_by_user_id": {
 							Type:     schema.TypeString,
@@ -1097,7 +1097,7 @@ func (s *DataConnectivityRegistryDataAssetResourceCrud) Create() error {
 	request := oci_data_connectivity.CreateDataAssetRequest{}
 
 	if assetProperties, ok := s.D.GetOkExists("asset_properties"); ok {
-		request.AssetProperties = utils.ObjectMapToStringMap(assetProperties.(map[string]interface{}))
+		request.AssetProperties = tfresource.ObjectMapToStringMap(assetProperties.(map[string]interface{}))
 	}
 
 	if defaultConnection, ok := s.D.GetOkExists("default_connection"); ok {
@@ -1254,7 +1254,7 @@ func (s *DataConnectivityRegistryDataAssetResourceCrud) Update() error {
 	request := oci_data_connectivity.UpdateDataAssetRequest{}
 
 	if assetProperties, ok := s.D.GetOkExists("asset_properties"); ok {
-		request.AssetProperties = utils.ObjectMapToStringMap(assetProperties.(map[string]interface{}))
+		request.AssetProperties = tfresource.ObjectMapToStringMap(assetProperties.(map[string]interface{}))
 	}
 
 	if dataAssetKey, ok := s.D.GetOkExists("key"); ok {
@@ -1928,7 +1928,7 @@ func (s *DataConnectivityRegistryDataAssetResourceCrud) mapToObjectMetadata(fiel
 	}
 
 	if infoFields, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "info_fields")); ok {
-		result.InfoFields = utils.ObjectMapToStringMap(infoFields.(map[string]interface{}))
+		result.InfoFields = tfresource.ObjectMapToStringMap(infoFields.(map[string]interface{}))
 	}
 
 	if isFavorite, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_favorite")); ok {
@@ -2298,11 +2298,11 @@ func (s *DataConnectivityRegistryDataAssetResourceCrud) mapToTypeSystem(fieldKey
 	}
 
 	if typeMappingFrom, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type_mapping_from")); ok {
-		result.TypeMappingFrom = utils.ObjectMapToStringMap(typeMappingFrom.(map[string]interface{}))
+		result.TypeMappingFrom = tfresource.ObjectMapToStringMap(typeMappingFrom.(map[string]interface{}))
 	}
 
 	if typeMappingTo, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type_mapping_to")); ok {
-		result.TypeMappingTo = utils.ObjectMapToStringMap(typeMappingTo.(map[string]interface{}))
+		result.TypeMappingTo = tfresource.ObjectMapToStringMap(typeMappingTo.(map[string]interface{}))
 	}
 
 	if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {

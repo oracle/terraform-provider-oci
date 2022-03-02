@@ -9,14 +9,12 @@ import (
 	"reflect"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_ons "github.com/oracle/oci-go-sdk/v59/ons"
+	oci_ons "github.com/oracle/oci-go-sdk/v60/ons"
 )
 
 func OnsSubscriptionResource() *schema.Resource {
@@ -176,7 +174,7 @@ func (s *OnsSubscriptionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
@@ -247,7 +245,7 @@ func (s *OnsSubscriptionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()

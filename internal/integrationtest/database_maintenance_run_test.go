@@ -33,12 +33,16 @@ var (
 	mrTimeScheduledUpdate = time.Now().UTC().AddDate(0, 0, 10).Truncate(time.Millisecond)
 
 	maintenanceRunRepresentation = map[string]interface{}{
-		"maintenance_run_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.maintenance_run_id}`},
-		"is_enabled":           acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"is_patch_now_enabled": acctest.Representation{RepType: acctest.Optional},
-		"patch_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.maintenance_run_patch_id}`},
-		"patching_mode":        acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
-		"time_scheduled":       acctest.Representation{RepType: acctest.Required, Create: mrTimeScheduledCreate.Format(time.RFC3339Nano), Update: mrTimeScheduledUpdate.Format(time.RFC3339Nano)},
+		"maintenance_run_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.maintenance_run_id}`},
+		"current_custom_action_timeout_in_mins": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"custom_action_timeout_in_mins":         acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"is_custom_action_timeout_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_enabled":                            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_patch_now_enabled":                  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_resume_patching":                    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"patch_id":                              acctest.Representation{RepType: acctest.Optional, Create: `${var.maintenance_run_patch_id}`},
+		"patching_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
+		"time_scheduled":                        acctest.Representation{RepType: acctest.Required, Create: mrTimeScheduledCreate.Format(time.RFC3339Nano), Update: mrTimeScheduledUpdate.Format(time.RFC3339Nano)},
 	}
 
 	MaintenanceRunResourceDependencies = ""
@@ -96,9 +100,14 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Create, maintenanceRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "current_custom_action_timeout_in_mins", "10"),
+				resource.TestCheckResourceAttr(resourceName, "custom_action_timeout_in_mins", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_custom_action_timeout_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_patch_now_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_resume_patching", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
 				resource.TestCheckResourceAttr(resourceName, "patching_mode", "ROLLING"),
@@ -123,10 +132,14 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, maintenanceRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "current_custom_action_timeout_in_mins", "11"),
+				resource.TestCheckResourceAttr(resourceName, "custom_action_timeout_in_mins", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_custom_action_timeout_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_patch_now_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_resume_patching", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
 				resource.TestCheckResourceAttr(resourceName, "patching_mode", "NONROLLING"),
@@ -142,6 +155,52 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				},
 			),
 		},
+		// TODO: remove if creates problem during testing
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_maintenance_runs", "test_maintenance_runs", acctest.Optional, acctest.Update, maintenanceRunRepresentation) +
+				compartmentIdVariableStr + MaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, maintenanceRunRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_type", "PLANNED"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_type", "AUTONOMOUS_EXADATA_INFRASTRUCTURE"),
+
+				resource.TestCheckResourceAttr(resourceName, "maintenance_runs.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_runs.0.current_custom_action_timeout_in_mins", "11"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.current_patching_component"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_runs.0.custom_action_timeout_in_mins", "11"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.description"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.estimated_component_patching_start_time"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_runs.0.estimated_patching_time.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_runs.0.is_custom_action_timeout_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.maintenance_subtype"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.maintenance_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.patch_failure_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.patch_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.patching_end_time"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_runs.0.patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.patching_start_time"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.patching_status"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.peer_maintenance_run_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.state"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.target_db_server_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.target_resource_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.target_resource_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.target_storage_server_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.time_ended"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_runs.0.time_scheduled", "timeScheduled2"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_runs.0.time_started"),
+			),
+		},
+
 		// verify singular datasource
 		{
 			Config: config +
@@ -151,16 +210,28 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "current_custom_action_timeout_in_mins", "11"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_patching_component"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_action_timeout_in_mins", "11"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "estimated_component_patching_start_time"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "estimated_patching_time.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_custom_action_timeout_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_subtype"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_failure_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "patching_end_time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "patching_start_time"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "patching_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_maintenance_run_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_db_server_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_resource_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_storage_server_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_ended"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled"),
 			),
 		},
@@ -176,6 +247,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			ImportStateVerifyIgnore: []string{
 				"is_enabled",
 				"is_patch_now_enabled",
+				"is_resume_patching",
 				// In GET request `maintenance_run_id` is mapped to `id`
 				"maintenance_run_id",
 			},

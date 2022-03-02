@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v59/datascience"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v60/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -38,7 +38,7 @@ var (
 
 	modelForModelDeploymentRepresentation = map[string]interface{}{
 		"artifact_content_length":      acctest.Representation{RepType: acctest.Required, Create: `6954`},
-		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../examples/datascience/artifact.zip`},
+		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/artifact.zip`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"project_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=tfTestArtifact.zip`},
@@ -46,7 +46,7 @@ var (
 
 	modelForUpdateModelDeploymentRepresentation = map[string]interface{}{
 		"artifact_content_length":      acctest.Representation{RepType: acctest.Required, Create: `6954`},
-		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../examples/datascience/artifact.zip`},
+		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/artifact.zip`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"project_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=tfTestArtifact.zip`},

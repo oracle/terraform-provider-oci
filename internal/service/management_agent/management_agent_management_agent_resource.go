@@ -13,12 +13,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v59/managementagent"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v60/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func ManagementAgentManagementAgentResource() *schema.Resource {
@@ -414,7 +413,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	/*if isAgentAutoUpgradable, ok := s.D.GetOkExists("is_agent_auto_upgradable"); ok {

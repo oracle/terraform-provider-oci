@@ -9,11 +9,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v59/monitoring"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v60/monitoring"
 )
 
 func MonitoringMetricDataDataSource() *schema.Resource {
@@ -82,7 +81,7 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 						"resolution": {
 							Type:     schema.TypeString,
@@ -98,7 +97,7 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 
 						// Computed

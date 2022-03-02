@@ -32,6 +32,8 @@ resource "oci_datascience_job" "test_job" {
 		block_storage_size_in_gbs = var.job_job_infrastructure_configuration_details_block_storage_size_in_gbs
 		job_infrastructure_type = var.job_job_infrastructure_configuration_details_job_infrastructure_type
 		shape_name = oci_core_shape.test_shape.name
+
+		#Optional
 		subnet_id = oci_core_subnet.test_subnet.id
 	}
 	project_id = oci_datascience_project.test_project.id
@@ -71,7 +73,7 @@ The following arguments are supported:
 	* `block_storage_size_in_gbs` - (Required) (Updatable) The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - (Required) (Updatable) The infrastructure type used for job run.
 	* `shape_name` - (Required) (Updatable) The shape used to launch the job run instances.
-	* `subnet_id` - (Required) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the job 
+	* `subnet_id` - (Required when job_infrastructure_type=STANDALONE) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_log_configuration_details` - (Optional) Logging configuration for resource. 
 	* `enable_auto_log_creation` - (Optional) If automatic on-behalf-of log object creation is enabled for job runs. 
 	* `enable_logging` - (Optional) If customer logging is enabled for job runs.

@@ -11,13 +11,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 )
 
 func DatabaseExternalDatabaseConnectorResource() *schema.Resource {
@@ -586,7 +585,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) populateTopLevelPolymorp
 			details.ExternalDatabaseId = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateExternalDatabaseConnectorDetails = details
 	default:
@@ -641,7 +640,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) populateTopLevelPolymorp
 		tmp := s.D.Id()
 		request.ExternalDatabaseConnectorId = &tmp
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateExternalDatabaseConnectorDetails = details
 	default:

@@ -15,10 +15,9 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v59/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
 )
 
 func DevopsRepositoryResource() *schema.Resource {
@@ -277,7 +276,7 @@ func (s *DevopsRepositoryResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if mirrorRepositoryConfig, ok := s.D.GetOkExists("mirror_repository_config"); ok {
@@ -483,7 +482,7 @@ func (s *DevopsRepositoryResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if mirrorRepositoryConfig, ok := s.D.GetOkExists("mirror_repository_config"); ok {
