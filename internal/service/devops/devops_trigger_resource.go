@@ -16,10 +16,9 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v59/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
 )
 
 func DevopsTriggerResource() *schema.Resource {
@@ -936,7 +935,7 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicCreateTriggerRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
@@ -977,7 +976,7 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicCreateTriggerRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
@@ -1018,7 +1017,7 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicCreateTriggerRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
@@ -1079,7 +1078,7 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicUpdateTriggerRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.TriggerId = &tmp
@@ -1118,7 +1117,7 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicUpdateTriggerRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.TriggerId = &tmp
@@ -1157,7 +1156,7 @@ func (s *DevopsTriggerResourceCrud) populateTopLevelPolymorphicUpdateTriggerRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.TriggerId = &tmp

@@ -9,11 +9,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
 func DatabaseCloudVmClusterResource() *schema.Resource {
@@ -89,7 +88,7 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -146,7 +145,7 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -463,7 +462,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if giVersion, ok := s.D.GetOkExists("gi_version"); ok {
@@ -626,7 +625,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
@@ -702,7 +701,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	for _, item := range s.Res.BackupNetworkNsgIds {
 		backupNetworkNsgIds = append(backupNetworkNsgIds, item)
 	}
-	s.D.Set("backup_network_nsg_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, backupNetworkNsgIds))
+	s.D.Set("backup_network_nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, backupNetworkNsgIds))
 
 	if s.Res.BackupSubnetId != nil {
 		s.D.Set("backup_subnet_id", *s.Res.BackupSubnetId)
@@ -792,7 +791,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.ScanDnsName != nil {
 		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)

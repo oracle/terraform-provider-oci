@@ -68,4 +68,6 @@ const (
 	SubnetService  = "subnet"
 	CoreService    = "core"
 	DeleteResource = "delete"
+	TfEnvPrefix    = "TF_VAR_"
+	OciEnvPrefix   = "OCI_"
 )

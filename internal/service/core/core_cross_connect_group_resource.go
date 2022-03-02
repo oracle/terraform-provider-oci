@@ -12,9 +12,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 func CoreCrossConnectGroupResource() *schema.Resource {
@@ -244,7 +243,7 @@ func (s *CoreCrossConnectGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if macsecProperties, ok := s.D.GetOkExists("macsec_properties"); ok {
@@ -320,7 +319,7 @@ func (s *CoreCrossConnectGroupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if macsecProperties, ok := s.D.GetOkExists("macsec_properties"); ok {

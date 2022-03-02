@@ -14,12 +14,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_osp_gateway "github.com/oracle/oci-go-sdk/v60/ospgateway"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_osp_gateway "github.com/oracle/oci-go-sdk/v59/ospgateway"
 )
 
 func OspGatewaySubscriptionResource() *schema.Resource {
@@ -296,13 +295,13 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 						"time_start": {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 						"upgrade_state": {
 							Type:     schema.TypeString,

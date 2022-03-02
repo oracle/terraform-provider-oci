@@ -9,11 +9,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_streaming "github.com/oracle/oci-go-sdk/v59/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v60/streaming"
 )
 
 func StreamingStreamPoolResource() *schema.Resource {
@@ -127,7 +126,7 @@ func StreamingStreamPoolResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
-							Set:      utils.LiteralTypeHashCodeForSets,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -283,7 +282,7 @@ func (s *StreamingStreamPoolResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kafkaSettings, ok := s.D.GetOkExists("kafka_settings"); ok {
@@ -373,7 +372,7 @@ func (s *StreamingStreamPoolResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kafkaSettings, ok := s.D.GetOkExists("kafka_settings"); ok {
@@ -578,7 +577,7 @@ func PrivateEndpointSettingsToMap(obj *oci_streaming.PrivateEndpointSettings, da
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateEndpointIp != nil {

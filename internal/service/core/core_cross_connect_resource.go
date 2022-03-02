@@ -13,9 +13,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 func CoreCrossConnectResource() *schema.Resource {
@@ -147,7 +146,7 @@ func CoreCrossConnectResource() *schema.Resource {
 			"is_active": {
 				Type:         schema.TypeBool,
 				Optional:     true,
-				ValidateFunc: utils.ValidateBoolInSlice([]bool{true}),
+				ValidateFunc: tfresource.ValidateBoolInSlice([]bool{true}),
 			},
 
 			// Computed
@@ -312,7 +311,7 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if locationName, ok := s.D.GetOkExists("location_name"); ok {
@@ -403,7 +402,7 @@ func (s *CoreCrossConnectResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	// Cross Connect Resource can be set to 'Active' only once when the resource is 'PENDING_CUSTOMER' and not 'PROVISIONED'

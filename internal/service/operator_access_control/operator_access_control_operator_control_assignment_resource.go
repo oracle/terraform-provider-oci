@@ -9,12 +9,11 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v59/operatoraccesscontrol"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v60/operatoraccesscontrol"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {
@@ -111,13 +110,13 @@ func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			"time_assignment_to": {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 
 			// Computed
@@ -245,7 +244,7 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) Create() er
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoApproveDuringMaintenance, ok := s.D.GetOkExists("is_auto_approve_during_maintenance"); ok {
@@ -372,7 +371,7 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) Update() er
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoApproveDuringMaintenance, ok := s.D.GetOkExists("is_auto_approve_during_maintenance"); ok {

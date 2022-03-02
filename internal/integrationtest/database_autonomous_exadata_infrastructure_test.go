@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -61,11 +61,15 @@ var (
 		"nsg_ids":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsRepresentation = map[string]interface{}{
-		"preference":     acctest.Representation{RepType: acctest.Required, Create: `NO_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
-		"days_of_week":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation},
-		"hours_of_day":   acctest.Representation{RepType: acctest.Optional, Create: []string{`4`}, Update: []string{`8`}},
-		"months":         []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation}, {RepType: acctest.Optional, Group: autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation2}, {RepType: acctest.Optional, Group: autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation3}, {RepType: acctest.Optional, Group: autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation4}},
-		"weeks_of_month": acctest.Representation{RepType: acctest.Optional, Create: []string{`1`}, Update: []string{`2`}},
+		"preference":                       acctest.Representation{RepType: acctest.Required, Create: `NO_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
+		"custom_action_timeout_in_mins":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"days_of_week":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation},
+		"hours_of_day":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`4`}, Update: []string{`8`}},
+		"is_custom_action_timeout_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"lead_time_in_weeks":               acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"months":                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation},
+		"patching_mode":                    acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
+		"weeks_of_month":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`1`}, Update: []string{`2`}},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `MONDAY`, Update: `TUESDAY`},
@@ -90,6 +94,8 @@ var (
 
 // issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
+	t.Skip("Skip this test as AEI and its api no longer exists.")
+
 	httpreplay.SetScenario("TestDatabaseAutonomousExadataInfrastructureResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -147,9 +153,19 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.custom_action_timeout_in_mins", "10"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.0.name", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.hours_of_day.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.is_custom_action_timeout_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.lead_time_in_weeks", "10"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "APRIL"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.patching_mode", "ROLLING"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "NO_PREFERENCE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.Quarter2.92"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -183,6 +199,15 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.custom_action_timeout_in_mins", "10"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.0.name", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.hours_of_day.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.is_custom_action_timeout_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.lead_time_in_weeks", "10"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "APRIL"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.patching_mode", "ROLLING"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "NO_PREFERENCE"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
@@ -214,15 +239,19 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.custom_action_timeout_in_mins", "11"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.days_of_week.0.name", "TUESDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.hours_of_day.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.is_custom_action_timeout_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.lead_time_in_weeks", "11"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.months.0.name", "MAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "CUSTOM_PREFERENCE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.Quarter2.92"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 

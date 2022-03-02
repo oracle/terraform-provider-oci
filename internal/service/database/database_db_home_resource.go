@@ -12,16 +12,15 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
 func DatabaseDbHomeResource() *schema.Resource {
@@ -192,7 +191,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 
 						// Computed
@@ -515,7 +514,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		updateDbHomeRequest.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		updateDbHomeRequest.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 	updateDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
@@ -761,7 +760,7 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
@@ -1015,7 +1014,7 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
@@ -1099,7 +1098,7 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
@@ -1341,7 +1340,7 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat s
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "admin_password")) {

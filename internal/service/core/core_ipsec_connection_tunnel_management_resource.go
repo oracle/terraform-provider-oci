@@ -7,15 +7,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
@@ -267,7 +265,7 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Type:         schema.TypeString,
 				Optional:     true,
 				Computed:     true,
-				ValidateFunc: utils.ValidateNotEmptyString(),
+				ValidateFunc: tfresource.ValidateNotEmptyString(),
 			},
 			// Computed
 			"compartment_id": {

@@ -15,9 +15,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
 )
 
 func CoreVirtualCircuitResource() *schema.Resource {
@@ -103,8 +102,8 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateFunc:     utils.ValidateInt64TypeString,
-				DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 				ConflictsWith:    []string{"customer_bgp_asn"},
 			},
 			"customer_bgp_asn": {
@@ -369,7 +368,7 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
@@ -556,7 +555,7 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok && s.D.HasChange("gateway_id") {

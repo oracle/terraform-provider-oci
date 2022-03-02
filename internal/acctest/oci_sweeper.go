@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v59/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 
@@ -38,6 +38,10 @@ For example: vcn can have default dhcpOptions, routeTables and securityLists whi
 			 checks if the ocid of the resource be deleted is present in this map then it will skip that resource.
 */
 var SweeperDefaultResourceId = make(map[string]bool)
+
+var identityClientListAvailabilityDomains = func(client *oci_identity.IdentityClient, adRequest oci_identity.ListAvailabilityDomainsRequest) (oci_identity.ListAvailabilityDomainsResponse, error) {
+	return client.ListAvailabilityDomains(context.Background(), adRequest)
+}
 
 // issue-routing-tag: terraform/default
 func TestMain(m *testing.M) {
@@ -79,7 +83,7 @@ func GetAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	identityClient := GetTestClients(&schema.ResourceData{}).IdentityClient()
 	adRequest := oci_identity.ListAvailabilityDomainsRequest{}
 	adRequest.CompartmentId = &compartmentId
-	ads, err := identityClient.ListAvailabilityDomains(context.Background(), adRequest)
+	ads, err := identityClientListAvailabilityDomains(identityClient, adRequest)
 	if err != nil {
 		return availabilityDomains, fmt.Errorf("Error getting availability domains for compartment id : %s , %s \n", compartmentId, err)
 	}

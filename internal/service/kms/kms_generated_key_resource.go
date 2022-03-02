@@ -9,12 +9,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_kms "github.com/oracle/oci-go-sdk/v59/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v60/keymanagement"
 )
 
 func KmsGeneratedKeyResource() *schema.Resource {
@@ -143,7 +142,7 @@ func (s *KmsGeneratedKeyResourceCrud) Create() error {
 	request := oci_kms.GenerateDataEncryptionKeyRequest{}
 
 	if associatedData, ok := s.D.GetOkExists("associated_data"); ok {
-		request.AssociatedData = utils.ObjectMapToStringMap(associatedData.(map[string]interface{}))
+		request.AssociatedData = tfresource.ObjectMapToStringMap(associatedData.(map[string]interface{}))
 	}
 
 	if includePlaintextKey, ok := s.D.GetOkExists("include_plaintext_key"); ok {
@@ -168,7 +167,7 @@ func (s *KmsGeneratedKeyResourceCrud) Create() error {
 	}
 
 	if loggingContext, ok := s.D.GetOkExists("logging_context"); ok {
-		request.LoggingContext = utils.ObjectMapToStringMap(loggingContext.(map[string]interface{}))
+		request.LoggingContext = tfresource.ObjectMapToStringMap(loggingContext.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "kms")

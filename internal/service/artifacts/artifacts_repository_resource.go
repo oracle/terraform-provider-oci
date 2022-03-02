@@ -11,11 +11,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_artifacts "github.com/oracle/oci-go-sdk/v59/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v60/artifacts"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func ArtifactsRepositoryResource() *schema.Resource {
@@ -342,7 +341,7 @@ func (s *ArtifactsRepositoryResourceCrud) populateTopLevelPolymorphicCreateRepos
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isImmutable, ok := s.D.GetOkExists("is_immutable"); ok {
 			tmp := isImmutable.(bool)
@@ -383,7 +382,7 @@ func (s *ArtifactsRepositoryResourceCrud) populateTopLevelPolymorphicUpdateRepos
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.RepositoryId = &tmp

@@ -8,11 +8,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v59/operatoraccesscontrol"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v60/operatoraccesscontrol"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func OperatorAccessControlOperatorControlResource() *schema.Resource {
@@ -260,7 +259,7 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isFullyPreApproved, ok := s.D.GetOkExists("is_fully_pre_approved"); ok {
@@ -388,7 +387,7 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isFullyPreApproved, ok := s.D.GetOkExists("is_fully_pre_approved"); ok {

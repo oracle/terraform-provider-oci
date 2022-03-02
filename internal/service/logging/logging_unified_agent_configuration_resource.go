@@ -10,16 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v60/logging"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v59/logging"
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
 func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
@@ -488,7 +486,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if groupAssociation, ok := s.D.GetOkExists("group_association"); ok {
@@ -692,7 +690,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if groupAssociation, ok := s.D.GetOkExists("group_association"); ok {
@@ -1092,7 +1090,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("APACHE_ERROR"):
@@ -1122,7 +1120,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("AUDITD"):
@@ -1152,7 +1150,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("CSV"):
@@ -1198,7 +1196,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("GROK"):
@@ -1252,7 +1250,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("JSON"):
@@ -1289,7 +1287,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("MSGPACK"):
@@ -1319,7 +1317,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("MULTILINE"):
@@ -1365,7 +1363,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("MULTILINE_GROK"):
@@ -1423,7 +1421,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("NONE"):
@@ -1457,7 +1455,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("REGEXP"):
@@ -1495,7 +1493,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("SYSLOG"):
@@ -1547,7 +1545,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("TSV"):
@@ -1593,7 +1591,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = utils.ObjectMapToStringMap(types.(map[string]interface{}))
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	default:
@@ -1626,7 +1624,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 	case oci_logging.UnifiedAgentApacheErrorParser:
 		result["parser_type"] = "APACHE_ERROR"
@@ -1649,7 +1647,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 	case oci_logging.UnifiedAgentAuditdParser:
 		result["parser_type"] = "AUDITD"
@@ -1672,7 +1670,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 	case oci_logging.UnifiedAgentCsvParser:
 		result["parser_type"] = "CSV"
@@ -1695,7 +1693,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 		if v.Delimiter != nil {
 			result["delimiter"] = string(*v.Delimiter)
@@ -1729,7 +1727,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		}
 
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 
 		patterns := []interface{}{}
@@ -1758,7 +1756,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 		if v.TimeFormat != nil {
 			result["time_format"] = string(*v.TimeFormat)
@@ -1786,7 +1784,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 	case oci_logging.UnifiedAgentMultilineParser:
 		result["parser_type"] = "MULTILINE"
@@ -1809,7 +1807,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 		result["format"] = v.Format
 
@@ -1837,7 +1835,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 		if v.GrokFailureKey != nil {
 			result["grok_failure_key"] = string(*v.GrokFailureKey)
@@ -1877,7 +1875,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 		if v.MessageKey != nil {
 			result["message_key"] = string(*v.MessageKey)
@@ -1903,7 +1901,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 
 		if v.Expression != nil {
@@ -1934,7 +1932,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 
 		if v.IsSupportColonlessIdent != nil {
@@ -1977,7 +1975,7 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
 		}
 		if v.Types != nil {
-			result["types"] = utils.StringMapToObjectMap(v.Types)
+			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
 		if v.Delimiter != nil {
 			result["delimiter"] = string(*v.Delimiter)

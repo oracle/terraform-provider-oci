@@ -15,9 +15,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v59/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v60/budget"
 )
 
 func BudgetAlertRuleResource() *schema.Resource {
@@ -40,7 +39,7 @@ func BudgetAlertRuleResource() *schema.Resource {
 			"threshold": {
 				Type:             schema.TypeFloat,
 				Required:         true,
-				DiffSuppressFunc: utils.MonetaryDiffSuppress,
+				DiffSuppressFunc: tfresource.MonetaryDiffSuppress,
 			},
 			"threshold_type": {
 				Type:     schema.TypeString,
@@ -195,7 +194,7 @@ func (s *BudgetAlertRuleResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if message, ok := s.D.GetOkExists("message"); ok {
@@ -292,7 +291,7 @@ func (s *BudgetAlertRuleResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if message, ok := s.D.GetOkExists("message"); ok {

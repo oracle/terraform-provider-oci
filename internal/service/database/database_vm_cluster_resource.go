@@ -8,12 +8,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 )
 
 func DatabaseVmClusterResource() *schema.Resource {
@@ -55,7 +54,7 @@ func DatabaseVmClusterResource() *schema.Resource {
 			"ssh_public_keys": {
 				Type:     schema.TypeSet,
 				Required: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -320,7 +319,7 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if giVersion, ok := s.D.GetOkExists("gi_version"); ok {
@@ -446,7 +445,7 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
@@ -578,7 +577,7 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 	for _, item := range s.Res.SshPublicKeys {
 		sshPublicKeys = append(sshPublicKeys, item)
 	}
-	s.D.Set("ssh_public_keys", schema.NewSet(utils.LiteralTypeHashCodeForSets, sshPublicKeys))
+	s.D.Set("ssh_public_keys", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, sshPublicKeys))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

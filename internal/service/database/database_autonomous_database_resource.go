@@ -11,14 +11,13 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 )
 
 func DatabaseAutonomousDatabaseResource() *schema.Resource {
@@ -218,7 +217,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -325,7 +324,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			"vault_id": {
 				Type:     schema.TypeString,
@@ -335,7 +334,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"whitelisted_ips": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -1143,7 +1142,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
@@ -1452,7 +1451,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.OcpuCount != nil {
 		s.D.Set("ocpu_count", *s.Res.OcpuCount)
@@ -1574,7 +1573,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	for _, item := range s.Res.WhitelistedIps {
 		whitelistedIps = append(whitelistedIps, item)
 	}
-	s.D.Set("whitelisted_ips", schema.NewSet(utils.LiteralTypeHashCodeForSets, whitelistedIps))
+	s.D.Set("whitelisted_ips", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, whitelistedIps))
 
 	return nil
 }
@@ -1893,7 +1892,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
@@ -2084,7 +2083,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
@@ -2268,7 +2267,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
@@ -2455,7 +2454,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
 			tmp := isAccessControlEnabled.(bool)
@@ -2634,7 +2633,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
 			tmp := isAccessControlEnabled.(bool)

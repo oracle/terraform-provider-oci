@@ -11,12 +11,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
 func DatabaseKeyStoreResource() *schema.Resource {
@@ -55,7 +54,7 @@ func DatabaseKeyStoreResource() *schema.Resource {
 						"connection_ips": {
 							Type:     schema.TypeSet,
 							Required: true,
-							Set:      utils.LiteralTypeHashCodeForSets,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -223,7 +222,7 @@ func (s *DatabaseKeyStoreResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if typeDetails, ok := s.D.GetOkExists("type_details"); ok {
@@ -286,7 +285,7 @@ func (s *DatabaseKeyStoreResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()

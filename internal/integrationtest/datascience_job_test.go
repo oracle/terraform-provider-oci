@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v59/datascience"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v60/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -56,7 +56,7 @@ var (
 		"job_configuration_details":                acctest.RepresentationGroup{RepType: acctest.Required, Group: jobJobConfigurationDetailsRepresentation},
 		"job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: jobJobInfrastructureConfigurationDetailsRepresentation},
 		"project_id":                               acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"job_artifact":                             acctest.Representation{RepType: acctest.Optional, Create: `../examples/datascience/job-artifact.py`},
+		"job_artifact":                             acctest.Representation{RepType: acctest.Optional, Create: `../../examples/datascience/job-artifact.py`},
 		"artifact_content_length":                  acctest.Representation{RepType: acctest.Optional, Create: `1380`}, // wc -c job-artifact.py
 		"artifact_content_disposition":             acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=job-artifact.py`},
 		"defined_tags":                             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -64,7 +64,6 @@ var (
 		"display_name":                             acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"delete_related_job_runs":                  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"job_log_configuration_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: jobJobLogConfigurationDetailsRepresentation},
 		"lifecycle":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMlJobDefinedTagsChangesRepresentation},
 	}
 	jobJobConfigurationDetailsRepresentation = map[string]interface{}{
@@ -74,15 +73,10 @@ var (
 		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
 	jobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
-		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `51`, Update: `52`},
+		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`, Update: `100`},
 		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `STANDALONE`},
 		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`, Update: `VM.Standard2.4`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-	}
-	jobJobLogConfigurationDetailsRepresentation = map[string]interface{}{
-		"enable_auto_log_creation": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"enable_logging":           acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"log_group_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log_group.test_log_group.id}`},
 	}
 
 	ignoreMlJobDefinedTagsChangesRepresentation = map[string]interface{}{
@@ -95,7 +89,7 @@ var (
 		"job_configuration_details":                acctest.RepresentationGroup{RepType: acctest.Required, Group: jobJobConfigurationDetailsRepresentation},
 		"job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: jobJobInfrastructureConfigurationDetailsRepresentation},
 		"project_id":                               acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"job_artifact":                             acctest.Representation{RepType: acctest.Required, Create: `../examples/datascience/job-artifact.py`},
+		"job_artifact":                             acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/job-artifact.py`},
 		"artifact_content_length":                  acctest.Representation{RepType: acctest.Required, Create: `1380`}, // wc -c job-artifact.py
 		"artifact_content_disposition":             acctest.Representation{RepType: acctest.Required, Create: `attachment; filename=job-artifact.py`},
 		"lifecycle":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMlJobDefinedTagsChangesRepresentation},
@@ -106,7 +100,6 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, projectRepresentation) +
 		DefinedTagsDependencies
-	//+ acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, logGroupRepresentation)
 )
 
 // issue-routing-tag: datascience/default
@@ -148,7 +141,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.subnet_id"),
@@ -182,14 +175,10 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_details.0.enable_auto_log_creation", "true"),
-					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_details.0.enable_logging", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_log_configuration_details.0.log_group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -226,14 +215,10 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_details.0.enable_auto_log_creation", "true"),
-					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_details.0.enable_logging", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_log_configuration_details.0.log_group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -265,14 +250,10 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "52"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "100"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.shape_name", "VM.Standard2.4"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_details.0.enable_auto_log_creation", "true"),
-					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_details.0.enable_logging", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_log_configuration_details.0.log_group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -332,11 +313,8 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "52"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "100"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_log_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_log_configuration_details.0.enable_auto_log_creation", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_log_configuration_details.0.enable_logging", "true"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
@@ -367,6 +345,7 @@ func testAccCheckDatascienceJobDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).DataScienceClient()
 	for _, rs := range s.RootModule().Resources {
+		fmt.Printf("TYPE OF RS: %s\n", rs.Type)
 		if rs.Type == "oci_datascience_job" {
 			noResourceFound = false
 			request := oci_datascience.GetJobRequest{}

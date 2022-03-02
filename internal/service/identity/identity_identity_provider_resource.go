@@ -15,9 +15,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v59/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
 )
 
 func IdentityIdentityProviderResource() *schema.Resource {
@@ -326,7 +325,7 @@ func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicCreate
 	case strings.ToLower("SAML2"):
 		details := oci_identity.CreateSaml2IdentityProviderDetails{}
 		if freeformAttributes, ok := s.D.GetOkExists("freeform_attributes"); ok {
-			details.FreeformAttributes = utils.ObjectMapToStringMap(freeformAttributes.(map[string]interface{}))
+			details.FreeformAttributes = tfresource.ObjectMapToStringMap(freeformAttributes.(map[string]interface{}))
 		}
 		if metadata, ok := s.D.GetOkExists("metadata"); ok {
 			tmp := metadata.(string)
@@ -352,7 +351,7 @@ func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicCreate
 			details.Description = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
@@ -381,7 +380,7 @@ func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicUpdate
 	case strings.ToLower("SAML2"):
 		details := oci_identity.UpdateSaml2IdentityProviderDetails{}
 		if freeformAttributes, ok := s.D.GetOkExists("freeform_attributes"); ok {
-			details.FreeformAttributes = utils.ObjectMapToStringMap(freeformAttributes.(map[string]interface{}))
+			details.FreeformAttributes = tfresource.ObjectMapToStringMap(freeformAttributes.(map[string]interface{}))
 		}
 		if metadata, ok := s.D.GetOkExists("metadata"); ok {
 			tmp := metadata.(string)
@@ -403,7 +402,7 @@ func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicUpdate
 			details.Description = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.IdentityProviderId = &tmp

@@ -16,12 +16,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v59/objectstorage"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
 )
 
 func ObjectStorageBucketResource() *schema.Resource {
@@ -106,7 +105,7 @@ func ObjectStorageBucketResource() *schema.Resource {
 						"display_name": {
 							Type:         schema.TypeString,
 							Required:     true,
-							ValidateFunc: utils.ValidateNotEmptyString(),
+							ValidateFunc: tfresource.ValidateNotEmptyString(),
 						},
 						"duration": {
 							Type:     schema.TypeList,
@@ -119,8 +118,8 @@ func ObjectStorageBucketResource() *schema.Resource {
 									"time_amount": {
 										Type:             schema.TypeString,
 										Required:         true,
-										ValidateFunc:     utils.ValidateInt64TypeString,
-										DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+										ValidateFunc:     tfresource.ValidateInt64TypeString,
+										DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 									},
 									"time_unit": {
 										Type:     schema.TypeString,
@@ -136,7 +135,7 @@ func ObjectStorageBucketResource() *schema.Resource {
 						"time_rule_locked": {
 							Type:             schema.TypeString,
 							Optional:         true,
-							DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 						"retention_rule_id": {
 							Type:     schema.TypeString,
@@ -289,7 +288,7 @@ func (s *ObjectStorageBucketResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
@@ -437,7 +436,7 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {

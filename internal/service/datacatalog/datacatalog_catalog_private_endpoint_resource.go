@@ -11,13 +11,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v59/datacatalog"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v60/datacatalog"
 )
 
 func DatacatalogCatalogPrivateEndpointResource() *schema.Resource {
@@ -200,7 +199,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -393,7 +392,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")

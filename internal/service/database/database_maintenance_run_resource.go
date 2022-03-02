@@ -9,12 +9,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
 func DatabaseMaintenanceRunResource() *schema.Resource {
@@ -36,12 +35,32 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 			},
 
 			// Optional
+			"current_custom_action_timeout_in_mins": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"custom_action_timeout_in_mins": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"is_custom_action_timeout_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 			},
 			"is_patch_now_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_resume_patching": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -60,11 +79,15 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 
 			// Computed
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"current_patching_component": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -75,6 +98,41 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"estimated_component_patching_start_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"estimated_patching_time": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"estimated_db_server_patching_time": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"estimated_network_switches_patching_time": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"estimated_storage_server_patching_time": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"total_estimated_patching_time": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -92,6 +150,18 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"patching_end_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"patching_start_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"patching_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"peer_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -100,11 +170,19 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"target_db_server_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"target_resource_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"target_resource_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"target_storage_server_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -194,6 +272,21 @@ func (s *DatabaseMaintenanceRunResourceCrud) DeletedTarget() []string {
 func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 	request := oci_database.UpdateMaintenanceRunRequest{}
 
+	if currentCustomActionTimeoutInMins, ok := s.D.GetOkExists("current_custom_action_timeout_in_mins"); ok {
+		tmp := currentCustomActionTimeoutInMins.(int)
+		request.CurrentCustomActionTimeoutInMins = &tmp
+	}
+
+	if customActionTimeoutInMins, ok := s.D.GetOkExists("custom_action_timeout_in_mins"); ok {
+		tmp := customActionTimeoutInMins.(int)
+		request.CustomActionTimeoutInMins = &tmp
+	}
+
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists("is_custom_action_timeout_enabled"); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		request.IsCustomActionTimeoutEnabled = &tmp
+	}
+
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
 		tmp := isEnabled.(bool)
 		request.IsEnabled = &tmp
@@ -204,7 +297,12 @@ func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 		request.IsPatchNowEnabled = &tmp
 	}
 
-	if maintenanceRunId, ok := s.D.GetOkExists("maintenance_run_id"); ok {
+	if isResumePatching, ok := s.D.GetOkExists("is_resume_patching"); ok {
+		tmp := isResumePatching.(bool)
+		request.IsResumePatching = &tmp
+	}
+
+	if maintenanceRunId, ok := s.D.GetOkExists("id"); ok {
 		tmp := maintenanceRunId.(string)
 		request.MaintenanceRunId = &tmp
 	}
@@ -263,7 +361,22 @@ func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
 
 	request := oci_database.UpdateMaintenanceRunRequest{}
 
-	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok && s.D.HasChange("is_enabled") {
+	if currentCustomActionTimeoutInMins, ok := s.D.GetOkExists("current_custom_action_timeout_in_mins"); ok {
+		tmp := currentCustomActionTimeoutInMins.(int)
+		request.CurrentCustomActionTimeoutInMins = &tmp
+	}
+
+	if customActionTimeoutInMins, ok := s.D.GetOkExists("custom_action_timeout_in_mins"); ok {
+		tmp := customActionTimeoutInMins.(int)
+		request.CustomActionTimeoutInMins = &tmp
+	}
+
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists("is_custom_action_timeout_enabled"); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		request.IsCustomActionTimeoutEnabled = &tmp
+	}
+
+	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
 		tmp := isEnabled.(bool)
 		request.IsEnabled = &tmp
 	}
@@ -271,6 +384,11 @@ func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
 	if isPatchNowEnabled, ok := s.D.GetOkExists("is_patch_now_enabled"); ok && s.D.HasChange("is_patch_now_enabled") {
 		tmp := isPatchNowEnabled.(bool)
 		request.IsPatchNowEnabled = &tmp
+	}
+
+	if isResumePatching, ok := s.D.GetOkExists("is_resume_patching"); ok {
+		tmp := isResumePatching.(bool)
+		request.IsResumePatching = &tmp
 	}
 
 	tmp := s.D.Id()
@@ -314,12 +432,38 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.CurrentCustomActionTimeoutInMins != nil {
+		s.D.Set("current_custom_action_timeout_in_mins", *s.Res.CurrentCustomActionTimeoutInMins)
+	}
+
+	if s.Res.CurrentPatchingComponent != nil {
+		s.D.Set("current_patching_component", *s.Res.CurrentPatchingComponent)
+	}
+
+	if s.Res.CustomActionTimeoutInMins != nil {
+		s.D.Set("custom_action_timeout_in_mins", *s.Res.CustomActionTimeoutInMins)
+	}
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EstimatedComponentPatchingStartTime != nil {
+		s.D.Set("estimated_component_patching_start_time", s.Res.EstimatedComponentPatchingStartTime.String())
+	}
+
+	if s.Res.EstimatedPatchingTime != nil {
+		s.D.Set("estimated_patching_time", []interface{}{EstimatedPatchingTimeToMap(s.Res.EstimatedPatchingTime)})
+	} else {
+		s.D.Set("estimated_patching_time", nil)
+	}
+
+	if s.Res.IsCustomActionTimeoutEnabled != nil {
+		s.D.Set("is_custom_action_timeout_enabled", *s.Res.IsCustomActionTimeoutEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -338,7 +482,17 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 		s.D.Set("patch_id", *s.Res.PatchId)
 	}
 
+	if s.Res.PatchingEndTime != nil {
+		s.D.Set("patching_end_time", s.Res.PatchingEndTime.String())
+	}
+
 	s.D.Set("patching_mode", s.Res.PatchingMode)
+
+	if s.Res.PatchingStartTime != nil {
+		s.D.Set("patching_start_time", s.Res.PatchingStartTime.String())
+	}
+
+	s.D.Set("patching_status", s.Res.PatchingStatus)
 
 	if s.Res.PeerMaintenanceRunId != nil {
 		s.D.Set("peer_maintenance_run_id", *s.Res.PeerMaintenanceRunId)
@@ -346,11 +500,19 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.TargetDbServerVersion != nil {
+		s.D.Set("target_db_server_version", *s.Res.TargetDbServerVersion)
+	}
+
 	if s.Res.TargetResourceId != nil {
 		s.D.Set("target_resource_id", *s.Res.TargetResourceId)
 	}
 
 	s.D.Set("target_resource_type", s.Res.TargetResourceType)
+
+	if s.Res.TargetStorageServerVersion != nil {
+		s.D.Set("target_storage_server_version", *s.Res.TargetStorageServerVersion)
+	}
 
 	if s.Res.TimeEnded != nil {
 		s.D.Set("time_ended", s.Res.TimeEnded.String())
@@ -365,4 +527,26 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func EstimatedPatchingTimeToMap(obj *oci_database.EstimatedPatchingTime) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EstimatedDbServerPatchingTime != nil {
+		result["estimated_db_server_patching_time"] = int(*obj.EstimatedDbServerPatchingTime)
+	}
+
+	if obj.EstimatedNetworkSwitchesPatchingTime != nil {
+		result["estimated_network_switches_patching_time"] = int(*obj.EstimatedNetworkSwitchesPatchingTime)
+	}
+
+	if obj.EstimatedStorageServerPatchingTime != nil {
+		result["estimated_storage_server_patching_time"] = int(*obj.EstimatedStorageServerPatchingTime)
+	}
+
+	if obj.TotalEstimatedPatchingTime != nil {
+		result["total_estimated_patching_time"] = int(*obj.TotalEstimatedPatchingTime)
+	}
+
+	return result
 }

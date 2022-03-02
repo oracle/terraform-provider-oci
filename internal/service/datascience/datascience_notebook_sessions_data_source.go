@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_datascience "github.com/oracle/oci-go-sdk/v59/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v60/datascience"
 )
 
 func DatascienceNotebookSessionsDataSource() *schema.Resource {
@@ -153,6 +153,12 @@ func (s *DatascienceNotebookSessionsDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			notebookSession["id"] = *r.Id
+		}
+
+		if r.NotebookSessionConfigDetails != nil {
+			notebookSession["notebook_session_config_details"] = []interface{}{NotebookSessionConfigDetailsToMap(r.NotebookSessionConfigDetails)}
+		} else {
+			notebookSession["notebook_session_config_details"] = nil
 		}
 
 		if r.NotebookSessionConfigurationDetails != nil {

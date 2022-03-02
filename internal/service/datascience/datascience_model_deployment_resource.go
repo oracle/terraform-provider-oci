@@ -12,14 +12,13 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v59/datascience"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v60/datascience"
 )
 
 func DatascienceModelDeploymentResource() *schema.Resource {
@@ -379,7 +378,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if modelDeploymentConfigurationDetails, ok := s.D.GetOkExists("model_deployment_configuration_details"); ok {
@@ -595,7 +594,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if modelDeploymentConfigurationDetails, ok := s.D.GetOkExists("model_deployment_configuration_details"); ok {

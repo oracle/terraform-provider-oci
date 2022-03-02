@@ -17,7 +17,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/oracle/oci-go-sdk/v59/common"
+	"github.com/oracle/oci-go-sdk/v60/common"
 )
 
 type TestOCIResponse struct {
@@ -34,6 +34,53 @@ type retryTestInput struct {
 	responseError            error
 	jitterMode               bool
 	optionals                []interface{}
+}
+type retryByEcInputRetry struct {
+	serviceName              string
+	disableNotFoundRetries   bool
+	httpResponseStatusCode   int
+	header                   map[string][]string
+	expectedRetryTimeSeconds int
+	responseError            error
+	jitterMode               bool
+	optionals                []interface{}
+	EndOfWindowTime          *time.Time
+}
+type TestOCIOperationResponse struct {
+	// Response from OCI Operation
+	Response TestOCIResponse
+
+	// Error from OCI Operation
+	Error error
+
+	// Operation Attempt Number (one-based)
+	AttemptNumber uint
+
+	// End of eventually consistent effects, or nil if no such effects
+	EndOfWindowTime *time.Time
+
+	// Backoff scaling factor (only used for dealing with eventual consistency)
+	BackoffScalingFactor float64
+
+	// Time of the initial attempt
+	InitialAttemptTime time.Time
+}
+
+// ServiceError models all potential errors generated the service call
+type TestServiceError interface {
+	// The http status code of the error
+	GetHTTPStatusCode() int
+
+	// The human-readable error string as sent by the service
+	GetMessage() string
+
+	// A short error code that defines the error, meant for programmatic parsing.
+	// See https://docs.cloud.oracle.com/Content/API/References/apierrors.htm
+	GetCode() string
+
+	// Unique Oracle-assigned identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
+	GetOpcRequestID() string
 }
 
 func (response TestOCIResponse) HTTPResponse() *http.Response {
@@ -92,8 +139,8 @@ func TestNetTimeoutError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 	r := retryTestInput{
 		serviceName:              "core",
@@ -116,8 +163,8 @@ func TestNetTemporaryError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 	r := retryTestInput{
 		serviceName:              "core",
@@ -136,8 +183,8 @@ func TestUnitRetryLoop_basic(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 	r := retryTestInput{
 		serviceName:              "core",
@@ -156,8 +203,8 @@ func TestUnitRetryLoop_configuredRetry(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 15 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	tmp := time.Duration(30 * time.Second)
 	ConfiguredRetryDuration = &tmp
 	r := retryTestInput{
@@ -176,8 +223,8 @@ func TestUnitRetryLoop_outOfCapacity(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 15 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	tmp := time.Duration(30 * time.Second)
 	ConfiguredRetryDuration = &tmp
 	r := retryTestInput{
@@ -197,8 +244,8 @@ func TestUnitRetryLoop_configuredRetryWith404(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 15 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	tmp := time.Duration(60 * time.Second)
 	ConfiguredRetryDuration = &tmp
 	r := retryTestInput{
@@ -218,8 +265,8 @@ func TestUnitRetryLoop_concurrent(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 15 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	tmp := time.Duration(30 * time.Second)
 	ConfiguredRetryDuration = &tmp
 	r := retryTestInput{
@@ -250,8 +297,8 @@ func TestUnitRetryKMSThrottling(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 15 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
@@ -261,7 +308,7 @@ func TestUnitRetryKMSThrottling(t *testing.T) {
 			"retry-after": []string{"2"},
 		},
 		responseError:            fmt.Errorf("Retriable error"),
-		expectedRetryTimeSeconds: 15,
+		expectedRetryTimeSeconds: 1,
 		jitterMode:               false,
 	}
 	retryLoop(t, &r)
@@ -272,8 +319,8 @@ func TestUnitRetrySubnet409Conflict(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	var subnetOptionals []interface{} = make([]interface{}, 2)
@@ -286,7 +333,7 @@ func TestUnitRetrySubnet409Conflict(t *testing.T) {
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("Conflict"),
 		optionals:                subnetOptionals,
-		expectedRetryTimeSeconds: 30,
+		expectedRetryTimeSeconds: 2,
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)
@@ -297,8 +344,8 @@ func TestUnitRetrySubnet409OtherErrorMessage(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	var subnetOptionals []interface{} = make([]interface{}, 2)
@@ -311,7 +358,7 @@ func TestUnitRetrySubnet409OtherErrorMessage(t *testing.T) {
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("other error message"),
 		optionals:                subnetOptionals,
-		expectedRetryTimeSeconds: 15,
+		expectedRetryTimeSeconds: 1,
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)
@@ -322,8 +369,8 @@ func TestUnitRetryDatabase(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
@@ -342,8 +389,8 @@ func TestUnitRetryIdentity409ErrorInvalidatedRetryToken(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
@@ -362,8 +409,8 @@ func TestUnitRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testin
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
@@ -371,7 +418,7 @@ func TestUnitRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testin
 		httpResponseStatusCode:   409,
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("NotAuthorizedOrResourceAlreadyExists"),
-		expectedRetryTimeSeconds: 30,
+		expectedRetryTimeSeconds: 2,
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)
@@ -382,8 +429,8 @@ func TestUnitRetryObjectStorage(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
@@ -391,7 +438,7 @@ func TestUnitRetryObjectStorage(t *testing.T) {
 		httpResponseStatusCode:   409,
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("NotAuthorizedOrResourceAlreadyExists"),
-		expectedRetryTimeSeconds: 30,
+		expectedRetryTimeSeconds: 2,
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)
@@ -402,8 +449,8 @@ func TestUnitRetryDbHomeWith404Error(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
@@ -423,8 +470,8 @@ func TestUnitRetryDbHomeWithConflictingStateError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
@@ -432,7 +479,7 @@ func TestUnitRetryDbHomeWithConflictingStateError(t *testing.T) {
 		httpResponseStatusCode:   409,
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("The existing Db System with ID blahblahblah has a conflicting state of UPDATING."),
-		expectedRetryTimeSeconds: 30,
+		expectedRetryTimeSeconds: 2,
 		jitterMode:               true,
 		optionals:                []interface{}{GetDbHomeRetryDurationFunction(20 * time.Second)},
 	}
@@ -444,8 +491,8 @@ func TestUnitRetryDbHomeWithInvalidatedRetryTokenError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	ShortRetryTime = 15 * time.Second
-	LongRetryTime = 30 * time.Second
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
 	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
@@ -458,4 +505,339 @@ func TestUnitRetryDbHomeWithInvalidatedRetryTokenError(t *testing.T) {
 		optionals:                []interface{}{GetDbHomeRetryDurationFunction(20 * time.Second)},
 	}
 	retryLoop(t, &r)
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitisRetriableByEcServiceError(t *testing.T) {
+
+	type args struct {
+		response common.OCIOperationResponse
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output bool
+	}
+
+	tests := []testFormat{
+		{
+			name:   "Test response with nil value",
+			args:   args{response: common.OCIOperationResponse{Error: nil}},
+			output: false,
+		},
+		{
+			name:   "Test response with status code 404",
+			args:   args{response: common.OCIOperationResponse{Error: fmt.Errorf("Retriable error")}},
+			output: false,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res, _ := isRetriableByEc(test.args.response); res != test.output {
+			t.Errorf("Output %t not equal to expected %t", res, test.output)
+		}
+
+	}
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitisRemainingEventualConsistencyDuration(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
+	ConfiguredRetryDuration = nil
+	isServiceErrorVar = func(err error) (failure common.ServiceError, ok bool) {
+		return nil, true
+	}
+	isErrorAffectedByEventualConsistency = func(Error error) bool {
+		return false
+	}
+	r := common.OCIOperationResponse{
+		Response:             TestOCIResponse{},
+		Error:                fmt.Errorf("InvalidatedRetryToken"),
+		AttemptNumber:        0,
+		EndOfWindowTime:      nil,
+		BackoffScalingFactor: 0,
+		InitialAttemptTime:   time.Now(),
+	}
+	RetriableByEcFlag, _ := isRetriableByEc(r)
+	assert.Equal(t, RetriableByEcFlag, false)
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitRemainingEventualConsistencyDuration(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
+	ConfiguredRetryDuration = nil
+	r := common.OCIOperationResponse{
+		Response:             TestOCIResponse{},
+		Error:                fmt.Errorf("InvalidatedRetryToken"),
+		AttemptNumber:        0,
+		EndOfWindowTime:      nil,
+		BackoffScalingFactor: 0,
+		InitialAttemptTime:   time.Now(),
+	}
+	assert.Nil(t, getRemainingEventualConsistencyDuration(r))
+	if res := getRemainingEventualConsistencyDuration(r); res != nil {
+		t.Errorf("Time duration : %s", res)
+	}
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitIdentityExpectedRetryDuration(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
+	ConfiguredRetryDuration = nil
+
+	type args struct {
+		response               common.OCIOperationResponse
+		disableNotFoundRetries bool
+		optionals              interface{}
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output time.Duration
+	}
+
+	tests := []testFormat{
+		{
+			name:   "Test response with nil value",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{}}, disableNotFoundRetries: true},
+			output: 1 * time.Second,
+		},
+		{
+			name:   "Test response with status code 404",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{statusCode: 404}}, disableNotFoundRetries: true},
+			output: 0,
+		},
+		{
+			name:   "Test response with status code 409",
+			args:   args{response: common.OCIOperationResponse{Error: fmt.Errorf("NotAuthorizedOrResourceAlreadyExists"), Response: TestOCIResponse{statusCode: 409}}, disableNotFoundRetries: true},
+			output: 2 * time.Second,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := getIdentityExpectedRetryDuration(test.args.response, test.args.disableNotFoundRetries); res != test.output {
+			t.Errorf("Output %s not equal to expected %s", res, test.output)
+		}
+
+	}
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitObjectstorageServiceExpectedRetryDuration(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
+
+	type args struct {
+		response               common.OCIOperationResponse
+		disableNotFoundRetries bool
+		optionals              interface{}
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output time.Duration
+	}
+
+	tests := []testFormat{
+		{
+			name:   "Test response with nil value",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{}}, disableNotFoundRetries: true},
+			output: 1 * time.Second,
+		},
+		{
+			name:   "Test response with status code 400",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{statusCode: 400}}, disableNotFoundRetries: true},
+			output: 0,
+		},
+		{
+			name:   "Test response with status code 404",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{statusCode: 404}}, disableNotFoundRetries: true},
+			output: 0,
+		},
+		{
+			name:   "Test response with status code 409",
+			args:   args{response: common.OCIOperationResponse{Error: fmt.Errorf("NotAuthorizedOrResourceAlreadyExists"), Response: TestOCIResponse{statusCode: 409}}, disableNotFoundRetries: true},
+			output: 2 * time.Second,
+		},
+		{
+			name:   "Test response with status code 500",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{statusCode: 500}}, disableNotFoundRetries: true},
+			output: 2 * time.Second,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := getObjectstorageServiceExpectedRetryDuration(test.args.response, test.args.disableNotFoundRetries); res != test.output {
+			t.Errorf("Output %s not equal to expected %s", res, test.output)
+		}
+
+	}
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitObjectstorageServiceConfiguredRetryDuration(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
+
+	r := retryTestInput{
+		serviceName:              objectstorageService,
+		httpResponseStatusCode:   429,
+		header:                   map[string][]string{},
+		responseError:            fmt.Errorf("Out of host capacity"),
+		expectedRetryTimeSeconds: 2,
+		jitterMode:               true,
+	}
+	retryLoop(t, &r)
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitLogAnalyticsExpectedRetryDuration(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	ShortRetryTime = 1 * time.Second
+	LongRetryTime = 2 * time.Second
+
+	r := retryTestInput{
+		serviceName:              logAnalyticsService,
+		httpResponseStatusCode:   304,
+		header:                   map[string][]string{},
+		responseError:            fmt.Errorf("Not Modified"),
+		expectedRetryTimeSeconds: 0,
+		jitterMode:               true,
+	}
+	retryLoop(t, &r)
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitWaasExpectedRetryDuration(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+
+	type args struct {
+		response               common.OCIOperationResponse
+		disableNotFoundRetries bool
+		optionals              interface{}
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output time.Duration
+	}
+	var subnetOptionals = make([]interface{}, 1)
+	subnetOptionals[0] = "delete"
+	tests := []testFormat{
+		{
+			name:   "Test response with optionals parameter",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{statusCode: 409}}, disableNotFoundRetries: true, optionals: subnetOptionals[0]},
+			output: 1 * time.Second,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := getWaasExpectedRetryDuration(test.args.response, test.args.disableNotFoundRetries, test.args.optionals); res != test.output {
+			t.Errorf("Output %s not equal to expected %s", res, test.output)
+		}
+
+	}
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitWaasCertificateExpectedRetryDuration(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	type args struct {
+		response               common.OCIOperationResponse
+		disableNotFoundRetries bool
+		optionals              interface{}
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output time.Duration
+	}
+	var subnetOptionals = make([]interface{}, 1)
+	subnetOptionals[0] = "delete"
+	tests := []testFormat{
+		{
+			name:   "Test response with nil value",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{}}, disableNotFoundRetries: true},
+			output: 1 * time.Second,
+		},
+		{
+			name:   "Test response with optionals parameter",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{statusCode: 409}}, disableNotFoundRetries: true, optionals: subnetOptionals[0]},
+			output: 1 * time.Second,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := getWaasCertificateExpectedRetryDuration(test.args.response, test.args.disableNotFoundRetries, test.args.optionals); res != test.output {
+			t.Errorf("Output %s not equal to expected %s", res, test.output)
+		}
+
+	}
+}
+
+// issue-routing-tag: terraform/default
+func TestUnitDefaultExpectedRetryDuration(t *testing.T) {
+	type args struct {
+		response               common.OCIOperationResponse
+		disableNotFoundRetries bool
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output time.Duration
+	}
+
+	tests := []testFormat{
+		{
+			name:   "Test response with nil value",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: nil}, disableNotFoundRetries: true},
+			output: 0,
+		},
+		{
+			name:   "Test response with status code 404",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{statusCode: 404}}, disableNotFoundRetries: true},
+			output: 0,
+		},
+		{
+			name:   "Test response with status code 400",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{statusCode: 400}}, disableNotFoundRetries: true},
+			output: 0,
+		},
+		{
+			name:   "Test response with status code 412",
+			args:   args{response: common.OCIOperationResponse{Error: nil, Response: TestOCIResponse{statusCode: 412}}, disableNotFoundRetries: true},
+			output: 0,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := GetDefaultExpectedRetryDuration(test.args.response, test.args.disableNotFoundRetries); res != test.output {
+			t.Errorf("Output %s not equal to expected %s", res, test.output)
+		}
+
+	}
 }

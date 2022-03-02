@@ -13,14 +13,13 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v59/certificatesmanagement"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v60/certificatesmanagement"
 )
 
 func CertificatesManagementCertificateResource() *schema.Resource {
@@ -239,14 +238,14 @@ func CertificatesManagementCertificateResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Required:         true,
 										Computed:         false,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 									// Optional
 									"time_of_validity_not_before": {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         false,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 
 									// Computed
@@ -746,7 +745,7 @@ func (s *CertificatesManagementCertificateResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -828,7 +827,7 @@ func (s *CertificatesManagementCertificateResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "certificates_management")

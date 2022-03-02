@@ -10,12 +10,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v59/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v60/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 )
 
 func CoreComputeCapacityReservationResource() *schema.Resource {
@@ -74,8 +73,8 @@ func CoreComputeCapacityReservationResource() *schema.Resource {
 						"reserved_count": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateFunc:     utils.ValidateInt64TypeString,
-							DiffSuppressFunc: utils.Int64StringDiffSuppressFunction,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 
 						// Optional
@@ -249,7 +248,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceReservationConfigs, ok := s.D.GetOkExists("instance_reservation_configs"); ok {
@@ -342,7 +341,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceReservationConfigs, ok := s.D.GetOkExists("instance_reservation_configs"); ok {

@@ -12,14 +12,13 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v59/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
 )
 
 func DevopsConnectionResource() *schema.Resource {
@@ -554,7 +553,7 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicCreateConnecti
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
@@ -583,7 +582,7 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicCreateConnecti
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
@@ -630,7 +629,7 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicUpdateConnecti
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateConnectionDetails = details
 	case strings.ToLower("GITLAB_ACCESS_TOKEN"):
@@ -657,7 +656,7 @@ func (s *DevopsConnectionResourceCrud) populateTopLevelPolymorphicUpdateConnecti
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateConnectionDetails = details
 	default:

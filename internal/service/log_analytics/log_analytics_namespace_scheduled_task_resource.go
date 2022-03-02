@@ -15,13 +15,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v59/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v60/loganalytics"
 )
 
 func LogAnalyticsNamespaceScheduledTaskResource() *schema.Resource {
@@ -405,7 +404,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if schedules, ok := s.D.GetOkExists("schedules"); ok {
@@ -831,7 +830,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) populateTopLevelPolymor
 			details.DefinedTags = convertedDefinedTags
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateScheduledTaskDetails = details
 	default:

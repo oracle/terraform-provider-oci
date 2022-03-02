@@ -8,11 +8,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database_migration "github.com/oracle/oci-go-sdk/v59/databasemigration"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v60/databasemigration"
 )
 
 func DatabaseMigrationAgentResource() *schema.Resource {
@@ -194,7 +193,7 @@ func (s *DatabaseMigrationAgentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if publicKey, ok := s.D.GetOkExists("public_key"); ok {
@@ -274,7 +273,7 @@ func (s *DatabaseMigrationAgentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if publicKey, ok := s.D.GetOkExists("public_key"); ok {

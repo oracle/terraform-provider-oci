@@ -16,10 +16,9 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v59/datalabelingservice"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v60/datalabelingservice"
 )
 
 func DataLabelingServiceDatasetResource() *schema.Resource {
@@ -329,7 +328,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if initialRecordGenerationConfiguration, ok := s.D.GetOkExists("initial_record_generation_configuration"); ok {
@@ -554,7 +553,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if labelingInstructions, ok := s.D.GetOkExists("labeling_instructions"); ok {

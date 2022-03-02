@@ -13,12 +13,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v59/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v60/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func ApigatewayCertificateResource() *schema.Resource {
@@ -206,7 +205,7 @@ func (s *ApigatewayCertificateResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if intermediateCertificates, ok := s.D.GetOkExists("intermediate_certificates"); ok {
@@ -404,7 +403,7 @@ func (s *ApigatewayCertificateResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")

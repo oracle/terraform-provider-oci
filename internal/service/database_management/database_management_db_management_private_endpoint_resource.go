@@ -12,13 +12,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_database_management "github.com/oracle/oci-go-sdk/v59/databasemanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_database_management "github.com/oracle/oci-go-sdk/v60/databasemanagement"
 )
 
 func DatabaseManagementDbManagementPrivateEndpointResource() *schema.Resource {
@@ -63,7 +62,7 @@ func DatabaseManagementDbManagementPrivateEndpointResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -436,7 +435,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) SetData() er
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.PrivateIp != nil {
 		s.D.Set("private_ip", *s.Res.PrivateIp)

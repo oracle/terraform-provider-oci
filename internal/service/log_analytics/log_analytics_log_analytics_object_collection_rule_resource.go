@@ -13,11 +13,10 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v59/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v60/loganalytics"
 )
 
 func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
@@ -276,7 +275,7 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Create() erro
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
@@ -431,7 +430,7 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Update() erro
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()

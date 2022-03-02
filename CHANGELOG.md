@@ -1,3 +1,13 @@
+## 4.66.0 (Unreleased)
+
+### Added
+- vcn-route-type option to drg attachment
+- match_type MATCH_ALL for drg route distribution statements.
+- support for Managed Egress in Notebooks and Jobs
+- DBAAS EXACC - Infra Patching V2
+- Support for enabling and disable High Availability in active DbSystems (MDS)
+- Logging Analytics - Common Scope Filter in Dashboard
+
 ## 4.65.0 (February 23, 2022)
 
 ### Added

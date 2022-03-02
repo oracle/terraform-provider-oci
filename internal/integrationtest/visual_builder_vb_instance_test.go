@@ -20,8 +20,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v59/common"
-	oci_visual_builder "github.com/oracle/oci-go-sdk/v59/visualbuilder"
+	"github.com/oracle/oci-go-sdk/v60/common"
+	oci_visual_builder "github.com/oracle/oci-go-sdk/v60/visualbuilder"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

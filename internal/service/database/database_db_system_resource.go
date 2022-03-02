@@ -12,15 +12,14 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v59/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_database "github.com/oracle/oci-go-sdk/v59/database"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_database "github.com/oracle/oci-go-sdk/v60/database"
 )
 
 func DatabaseDbSystemResource() *schema.Resource {
@@ -214,7 +213,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Optional:         true,
 										Computed:         true,
 										ForceNew:         true,
-										DiffSuppressFunc: utils.TimeDiffSuppressFunction,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 									},
 
 									// Computed
@@ -350,7 +349,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 			"ssh_public_keys": {
 				Type:     schema.TypeSet,
 				Required: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -365,7 +364,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 			"backup_network_nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -498,6 +497,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"days_of_week": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -527,6 +531,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -550,6 +559,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"preference": {
 							Type:     schema.TypeString,
@@ -580,7 +594,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -708,6 +722,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"custom_action_timeout_in_mins": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"days_of_week": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -734,6 +752,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"is_custom_action_timeout_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"lead_time_in_weeks": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -754,6 +776,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 									},
 								},
 							},
+						},
+						"patching_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"preference": {
 							Type:     schema.TypeString,
@@ -832,7 +858,7 @@ func createDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateDBSystemResource(d, sync)
+	return createDBSystemResource(d, sync)
 }
 
 func readDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
@@ -1026,7 +1052,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
@@ -1152,7 +1178,7 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		for _, item := range s.Res.BackupNetworkNsgIds {
 			backupNetworkNsgIds = append(backupNetworkNsgIds, item)
 		}
-		s.D.Set("backup_network_nsg_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, backupNetworkNsgIds))
+		s.D.Set("backup_network_nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, backupNetworkNsgIds))
 	}
 
 	if s.Res.BackupSubnetId != nil {
@@ -1256,7 +1282,7 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		for _, item := range s.Res.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 	}
 
 	if s.Res.PointInTimeDataDiskCloneTimestamp != nil {
@@ -1293,7 +1319,7 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	for _, item := range s.Res.SshPublicKeys {
 		sshPublicKeys = append(sshPublicKeys, item)
 	}
-	s.D.Set("ssh_public_keys", schema.NewSet(utils.LiteralTypeHashCodeForSets, sshPublicKeys))
+	s.D.Set("ssh_public_keys", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, sshPublicKeys))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -1384,7 +1410,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
@@ -1605,7 +1631,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseFromDbSystemDetails(fi
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	return result, nil
@@ -1681,7 +1707,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat s
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	return result, nil
@@ -1788,7 +1814,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeFromDbSystemDetails(fiel
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	return result, nil
@@ -1970,6 +1996,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToMaintenanceWindow(fieldKeyFormat str
 		}
 	}
 
+	if customActionTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_action_timeout_in_mins")); ok {
+		tmp := customActionTimeoutInMins.(int)
+		result.CustomActionTimeoutInMins = &tmp
+	}
+
 	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
 		interfaces := daysOfWeek.([]interface{})
 		tmp := make([]oci_database.DayOfWeek, len(interfaces))
@@ -2000,6 +2031,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToMaintenanceWindow(fieldKeyFormat str
 		}
 	}
 
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
 	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
 		tmp := leadTimeInWeeks.(int)
 		result.LeadTimeInWeeks = &tmp
@@ -2020,6 +2056,14 @@ func (s *DatabaseDbSystemResourceCrud) mapToMaintenanceWindow(fieldKeyFormat str
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "months")) {
 			result.Months = tmp
 		}
+	}
+
+	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
+		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
+	}
+
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 	}
 
 	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
@@ -2158,7 +2202,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			}
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
@@ -2326,7 +2370,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			}
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
@@ -2492,7 +2536,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			}
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
@@ -2660,7 +2704,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			}
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
@@ -3041,7 +3085,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "admin_password")) {
@@ -3194,4 +3238,44 @@ func (s *DatabaseDbSystemResourceCrud) DatabaseToMap(obj *oci_database.Database)
 	}
 
 	return result
+}
+
+func createDBSystemResource(d *schema.ResourceData, sync tfresource.ResourceCreator) error {
+	if e := sync.Create(); e != nil {
+		return tfresource.HandleError(sync, e)
+	}
+
+	// ID is required for state refresh
+	d.SetId(sync.ID())
+
+	var timeout time.Duration
+	shape := d.Get("shape")
+	timeout = d.Timeout(schema.TimeoutCreate)
+	if timeout == 0 {
+		if strings.HasPrefix(shape.(string), "Exadata") {
+			timeout = tfresource.TwelveHours
+		} else {
+			timeout = tfresource.TwoHours
+		}
+	}
+	if stateful, ok := sync.(tfresource.StatefullyCreatedResource); ok {
+		if e := tfresource.WaitForStateRefresh(stateful, timeout, "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
+			if setDataErr := sync.SetData(); setDataErr != nil {
+				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
+			}
+			return e
+		}
+	}
+
+	d.SetId(sync.ID())
+	if e := sync.SetData(); e != nil {
+		return e
+	}
+
+	if ew, waitOK := sync.(tfresource.ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
+
+	return nil
 }

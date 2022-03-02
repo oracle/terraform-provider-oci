@@ -17,7 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v59/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v60/mysql"
 )
 
 func MysqlHeatWaveClusterResource() *schema.Resource {

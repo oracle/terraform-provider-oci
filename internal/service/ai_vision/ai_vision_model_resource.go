@@ -14,12 +14,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
+	oci_ai_vision "github.com/oracle/oci-go-sdk/v60/aivision"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
-	oci_ai_vision "github.com/oracle/oci-go-sdk/v59/aivision"
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
 )
 
 func AiVisionModelResource() *schema.Resource {
@@ -401,7 +400,7 @@ func (s *AiVisionModelResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isQuickMode, ok := s.D.GetOkExists("is_quick_mode"); ok {
@@ -647,7 +646,7 @@ func (s *AiVisionModelResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()

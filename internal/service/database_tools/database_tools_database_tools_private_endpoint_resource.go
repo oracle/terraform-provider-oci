@@ -11,13 +11,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v59/databasetools"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v60/databasetools"
 )
 
 func DatabaseToolsDatabaseToolsPrivateEndpointResource() *schema.Resource {
@@ -74,7 +73,7 @@ func DatabaseToolsDatabaseToolsPrivateEndpointResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      utils.LiteralTypeHashCodeForSets,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -263,7 +262,7 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -467,7 +466,7 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -552,7 +551,7 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) SetData() error 
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.PrivateEndpointIp != nil {
 		s.D.Set("private_endpoint_ip", *s.Res.PrivateEndpointIp)
@@ -661,7 +660,7 @@ func DatabaseToolsPrivateEndpointSummaryToMap(obj oci_database_tools.DatabaseToo
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateEndpointIp != nil {

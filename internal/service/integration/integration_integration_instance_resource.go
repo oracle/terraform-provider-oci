@@ -13,7 +13,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -21,8 +20,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_integration "github.com/oracle/oci-go-sdk/v59/integration"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_integration "github.com/oracle/oci-go-sdk/v60/integration"
 )
 
 func IntegrationIntegrationInstanceResource() *schema.Resource {
@@ -142,7 +141,7 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			"idcs_at": {
 				Type:      schema.TypeString,
 				Optional:  true,
-				StateFunc: utils.GetMd5Hash,
+				StateFunc: tfresource.GetMd5Hash,
 				Sensitive: true,
 			},
 			"is_file_server_enabled": {
@@ -181,7 +180,7 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
-							Set:      utils.LiteralTypeHashCodeForSets,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -207,7 +206,7 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
-										Set:      utils.LiteralTypeHashCodeForSets,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -442,7 +441,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if idcsAt, ok := s.D.GetOkExists("idcs_at"); ok {
@@ -684,7 +683,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -941,7 +940,7 @@ func IntegNetworkEndpointDetailsToMap(obj *oci_integration.NetworkEndpointDetail
 		if datasource {
 			result["allowlisted_http_ips"] = allowlistedHttpIps
 		} else {
-			result["allowlisted_http_ips"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, allowlistedHttpIps)
+			result["allowlisted_http_ips"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, allowlistedHttpIps)
 		}
 
 		allowlistedHttpVcns := []interface{}{}
@@ -1000,7 +999,7 @@ func IntegVirtualCloudNetworkToMap(obj oci_integration.VirtualCloudNetwork, data
 	if datasource {
 		result["allowlisted_ips"] = allowlistedIps
 	} else {
-		result["allowlisted_ips"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, allowlistedIps)
+		result["allowlisted_ips"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, allowlistedIps)
 	}
 
 	if obj.Id != nil {

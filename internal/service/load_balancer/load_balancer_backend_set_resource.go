@@ -13,8 +13,6 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
@@ -22,7 +20,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v59/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
 )
 
 func LoadBalancerBackendSetResource() *schema.Resource {
@@ -132,7 +130,7 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 							Type:         schema.TypeString,
 							Optional:     true,
 							Computed:     true,
-							ValidateFunc: utils.ValidateNotEmptyString(),
+							ValidateFunc: tfresource.ValidateNotEmptyString(),
 						},
 						"is_http_only": {
 							Type:     schema.TypeBool,
@@ -472,7 +470,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Create() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = tfresource.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -480,7 +478,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Create() error {
 }
 
 func (s *LoadBalancerBackendSetResourceCrud) Get() error {
-	_, stillWorking, err := tfresource.LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	_, stillWorking, err := loadBalancerResourceGet(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -639,7 +637,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = tfresource.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -676,7 +674,7 @@ func (s *LoadBalancerBackendSetResourceCrud) Delete() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = tfresource.LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}

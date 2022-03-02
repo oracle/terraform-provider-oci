@@ -12,14 +12,13 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v59/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v59/opsi"
+	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v60/opsi"
 )
 
 func OpsiHostInsightResource() *schema.Resource {
@@ -913,7 +912,7 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicCreateHostInsig
 			details.DefinedTags = convertedDefinedTags
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateHostInsightDetails = details
 	case strings.ToLower("MACS_MANAGED_EXTERNAL_HOST"):
@@ -934,7 +933,7 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicCreateHostInsig
 			details.DefinedTags = convertedDefinedTags
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateHostInsightDetails = details
 	default:
@@ -963,7 +962,7 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicUpdateHostInsig
 			details.DefinedTags = convertedDefinedTags
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp
@@ -978,7 +977,7 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicUpdateHostInsig
 			details.DefinedTags = convertedDefinedTags
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp

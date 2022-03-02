@@ -10,10 +10,6 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -23,8 +19,11 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v59/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
 )
 
 const (
@@ -116,11 +115,11 @@ func ObjectStorageObjectResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
-					if !utils.IsHex(new) {
+					if !tfresource.IsHex(new) {
 						return old == new
 					}
 
-					base64, err := utils.HexToB64(new)
+					base64, err := tfresource.HexToB64(new)
 					if err != nil {
 						return false
 					}
@@ -162,8 +161,8 @@ func ObjectStorageObjectResource() *schema.Resource {
 				Optional:      true,
 				ForceNew:      true,
 				ConflictsWith: []string{"content", "source_uri_details"},
-				StateFunc:     utils.GetSourceFileState,
-				ValidateFunc:  validateSourceValue,
+				StateFunc:     tfresource.GetSourceFileState,
+				ValidateFunc:  tfresource.ValidateSourceValue,
 			},
 			"source_uri_details": {
 				Type:          schema.TypeList,
@@ -596,8 +595,8 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 	if contentMd5, ok := s.D.GetOkExists("content_md5"); ok {
 		tmp := contentMd5.(string)
 
-		if utils.IsHex(tmp) {
-			contentMd5B64, err := utils.HexToB64(tmp)
+		if tfresource.IsHex(tmp) {
+			contentMd5B64, err := tfresource.HexToB64(tmp)
 			if err != nil {
 				return err
 			}

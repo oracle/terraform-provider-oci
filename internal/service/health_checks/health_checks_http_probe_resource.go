@@ -8,11 +8,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_health_checks "github.com/oracle/oci-go-sdk/v59/healthchecks"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v60/healthchecks"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func HealthChecksHttpProbeResource() *schema.Resource {
@@ -140,7 +139,7 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 	}
 
 	if headers, ok := s.D.GetOkExists("headers"); ok {
-		request.Headers = utils.ObjectMapToStringMap(headers.(map[string]interface{}))
+		request.Headers = tfresource.ObjectMapToStringMap(headers.(map[string]interface{}))
 	}
 
 	if method, ok := s.D.GetOkExists("method"); ok {
