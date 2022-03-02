@@ -70,6 +70,7 @@ import (
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_osp_gateway "github.com/terraform-providers/terraform-provider-oci/internal/service/osp_gateway"
+	tf_osub_organization_subscription "github.com/terraform-providers/terraform-provider-oci/internal/service/osub_organization_subscription"
 	tf_osub_subscription "github.com/terraform-providers/terraform-provider-oci/internal/service/osub_subscription"
 	tf_osub_usage "github.com/terraform-providers/terraform-provider-oci/internal/service/osub_usage"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
@@ -961,11 +962,13 @@ func init() {
 	RegisterDatasource("oci_osp_gateway_invoices", tf_osp_gateway.OspGatewayInvoicesDataSource())
 	RegisterDatasource("oci_osp_gateway_invoices_invoice_lines", tf_osp_gateway.OspGatewayInvoicesInvoiceLinesDataSource())
 	RegisterDatasource("oci_osp_gateway_subscription", tf_osp_gateway.OspGatewaySubscriptionDataSource())
+	RegisterDatasource("oci_osp_gateway_subscriptions", tf_osp_gateway.OspGatewaySubscriptionsDataSource())
 	// osub_usage service
 	RegisterDatasource("oci_osub_usage_computed_usage", tf_osub_usage.OsubUsageComputedUsageDataSource())
 	RegisterDatasource("oci_osub_usage_computed_usages", tf_osub_usage.OsubUsageComputedUsagesDataSource())
 	RegisterDatasource("oci_osub_usage_computed_usage_aggregateds", tf_osub_usage.OsubUsageComputedUsageAggregatedsDataSource())
-	RegisterDatasource("oci_osp_gateway_subscriptions", tf_osp_gateway.OspGatewaySubscriptionsDataSource())
+	// osub_organization_subscription service
+	RegisterDatasource("oci_osub_organization_subscription_organization_subscriptions", tf_osub_organization_subscription.OsubOrganizationSubscriptionOrganizationSubscriptionsDataSource())
 	// osub_subscription service
 	RegisterDatasource("oci_osub_subscription_commitment", tf_osub_subscription.OsubSubscriptionCommitmentDataSource())
 	RegisterDatasource("oci_osub_subscription_commitments", tf_osub_subscription.OsubSubscriptionCommitmentsDataSource())
