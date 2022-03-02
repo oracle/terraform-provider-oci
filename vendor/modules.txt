@@ -387,6 +387,7 @@ github.com/oracle/oci-go-sdk/v60/opsi
 github.com/oracle/oci-go-sdk/v60/optimizer
 github.com/oracle/oci-go-sdk/v60/osmanagement
 github.com/oracle/oci-go-sdk/v60/ospgateway
+github.com/oracle/oci-go-sdk/v60/osubusage
 github.com/oracle/oci-go-sdk/v60/resourcemanager
 github.com/oracle/oci-go-sdk/v60/sch
 github.com/oracle/oci-go-sdk/v60/secrets
