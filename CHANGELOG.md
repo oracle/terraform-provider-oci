@@ -1,4 +1,4 @@
-## 4.66.0 (Unreleased)
+## 4.66.0 (March 02, 2022)
 
 ### Added
 - vcn-route-type option to drg attachment
