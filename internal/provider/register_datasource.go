@@ -70,6 +70,7 @@ import (
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_osp_gateway "github.com/terraform-providers/terraform-provider-oci/internal/service/osp_gateway"
+	tf_osub_billing_schedule "github.com/terraform-providers/terraform-provider-oci/internal/service/osub_billing_schedule"
 	tf_osub_organization_subscription "github.com/terraform-providers/terraform-provider-oci/internal/service/osub_organization_subscription"
 	tf_osub_subscription "github.com/terraform-providers/terraform-provider-oci/internal/service/osub_subscription"
 	tf_osub_usage "github.com/terraform-providers/terraform-provider-oci/internal/service/osub_usage"
@@ -974,6 +975,8 @@ func init() {
 	RegisterDatasource("oci_osub_subscription_commitments", tf_osub_subscription.OsubSubscriptionCommitmentsDataSource())
 	RegisterDatasource("oci_osub_subscription_ratecards", tf_osub_subscription.OsubSubscriptionRatecardsDataSource())
 	RegisterDatasource("oci_osub_subscription_subscriptions", tf_osub_subscription.OsubSubscriptionSubscriptionsDataSource())
+	// osub_billing_schedule service
+	RegisterDatasource("oci_osub_billing_schedule_billing_schedules", tf_osub_billing_schedule.OsubBillingScheduleBillingSchedulesDataSource())
 	// resourcemanager service
 	RegisterDatasource("oci_resourcemanager_stack", tf_resourcemanager.ResourcemanagerStackDataSource())
 	RegisterDatasource("oci_resourcemanager_stack_tf_state", tf_resourcemanager.ResourcemanagerStackTfStateDataSource())
