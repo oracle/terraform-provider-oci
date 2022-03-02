@@ -131,6 +131,10 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 			backup["kms_key_id"] = *r.KmsKeyId
 		}
 
+		if r.KmsKeyVersionId != nil {
+			backup["kms_key_version_id"] = *r.KmsKeyVersionId
+		}
+
 		if r.LifecycleDetails != nil {
 			backup["lifecycle_details"] = *r.LifecycleDetails
 		}
@@ -150,6 +154,10 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 		}
 
 		backup["type"] = r.Type
+
+		if r.VaultId != nil {
+			backup["vault_id"] = *r.VaultId
+		}
 
 		if r.Version != nil {
 			backup["version"] = *r.Version

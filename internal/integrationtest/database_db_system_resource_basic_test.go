@@ -50,6 +50,9 @@ var (
 			display_name = "dbHome1"
 			database {
 				admin_password = "BEstrO0ng_#11"
+				kms_key_id = "${var.kms_key_id}"
+                vault_id = "${var.vault_id}"
+                kms_key_version_id = "${var.kms_key_version_id}"
 				tde_wallet_password = "BEstrO0ng_#11"
 				db_name = "tfDbName"
 			}
@@ -136,6 +139,15 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 		t.Skip("Skipping suppressed DBSystem_basic")
 	}
 
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	kmsKeyVersionId := utils.GetEnvSettingWithBlankDefault("kms_key_version_id")
+	kmsKeyVersionIdVariableStr := fmt.Sprintf("variable \"kms_key_version_id\" { default = \"%s\" }\n", kmsKeyVersionId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
 	const dbWaitConditionDuration = time.Duration(6 * time.Minute)
 	const sourceDataBaseSystem = `
 	resource "oci_database_db_system" "src_db_system" {
@@ -158,6 +170,9 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 			display_name = "dbHome1"
 			database {
 				admin_password = "BEstrO0ng_#11"
+				kms_key_id = "${var.kms_key_id}"
+                vault_id = "${var.vault_id}"
+                kms_key_version_id = "${var.kms_key_version_id}"
 				db_name = "aTFdb"
 				character_set = "AL32UTF8"
 				ncharacter_set = "AL16UTF16"
@@ -183,7 +198,7 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create
 		{
-			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
+			Config: ResourceDatabaseBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + sourceDataBaseSystem + `
 				data "oci_database_databases" "t" {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
@@ -199,7 +214,7 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 		{
 			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, dbBackupAvailableWaitCondition, dbWaitConditionDuration,
 				listBackupsFetchOperation, "core", false),
-			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
+			Config: ResourceDatabaseBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + sourceDataBaseSystem + `
 				data "oci_database_databases" "t" {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
@@ -224,7 +239,10 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 						db_version = "12.1.0.2"
 						database {
 							admin_password = "BEstrO0ng_#11"
-							backup_tde_password = "BEstrO0ng_#11"
+				            kms_key_id = "${var.kms_key_id}"
+                            vault_id = "${var.vault_id}"
+                            kms_key_version_id = "${var.kms_key_version_id}"
+							//backup_tde_password = "BEstrO0ng_#11"
 							database_id = "${data.oci_database_databases.t.databases.0.id}"
 							db_name = "dbarclog"
 						}
@@ -237,6 +255,9 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.vault_id"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.kms_key_version_id"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.kms_key_id"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
@@ -339,12 +360,10 @@ func TestAccResourceDatabaseDBSystemWithPointInTimeRecovery(t *testing.T) {
 				}
 
 				data "oci_database_backups" "test_backups" {
-					//database_id = "ocid1.database.oc1.phx.abyhqljsz2exfqnuimsq4hmio5pgbk2ifsqphexknlmnbnqpc7lcauvejmqq"
 					database_id = "${data.oci_database_databases.db.databases.0.id}"
 				}
 
 				resource "oci_database_db_system" "t" {
-					//availability_domain = "NyKp:PHX-AD-1"
 					availability_domain = "${oci_core_subnet.t.availability_domain}"
 					compartment_id = "${var.compartment_id}"
 					subnet_id = "${oci_core_subnet.t.id}"

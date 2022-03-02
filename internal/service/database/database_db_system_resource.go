@@ -190,6 +190,18 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"kms_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"kms_key_version_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"ncharacter_set": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -214,6 +226,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed:         true,
 										ForceNew:         true,
 										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+									},
+									"vault_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
 									},
 
 									// Computed
@@ -1405,6 +1423,16 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+
+	if kmsKeyVersionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_version_id")); ok {
+		tmp := kmsKeyVersionId.(string)
+		result.KmsKeyVersionId = &tmp
+	}
+
 	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
 		tmp := ncharacterSet.(string)
 		result.NcharacterSet = &tmp
@@ -1418,6 +1446,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
 		tmp := tdeWalletPassword.(string)
 		result.TdeWalletPassword = &tmp
+	}
+
+	if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+		tmp := vaultId.(string)
+		result.VaultId = &tmp
 	}
 
 	return result, nil
@@ -1448,6 +1481,20 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 
 	result["db_workload"] = string(obj.DbWorkload)
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.KmsKeyId != nil {
+		result["kms_key_id"] = string(*obj.KmsKeyId)
+	}
+
+	if obj.KmsKeyVersionId != nil {
+		result["kms_key_version_id"] = string(*obj.KmsKeyVersionId)
+	}
+
 	if obj.NcharacterSet != nil {
 		result["ncharacter_set"] = string(*obj.NcharacterSet)
 	}
@@ -1458,6 +1505,10 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 
 	if obj.TdeWalletPassword != nil {
 		result["tde_wallet_password"] = string(*obj.TdeWalletPassword)
+	}
+
+	if obj.VaultId != nil {
+		result["vault_id"] = string(*obj.VaultId)
 	}
 
 	return result
@@ -3151,6 +3202,18 @@ func (s *DatabaseDbSystemResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if adminPassword, ok := s.D.GetOkExists("db_home.0.database.0.admin_password"); ok && adminPassword != nil {
 		result["admin_password"] = adminPassword.(string)
+	}
+
+	if kmsKeyId, ok := s.D.GetOkExists("db_home.0.database.0.kms_key_id"); ok && kmsKeyId != nil {
+		result["kms_key_id"] = kmsKeyId.(string)
+	}
+
+	if kmsKeyVersionId, ok := s.D.GetOkExists("db_home.0.database.0.kms_key_version_id"); ok && kmsKeyVersionId != nil {
+		result["kms_key_version_id"] = kmsKeyVersionId.(string)
+	}
+
+	if vaultId, ok := s.D.GetOkExists("db_home.0.database.0.vault_id"); ok && vaultId != nil {
+		result["vault_id"] = vaultId.(string)
 	}
 
 	if tdeWalletPassword, ok := s.D.GetOkExists("db_home.0.database.0.tde_wallet_password"); ok && tdeWalletPassword != nil {
