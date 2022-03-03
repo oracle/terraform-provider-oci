@@ -67,7 +67,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, autonomousDatabaseBackupRepresentation), "database", "autonomousDatabaseBackup", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify Create
+		//0. verify create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, autonomousDatabaseBackupRepresentation),
@@ -86,8 +86,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// verify datasource
+		//1. verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_backups", "test_autonomous_database_backups", acctest.Optional, acctest.Update, autonomousDatabaseBackupDataSourceRepresentation) +
@@ -110,7 +109,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.type"),
 			),
 		},
-		// verify singular datasource
+		//2. verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, autonomousDatabaseBackupSingularDataSourceRepresentation) +
@@ -129,11 +128,11 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		//3. remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
 		},
-		// verify resource import
+		//4. verify resource import
 		{
 			Config:                  config,
 			ImportState:             true,

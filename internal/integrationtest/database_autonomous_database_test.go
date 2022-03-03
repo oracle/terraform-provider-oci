@@ -63,6 +63,7 @@ var (
 		"display_name":                         acctest.Representation{RepType: acctest.Optional, Create: `example_autonomous_database`, Update: `displayName2`},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_auto_scaling_enabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_auto_scaling_for_storage_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_dedicated":                         acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_mtls_connection_required":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `EARLY`},
@@ -134,7 +135,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseRepresentation), "database", "autonomousDatabase", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create
+		//0. verify create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentation),
@@ -152,12 +153,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// delete before next Create
+		//1. delete before next create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
 		},
-		// verify Create with optionals
+		//2. verify create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -182,6 +182,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
@@ -210,7 +211,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-
+		//3. verify database_management_status and operations_insights_status
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -256,8 +257,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		//4. verify update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -282,6 +282,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
@@ -307,8 +308,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// verify updates to updatable parameters
+		//5. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -350,12 +350,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify stop the autonomous database
+		//6. verify stop the autonomous database
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("state", acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`},
-						autonomousDatabaseRepresentation), []string{"scheduled_operations"})),
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						"state":                       acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`},
+						"is_mtls_connection_required": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -383,7 +385,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify start the autonomous database
+		//7. verify start the autonomous database
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -415,8 +417,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// verify updates to whitelisted_ips
+		//8. verify updates to whitelisted_ips
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -447,7 +448,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify remove whitelisted_ips
+		//9. verify remove whitelisted_ips
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
@@ -477,10 +478,13 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify autoscaling
+		//10. verify autoscaling
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{"is_auto_scaling_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`}})),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{
+						"is_auto_scaling_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
+					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -493,6 +497,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -515,7 +520,84 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify datasource
+		//11. verify autoscaling for storage
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{
+						"is_auto_scaling_for_storage_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_for_storage_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.0.name", "TUESDAY"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_start_time", "10:00"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_stop_time", "20:00"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		//12. verify shrink
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{
+						"is_shrink_only": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		//13. verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", acctest.Optional, acctest.Update, autonomousDatabaseDataSourceRepresentation) +
@@ -528,6 +610,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.actual_used_data_storage_size_in_tbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.allocated_storage_size_in_tbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.apex_details.#"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.autonomous_maintenance_schedule_type", "EARLY"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.backup_config.#", "1"),
@@ -546,6 +630,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_preview"),
@@ -573,7 +658,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.vault_id"),
 			),
 		},
-		// verify singular datasource
+		//14. verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseSingularDataSourceRepresentation) +
@@ -606,6 +691,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
@@ -629,11 +715,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_end"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		//15. remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
 		},
-		// verify resource import
+		//16. verify resource import
 		{
 			Config:            config,
 			ImportState:       true,
@@ -649,15 +735,16 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				"timestamp",
 				// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
 				"used_data_storage_size_in_tbs",
+				"is_shrink_only",
 			},
 			ResourceName: resourceName,
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		//17. remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr,
 		},
 		// test ADW db_workload
-		// verify Create with optionals
+		//18. verify create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -688,8 +775,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// verify updates to updatable parameters
+		//19. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -721,8 +807,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// verify autoscaling with DW workload
+		//20. verify autoscaling with DW workload
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -756,12 +841,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// remove any previously created resources
+		//21. remove any previously created resources
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
 		},
-		// verify ADB clone from a source ADB
+		//22. verify ADB clone from a source ADB
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRepresentation) +

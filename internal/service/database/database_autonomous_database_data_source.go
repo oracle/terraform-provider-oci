@@ -66,6 +66,14 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.ActualUsedDataStorageSizeInTBs != nil {
+		s.D.Set("actual_used_data_storage_size_in_tbs", *s.Res.ActualUsedDataStorageSizeInTBs)
+	}
+
+	if s.Res.AllocatedStorageSizeInTBs != nil {
+		s.D.Set("allocated_storage_size_in_tbs", *s.Res.AllocatedStorageSizeInTBs)
+	}
+
 	if s.Res.ArePrimaryWhitelistedIpsUsed != nil {
 		s.D.Set("are_primary_whitelisted_ips_used", *s.Res.ArePrimaryWhitelistedIpsUsed)
 	}
@@ -160,6 +168,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
+	}
+
+	if s.Res.IsAutoScalingForStorageEnabled != nil {
+		s.D.Set("is_auto_scaling_for_storage_enabled", *s.Res.IsAutoScalingForStorageEnabled)
 	}
 
 	if s.Res.IsDataGuardEnabled != nil {
