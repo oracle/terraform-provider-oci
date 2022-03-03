@@ -36,6 +36,7 @@ resource "oci_database_autonomous_database" "autonomous_database" {
   display_name                                   = "example_autonomous_database"
   freeform_tags                                  = var.autonomous_database_freeform_tags
   is_auto_scaling_enabled                        = "true"
+  is_auto_scaling_for_storage_enabled            = "true"
   license_model                                  = var.autonomous_database_license_model
   is_preview_version_with_service_terms_accepted = "false"
   whitelisted_ips                                = ["1.1.1.1/28"]

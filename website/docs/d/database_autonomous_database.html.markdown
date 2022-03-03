@@ -33,6 +33,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `actual_used_data_storage_size_in_tbs` - The current amount of storage in use for user and system data, in terabytes (TB). 
+* `allocated_storage_size_in_tbs` - The amount of storage currently allocated for the database tables and billed for, rounded up. When auto-scaling is not enabled, this value is equal to the `dataStorageSizeInTBs` value. You can compare this value to the `actualUsedDataStorageSizeInTBs` value to determine if a manual shrink operation is appropriate for your allocated storage.
+
+	**Note:** Auto-scaling does not automatically decrease allocated storage when data is deleted from the database. 
 * `apex_details` - Information about Oracle APEX Application Development.
 	* `apex_version` - The Oracle APEX Application Development version.
 	* `ords_version` - The Oracle REST Data Services (ORDS) version.
@@ -90,6 +94,7 @@ The following attributes are exported:
 
 	This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform. 
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. 
+* `is_auto_scaling_for_storage_enabled` - Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`. 
 * `is_data_guard_enabled` - Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to  Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure. 
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html). 
 * `is_free_tier` - Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. 

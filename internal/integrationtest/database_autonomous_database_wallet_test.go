@@ -61,7 +61,7 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", acctest.Optional, acctest.Create, autonomousDatabaseWalletRepresentation), "database", "autonomousDatabaseWallet", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify Create
+		//0. verify Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", acctest.Required, acctest.Create, autonomousDatabaseWalletRepresentation),
@@ -70,12 +70,11 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
 			),
 		},
-
-		// delete before next Create
+		//1. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
 		},
-		// verify Create with optionals
+		//2. verify create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", acctest.Optional, acctest.Create, autonomousDatabaseWalletRepresentation),
@@ -87,8 +86,7 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
 			),
 		},
-
-		// verify singular datasource
+		//3. verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", acctest.Required, acctest.Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
@@ -101,7 +99,7 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
 			),
 		},
-
+		//4. verify content true
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", acctest.Optional, acctest.Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
