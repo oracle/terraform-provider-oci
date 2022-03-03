@@ -57,7 +57,7 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Create, autonomousDatabaseInstanceWalletManagementRepresentation), "database", "autonomousDatabaseInstanceWalletManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify Create
+		//0. verify create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Required, acctest.Create, autonomousDatabaseInstanceWalletManagementRepresentation),
@@ -76,8 +76,7 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 				},
 			),
 		},
-
-		// verify updates to updatable parameters
+		//1. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Update, autonomousDatabaseInstanceWalletManagementRepresentation),
@@ -95,7 +94,7 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 				},
 			),
 		},
-		// verify singular datasource
+		//2. verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Required, acctest.Create, autonomousDatabaseInstanceWalletManagementSingularDataSourceRepresentation) +
