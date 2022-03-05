@@ -14,8 +14,6 @@
 - Fix tests and examples for GoldenGate
 - Remove system tags from oke request
 
-### Added
-- Add here
 ## 4.66.0 (March 02, 2022)
 
 ### Added
