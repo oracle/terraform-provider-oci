@@ -96,6 +96,12 @@ const (
 
 	// isDefaultCircuitBreakerEnabled is the key for set default circuit breaker disabled from env var
 	isDefaultCircuitBreakerEnabled = "OCI_SDK_DEFAULT_CIRCUITBREAKER_ENABLED"
+
+	//circuitBreakerNumberOfHistoryResponseEnv is the number of recorded history responses
+	circuitBreakerNumberOfHistoryResponseEnv = "OCI_SDK_CIRCUITBREAKER_NUM_HISTORY_RESPONSE"
+
+	//maxAttemptsForRefreshableRetry is the number of retry when 401 happened on a refreshable auth type
+	maxAttemptsForRefreshableRetry = 3
 )
 
 // RequestInterceptor function used to customize the request before calling the underlying service
@@ -554,7 +560,22 @@ type ClientCallDetails struct {
 
 // Call executes the http request with the given context
 func (client BaseClient) Call(ctx context.Context, request *http.Request) (response *http.Response, err error) {
+	if client.IsRefreshableAuthType() {
+		client.RefreshableTokenWrappedCallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
+	}
 	return client.CallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
+}
+
+// RefreshableTokenWrappedCallWithDetails wraps the CallWithDetails with retry on 401 for Refreshable Toekn (Instance Principal, Resource Principal etc.)
+// This is to intimitate the race condition on refresh
+func (client BaseClient) RefreshableTokenWrappedCallWithDetails(ctx context.Context, request *http.Request, details ClientCallDetails) (response *http.Response, err error) {
+	for i := 0; i < maxAttemptsForRefreshableRetry; i++ {
+		response, err = client.CallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
+		if response != nil && response.StatusCode != 401 {
+			return response, err
+		}
+	}
+	return
 }
 
 // CallWithDetails executes the http request, the given context using details specified in the parameters, this function
@@ -582,6 +603,13 @@ func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Requ
 		resp, cbErr := ociGoBreaker.Cb.Execute(func() (interface{}, error) {
 			return client.httpDo(request)
 		})
+		if httpResp, ok := resp.(*http.Response); ok {
+			if httpResp != nil && httpResp.StatusCode != 200 {
+				if failure, ok := IsServiceError(cbErr); ok {
+					ociGoBreaker.AddToHistory(resp.(*http.Response), failure)
+				}
+			}
+		}
 		if cbErr != nil && IsCircuitBreakerError(cbErr) {
 			cbErr = getCircuitBreakerError(request, cbErr, ociGoBreaker)
 		}
@@ -591,6 +619,16 @@ func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Requ
 		return resp.(*http.Response), cbErr
 	}
 	return client.httpDo(request)
+}
+
+// IsRefreshableAuthType validates if a signer is from a refreshable config provider
+func (client BaseClient) IsRefreshableAuthType() bool {
+	if signer, ok := client.Signer.(ociRequestSigner); ok {
+		if provider, ok := signer.KeyProvider.(RefreshableConfigurationProvider); ok {
+			return provider.Refreshable()
+		}
+	}
+	return false
 }
 
 func (client BaseClient) httpDo(request *http.Request) (response *http.Response, err error) {

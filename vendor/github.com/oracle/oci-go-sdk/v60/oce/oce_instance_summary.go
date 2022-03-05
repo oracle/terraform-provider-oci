@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Content and Experience API
+// Oracle Content Management API
 //
-// Oracle Content and Experience is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
+// Oracle Content Management is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
 //
 
 package oce
@@ -51,6 +51,9 @@ type OceInstanceSummary struct {
 	// Instance type based on its usage
 	InstanceUsageType OceInstanceSummaryInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
 
+	// a list of add-on features for the ocm instance
+	AddOnFeatures []string `mandatory:"false" json:"addOnFeatures"`
+
 	// Upgrade schedule type representing service to be upgraded immediately whenever latest version is released
 	// or delay upgrade of the service to previous released version
 	UpgradeSchedule OceInstanceUpgradeScheduleEnum `mandatory:"false" json:"upgradeSchedule,omitempty"`
@@ -70,8 +73,11 @@ type OceInstanceSummary struct {
 	// The time the OceInstance was updated. An RFC3339 formatted datetime string
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the file system.
-	LifecycleState OceInstanceSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	// The current state of the instance lifecycle.
+	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Details of the current state of the instance lifecycle
+	LifecycleDetails LifecycleDetailsEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
 
 	// An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
@@ -115,8 +121,11 @@ func (m OceInstanceSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingLicenseTypeEnum(string(m.InstanceLicenseType)); !ok && m.InstanceLicenseType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceLicenseType: %s. Supported values are: %s.", m.InstanceLicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingOceInstanceSummaryLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOceInstanceSummaryLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLifecycleDetailsEnum(string(m.LifecycleDetails)); !ok && m.LifecycleDetails != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetails: %s. Supported values are: %s.", m.LifecycleDetails, strings.Join(GetLifecycleDetailsEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -205,63 +214,5 @@ func GetOceInstanceSummaryInstanceAccessTypeEnumStringValues() []string {
 // GetMappingOceInstanceSummaryInstanceAccessTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingOceInstanceSummaryInstanceAccessTypeEnum(val string) (OceInstanceSummaryInstanceAccessTypeEnum, bool) {
 	enum, ok := mappingOceInstanceSummaryInstanceAccessTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// OceInstanceSummaryLifecycleStateEnum Enum with underlying type: string
-type OceInstanceSummaryLifecycleStateEnum string
-
-// Set of constants representing the allowable values for OceInstanceSummaryLifecycleStateEnum
-const (
-	OceInstanceSummaryLifecycleStateCreating OceInstanceSummaryLifecycleStateEnum = "CREATING"
-	OceInstanceSummaryLifecycleStateUpdating OceInstanceSummaryLifecycleStateEnum = "UPDATING"
-	OceInstanceSummaryLifecycleStateActive   OceInstanceSummaryLifecycleStateEnum = "ACTIVE"
-	OceInstanceSummaryLifecycleStateDeleting OceInstanceSummaryLifecycleStateEnum = "DELETING"
-	OceInstanceSummaryLifecycleStateDeleted  OceInstanceSummaryLifecycleStateEnum = "DELETED"
-	OceInstanceSummaryLifecycleStateFailed   OceInstanceSummaryLifecycleStateEnum = "FAILED"
-)
-
-var mappingOceInstanceSummaryLifecycleStateEnum = map[string]OceInstanceSummaryLifecycleStateEnum{
-	"CREATING": OceInstanceSummaryLifecycleStateCreating,
-	"UPDATING": OceInstanceSummaryLifecycleStateUpdating,
-	"ACTIVE":   OceInstanceSummaryLifecycleStateActive,
-	"DELETING": OceInstanceSummaryLifecycleStateDeleting,
-	"DELETED":  OceInstanceSummaryLifecycleStateDeleted,
-	"FAILED":   OceInstanceSummaryLifecycleStateFailed,
-}
-
-var mappingOceInstanceSummaryLifecycleStateEnumLowerCase = map[string]OceInstanceSummaryLifecycleStateEnum{
-	"creating": OceInstanceSummaryLifecycleStateCreating,
-	"updating": OceInstanceSummaryLifecycleStateUpdating,
-	"active":   OceInstanceSummaryLifecycleStateActive,
-	"deleting": OceInstanceSummaryLifecycleStateDeleting,
-	"deleted":  OceInstanceSummaryLifecycleStateDeleted,
-	"failed":   OceInstanceSummaryLifecycleStateFailed,
-}
-
-// GetOceInstanceSummaryLifecycleStateEnumValues Enumerates the set of values for OceInstanceSummaryLifecycleStateEnum
-func GetOceInstanceSummaryLifecycleStateEnumValues() []OceInstanceSummaryLifecycleStateEnum {
-	values := make([]OceInstanceSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingOceInstanceSummaryLifecycleStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetOceInstanceSummaryLifecycleStateEnumStringValues Enumerates the set of values in String for OceInstanceSummaryLifecycleStateEnum
-func GetOceInstanceSummaryLifecycleStateEnumStringValues() []string {
-	return []string{
-		"CREATING",
-		"UPDATING",
-		"ACTIVE",
-		"DELETING",
-		"DELETED",
-		"FAILED",
-	}
-}
-
-// GetMappingOceInstanceSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingOceInstanceSummaryLifecycleStateEnum(val string) (OceInstanceSummaryLifecycleStateEnum, bool) {
-	enum, ok := mappingOceInstanceSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

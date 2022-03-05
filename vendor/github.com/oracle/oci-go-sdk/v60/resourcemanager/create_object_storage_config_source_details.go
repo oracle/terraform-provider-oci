@@ -23,7 +23,7 @@ import (
 type CreateObjectStorageConfigSourceDetails struct {
 
 	// The name of the bucket's region.
-	// Example: `PHX`
+	// Example: `us-phoenix-1`
 	Region *string `mandatory:"true" json:"region"`
 
 	// The Object Storage namespace that contains the bucket.
@@ -32,9 +32,12 @@ type CreateObjectStorageConfigSourceDetails struct {
 	// The name of the bucket that contains the Terraform configuration files.
 	BucketName *string `mandatory:"true" json:"bucketName"`
 
-	// File path to the directory from which Terraform runs.
+	// File path to the directory to use for running Terraform.
 	// If not specified, the root directory is used.
-	// This parameter is ignored for the `configSourceType` value of `COMPARTMENT_CONFIG_SOURCE`.
+	// Required when using a zip Terraform configuration (`configSourceType` value of `ZIP_UPLOAD`) that contains folders.
+	// Ignored for the `configSourceType` value of `COMPARTMENT_CONFIG_SOURCE`.
+	// For more information about required and recommended file structure, see
+	// File Structure (Terraform Configurations for Resource Manager) (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/terraformconfigresourcemanager.htm#filestructure).
 	WorkingDirectory *string `mandatory:"false" json:"workingDirectory"`
 }
 

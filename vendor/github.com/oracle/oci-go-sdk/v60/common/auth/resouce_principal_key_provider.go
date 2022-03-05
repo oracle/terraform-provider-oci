@@ -225,6 +225,10 @@ func (p *resourcePrincipalKeyProvider) AuthType() (common.AuthConfig, error) {
 	return common.AuthConfig{common.UnknownAuthenticationType, false, nil}, fmt.Errorf("unsupported, keep the interface")
 }
 
+func (p *resourcePrincipalKeyProvider) Refreshable() bool {
+	return true
+}
+
 // By contract for the the content of a resource principal to be considered path, it needs to be
 // an absolute path.
 func isPath(str string) bool {

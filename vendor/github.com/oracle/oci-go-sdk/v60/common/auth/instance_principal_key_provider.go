@@ -144,3 +144,7 @@ func (p *instancePrincipalKeyProvider) KeyID() (string, error) {
 func (p *instancePrincipalKeyProvider) TenancyOCID() (string, error) {
 	return p.TenancyID, nil
 }
+
+func (p *instancePrincipalKeyProvider) Refreshable() bool {
+	return true
+}

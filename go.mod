@@ -12,6 +12,8 @@ require (
 	gopkg.in/yaml.v2 v2.3.0
 )
 
+require github.com/gofrs/flock v0.8.1 // indirect
+
 require (
 	cloud.google.com/go v0.65.0 // indirect
 	cloud.google.com/go/storage v1.10.0 // indirect
@@ -80,7 +82,7 @@ require (
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
 	golang.org/x/net v0.0.0-20210326060303-6b1517762897 // indirect
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43 // indirect
-	golang.org/x/sys v0.0.0-20210324051608-47abb6519492 // indirect
+	golang.org/x/sys v0.0.0-20220209214540-3681064d5158 // indirect
 	golang.org/x/text v0.3.5 // indirect
 	golang.org/x/tools v0.0.0-20201028111035-eafbe7b904eb // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
@@ -93,6 +95,6 @@ require (
 )
 
 // Uncomment this line to get OCI Go SDK from local source instead of github
-//replace github.com/oracle/oci-go-sdk => ../../oracle/oci-go-sdk
+replace github.com/oracle/oci-go-sdk/v60 v60.0.0 => ./vendor/github.com/oracle/oci-go-sdk
 
 go 1.17
