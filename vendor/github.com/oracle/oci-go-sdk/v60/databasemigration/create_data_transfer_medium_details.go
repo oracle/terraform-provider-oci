@@ -16,11 +16,14 @@ import (
 )
 
 // CreateDataTransferMediumDetails Data Transfer Medium details for the Migration. If not specified, it will default to Database Link. Only one type
-// of data transfer medium can be specified.
+// of data transfer medium can be specified, except for the case of Amazon RDS Oracle as source, where Object Storage
+// Details along with AwsS3Details are required.
 type CreateDataTransferMediumDetails struct {
 	DatabaseLinkDetails *CreateDatabaseLinkDetails `mandatory:"false" json:"databaseLinkDetails"`
 
 	ObjectStorageDetails *CreateObjectStoreBucket `mandatory:"false" json:"objectStorageDetails"`
+
+	AwsS3Details *CreateAwsS3Details `mandatory:"false" json:"awsS3Details"`
 }
 
 func (m CreateDataTransferMediumDetails) String() string {

@@ -16,12 +16,15 @@ import (
 )
 
 // UpdateDataTransferMediumDetails Data Transfer Medium details for the Migration.
-// Only one type of data transfer medium can be specified and will replace the stored Data Transfer Medium details.
+// Only one type of data transfer medium can be specified, except for the case of Amazon RDS Oracle as source,
+// where Object Storage Details along with AwsS3Details are required.
 // If an empty object is specified, the stored Data Transfer Medium details will be removed.
 type UpdateDataTransferMediumDetails struct {
 	DatabaseLinkDetails *UpdateDatabaseLinkDetails `mandatory:"false" json:"databaseLinkDetails"`
 
 	ObjectStorageDetails *UpdateObjectStoreBucket `mandatory:"false" json:"objectStorageDetails"`
+
+	AwsS3Details *UpdateAwsS3Details `mandatory:"false" json:"awsS3Details"`
 }
 
 func (m UpdateDataTransferMediumDetails) String() string {

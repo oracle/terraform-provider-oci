@@ -28,6 +28,10 @@ type ClusterEndpoints struct {
 
 	// The private native networking Kubernetes API server endpoint.
 	PrivateEndpoint *string `mandatory:"false" json:"privateEndpoint"`
+
+	// The FQDN assigned to the Kubernetes API private endpoint.
+	// Example: 'https://yourVcnHostnameEndpoint'
+	VcnHostnameEndpoint *string `mandatory:"false" json:"vcnHostnameEndpoint"`
 }
 
 func (m ClusterEndpoints) String() string {

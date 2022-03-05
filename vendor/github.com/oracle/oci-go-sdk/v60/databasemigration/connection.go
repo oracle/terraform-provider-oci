@@ -36,6 +36,12 @@ type Connection struct {
 	// The time the Connection resource was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// Database manual connection subtype. This value can only be specified for manual connections.
+	ManualDatabaseSubType DatabaseManualConnectionSubTypesEnum `mandatory:"false" json:"manualDatabaseSubType,omitempty"`
+
+	// True if the Autonomous Connection is dedicated. Not provided for Non-Autonomous Connections.
+	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
+
 	// The OCID of the cloud database.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
@@ -91,6 +97,9 @@ func (m Connection) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDatabaseManualConnectionSubTypesEnum(string(m.ManualDatabaseSubType)); !ok && m.ManualDatabaseSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManualDatabaseSubType: %s. Supported values are: %s.", m.ManualDatabaseSubType, strings.Join(GetDatabaseManualConnectionSubTypesEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Content and Experience API
+// Oracle Content Management API
 //
-// Oracle Content and Experience is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
+// Oracle Content Management is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
 //
 
 package oce
@@ -29,6 +29,9 @@ type UpdateOceInstanceDetails struct {
 
 	// Instance type based on its usage
 	InstanceUsageType UpdateOceInstanceDetailsInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
+
+	// a list of add-on features for the ocm instance
+	AddOnFeatures []string `mandatory:"false" json:"addOnFeatures"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

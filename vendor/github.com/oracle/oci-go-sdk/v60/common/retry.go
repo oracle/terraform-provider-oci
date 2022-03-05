@@ -4,19 +4,14 @@
 package common
 
 import (
-	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"io"
 	"math"
 	"math/rand"
-	"os"
 	"runtime"
-	"strconv"
 	"strings"
-	"sync"
-	"sync/atomic"
 	"time"
 )
 
@@ -62,140 +57,6 @@ type OCIOperationResponse struct {
 
 	// Time of the initial attempt
 	InitialAttemptTime time.Time
-}
-
-// EventuallyConsistentContext contains the information about the end of the eventually consistent window.
-type EventuallyConsistentContext struct {
-	endOfWindow     atomic.Value
-	lock            sync.RWMutex
-	timeNowProvider func() time.Time
-}
-
-// getGID returns the Goroutine id. This is purely for logging and debugging.
-// See https://blog.sgmansfield.com/2015/12/goroutine-ids/
-func getGID() uint64 {
-	b := make([]byte, 64)
-	b = b[:runtime.Stack(b, false)]
-	b = bytes.TrimPrefix(b, []byte("goroutine "))
-	b = b[:bytes.IndexByte(b, ' ')]
-	n, _ := strconv.ParseUint(string(b), 10, 64)
-	return n
-}
-
-// Debugf logs v with the provided format if debug mode is set.
-// There is no mutex synchronization. You should have acquired e.lock first.
-func ecDebugf(format string, v ...interface{}) {
-	defer func() {
-		// recover from panic if one occured.
-		if recover() != nil {
-			Debugln("ecDebugf failed")
-		}
-	}()
-
-	str := fmt.Sprintf(format, v...)
-	// prefix message with "(pid=25140, gid=5)"
-	Debugf("(pid=%d, gid=%d) %s", os.Getpid(), getGID(), str)
-}
-
-// Debug logs v if debug mode is set.
-// There is no mutex synchronization. You should have acquired e.lock first.
-func ecDebug(v ...interface{}) {
-	defer func() {
-		// recover from panic if one occured.
-		if recover() != nil {
-			Debugln("ecDebug failed")
-		}
-	}()
-
-	// prefix message with "(pid=25140, gid=5)"
-	Debug(append([]interface{}{"(pid=", os.Getpid(), ", gid=", getGID(), ") "}, v...)...)
-}
-
-// Debugln logs v appending a new line if debug mode is set
-// There is no mutex synchronization. You should have acquired e.lock first.
-func ecDebugln(v ...interface{}) {
-	defer func() {
-		// recover from panic if one occured.
-		if recover() != nil {
-			Debugln("ecDebugln failed")
-		}
-	}()
-
-	// prefix message with "(pid=25140, gid=5)"
-	Debugln(append([]interface{}{"(pid=", os.Getpid(), ", gid=", getGID(), ") "}, v...)...)
-}
-
-// GetEndOfWindow returns the end time an eventually consistent window,
-// or nil if no eventually consistent requests were made
-func (e *EventuallyConsistentContext) GetEndOfWindow() *time.Time {
-	e.lock.RLock() // synchronize with potential writers
-	defer e.lock.RUnlock()
-
-	endOfWindowTime := e.getEndOfWindowUnsynchronized()
-
-	// TODO: this is noisy logging, consider removing
-	if endOfWindowTime != nil {
-		ecDebugln(fmt.Sprintf("EcContext.GetEndOfWindow returns %s", endOfWindowTime))
-	} else {
-		ecDebugln("EcContext.GetEndOfWindow returns <nil>")
-	}
-
-	return endOfWindowTime
-}
-
-// getEndOfWindow_unsynchronized returns the end time an eventually consistent window,
-// or nil if no eventually consistent requests were made.
-// There is no mutex synchronization.
-func (e *EventuallyConsistentContext) getEndOfWindowUnsynchronized() *time.Time {
-	untyped := e.endOfWindow.Load() // returns nil if there has been no call to Store for this Value
-	if untyped == nil {
-		return (*time.Time)(nil)
-	}
-	t := untyped.(*time.Time)
-
-	return t
-}
-
-// UpdateEndOfWindow sets the end time of the eventually consistent window the specified
-// duration into the future
-func (e *EventuallyConsistentContext) UpdateEndOfWindow(windowSize time.Duration) *time.Time {
-	e.lock.Lock() // synchronize with other potential writers
-	defer e.lock.Unlock()
-
-	currentEndOfWindowTime := e.getEndOfWindowUnsynchronized()
-	var newEndOfWindowTime = e.timeNowProvider().Add(windowSize)
-	if currentEndOfWindowTime == nil || newEndOfWindowTime.After(*currentEndOfWindowTime) {
-		e.endOfWindow.Store(&newEndOfWindowTime) // atomically replace the current object with the new one
-
-		// TODO: this is noisy logging, consider removing
-		ecDebugln(fmt.Sprintf("EcContext.UpdateEndOfWindow to %s", newEndOfWindowTime))
-
-		return &newEndOfWindowTime
-	}
-	return currentEndOfWindowTime
-}
-
-// setEndTimeOfEventuallyConsistentWindow sets the last time an eventually consistent request was made
-// to the specified time
-func (e *EventuallyConsistentContext) setEndOfWindow(newTime *time.Time) *time.Time {
-	e.lock.Lock() // synchronize with other potential writers
-	defer e.lock.Unlock()
-
-	e.endOfWindow.Store(newTime) // atomically replace the current object with the new one
-
-	// TODO: this is noisy logging, consider removing
-	if newTime != nil {
-		ecDebugln(fmt.Sprintf("EcContext.setEndOfWindow to %s", *newTime))
-	} else {
-		ecDebugln("EcContext.setEndOfWindow to <nil>")
-	}
-
-	return newTime
-}
-
-// EcContext contains the information about the end of the eventually consistent window for this process.
-var EcContext = EventuallyConsistentContext{
-	timeNowProvider: func() time.Time { return time.Now() },
 }
 
 const (
@@ -486,7 +347,8 @@ func returnSamePolicy(policy RetryPolicy) (RetryPolicy, *time.Time, float64) {
 	// we're returning the end of window time nonetheless, even though the default non-eventual consistency (EC)
 	// retry policy doesn't use it; this is useful in case developers wants to write an EC-aware retry policy
 	// on their own
-	return policy, EcContext.GetEndOfWindow(), 1.0
+	eowt := EcContext.GetEndOfWindow()
+	return policy, eowt, 1.0
 }
 
 // NoRetryPolicy is a helper method that assembles and returns a return policy that indicates an operation should

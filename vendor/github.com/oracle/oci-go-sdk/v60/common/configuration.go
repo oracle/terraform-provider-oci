@@ -657,3 +657,8 @@ func getRegionFromEnvVar() (string, error) {
 	}
 	return "", fmt.Errorf("did not find OCI_REGION env var")
 }
+
+// RefreshableConfigurationProvider the interface to identity if the config provider is refreshable
+type RefreshableConfigurationProvider interface {
+	Refreshable() bool
+}

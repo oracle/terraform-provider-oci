@@ -31,15 +31,6 @@ type CreateDbSystemDetails struct {
 	// The OCID of the subnet the DB System is associated with.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// The username for the administrative user.
-	AdminUsername *string `mandatory:"true" json:"adminUsername"`
-
-	// The password for the administrative user. The password must be
-	// between 8 and 32 characters long, and must contain at least 1
-	// numeric character, 1 lowercase character, 1 uppercase character, and
-	// 1 special (nonalphanumeric) character.
-	AdminPassword *string `mandatory:"true" json:"adminPassword"`
-
 	// The user-friendly name for the DB System. It does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -73,6 +64,15 @@ type CreateDbSystemDetails struct {
 
 	// The specific MySQL version identifier.
 	MysqlVersion *string `mandatory:"false" json:"mysqlVersion"`
+
+	// The username for the administrative user.
+	AdminUsername *string `mandatory:"false" json:"adminUsername"`
+
+	// The password for the administrative user. The password must be
+	// between 8 and 32 characters long, and must contain at least 1
+	// numeric character, 1 lowercase character, 1 uppercase character, and
+	// 1 special (nonalphanumeric) character.
+	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
 	// Initial size of the data volume in GBs that will be created and attached.
 	// Keep in mind that this only specifies the size of the database data volume,
@@ -146,6 +146,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		FaultDomain          *string                           `json:"faultDomain"`
 		ConfigurationId      *string                           `json:"configurationId"`
 		MysqlVersion         *string                           `json:"mysqlVersion"`
+		AdminUsername        *string                           `json:"adminUsername"`
+		AdminPassword        *string                           `json:"adminPassword"`
 		DataStorageSizeInGBs *int                              `json:"dataStorageSizeInGBs"`
 		HostnameLabel        *string                           `json:"hostnameLabel"`
 		IpAddress            *string                           `json:"ipAddress"`
@@ -160,8 +162,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		CompartmentId        *string                           `json:"compartmentId"`
 		ShapeName            *string                           `json:"shapeName"`
 		SubnetId             *string                           `json:"subnetId"`
-		AdminUsername        *string                           `json:"adminUsername"`
-		AdminPassword        *string                           `json:"adminPassword"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -182,6 +182,10 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ConfigurationId = model.ConfigurationId
 
 	m.MysqlVersion = model.MysqlVersion
+
+	m.AdminUsername = model.AdminUsername
+
+	m.AdminPassword = model.AdminPassword
 
 	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
 
@@ -218,10 +222,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ShapeName = model.ShapeName
 
 	m.SubnetId = model.SubnetId
-
-	m.AdminUsername = model.AdminUsername
-
-	m.AdminPassword = model.AdminPassword
 
 	return
 }

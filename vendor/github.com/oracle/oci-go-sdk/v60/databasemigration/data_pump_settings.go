@@ -10,6 +10,7 @@
 package databasemigration
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v60/common"
 	"strings"
@@ -27,6 +28,8 @@ type DataPumpSettings struct {
 	// Defines remapping to be applied to objects as they are processed.
 	// Refer to METADATA_REMAP Procedure  (https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_DATAPUMP.html#GUID-0FC32790-91E6-4781-87A3-229DE024CB3D)
 	MetadataRemaps []MetadataRemap `mandatory:"false" json:"metadataRemaps"`
+
+	TablespaceDetails TargetTypeTablespaceDetails `mandatory:"false" json:"tablespaceDetails"`
 
 	ExportDirectoryObject *DirectoryObject `mandatory:"false" json:"exportDirectoryObject"`
 
@@ -50,4 +53,46 @@ func (m DataPumpSettings) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *DataPumpSettings) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		JobMode               DataPumpJobModeEnum         `json:"jobMode"`
+		DataPumpParameters    *DataPumpParameters         `json:"dataPumpParameters"`
+		MetadataRemaps        []MetadataRemap             `json:"metadataRemaps"`
+		TablespaceDetails     targettypetablespacedetails `json:"tablespaceDetails"`
+		ExportDirectoryObject *DirectoryObject            `json:"exportDirectoryObject"`
+		ImportDirectoryObject *DirectoryObject            `json:"importDirectoryObject"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.JobMode = model.JobMode
+
+	m.DataPumpParameters = model.DataPumpParameters
+
+	m.MetadataRemaps = make([]MetadataRemap, len(model.MetadataRemaps))
+	for i, n := range model.MetadataRemaps {
+		m.MetadataRemaps[i] = n
+	}
+
+	nn, e = model.TablespaceDetails.UnmarshalPolymorphicJSON(model.TablespaceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TablespaceDetails = nn.(TargetTypeTablespaceDetails)
+	} else {
+		m.TablespaceDetails = nil
+	}
+
+	m.ExportDirectoryObject = model.ExportDirectoryObject
+
+	m.ImportDirectoryObject = model.ImportDirectoryObject
+
+	return
 }

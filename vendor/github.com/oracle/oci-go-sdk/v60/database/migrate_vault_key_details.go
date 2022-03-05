@@ -23,6 +23,15 @@ type MigrateVaultKeyDetails struct {
 
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	VaultId *string `mandatory:"false" json:"vaultId"`
+
+	// The existing TDE wallet password of the database.
+	TdeWalletPassword *string `mandatory:"false" json:"tdeWalletPassword"`
+
+	// The existing admin password of the database.
+	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 }
 
 func (m MigrateVaultKeyDetails) String() string {
