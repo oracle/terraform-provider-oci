@@ -12,6 +12,10 @@ import (
 )
 
 // ListComputedUsageAggregatedsRequest wrapper for the ListComputedUsageAggregateds operation
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubusage/ListComputedUsageAggregateds.go.html to see an example of how to use ListComputedUsageAggregatedsRequest.
 type ListComputedUsageAggregatedsRequest struct {
 
 	// The OCID of the root compartment.
