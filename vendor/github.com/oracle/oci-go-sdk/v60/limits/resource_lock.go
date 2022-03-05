@@ -15,19 +15,22 @@ import (
 	"strings"
 )
 
-// ResourceLock Resource locks are used to prevent certain APIs from being called for the resource.
-// A full lock prevents both updating the resource and deleting the resource. A delete
-// lock prevents deleting the resource.
+// ResourceLock Resource locks prevent certain APIs from being called for the resource.
+// A full lock prevents both updating and deleting the resource. A lock delete
+// prevents deleting the resource.
 type ResourceLock struct {
 
-	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
+	// Lock type.
+	Type ResourceLockTypeEnum `mandatory:"true" json:"type"`
+
+	// The resource ID that is locking this resource. Indicates that deleting this resource removes the lock.
 	RelatedResourceId *string `mandatory:"false" json:"relatedResourceId"`
 
-	// A message added by the creator of the lock. This is typically used to give an
+	// A message added by the lock creator. The message typically gives an
 	// indication of why the resource is locked.
 	Message *string `mandatory:"false" json:"message"`
 
-	// When the lock was created , in the format defined by RFC 3339.
+	// Indicates when the lock was created, in the format defined by RFC 3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }
 
@@ -40,9 +43,54 @@ func (m ResourceLock) String() string {
 // Not recommended for calling this function directly
 func (m ResourceLock) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingResourceLockTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetResourceLockTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ResourceLockTypeEnum Enum with underlying type: string
+type ResourceLockTypeEnum string
+
+// Set of constants representing the allowable values for ResourceLockTypeEnum
+const (
+	ResourceLockTypeFull   ResourceLockTypeEnum = "FULL"
+	ResourceLockTypeDelete ResourceLockTypeEnum = "DELETE"
+)
+
+var mappingResourceLockTypeEnum = map[string]ResourceLockTypeEnum{
+	"FULL":   ResourceLockTypeFull,
+	"DELETE": ResourceLockTypeDelete,
+}
+
+var mappingResourceLockTypeEnumLowerCase = map[string]ResourceLockTypeEnum{
+	"full":   ResourceLockTypeFull,
+	"delete": ResourceLockTypeDelete,
+}
+
+// GetResourceLockTypeEnumValues Enumerates the set of values for ResourceLockTypeEnum
+func GetResourceLockTypeEnumValues() []ResourceLockTypeEnum {
+	values := make([]ResourceLockTypeEnum, 0)
+	for _, v := range mappingResourceLockTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetResourceLockTypeEnumStringValues Enumerates the set of values in String for ResourceLockTypeEnum
+func GetResourceLockTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"DELETE",
+	}
+}
+
+// GetMappingResourceLockTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingResourceLockTypeEnum(val string) (ResourceLockTypeEnum, bool) {
+	enum, ok := mappingResourceLockTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

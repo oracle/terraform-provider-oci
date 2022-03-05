@@ -88,6 +88,9 @@ type GetFileDiffResponse struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// This API will be deprecated on Wed, 29 Mar 2023 01:00:00 GMT. Please use "/repositories/{repositoryId}/file/diffs"
+	Sunset *string `presentIn:"header" name:"sunset"`
 }
 
 func (response GetFileDiffResponse) String() string {

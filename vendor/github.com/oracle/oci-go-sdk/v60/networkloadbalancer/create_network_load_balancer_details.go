@@ -71,6 +71,14 @@ type CreateNetworkLoadBalancerDetails struct {
 	// Backend sets associated with the network load balancer.
 	BackendSets map[string]BackendSetDetails `mandatory:"false" json:"backendSets"`
 
+	// VnicShape for NLB.
+	// Example: `VNICAAS_FIXED0400`
+	Shape *string `mandatory:"false" json:"shape"`
+
+	// Unique id of the shard where the VNIC will be allocated for the NLB.
+	// Example: `test_shard1`
+	ShardId *string `mandatory:"false" json:"shardId"`
+
 	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

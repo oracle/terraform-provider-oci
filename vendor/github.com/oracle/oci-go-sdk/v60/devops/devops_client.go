@@ -2145,7 +2145,7 @@ func (client DevopsClient) getDeployment(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// GetFileDiff Gets the line-by-line difference between files on different commits.
+// GetFileDiff Gets the line-by-line difference between file on different commits. This API will be deprecated on Wed, 29 Mar 2023 01:00:00 GMT as it does not get recognized when filePath has '/'. This will be replaced by "/repositories/{repositoryId}/file/diffs"
 // A default retry strategy applies to this operation GetFileDiff()
 func (client DevopsClient) GetFileDiff(ctx context.Context, request GetFileDiffRequest) (response GetFileDiffResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2456,6 +2456,110 @@ func (client DevopsClient) getRef(ctx context.Context, request common.OCIRequest
 	return response, err
 }
 
+// GetRepoFileDiff Gets the line-by-line difference between file on different commits.
+// A default retry strategy applies to this operation GetRepoFileDiff()
+func (client DevopsClient) GetRepoFileDiff(ctx context.Context, request GetRepoFileDiffRequest) (response GetRepoFileDiffResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRepoFileDiff, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRepoFileDiffResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRepoFileDiffResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRepoFileDiffResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRepoFileDiffResponse")
+	}
+	return
+}
+
+// getRepoFileDiff implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) getRepoFileDiff(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/file/diffs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRepoFileDiffResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRepoFileLines Retrieve lines of a specified file. Supports starting line number and limit.
+// A default retry strategy applies to this operation GetRepoFileLines()
+func (client DevopsClient) GetRepoFileLines(ctx context.Context, request GetRepoFileLinesRequest) (response GetRepoFileLinesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRepoFileLines, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRepoFileLinesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRepoFileLinesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRepoFileLinesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRepoFileLinesResponse")
+	}
+	return
+}
+
+// getRepoFileLines implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) getRepoFileLines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/file/lines", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRepoFileLinesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetRepository Retrieves a repository by identifier.
 // A default retry strategy applies to this operation GetRepository()
 func (client DevopsClient) GetRepository(ctx context.Context, request GetRepositoryRequest) (response GetRepositoryResponse, err error) {
@@ -2559,7 +2663,7 @@ func (client DevopsClient) getRepositoryArchiveContent(ctx context.Context, requ
 	return response, err
 }
 
-// GetRepositoryFileLines Retrieve lines of a specified file. Supports starting line number and limit.
+// GetRepositoryFileLines Retrieve lines of a specified file. Supports starting line number and limit. This API will be deprecated on Wed, 29 Mar 2023 01:00:00 GMT as it does not get recognized when filePath has '/'. This will be replaced by "/repositories/{repositoryId}/file/lines"
 // A default retry strategy applies to this operation GetRepositoryFileLines()
 func (client DevopsClient) GetRepositoryFileLines(ctx context.Context, request GetRepositoryFileLinesRequest) (response GetRepositoryFileLinesResponse, err error) {
 	var ociResponse common.OCIResponse

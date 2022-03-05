@@ -29,15 +29,24 @@ type UpdateListenerDetails struct {
 	Port *int `mandatory:"false" json:"port"`
 
 	// The protocol on which the listener accepts connection requests.
-	// For public network load balancers, ANY protocol refers to TCP/UDP.
+	// For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port.
 	// For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true).
-	// To get a list of valid protocols, use the ListNetworkLoadBalancersProtocols
-	// operation.
+	// "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.
 	// Example: `TCP`
 	Protocol ListenerProtocolsEnum `mandatory:"false" json:"protocol,omitempty"`
 
 	// IP version associated with the listener.
 	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
+
+	// Property to enable/disable PPv2 feature for this listener.
+	IsPpv2Enabled *bool `mandatory:"false" json:"isPpv2Enabled"`
+
+	// An array that represents the PPV2 Options that can be enabled on TCP Listeners.
+	// Example: ["VCN_ID"]
+	InternalProxyProtocolOptions []MetadataOptionsEnum `mandatory:"false" json:"internalProxyProtocolOptions"`
+
+	// Override to use 0xE1 custom TLV for encoding Class E IP Address in IP Options. (Default is 0xE2)
+	IsSgwNatIpTlvTypeOverrideEnabled *bool `mandatory:"false" json:"isSgwNatIpTlvTypeOverrideEnabled"`
 }
 
 func (m UpdateListenerDetails) String() string {

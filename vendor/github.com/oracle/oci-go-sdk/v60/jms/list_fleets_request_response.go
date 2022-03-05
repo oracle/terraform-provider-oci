@@ -129,30 +129,33 @@ type ListFleetsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListFleetsLifecycleStateEnum
 const (
-	ListFleetsLifecycleStateActive   ListFleetsLifecycleStateEnum = "ACTIVE"
-	ListFleetsLifecycleStateCreating ListFleetsLifecycleStateEnum = "CREATING"
-	ListFleetsLifecycleStateDeleted  ListFleetsLifecycleStateEnum = "DELETED"
-	ListFleetsLifecycleStateDeleting ListFleetsLifecycleStateEnum = "DELETING"
-	ListFleetsLifecycleStateFailed   ListFleetsLifecycleStateEnum = "FAILED"
-	ListFleetsLifecycleStateUpdating ListFleetsLifecycleStateEnum = "UPDATING"
+	ListFleetsLifecycleStateActive         ListFleetsLifecycleStateEnum = "ACTIVE"
+	ListFleetsLifecycleStateCreating       ListFleetsLifecycleStateEnum = "CREATING"
+	ListFleetsLifecycleStateDeleted        ListFleetsLifecycleStateEnum = "DELETED"
+	ListFleetsLifecycleStateDeleting       ListFleetsLifecycleStateEnum = "DELETING"
+	ListFleetsLifecycleStateFailed         ListFleetsLifecycleStateEnum = "FAILED"
+	ListFleetsLifecycleStateNeedsAttention ListFleetsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListFleetsLifecycleStateUpdating       ListFleetsLifecycleStateEnum = "UPDATING"
 )
 
 var mappingListFleetsLifecycleStateEnum = map[string]ListFleetsLifecycleStateEnum{
-	"ACTIVE":   ListFleetsLifecycleStateActive,
-	"CREATING": ListFleetsLifecycleStateCreating,
-	"DELETED":  ListFleetsLifecycleStateDeleted,
-	"DELETING": ListFleetsLifecycleStateDeleting,
-	"FAILED":   ListFleetsLifecycleStateFailed,
-	"UPDATING": ListFleetsLifecycleStateUpdating,
+	"ACTIVE":          ListFleetsLifecycleStateActive,
+	"CREATING":        ListFleetsLifecycleStateCreating,
+	"DELETED":         ListFleetsLifecycleStateDeleted,
+	"DELETING":        ListFleetsLifecycleStateDeleting,
+	"FAILED":          ListFleetsLifecycleStateFailed,
+	"NEEDS_ATTENTION": ListFleetsLifecycleStateNeedsAttention,
+	"UPDATING":        ListFleetsLifecycleStateUpdating,
 }
 
 var mappingListFleetsLifecycleStateEnumLowerCase = map[string]ListFleetsLifecycleStateEnum{
-	"active":   ListFleetsLifecycleStateActive,
-	"creating": ListFleetsLifecycleStateCreating,
-	"deleted":  ListFleetsLifecycleStateDeleted,
-	"deleting": ListFleetsLifecycleStateDeleting,
-	"failed":   ListFleetsLifecycleStateFailed,
-	"updating": ListFleetsLifecycleStateUpdating,
+	"active":          ListFleetsLifecycleStateActive,
+	"creating":        ListFleetsLifecycleStateCreating,
+	"deleted":         ListFleetsLifecycleStateDeleted,
+	"deleting":        ListFleetsLifecycleStateDeleting,
+	"failed":          ListFleetsLifecycleStateFailed,
+	"needs_attention": ListFleetsLifecycleStateNeedsAttention,
+	"updating":        ListFleetsLifecycleStateUpdating,
 }
 
 // GetListFleetsLifecycleStateEnumValues Enumerates the set of values for ListFleetsLifecycleStateEnum
@@ -172,6 +175,7 @@ func GetListFleetsLifecycleStateEnumStringValues() []string {
 		"DELETED",
 		"DELETING",
 		"FAILED",
+		"NEEDS_ATTENTION",
 		"UPDATING",
 	}
 }

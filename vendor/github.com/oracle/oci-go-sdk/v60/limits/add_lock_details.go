@@ -15,16 +15,17 @@ import (
 	"strings"
 )
 
-// AddLockDetails Request payload to add lock to the resource.
+// AddLockDetails Request payload to add lock to the resource. The FULL lock type allows no modifications (delete, create, update).
+//   The DELETE lock type allows all modifications, but delete is not allowed.
 type AddLockDetails struct {
 
-	// Type of the lock.
+	// Lock type.
 	Type AddLockDetailsTypeEnum `mandatory:"true" json:"type"`
 
-	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
+	// The resource ID that is locking this resource. Indicates that deleting this resource removes the lock.
 	RelatedResourceId *string `mandatory:"false" json:"relatedResourceId"`
 
-	// A message added by the creator of the lock. This is typically used to give an
+	// A message added by the lock creator. The message typically gives an
 	// indication of why the resource is locked.
 	Message *string `mandatory:"false" json:"message"`
 }
