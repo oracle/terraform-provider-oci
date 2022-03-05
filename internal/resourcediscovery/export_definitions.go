@@ -2606,7 +2606,7 @@ var exportOceOceInstanceHints = &TerraformResourceHints{
 	resourceAbbreviation:   "oce_instance",
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
-		string(oci_oce.OceInstanceLifecycleStateActive),
+		string(oci_oce.LifecycleStateActive),
 	},
 }
 
