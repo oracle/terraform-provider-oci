@@ -603,9 +603,11 @@ func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Requ
 		resp, cbErr := ociGoBreaker.Cb.Execute(func() (interface{}, error) {
 			return client.httpDo(request)
 		})
-		if _, ok := resp.(*http.Response); ok && resp.(*http.Response).StatusCode != 200 {
-			if failure, ok := IsServiceError(cbErr); ok {
-				ociGoBreaker.AddToHistory(resp.(*http.Response), failure)
+		if httpResp, ok := resp.(*http.Response); ok {
+			if httpResp != nil && httpResp.StatusCode != 200 {
+				if failure, ok := IsServiceError(cbErr); ok {
+					ociGoBreaker.AddToHistory(resp.(*http.Response), failure)
+				}
 			}
 		}
 		if cbErr != nil && IsCircuitBreakerError(cbErr) {
