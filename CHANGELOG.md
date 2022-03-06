@@ -1,3 +1,18 @@
+## 4.67.0 (Unreleased)
+
+### Added
+- Support for Improving Unit Test Coverage for Export Compartment
+- Account Management - Finance Data (Subscriptions and Usage) osub_billing_schedule
+- Account Management - Finance Data (Subscriptions and Usage) osub_organization_subscription
+- Account Management - Finance Data (Subscriptions and Usage) osub_subscription
+- Remove Admin user credentials from required fields during restore for Mysql service
+- Account Management - Finance Data (Subscriptions and Usage) osub_usage
+  support for addOnFeatures for OCM
+- Support for deployments to private clusters via build service for OKE
+### Bug Fix
+- fix tests and examples for GoldenGate
+  remove system tags from oke request
+
 ## 4.66.0 (Unreleased)
 
 ### Added
