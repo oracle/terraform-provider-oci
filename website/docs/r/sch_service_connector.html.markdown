@@ -56,6 +56,23 @@ resource "oci_sch_service_connector" "test_service_connector" {
 			log_group_id = oci_logging_log_group.test_log_group.id
 			log_id = oci_logging_log.test_log.id
 		}
+		monitoring_sources {
+
+			#Optional
+			compartment_id = var.compartment_id
+			namespace_details {
+				#Required
+				kind = var.service_connector_source_monitoring_sources_namespace_details_kind
+				namespaces {
+					#Required
+					metrics {
+						#Required
+						kind = var.service_connector_source_monitoring_sources_namespace_details_namespaces_metrics_kind
+					}
+					namespace = var.service_connector_source_monitoring_sources_namespace_details_namespaces_namespace
+				}
+			}
+		}
 		stream_id = oci_streaming_stream.test_stream.id
 	}
 	target {
@@ -125,6 +142,14 @@ The following arguments are supported:
 		* `compartment_id` - (Required when kind=logging) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the log source. 
 		* `log_group_id` - (Applicable when kind=logging) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group. 
 		* `log_id` - (Applicable when kind=logging) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log. 
+	* `monitoring_sources` - (Required when kind=monitoring) (Updatable) The list of metric namespaces to retrieve data from. 
+		* `compartment_id` - (Required when kind=monitoring) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric namespaces you want to use for the Monitoring source. 
+		* `namespace_details` - (Required when kind=monitoring) (Updatable) Discriminator for namespaces in the compartment-specific list. 
+			* `kind` - (Required) (Updatable) The type discriminator. 
+			* `namespaces` - (Required) (Updatable) The namespaces for the compartment-specific list. 
+				* `metrics` - (Required) (Updatable) The metrics to query for the specified metric namespace. 
+					* `kind` - (Required) (Updatable) The type descriminator. 
+				* `namespace` - (Required) (Updatable) The source service or application to use when querying for metric data points. Must begin with `oci_`.  Example: `oci_computeagent` 
 	* `stream_id` - (Required when kind=streaming) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
 * `target` - (Required) (Updatable) An object that represents the target of the flow defined by the service connector. An example target is a stream (Streaming service). For more information about flows defined by service connectors, see [Service Connector Hub Overview](https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm). For configuration instructions, see [To create a service connector](https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#create). 
 	* `batch_rollover_size_in_mbs` - (Applicable when kind=objectStorage) (Updatable) The batch rollover size in megabytes. 
@@ -134,7 +159,7 @@ The following arguments are supported:
 	* `dimensions` - (Applicable when kind=monitoring) (Updatable) List of dimension names and values. 
 		* `dimension_value` - (Required when kind=monitoring) (Updatable) Instructions for extracting the value corresponding to the specified dimension key: Either extract the value as-is (static) or derive the value from a path (evaluated). 
 			* `kind` - (Required) (Updatable) The type of dimension value: static or evaluated. 
-			* `path` - (Required when kind=jmesPath) (Updatable) The location to use for deriving the dimension value (evaluated). The path must start with `logContent` in an acceptable notation style with supported [JMESPath selectors](https://jmespath.org/specification.html): expression with dot and index operator (`.`, and `[]`). Example with dot notation: `logContent.data` Example with index notation: `logContent.data[0].content` For information on valid dimension keys and values, see [MetricDataDetails Reference](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails). The returned value depends on the results of evaluation. If the evaluated value is valid, then the evaluated value is returned without double quotes. (Any front or trailing double quotes are trimmed before returning the value. For example, the evaluated value `"compartmentId"` is returned as `compartmentId`.) If the evaluated value is invalid, then the returned value is `SCH_EVAL_INVALID_VALUE`. If the evaluated value is empty, then the returned value is `SCH_EVAL_VALUE_EMPTY`. 
+			* `path` - (Required when kind=jmesPath) (Updatable) The location to use for deriving the dimension value (evaluated). The path must start with `logContent` in an acceptable notation style with supported [JMESPath selectors](https://jmespath.org/specification.html): expression with dot and index operator (`.` and `[]`). Example with dot notation: `logContent.data` Example with index notation: `logContent.data[0].content` For information on valid dimension keys and values, see [MetricDataDetails Reference](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails). The returned value depends on the results of evaluation. If the evaluated value is valid, then the evaluated value is returned without double quotes. (Any front or trailing double quotes are trimmed before returning the value. For example, the evaluated value `"compartmentId"` is returned as `compartmentId`.) If the evaluated value is invalid, then the returned value is `SCH_EVAL_INVALID_VALUE`. If the evaluated value is empty, then the returned value is `SCH_EVAL_VALUE_EMPTY`. 
 			* `value` - (Required when kind=static) (Updatable) The data extracted from the specified dimension value (passed as-is). Unicode characters only. For information on valid dimension keys and values, see [MetricDataDetails Reference](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails). 
 		* `name` - (Required when kind=monitoring) (Updatable) Dimension key. A valid dimension key includes only printable ASCII, excluding periods (.) and spaces. Custom dimension keys are acceptable. Avoid entering confidential information. Due to use by Service Connector Hub, the following dimension names are reserved: `connectorId`, `connectorName`, `connectorSourceType`. For information on valid dimension keys and values, see [MetricDataDetails Reference](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails). Example: `type` 
 	* `enable_formatted_messaging` - (Applicable when kind=notifications) (Updatable) Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the service connector source and the subscription protocol.  Example: `true` 
@@ -178,6 +203,14 @@ The following attributes are exported:
 		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the log source. 
 		* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group. 
 		* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log. 
+	* `monitoring_sources` - The list of metric namespaces to retrieve data from. 
+		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric namespaces you want to use for the Monitoring source. 
+		* `namespace_details` - Discriminator for namespaces in the compartment-specific list. 
+			* `kind` - The type discriminator. 
+			* `namespaces` - The namespaces for the compartment-specific list. 
+				* `metrics` - The metrics to query for the specified metric namespace. 
+					* `kind` - The type descriminator. 
+				* `namespace` - The source service or application to use when querying for metric data points. Must begin with `oci_`.  Example: `oci_computeagent` 
 	* `stream_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream. 
 * `state` - The current state of the service connector. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{orcl-cloud: {free-tier-retain: true}}` 
@@ -189,7 +222,7 @@ The following attributes are exported:
 	* `dimensions` - List of dimension names and values. 
 		* `dimension_value` - Instructions for extracting the value corresponding to the specified dimension key: Either extract the value as-is (static) or derive the value from a path (evaluated). 
 			* `kind` - The type of dimension value: static or evaluated. 
-			* `path` - The location to use for deriving the dimension value (evaluated). The path must start with `logContent` in an acceptable notation style with supported [JMESPath selectors](https://jmespath.org/specification.html): expression with dot and index operator (`.`, and `[]`). Example with dot notation: `logContent.data` Example with index notation: `logContent.data[0].content` For information on valid dimension keys and values, see [MetricDataDetails Reference](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails). The returned value depends on the results of evaluation. If the evaluated value is valid, then the evaluated value is returned without double quotes. (Any front or trailing double quotes are trimmed before returning the value. For example, the evaluated value `"compartmentId"` is returned as `compartmentId`.) If the evaluated value is invalid, then the returned value is `SCH_EVAL_INVALID_VALUE`. If the evaluated value is empty, then the returned value is `SCH_EVAL_VALUE_EMPTY`. 
+			* `path` - The location to use for deriving the dimension value (evaluated). The path must start with `logContent` in an acceptable notation style with supported [JMESPath selectors](https://jmespath.org/specification.html): expression with dot and index operator (`.` and `[]`). Example with dot notation: `logContent.data` Example with index notation: `logContent.data[0].content` For information on valid dimension keys and values, see [MetricDataDetails Reference](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails). The returned value depends on the results of evaluation. If the evaluated value is valid, then the evaluated value is returned without double quotes. (Any front or trailing double quotes are trimmed before returning the value. For example, the evaluated value `"compartmentId"` is returned as `compartmentId`.) If the evaluated value is invalid, then the returned value is `SCH_EVAL_INVALID_VALUE`. If the evaluated value is empty, then the returned value is `SCH_EVAL_VALUE_EMPTY`. 
 			* `value` - The data extracted from the specified dimension value (passed as-is). Unicode characters only. For information on valid dimension keys and values, see [MetricDataDetails Reference](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails). 
 		* `name` - Dimension key. A valid dimension key includes only printable ASCII, excluding periods (.) and spaces. Custom dimension keys are acceptable. Avoid entering confidential information. Due to use by Service Connector Hub, the following dimension names are reserved: `connectorId`, `connectorName`, `connectorSourceType`. For information on valid dimension keys and values, see [MetricDataDetails Reference](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/MetricDataDetails). Example: `type` 
 	* `enable_formatted_messaging` - Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the service connector source and the subscription protocol.  Example: `true` 
