@@ -1966,3 +1966,411 @@ func TestUnitWaitForResourceCondition_basic(t *testing.T) {
 		return
 	}
 }
+
+func TestUnitJsonStringDiffSuppressFunction(t *testing.T) {
+
+	type args struct {
+		d   *schema.ResourceData
+		key string
+		old string
+		new string
+	}
+	type testFormat struct {
+		name     string
+		args     args
+		output   bool
+		mockFunc func()
+	}
+	tests := []testFormat{
+		{
+			name:   "Test unmarshal returns no errors",
+			args:   args{d: &schema.ResourceData{}, key: "", old: `{"some":"json"}`, new: `{"some":"json"}`},
+			output: true,
+			mockFunc: func() {
+			},
+		},
+		{
+			name:   "Test old string returns error",
+			args:   args{d: &schema.ResourceData{}, key: "", old: "test", new: "test"},
+			output: false,
+			mockFunc: func() {
+				jsonUnmarshalOldVar = func(data []byte, v interface{}) error {
+					return errors.New("")
+				}
+			},
+		},
+		{
+			name:   "Test new string returns error",
+			args:   args{d: &schema.ResourceData{}, key: "", old: "test", new: "test"},
+			output: false,
+			mockFunc: func() {
+				jsonUnmarshalOldVar = func(data []byte, v interface{}) error {
+					return nil
+				}
+				jsonUnmarshalNewVar = func(data []byte, v interface{}) error {
+					return errors.New("")
+				}
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		test.mockFunc()
+		if res := JsonStringDiffSuppressFunction(test.args.key, test.args.old, test.args.new, test.args.d); res != test.output {
+			t.Errorf("Output %t not equal to expected %t", res, test.output)
+		}
+	}
+}
+
+func TestUnitMonetaryDiffSuppress(t *testing.T) {
+
+	type args struct {
+		d   *schema.ResourceData
+		key string
+		old string
+		new string
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output bool
+	}
+	tests := []testFormat{
+		{
+			name:   "Test valid values for old and new",
+			args:   args{key: "", old: "20.10", new: "22.10", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test invalid value for old",
+			args:   args{key: "", old: "test", new: "10", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test invalid value for new",
+			args:   args{key: "", old: "16", new: "test", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test valid values for old and new as 'inf' and 'nan'",
+			args:   args{key: "", old: "inf", new: "nan", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test valid same values for old and new ",
+			args:   args{key: "", old: "21.1212121", new: "21.12121211", d: &schema.ResourceData{}},
+			output: true,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := MonetaryDiffSuppress(test.args.key, test.args.old, test.args.new, test.args.d); res != test.output {
+			t.Errorf("Output %t not equal to expected %t", res, test.output)
+		}
+	}
+}
+
+func TestUnitValidateSourceValue(t *testing.T) {
+
+	type args struct {
+		i interface{}
+		k string
+	}
+	type testFormat struct {
+		name string
+		args args
+	}
+	tests := []testFormat{
+		{
+			name: "Test string value",
+			args: args{k: "", i: "test"},
+		},
+		{
+			name: "Test non string value",
+			args: args{k: "", i: 1},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		ValidateSourceValue(test.args.i, test.args.k)
+	}
+}
+
+func TestUnitTimeDiffSuppressFunction(t *testing.T) {
+
+	type args struct {
+		d   *schema.ResourceData
+		key string
+		old string
+		new string
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output bool
+	}
+	tests := []testFormat{
+		{
+			name:   "Test valid values for old and new",
+			args:   args{key: "", old: "2010-01-02T15:04:05.999999999Z", new: "2011-01-02T15:04:05.999999999Z", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test invalid value for old",
+			args:   args{key: "", old: "2010-01-02T15:04:05.999999999Z07:00", new: "", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test invalid value for new",
+			args:   args{key: "", old: "2010-01-02T15:04:05.999999999Z", new: "2010-01-02T15:04:05.999999999Z07:00", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test valid same values for old and new ",
+			args:   args{key: "", old: "2010-01-02T15:04:05.999999999Z", new: "2010-01-02T15:04:05.999999999Z", d: &schema.ResourceData{}},
+			output: true,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := TimeDiffSuppressFunction(test.args.key, test.args.old, test.args.new, test.args.d); res != test.output {
+			t.Errorf("Output %t not equal to expected %t", res, test.output)
+		}
+	}
+}
+
+func TestUnitInt64StringDiffSuppressFunction(t *testing.T) {
+
+	type args struct {
+		d   *schema.ResourceData
+		key string
+		old string
+		new string
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output bool
+	}
+	tests := []testFormat{
+		{
+			name:   "Test valid values for old and new",
+			args:   args{key: "", old: "10", new: "11", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test invalid value for old",
+			args:   args{key: "", old: "5.1", new: "", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test invalid value for new",
+			args:   args{key: "", old: "5", new: "5.1", d: &schema.ResourceData{}},
+			output: false,
+		},
+		{
+			name:   "Test valid same values for old and new ",
+			args:   args{key: "", old: "5", new: "5", d: &schema.ResourceData{}},
+			output: true,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := Int64StringDiffSuppressFunction(test.args.key, test.args.old, test.args.new, test.args.d); res != test.output {
+			t.Errorf("Output %t not equal to expected %t", res, test.output)
+		}
+	}
+}
+
+func TestUnitObjectMapToStringMap(t *testing.T) {
+	type args struct {
+		rm map[string]interface{}
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output map[string]string
+	}
+	tests := []testFormat{
+		//{
+		//	name:   "Test string value",
+		//	args:   args{rm: map[string]interface{}{"a": "test"}},
+		//	output: map[string]string{"a": "test"},
+		//},
+		{
+			name:   "Test string array value for genericMap string",
+			args:   args{rm: map[string]interface{}{"a": []string{"foo", "bar"}}},
+			output: map[string]string{"a": `{"foo", "bar"}`},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := ObjectMapToStringMap(test.args.rm); reflect.DeepEqual(res, test.output) {
+			t.Logf("output map %q", fmt.Sprint(res))
+			t.Logf("expected map %q", fmt.Sprint(test.output))
+			t.Errorf("Output map and expected map are not same")
+		}
+	}
+}
+
+func TestUnitStringMapToObjectMap(t *testing.T) {
+	type args struct {
+		sm map[string]string
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output map[string]interface{}
+	}
+	tests := []testFormat{
+		//{
+		//	name:   "Test string value",
+		//	args:   args{sm: map[string]string{"a": "test"}},
+		//	output: map[string]interface{}{"a": "test"},
+		//},
+		{
+			name:   "Test string array value for genericMap string",
+			args:   args{sm: map[string]string{"a": `{"foo", "bar"}`}},
+			output: map[string]interface{}{"a": []string{"foo", "bar"}},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := StringMapToObjectMap(test.args.sm); reflect.DeepEqual(res, test.output) {
+			t.Logf("output map %q", fmt.Sprint(res))
+			t.Logf("expected map %q", fmt.Sprint(test.output))
+			t.Errorf("Output map and expected map are not same")
+		}
+	}
+}
+
+func TestUnitConvertMapOfStringSlicesToMapOfStrings(t *testing.T) {
+	type args struct {
+		rm map[string][]string
+	}
+	type output struct {
+		res map[string]string
+		err error
+	}
+	type testFormat struct {
+		name     string
+		args     args
+		output   output
+		mockFunc func()
+	}
+	tests := []testFormat{
+		{
+			name:   "Test jsonMarshal returns value",
+			args:   args{rm: map[string][]string{"a": {"foo", "bar"}}},
+			output: output{res: map[string]string{"a": `{"foo", "bar"}`}, err: nil},
+			mockFunc: func() {
+			},
+		},
+		{
+			name:   "Test jsonMarshal returns error",
+			args:   args{rm: map[string][]string{"a": {"foo", "bar"}}},
+			output: output{res: map[string]string{"a": `{"foo", "bar"}`}, err: nil},
+			mockFunc: func() {
+				jsonMarshal = func(v interface{}) ([]byte, error) {
+					return nil, errors.New("")
+				}
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		test.mockFunc()
+		if res, _ := ConvertMapOfStringSlicesToMapOfStrings(test.args.rm); reflect.DeepEqual(res, test.output) {
+			t.Logf("output map %q", fmt.Sprint(res))
+			t.Logf("expected map %q", fmt.Sprint(test.output))
+			t.Errorf("Output map and expected map are not same")
+		}
+	}
+}
+
+func TestUnitValidateInt64TypeString(t *testing.T) {
+
+	type args struct {
+		v interface{}
+		k string
+	}
+	type testFormat struct {
+		name string
+		args args
+	}
+	tests := []testFormat{
+		{
+			name: "Test valid int value",
+			args: args{k: "", v: "1"},
+		},
+		{
+			name: "Test non int value",
+			args: args{k: "", v: "test"},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		ValidateInt64TypeString(test.args.v, test.args.k)
+	}
+}
+
+func TestUnitValidateBoolInSlice(t *testing.T) {
+
+	type args struct {
+		valid []bool
+		i     interface{}
+		k     string
+	}
+	type testFormat struct {
+		name string
+		args args
+	}
+	tests := []testFormat{
+		{
+			name: "Test bool values",
+			args: args{k: "true", i: true, valid: []bool{true}},
+		},
+		{
+			name: "Test non bool values",
+			args: args{k: "1", i: "1", valid: []bool{true}},
+		},
+		{
+			name: "Test bool values that do not match",
+			args: args{k: "true", i: true, valid: []bool{false}},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		ValidateBoolInSlice(test.args.valid)(test.args.i, test.args.k)
+	}
+}
+
+func TestUnitValidateNotEmptyString(t *testing.T) {
+
+	type args struct {
+		i interface{}
+		k string
+	}
+	type testFormat struct {
+		name string
+		args args
+	}
+	tests := []testFormat{
+		{
+			name: "Test string values",
+			args: args{k: "test", i: "test"},
+		},
+		{
+			name: "Test empty string values",
+			args: args{k: "", i: ""},
+		},
+		{
+			name: "Test non string values",
+			args: args{k: "123", i: 123},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		ValidateNotEmptyString()(test.args.i, test.args.k)
+	}
+}
