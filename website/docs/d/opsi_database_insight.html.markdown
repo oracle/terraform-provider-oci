@@ -33,6 +33,31 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - Compartment identifier of the database
+* `connection_credential_details` - User credential details to connect to the database. This is supplied via the External Database Service. 
+	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+	* `credential_type` - Credential type.
+	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+	* `role` - database user role.
+	* `user_name` - database user name.
+* `connection_details` - Connection details to connect to the database. HostName, protocol, and port should be specified.
+	* `host_name` - Name of the listener host that will be used to create the connect string to the database.
+	* `hosts` - List of hosts and port for private endpoint accessed database resource.
+		* `host_ip` - Host IP used for connection requests for Cloud DB resource.
+		* `port` - Listener port number used for connection requests for rivate endpoint accessed db resource.
+	* `port` - Listener port number used for connection requests.
+	* `protocol` - Protocol used for connection requests for private endpoint accssed database resource.
+	* `service_name` - Database service name used for connection requests.
+* `credential_details` - User credential details to connect to the database. 
+	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+	* `credential_type` - Credential type.
+	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+	* `role` - database user role.
+	* `user_name` - database user name.
+* `database_connection_status_details` - A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
+* `database_display_name` - Display name of database
+* `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+* `database_name` - Name of database
+* `database_resource_type` - Oracle Cloud Infrastructure database resource type
 * `database_type` - Operations Insights internal representation of the database type.
 * `database_version` - The version of the database.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
@@ -47,7 +72,8 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Database insight identifier
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `processor_count` - Processor count.
+* `opsi_private_endpoint_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+* `processor_count` - Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 * `state` - The current state of the database.
 * `status` - Indicates the status of a database insight in Operations Insights
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

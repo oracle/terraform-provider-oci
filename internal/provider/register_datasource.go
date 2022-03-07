@@ -990,6 +990,8 @@ func init() {
 	RegisterDatasource("oci_opsi_exadata_insights", tf_opsi.OpsiExadataInsightsDataSource())
 	RegisterDatasource("oci_opsi_host_insight", tf_opsi.OpsiHostInsightDataSource())
 	RegisterDatasource("oci_opsi_host_insights", tf_opsi.OpsiHostInsightsDataSource())
+	RegisterDatasource("oci_opsi_operations_insights_private_endpoint", tf_opsi.OpsiOperationsInsightsPrivateEndpointDataSource())
+	RegisterDatasource("oci_opsi_operations_insights_private_endpoints", tf_opsi.OpsiOperationsInsightsPrivateEndpointsDataSource())
 	RegisterDatasource("oci_opsi_operations_insights_warehouse", tf_opsi.OpsiOperationsInsightsWarehouseDataSource())
 	RegisterDatasource("oci_opsi_operations_insights_warehouse_resource_usage_summary", tf_opsi.OpsiOperationsInsightsWarehouseResourceUsageSummaryDataSource())
 	RegisterDatasource("oci_opsi_operations_insights_warehouse_user", tf_opsi.OpsiOperationsInsightsWarehouseUserDataSource())

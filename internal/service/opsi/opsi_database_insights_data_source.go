@@ -59,6 +59,10 @@ func OpsiDatabaseInsightsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"opsi_private_endpoint_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -173,6 +177,11 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) Get() error {
 
 	if id, ok := s.D.GetOkExists("id"); ok {
 		request.Id = []string{id.(string)}
+	}
+
+	if opsiPrivateEndpointId, ok := s.D.GetOkExists("opsi_private_endpoint_id"); ok {
+		tmp := opsiPrivateEndpointId.(string)
+		request.OpsiPrivateEndpointId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

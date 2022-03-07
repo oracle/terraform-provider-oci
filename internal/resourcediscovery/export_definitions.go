@@ -2973,6 +2973,19 @@ var exportOpsiOperationsInsightsWarehouseRotateWarehouseWalletHints = &Terraform
 	resourceAbbreviation: "operations_insights_warehouse_rotate_warehouse_wallet",
 }
 
+var exportOpsiOperationsInsightsPrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_operations_insights_private_endpoint",
+	datasourceClass:        "oci_opsi_operations_insights_private_endpoints",
+	datasourceItemsAttr:    "operations_insights_private_endpoint_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operations_insights_private_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.OperationsInsightsPrivateEndpointLifecycleStateActive),
+		string(oci_opsi.OperationsInsightsPrivateEndpointLifecycleStateNeedsAttention),
+	},
+}
+
 var exportOptimizerProfileHints = &TerraformResourceHints{
 	resourceClass:          "oci_optimizer_profile",
 	datasourceClass:        "oci_optimizer_profiles",

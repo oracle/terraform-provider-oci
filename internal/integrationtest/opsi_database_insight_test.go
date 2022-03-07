@@ -62,10 +62,10 @@ var (
 		"entity_source":                        acctest.Representation{RepType: acctest.Required, Create: `EM_MANAGED_EXTERNAL_DATABASE`, Update: `EM_MANAGED_EXTERNAL_DATABASE`},
 		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesdatabaseInsightRepresentation},
+		"lifecycle":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesDatabaseInsightRepresentation},
 	}
 
-	ignoreChangesdatabaseInsightRepresentation = map[string]interface{}{
+	ignoreChangesDatabaseInsightRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
