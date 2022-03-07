@@ -14,9 +14,9 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/zclconf/go-cty/cty"
+	"github.com/hashicorp/go-cty/cty"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 func newTerraformStateWithValue(name, key, value string) *terraform.State {
