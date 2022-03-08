@@ -31,6 +31,7 @@ var (
 	DatabaseToolsEndpointServiceResourceConfig = ""
 )
 
+// issue-routing-tag: database_tools/default
 func TestDatabaseToolsDatabaseToolsEndpointServiceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseToolsDatabaseToolsEndpointServiceResource_basic")
 	defer httpreplay.SaveScenario()

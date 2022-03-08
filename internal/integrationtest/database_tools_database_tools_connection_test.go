@@ -95,6 +95,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
 )
 
+// issue-routing-tag: database_tools/default
 func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseToolsDatabaseToolsConnectionResource_basic")
 	defer httpreplay.SaveScenario()

@@ -71,6 +71,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: database_tools/default
 func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic")
 	defer httpreplay.SaveScenario()
