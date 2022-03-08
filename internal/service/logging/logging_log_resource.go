@@ -19,8 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v60/logging"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v61/logging"
 )
 
 func LoggingLogResource() *schema.Resource {

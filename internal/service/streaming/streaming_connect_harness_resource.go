@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_streaming "github.com/oracle/oci-go-sdk/v60/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v61/streaming"
 )
 
 func StreamingConnectHarnessResource() *schema.Resource {

@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_database_management "github.com/oracle/oci-go-sdk/v60/databasemanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_database_management "github.com/oracle/oci-go-sdk/v61/databasemanagement"
 )
 
 func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksDataSource() *schema.Resource {

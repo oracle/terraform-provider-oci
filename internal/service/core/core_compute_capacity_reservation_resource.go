@@ -13,8 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 )
 
 func CoreComputeCapacityReservationResource() *schema.Resource {

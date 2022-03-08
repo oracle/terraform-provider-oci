@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_apm "github.com/oracle/oci-go-sdk/v60/apmcontrolplane"
+	oci_apm "github.com/oracle/oci-go-sdk/v61/apmcontrolplane"
 )
 
 func ApmApmDomainsDataSource() *schema.Resource {

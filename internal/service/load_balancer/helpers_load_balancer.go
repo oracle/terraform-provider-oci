@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v61/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

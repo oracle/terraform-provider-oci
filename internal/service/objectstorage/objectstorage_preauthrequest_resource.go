@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v61/objectstorage"
 )
 
 func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {

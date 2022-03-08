@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_logging "github.com/oracle/oci-go-sdk/v60/logging"
+	oci_logging "github.com/oracle/oci-go-sdk/v61/logging"
 )
 
 func LoggingLogSavedSearchResource() *schema.Resource {

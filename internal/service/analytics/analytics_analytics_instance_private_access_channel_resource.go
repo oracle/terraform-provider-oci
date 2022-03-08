@@ -18,8 +18,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_analytics "github.com/oracle/oci-go-sdk/v60/analytics"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v61/analytics"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
 )
 
 func AnalyticsAnalyticsInstancePrivateAccessChannelResource() *schema.Resource {

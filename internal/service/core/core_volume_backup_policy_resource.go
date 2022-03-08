@@ -14,7 +14,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
 )
 
 func CoreVolumeBackupPolicyResource() *schema.Resource {

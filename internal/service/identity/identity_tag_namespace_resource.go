@@ -17,7 +17,7 @@ import (
 
 	"strconv"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
 )
 
 func IdentityTagNamespaceResource() *schema.Resource {

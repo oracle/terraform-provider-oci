@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v60/containerengine"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v61/containerengine"
 )
 
 func ContainerengineWorkRequestsDataSource() *schema.Resource {

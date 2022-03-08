@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_ons "github.com/oracle/oci-go-sdk/v60/ons"
+	oci_ons "github.com/oracle/oci-go-sdk/v61/ons"
 )
 
 func OnsNotificationTopicsDataSource() *schema.Resource {
