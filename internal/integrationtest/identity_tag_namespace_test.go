@@ -12,12 +12,12 @@ import (
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 
-	"github.com/oracle/oci-go-sdk/v60/common"
+	"github.com/oracle/oci-go-sdk/v61/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"

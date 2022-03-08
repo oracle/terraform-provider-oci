@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_waf "github.com/oracle/oci-go-sdk/v60/waf"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_waf "github.com/oracle/oci-go-sdk/v61/waf"
 )
 
 func WafWebAppFirewallPolicyResource() *schema.Resource {

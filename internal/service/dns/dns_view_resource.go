@@ -16,7 +16,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v60/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v61/dns"
 )
 
 func DnsViewResource() *schema.Resource {

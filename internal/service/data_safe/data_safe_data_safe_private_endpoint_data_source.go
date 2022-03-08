@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v60/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v61/datasafe"
 )
 
 func DataSafeDataSafePrivateEndpointDataSource() *schema.Resource {

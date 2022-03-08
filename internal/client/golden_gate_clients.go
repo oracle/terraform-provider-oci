@@ -4,9 +4,9 @@
 package client
 
 import (
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v60/goldengate"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v61/goldengate"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
 )
 
 func init() {

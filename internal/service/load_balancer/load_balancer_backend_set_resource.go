@@ -20,7 +20,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v61/loadbalancer"
 )
 
 func LoadBalancerBackendSetResource() *schema.Resource {

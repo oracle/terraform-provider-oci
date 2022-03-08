@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
 )
 
 func DatabaseMaintenanceRunResource() *schema.Resource {

@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v60/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v61/loganalytics"
 )
 
 func LogAnalyticsLogSetsCountDataSource() *schema.Resource {

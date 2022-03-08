@@ -14,7 +14,7 @@ import (
 
 	"fmt"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v60/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v61/keymanagement"
 )
 
 func KmsEncryptedDataResource() *schema.Resource {
