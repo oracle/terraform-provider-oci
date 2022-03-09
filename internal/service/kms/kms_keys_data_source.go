@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v60/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v61/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

@@ -17,7 +17,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v60/database"
+	"github.com/oracle/oci-go-sdk/v61/database"
 )
 
 // TestAccResourceDatabaseDBSystem_allVM tests DBsystems using Virtual Machines.

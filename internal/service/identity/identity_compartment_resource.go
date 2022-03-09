@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

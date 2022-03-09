@@ -16,8 +16,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	"github.com/oracle/oci-go-sdk/v60/database"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	"github.com/oracle/oci-go-sdk/v61/database"
 )
 
 // issue-routing-tag: database/default

@@ -15,9 +15,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 )
 
 func DatabaseAutonomousDatabaseResource() *schema.Resource {

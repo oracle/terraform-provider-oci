@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/oracle/oci-go-sdk/v60/core"
+	"github.com/oracle/oci-go-sdk/v61/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"

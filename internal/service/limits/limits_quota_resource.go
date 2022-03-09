@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_limits "github.com/oracle/oci-go-sdk/v60/limits"
+	oci_limits "github.com/oracle/oci-go-sdk/v61/limits"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
