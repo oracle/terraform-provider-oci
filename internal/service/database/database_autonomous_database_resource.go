@@ -43,7 +43,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"db_name": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
+				//ForceNew: true, /* Expectation: This should be false. This is coming from Spec - needs to be checked.*/
 			},
 
 			// Optional
@@ -1213,6 +1213,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if dbName, ok := s.D.GetOkExists("db_name"); ok && s.D.HasChange("db_name") {
+		tmp := dbName.(string)
+		request.DbName = &tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
