@@ -13,7 +13,7 @@ import (
 
 var totalRgx = regexp.MustCompile(`total:\s+\(statements\)\s+([^"]*)%`)
 
-const CodeCoverageThreshold = 40.0
+const CodeCoverageThreshold = 51.6
 
 func TestCoverage(t *testing.T) {
 	if os.Getenv("CHECK_COVERAGE") != "true" {
@@ -41,5 +41,10 @@ func TestCoverage(t *testing.T) {
 	}
 
 	fmt.Println("coverage: ", iCoverage)
-	assert.GreaterOrEqual(t, iCoverage, CodeCoverageThreshold)
+	if iCoverage > CodeCoverageThreshold {
+		t.Fatalf("Please update CodeCoverageThreshold in coverage/coverage_test.go with lastest value: %v", iCoverage)
+	} else if iCoverage < CodeCoverageThreshold {
+		t.Fatalf("Your code coverage is %v. Please add more unit tests to reach code coverage: %v", iCoverage, CodeCoverageThreshold)
+	}
+	assert.Equal(t, iCoverage, CodeCoverageThreshold)
 }
