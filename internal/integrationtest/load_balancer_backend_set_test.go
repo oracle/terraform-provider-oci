@@ -17,7 +17,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
@@ -868,9 +867,234 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 	})
 }
 
+func TestLoadBalancerBackendSetResourceLBCertToOciCerts_combo(t *testing.T) {
+	httpreplay.SetScenario("TestLoadBalancerBackendSetResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_load_balancer_backend_set.test_backend_set"
+
+	var resId, resId2 string
+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BackendSetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, backendSetRepresentation), "loadbalancer", "backendSet", t)
+
+	acctest.ResourceTest(t, testAccCheckLoadBalancerBackendSetDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, backendSetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, backendSetRepresentation) +
+				// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "false"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Update, backendSetRepresentationOciCerts) +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
+					"backup":     "true",
+					"drain":      "true",
+					"ip_address": "10.0.0.3",
+					"offline":    "true",
+					"port":       "10",
+					"weight":     "11",
+				},
+					[]string{
+						"name",
+					}),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "2000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "responseBodyRegex2"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "urlPath2"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "true"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.trusted_certificate_authority_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+func TestLoadBalancerBackendSetResourceOciCertsToLBCert_combo(t *testing.T) {
+	httpreplay.SetScenario("TestLoadBalancerBackendSetResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_load_balancer_backend_set.test_backend_set"
+
+	var resId, resId2 string
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BackendSetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, backendSetRepresentationOciCerts), "loadbalancer", "backendSet", t)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { acctest.PreCheck(t) },
+		CheckDestroy: testAccCheckLoadBalancerBackendSetDestroy,
+		Steps: []resource.TestStep{
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, backendSetRepresentationOciCerts) +
+					// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
+					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "false"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.trusted_certificate_authority_ids.#", "1"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Update, backendSetRepresentation) +
+					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
+						"backup":     "true",
+						"drain":      "true",
+						"ip_address": "10.0.0.3",
+						"offline":    "true",
+						"port":       "10",
+						"weight":     "11",
+					},
+						[]string{
+							"name",
+						}),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "2000"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "11"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "responseBodyRegex2"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "11"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "11"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "11"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "urlPath2"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "true"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
 func testAccCheckLoadBalancerBackendSetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).LoadBalancerClient()
+	client := acctest.GetTestClients(&schema.ResourceData{}).LoadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_backend_set" {
 			noResourceFound = false
