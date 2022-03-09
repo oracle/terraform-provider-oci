@@ -88,6 +88,8 @@ func TestDatabaseVmClusterRemoveVirtualMachineResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),
 					resource.TestCheckResourceAttr(resourceName, "cpus_enabled", "6"),
 					resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "90"),
+					resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
 				),
 			},
 		},

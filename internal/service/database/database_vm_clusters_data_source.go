@@ -124,6 +124,12 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["cpu_core_count"] = *r.CpusEnabled
 		}
 
+		if r.DataCollectionOptions != nil {
+			vmCluster["data_collection_options"] = []interface{}{DataCollectionOptionsToMap(r.DataCollectionOptions)}
+		} else {
+			vmCluster["data_collection_options"] = nil
+		}
+
 		if r.DataStorageSizeInGBs != nil {
 			vmCluster["data_storage_size_in_gb"] = *r.DataStorageSizeInGBs
 		}

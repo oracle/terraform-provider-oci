@@ -55,6 +55,7 @@ var (
 		"gi_version":                  acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0.0`},
 		"ssh_public_keys":             acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
 		"vm_cluster_network_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
+		"data_collection_options":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: vmClusterDataCollectionOptionsRepresentation},
 		"data_storage_size_in_tbs":    acctest.Representation{RepType: acctest.Optional, Create: `84`, Update: `86`},
 		"db_node_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `120`, Update: `160`},
 		"db_servers":                  acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`}},
@@ -65,6 +66,9 @@ var (
 		"license_model":               acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
 		"memory_size_in_gbs":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `90`},
 		"time_zone":                   acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+	}
+	vmClusterDataCollectionOptionsRepresentation = map[string]interface{}{
+		"is_diagnostics_events_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	VmClusterResourceDependencies = VmClusterNetworkValidatedResourceConfig
@@ -125,6 +129,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
 				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
@@ -162,6 +168,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
 				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
@@ -194,6 +202,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "86"),
 				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "160"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
@@ -233,6 +243,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.cpus_enabled"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_collection_options.0.is_diagnostics_events_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_storage_size_in_tbs", "86"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_node_storage_size_in_gbs", "160"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_servers.#", "2"),
@@ -264,6 +276,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "86"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_node_storage_size_in_gbs", "160"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers.#", "2"),
