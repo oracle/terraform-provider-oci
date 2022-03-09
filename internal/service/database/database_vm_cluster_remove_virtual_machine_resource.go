@@ -62,6 +62,23 @@ func DatabaseVmClusterRemoveVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"data_collection_options": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_diagnostics_events_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"data_storage_size_in_tbs": {
 				Type:     schema.TypeFloat,
 				Computed: true,
@@ -245,6 +262,12 @@ func (s *DatabaseVmClusterRemoveVirtualMachineResourceCrud) SetData() error {
 
 	if s.Res.CpusEnabled != nil {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)
+	}
+
+	if s.Res.DataCollectionOptions != nil {
+		s.D.Set("data_collection_options", []interface{}{DataCollectionOptionsToMap(s.Res.DataCollectionOptions)})
+	} else {
+		s.D.Set("data_collection_options", nil)
 	}
 
 	if s.Res.DataStorageSizeInTBs != nil {
