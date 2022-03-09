@@ -49,6 +49,8 @@ var (
 	}
 
 	adbName      = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
+	longAdbName1 = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(14, utils.Charset)
+	longAdbName2 = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(28, utils.Charset)
 	adbCloneName = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
 	autonomousDatabaseRepresentation = map[string]interface{}{
@@ -165,7 +167,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
 		},
-		// verify Create with optionals
+		// verify Create with optionals and long dbName
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -173,6 +175,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"open_mode":        acctest.Representation{RepType: acctest.Optional, Create: `READ_ONLY`, Update: `READ_ONLY`},
 						"permission_level": acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`, Update: `RESTRICTED`},
 						"database_edition": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD_EDITION`, Update: `STANDARD_EDITION`},
+						"db_name":          acctest.Representation{RepType: acctest.Required, Create: longAdbName1},
 					}),
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -185,7 +188,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_edition", "STANDARD_EDITION"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_name", longAdbName1),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -230,6 +233,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"database_management_status": acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `ENABLED`},
 						"operations_insights_status": acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`, Update: `NOT_ENABLED`},
 						"database_edition":           acctest.Representation{RepType: acctest.Optional, Create: `STANDARD_EDITION`, Update: `STANDARD_EDITION`},
+						"db_name":                    acctest.Representation{RepType: acctest.Required, Create: longAdbName1},
 					}),
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -242,7 +246,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_edition", "STANDARD_EDITION"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_name", longAdbName1),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -280,6 +284,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"open_mode":        acctest.Representation{RepType: acctest.Optional, Create: `READ_WRITE`, Update: `READ_WRITE`},
 						"permission_level": acctest.Representation{RepType: acctest.Optional, Create: `UNRESTRICTED`, Update: `UNRESTRICTED`},
 						"database_edition": acctest.Representation{RepType: acctest.Optional, Create: `ENTERPRISE_EDITION`, Update: `ENTERPRISE_EDITION`},
+						"db_name":          acctest.Representation{RepType: acctest.Required, Create: longAdbName1},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -291,7 +296,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_name", longAdbName1),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -314,6 +319,54 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify rename-database to longer dbName
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationBYOL, map[string]interface{}{
+						"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						"open_mode":        acctest.Representation{RepType: acctest.Optional, Create: `READ_WRITE`, Update: `READ_WRITE`},
+						"permission_level": acctest.Representation{RepType: acctest.Optional, Create: `UNRESTRICTED`, Update: `UNRESTRICTED`},
+						"database_edition": acctest.Representation{RepType: acctest.Optional, Create: `ENTERPRISE_EDITION`, Update: `ENTERPRISE_EDITION`},
+						"db_name":          acctest.Representation{RepType: acctest.Required, Create: longAdbName2},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "db_name", longAdbName2),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify rename-database to smaller dbName
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationBYOL, map[string]interface{}{
+						"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						"open_mode":        acctest.Representation{RepType: acctest.Optional, Create: `READ_WRITE`, Update: `READ_WRITE`},
+						"permission_level": acctest.Representation{RepType: acctest.Optional, Create: `UNRESTRICTED`, Update: `UNRESTRICTED`},
+						"database_edition": acctest.Representation{RepType: acctest.Optional, Create: `ENTERPRISE_EDITION`, Update: `ENTERPRISE_EDITION`},
+						"db_name":          acctest.Representation{RepType: acctest.Required, Create: adbName},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
