@@ -106,6 +106,11 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
   data_storage_size_in_tbs    = "84"
   db_node_storage_size_in_gbs = "120"
   memory_size_in_gbs          = "60"
+  data_collection_options {
+      #Optional
+      is_diagnostics_events_enabled = "true"
+  }
+
 }
 
 data "oci_database_db_servers" "test_db_servers" {
