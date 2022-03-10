@@ -1,4 +1,4 @@
-## 4.67.0 (Unreleased)
+## 4.67.0 (March 10, 2022)
 
 ### Added
 - Support for Ignore Oracle Tags on demand from the provider
