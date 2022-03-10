@@ -104,7 +104,7 @@ var (
 	}
 
 	AutoScalingConfigurationResourceDependencies = InstancePoolResourceDependenciesWithoutSecondaryVnic +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, instancePoolRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, instancePoolRepresentationWithLifecycleSizeIgnoreChanges)
 )
 
 // issue-routing-tag: auto_scaling/default
