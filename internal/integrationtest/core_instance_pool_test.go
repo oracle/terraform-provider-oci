@@ -56,6 +56,23 @@ var (
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: instancePoolLoadBalancersRepresentation},
 	}
+
+	instancePoolRepresentationWithLifecycleSizeIgnoreChanges = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
+		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: instancePoolPlacementConfigurationsRepresentation},
+		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: instancePoolLoadBalancersRepresentation},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: sizeIgnoreChangesRepresentation},
+	}
+	sizeIgnoreChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`size`}},
+	}
+
 	instancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
 		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"primary_subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
