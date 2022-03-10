@@ -64,7 +64,6 @@ func TestOsubSubscriptionRatecardResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "rate_cards.0.net_unit_price"),
 				resource.TestCheckResourceAttrSet(datasourceName, "rate_cards.0.overage_price"),
 				resource.TestCheckResourceAttr(datasourceName, "rate_cards.0.product.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "rate_cards.0.rate_card_tiers.#", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "rate_cards.0.time_end"),
 				resource.TestCheckResourceAttrSet(datasourceName, "rate_cards.0.time_start"),
 			),
