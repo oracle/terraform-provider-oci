@@ -11,15 +11,16 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/identity"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/identity"
 	"github.com/stretchr/testify/suite"
 )
 
 type ResourceIdentityPolicyTestSuite struct {
 	suite.Suite
-	Providers      map[string]terraform.ResourceProvider
+	Providers      map[string]*schema.Provider
 	Config         string
 	ResourceName   string
 	DataSourceName string
@@ -137,7 +138,14 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 			},
 			// verify resource import
 			{
-				Config:                  s.Config,
+				Config: s.Config + s.TokenFn(`
+				resource "oci_identity_policy" "p" {
+					compartment_id = "${var.tenancy_ocid}"
+					name = "p1-{{.token}}"
+					description = "automated test policy"
+					version_date = "2018-04-17"
+					statements = ["Allow Group ${oci_identity_group.t.name} to read instances in tenancy"]
+				}`, nil),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

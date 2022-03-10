@@ -9,8 +9,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_oce "github.com/oracle/oci-go-sdk/v60/oce"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_oce "github.com/oracle/oci-go-sdk/v61/oce"
 )
 
 func OceOceInstancesDataSource() *schema.Resource {
@@ -119,6 +119,8 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		oceInstance["add_on_features"] = r.AddOnFeatures
+
 		if r.AdminEmail != nil {
 			oceInstance["admin_email"] = *r.AdminEmail
 		}
@@ -150,6 +152,8 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 		oceInstance["instance_license_type"] = r.InstanceLicenseType
 
 		oceInstance["instance_usage_type"] = r.InstanceUsageType
+
+		oceInstance["lifecycle_details"] = r.LifecycleDetails
 
 		if r.Name != nil {
 			oceInstance["name"] = *r.Name

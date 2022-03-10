@@ -12,12 +12,14 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 var (
+	BootVolumeBackupCopyRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup_copy", acctest.Required, acctest.Create, bootVolumeBackupWithSourceDetailsRepresentation)
+
 	bootVolumeBackupFromSourceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
@@ -161,7 +163,7 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + BootVolumeBackupCopyRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

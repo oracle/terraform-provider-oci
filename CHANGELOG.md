@@ -1,3 +1,19 @@
+## 4.67.0 (Unreleased)
+
+### Added
+- Support for Ignore Oracle Tags on demand from the provider
+- Account Management - Finance Data (Subscriptions and Usage) osub_billing_schedule
+- Account Management - Finance Data (Subscriptions and Usage) osub_organization_subscription
+- Account Management - Finance Data (Subscriptions and Usage) osub_subscription
+- Remove Admin user credentials from required fields during restore for Mysql service
+- Account Management - Finance Data (Subscriptions and Usage) osub_usage
+- Support for addOnFeatures for OCM
+- Support for deployments to private clusters via build service for OKE
+- Support for Auto Increment (Auto-Scale) for Storage
+### Bug Fix
+- Fix tests and examples for GoldenGate
+- Remove system tags from oke request
+
 ## 4.66.0 (March 02, 2022)
 
 ### Added

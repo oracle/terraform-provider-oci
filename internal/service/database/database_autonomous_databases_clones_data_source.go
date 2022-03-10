@@ -9,8 +9,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
 )
 
 func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
@@ -48,11 +48,17 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"actual_used_data_storage_size_in_tbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"allocated_storage_size_in_tbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
 						"apex_details": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -93,8 +99,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"backup_config": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -120,8 +124,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"connection_strings": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -201,8 +203,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"connection_urls": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -309,6 +309,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"is_auto_scaling_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_auto_scaling_for_storage_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -449,8 +453,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 									"day_of_week": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -487,8 +489,6 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"standby_db": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -684,6 +684,14 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.ActualUsedDataStorageSizeInTBs != nil {
+			autonomousDatabasesClone["actual_used_data_storage_size_in_tbs"] = *r.ActualUsedDataStorageSizeInTBs
+		}
+
+		if r.AllocatedStorageSizeInTBs != nil {
+			autonomousDatabasesClone["allocated_storage_size_in_tbs"] = *r.AllocatedStorageSizeInTBs
+		}
+
 		if r.ApexDetails != nil {
 			autonomousDatabasesClone["apex_details"] = []interface{}{AutonomousDatabaseApexToMap(r.ApexDetails)}
 		} else {
@@ -778,6 +786,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.IsAutoScalingEnabled != nil {
 			autonomousDatabasesClone["is_auto_scaling_enabled"] = *r.IsAutoScalingEnabled
+		}
+
+		if r.IsAutoScalingForStorageEnabled != nil {
+			autonomousDatabasesClone["is_auto_scaling_for_storage_enabled"] = *r.IsAutoScalingForStorageEnabled
 		}
 
 		if r.IsDataGuardEnabled != nil {

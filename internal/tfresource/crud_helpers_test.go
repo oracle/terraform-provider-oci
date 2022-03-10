@@ -13,12 +13,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_vault "github.com/oracle/oci-go-sdk/v60/vault"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_vault "github.com/oracle/oci-go-sdk/v61/vault"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 )
 
 type extraWaitPostCreateDelete interface {
@@ -443,7 +443,7 @@ func TestUnitGetSingularDataSourceItemSchema(t *testing.T) {
 			Create: nil,
 			Read:   nil,
 		},
-		CustomizeDiff: func(d *schema.ResourceDiff, m interface{}) error { return nil },
+		CustomizeDiff: func(ctx context.Context, d *schema.ResourceDiff, m interface{}) error { return nil },
 	}
 	reqReadFunc := func(d *schema.ResourceData, m interface{}) error { return nil }
 	reqAddFieldMap := map[string]*schema.Schema{

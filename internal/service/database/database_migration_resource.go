@@ -6,9 +6,9 @@ package database
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

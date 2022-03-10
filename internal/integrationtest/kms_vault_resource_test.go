@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -16,6 +16,8 @@ import (
 )
 
 var (
+	VaultResourceRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, virtualVaultRepresentation)
+
 	virtualVaultRepresentation = acctest.GetMultipleUpdatedRepresenationCopy([]string{"display_name", "vault_type"},
 		[]interface{}{acctest.Representation{RepType: acctest.Required, Create: `DEFAULT_VAULT`, Update: `displayName2`},
 			acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`}}, vaultRepresentation)
@@ -178,14 +180,9 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "vault_type", "DEFAULT"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Optional, acctest.Update, virtualVaultRepresentation),
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + VaultResourceRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

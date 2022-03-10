@@ -10,10 +10,10 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -24,6 +24,8 @@ import (
 )
 
 var (
+	IdpGroupMappingRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", acctest.Required, acctest.Create, idpGroupMappingRepresentation)
+
 	idpGroupMappingDataSourceRepresentation = map[string]interface{}{
 		"identity_provider_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_identity_provider.test_identity_provider.id}`},
 		"filter":               acctest.RepresentationGroup{RepType: acctest.Required, Group: idpGroupMappingDataSourceFilterRepresentation}}
@@ -139,7 +141,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + IdpGroupMappingRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateIdFunc:       getIdpGroupMappingImportId(resourceName),

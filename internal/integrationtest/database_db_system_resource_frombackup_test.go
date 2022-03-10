@@ -14,10 +14,10 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	"github.com/oracle/oci-go-sdk/v60/database"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	"github.com/oracle/oci-go-sdk/v61/database"
 )
 
 // issue-routing-tag: database/default

@@ -6,8 +6,8 @@ package ai_vision
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ai_vision "github.com/oracle/oci-go-sdk/v60/aivision"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_ai_vision "github.com/oracle/oci-go-sdk/v61/aivision"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

@@ -8,8 +8,10 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
+
+var DefinedTagsToSuppress []string
 
 func DefinedTagsToMap(definedTags map[string]map[string]interface{}) map[string]interface{} {
 	var tags = make(map[string]interface{})
@@ -42,13 +44,18 @@ func MapToDefinedTags(rawMap map[string]interface{}) (map[string]map[string]inte
 }
 
 func DefinedTagsDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+	keyParts := strings.Split(key, ".")
+	for _, tags := range DefinedTagsToSuppress {
+		if strings.EqualFold(strings.Join(keyParts[1:], "."), tags) {
+			return true
+		}
+	}
 	if old != "" && new != "" {
 		return false
 	}
 
 	// Find the specific defined_tag key name (mainly if a resource supports tagging at multiple levels)
 	// For example: "create_vnic_details.0.defined_tags.mynamespace.mykey" => "create_vnic_details.0.defined_tags"
-	keyParts := strings.Split(key, ".")
 	definedTagKeyParts := []string{}
 	for _, keyPart := range keyParts {
 		definedTagKeyParts = append(definedTagKeyParts, keyPart)

@@ -14,10 +14,10 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_apm_config "github.com/oracle/oci-go-sdk/v60/apmconfig"
+	oci_apm_config "github.com/oracle/oci-go-sdk/v61/apmconfig"
 )
 
 func ApmConfigConfigResource() *schema.Resource {
@@ -334,12 +334,6 @@ func (s *ApmConfigConfigResourceCrud) Delete() error {
 }
 
 func (s *ApmConfigConfigResourceCrud) SetData() error {
-	configId, _, err := parseConfigCompositeId(s.D.Id())
-	if err == nil {
-		s.D.Set("config_id", configId)
-	} else {
-		log.Printf("[WARN] SetData() in apm config unable to parse current ID: %s", s.D.Id())
-	}
 
 	switch v := (*s.Res).(type) {
 	case oci_apm_config.ApdexRules:
@@ -364,10 +358,6 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -413,10 +403,6 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
@@ -448,10 +434,6 @@ func (s *ApmConfigConfigResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())

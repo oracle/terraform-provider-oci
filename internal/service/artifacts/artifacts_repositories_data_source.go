@@ -6,8 +6,8 @@ package artifacts
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v60/artifacts"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v61/artifacts"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

@@ -9,8 +9,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v60/databasemigration"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v61/databasemigration"
 )
 
 func DatabaseMigrationJobAdvisorReportDataSource() *schema.Resource {
@@ -55,8 +55,6 @@ func DatabaseMigrationJobAdvisorReportDataSource() *schema.Resource {
 						"object_storage_details": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

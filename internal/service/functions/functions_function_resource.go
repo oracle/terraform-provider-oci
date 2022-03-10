@@ -11,10 +11,10 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/customdiff"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v60/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v61/functions"
 )
 
 // The Functions API uses `imageDigest` as an optional I/O parameter. If unspecified, the controlplane
@@ -48,10 +48,10 @@ func FunctionsFunctionResource() *schema.Resource {
 		Delete:   deleteFunctionsFunction,
 		CustomizeDiff: customdiff.All(
 			customdiff.IfValueChange("image",
-				func(old, new, meta interface{}) bool {
+				func(ctx context.Context, old, new, meta interface{}) bool {
 					return (old.(string) != new.(string)) && old.(string) != ""
 				},
-				func(d *schema.ResourceDiff, meta interface{}) error {
+				func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
 					o, n := d.GetChange("image_digest")
 
 					if o == n || n == requireRecompute || n == "" {
@@ -64,11 +64,11 @@ func FunctionsFunctionResource() *schema.Resource {
 					return nil
 				}),
 			customdiff.IfValue("image_digest",
-				func(v, m interface{}) bool {
+				func(ctx context.Context, v, m interface{}) bool {
 					// mark explicit requests for recomputation as "known after apply"
 					return v.(string) == "" || v.(string) == requireRecompute
 				},
-				func(d *schema.ResourceDiff, meta interface{}) error {
+				func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
 					d.SetNewComputed("image_digest")
 					return nil
 				}),

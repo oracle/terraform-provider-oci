@@ -10,13 +10,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v60/datacatalog"
-	"github.com/oracle/oci-go-sdk/v60/objectstorage"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v61/datacatalog"
+	"github.com/oracle/oci-go-sdk/v61/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -125,7 +125,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.TestAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckDatacatalogMetastoreDestroy,
@@ -259,13 +259,9 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				),
 			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + MetastoreResourceConfig,
-			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + MetastoreRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

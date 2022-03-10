@@ -11,10 +11,10 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v60/objectstorage"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v61/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

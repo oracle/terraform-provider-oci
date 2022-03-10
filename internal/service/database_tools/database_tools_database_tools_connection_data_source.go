@@ -10,8 +10,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v60/databasetools"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v61/databasetools"
 )
 
 func DatabaseToolsDatabaseToolsConnectionDataSource() *schema.Resource {
@@ -119,10 +119,6 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)

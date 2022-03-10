@@ -16,16 +16,46 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v60/databasemigration"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v61/databasemigration"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
+	goldenGateDbSystemOption = map[string]interface{}{
+		"storage_management": acctest.Representation{RepType: acctest.Required, Create: `LVM`},
+	}
+
+	goldenGateDbSystemDbHomeRepresentation = map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: goldenGateDatabaseRepresentation},
+		"db_version": acctest.Representation{RepType: acctest.Required, Create: `21.3.0.0`},
+	}
+
+	goldenGateDatabaseRepresentation = map[string]interface{}{
+		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `myDB`},
+		"pdb_name":       acctest.Representation{RepType: acctest.Required, Create: `pdbName`},
+	}
+
+	kmsKeyId            = utils.GetEnvSettingWithBlankDefault("kms_key_ocid")
+	KmsKeyIdVariableStr = fmt.Sprintf("\nvariable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	DatabaseHomeConfig = `
+	data "oci_database_db_homes" "t" {
+	compartment_id = "${var.compartment_id}"
+	db_system_id = "${oci_database_db_system.t.id}"
+}`
+
+	DatabaseData = `
+	data "oci_database_databases" "t" {
+	compartment_id = "${var.compartment_id}"
+	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"	
+}`
+
 	ConnectionResourceConfigTarget = ConnectionResourceDependenciesTarget +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, connectionRepresentationTarget)
 
@@ -396,13 +426,9 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "vault_details.0.compartment_id", compartmentId),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + ConnectionResourceConfigTarget,
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + ConnectionRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

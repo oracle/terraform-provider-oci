@@ -11,7 +11,10 @@ import (
 	"reflect"
 	"testing"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 )
 
 func setUp(t *testing.T) {
@@ -157,6 +160,15 @@ func TestUnitGetAvalabilityDomains(t *testing.T) {
 			}, nil
 		}
 		return oci_identity.ListAvailabilityDomainsResponse{}, errors.New("invalid compId")
+	}
+
+	tfProviderConfigVar = func(d *schema.ResourceData) (interface{}, error) {
+		sdkClientMap := map[string]interface{}{
+			"oci_identity.IdentityClient": &oci_identity.IdentityClient{},
+		}
+		return &client.OracleClients{
+			SdkClientMap: sdkClientMap,
+		}, nil
 	}
 
 	tests := []struct {

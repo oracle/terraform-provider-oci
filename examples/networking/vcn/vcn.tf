@@ -25,6 +25,7 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
+  ignore_defined_tags      = ["testexamples-tag-namespace.tf-example-tag"]
 }
 
 resource "oci_core_vcn" "vcn" {
@@ -32,6 +33,7 @@ resource "oci_core_vcn" "vcn" {
   dns_label      = "vcn"
   compartment_id = var.compartment_ocid
   display_name   = "vcn"
+  defined_tags   = {"sampleTest": 1}
 }
 
 output "vcn_id" {

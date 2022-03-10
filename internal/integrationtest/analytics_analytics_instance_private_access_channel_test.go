@@ -15,15 +15,17 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_analytics "github.com/oracle/oci-go-sdk/v60/analytics"
-	"github.com/oracle/oci-go-sdk/v60/common"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	oci_analytics "github.com/oracle/oci-go-sdk/v61/analytics"
+	"github.com/oracle/oci-go-sdk/v61/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
+	AnalyticsInstancePrivateAccessChannelRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", acctest.Required, acctest.Create, analyticsInstancePrivateAccessChannelRepresentation)
+
 	AnalyticsInstancePrivateAccessChannelResourceConfig = AnalyticsInstancePrivateAccessChannelResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", acctest.Optional, acctest.Update, analyticsInstancePrivateAccessChannelRepresentation)
 
@@ -115,7 +117,7 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 			),
 		},
 		{
-			Config:                  config,
+			Config:                  config + AnalyticsInstancePrivateAccessChannelRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

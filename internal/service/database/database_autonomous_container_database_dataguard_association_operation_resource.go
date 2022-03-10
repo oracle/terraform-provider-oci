@@ -7,12 +7,12 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
 )
 
 func DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource() *schema.Resource {
@@ -51,7 +51,7 @@ type DatabaseAutonomousContainerDatabaseDataguardAssociationOperation struct {
 }
 
 func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) ID() string {
-	return fmt.Sprint(hashcode.String(s.D.Get("autonomous_container_database_id").(string)))
+	return fmt.Sprint(utils.GetStringHashcode(s.D.Get("autonomous_container_database_id").(string)))
 }
 
 func createDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *schema.ResourceData, m interface{}) error {

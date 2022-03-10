@@ -10,11 +10,11 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
 )
 
 func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
@@ -211,8 +211,6 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			"maintenance_window": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -244,8 +242,6 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 						"hours_of_day": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 20,
-							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},
@@ -286,8 +282,6 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 						"weeks_of_month": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 4,
-							MinItems: 1,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},

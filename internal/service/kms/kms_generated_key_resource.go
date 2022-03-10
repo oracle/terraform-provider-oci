@@ -9,11 +9,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_kms "github.com/oracle/oci-go-sdk/v60/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v61/keymanagement"
 )
 
 func KmsGeneratedKeyResource() *schema.Resource {
@@ -135,7 +135,7 @@ type KmsGeneratedKeyResourceCrud struct {
 }
 
 func (s *KmsGeneratedKeyResourceCrud) ID() string {
-	return fmt.Sprint(hashcode.String(*s.Res.Ciphertext))
+	return fmt.Sprint(utils.GetStringHashcode(*s.Res.Ciphertext))
 }
 
 func (s *KmsGeneratedKeyResourceCrud) Create() error {

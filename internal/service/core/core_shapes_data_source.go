@@ -6,8 +6,8 @@ package core
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -43,7 +43,6 @@ func CoreShapesDataSource() *schema.Resource {
 						"baseline_ocpu_utilizations": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -91,8 +90,6 @@ func CoreShapesDataSource() *schema.Resource {
 						"max_vnic_attachment_options": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -126,8 +123,6 @@ func CoreShapesDataSource() *schema.Resource {
 						"memory_options": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -173,8 +168,6 @@ func CoreShapesDataSource() *schema.Resource {
 						"networking_bandwidth_options": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -200,8 +193,6 @@ func CoreShapesDataSource() *schema.Resource {
 						"ocpu_options": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -227,8 +218,6 @@ func CoreShapesDataSource() *schema.Resource {
 						"platform_config_options": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -239,8 +228,6 @@ func CoreShapesDataSource() *schema.Resource {
 									"measured_boot_options": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -265,8 +252,6 @@ func CoreShapesDataSource() *schema.Resource {
 									"numa_nodes_per_socket_platform_options": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -291,8 +276,6 @@ func CoreShapesDataSource() *schema.Resource {
 									"secure_boot_options": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -317,8 +300,6 @@ func CoreShapesDataSource() *schema.Resource {
 									"trusted_platform_module_options": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required

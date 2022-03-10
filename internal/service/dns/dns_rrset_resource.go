@@ -14,11 +14,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v60/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v61/dns"
 )
 
 func DnsRrsetResource() *schema.Resource {
@@ -546,5 +546,5 @@ func rrsetItemsHashCodeForSets(v interface{}) int {
 	if ttl, ok := m["ttl"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", ttl))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }

@@ -12,11 +12,11 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v61/devops"
 )
 
 func DevopsDeployPipelineResource() *schema.Resource {
@@ -113,8 +113,6 @@ func DevopsDeployPipelineResource() *schema.Resource {
 			"deploy_pipeline_artifacts": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -139,8 +137,6 @@ func DevopsDeployPipelineResource() *schema.Resource {
 									"deploy_pipeline_stages": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -185,8 +181,6 @@ func DevopsDeployPipelineResource() *schema.Resource {
 			"deploy_pipeline_environments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -211,8 +205,6 @@ func DevopsDeployPipelineResource() *schema.Resource {
 									"deploy_pipeline_stages": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required

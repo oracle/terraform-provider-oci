@@ -12,12 +12,12 @@ import (
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 
-	"github.com/oracle/oci-go-sdk/v60/common"
+	"github.com/oracle/oci-go-sdk/v61/common"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -196,13 +196,9 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + TagResourceConfigWithoutValidator,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + TagRequiredOnlyResource,
 			ImportStateIdFunc:       getTagCompositeId(resourceName),
 			ImportState:             true,
 			ImportStateVerify:       true,

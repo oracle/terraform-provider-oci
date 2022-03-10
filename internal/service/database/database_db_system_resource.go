@@ -13,13 +13,13 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
 )
 
 func DatabaseDbSystemResource() *schema.Resource {
@@ -641,8 +641,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 			"iorm_config_cache": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -713,8 +711,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 			"maintenance_window": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -746,8 +742,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 						"hours_of_day": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 20,
-							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},
@@ -788,8 +782,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 						"weeks_of_month": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 4,
-							MinItems: 1,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},

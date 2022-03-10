@@ -12,13 +12,13 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
 )
 
 func DatabaseDataGuardAssociationResource() *schema.Resource {

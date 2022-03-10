@@ -7,8 +7,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

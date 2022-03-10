@@ -15,11 +15,11 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v60/blockchain"
-	"github.com/oracle/oci-go-sdk/v60/common"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v61/blockchain"
+	"github.com/oracle/oci-go-sdk/v61/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -186,13 +186,9 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + PeerResourceConfig + idcsAccessTokenVariableStr,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + PeerRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateIdFunc:       getBlockchainPeerCompositeId(resourceName),
 			ImportStateVerify:       true,

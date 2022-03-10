@@ -16,16 +16,18 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_sch "github.com/oracle/oci-go-sdk/v60/sch"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_sch "github.com/oracle/oci-go-sdk/v61/sch"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
+	ServiceConnectorRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Required, acctest.Create, serviceConnectorFunctionTargetRepresentation)
+
 	// Dependency definition
 	ServiceConnectorResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, logRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_update_log", acctest.Required, acctest.Update, acctest.GetUpdatedRepresentationCopy("configuration.source.category", acctest.Representation{RepType: acctest.Required, Create: `read`}, logRepresentation)) +
@@ -604,15 +606,9 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + ServiceConnectorResourceConfig + imageVariableStr,
-		},
-
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + ServiceConnectorRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

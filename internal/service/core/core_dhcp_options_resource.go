@@ -10,14 +10,14 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
 )
 
 func CoreDhcpOptionsResource() *schema.Resource {
@@ -397,8 +397,10 @@ func (s *CoreDhcpOptionsResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
-	if s.Res.VcnId != nil {
-		s.D.Set("vcn_id", *s.Res.VcnId)
+	if _, ok := s.D.GetOk("manage_default_resource_id"); !ok {
+		if s.Res.VcnId != nil {
+			s.D.Set("vcn_id", *s.Res.VcnId)
+		}
 	}
 
 	return nil
@@ -499,7 +501,7 @@ func optionsHashCodeForSets(v interface{}) int {
 	if type_, ok := m["type"]; ok && type_ != "" {
 		buf.WriteString(fmt.Sprintf("%v-", strings.ToLower(type_.(string))))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 func (s *CoreDhcpOptionsResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeDhcpOptionsCompartmentRequest{}

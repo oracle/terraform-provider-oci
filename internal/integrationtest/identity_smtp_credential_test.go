@@ -10,10 +10,10 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -24,6 +24,8 @@ import (
 )
 
 var (
+	SmtpCredentialRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Required, acctest.Create, smtpCredentialRepresentation)
+
 	smtpCredentialDataSourceRepresentation = map[string]interface{}{
 		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 		"filter":  acctest.RepresentationGroup{RepType: acctest.Required, Group: smtpCredentialDataSourceFilterRepresentation}}
@@ -121,7 +123,7 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + SmtpCredentialRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getSmtpCredentialImportId(resourceName),

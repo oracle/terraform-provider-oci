@@ -12,10 +12,10 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v60/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v61/mysql"
 )
 
 func MysqlMysqlDbSystemResource() *schema.Resource {
@@ -34,17 +34,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 		Delete: deleteMysqlMysqlDbSystem,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
-			},
-			"admin_username": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"availability_domain": {
 				Type:             schema.TypeString,
 				Required:         true,
@@ -68,6 +57,19 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			},
 
 			// Optional
+			"admin_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				ForceNew:  true,
+				Sensitive: true,
+			},
+			"admin_username": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"backup_policy": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -273,8 +275,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			"analytics_cluster": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -348,8 +348,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						"source": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -372,8 +370,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 									"ssl_ca_certificate": {
 										Type:     schema.TypeList,
 										Computed: true,
-										MaxItems: 1,
-										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
@@ -410,8 +406,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						"target": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -452,8 +446,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			"current_placement": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -519,8 +511,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			"heat_wave_cluster": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required

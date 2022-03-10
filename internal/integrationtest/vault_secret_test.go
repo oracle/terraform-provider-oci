@@ -11,8 +11,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -305,19 +305,9 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_current_version_expiry"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + SecretResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
-					"secret_rules.secret_version_expiry_interval",
-					"secret_rules.time_of_absolute_expiry",
-				}, acctest.RepresentationCopyWithNewProperties(secretRepresentation, map[string]interface{}{
-					"secret_name": acctest.Representation{RepType: acctest.Required, Create: secretName2},
-				}))),
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + SecretRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

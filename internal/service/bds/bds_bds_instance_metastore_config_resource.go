@@ -12,14 +12,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_bds "github.com/oracle/oci-go-sdk/v60/bds"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
+	oci_bds "github.com/oracle/oci-go-sdk/v61/bds"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
 )
 
 func BdsBdsInstanceMetastoreConfigResource() *schema.Resource {

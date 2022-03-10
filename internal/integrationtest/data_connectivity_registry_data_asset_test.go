@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_data_connectivity "github.com/oracle/oci-go-sdk/v60/dataconnectivity"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_data_connectivity "github.com/oracle/oci-go-sdk/v61/dataconnectivity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -191,13 +191,9 @@ func TestDataConnectivityRegistryDataAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "type", "GENERIC_JDBC_DATA_ASSET"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + RegistryDataAssetResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + RegistryDataAssetRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"registry_metadata"},

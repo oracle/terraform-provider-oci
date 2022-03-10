@@ -6,12 +6,12 @@ package mysql
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v60/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v61/mysql"
 )
 
 func MysqlMysqlBackupResource() *schema.Resource {
@@ -89,8 +89,6 @@ func MysqlMysqlBackupResource() *schema.Resource {
 			"db_system_snapshot": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -114,8 +112,6 @@ func MysqlMysqlBackupResource() *schema.Resource {
 						"backup_policy": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -245,8 +241,6 @@ func MysqlMysqlBackupResource() *schema.Resource {
 						"maintenance": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

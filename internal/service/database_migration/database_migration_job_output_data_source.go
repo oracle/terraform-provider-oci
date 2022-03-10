@@ -9,8 +9,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v60/databasemigration"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v61/databasemigration"
 )
 
 func DatabaseMigrationJobOutputDataSource() *schema.Resource {

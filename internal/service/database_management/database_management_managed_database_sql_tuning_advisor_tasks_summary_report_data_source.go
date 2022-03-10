@@ -12,9 +12,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_database_management "github.com/oracle/oci-go-sdk/v60/databasemanagement"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_database_management "github.com/oracle/oci-go-sdk/v61/databasemanagement"
 )
 
 func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksSummaryReportDataSource() *schema.Resource {
@@ -140,8 +140,6 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksSummaryReportDataSour
 						"finding_benefits": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -171,8 +169,6 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksSummaryReportDataSour
 						"finding_counts": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -210,8 +206,6 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksSummaryReportDataSour
 						"statement_counts": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

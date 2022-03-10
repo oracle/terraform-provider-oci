@@ -12,10 +12,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_osp_gateway "github.com/oracle/oci-go-sdk/v60/ospgateway"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_osp_gateway "github.com/oracle/oci-go-sdk/v61/ospgateway"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -67,8 +67,7 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 						"billing_address": {
 							Type:     schema.TypeList,
 							Optional: true,
-							Computed: true,
-							MaxItems: 1,
+
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -334,8 +333,6 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 			"billing_address": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -413,8 +410,6 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 			"payment_gateway": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -425,8 +420,6 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 						"merchant_defined_data": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -492,8 +485,6 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 			"tax_info": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required

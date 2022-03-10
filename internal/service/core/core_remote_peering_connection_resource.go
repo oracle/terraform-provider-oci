@@ -9,13 +9,13 @@ import (
 	"log"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
 )
 
 func CoreRemotePeeringConnectionResource() *schema.Resource {

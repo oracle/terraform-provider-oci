@@ -13,12 +13,12 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v60/opsi"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v61/opsi"
 )
 
 func OpsiExadataInsightResource() *schema.Resource {
@@ -590,10 +590,6 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 		s.D.Set("exadata_type", v.ExadataType)
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.IsVirtualizedExadata != nil {
 			s.D.Set("is_virtualized_exadata", *v.IsVirtualizedExadata)

@@ -15,16 +15,18 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apm_config "github.com/oracle/oci-go-sdk/v60/apmconfig"
-	"github.com/oracle/oci-go-sdk/v60/common"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	oci_apm_config "github.com/oracle/oci-go-sdk/v61/apmconfig"
+	"github.com/oracle/oci-go-sdk/v61/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
+	ConfigRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Required, acctest.Create, configSpanFilterRepresentation)
+
 	ConfigResourceSpanFilter = ConfigResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_span_filter", acctest.Optional, acctest.Update, configSpanFilterRepresentation)
 
@@ -88,7 +90,7 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckApmConfigConfigDestroy,
@@ -196,7 +198,7 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 			},
 			// Step 7 verify resource import
 			{
-				Config:            config,
+				Config:            config + ConfigRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

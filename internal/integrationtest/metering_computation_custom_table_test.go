@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v60/usageapi"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v61/usageapi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -24,6 +24,8 @@ import (
 )
 
 var (
+	CustomTableRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Required, acctest.Create, customTableRepresentation)
+
 	CustomTableResourceConfig = CustomTableResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", acctest.Optional, acctest.Update, customTableRepresentation)
 
@@ -164,13 +166,9 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.version", "1"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + CustomTableResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + CustomTableRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

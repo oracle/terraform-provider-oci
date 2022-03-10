@@ -6,12 +6,12 @@ package identity
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v60/identitydataplane"
+	oci_identity_data_plane "github.com/oracle/oci-go-sdk/v61/identitydataplane"
 )
 
 func IdentityDataPlaneGenerateScopedAccessTokenResource() *schema.Resource {

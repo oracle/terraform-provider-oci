@@ -27,9 +27,9 @@ import (
 	"github.com/hashicorp/terraform-exec/tfinstall"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v60/identity"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	tf_provider "github.com/terraform-providers/terraform-provider-oci/internal/provider"
@@ -43,22 +43,42 @@ const (
 	GeneratingState                        = 2
 )
 
-var referenceMap map[string]string //	stores references to replace the ocids in config
-var refMapLock sync.Mutex
-var referenceResourceNameSet map[string]bool   // this set contains terraform resource names for the references in referenceMap
-var failedResourceReferenceSet map[string]bool // stores the terraform reference name for failed resources, used to remove InterpolationString type values if a resource failed to import
-var vars map[string]string
-var resourceNameCount map[string]int
-var resourceNameCountLock sync.Mutex
-var resourcesMap map[string]*schema.Resource
-var datasourcesMap map[string]*schema.Resource
-var compartmentScopeServices []string
-var tenancyScopeServices []string
-var isMissingRequiredAttributes bool
-var missingAttributesPerResourceLock sync.Mutex
-var sem chan struct{}
-var exportConfigProvider oci_common.ConfigurationProvider
-var tfHclVersion TfHclVersion
+var (
+	referenceMap                     map[string]string //	stores references to replace the ocids in config
+	refMapLock                       sync.Mutex
+	referenceResourceNameSet         map[string]bool // this set contains terraform resource names for the references in referenceMap
+	failedResourceReferenceSet       map[string]bool // stores the terraform reference name for failed resources, used to remove InterpolationString type values if a resource failed to import
+	vars                             map[string]string
+	resourceNameCount                map[string]int
+	resourceNameCountLock            sync.Mutex
+	resourcesMap                     map[string]*schema.Resource
+	datasourcesMap                   map[string]*schema.Resource
+	compartmentScopeServices         []string
+	tenancyScopeServices             []string
+	isMissingRequiredAttributes      bool
+	missingAttributesPerResourceLock sync.Mutex
+	sem                              chan struct{}
+	exportConfigProvider             oci_common.ConfigurationProvider
+	tfHclVersion                     TfHclVersion
+
+	tfexecConfigVar                     = tfexec.Config
+	tfexecStateVar                      = tfexec.State
+	getProviderEnvSettingWithDefaultVar = utils.GetProviderEnvSettingWithDefault
+	getExportConfigVar                  = getExportConfig
+	terraformInitVar                    = func(ctx *resourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+		return ctx.terraform.Init(backgroundCtx, initArgs...)
+	}
+
+	identityClientListCompartmentsVar = func(clients *tf_client.OracleClients, req oci_identity.ListCompartmentsRequest) (oci_identity.ListCompartmentsResponse, error) {
+		return clients.IdentityClient().ListCompartments(context.Background(), req)
+	}
+	identityClientGetCompartmentVar = func(clients *tf_client.OracleClients, getCompartmentRequest oci_identity.GetCompartmentRequest) (oci_identity.GetCompartmentResponse, error) {
+		return clients.IdentityClient().GetCompartment(context.Background(), getCompartmentRequest)
+	}
+	ctxTerraformImportVar = func(ctx *resourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
+		return ctx.terraform.Import(ctxBackground, address, id, importArgs...)
+	}
+)
 
 func elapsed(what string, step *resourceDiscoveryBaseStep, stage ResourceDiscoveryStage) func() {
 	start := time.Now()
@@ -235,7 +255,7 @@ func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
 		return err, StatusFail
 	}
 
-	clients, err := getExportConfig(d)
+	clients, err := getExportConfigVar(d)
 	if err != nil {
 		utils.Logln(err.Error())
 		return err, StatusFail
@@ -251,7 +271,7 @@ func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
 	}
 
 	/* Getting the tenancy ocid from env var export_tenancy_id, if not specified get customer tenancy ocid from configuration provider */
-	tenancyOcid := utils.GetEnvSettingWithBlankDefault("export_tenancy_id")
+	tenancyOcid := getEnvSettingWithBlankDefaultVar("export_tenancy_id")
 
 	if tenancyOcid == "" {
 		/* Keep the tenancy lookup for backward compatibility */
@@ -726,7 +746,7 @@ func generateState(ctx *resourceDiscoveryContext, steps []resourceDiscoveryStep)
 		utils.Logf("[INFO] plugin dir set to: '%s'", ctx.terraformProviderBinaryPath)
 		initArgs = append(initArgs, tfexec.PluginDir(ctx.terraformProviderBinaryPath))
 	}
-	if err := ctx.terraform.Init(backgroundCtx, initArgs...); err != nil {
+	if err := terraformInitVar(ctx, backgroundCtx, initArgs); err != nil {
 		return err
 	}
 
@@ -776,10 +796,10 @@ func importResource(ctx *resourceDiscoveryContext, resource *OCIResource, tmpSta
 	}
 
 	importArgs := []tfexec.ImportOption{
-		tfexec.Config(*ctx.OutputDir),
-		tfexec.State(tmpStateOutputFile),
+		tfexecConfigVar(*ctx.OutputDir),
+		tfexecStateVar(tmpStateOutputFile),
 	}
-	if importErr := ctx.terraform.Import(context.Background(), resource.getTerraformReference(), importId, importArgs...); importErr != nil {
+	if importErr := ctxTerraformImportVar(ctx, context.Background(), resource.getTerraformReference(), importId, importArgs...); importErr != nil {
 		utils.Logf("[ERROR] terraform import command failed for resource '%s' at id '%s': %s", resource.getTerraformReference(), importId, importErr.Error())
 
 		// mark resource as errored so that it can be skipped while writing configurations
@@ -1052,7 +1072,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 
 	for _, tfAttribute := range sortedKeys {
 		tfSchema := resourceSchema.Schema[tfAttribute]
-		if tfSchema.Deprecated != "" || tfSchema.Removed != "" || (!tfSchema.Required && !tfSchema.Optional) {
+		if tfSchema.Deprecated != "" || (!tfSchema.Required && !tfSchema.Optional) {
 			continue
 		}
 
@@ -1700,7 +1720,7 @@ func resolveCompartmentId(clients *tf_client.OracleClients, compartmentName *str
 	req.CompartmentIdInSubtree = &recursiveSearch
 
 	for {
-		resp, err := clients.IdentityClient().ListCompartments(context.Background(), req)
+		resp, err := identityClientListCompartmentsVar(clients, req)
 		if err != nil {
 			return nil, err
 		}
@@ -1723,10 +1743,10 @@ func resolveCompartmentId(clients *tf_client.OracleClients, compartmentName *str
 
 func readEnvironmentVars(d *schema.ResourceData) error {
 
-	if err := d.Set(globalvar.AuthAttrName, utils.GetProviderEnvSettingWithDefault(globalvar.AuthAttrName, globalvar.AuthAPIKeySetting)); err != nil {
+	if err := d.Set(globalvar.AuthAttrName, getProviderEnvSettingWithDefaultVar(globalvar.AuthAttrName, globalvar.AuthAPIKeySetting)); err != nil {
 		return err
 	}
-	if err := d.Set(globalvar.ConfigFileProfileAttrName, utils.GetProviderEnvSettingWithDefault(globalvar.ConfigFileProfileAttrName, "")); err != nil {
+	if err := d.Set(globalvar.ConfigFileProfileAttrName, getProviderEnvSettingWithDefaultVar(globalvar.ConfigFileProfileAttrName, "")); err != nil {
 		return err
 	}
 	if region := utils.GetProviderEnvSettingWithDefault(globalvar.RegionAttrName, ""); region != "" {
@@ -1735,33 +1755,33 @@ func readEnvironmentVars(d *schema.ResourceData) error {
 		}
 	}
 
-	if tenancyOcid := utils.GetProviderEnvSettingWithDefault(globalvar.TenancyOcidAttrName, ""); tenancyOcid != "" {
+	if tenancyOcid := getProviderEnvSettingWithDefaultVar(globalvar.TenancyOcidAttrName, ""); tenancyOcid != "" {
 		if err := d.Set(globalvar.TenancyOcidAttrName, tenancyOcid); err != nil {
 			return err
 		}
 	}
 
-	if userOcid := utils.GetProviderEnvSettingWithDefault(globalvar.UserOcidAttrName, ""); userOcid != "" {
+	if userOcid := getProviderEnvSettingWithDefaultVar(globalvar.UserOcidAttrName, ""); userOcid != "" {
 		if err := d.Set(globalvar.UserOcidAttrName, userOcid); err != nil {
 			return err
 		}
 	}
-	if fingerprint := utils.GetProviderEnvSettingWithDefault(globalvar.FingerprintAttrName, ""); fingerprint != "" {
+	if fingerprint := getProviderEnvSettingWithDefaultVar(globalvar.FingerprintAttrName, ""); fingerprint != "" {
 		if err := d.Set(globalvar.FingerprintAttrName, fingerprint); err != nil {
 			return err
 		}
 	}
-	if privateKey := utils.GetProviderEnvSettingWithDefault(globalvar.PrivateKeyAttrName, ""); privateKey != "" {
+	if privateKey := getProviderEnvSettingWithDefaultVar(globalvar.PrivateKeyAttrName, ""); privateKey != "" {
 		if err := d.Set(globalvar.PrivateKeyAttrName, privateKey); err != nil {
 			return err
 		}
 	}
-	if privateKeyPath := utils.GetProviderEnvSettingWithDefault(globalvar.PrivateKeyPathAttrName, ""); privateKeyPath != "" {
+	if privateKeyPath := getProviderEnvSettingWithDefaultVar(globalvar.PrivateKeyPathAttrName, ""); privateKeyPath != "" {
 		if err := d.Set(globalvar.PrivateKeyPathAttrName, privateKeyPath); err != nil {
 			return err
 		}
 	}
-	if privateKeyPassword := utils.GetProviderEnvSettingWithDefault(globalvar.PrivateKeyPasswordAttrName, ""); privateKeyPassword != "" {
+	if privateKeyPassword := getProviderEnvSettingWithDefaultVar(globalvar.PrivateKeyPasswordAttrName, ""); privateKeyPassword != "" {
 		if err := d.Set(globalvar.PrivateKeyPasswordAttrName, privateKeyPassword); err != nil {
 			return err
 		}
@@ -1772,7 +1792,7 @@ func readEnvironmentVars(d *schema.ResourceData) error {
 func getTenancyOcidFromCompartment(clients *tf_client.OracleClients, compartmentId string) (string, error) {
 
 	for true {
-		response, err := clients.IdentityClient().GetCompartment(context.Background(), oci_identity.GetCompartmentRequest{
+		response, err := identityClientGetCompartmentVar(clients, oci_identity.GetCompartmentRequest{
 			CompartmentId: &compartmentId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: tfresource.GetRetryPolicy(true, "identity"),
@@ -1843,8 +1863,10 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, string, 
 
 	utils.Logln("[INFO] validating Terraform CLI")
 	var err error
-	terraformBinPath := utils.GetEnvSettingWithBlankDefault(globalvar.TerraformBinPathName)
+	terraformBinPath := getEnvSettingWithBlankDefaultVar(globalvar.TerraformBinPathName)
+	utils.Logf("terraform bin path --- %s", terraformBinPath)
 	if terraformBinPath == "" {
+		utils.Logf("terraform bin path --- %s", terraformBinPath)
 		terraformBinPath, err = tfinstall.Find(context.Background(), tfinstall.LookPath())
 		if err != nil {
 			return nil, "", fmt.Errorf("[ERROR] error finding terraform CLI, either specify the path to terraform CLI "+
