@@ -17,11 +17,11 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_oce "github.com/oracle/oci-go-sdk/v60/oce"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_oce "github.com/oracle/oci-go-sdk/v61/oce"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -39,7 +39,7 @@ var (
 
 	oceInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `Active`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"tenancy_id":     acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_tenancy.test_tenancy.id}`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: oceInstanceDataSourceFilterRepresentation}}
 	oceInstanceDataSourceFilterRepresentation = map[string]interface{}{
@@ -56,13 +56,15 @@ var (
 		"object_storage_namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"tenancy_id":               acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.id}`},
 		"tenancy_name":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}`},
+		"add_on_features":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ENABLE_SAUCE`}, Update: []string{`ENABLE_SA`}},
 		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"instance_access_type":     acctest.Representation{RepType: acctest.Optional, Create: `PUBLIC`},
-		"instance_license_type":    acctest.Representation{RepType: acctest.Optional, Create: `STARTER`, Update: `PREMIUM`},
+		"instance_license_type":    acctest.Representation{RepType: acctest.Optional, Create: `PREMIUM`},
 		"instance_usage_type":      acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY`, Update: `NONPRIMARY`},
 		"upgrade_schedule":         acctest.Representation{RepType: acctest.Optional, Create: `UPGRADE_IMMEDIATELY`},
+		"lifecycle":                acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 	}
 
 	OceInstanceResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", acctest.Required, acctest.Create, tenancySingularDataSourceRepresentation) +
@@ -132,6 +134,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", acctest.Optional, acctest.Create, oceInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "add_on_features.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -141,7 +144,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
 				resource.TestCheckResourceAttr(resourceName, "instance_access_type", "PUBLIC"),
-				resource.TestCheckResourceAttr(resourceName, "instance_license_type", "STARTER"),
+				resource.TestCheckResourceAttr(resourceName, "instance_license_type", "PREMIUM"),
 				resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "PRIMARY"),
 				resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 				resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
@@ -169,6 +172,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "add_on_features.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -178,7 +182,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
 				resource.TestCheckResourceAttr(resourceName, "instance_access_type", "PUBLIC"),
-				resource.TestCheckResourceAttr(resourceName, "instance_license_type", "STARTER"),
+				resource.TestCheckResourceAttr(resourceName, "instance_license_type", "PREMIUM"),
 				resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "PRIMARY"),
 				resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 				resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
@@ -201,6 +205,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", acctest.Optional, acctest.Update, oceInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "add_on_features.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -235,10 +240,11 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", acctest.Optional, acctest.Update, oceInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.add_on_features.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.admin_email"),
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.description", "description2"),
@@ -268,6 +274,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oce_instance_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "add_on_features.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "admin_email"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
@@ -287,13 +294,9 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + OceInstanceRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -321,7 +324,7 @@ func testAccCheckOceOceInstanceDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_oce.OceInstanceLifecycleStateDeleted): true,
+					string(oci_oce.LifecycleStateDeleted): true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
@@ -410,7 +413,7 @@ func getOceInstanceIds(compartment string) ([]string, error) {
 func oceInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if oceInstanceResponse, ok := response.Response.(oci_oce.GetOceInstanceResponse); ok {
-		return oceInstanceResponse.LifecycleState != oci_oce.OceInstanceLifecycleStateDeleted
+		return oceInstanceResponse.LifecycleState != oci_oce.LifecycleStateDeleted
 	}
 	return false
 }

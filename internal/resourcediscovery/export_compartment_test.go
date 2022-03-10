@@ -4,7 +4,10 @@
 package resourcediscovery
 
 import (
+	"context"
+	"errors"
 	"fmt"
+	"net/http"
 	"os"
 	"path"
 	"reflect"
@@ -16,6 +19,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hashicorp/terraform-exec/tfexec"
+	oci_identity "github.com/oracle/oci-go-sdk/v61/identity"
+
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 	tf_provider "github.com/terraform-providers/terraform-provider-oci/internal/provider"
@@ -24,7 +32,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 const (
@@ -172,6 +180,50 @@ var compartmentTestingResourceGraphWithPanicResource = TerraformResourceGraph{
 
 var childrenResources map[string]map[string]interface{}
 var parentResources map[string]map[string]interface{}
+
+func getTestClients() *tf_client.OracleClients {
+	return &tf_client.OracleClients{}
+}
+func getOutputDir() string {
+	outputDir, err := os.Getwd()
+	if err != nil {
+		return "tmp/"
+	}
+	outputDir = fmt.Sprintf("%s%sunit-test", outputDir, string(os.PathSeparator))
+	return outputDir
+}
+func createOutputDir() (string, error) {
+	outputDir := getOutputDir()
+	os.Mkdir(outputDir, os.ModePerm)
+	return outputDir, nil
+}
+func getTestCtx() *resourceDiscoveryContext {
+	clients := getTestClients()
+	compartmentId := "dummy_compartment_id"
+	outputDir, _ := createOutputDir()
+	args := &ExportCommandArgs{
+		CompartmentId: &compartmentId,
+		Services:      []string{"compartment_testing", "tenancy_testing"},
+		OutputDir:     &outputDir,
+		GenerateState: false,
+		TFVersion:     &tfHclVersion,
+		Parallelism:   1,
+	}
+
+	ctx := &resourceDiscoveryContext{
+		clients:             clients,
+		ExportCommandArgs:   args,
+		tenancyOcid:         "tenancyOcid",
+		discoveredResources: []*OCIResource{},
+		summaryStatements:   []string{},
+		errorList: ErrorList{
+			errors: []*ResourceDiscoveryError{},
+		},
+		targetSpecificResources: false,
+		resourceHintsLookup:     createResourceHintsLookupMap(),
+	}
+	return ctx
+}
 
 // Test resources used by resource discovery tests
 func testParentResource() *schema.Resource {
@@ -725,7 +777,16 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 			TFVersion:     &tfHclVersion,
 			Parallelism:   1,
 		}
-
+		getProviderEnvSettingWithDefaultVar = func(varName string, defaultValue string) string {
+			return defaultValue
+		}
+		getEnvSettingWithBlankDefaultVar = func(varName string) string {
+			return resourceDiscoveryTestTenancyOcid
+		}
+		getExportConfigVar = func(d *schema.ResourceData) (interface{}, error) {
+			return getTestClients(), nil
+		}
+		exportConfigProvider = acctest.MockConfigurationProvider{}
 		if err, _ = RunExportCommand(args); err != nil {
 			t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
 			t.Fail()
@@ -791,6 +852,16 @@ func TestUnitRunExportCommand_Parallel(t *testing.T) {
 			Parallelism:   4,
 		}
 
+		getProviderEnvSettingWithDefaultVar = func(varName string, defaultValue string) string {
+			return defaultValue
+		}
+		getEnvSettingWithBlankDefaultVar = func(varName string) string {
+			return resourceDiscoveryTestTenancyOcid
+		}
+		getExportConfigVar = func(d *schema.ResourceData) (interface{}, error) {
+			return getTestClients(), nil
+		}
+		exportConfigProvider = acctest.MockConfigurationProvider{}
 		if err, _ = RunExportCommand(args); err != nil {
 			t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
 			t.Fail()
@@ -842,7 +913,16 @@ func TestUnitRunExportCommand_ParallelNegative(t *testing.T) {
 			TFVersion:     &tfHclVersion,
 			Parallelism:   -1,
 		}
-
+		getProviderEnvSettingWithDefaultVar = func(varName string, defaultValue string) string {
+			return defaultValue
+		}
+		getEnvSettingWithBlankDefaultVar = func(varName string) string {
+			return resourceDiscoveryTestTenancyOcid
+		}
+		getExportConfigVar = func(d *schema.ResourceData) (interface{}, error) {
+			return getTestClients(), nil
+		}
+		exportConfigProvider = acctest.MockConfigurationProvider{}
 		if err, _ = RunExportCommand(args); err == nil {
 			t.Logf("expected error but found none")
 			t.Fail()
@@ -931,7 +1011,16 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 		TFVersion:     &tfHclVersion,
 		Parallelism:   1,
 	}
-
+	getProviderEnvSettingWithDefaultVar = func(varName string, defaultValue string) string {
+		return defaultValue
+	}
+	getEnvSettingWithBlankDefaultVar = func(varName string) string {
+		return resourceDiscoveryTestTenancyOcid
+	}
+	getExportConfigVar = func(d *schema.ResourceData) (interface{}, error) {
+		return getTestClients(), nil
+	}
+	exportConfigProvider = acctest.MockConfigurationProvider{}
 	if err, status := RunExportCommand(args); err != nil {
 		t.Logf("(TF version %s) export command failed due to err: %v", tfHclVersion.toString(), err)
 		t.Fail()
@@ -1787,7 +1876,7 @@ func TestUnitGetHCLString_logging(t *testing.T) {
 }
 
 // issue-routing-tag: terraform/default
-func TestRunListExportableServicesCommand(t *testing.T) {
+func TestUnitRunListExportableServicesCommand(t *testing.T) {
 
 	outputDir, _ := os.Getwd()
 	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
@@ -1883,7 +1972,6 @@ func Test_createTerraformStruct(t *testing.T) {
 	// verify executable from env var
 	// if invalid path is specified
 	_ = os.Setenv(globalvar.TerraformBinPathName, "invalidPath")
-
 	if _, _, err := createTerraformStruct(args); err == nil {
 		t.Errorf("createTerraformStruct() expected error but succeeded")
 		t.Fail()
@@ -1896,5 +1984,375 @@ func Test_createTerraformStruct(t *testing.T) {
 		t.Errorf("createTerraformStruct() expected error but succeeded")
 		t.Fail()
 	}
+	defer os.RemoveAll(outputDir)
+}
+
+func TestUnitCreateTerraformStruct(t *testing.T) {
+	t.Skip("Skip for build service")
+
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+	tests := []struct {
+		name      string
+		mock      func()
+		wantError bool
+		errorMsg  string
+	}{
+		{
+			name: "without terraform bin path",
+			mock: func() {
+				getEnvSettingWithBlankDefaultVar = func(varName string) string {
+					return ""
+				}
+			},
+			wantError: false,
+			errorMsg:  "error not expected for unset variable",
+		},
+		{
+			name: "invalid path",
+			mock: func() {
+				getEnvSettingWithBlankDefaultVar = func(varName string) string {
+					return "invalidPath"
+				}
+			},
+			wantError: true,
+			errorMsg:  "error  expected for invalid path",
+		},
+		{
+			name: "bin as directory",
+			mock: func() {
+				getEnvSettingWithBlankDefaultVar = func(varName string) string {
+					return "./"
+				}
+			},
+			wantError: true,
+			errorMsg:  "error  expected for directory",
+		},
+	}
+	args := &ExportCommandArgs{
+		OutputDir: &outputDir,
+	}
+	tfHclVersion = &TfHclVersion12{}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(test *testing.T) {
+			tt.mock()
+			_, _, err := createTerraformStruct(args)
+			if tt.wantError {
+				assert.Error(test, err, tt.errorMsg)
+			} else {
+				assert.NoError(test, err, tt.errorMsg)
+			}
+		})
+	}
+	defer os.RemoveAll(outputDir)
+}
+
+func TestUnitPrintResourceGraphResources(t *testing.T) {
+	resourceGraphs := map[string]TerraformResourceGraph{
+		"tenancyTestingResourceGraph": tenancyTestingResourceGraph,
+	}
+	err := printResourceGraphResources(resourceGraphs, "testing")
+	assert.NoError(t, err, "error not expected for tenancyTestingResourceGraph")
+}
+
+func TestUnitRunListExportableResourcesCommand(t *testing.T) {
+
+	err := RunListExportableResourcesCommand()
+	assert.NoError(t, err, "error not expected")
+}
+
+func TestUnitGenerateStateParallel(t *testing.T) {
+
+	//err = readEnvironmentVars(d)
+
+	ctx := getTestCtx()
+	steps := make([]resourceDiscoveryStep, 1)
+	steps[0] = &resourceDiscoveryWithTargetIds{
+		resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{
+			ctx:                 ctx,
+			name:                "resources",
+			discoveredResources: []*OCIResource{},
+			omittedResources:    []*OCIResource{},
+		},
+	}
+	t.Logf(fmt.Sprintf("%v", steps))
+	err := generateStateParallel(ctx, steps)
+	assert.NoError(t, err, "")
+}
+
+func TestUnitGenerateState(test *testing.T) {
+	defer func() {
+		outputDir := getOutputDir()
+		os.RemoveAll(outputDir)
+	}()
+	ctx := getTestCtx()
+	steps := make([]resourceDiscoveryStep, 1)
+	steps[0] = &resourceDiscoveryWithTargetIds{
+		resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{
+			ctx:                 ctx,
+			name:                "resources",
+			discoveredResources: []*OCIResource{},
+			omittedResources:    []*OCIResource{},
+		},
+	}
+	type args struct {
+		steps []resourceDiscoveryStep
+		ctx   *resourceDiscoveryContext
+	}
+	t_args := args{
+		steps: steps,
+		ctx:   ctx,
+	}
+	tests := []struct {
+		name      string
+		args      args
+		mock      func()
+		wantError bool
+	}{{
+		name: "Run with Default Steps",
+		args: t_args,
+		mock: func() {
+			terraformInitVar = func(ctx *resourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+				return nil
+			}
+			//err := generateState(ctx, steps)
+		},
+		wantError: false,
+	},
+		{
+			name: "Run with terraformProviderBinaryPath value int context",
+			args: t_args,
+			mock: func() {
+				t_args.ctx.terraformProviderBinaryPath = "tf"
+				terraformInitVar = func(ctx *resourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+					return nil
+				}
+				//err := generateState(ctx, steps)
+			},
+			wantError: false,
+		},
+		{
+			name: "If Init failed ,should Return error",
+			args: t_args,
+			mock: func() {
+				t_args.ctx.terraformProviderBinaryPath = "tf"
+				terraformInitVar = func(ctx *resourceDiscoveryContext, backgroundCtx context.Context, initArgs []tfexec.InitOption) error {
+					return errors.New("init failed")
+				}
+				//err := generateState(ctx, steps)
+			},
+			wantError: true,
+		},
+	}
+
+	for _, tt := range tests {
+		test.Run(tt.name, func(t *testing.T) {
+			tt.mock()
+			err := generateState(ctx, steps)
+			if tt.wantError {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err, "")
+			}
+		})
+	}
+}
+
+func TestUnitGetOciResource(t *testing.T) {
+	childResource := testChildResource()
+	d := childResource.TestResourceData()
+	resource, err := getOciResource(d, childResource.Schema, "dummy", exportChildDefinition, "dummy resource id")
+	assert.NoError(t, err)
+	assert.NotNil(t, resource, "should return a dummy resource")
+	assert.Equal(t, "dummy", resource.compartmentId)
+	assert.Equal(t, "dummy resource id", resource.id)
+}
+
+func TestUnitResolveCompartmentId(t *testing.T) {
+	client := getTestClients()
+	compartmentName := "dummy_commpartment"
+	id := "1"
+	exportConfigProvider = acctest.MockConfigurationProvider{}
+	identityClientListCompartmentsVar = func(clients *tf_client.OracleClients, req oci_identity.ListCompartmentsRequest) (oci_identity.ListCompartmentsResponse, error) {
+		opcRequestId := "dummy_opc"
+		return oci_identity.ListCompartmentsResponse{
+			RawResponse:  &http.Response{},
+			OpcRequestId: &opcRequestId,
+			Items: []oci_identity.Compartment{{
+				Id:   &id,
+				Name: &compartmentName,
+			},
+			},
+		}, nil
+	}
+	compartmentId, err := resolveCompartmentId(client, &compartmentName)
+	assert.NoError(t, err)
+	assert.NotNil(t, compartmentId)
+	assert.Equal(t, id, *compartmentId)
+}
+
+func TestUnitGetTenancyOcidFromCompartment(t *testing.T) {
+	compartmentId := "dummy_compartment_id"
+	identityClientGetCompartmentVar = func(clients *tf_client.OracleClients, getCompartmentRequest oci_identity.GetCompartmentRequest) (oci_identity.GetCompartmentResponse, error) {
+		return oci_identity.GetCompartmentResponse{
+			Compartment: oci_identity.Compartment{
+				//CompartmentId: &compartmentId,
+				Id: &compartmentId,
+			},
+		}, nil
+	}
+	resp, err := getTenancyOcidFromCompartment(nil, compartmentId)
+	assert.NoError(t, err)
+	assert.NotNil(t, resp)
+	assert.Equal(t, compartmentId, resp)
+}
+
+func TestUnitImportResource(t *testing.T) {
+	compartmentId := "dummy_compartment_id"
+	outputDir := "tmp/"
+
+	resource := &OCIResource{
+		compartmentId: compartmentId,
+		TerraformResource: TerraformResource{
+			id:             "ocid1.a.b.c",
+			terraformClass: "oci_resource_type1",
+			terraformName:  "type1_res1",
+		},
+		parent: &OCIResource{
+			TerraformResource: TerraformResource{terraformName: "tf"},
+		},
+	}
+	ctx := getTestCtx()
+	tfexecConfigVar = func(outputDir string) *tfexec.ConfigOption {
+		return nil
+	}
+	tfexecStateVar = func(tmpStateOutputFile string) *tfexec.StateOption {
+		return nil
+	}
+
+	//with Unknown Resource
+	resourcesMap = make(map[string]*schema.Resource)
+	importResource(ctx, resource, outputDir)
+
+	//without importer
+	resourcesMap = mockResourcesMap()
+	resourcesMap["oci_resource_type1"].Importer = nil
+	importResource(ctx, resource, outputDir)
+
+	// Without Import Error
+	ctxTerraformImportVar = func(ctx *resourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
+		return nil
+	}
+	resourcesMap = mockResourcesMap()
+	importResource(ctx, resource, outputDir)
+	assert.Equal(t, 0, len(ctx.errorList.errors))
+
+	//With Import Error
+	ctxTerraformImportVar = func(ctx *resourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
+		return errors.New("dummy error to cover code")
+	}
+	resourcesMap = mockResourcesMap()
+	importResource(ctx, resource, outputDir)
+	assert.NotNil(t, ctx.errorList)
+	assert.Equal(t, 1, len(ctx.errorList.errors))
+}
+
+func mockResourcesMap() map[string]*schema.Resource {
+	r := &schema.Resource{
+		Schema: tf_provider.SchemaMap(),
+		Importer: &schema.ResourceImporter{State: func(data *schema.ResourceData, v interface{}) ([]*schema.ResourceData, error) {
+			var resourceDataSlice []*schema.ResourceData
+			resourceDataSlice = append(resourceDataSlice, data)
+			return resourceDataSlice, nil
+		}},
+	}
+	dummyOCIResource := make(map[string]*schema.Resource)
+	dummyOCIResource["oci_resource_type1"] = r
+	return dummyOCIResource
+}
+
+func TestUnitGetDiscoverResourceSteps(t *testing.T) {
+
+	//without targetResource
+	t.Run("GetDiscoverResourceSteps without targetResource", func(t *testing.T) {
+		ctx := getTestCtx()
+		ctx.targetSpecificResources = false
+		result, err := getDiscoverResourceSteps(ctx)
+		assert.NoError(t, err)
+		assert.Equal(t, 0, len(result))
+	})
+
+	// With targetResource
+	t.Run("GetDiscoverResourceSteps With targetResource", func(t *testing.T) {
+		ctx := getTestCtx()
+		ctx.targetSpecificResources = true
+		result, err := getDiscoverResourceSteps(ctx)
+		assert.NoError(t, err)
+		assert.Equal(t, 1, len(result))
+	})
 
 }
+func TestUnitDeleteInvalidReferences(t *testing.T) {
+	t.Run("Zero Error resource", func(t *testing.T) {
+
+		referenceMap := make(map[string]string)
+		referenceMap["1"] = "ocid1.3.b.c"
+		referenceMap["2"] = "ocid2.a.b.c"
+		referenceMap["3"] = "ocid3.d.b.c"
+
+		discoveredResources := make([]*OCIResource, 0, 3)
+		resource := OCIResource{
+			isErrorResource:   false,
+			TerraformResource: TerraformResource{id: "1"},
+		}
+		discoveredResources = append(discoveredResources, &resource)
+		deleteInvalidReferences(referenceMap, discoveredResources)
+		assert.Equal(t, 3, len(referenceMap), "resources shouldn't be removed")
+	})
+
+	t.Run("One Error resource ", func(t *testing.T) {
+		referenceMap := make(map[string]string)
+		referenceMap["1"] = "ocid1.3.b.c"
+		referenceMap["2"] = "ocid2.a.b.c"
+		referenceMap["3"] = "ocid3.d.b.c"
+
+		discoveredResources := make([]*OCIResource, 0, 3)
+		resource := OCIResource{
+			isErrorResource:   true,
+			TerraformResource: TerraformResource{id: "2"},
+		}
+		discoveredResources = append(discoveredResources, &resource)
+		deleteInvalidReferences(referenceMap, discoveredResources)
+		assert.Equal(t, 2, len(referenceMap), "Error resources should be removed")
+		_, ok := referenceMap["2"]
+		assert.False(t, ok, "Error resource should not be into referencemap")
+	})
+}
+
+/*
+func TestUnitDeleteInvalidReferencesWithReferenceResource(t *testing.T) {
+	t.Run("One Error resource with another reference resource", func(t *testing.T) {
+		referenceMap := make(map[string]string)
+		referenceMap["1"] = "ocid1.3.b.c"
+		referenceMap["2"] = "ocid2.a.b.c"
+		referenceMap["3"] = "ocid3.1.b.c"
+
+		discoveredResources := make([]*OCIResource, 0, 3)
+		resource := OCIResource{
+			isErrorResource:   true,
+			TerraformResource: TerraformResource{id: "1", terraformName: "1"},
+		}
+		discoveredResources = append(discoveredResources, &resource)
+		deleteInvalidReferences(referenceMap, discoveredResources)
+		assert.Equal(t, 1, len(referenceMap), "Error resources should be removed")
+		_, ok := referenceMap["3"]
+		assert.False(t, ok, "Error resource should not be into referencemap")
+	})
+}
+
+*/

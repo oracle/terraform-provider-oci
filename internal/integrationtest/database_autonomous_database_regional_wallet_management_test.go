@@ -12,8 +12,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -51,7 +51,7 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Create, autonomousDatabaseRegionalWalletManagementRepresentation), "database", "autonomousDatabaseRegionalWalletManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify Create
+		//0. verify create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Required, acctest.Create, autonomousDatabaseRegionalWalletManagementRepresentation),
@@ -68,8 +68,7 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 				},
 			),
 		},
-
-		// verify updates to updatable parameters
+		//1. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Update, autonomousDatabaseRegionalWalletManagementRepresentation),
@@ -85,7 +84,7 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 				},
 			),
 		},
-		// verify singular datasource
+		//2. verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Required, acctest.Create, autonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation) +

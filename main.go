@@ -9,6 +9,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	"github.com/fatih/color"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
@@ -23,8 +25,7 @@ import (
 
 	//	"github.com/fatih/color"
 
-	"github.com/hashicorp/terraform-plugin-sdk/plugin"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/provider"
 )
@@ -56,7 +57,7 @@ func main() {
 	if command == nil || *command == "" {
 		log.Println("Executable runs in Terraform plugin mode by default. For additional usage options, please run with the '-help' flag.")
 		plugin.Serve(&plugin.ServeOpts{
-			ProviderFunc: func() terraform.ResourceProvider {
+			ProviderFunc: func() *schema.Provider {
 				return provider.Provider()
 			},
 		})

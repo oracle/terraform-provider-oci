@@ -16,11 +16,11 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v60/databasetools"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v61/databasetools"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -95,7 +95,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckDatabaseToolsDatabaseToolsPrivateEndpointDestroy,
@@ -257,14 +257,9 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
 				),
 			},
-			// 7. remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DatabaseToolsPrivateEndpointResourceConfig +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, databaseToolsEndpointServiceDataSourceRepresentation),
-			},
 			// 8. verify resource import
 			{
-				Config:                  config,
+				Config:                  config + DatabaseToolsPrivateEndpointRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

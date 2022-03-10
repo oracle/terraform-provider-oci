@@ -9,8 +9,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
 )
 
 func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
@@ -171,6 +171,14 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.ActualUsedDataStorageSizeInTBs != nil {
+			autonomousDatabase["actual_used_data_storage_size_in_tbs"] = *r.ActualUsedDataStorageSizeInTBs
+		}
+
+		if r.AllocatedStorageSizeInTBs != nil {
+			autonomousDatabase["allocated_storage_size_in_tbs"] = *r.AllocatedStorageSizeInTBs
+		}
+
 		if r.ApexDetails != nil {
 			autonomousDatabase["apex_details"] = []interface{}{AutonomousDatabaseApexToMap(r.ApexDetails)}
 		} else {
@@ -264,6 +272,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.IsAutoScalingEnabled != nil {
 			autonomousDatabase["is_auto_scaling_enabled"] = *r.IsAutoScalingEnabled
+		}
+
+		if r.IsAutoScalingForStorageEnabled != nil {
+			autonomousDatabase["is_auto_scaling_for_storage_enabled"] = *r.IsAutoScalingForStorageEnabled
 		}
 
 		if r.IsDataGuardEnabled != nil {

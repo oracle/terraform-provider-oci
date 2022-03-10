@@ -13,15 +13,14 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v60/databasemigration"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v61/databasemigration"
 )
 
 func DatabaseMigrationMigrationResource() *schema.Resource {
@@ -772,11 +771,8 @@ func excludeObjectsHashCodeForSets(v interface{}) int {
 	if owner, ok := m["owner"]; ok && owner != "" {
 		buf.WriteString(fmt.Sprintf("%v-", owner))
 	}
-	if tType, ok := m["type"]; ok && tType != "" {
-		buf.WriteString(fmt.Sprintf("%v-", tType))
-	}
 
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func createDatabaseMigrationMigration(d *schema.ResourceData, m interface{}) error {
@@ -2908,7 +2904,7 @@ func metadataRemapsHashCodeForSets(v interface{}) int {
 	if type_, ok := m["type"]; ok && type_ != "" {
 		buf.WriteString(fmt.Sprintf("%v-", type_))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func (s *DatabaseMigrationMigrationResourceCrud) updateCompartment(compartment interface{}) error {

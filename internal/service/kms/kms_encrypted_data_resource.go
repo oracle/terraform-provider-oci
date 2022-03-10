@@ -6,15 +6,15 @@ package kms
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_kms "github.com/oracle/oci-go-sdk/v60/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v61/keymanagement"
 )
 
 func KmsEncryptedDataResource() *schema.Resource {
@@ -120,7 +120,7 @@ type KmsEncryptedDataResourceCrud struct {
 }
 
 func (s *KmsEncryptedDataResourceCrud) ID() string {
-	return fmt.Sprint(hashcode.String(*s.Res.Ciphertext))
+	return fmt.Sprint(utils.GetStringHashcode(*s.Res.Ciphertext))
 }
 
 func (s *KmsEncryptedDataResourceCrud) Create() error {

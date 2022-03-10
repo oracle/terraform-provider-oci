@@ -14,16 +14,16 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v60/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v61/containerengine"
 )
 
 func ContainerengineNodePoolResource() *schema.Resource {
@@ -294,8 +294,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			"node_source": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -340,8 +338,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						"error": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -409,18 +405,8 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"system_tags": {
-							Type:     schema.TypeMap,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
 					},
 				},
-			},
-			"system_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
 			},
 		},
 	}
@@ -1030,10 +1016,6 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("subnet_ids", nil)
 	}
 
-	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
-	}
-
 	return nil
 }
 
@@ -1281,10 +1263,6 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 		result["subnet_id"] = string(*obj.SubnetId)
 	}
 
-	if obj.SystemTags != nil {
-		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
-	}
-
 	return result
 }
 
@@ -1437,7 +1415,7 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 	if subnetId, ok := m["subnet_id"]; ok && subnetId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", subnetId))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodePoolNodeConfigDetails, error) {

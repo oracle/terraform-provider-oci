@@ -6,8 +6,8 @@ package apigateway
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v60/apigateway"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v61/apigateway"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -67,7 +67,7 @@ func (s *ApigatewayCertificateDataSourceCrud) SetData() error {
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.Certificate.Certificate != nil {
-		s.D.Set("certificate", s.Res.Certificate)
+		s.D.Set("certificate", s.Res.Certificate.Certificate)
 	}
 
 	if s.Res.CompartmentId != nil {

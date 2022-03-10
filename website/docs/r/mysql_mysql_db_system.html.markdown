@@ -18,14 +18,14 @@ Creates and launches a DB System.
 ```hcl
 resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	#Required
-	admin_password = var.mysql_db_system_admin_password
-	admin_username = var.mysql_db_system_admin_username
 	availability_domain = var.mysql_db_system_availability_domain
 	compartment_id = var.compartment_id
 	shape_name = var.mysql_shape_name
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	admin_password = var.mysql_db_system_admin_password
+	admin_username = var.mysql_db_system_admin_username
 	backup_policy {
 
 		#Optional
@@ -66,8 +66,8 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 
 The following arguments are supported:
 
-* `admin_password` - (Required) The password for the administrative user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special (nonalphanumeric) character. 
-* `admin_username` - (Required) The username for the administrative user.
+* `admin_password` - (Optional) The password for the administrative user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special (nonalphanumeric) character. 
+* `admin_username` - (Optional) The username for the administrative user.
 * `availability_domain` - (Required) The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
 
 	In a failover scenario, the Read/Write endpoint is redirected to one of the other availability domains and the MySQL instance in that domain is promoted to the primary instance. This redirection does not affect the IP address of the DB System in any way.

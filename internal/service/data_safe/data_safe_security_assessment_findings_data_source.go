@@ -9,8 +9,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v60/datasafe"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v61/datasafe"
 )
 
 func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
@@ -55,8 +55,6 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 						"details": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -68,8 +66,6 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 						"references": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

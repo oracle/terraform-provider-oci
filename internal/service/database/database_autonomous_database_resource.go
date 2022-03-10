@@ -12,12 +12,12 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 )
 
 func DatabaseAutonomousDatabaseResource() *schema.Resource {
@@ -167,6 +167,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"is_auto_scaling_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_auto_scaling_for_storage_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -352,13 +357,23 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"is_shrink_only": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 
 			// Computed
+			"actual_used_data_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"allocated_storage_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"apex_details": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -387,8 +402,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"backup_config": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -410,8 +423,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"connection_strings": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -491,8 +502,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"connection_urls": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -629,8 +638,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"standby_db": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -777,6 +784,16 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
+	if _, ok := sync.D.GetOkExists("is_shrink_only"); ok {
+		raw := sync.D.Get("is_shrink_only")
+		if raw.(bool) {
+			err := sync.ShrinkAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	if isInactiveRequest {
 		return inactiveAutonomousDatabaseIfNeeded(d, sync)
 	}
@@ -839,6 +856,16 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	err := sync.validateSwitchoverDatabase()
 	if err != nil {
 		return err
+	}
+
+	if _, ok := sync.D.GetOkExists("is_shrink_only"); ok && sync.D.HasChange("is_shrink_only") {
+		oldRaw, newRaw := sync.D.GetChange("is_shrink_only")
+		if !oldRaw.(bool) && newRaw.(bool) {
+			err = sync.ShrinkAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	stateActive, stateInactive := false, false
@@ -1155,6 +1182,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsAutoScalingEnabled = &tmp
 	}
 
+	if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
+		tmp := isAutoScalingForStorageEnabled.(bool)
+		request.IsAutoScalingForStorageEnabled = &tmp
+	}
+
 	if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok && s.D.HasChange("is_data_guard_enabled") {
 		tmp := isDataGuardEnabled.(bool)
 		request.IsDataGuardEnabled = &tmp
@@ -1291,6 +1323,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Delete() error {
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
+	if s.Res.ActualUsedDataStorageSizeInTBs != nil {
+		s.D.Set("actual_used_data_storage_size_in_tbs", *s.Res.ActualUsedDataStorageSizeInTBs)
+	}
+
+	if s.Res.AllocatedStorageSizeInTBs != nil {
+		s.D.Set("allocated_storage_size_in_tbs", *s.Res.AllocatedStorageSizeInTBs)
+	}
+
 	if s.Res.ArePrimaryWhitelistedIpsUsed != nil {
 		s.D.Set("are_primary_whitelisted_ips_used", *s.Res.ArePrimaryWhitelistedIpsUsed)
 	}
@@ -1385,6 +1425,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
+	}
+
+	if s.Res.IsAutoScalingForStorageEnabled != nil {
+		s.D.Set("is_auto_scaling_for_storage_enabled", *s.Res.IsAutoScalingForStorageEnabled)
 	}
 
 	if s.Res.IsDataGuardEnabled != nil {
@@ -1898,6 +1942,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
 		}
+		if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
+			tmp := isAutoScalingForStorageEnabled.(bool)
+			details.IsAutoScalingForStorageEnabled = &tmp
+		}
 		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			tmp := isDataGuardEnabled.(bool)
 			details.IsDataGuardEnabled = &tmp
@@ -2089,6 +2137,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
 		}
+		if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
+			tmp := isAutoScalingForStorageEnabled.(bool)
+			details.IsAutoScalingForStorageEnabled = &tmp
+		}
 		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			tmp := isDataGuardEnabled.(bool)
 			details.IsDataGuardEnabled = &tmp
@@ -2272,6 +2324,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
+		}
+		if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
+			tmp := isAutoScalingForStorageEnabled.(bool)
+			details.IsAutoScalingForStorageEnabled = &tmp
 		}
 		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			tmp := isDataGuardEnabled.(bool)
@@ -2464,6 +2520,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
 		}
+		if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
+			tmp := isAutoScalingForStorageEnabled.(bool)
+			details.IsAutoScalingForStorageEnabled = &tmp
+		}
 		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			tmp := isDataGuardEnabled.(bool)
 			details.IsDataGuardEnabled = &tmp
@@ -2642,6 +2702,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
+		}
+		if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
+			tmp := isAutoScalingForStorageEnabled.(bool)
+			details.IsAutoScalingForStorageEnabled = &tmp
 		}
 		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			tmp := isDataGuardEnabled.(bool)
@@ -3075,6 +3139,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) StopAutonomousDatabase(state oc
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	if _, err := s.Client.StopAutonomousDatabase(context.Background(), request); err != nil {
+		return err
+	}
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
+
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) ShrinkAutonomousDatabase(state oci_database.AutonomousDatabaseLifecycleStateEnum) error {
+	request := oci_database.ShrinkAutonomousDatabaseRequest{}
+
+	tmp := s.D.Id()
+	request.AutonomousDatabaseId = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	if _, err := s.Client.ShrinkAutonomousDatabase(context.Background(), request); err != nil {
 		return err
 	}
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }

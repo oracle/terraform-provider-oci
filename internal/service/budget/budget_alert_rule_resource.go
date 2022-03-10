@@ -11,12 +11,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v60/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v61/budget"
 )
 
 func BudgetAlertRuleResource() *schema.Resource {

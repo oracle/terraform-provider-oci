@@ -11,12 +11,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v60/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v61/apmsynthetics"
 )
 
 func ApmSyntheticsScriptResource() *schema.Resource {
@@ -99,8 +99,6 @@ func ApmSyntheticsScriptResource() *schema.Resource {
 						"script_parameter": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -135,8 +133,6 @@ func ApmSyntheticsScriptResource() *schema.Resource {
 			"monitor_status_count_map": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required

@@ -9,9 +9,9 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_artifacts "github.com/oracle/oci-go-sdk/v60/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v61/artifacts"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -244,10 +244,6 @@ func (s *ArtifactsRepositoryResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.IsImmutable != nil {
 			s.D.Set("is_immutable", *v.IsImmutable)

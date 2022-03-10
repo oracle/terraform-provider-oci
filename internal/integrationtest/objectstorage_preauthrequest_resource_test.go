@@ -14,8 +14,9 @@ import (
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -26,7 +27,7 @@ import (
 
 type ResourceObjectstoragePARTestSuite struct {
 	suite.Suite
-	Providers    map[string]terraform.ResourceProvider
+	Providers    map[string]*schema.Provider
 	Config       string
 	ResourceName string
 	Token        string
@@ -186,7 +187,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
+		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
 		CheckDestroy: testAccCheckObjectStoragePreauthenticatedRequestDestroy,
@@ -276,13 +277,9 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 					resource.TestCheckResourceAttr(singularDatasourceName, "time_expires", expirationTimeForPar.String()),
 				),
 			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceConfig,
-			},
 			//verify resource import
 			{
-				Config:            config,
+				Config:            config + PreauthenticatedRequestRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

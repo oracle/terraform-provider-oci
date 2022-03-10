@@ -7,8 +7,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v60/optimizer"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v61/optimizer"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"

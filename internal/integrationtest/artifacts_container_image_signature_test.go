@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v60/artifacts"
-	"github.com/oracle/oci-go-sdk/v60/common"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v61/artifacts"
+	"github.com/oracle/oci-go-sdk/v61/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -31,6 +31,8 @@ var (
 	descriptionStr      = fmt.Sprintf("variable \"description\" { default = \"%s\" }\n", description)
 	metadata            = "{\\\"buildNumber\\\":\\\"123\\\"}"
 	metadataStr         = fmt.Sprintf("variable \"metadata\" { default = \"%s\" }\n", metadata)
+
+	ContainerImageSignatureRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", acctest.Required, acctest.Create, containerImageSignatureRepresentation)
 
 	containerImageResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", acctest.Required, acctest.Create, containerImageSingularDataSourceRepresentation)
 
@@ -166,18 +168,9 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
-
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
-				containerImageResourceConfig +
-				containerImageSignatureKmsSignResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", acctest.Optional, acctest.Update, containerImageSignatureRepresentation),
-		},
-
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + ContainerImageSignatureRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

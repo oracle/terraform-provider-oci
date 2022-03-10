@@ -504,6 +504,10 @@ func init() {
 	RegisterResource("oci_osmanagement_software_source", tf_osmanagement.OsmanagementSoftwareSourceResource())
 	// osp_gateway
 	RegisterResource("oci_osp_gateway_subscription", tf_osp_gateway.OspGatewaySubscriptionResource())
+	// osub_usage service
+	// osub_subscription service
+	// osub_organization_subscription service
+	// osub_billing_schedule service
 	// resourcemanager service
 	// sch service
 	RegisterResource("oci_sch_service_connector", tf_sch.SchServiceConnectorResource())

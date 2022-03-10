@@ -8,8 +8,8 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v60/apigateway"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v61/apigateway"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -83,7 +83,7 @@ func (s *ApigatewayApiContentDataSourceCrud) SetData() error {
 			log.Printf("Unable to read 'content' from response. Error: %q", err)
 			return err
 		}
-		s.D.Set("content", contentArray)
+		s.D.Set("content", string(contentArray))
 	}
 	return nil
 }

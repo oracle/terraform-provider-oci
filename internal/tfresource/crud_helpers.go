@@ -21,15 +21,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"sync"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v60/loadbalancer"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v61/loadbalancer"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -621,7 +621,7 @@ func GenerateDataSourceHashID(idPrefix string, resourceSchema *schema.Resource, 
 			buf.WriteString(fmt.Sprintf("%v-", element))
 		}
 	}
-	return fmt.Sprintf("%s%d", idPrefix, hashcode.String(buf.String()))
+	return fmt.Sprintf("%s%d", idPrefix, utils.GetStringHashcode(buf.String()))
 }
 
 // stringsToSet encodes an []string into a
@@ -753,6 +753,9 @@ func convertResourceFieldsToDatasourceFields(resourceSchema *schema.Resource) *s
 		fieldSchema.ConflictsWith = nil
 		fieldSchema.Default = nil
 		fieldSchema.DefaultFunc = nil
+		fieldSchema.MaxItems = 0
+		fieldSchema.MinItems = 0
+		fieldSchema.StateFunc = nil
 		if fieldSchema.Type == schema.TypeSet {
 			fieldSchema.Type = schema.TypeList
 			fieldSchema.Set = nil
@@ -1019,7 +1022,7 @@ func SafeClose(c io.Closer, err *error) {
 }
 
 func LiteralTypeHashCodeForSets(m interface{}) int {
-	return hashcode.String(fmt.Sprintf("%v", m))
+	return utils.GetStringHashcode(fmt.Sprintf("%v", m))
 }
 
 func TimeDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {

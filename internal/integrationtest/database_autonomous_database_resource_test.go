@@ -16,11 +16,11 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -428,14 +428,9 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceConfig,
-		},
-
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + AutonomousDatabaseRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -720,17 +715,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(autonomousDatabasePreviewRepresentation, map[string]interface{}{
-						"whitelisted_ips": acctest.Representation{RepType: acctest.Optional, Create: []string{"1.1.1.1/28", "1.1.1.29"}},
-					})),
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + AutonomousDatabaseRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -894,7 +881,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create and register
+		//0. verify create and register
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseDtaSafeStatusRepresentation),
@@ -913,7 +900,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 				},
 			),
 		},
-		// Update: deregister data safe only
+		//1. Update: deregister data safe only
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -936,7 +923,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 				},
 			),
 		},
-		// Update to the compartment (the compartment will be switched back in the next step)
+		//2. Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -962,7 +949,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 				},
 			),
 		},
-		// Update: all except data safe
+		//3. Update: all except data safe
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, autonomousDatabaseDtaSafeStatusRepresentation),
@@ -991,7 +978,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 				},
 			),
 		},
-		// Update: all except compartment (register data safe)
+		//4. Update: all except compartment (register data safe)
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseDtaSafeStatusRepresentation),
@@ -1013,7 +1000,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 				},
 			),
 		},
-		// verify singular datasource
+		//5. verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseSingularDataSourceRepresentation) +
@@ -1056,7 +1043,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 	resourceName := "oci_database_autonomous_database.test_autonomous_database_from_backupid"
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// Create dependencies
+		//0. Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
 			Check: func(s *terraform.State) (err error) {
@@ -1065,7 +1052,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 				return nil
 			},
 		},
-		// verify Create
+		//1. verify create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backupid", acctest.Required, acctest.Create, autonomousDatabaseRepresentationForSourceFromBackupId),
@@ -1086,12 +1073,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 				},
 			),
 		},
-
-		// delete before next Create
+		//2. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
 		},
-		// verify Create with optionals
+		//3. verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backupid", acctest.Optional, acctest.Create, autonomousDatabaseRepresentationForSourceFromBackupId),
@@ -1128,7 +1114,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 	resourceName := "oci_database_autonomous_database.test_autonomous_database_from_backuptimestamp"
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// Create dependencies, To Create clone the source db must be atleast 2 hrs old
+		//1. Create dependencies, To Create clone the source db must be atleast 2 hrs old
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
 			Check: func(s *terraform.State) (err error) {
@@ -1137,7 +1123,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 				return nil
 			},
 		},
-		// verify Create
+		//2. verify create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backuptimestamp", acctest.Required, acctest.Create, autonomousDatabaseRepresentationForSourceFromBackupTimestamp),
@@ -1158,12 +1144,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 				},
 			),
 		},
-
-		// delete before next Create
+		//3. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
 		},
-		// verify Create with optionals
+		//4. verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backuptimestamp", acctest.Optional, acctest.Create, autonomousDatabaseRepresentationForSourceFromBackupTimestamp),
@@ -1207,7 +1192,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create with optionals
+		//0. verify create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabasePrivateEndpointRepresentation),
@@ -1239,7 +1224,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				},
 			),
 		},
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		//1. verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -1276,7 +1261,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				},
 			),
 		},
-		// verify updates to updatable parameters
+		//2. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -1309,7 +1294,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				},
 			),
 		},
-		// verify datasource
+		//3. verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", acctest.Optional, acctest.Update, autonomousDatabaseDataSourceRepresentation) +
@@ -1345,7 +1330,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
 			),
 		},
-		// verify singular datasource
+		//4. verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseSingularDataSourceRepresentation) +
@@ -1378,11 +1363,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
 			),
 		},
-		// delete before next Create
+		//5. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies,
 		},
-		// verify Create with no private end point
+		//6. verify Create with no private end point
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -1414,7 +1399,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				},
 			),
 		},
-		// verify turn on PE
+		//7. verify turn on PE
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -1453,11 +1438,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				},
 			),
 		},
-		// delete before next Create
+		//8. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies,
 		},
-		//Create ADB with private access and data safe registered
+		//9. Create ADB with private access and data safe registered
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -1493,7 +1478,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				},
 			),
 		},
-		//Enable mtls connection
+		//10. Enable mtls connection
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -1528,7 +1513,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				},
 			),
 		},
-		//change network access to public
+		//11. change network access to public
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -1712,7 +1697,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create with optionals
+		//0. verify create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseDataGuardRepresentation),
@@ -1747,7 +1732,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				},
 			),
 		},
-		// verify updates to updatable parameters and enable dataGuard
+		//1. verify updates to updatable parameters and enable dataGuard
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -1782,7 +1767,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 				},
 			),
 		},
-		// verify updates disable dataGuard
+		//2. verify updates disable dataGuard
 		{
 			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, ListAutonomousDatabasesWaitCondition, standbyDbWaitConditionDuration,
 				listListAutonomousDatabasesFetchOperation, "database", true),
@@ -1943,7 +1928,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create with optionals
+		//0. verify create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseDataGuardRepresentation),
@@ -1977,7 +1962,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				},
 			),
 		},
-		// verify enable dataGuard
+		//1. verify enable dataGuard
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -2012,7 +1997,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				},
 			),
 		},
-		// verify no-op when switchover is PRIMARY for first time
+		//2. verify no-op when switchover is PRIMARY for first time
 		{
 			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, ListAutonomousDatabasesWaitCondition, standbyDbWaitConditionDuration,
 				listListAutonomousDatabasesFetchOperation, "database", true),
@@ -2050,7 +2035,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				},
 			),
 		},
-		// verify switchover to STANDBY
+		//3. verify switchover to STANDBY
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -2087,7 +2072,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				},
 			),
 		},
-		// verify switchover to PRIMARY
+		//4. verify switchover to PRIMARY
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -2124,7 +2109,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				},
 			),
 		},
-		// verify datasource
+		//5. verify datasource
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -2149,7 +2134,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_of_last_switchover"),
 			),
 		},
-		// verify singular datasource
+		//6. verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -2202,7 +2187,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 	clonesDatasourceName := "data.oci_database_autonomous_databases_clones.test_autonomous_databases_clones"
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create with optionals
+		//0. verify create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
@@ -2242,7 +2227,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				},
 			),
 		},
-		// verify LIST clones given a source ADB
+		//1. verify LIST clones given a source ADB
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
@@ -2296,7 +2281,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.whitelisted_ips.#", "1"),
 			),
 		},
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		//2. verify update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
@@ -2342,7 +2327,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				},
 			),
 		},
-		// verify updates to updatable parameters
+		//3. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
@@ -2385,7 +2370,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				},
 			),
 		},
-		// verify datasource
+		//4. verify datasource
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
@@ -2429,7 +2414,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_of_next_refresh"),
 			),
 		},
-		// verify singular datasource
+		//5. verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
@@ -2470,7 +2455,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_databases.0.time_of_next_refresh"),
 			),
 		},
-		// verify detaching a refreshable clone
+		//6. verify detaching a refreshable clone
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
@@ -2517,7 +2502,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				},
 			),
 		},
-		// verify reconnecting a refreshable clone
+		//7. verify reconnecting a refreshable clone
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
@@ -2578,7 +2563,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create with required
+		//0. verify create with required
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
@@ -2602,11 +2587,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				},
 			),
 		},
-		// delete before next Create
+		//1. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
 		},
-		// verify Create with optionals
+		//2. verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -2634,8 +2619,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				},
 			),
 		},
-
-		// verify updates to updatable parameters
+		//3. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -2668,8 +2652,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				},
 			),
 		},
-
-		// verify autoscaling with AJD workload
+		//4. verify autoscaling with AJD workload
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -2704,7 +2687,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				},
 			),
 		},
-		// verify Update db_workload to OLTP
+		//5. verify Update db_workload to OLTP
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -2739,11 +2722,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				},
 			),
 		},
-		// delete before next Create
+		//6. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
 		},
-		// verify Create OLTP with optionals
+		//7. verify Create OLTP with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -2778,7 +2761,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				},
 			),
 		},
-		// verify updates to updatable parameters
+		//8. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -2816,7 +2799,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				},
 			),
 		},
-		// verify OLTP updated to AJD
+		//9. verify OLTP updated to AJD
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -2871,7 +2854,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 
 	var resId, resId2 string
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create with required
+		//0. verify create with required
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Required, acctest.Create,
@@ -2895,11 +2878,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				},
 			),
 		},
-		// delete before next Create
+		//1. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
 		},
-		// verify Create with optionals
+		//2. verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Create,
@@ -2928,8 +2911,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				},
 			),
 		},
-
-		// verify updates to updatable parameters
+		//3. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Update,
@@ -2961,8 +2943,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				},
 			),
 		},
-
-		// verify autoscaling with APEX workload
+		//4. verify autoscaling with APEX workload
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Update,
@@ -2997,8 +2978,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				},
 			),
 		},
-
-		// verify Update db_workload to OLTP
+		//5. verify Update db_workload to OLTP
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Update,
@@ -3033,11 +3013,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				},
 			),
 		},
-		// delete before next Create
+		//6. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
 		},
-		// verify Create OLTP with optionals
+		//7. verify Create OLTP with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Create,
@@ -3073,7 +3053,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				},
 			),
 		},
-		// verify updates to updatable parameters
+		//8. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Update,
@@ -3111,7 +3091,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				},
 			),
 		},
-		// verify OLTP updated to APEX
+		//9. verify OLTP updated to APEX
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", acctest.Optional, acctest.Update,
@@ -3167,7 +3147,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create with required
+		//0. verify create with required
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
@@ -3189,7 +3169,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 				},
 			),
 		},
-		// verify Create with optionals
+		//1. verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
@@ -3216,11 +3196,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 				},
 			),
 		},
-		// delete before next Create
+		//2. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
 		},
-		// Create
+		//3. Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseDataGuardRepresentation),
@@ -3247,7 +3227,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 				},
 			),
 		},
-		// test config key
+		//4. test config key
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,

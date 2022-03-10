@@ -8,13 +8,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
 )
 
 func CoreServiceGatewayResource() *schema.Resource {
@@ -408,7 +408,7 @@ func servicesHashCodeForSets(v interface{}) int {
 	if serviceId, ok := m["service_id"]; ok && serviceId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", serviceId))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 func (s *CoreServiceGatewayResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeServiceGatewayCompartmentRequest{}

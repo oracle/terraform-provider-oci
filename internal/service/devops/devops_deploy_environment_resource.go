@@ -13,12 +13,12 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v61/devops"
 )
 
 func DevopsDeployEnvironmentResource() *schema.Resource {
@@ -457,10 +457,6 @@ func (s *DevopsDeployEnvironmentResourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
@@ -507,10 +503,6 @@ func (s *DevopsDeployEnvironmentResourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
@@ -556,10 +548,6 @@ func (s *DevopsDeployEnvironmentResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)

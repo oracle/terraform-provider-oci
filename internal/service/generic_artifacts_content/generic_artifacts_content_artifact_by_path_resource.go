@@ -14,8 +14,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v60/genericartifactscontent"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v61/genericartifactscontent"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -290,7 +290,8 @@ func (s *GenericArtifactsContentArtifactByPathResourceCrud) SetData() error {
 			log.Printf("Unable to read 'content' from response. Error: %q", err)
 			return err
 		}
-		s.D.Set("content", contentArray)
+		h := sha256.Sum256(contentArray)
+		s.D.Set("content", hex.EncodeToString(h[:]))
 	}
 
 	if s.Res == nil {

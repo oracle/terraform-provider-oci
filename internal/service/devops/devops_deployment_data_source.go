@@ -10,8 +10,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_devops "github.com/oracle/oci-go-sdk/v60/devops"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_devops "github.com/oracle/oci-go-sdk/v61/devops"
 )
 
 func DevopsDeploymentDataSource() *schema.Resource {
@@ -189,10 +189,6 @@ func (s *DevopsDeploymentDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecyle_details", *v.LifecycleDetails)
 		}
@@ -269,10 +265,6 @@ func (s *DevopsDeploymentDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecyle_details", *v.LifecycleDetails)
 		}
@@ -348,10 +340,6 @@ func (s *DevopsDeploymentDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
 
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecyle_details", *v.LifecycleDetails)

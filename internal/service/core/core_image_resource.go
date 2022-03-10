@@ -9,14 +9,14 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 )
 
 func CoreImageResource() *schema.Resource {
@@ -136,8 +136,6 @@ func CoreImageResource() *schema.Resource {
 			"agent_features": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -171,8 +169,6 @@ func CoreImageResource() *schema.Resource {
 			"launch_options": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required

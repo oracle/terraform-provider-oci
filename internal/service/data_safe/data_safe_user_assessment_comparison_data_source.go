@@ -9,8 +9,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v60/datasafe"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v61/datasafe"
 )
 
 func DataSafeUserAssessmentComparisonDataSource() *schema.Resource {
@@ -36,15 +36,15 @@ func DataSafeUserAssessmentComparisonDataSource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"baseline": {
-							Type:     schema.TypeMap,
+							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"userAssessmentId": {
+									"user_assessment_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"targetId": {
+									"target_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -52,15 +52,15 @@ func DataSafeUserAssessmentComparisonDataSource() *schema.Resource {
 							},
 						},
 						"current": {
-							Type:     schema.TypeMap,
+							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"userAssessmentId": {
+									"user_assessment_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"targetId": {
+									"target_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},

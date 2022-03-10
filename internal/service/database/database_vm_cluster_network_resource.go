@@ -14,11 +14,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v60/database"
+	oci_database "github.com/oracle/oci-go-sdk/v61/database"
 )
 
 func DatabaseVmClusterNetworkResource() *schema.Resource {
@@ -882,7 +882,7 @@ func nodesHashCodeForSets(v interface{}) int {
 	if vipHostname, ok := m["vip_hostname"]; ok && vipHostname != "" {
 		buf.WriteString(fmt.Sprintf("%v-", vipHostname))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func scansHashCodeForSets(v interface{}) int {
@@ -902,7 +902,7 @@ func scansHashCodeForSets(v interface{}) int {
 	if scanListenerPortTcpSsl, ok := m["scan_listener_port_tcp_ssl"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", scanListenerPortTcpSsl))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func vmNetworksHashCodeForSets(v interface{}) int {
@@ -931,7 +931,7 @@ func vmNetworksHashCodeForSets(v interface{}) int {
 	if vlanId, ok := m["vlan_id"]; ok && vlanId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", vlanId))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func (s *DatabaseVmClusterNetworkResourceCrud) validateVmClusterNetwork(vmClusterNetworkId string, exadataInfrastructureId string) (*oci_database.ValidateVmClusterNetworkResponse, error) {

@@ -10,14 +10,14 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	oci_marketplace "github.com/oracle/oci-go-sdk/v60/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v61/marketplace"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 func MarketplacePublicationResource() *schema.Resource {
@@ -205,8 +205,6 @@ func MarketplacePublicationResource() *schema.Resource {
 			"icon": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -774,7 +772,7 @@ func eulaHashCodeForSets(v interface{}) int {
 	if licenseText, ok := m["license_text"]; ok && licenseText != "" {
 		buf.WriteString(fmt.Sprintf("%v-", licenseText))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 
 func supportContactsHashCodeForSets(v interface{}) int {
@@ -792,7 +790,7 @@ func supportContactsHashCodeForSets(v interface{}) int {
 	if subject, ok := m["subject"]; ok && subject != "" {
 		buf.WriteString(fmt.Sprintf("%v-", subject))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 func (s *MarketplacePublicationResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_marketplace.ChangePublicationCompartmentRequest{}

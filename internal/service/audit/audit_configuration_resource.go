@@ -10,9 +10,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_audit "github.com/oracle/oci-go-sdk/v60/audit"
+	oci_audit "github.com/oracle/oci-go-sdk/v61/audit"
 )
 
 func AuditConfigurationResource() *schema.Resource {

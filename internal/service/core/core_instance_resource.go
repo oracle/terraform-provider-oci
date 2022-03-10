@@ -13,17 +13,17 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/customdiff"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v60/workrequests"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v61/workrequests"
 )
 
 func CoreInstanceResource() *schema.Resource {
@@ -653,7 +653,7 @@ func CoreInstanceResource() *schema.Resource {
 		// CustomizeDiff for Instance resource
 		// Updates of 'ssh_authorized_keys' and 'user_data' in Instance 'metadata' should result in Force New
 		CustomizeDiff: customdiff.All(
-			customdiff.ForceNewIfChange("metadata", func(old, new, meta interface{}) bool {
+			customdiff.ForceNewIfChange("metadata", func(ctx context.Context, old, new, meta interface{}) bool {
 				oldMetadataMap := tfresource.ObjectMapToStringMap(old.(map[string]interface{}))
 				newMetadataMap := tfresource.ObjectMapToStringMap(new.(map[string]interface{}))
 				return (oldMetadataMap["ssh_authorized_keys"] != newMetadataMap["ssh_authorized_keys"]) || (oldMetadataMap["user_data"] != newMetadataMap["user_data"])
@@ -1393,7 +1393,6 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 			log.Printf("[WARN] Primary VNIC could not be found during instance refresh: %q", vnicError)
 		} else {
 			s.D.Set("hostname_label", vnic.HostnameLabel)
-			s.D.Set("nsg_ids", vnic.NsgIds)
 			s.D.Set("public_ip", vnic.PublicIp)
 			s.D.Set("private_ip", vnic.PrivateIp)
 			s.D.Set("subnet_id", vnic.SubnetId)

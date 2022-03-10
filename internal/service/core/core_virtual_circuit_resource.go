@@ -10,13 +10,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	oci_core "github.com/oracle/oci-go-sdk/v60/core"
+	oci_core "github.com/oracle/oci-go-sdk/v61/core"
 )
 
 func CoreVirtualCircuitResource() *schema.Resource {
@@ -908,7 +908,7 @@ func publicPrefixesHashCodeForSets(v interface{}) int {
 	if cidrBlock, ok := m["cidr_block"]; ok && cidrBlock != "" {
 		buf.WriteString(fmt.Sprintf("%v-", cidrBlock))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
 func (s *CoreVirtualCircuitResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeVirtualCircuitCompartmentRequest{}

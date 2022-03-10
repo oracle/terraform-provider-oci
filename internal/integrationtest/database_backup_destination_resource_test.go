@@ -10,13 +10,15 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
+	DatabaseBackupDestinationResourceRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation)
+
 	BackupDestinationNFSResourceConfig = BackupDestinationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Update, backupDestinationNFSRepresentation)
 
@@ -146,13 +148,9 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "type", "NFS"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + BackupDestinationNFSResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + DatabaseBackupDestinationResourceRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ResourceName:      resourceName,

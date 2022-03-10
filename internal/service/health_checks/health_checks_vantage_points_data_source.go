@@ -6,8 +6,8 @@ package health_checks
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_health_checks "github.com/oracle/oci-go-sdk/v60/healthchecks"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v61/healthchecks"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
@@ -43,8 +43,6 @@ func HealthChecksVantagePointsDataSource() *schema.Resource {
 						"geo": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required

@@ -15,11 +15,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v60/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v61/containerengine"
 )
 
 func ContainerengineClusterResource() *schema.Resource {
@@ -323,8 +323,6 @@ func ContainerengineClusterResource() *schema.Resource {
 			"endpoints": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -344,6 +342,10 @@ func ContainerengineClusterResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"vcn_hostname_endpoint": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -354,8 +356,6 @@ func ContainerengineClusterResource() *schema.Resource {
 			"metadata": {
 				Type:     schema.TypeList,
 				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -405,11 +405,6 @@ func ContainerengineClusterResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"system_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
 			},
 		},
 	}
@@ -940,10 +935,6 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
-	}
-
 	if s.Res.VcnId != nil {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
@@ -1117,6 +1108,10 @@ func ClusterEndpointsToMap(obj *oci_containerengine.ClusterEndpoints) map[string
 
 	if obj.PublicEndpoint != nil {
 		result["public_endpoint"] = string(*obj.PublicEndpoint)
+	}
+
+	if obj.VcnHostnameEndpoint != nil {
+		result["vcn_hostname_endpoint"] = string(*obj.VcnHostnameEndpoint)
 	}
 
 	return result

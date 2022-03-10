@@ -9,8 +9,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v60/containerengine"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v61/containerengine"
 )
 
 func ContainerengineNodePoolDataSource() *schema.Resource {
@@ -155,10 +155,6 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)
-
-	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
-	}
 
 	return nil
 }

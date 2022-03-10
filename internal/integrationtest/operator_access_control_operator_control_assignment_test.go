@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v60/operatoraccesscontrol"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v61/operatoraccesscontrol"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -243,15 +243,10 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 				resource.TestCheckNoResourceAttr(singularDatasourceName, "time_of_deletion"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			ExpectNonEmptyPlan: true,
-			Config:             config + compartmentIdVariableStr + OperatorControlAssignmentResourceConfig,
-		},
 		// verify resource import
 		{
 			ExpectNonEmptyPlan:      true,
-			Config:                  config,
+			Config:                  config + OperatorControlAssignmentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"defined_tags"},

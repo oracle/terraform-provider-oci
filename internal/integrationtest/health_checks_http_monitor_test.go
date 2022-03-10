@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v60/common"
-	oci_health_checks "github.com/oracle/oci-go-sdk/v60/healthchecks"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/oracle/oci-go-sdk/v61/common"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v61/healthchecks"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
@@ -251,13 +251,9 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "vantage_point_names.#", "1"),
 			),
 		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + HttpMonitorResourceConfig,
-		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + HttpMonitorRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

@@ -17,13 +17,13 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v60/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v60/networkloadbalancer"
+	oci_common "github.com/oracle/oci-go-sdk/v61/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v61/networkloadbalancer"
 )
 
 func NetworkLoadBalancerBackendSetResource() *schema.Resource {
@@ -837,5 +837,5 @@ func nlbBackendHashCodeForSets(v interface{}) int {
 	if weight, ok := m["weight"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", weight))
 	}
-	return hashcode.String(buf.String())
+	return utils.GetStringHashcode(buf.String())
 }
