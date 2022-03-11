@@ -579,6 +579,14 @@ func DataConnectivityRegistryDataAssetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"end_points": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"external_key": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -1117,6 +1125,16 @@ func (s *DataConnectivityRegistryDataAssetResourceCrud) Create() error {
 		request.Description = &tmp
 	}
 
+	if endPoints, ok := s.D.GetOkExists("end_points"); ok {
+		tmp := strings.Join(endPoints.([]string), " ")
+		var endPointsObj []oci_data_connectivity.DpEndpoint
+		err := json.Unmarshal([]byte(tmp), &endPointsObj)
+		if err != nil {
+			return err
+		}
+		request.EndPoints = endPointsObj
+	}
+
 	if externalKey, ok := s.D.GetOkExists("external_key"); ok {
 		tmp := externalKey.(string)
 		request.ExternalKey = &tmp
@@ -1253,7 +1271,6 @@ func (s *DataConnectivityRegistryDataAssetResourceCrud) Get() error {
 
 func (s *DataConnectivityRegistryDataAssetResourceCrud) Update() error {
 	request := oci_data_connectivity.UpdateDataAssetRequest{}
-
 	if assetProperties, ok := s.D.GetOkExists("asset_properties"); ok {
 		request.AssetProperties = tfresource.ObjectMapToStringMap(assetProperties.(map[string]interface{}))
 	}
@@ -1277,6 +1294,16 @@ func (s *DataConnectivityRegistryDataAssetResourceCrud) Update() error {
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if endPoints, ok := s.D.GetOkExists("end_points"); ok {
+		tmp := strings.Join(endPoints.([]string), " ")
+		var endPointsObj []oci_data_connectivity.DpEndpoint
+		err := json.Unmarshal([]byte(tmp), &endPointsObj)
+		if err != nil {
+			return err
+		}
+		request.EndPoints = endPointsObj
 	}
 
 	if externalKey, ok := s.D.GetOkExists("external_key"); ok {
@@ -1415,6 +1442,11 @@ func (s *DataConnectivityRegistryDataAssetResourceCrud) SetData() error {
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.EndPoints != nil {
+		tmp, _ := json.Marshal(s.Res.EndPoints)
+		s.D.Set("end_points", string(tmp))
 	}
 
 	if s.Res.ExternalKey != nil {
@@ -1737,6 +1769,11 @@ func DataConnectivityDataAssetSummaryToMap(obj oci_data_connectivity.DataAssetSu
 
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
+	}
+
+	if obj.EndPoints != nil {
+		tmp, _ := json.Marshal(obj.EndPoints)
+		result["end_points"] = string(tmp)
 	}
 
 	if obj.ExternalKey != nil {
