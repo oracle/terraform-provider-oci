@@ -5,6 +5,7 @@ package cloud_guard
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"time"
@@ -1228,10 +1229,8 @@ func ConditionGroupToMap(obj oci_cloud_guard.ConditionGroup) map[string]interfac
 	}
 
 	if obj.Condition != nil {
-		condition, err := tfresource.ConvertObjectToJsonString(obj.Condition)
-		if err == nil {
-			result["condition"] = condition
-		}
+		tmp, _ := json.Marshal(obj.Condition)
+		result["condition"] = string(tmp)
 	}
 
 	return result
@@ -1871,13 +1870,13 @@ func (s *CloudGuardTargetResourceCrud) mapToUpdateTargetResponderRuleDetails(fie
 
 	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
 		tmp := condition.(string)
-		if len(tmp) > 0 {
-			var err error
-			result.Condition, err = jsonToCondition(tmp)
-			if err != nil {
-				return result, err
-			}
+		var conditionObj oci_cloud_guard.Condition
+		err := json.Unmarshal([]byte(tmp), &conditionObj)
+
+		if err != nil {
+			return result, err
 		}
+		result.Condition = &conditionObj
 	}
 
 	if configurations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configurations")); ok {
@@ -1970,13 +1969,13 @@ func (s *CloudGuardTargetResourceCrud) mapToConditionGroup(fieldKeyFormat string
 
 	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
 		tmp := condition.(string)
-		if len(tmp) > 0 {
-			var err error
-			result.Condition, err = jsonToCondition(tmp)
-			if err != nil {
-				return result, err
-			}
+		var conditionObj oci_cloud_guard.Condition
+		err := json.Unmarshal([]byte(tmp), &conditionObj)
+
+		if err != nil {
+			return result, err
 		}
+		result.Condition = &conditionObj
 	}
 
 	return result, nil

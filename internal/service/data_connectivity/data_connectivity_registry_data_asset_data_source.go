@@ -5,6 +5,7 @@ package data_connectivity
 
 import (
 	"context"
+	"encoding/json"
 
 	"terraform-provider-oci/internal/client"
 	"terraform-provider-oci/internal/tfresource"
@@ -85,6 +86,11 @@ func (s *DataConnectivityRegistryDataAssetDataSourceCrud) SetData() error {
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.EndPoints != nil {
+		tmp, _ := json.Marshal(s.Res.EndPoints)
+		s.D.Set("end_points", string(tmp))
 	}
 
 	if s.Res.ExternalKey != nil {
