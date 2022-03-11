@@ -83,8 +83,7 @@ var (
 
 	autonomousDatabaseRepresentationMaxCpu = acctest.RepresentationCopyWithNewProperties(
 		acctest.GetUpdatedRepresentationCopy("is_auto_scaling_enabled", acctest.Representation{RepType: acctest.Required, Create: `true`}, autonomousDatabaseRepresentation),
-		map[string]interface{}{
-			"max_cpu_core_count": acctest.Representation{RepType: acctest.Optional, Create: `2`, Update: `3`}})
+		map[string]interface{}{"max_cpu_core_count": acctest.Representation{RepType: acctest.Optional, Create: `2`, Update: `3`}})
 
 	autonomousDatabaseCustomerContactsRepresentation = map[string]interface{}{
 		"email": acctest.Representation{RepType: acctest.Optional, Create: `test@oracle.com`, Update: `test2@oracle.com`},
@@ -521,9 +520,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_for_storage_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "max_cpu_core_count", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(resourceName, "max_cpu_core_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.0.name", "TUESDAY"),
