@@ -139,6 +139,8 @@ func (client ConfigClient) createConfig(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/Config/CreateConfig"
+		err = common.PostProcessServiceError(err, "Config", "CreateConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -195,6 +197,8 @@ func (client ConfigClient) deleteConfig(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/Config/DeleteConfig"
+		err = common.PostProcessServiceError(err, "Config", "DeleteConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -251,6 +255,8 @@ func (client ConfigClient) getConfig(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/Config/GetConfig"
+		err = common.PostProcessServiceError(err, "Config", "GetConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -307,6 +313,8 @@ func (client ConfigClient) listConfigs(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/ConfigCollection/ListConfigs"
+		err = common.PostProcessServiceError(err, "Config", "ListConfigs", apiReferenceLink)
 		return response, err
 	}
 
@@ -363,6 +371,8 @@ func (client ConfigClient) updateConfig(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/Config/UpdateConfig"
+		err = common.PostProcessServiceError(err, "Config", "UpdateConfig", apiReferenceLink)
 		return response, err
 	}
 

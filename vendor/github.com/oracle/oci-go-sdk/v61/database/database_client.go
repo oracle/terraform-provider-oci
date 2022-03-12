@@ -137,6 +137,8 @@ func (client DatabaseClient) activateExadataInfrastructure(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/ActivateExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "ActivateExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -197,6 +199,8 @@ func (client DatabaseClient) addStorageCapacityExadataInfrastructure(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/AddStorageCapacityExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "AddStorageCapacityExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -257,6 +261,8 @@ func (client DatabaseClient) addVirtualMachineToVmCluster(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmCluster/AddVirtualMachineToVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "AddVirtualMachineToVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -317,6 +323,8 @@ func (client DatabaseClient) autonomousDatabaseManualRefresh(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/AutonomousDatabaseManualRefresh"
+		err = common.PostProcessServiceError(err, "Database", "AutonomousDatabaseManualRefresh", apiReferenceLink)
 		return response, err
 	}
 
@@ -379,6 +387,8 @@ func (client DatabaseClient) changeAutonomousContainerDatabaseCompartment(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/ChangeAutonomousContainerDatabaseCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeAutonomousContainerDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -441,6 +451,8 @@ func (client DatabaseClient) changeAutonomousDatabaseCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ChangeAutonomousDatabaseCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeAutonomousDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -503,6 +515,8 @@ func (client DatabaseClient) changeAutonomousExadataInfrastructureCompartment(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructure/ChangeAutonomousExadataInfrastructureCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeAutonomousExadataInfrastructureCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -563,6 +577,8 @@ func (client DatabaseClient) changeAutonomousVmClusterCompartment(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/ChangeAutonomousVmClusterCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeAutonomousVmClusterCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -625,6 +641,8 @@ func (client DatabaseClient) changeBackupDestinationCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BackupDestination/ChangeBackupDestinationCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeBackupDestinationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -685,6 +703,8 @@ func (client DatabaseClient) changeCloudAutonomousVmClusterCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/ChangeCloudAutonomousVmClusterCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeCloudAutonomousVmClusterCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -745,6 +765,8 @@ func (client DatabaseClient) changeCloudExadataInfrastructureCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/ChangeCloudExadataInfrastructureCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeCloudExadataInfrastructureCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -805,6 +827,8 @@ func (client DatabaseClient) changeCloudVmClusterCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/ChangeCloudVmClusterCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeCloudVmClusterCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -867,6 +891,8 @@ func (client DatabaseClient) changeDatabaseSoftwareImageCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSoftwareImage/ChangeDatabaseSoftwareImageCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeDatabaseSoftwareImageCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -929,6 +955,8 @@ func (client DatabaseClient) changeDbSystemCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/ChangeDbSystemCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeDbSystemCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -990,6 +1018,8 @@ func (client DatabaseClient) changeExadataInfrastructureCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/ChangeExadataInfrastructureCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeExadataInfrastructureCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1053,6 +1083,8 @@ func (client DatabaseClient) changeExternalContainerDatabaseCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/ChangeExternalContainerDatabaseCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeExternalContainerDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1115,6 +1147,8 @@ func (client DatabaseClient) changeExternalNonContainerDatabaseCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/ChangeExternalNonContainerDatabaseCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeExternalNonContainerDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1178,6 +1212,8 @@ func (client DatabaseClient) changeExternalPluggableDatabaseCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/ChangeExternalPluggableDatabaseCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeExternalPluggableDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1240,6 +1276,8 @@ func (client DatabaseClient) changeKeyStoreCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStore/ChangeKeyStoreCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeKeyStoreCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1301,6 +1339,8 @@ func (client DatabaseClient) changeVmClusterCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmCluster/ChangeVmClusterCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeVmClusterCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1362,6 +1402,8 @@ func (client DatabaseClient) checkExternalDatabaseConnectorConnectionStatus(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalDatabaseConnector/CheckExternalDatabaseConnectorConnectionStatus"
+		err = common.PostProcessServiceError(err, "Database", "CheckExternalDatabaseConnectorConnectionStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -1423,6 +1465,8 @@ func (client DatabaseClient) completeExternalBackupJob(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalBackupJob/CompleteExternalBackupJob"
+		err = common.PostProcessServiceError(err, "Database", "CompleteExternalBackupJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1483,6 +1527,8 @@ func (client DatabaseClient) configureAutonomousDatabaseVaultKey(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ConfigureAutonomousDatabaseVaultKey"
+		err = common.PostProcessServiceError(err, "Database", "ConfigureAutonomousDatabaseVaultKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -1538,6 +1584,8 @@ func (client DatabaseClient) convertToPdb(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ConvertToPdb"
+		err = common.PostProcessServiceError(err, "Database", "ConvertToPdb", apiReferenceLink)
 		return response, err
 	}
 
@@ -1598,6 +1646,8 @@ func (client DatabaseClient) createAutonomousContainerDatabase(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/CreateAutonomousContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "CreateAutonomousContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -1658,6 +1708,8 @@ func (client DatabaseClient) createAutonomousDatabase(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/CreateAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "CreateAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -1718,6 +1770,8 @@ func (client DatabaseClient) createAutonomousDatabaseBackup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseBackup/CreateAutonomousDatabaseBackup"
+		err = common.PostProcessServiceError(err, "Database", "CreateAutonomousDatabaseBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1778,6 +1832,8 @@ func (client DatabaseClient) createAutonomousVmCluster(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/CreateAutonomousVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "CreateAutonomousVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -1838,6 +1894,8 @@ func (client DatabaseClient) createBackup(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Backup/CreateBackup"
+		err = common.PostProcessServiceError(err, "Database", "CreateBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1898,6 +1956,8 @@ func (client DatabaseClient) createBackupDestination(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BackupDestination/CreateBackupDestination"
+		err = common.PostProcessServiceError(err, "Database", "CreateBackupDestination", apiReferenceLink)
 		return response, err
 	}
 
@@ -1958,6 +2018,8 @@ func (client DatabaseClient) createCloudAutonomousVmCluster(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/CreateCloudAutonomousVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "CreateCloudAutonomousVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -2018,6 +2080,8 @@ func (client DatabaseClient) createCloudExadataInfrastructure(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/CreateCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "CreateCloudExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -2078,6 +2142,8 @@ func (client DatabaseClient) createCloudVmCluster(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/CreateCloudVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "CreateCloudVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -2140,6 +2206,8 @@ func (client DatabaseClient) createConsoleConnection(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ConsoleConnection/CreateConsoleConnection"
+		err = common.PostProcessServiceError(err, "Database", "CreateConsoleConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -2206,6 +2274,8 @@ func (client DatabaseClient) createDataGuardAssociation(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/CreateDataGuardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "CreateDataGuardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2266,6 +2336,8 @@ func (client DatabaseClient) createDatabase(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/CreateDatabase"
+		err = common.PostProcessServiceError(err, "Database", "CreateDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -2326,6 +2398,8 @@ func (client DatabaseClient) createDatabaseSoftwareImage(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSoftwareImage/CreateDatabaseSoftwareImage"
+		err = common.PostProcessServiceError(err, "Database", "CreateDatabaseSoftwareImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -2386,6 +2460,8 @@ func (client DatabaseClient) createDbHome(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbHome/CreateDbHome"
+		err = common.PostProcessServiceError(err, "Database", "CreateDbHome", apiReferenceLink)
 		return response, err
 	}
 
@@ -2447,6 +2523,8 @@ func (client DatabaseClient) createExadataInfrastructure(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/CreateExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "CreateExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -2508,6 +2586,8 @@ func (client DatabaseClient) createExternalBackupJob(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalBackupJob/CreateExternalBackupJob"
+		err = common.PostProcessServiceError(err, "Database", "CreateExternalBackupJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -2568,6 +2648,8 @@ func (client DatabaseClient) createExternalContainerDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/CreateExternalContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "CreateExternalContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -2628,6 +2710,8 @@ func (client DatabaseClient) createExternalDatabaseConnector(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalDatabaseConnector/CreateExternalDatabaseConnector"
+		err = common.PostProcessServiceError(err, "Database", "CreateExternalDatabaseConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -2688,6 +2772,8 @@ func (client DatabaseClient) createExternalNonContainerDatabase(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/CreateExternalNonContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "CreateExternalNonContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -2749,6 +2835,8 @@ func (client DatabaseClient) createExternalPluggableDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/CreateExternalPluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "CreateExternalPluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -2809,6 +2897,8 @@ func (client DatabaseClient) createKeyStore(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStore/CreateKeyStore"
+		err = common.PostProcessServiceError(err, "Database", "CreateKeyStore", apiReferenceLink)
 		return response, err
 	}
 
@@ -2870,6 +2960,8 @@ func (client DatabaseClient) createPluggableDatabase(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/CreatePluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "CreatePluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -2930,6 +3022,8 @@ func (client DatabaseClient) createVmCluster(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmCluster/CreateVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "CreateVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -2991,6 +3085,8 @@ func (client DatabaseClient) createVmClusterNetwork(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/CreateVmClusterNetwork"
+		err = common.PostProcessServiceError(err, "Database", "CreateVmClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 
@@ -3062,6 +3158,8 @@ func (client DatabaseClient) dbNodeAction(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbNode/DbNodeAction"
+		err = common.PostProcessServiceError(err, "Database", "DbNodeAction", apiReferenceLink)
 		return response, err
 	}
 
@@ -3117,6 +3215,8 @@ func (client DatabaseClient) deleteAutonomousDatabase(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/DeleteAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "DeleteAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -3172,6 +3272,8 @@ func (client DatabaseClient) deleteAutonomousVmCluster(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/DeleteAutonomousVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "DeleteAutonomousVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -3227,6 +3329,8 @@ func (client DatabaseClient) deleteBackup(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Backup/DeleteBackup"
+		err = common.PostProcessServiceError(err, "Database", "DeleteBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3282,6 +3386,8 @@ func (client DatabaseClient) deleteBackupDestination(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BackupDestination/DeleteBackupDestination"
+		err = common.PostProcessServiceError(err, "Database", "DeleteBackupDestination", apiReferenceLink)
 		return response, err
 	}
 
@@ -3337,6 +3443,8 @@ func (client DatabaseClient) deleteCloudAutonomousVmCluster(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/DeleteCloudAutonomousVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "DeleteCloudAutonomousVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -3392,6 +3500,8 @@ func (client DatabaseClient) deleteCloudExadataInfrastructure(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/DeleteCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "DeleteCloudExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -3447,6 +3557,8 @@ func (client DatabaseClient) deleteCloudVmCluster(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/DeleteCloudVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "DeleteCloudVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -3502,6 +3614,8 @@ func (client DatabaseClient) deleteConsoleConnection(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ConsoleConnection/DeleteConsoleConnection"
+		err = common.PostProcessServiceError(err, "Database", "DeleteConsoleConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -3558,6 +3672,8 @@ func (client DatabaseClient) deleteDatabase(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/DeleteDatabase"
+		err = common.PostProcessServiceError(err, "Database", "DeleteDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -3613,6 +3729,8 @@ func (client DatabaseClient) deleteDatabaseSoftwareImage(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSoftwareImage/DeleteDatabaseSoftwareImage"
+		err = common.PostProcessServiceError(err, "Database", "DeleteDatabaseSoftwareImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -3669,6 +3787,8 @@ func (client DatabaseClient) deleteDbHome(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbHome/DeleteDbHome"
+		err = common.PostProcessServiceError(err, "Database", "DeleteDbHome", apiReferenceLink)
 		return response, err
 	}
 
@@ -3724,6 +3844,8 @@ func (client DatabaseClient) deleteExadataInfrastructure(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/DeleteExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "DeleteExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -3781,6 +3903,8 @@ func (client DatabaseClient) deleteExternalContainerDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/DeleteExternalContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "DeleteExternalContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -3838,6 +3962,8 @@ func (client DatabaseClient) deleteExternalDatabaseConnector(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalDatabaseConnector/DeleteExternalDatabaseConnector"
+		err = common.PostProcessServiceError(err, "Database", "DeleteExternalDatabaseConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -3893,6 +4019,8 @@ func (client DatabaseClient) deleteExternalNonContainerDatabase(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/DeleteExternalNonContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "DeleteExternalNonContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -3949,6 +4077,8 @@ func (client DatabaseClient) deleteExternalPluggableDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/DeleteExternalPluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "DeleteExternalPluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -4004,6 +4134,8 @@ func (client DatabaseClient) deleteKeyStore(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStore/DeleteKeyStore"
+		err = common.PostProcessServiceError(err, "Database", "DeleteKeyStore", apiReferenceLink)
 		return response, err
 	}
 
@@ -4059,6 +4191,8 @@ func (client DatabaseClient) deletePluggableDatabase(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/DeletePluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "DeletePluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -4114,6 +4248,8 @@ func (client DatabaseClient) deleteVmCluster(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmCluster/DeleteVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "DeleteVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -4170,6 +4306,8 @@ func (client DatabaseClient) deleteVmClusterNetwork(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/DeleteVmClusterNetwork"
+		err = common.PostProcessServiceError(err, "Database", "DeleteVmClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 
@@ -4225,6 +4363,8 @@ func (client DatabaseClient) deregisterAutonomousDatabaseDataSafe(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/DeregisterAutonomousDatabaseDataSafe"
+		err = common.PostProcessServiceError(err, "Database", "DeregisterAutonomousDatabaseDataSafe", apiReferenceLink)
 		return response, err
 	}
 
@@ -4280,6 +4420,8 @@ func (client DatabaseClient) disableAutonomousDatabaseManagement(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/DisableAutonomousDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "DisableAutonomousDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -4335,6 +4477,8 @@ func (client DatabaseClient) disableAutonomousDatabaseOperationsInsights(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/DisableAutonomousDatabaseOperationsInsights"
+		err = common.PostProcessServiceError(err, "Database", "DisableAutonomousDatabaseOperationsInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -4395,6 +4539,8 @@ func (client DatabaseClient) disableDatabaseManagement(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/DisableDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "DisableDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -4455,6 +4601,8 @@ func (client DatabaseClient) disableExternalContainerDatabaseDatabaseManagement(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/DisableExternalContainerDatabaseDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "DisableExternalContainerDatabaseDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -4517,6 +4665,8 @@ func (client DatabaseClient) disableExternalNonContainerDatabaseDatabaseManageme
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/DisableExternalNonContainerDatabaseDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "DisableExternalNonContainerDatabaseDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -4577,6 +4727,8 @@ func (client DatabaseClient) disableExternalNonContainerDatabaseOperationsInsigh
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/DisableExternalNonContainerDatabaseOperationsInsights"
+		err = common.PostProcessServiceError(err, "Database", "DisableExternalNonContainerDatabaseOperationsInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -4639,6 +4791,8 @@ func (client DatabaseClient) disableExternalPluggableDatabaseDatabaseManagement(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/DisableExternalPluggableDatabaseDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "DisableExternalPluggableDatabaseDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -4699,6 +4853,8 @@ func (client DatabaseClient) disableExternalPluggableDatabaseOperationsInsights(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/DisableExternalPluggableDatabaseOperationsInsights"
+		err = common.PostProcessServiceError(err, "Database", "DisableExternalPluggableDatabaseOperationsInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -4758,6 +4914,8 @@ func (client DatabaseClient) downloadExadataInfrastructureConfigFile(ctx context
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/DownloadExadataInfrastructureConfigFile"
+		err = common.PostProcessServiceError(err, "Database", "DownloadExadataInfrastructureConfigFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -4817,6 +4975,8 @@ func (client DatabaseClient) downloadValidationReport(ctx context.Context, reque
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/DownloadValidationReport"
+		err = common.PostProcessServiceError(err, "Database", "DownloadValidationReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -4876,6 +5036,8 @@ func (client DatabaseClient) downloadVmClusterNetworkConfigFile(ctx context.Cont
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/DownloadVmClusterNetworkConfigFile"
+		err = common.PostProcessServiceError(err, "Database", "DownloadVmClusterNetworkConfigFile", apiReferenceLink)
 		return response, err
 	}
 
@@ -4931,6 +5093,8 @@ func (client DatabaseClient) enableAutonomousDatabaseManagement(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/EnableAutonomousDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "EnableAutonomousDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -4986,6 +5150,8 @@ func (client DatabaseClient) enableAutonomousDatabaseOperationsInsights(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/EnableAutonomousDatabaseOperationsInsights"
+		err = common.PostProcessServiceError(err, "Database", "EnableAutonomousDatabaseOperationsInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -5046,6 +5212,8 @@ func (client DatabaseClient) enableDatabaseManagement(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/EnableDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "EnableDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -5108,6 +5276,8 @@ func (client DatabaseClient) enableExternalContainerDatabaseDatabaseManagement(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/EnableExternalContainerDatabaseDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "EnableExternalContainerDatabaseDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -5170,6 +5340,8 @@ func (client DatabaseClient) enableExternalNonContainerDatabaseDatabaseManagemen
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/EnableExternalNonContainerDatabaseDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "EnableExternalNonContainerDatabaseDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -5230,6 +5402,8 @@ func (client DatabaseClient) enableExternalNonContainerDatabaseOperationsInsight
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/EnableExternalNonContainerDatabaseOperationsInsights"
+		err = common.PostProcessServiceError(err, "Database", "EnableExternalNonContainerDatabaseOperationsInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -5292,6 +5466,8 @@ func (client DatabaseClient) enableExternalPluggableDatabaseDatabaseManagement(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/EnableExternalPluggableDatabaseDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "EnableExternalPluggableDatabaseDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -5352,6 +5528,8 @@ func (client DatabaseClient) enableExternalPluggableDatabaseOperationsInsights(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/EnableExternalPluggableDatabaseOperationsInsights"
+		err = common.PostProcessServiceError(err, "Database", "EnableExternalPluggableDatabaseOperationsInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -5412,6 +5590,8 @@ func (client DatabaseClient) failOverAutonomousDatabase(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/FailOverAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "FailOverAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -5468,6 +5648,8 @@ func (client DatabaseClient) failoverAutonomousContainerDatabaseDataguardAssocia
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/FailoverAutonomousContainerDatabaseDataguardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "FailoverAutonomousContainerDatabaseDataguardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -5526,6 +5708,8 @@ func (client DatabaseClient) failoverDataGuardAssociation(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/FailoverDataGuardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "FailoverDataGuardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -5585,6 +5769,8 @@ func (client DatabaseClient) generateAutonomousDatabaseWallet(ctx context.Contex
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/GenerateAutonomousDatabaseWallet"
+		err = common.PostProcessServiceError(err, "Database", "GenerateAutonomousDatabaseWallet", apiReferenceLink)
 		return response, err
 	}
 
@@ -5645,6 +5831,8 @@ func (client DatabaseClient) generateRecommendedVmClusterNetwork(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/GenerateRecommendedVmClusterNetwork"
+		err = common.PostProcessServiceError(err, "Database", "GenerateRecommendedVmClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 
@@ -5700,6 +5888,8 @@ func (client DatabaseClient) getAutonomousContainerDatabase(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/GetAutonomousContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -5755,6 +5945,8 @@ func (client DatabaseClient) getAutonomousContainerDatabaseDataguardAssociation(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/GetAutonomousContainerDatabaseDataguardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousContainerDatabaseDataguardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -5810,6 +6002,8 @@ func (client DatabaseClient) getAutonomousDatabase(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/GetAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -5865,6 +6059,8 @@ func (client DatabaseClient) getAutonomousDatabaseBackup(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseBackup/GetAutonomousDatabaseBackup"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousDatabaseBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -5920,6 +6116,8 @@ func (client DatabaseClient) getAutonomousDatabaseDataguardAssociation(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseDataguardAssociation/GetAutonomousDatabaseDataguardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousDatabaseDataguardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -5975,6 +6173,8 @@ func (client DatabaseClient) getAutonomousDatabaseRegionalWallet(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseWallet/GetAutonomousDatabaseRegionalWallet"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousDatabaseRegionalWallet", apiReferenceLink)
 		return response, err
 	}
 
@@ -6030,6 +6230,8 @@ func (client DatabaseClient) getAutonomousDatabaseWallet(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseWallet/GetAutonomousDatabaseWallet"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousDatabaseWallet", apiReferenceLink)
 		return response, err
 	}
 
@@ -6085,6 +6287,8 @@ func (client DatabaseClient) getAutonomousExadataInfrastructure(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructure/GetAutonomousExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -6140,6 +6344,8 @@ func (client DatabaseClient) getAutonomousPatch(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousPatch/GetAutonomousPatch"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousPatch", apiReferenceLink)
 		return response, err
 	}
 
@@ -6195,6 +6401,8 @@ func (client DatabaseClient) getAutonomousVmCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/GetAutonomousVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -6250,6 +6458,8 @@ func (client DatabaseClient) getBackup(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Backup/GetBackup"
+		err = common.PostProcessServiceError(err, "Database", "GetBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -6305,6 +6515,8 @@ func (client DatabaseClient) getBackupDestination(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BackupDestination/GetBackupDestination"
+		err = common.PostProcessServiceError(err, "Database", "GetBackupDestination", apiReferenceLink)
 		return response, err
 	}
 
@@ -6360,6 +6572,8 @@ func (client DatabaseClient) getCloudAutonomousVmCluster(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/GetCloudAutonomousVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "GetCloudAutonomousVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -6415,6 +6629,8 @@ func (client DatabaseClient) getCloudExadataInfrastructure(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/GetCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "GetCloudExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -6470,6 +6686,8 @@ func (client DatabaseClient) getCloudVmCluster(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/GetCloudVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "GetCloudVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -6526,6 +6744,8 @@ func (client DatabaseClient) getCloudVmClusterIormConfig(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/GetCloudVmClusterIormConfig"
+		err = common.PostProcessServiceError(err, "Database", "GetCloudVmClusterIormConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -6581,6 +6801,8 @@ func (client DatabaseClient) getCloudVmClusterUpdate(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Update/GetCloudVmClusterUpdate"
+		err = common.PostProcessServiceError(err, "Database", "GetCloudVmClusterUpdate", apiReferenceLink)
 		return response, err
 	}
 
@@ -6636,6 +6858,8 @@ func (client DatabaseClient) getCloudVmClusterUpdateHistoryEntry(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/UpdateHistoryEntry/GetCloudVmClusterUpdateHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetCloudVmClusterUpdateHistoryEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -6691,6 +6915,8 @@ func (client DatabaseClient) getConsoleConnection(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ConsoleConnection/GetConsoleConnection"
+		err = common.PostProcessServiceError(err, "Database", "GetConsoleConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -6746,6 +6972,8 @@ func (client DatabaseClient) getDataGuardAssociation(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/GetDataGuardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "GetDataGuardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -6801,6 +7029,8 @@ func (client DatabaseClient) getDatabase(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/GetDatabase"
+		err = common.PostProcessServiceError(err, "Database", "GetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -6856,6 +7086,8 @@ func (client DatabaseClient) getDatabaseSoftwareImage(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSoftwareImage/GetDatabaseSoftwareImage"
+		err = common.PostProcessServiceError(err, "Database", "GetDatabaseSoftwareImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -6911,6 +7143,8 @@ func (client DatabaseClient) getDatabaseUpgradeHistoryEntry(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseUpgradeHistoryEntry/GetDatabaseUpgradeHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetDatabaseUpgradeHistoryEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -6966,6 +7200,8 @@ func (client DatabaseClient) getDbHome(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbHome/GetDbHome"
+		err = common.PostProcessServiceError(err, "Database", "GetDbHome", apiReferenceLink)
 		return response, err
 	}
 
@@ -7021,6 +7257,8 @@ func (client DatabaseClient) getDbHomePatch(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Patch/GetDbHomePatch"
+		err = common.PostProcessServiceError(err, "Database", "GetDbHomePatch", apiReferenceLink)
 		return response, err
 	}
 
@@ -7076,6 +7314,8 @@ func (client DatabaseClient) getDbHomePatchHistoryEntry(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PatchHistoryEntry/GetDbHomePatchHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetDbHomePatchHistoryEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -7131,6 +7371,8 @@ func (client DatabaseClient) getDbNode(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbNode/GetDbNode"
+		err = common.PostProcessServiceError(err, "Database", "GetDbNode", apiReferenceLink)
 		return response, err
 	}
 
@@ -7186,6 +7428,8 @@ func (client DatabaseClient) getDbServer(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbServer/GetDbServer"
+		err = common.PostProcessServiceError(err, "Database", "GetDbServer", apiReferenceLink)
 		return response, err
 	}
 
@@ -7243,6 +7487,8 @@ func (client DatabaseClient) getDbSystem(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/GetDbSystem"
+		err = common.PostProcessServiceError(err, "Database", "GetDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -7298,6 +7544,8 @@ func (client DatabaseClient) getDbSystemPatch(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Patch/GetDbSystemPatch"
+		err = common.PostProcessServiceError(err, "Database", "GetDbSystemPatch", apiReferenceLink)
 		return response, err
 	}
 
@@ -7353,6 +7601,8 @@ func (client DatabaseClient) getDbSystemPatchHistoryEntry(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PatchHistoryEntry/GetDbSystemPatchHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetDbSystemPatchHistoryEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -7409,6 +7659,8 @@ func (client DatabaseClient) getExadataInfrastructure(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/GetExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "GetExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -7464,6 +7716,8 @@ func (client DatabaseClient) getExadataInfrastructureOcpus(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/OCPUs/GetExadataInfrastructureOcpus"
+		err = common.PostProcessServiceError(err, "Database", "GetExadataInfrastructureOcpus", apiReferenceLink)
 		return response, err
 	}
 
@@ -7524,6 +7778,8 @@ func (client DatabaseClient) getExadataIormConfig(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/GetExadataIormConfig"
+		err = common.PostProcessServiceError(err, "Database", "GetExadataIormConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -7580,6 +7836,8 @@ func (client DatabaseClient) getExternalBackupJob(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalBackupJob/GetExternalBackupJob"
+		err = common.PostProcessServiceError(err, "Database", "GetExternalBackupJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -7635,6 +7893,8 @@ func (client DatabaseClient) getExternalContainerDatabase(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/GetExternalContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "GetExternalContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -7690,6 +7950,8 @@ func (client DatabaseClient) getExternalDatabaseConnector(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalDatabaseConnector/GetExternalDatabaseConnector"
+		err = common.PostProcessServiceError(err, "Database", "GetExternalDatabaseConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -7745,6 +8007,8 @@ func (client DatabaseClient) getExternalNonContainerDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/GetExternalNonContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "GetExternalNonContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -7801,6 +8065,8 @@ func (client DatabaseClient) getExternalPluggableDatabase(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/GetExternalPluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "GetExternalPluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -7856,6 +8122,8 @@ func (client DatabaseClient) getKeyStore(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStore/GetKeyStore"
+		err = common.PostProcessServiceError(err, "Database", "GetKeyStore", apiReferenceLink)
 		return response, err
 	}
 
@@ -7911,6 +8179,8 @@ func (client DatabaseClient) getMaintenanceRun(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/MaintenanceRun/GetMaintenanceRun"
+		err = common.PostProcessServiceError(err, "Database", "GetMaintenanceRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -7966,6 +8236,8 @@ func (client DatabaseClient) getPdbConversionHistoryEntry(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PdbConversionHistoryEntry/GetPdbConversionHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetPdbConversionHistoryEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -8021,6 +8293,8 @@ func (client DatabaseClient) getPluggableDatabase(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/GetPluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "GetPluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -8076,6 +8350,8 @@ func (client DatabaseClient) getVmCluster(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmCluster/GetVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "GetVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -8132,6 +8408,8 @@ func (client DatabaseClient) getVmClusterNetwork(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/GetVmClusterNetwork"
+		err = common.PostProcessServiceError(err, "Database", "GetVmClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 
@@ -8187,6 +8465,8 @@ func (client DatabaseClient) getVmClusterPatch(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Patch/GetVmClusterPatch"
+		err = common.PostProcessServiceError(err, "Database", "GetVmClusterPatch", apiReferenceLink)
 		return response, err
 	}
 
@@ -8242,6 +8522,8 @@ func (client DatabaseClient) getVmClusterPatchHistoryEntry(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PatchHistoryEntry/GetVmClusterPatchHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetVmClusterPatchHistoryEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -8297,6 +8579,8 @@ func (client DatabaseClient) getVmClusterUpdate(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterUpdate/GetVmClusterUpdate"
+		err = common.PostProcessServiceError(err, "Database", "GetVmClusterUpdate", apiReferenceLink)
 		return response, err
 	}
 
@@ -8352,6 +8636,8 @@ func (client DatabaseClient) getVmClusterUpdateHistoryEntry(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterUpdateHistoryEntry/GetVmClusterUpdateHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetVmClusterUpdateHistoryEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -8412,6 +8698,8 @@ func (client DatabaseClient) launchAutonomousExadataInfrastructure(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructure/LaunchAutonomousExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "LaunchAutonomousExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -8478,6 +8766,8 @@ func (client DatabaseClient) launchDbSystem(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/LaunchDbSystem"
+		err = common.PostProcessServiceError(err, "Database", "LaunchDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -8533,6 +8823,8 @@ func (client DatabaseClient) listAutonomousContainerDatabaseDataguardAssociation
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/ListAutonomousContainerDatabaseDataguardAssociations"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousContainerDatabaseDataguardAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -8588,6 +8880,8 @@ func (client DatabaseClient) listAutonomousContainerDatabases(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/ListAutonomousContainerDatabases"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousContainerDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -8643,6 +8937,8 @@ func (client DatabaseClient) listAutonomousDatabaseBackups(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseBackup/ListAutonomousDatabaseBackups"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabaseBackups", apiReferenceLink)
 		return response, err
 	}
 
@@ -8698,6 +8994,8 @@ func (client DatabaseClient) listAutonomousDatabaseClones(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAutonomousDatabaseClones"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabaseClones", apiReferenceLink)
 		return response, err
 	}
 
@@ -8753,6 +9051,8 @@ func (client DatabaseClient) listAutonomousDatabaseDataguardAssociations(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseDataguardAssociation/ListAutonomousDatabaseDataguardAssociations"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabaseDataguardAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -8808,6 +9108,8 @@ func (client DatabaseClient) listAutonomousDatabases(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAutonomousDatabases"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -8864,6 +9166,8 @@ func (client DatabaseClient) listAutonomousDbPreviewVersions(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDbPreviewVersionSummary/ListAutonomousDbPreviewVersions"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDbPreviewVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -8919,6 +9223,8 @@ func (client DatabaseClient) listAutonomousDbVersions(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDbVersionSummary/ListAutonomousDbVersions"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDbVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -8974,6 +9280,8 @@ func (client DatabaseClient) listAutonomousExadataInfrastructureShapes(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructureShapeSummary/ListAutonomousExadataInfrastructureShapes"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousExadataInfrastructureShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -9029,6 +9337,8 @@ func (client DatabaseClient) listAutonomousExadataInfrastructures(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructure/ListAutonomousExadataInfrastructures"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousExadataInfrastructures", apiReferenceLink)
 		return response, err
 	}
 
@@ -9084,6 +9394,8 @@ func (client DatabaseClient) listAutonomousVmClusters(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/ListAutonomousVmClusters"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousVmClusters", apiReferenceLink)
 		return response, err
 	}
 
@@ -9139,6 +9451,8 @@ func (client DatabaseClient) listBackupDestination(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BackupDestinationSummary/ListBackupDestination"
+		err = common.PostProcessServiceError(err, "Database", "ListBackupDestination", apiReferenceLink)
 		return response, err
 	}
 
@@ -9194,6 +9508,8 @@ func (client DatabaseClient) listBackups(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Backup/ListBackups"
+		err = common.PostProcessServiceError(err, "Database", "ListBackups", apiReferenceLink)
 		return response, err
 	}
 
@@ -9249,6 +9565,8 @@ func (client DatabaseClient) listCloudAutonomousVmClusters(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/ListCloudAutonomousVmClusters"
+		err = common.PostProcessServiceError(err, "Database", "ListCloudAutonomousVmClusters", apiReferenceLink)
 		return response, err
 	}
 
@@ -9304,6 +9622,8 @@ func (client DatabaseClient) listCloudExadataInfrastructures(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/ListCloudExadataInfrastructures"
+		err = common.PostProcessServiceError(err, "Database", "ListCloudExadataInfrastructures", apiReferenceLink)
 		return response, err
 	}
 
@@ -9359,6 +9679,8 @@ func (client DatabaseClient) listCloudVmClusterUpdateHistoryEntries(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/UpdateHistoryEntry/ListCloudVmClusterUpdateHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListCloudVmClusterUpdateHistoryEntries", apiReferenceLink)
 		return response, err
 	}
 
@@ -9414,6 +9736,8 @@ func (client DatabaseClient) listCloudVmClusterUpdates(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Update/ListCloudVmClusterUpdates"
+		err = common.PostProcessServiceError(err, "Database", "ListCloudVmClusterUpdates", apiReferenceLink)
 		return response, err
 	}
 
@@ -9469,6 +9793,8 @@ func (client DatabaseClient) listCloudVmClusters(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/ListCloudVmClusters"
+		err = common.PostProcessServiceError(err, "Database", "ListCloudVmClusters", apiReferenceLink)
 		return response, err
 	}
 
@@ -9524,6 +9850,8 @@ func (client DatabaseClient) listConsoleConnections(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ConsoleConnection/ListConsoleConnections"
+		err = common.PostProcessServiceError(err, "Database", "ListConsoleConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -9579,6 +9907,8 @@ func (client DatabaseClient) listContainerDatabasePatches(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousPatch/ListContainerDatabasePatches"
+		err = common.PostProcessServiceError(err, "Database", "ListContainerDatabasePatches", apiReferenceLink)
 		return response, err
 	}
 
@@ -9634,6 +9964,8 @@ func (client DatabaseClient) listDataGuardAssociations(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/ListDataGuardAssociations"
+		err = common.PostProcessServiceError(err, "Database", "ListDataGuardAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -9689,6 +10021,8 @@ func (client DatabaseClient) listDatabaseSoftwareImages(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSoftwareImage/ListDatabaseSoftwareImages"
+		err = common.PostProcessServiceError(err, "Database", "ListDatabaseSoftwareImages", apiReferenceLink)
 		return response, err
 	}
 
@@ -9744,6 +10078,8 @@ func (client DatabaseClient) listDatabaseUpgradeHistoryEntries(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ListDatabaseUpgradeHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListDatabaseUpgradeHistoryEntries", apiReferenceLink)
 		return response, err
 	}
 
@@ -9799,6 +10135,8 @@ func (client DatabaseClient) listDatabases(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ListDatabases"
+		err = common.PostProcessServiceError(err, "Database", "ListDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -9854,6 +10192,8 @@ func (client DatabaseClient) listDbHomePatchHistoryEntries(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PatchHistoryEntry/ListDbHomePatchHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListDbHomePatchHistoryEntries", apiReferenceLink)
 		return response, err
 	}
 
@@ -9909,6 +10249,8 @@ func (client DatabaseClient) listDbHomePatches(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Patch/ListDbHomePatches"
+		err = common.PostProcessServiceError(err, "Database", "ListDbHomePatches", apiReferenceLink)
 		return response, err
 	}
 
@@ -9964,6 +10306,8 @@ func (client DatabaseClient) listDbHomes(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbHome/ListDbHomes"
+		err = common.PostProcessServiceError(err, "Database", "ListDbHomes", apiReferenceLink)
 		return response, err
 	}
 
@@ -10019,6 +10363,8 @@ func (client DatabaseClient) listDbNodes(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbNode/ListDbNodes"
+		err = common.PostProcessServiceError(err, "Database", "ListDbNodes", apiReferenceLink)
 		return response, err
 	}
 
@@ -10074,6 +10420,8 @@ func (client DatabaseClient) listDbServers(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbServer/ListDbServers"
+		err = common.PostProcessServiceError(err, "Database", "ListDbServers", apiReferenceLink)
 		return response, err
 	}
 
@@ -10129,6 +10477,8 @@ func (client DatabaseClient) listDbSystemPatchHistoryEntries(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PatchHistoryEntry/ListDbSystemPatchHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListDbSystemPatchHistoryEntries", apiReferenceLink)
 		return response, err
 	}
 
@@ -10184,6 +10534,8 @@ func (client DatabaseClient) listDbSystemPatches(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Patch/ListDbSystemPatches"
+		err = common.PostProcessServiceError(err, "Database", "ListDbSystemPatches", apiReferenceLink)
 		return response, err
 	}
 
@@ -10239,6 +10591,8 @@ func (client DatabaseClient) listDbSystemShapes(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes"
+		err = common.PostProcessServiceError(err, "Database", "ListDbSystemShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -10296,6 +10650,8 @@ func (client DatabaseClient) listDbSystems(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/ListDbSystems"
+		err = common.PostProcessServiceError(err, "Database", "ListDbSystems", apiReferenceLink)
 		return response, err
 	}
 
@@ -10351,6 +10707,8 @@ func (client DatabaseClient) listDbVersions(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions"
+		err = common.PostProcessServiceError(err, "Database", "ListDbVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -10407,6 +10765,8 @@ func (client DatabaseClient) listExadataInfrastructures(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/ListExadataInfrastructures"
+		err = common.PostProcessServiceError(err, "Database", "ListExadataInfrastructures", apiReferenceLink)
 		return response, err
 	}
 
@@ -10462,6 +10822,8 @@ func (client DatabaseClient) listExternalContainerDatabases(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/ListExternalContainerDatabases"
+		err = common.PostProcessServiceError(err, "Database", "ListExternalContainerDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -10533,6 +10895,8 @@ func (client DatabaseClient) listExternalDatabaseConnectors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalDatabaseConnector/ListExternalDatabaseConnectors"
+		err = common.PostProcessServiceError(err, "Database", "ListExternalDatabaseConnectors", apiReferenceLink)
 		return response, err
 	}
 
@@ -10588,6 +10952,8 @@ func (client DatabaseClient) listExternalNonContainerDatabases(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/ListExternalNonContainerDatabases"
+		err = common.PostProcessServiceError(err, "Database", "ListExternalNonContainerDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -10644,6 +11010,8 @@ func (client DatabaseClient) listExternalPluggableDatabases(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/ListExternalPluggableDatabases"
+		err = common.PostProcessServiceError(err, "Database", "ListExternalPluggableDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -10699,6 +11067,8 @@ func (client DatabaseClient) listFlexComponents(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/FlexComponentCollection/ListFlexComponents"
+		err = common.PostProcessServiceError(err, "Database", "ListFlexComponents", apiReferenceLink)
 		return response, err
 	}
 
@@ -10754,6 +11124,8 @@ func (client DatabaseClient) listGiVersions(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/GiVersionSummary/ListGiVersions"
+		err = common.PostProcessServiceError(err, "Database", "ListGiVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -10809,6 +11181,8 @@ func (client DatabaseClient) listKeyStores(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStoreSummary/ListKeyStores"
+		err = common.PostProcessServiceError(err, "Database", "ListKeyStores", apiReferenceLink)
 		return response, err
 	}
 
@@ -10864,6 +11238,8 @@ func (client DatabaseClient) listMaintenanceRuns(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/MaintenanceRun/ListMaintenanceRuns"
+		err = common.PostProcessServiceError(err, "Database", "ListMaintenanceRuns", apiReferenceLink)
 		return response, err
 	}
 
@@ -10919,6 +11295,8 @@ func (client DatabaseClient) listPdbConversionHistoryEntries(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ListPdbConversionHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListPdbConversionHistoryEntries", apiReferenceLink)
 		return response, err
 	}
 
@@ -10974,6 +11352,8 @@ func (client DatabaseClient) listPluggableDatabases(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/ListPluggableDatabases"
+		err = common.PostProcessServiceError(err, "Database", "ListPluggableDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -11029,6 +11409,8 @@ func (client DatabaseClient) listVmClusterNetworks(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/ListVmClusterNetworks"
+		err = common.PostProcessServiceError(err, "Database", "ListVmClusterNetworks", apiReferenceLink)
 		return response, err
 	}
 
@@ -11084,6 +11466,8 @@ func (client DatabaseClient) listVmClusterPatchHistoryEntries(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PatchHistoryEntry/ListVmClusterPatchHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListVmClusterPatchHistoryEntries", apiReferenceLink)
 		return response, err
 	}
 
@@ -11139,6 +11523,8 @@ func (client DatabaseClient) listVmClusterPatches(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Patch/ListVmClusterPatches"
+		err = common.PostProcessServiceError(err, "Database", "ListVmClusterPatches", apiReferenceLink)
 		return response, err
 	}
 
@@ -11194,6 +11580,8 @@ func (client DatabaseClient) listVmClusterUpdateHistoryEntries(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterUpdateHistoryEntry/ListVmClusterUpdateHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListVmClusterUpdateHistoryEntries", apiReferenceLink)
 		return response, err
 	}
 
@@ -11249,6 +11637,8 @@ func (client DatabaseClient) listVmClusterUpdates(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterUpdate/ListVmClusterUpdates"
+		err = common.PostProcessServiceError(err, "Database", "ListVmClusterUpdates", apiReferenceLink)
 		return response, err
 	}
 
@@ -11305,6 +11695,8 @@ func (client DatabaseClient) listVmClusters(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmCluster/ListVmClusters"
+		err = common.PostProcessServiceError(err, "Database", "ListVmClusters", apiReferenceLink)
 		return response, err
 	}
 
@@ -11365,6 +11757,8 @@ func (client DatabaseClient) localClonePluggableDatabase(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/LocalClonePluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "LocalClonePluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -11426,6 +11820,8 @@ func (client DatabaseClient) migrateExadataDbSystemResourceModel(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/MigrateExadataDbSystemResourceModel"
+		err = common.PostProcessServiceError(err, "Database", "MigrateExadataDbSystemResourceModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -11486,6 +11882,8 @@ func (client DatabaseClient) migrateVaultKey(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/MigrateVaultKey"
+		err = common.PostProcessServiceError(err, "Database", "MigrateVaultKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -11546,6 +11944,8 @@ func (client DatabaseClient) modifyDatabaseManagement(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ModifyDatabaseManagement"
+		err = common.PostProcessServiceError(err, "Database", "ModifyDatabaseManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -11601,6 +12001,8 @@ func (client DatabaseClient) registerAutonomousDatabaseDataSafe(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/RegisterAutonomousDatabaseDataSafe"
+		err = common.PostProcessServiceError(err, "Database", "RegisterAutonomousDatabaseDataSafe", apiReferenceLink)
 		return response, err
 	}
 
@@ -11656,6 +12058,8 @@ func (client DatabaseClient) reinstateAutonomousContainerDatabaseDataguardAssoci
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/ReinstateAutonomousContainerDatabaseDataguardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "ReinstateAutonomousContainerDatabaseDataguardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -11711,6 +12115,8 @@ func (client DatabaseClient) reinstateDataGuardAssociation(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/ReinstateDataGuardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "ReinstateDataGuardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -11771,6 +12177,8 @@ func (client DatabaseClient) remoteClonePluggableDatabase(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/RemoteClonePluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "RemoteClonePluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -11831,6 +12239,8 @@ func (client DatabaseClient) removeVirtualMachineFromVmCluster(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmCluster/RemoveVirtualMachineFromVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "RemoveVirtualMachineFromVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -11886,6 +12296,8 @@ func (client DatabaseClient) restartAutonomousContainerDatabase(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/RestartAutonomousContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "RestartAutonomousContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -11941,6 +12353,8 @@ func (client DatabaseClient) restartAutonomousDatabase(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/RestartAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "RestartAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -11996,6 +12410,8 @@ func (client DatabaseClient) restoreAutonomousDatabase(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/RestoreAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "RestoreAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -12051,6 +12467,8 @@ func (client DatabaseClient) restoreDatabase(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/RestoreDatabase"
+		err = common.PostProcessServiceError(err, "Database", "RestoreDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -12111,6 +12529,8 @@ func (client DatabaseClient) rotateAutonomousContainerDatabaseEncryptionKey(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/RotateAutonomousContainerDatabaseEncryptionKey"
+		err = common.PostProcessServiceError(err, "Database", "RotateAutonomousContainerDatabaseEncryptionKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -12171,6 +12591,8 @@ func (client DatabaseClient) rotateAutonomousDatabaseEncryptionKey(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/RotateAutonomousDatabaseEncryptionKey"
+		err = common.PostProcessServiceError(err, "Database", "RotateAutonomousDatabaseEncryptionKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -12231,6 +12653,8 @@ func (client DatabaseClient) rotateCloudAutonomousVmClusterOrdsCerts(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/RotateCloudAutonomousVmClusterOrdsCerts"
+		err = common.PostProcessServiceError(err, "Database", "RotateCloudAutonomousVmClusterOrdsCerts", apiReferenceLink)
 		return response, err
 	}
 
@@ -12291,6 +12715,8 @@ func (client DatabaseClient) rotateCloudAutonomousVmClusterSslCerts(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/RotateCloudAutonomousVmClusterSslCerts"
+		err = common.PostProcessServiceError(err, "Database", "RotateCloudAutonomousVmClusterSslCerts", apiReferenceLink)
 		return response, err
 	}
 
@@ -12351,6 +12777,8 @@ func (client DatabaseClient) rotateOrdsCerts(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructure/RotateOrdsCerts"
+		err = common.PostProcessServiceError(err, "Database", "RotateOrdsCerts", apiReferenceLink)
 		return response, err
 	}
 
@@ -12411,6 +12839,8 @@ func (client DatabaseClient) rotateSslCerts(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructure/RotateSslCerts"
+		err = common.PostProcessServiceError(err, "Database", "RotateSslCerts", apiReferenceLink)
 		return response, err
 	}
 
@@ -12471,6 +12901,8 @@ func (client DatabaseClient) rotateVaultKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/RotateVaultKey"
+		err = common.PostProcessServiceError(err, "Database", "RotateVaultKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -12532,6 +12964,8 @@ func (client DatabaseClient) scanExternalContainerDatabasePluggableDatabases(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/ScanExternalContainerDatabasePluggableDatabases"
+		err = common.PostProcessServiceError(err, "Database", "ScanExternalContainerDatabasePluggableDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -12587,6 +13021,8 @@ func (client DatabaseClient) shrinkAutonomousDatabase(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ShrinkAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "ShrinkAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -12642,6 +13078,8 @@ func (client DatabaseClient) startAutonomousDatabase(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/StartAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "StartAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -12702,6 +13140,8 @@ func (client DatabaseClient) startPluggableDatabase(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/StartPluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "StartPluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -12757,6 +13197,8 @@ func (client DatabaseClient) stopAutonomousDatabase(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/StopAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "StopAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -12817,6 +13259,8 @@ func (client DatabaseClient) stopPluggableDatabase(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/StopPluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "StopPluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -12873,6 +13317,8 @@ func (client DatabaseClient) switchoverAutonomousContainerDatabaseDataguardAssoc
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/SwitchoverAutonomousContainerDatabaseDataguardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "SwitchoverAutonomousContainerDatabaseDataguardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -12933,6 +13379,8 @@ func (client DatabaseClient) switchoverAutonomousDatabase(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/SwitchoverAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "SwitchoverAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -12990,6 +13438,8 @@ func (client DatabaseClient) switchoverDataGuardAssociation(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/SwitchoverDataGuardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "SwitchoverDataGuardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -13045,6 +13495,8 @@ func (client DatabaseClient) terminateAutonomousContainerDatabase(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/TerminateAutonomousContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "TerminateAutonomousContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -13100,6 +13552,8 @@ func (client DatabaseClient) terminateAutonomousExadataInfrastructure(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructure/TerminateAutonomousExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "TerminateAutonomousExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -13157,6 +13611,8 @@ func (client DatabaseClient) terminateDbSystem(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/TerminateDbSystem"
+		err = common.PostProcessServiceError(err, "Database", "TerminateDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -13212,6 +13668,8 @@ func (client DatabaseClient) updateAutonomousContainerDatabase(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/UpdateAutonomousContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -13267,6 +13725,8 @@ func (client DatabaseClient) updateAutonomousContainerDatabaseDataguardAssociati
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/UpdateAutonomousContainerDatabaseDataguardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousContainerDatabaseDataguardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -13322,6 +13782,8 @@ func (client DatabaseClient) updateAutonomousDatabase(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/UpdateAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -13377,6 +13839,8 @@ func (client DatabaseClient) updateAutonomousDatabaseRegionalWallet(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseWallet/UpdateAutonomousDatabaseRegionalWallet"
+		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousDatabaseRegionalWallet", apiReferenceLink)
 		return response, err
 	}
 
@@ -13432,6 +13896,8 @@ func (client DatabaseClient) updateAutonomousDatabaseWallet(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseWallet/UpdateAutonomousDatabaseWallet"
+		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousDatabaseWallet", apiReferenceLink)
 		return response, err
 	}
 
@@ -13487,6 +13953,8 @@ func (client DatabaseClient) updateAutonomousExadataInfrastructure(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousExadataInfrastructure/UpdateAutonomousExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -13542,6 +14010,8 @@ func (client DatabaseClient) updateAutonomousVmCluster(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/UpdateAutonomousVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -13599,6 +14069,8 @@ func (client DatabaseClient) updateBackupDestination(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BackupDestination/UpdateBackupDestination"
+		err = common.PostProcessServiceError(err, "Database", "UpdateBackupDestination", apiReferenceLink)
 		return response, err
 	}
 
@@ -13654,6 +14126,8 @@ func (client DatabaseClient) updateCloudAutonomousVmCluster(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/UpdateCloudAutonomousVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "UpdateCloudAutonomousVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -13709,6 +14183,8 @@ func (client DatabaseClient) updateCloudExadataInfrastructure(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/UpdateCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "UpdateCloudExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -13764,6 +14240,8 @@ func (client DatabaseClient) updateCloudVmCluster(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/UpdateCloudVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "UpdateCloudVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -13819,6 +14297,8 @@ func (client DatabaseClient) updateCloudVmClusterIormConfig(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/UpdateCloudVmClusterIormConfig"
+		err = common.PostProcessServiceError(err, "Database", "UpdateCloudVmClusterIormConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -13874,6 +14354,8 @@ func (client DatabaseClient) updateDataGuardAssociation(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/UpdateDataGuardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "UpdateDataGuardAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -13929,6 +14411,8 @@ func (client DatabaseClient) updateDatabase(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/UpdateDatabase"
+		err = common.PostProcessServiceError(err, "Database", "UpdateDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -13984,6 +14468,8 @@ func (client DatabaseClient) updateDatabaseSoftwareImage(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSoftwareImage/UpdateDatabaseSoftwareImage"
+		err = common.PostProcessServiceError(err, "Database", "UpdateDatabaseSoftwareImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -14039,6 +14525,8 @@ func (client DatabaseClient) updateDbHome(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbHome/UpdateDbHome"
+		err = common.PostProcessServiceError(err, "Database", "UpdateDbHome", apiReferenceLink)
 		return response, err
 	}
 
@@ -14096,6 +14584,8 @@ func (client DatabaseClient) updateDbSystem(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/UpdateDbSystem"
+		err = common.PostProcessServiceError(err, "Database", "UpdateDbSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -14152,6 +14642,8 @@ func (client DatabaseClient) updateExadataInfrastructure(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/UpdateExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "UpdateExadataInfrastructure", apiReferenceLink)
 		return response, err
 	}
 
@@ -14211,6 +14703,8 @@ func (client DatabaseClient) updateExadataIormConfig(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/UpdateExadataIormConfig"
+		err = common.PostProcessServiceError(err, "Database", "UpdateExadataIormConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -14268,6 +14762,8 @@ func (client DatabaseClient) updateExternalContainerDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/UpdateExternalContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "UpdateExternalContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -14323,6 +14819,8 @@ func (client DatabaseClient) updateExternalDatabaseConnector(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalDatabaseConnector/UpdateExternalDatabaseConnector"
+		err = common.PostProcessServiceError(err, "Database", "UpdateExternalDatabaseConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -14378,6 +14876,8 @@ func (client DatabaseClient) updateExternalNonContainerDatabase(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalNonContainerDatabase/UpdateExternalNonContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "UpdateExternalNonContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -14435,6 +14935,8 @@ func (client DatabaseClient) updateExternalPluggableDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/UpdateExternalPluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "UpdateExternalPluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -14490,6 +14992,8 @@ func (client DatabaseClient) updateKeyStore(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStore/UpdateKeyStore"
+		err = common.PostProcessServiceError(err, "Database", "UpdateKeyStore", apiReferenceLink)
 		return response, err
 	}
 
@@ -14545,6 +15049,8 @@ func (client DatabaseClient) updateMaintenanceRun(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/MaintenanceRun/UpdateMaintenanceRun"
+		err = common.PostProcessServiceError(err, "Database", "UpdateMaintenanceRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -14600,6 +15106,8 @@ func (client DatabaseClient) updatePluggableDatabase(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/UpdatePluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "UpdatePluggableDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -14655,6 +15163,8 @@ func (client DatabaseClient) updateVmCluster(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmCluster/UpdateVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "UpdateVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -14711,6 +15221,8 @@ func (client DatabaseClient) updateVmClusterNetwork(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/UpdateVmClusterNetwork"
+		err = common.PostProcessServiceError(err, "Database", "UpdateVmClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 
@@ -14766,6 +15278,8 @@ func (client DatabaseClient) upgradeDatabase(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/UpgradeDatabase"
+		err = common.PostProcessServiceError(err, "Database", "UpgradeDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -14826,6 +15340,8 @@ func (client DatabaseClient) validateVmClusterNetwork(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/ValidateVmClusterNetwork"
+		err = common.PostProcessServiceError(err, "Database", "ValidateVmClusterNetwork", apiReferenceLink)
 		return response, err
 	}
 

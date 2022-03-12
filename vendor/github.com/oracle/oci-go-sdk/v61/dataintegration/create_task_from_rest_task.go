@@ -56,6 +56,8 @@ type CreateTaskFromRestTask struct {
 
 	AuthDetails *AuthDetails `mandatory:"false" json:"authDetails"`
 
+	AuthConfig AuthConfig `mandatory:"false" json:"authConfig"`
+
 	Endpoint *Expression `mandatory:"false" json:"endpoint"`
 
 	Headers *interface{} `mandatory:"false" json:"headers"`
@@ -68,6 +70,11 @@ type CreateTaskFromRestTask struct {
 	ExecuteRestCallConfig *ExecuteRestCallConfig `mandatory:"false" json:"executeRestCallConfig"`
 
 	CancelRestCallConfig *CancelRestCallConfig `mandatory:"false" json:"cancelRestCallConfig"`
+
+	PollRestCallConfig *PollRestCallConfig `mandatory:"false" json:"pollRestCallConfig"`
+
+	// List of typed expressions.
+	TypedExpressions []TypedExpression `mandatory:"false" json:"typedExpressions"`
 
 	// The REST method to use. This property is deprecated, use ExecuteRestCallConfig's methodType property instead.
 	MethodType CreateTaskFromRestTaskMethodTypeEnum `mandatory:"false" json:"methodType,omitempty"`
@@ -181,6 +188,117 @@ func (m CreateTaskFromRestTask) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Key                    *string                                    `json:"key"`
+		ModelVersion           *string                                    `json:"modelVersion"`
+		ParentRef              *ParentReference                           `json:"parentRef"`
+		Description            *string                                    `json:"description"`
+		ObjectStatus           *int                                       `json:"objectStatus"`
+		InputPorts             []InputPort                                `json:"inputPorts"`
+		OutputPorts            []OutputPort                               `json:"outputPorts"`
+		Parameters             []Parameter                                `json:"parameters"`
+		OpConfigValues         *ConfigValues                              `json:"opConfigValues"`
+		ConfigProviderDelegate *CreateConfigProvider                      `json:"configProviderDelegate"`
+		AuthDetails            *AuthDetails                               `json:"authDetails"`
+		AuthConfig             authconfig                                 `json:"authConfig"`
+		Endpoint               *Expression                                `json:"endpoint"`
+		MethodType             CreateTaskFromRestTaskMethodTypeEnum       `json:"methodType"`
+		Headers                *interface{}                               `json:"headers"`
+		JsonData               *string                                    `json:"jsonData"`
+		ApiCallMode            CreateTaskFromRestTaskApiCallModeEnum      `json:"apiCallMode"`
+		CancelEndpoint         *Expression                                `json:"cancelEndpoint"`
+		CancelMethodType       CreateTaskFromRestTaskCancelMethodTypeEnum `json:"cancelMethodType"`
+		ExecuteRestCallConfig  *ExecuteRestCallConfig                     `json:"executeRestCallConfig"`
+		CancelRestCallConfig   *CancelRestCallConfig                      `json:"cancelRestCallConfig"`
+		PollRestCallConfig     *PollRestCallConfig                        `json:"pollRestCallConfig"`
+		TypedExpressions       []TypedExpression                          `json:"typedExpressions"`
+		Name                   *string                                    `json:"name"`
+		Identifier             *string                                    `json:"identifier"`
+		RegistryMetadata       *RegistryMetadata                          `json:"registryMetadata"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Key = model.Key
+
+	m.ModelVersion = model.ModelVersion
+
+	m.ParentRef = model.ParentRef
+
+	m.Description = model.Description
+
+	m.ObjectStatus = model.ObjectStatus
+
+	m.InputPorts = make([]InputPort, len(model.InputPorts))
+	for i, n := range model.InputPorts {
+		m.InputPorts[i] = n
+	}
+
+	m.OutputPorts = make([]OutputPort, len(model.OutputPorts))
+	for i, n := range model.OutputPorts {
+		m.OutputPorts[i] = n
+	}
+
+	m.Parameters = make([]Parameter, len(model.Parameters))
+	for i, n := range model.Parameters {
+		m.Parameters[i] = n
+	}
+
+	m.OpConfigValues = model.OpConfigValues
+
+	m.ConfigProviderDelegate = model.ConfigProviderDelegate
+
+	m.AuthDetails = model.AuthDetails
+
+	nn, e = model.AuthConfig.UnmarshalPolymorphicJSON(model.AuthConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.AuthConfig = nn.(AuthConfig)
+	} else {
+		m.AuthConfig = nil
+	}
+
+	m.Endpoint = model.Endpoint
+
+	m.MethodType = model.MethodType
+
+	m.Headers = model.Headers
+
+	m.JsonData = model.JsonData
+
+	m.ApiCallMode = model.ApiCallMode
+
+	m.CancelEndpoint = model.CancelEndpoint
+
+	m.CancelMethodType = model.CancelMethodType
+
+	m.ExecuteRestCallConfig = model.ExecuteRestCallConfig
+
+	m.CancelRestCallConfig = model.CancelRestCallConfig
+
+	m.PollRestCallConfig = model.PollRestCallConfig
+
+	m.TypedExpressions = make([]TypedExpression, len(model.TypedExpressions))
+	for i, n := range model.TypedExpressions {
+		m.TypedExpressions[i] = n
+	}
+
+	m.Name = model.Name
+
+	m.Identifier = model.Identifier
+
+	m.RegistryMetadata = model.RegistryMetadata
+
+	return
 }
 
 // CreateTaskFromRestTaskMethodTypeEnum Enum with underlying type: string

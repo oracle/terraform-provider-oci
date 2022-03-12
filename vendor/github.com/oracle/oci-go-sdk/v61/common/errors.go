@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"strings"
 
 	"github.com/sony/gobreaker"
 )
@@ -35,15 +36,37 @@ type servicefailure struct {
 	Code         string `json:"code,omitempty"`
 	Message      string `json:"message,omitempty"`
 	OpcRequestID string `json:"opc-request-id"`
+	// debugging information
+	TargetService string  `json:"target-service"`
+	OperationName string  `json:"operation-name"`
+	Timestamp     SDKTime `json:"timestamp"`
+	RequestTarget string  `json:"request-target"`
+	ClientVersion string  `json:"client-version"`
+
+	// troubleshooting guidance
+	OperationReferenceLink   string `json:"operation-reference-link"`
+	ErrorTroubleshootingLink string `json:"error-troubleshooting-link"`
 }
 
 func newServiceFailureFromResponse(response *http.Response) error {
 	var err error
+	var timestamp SDKTime
+	t, err := tryParsingTimeWithValidFormatsForHeaders([]byte(response.Header.Get("Date")), "Date")
+
+	if err != nil {
+		timestamp = *now()
+	} else {
+		timestamp = sdkTimeFromTime(t)
+	}
 
 	se := servicefailure{
-		StatusCode:   response.StatusCode,
-		Code:         "BadErrorResponse",
-		OpcRequestID: response.Header.Get("opc-request-id")}
+		StatusCode:    response.StatusCode,
+		Code:          "BadErrorResponse",
+		OpcRequestID:  response.Header.Get("opc-request-id"),
+		Timestamp:     timestamp,
+		ClientVersion: defaultSDKMarker + "/" + Version(),
+		RequestTarget: fmt.Sprintf("%s %s", response.Request.Method, response.Request.URL),
+	}
 
 	//If there is an error consume the body, entirely
 	body, err := ioutil.ReadAll(response.Body)
@@ -61,9 +84,34 @@ func newServiceFailureFromResponse(response *http.Response) error {
 	return se
 }
 
+// PostProcessServiceError process the service error after an error is raised and complete it with extra information
+func PostProcessServiceError(err error, service string, method string, apiReferenceLink string) error {
+	var serviceFailure servicefailure
+	if _, ok := err.(servicefailure); !ok {
+		return err
+	}
+	serviceFailure = err.(servicefailure)
+	serviceFailure.OperationName = method
+	serviceFailure.TargetService = service
+	if serviceFailure.StatusCode == 401 && serviceFailure.Code == "NotAuthenticated" {
+		serviceFailure.TargetService = "Identity"
+	}
+	serviceFailure.ErrorTroubleshootingLink = fmt.Sprintf("https://docs.oracle.com/iaas/Content/API/References/apierrors.htm#apierros_topic-API_Error_Status_%v__status_%v_%s", serviceFailure.StatusCode, serviceFailure.StatusCode, strings.ToLower(serviceFailure.Code))
+	serviceFailure.OperationReferenceLink = apiReferenceLink
+	return serviceFailure
+}
+
 func (se servicefailure) Error() string {
-	return fmt.Sprintf("Service error:%s. %s. http status code: %d. Opc request id: %s",
-		se.Code, se.Message, se.StatusCode, se.OpcRequestID)
+	return fmt.Sprintf(`Error returned by %s Service. Http Status Code: %d. Error Code: %s. Opc request id: %s. Message: %s
+Operation Name: %s
+Timestamp: %s
+Client Version: %s
+Request Endpoint: %s
+Troubleshooting Tips: See %s for more information about resolving this error.
+Also see %s for details on this operation's requirements.
+To get more info on the failing request, you can set OCI_GO_SDK_DEBUG env var to info or higher level to log the request/response details.
+If you are unable to resolve this %s issue, please contact Oracle support and provide them this full error message.`,
+		se.TargetService, se.StatusCode, se.Code, se.OpcRequestID, se.Message, se.OperationName, se.Timestamp, se.ClientVersion, se.RequestTarget, se.ErrorTroubleshootingLink, se.OperationReferenceLink, se.TargetService)
 }
 
 func (se servicefailure) GetHTTPStatusCode() int {

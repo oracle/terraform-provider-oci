@@ -137,6 +137,8 @@ func (client DataSafeClient) activateTargetDatabase(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ActivateTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "ActivateTargetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -195,6 +197,8 @@ func (client DataSafeClient) addMaskingColumnsFromSdm(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/AddMaskingColumnsFromSdm"
+		err = common.PostProcessServiceError(err, "DataSafe", "AddMaskingColumnsFromSdm", apiReferenceLink)
 		return response, err
 	}
 
@@ -253,6 +257,8 @@ func (client DataSafeClient) applyDiscoveryJobResults(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/ApplyDiscoveryJobResults"
+		err = common.PostProcessServiceError(err, "DataSafe", "ApplyDiscoveryJobResults", apiReferenceLink)
 		return response, err
 	}
 
@@ -313,6 +319,8 @@ func (client DataSafeClient) calculateAuditVolumeAvailable(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/CalculateAuditVolumeAvailable"
+		err = common.PostProcessServiceError(err, "DataSafe", "CalculateAuditVolumeAvailable", apiReferenceLink)
 		return response, err
 	}
 
@@ -373,6 +381,8 @@ func (client DataSafeClient) calculateAuditVolumeCollected(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/CalculateAuditVolumeCollected"
+		err = common.PostProcessServiceError(err, "DataSafe", "CalculateAuditVolumeCollected", apiReferenceLink)
 		return response, err
 	}
 
@@ -433,6 +443,8 @@ func (client DataSafeClient) cancelWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/WorkRequest/CancelWorkRequest"
+		err = common.PostProcessServiceError(err, "DataSafe", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -493,6 +505,8 @@ func (client DataSafeClient) changeAlertCompartment(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Alert/ChangeAlertCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeAlertCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -553,6 +567,8 @@ func (client DataSafeClient) changeAuditArchiveRetrievalCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditArchiveRetrieval/ChangeAuditArchiveRetrievalCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeAuditArchiveRetrievalCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -613,6 +629,8 @@ func (client DataSafeClient) changeAuditPolicyCompartment(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditPolicy/ChangeAuditPolicyCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeAuditPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -673,6 +691,8 @@ func (client DataSafeClient) changeAuditProfileCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/ChangeAuditProfileCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeAuditProfileCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -728,6 +748,8 @@ func (client DataSafeClient) changeDataSafePrivateEndpointCompartment(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpoint/ChangeDataSafePrivateEndpointCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeDataSafePrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -788,6 +810,8 @@ func (client DataSafeClient) changeDiscoveryJobCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DiscoveryJob/ChangeDiscoveryJobCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeDiscoveryJobCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -848,6 +872,8 @@ func (client DataSafeClient) changeLibraryMaskingFormatCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/LibraryMaskingFormat/ChangeLibraryMaskingFormatCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeLibraryMaskingFormatCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -908,6 +934,8 @@ func (client DataSafeClient) changeMaskingPolicyCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/ChangeMaskingPolicyCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeMaskingPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -968,6 +996,8 @@ func (client DataSafeClient) changeOnPremConnectorCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/ChangeOnPremConnectorCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeOnPremConnectorCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1028,6 +1058,8 @@ func (client DataSafeClient) changeReportCompartment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Report/ChangeReportCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeReportCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1088,6 +1120,8 @@ func (client DataSafeClient) changeReportDefinitionCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/ChangeReportDefinitionCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeReportDefinitionCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1148,6 +1182,8 @@ func (client DataSafeClient) changeRetention(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/ChangeRetention"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeRetention", apiReferenceLink)
 		return response, err
 	}
 
@@ -1210,6 +1246,8 @@ func (client DataSafeClient) changeSecurityAssessmentCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/ChangeSecurityAssessmentCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSecurityAssessmentCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1270,6 +1308,8 @@ func (client DataSafeClient) changeSensitiveDataModelCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/ChangeSensitiveDataModelCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSensitiveDataModelCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1330,6 +1370,8 @@ func (client DataSafeClient) changeSensitiveTypeCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/ChangeSensitiveTypeCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSensitiveTypeCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1390,6 +1432,8 @@ func (client DataSafeClient) changeTargetAlertPolicyAssociationCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/ChangeTargetAlertPolicyAssociationCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeTargetAlertPolicyAssociationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1450,6 +1494,8 @@ func (client DataSafeClient) changeTargetDatabaseCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ChangeTargetDatabaseCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeTargetDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1514,6 +1560,8 @@ func (client DataSafeClient) changeUserAssessmentCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/ChangeUserAssessmentCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeUserAssessmentCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1575,6 +1623,8 @@ func (client DataSafeClient) compareSecurityAssessment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/CompareSecurityAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "CompareSecurityAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1636,6 +1686,8 @@ func (client DataSafeClient) compareUserAssessment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/CompareUserAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "CompareUserAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1698,6 +1750,8 @@ func (client DataSafeClient) createAuditArchiveRetrieval(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateAuditArchiveRetrieval", apiReferenceLink)
 		return response, err
 	}
 
@@ -1758,6 +1812,8 @@ func (client DataSafeClient) createDataSafePrivateEndpoint(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpoint/CreateDataSafePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateDataSafePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1822,6 +1878,8 @@ func (client DataSafeClient) createDiscoveryJob(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateDiscoveryJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1886,6 +1944,8 @@ func (client DataSafeClient) createLibraryMaskingFormat(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/LibraryMaskingFormat/CreateLibraryMaskingFormat"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateLibraryMaskingFormat", apiReferenceLink)
 		return response, err
 	}
 
@@ -1963,6 +2023,8 @@ func (client DataSafeClient) createMaskingColumn(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/CreateMaskingColumn"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateMaskingColumn", apiReferenceLink)
 		return response, err
 	}
 
@@ -2036,6 +2098,8 @@ func (client DataSafeClient) createMaskingPolicy(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/CreateMaskingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateMaskingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -2096,6 +2160,8 @@ func (client DataSafeClient) createOnPremConnector(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/CreateOnPremConnector"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateOnPremConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -2156,6 +2222,8 @@ func (client DataSafeClient) createReportDefinition(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/CreateReportDefinition"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateReportDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -2218,6 +2286,8 @@ func (client DataSafeClient) createSecurityAssessment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/CreateSecurityAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSecurityAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2278,6 +2348,8 @@ func (client DataSafeClient) createSensitiveColumn(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveColumn/CreateSensitiveColumn"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSensitiveColumn", apiReferenceLink)
 		return response, err
 	}
 
@@ -2340,6 +2412,8 @@ func (client DataSafeClient) createSensitiveDataModel(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/CreateSensitiveDataModel"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSensitiveDataModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -2402,6 +2476,8 @@ func (client DataSafeClient) createSensitiveType(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSensitiveType", apiReferenceLink)
 		return response, err
 	}
 
@@ -2462,6 +2538,8 @@ func (client DataSafeClient) createTargetAlertPolicyAssociation(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/CreateTargetAlertPolicyAssociation"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateTargetAlertPolicyAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2522,6 +2600,8 @@ func (client DataSafeClient) createTargetDatabase(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/CreateTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateTargetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -2584,6 +2664,8 @@ func (client DataSafeClient) createUserAssessment(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/CreateUserAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateUserAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2644,6 +2726,8 @@ func (client DataSafeClient) deactivateTargetDatabase(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/DeactivateTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeactivateTargetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -2700,6 +2784,8 @@ func (client DataSafeClient) deleteAuditArchiveRetrieval(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditArchiveRetrieval/DeleteAuditArchiveRetrieval"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteAuditArchiveRetrieval", apiReferenceLink)
 		return response, err
 	}
 
@@ -2755,6 +2841,8 @@ func (client DataSafeClient) deleteAuditTrail(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrail/DeleteAuditTrail"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteAuditTrail", apiReferenceLink)
 		return response, err
 	}
 
@@ -2810,6 +2898,8 @@ func (client DataSafeClient) deleteDataSafePrivateEndpoint(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpoint/DeleteDataSafePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteDataSafePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -2865,6 +2955,8 @@ func (client DataSafeClient) deleteDiscoveryJob(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DiscoveryJob/DeleteDiscoveryJob"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteDiscoveryJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -2920,6 +3012,8 @@ func (client DataSafeClient) deleteDiscoveryJobResult(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DiscoveryJobResult/DeleteDiscoveryJobResult"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteDiscoveryJobResult", apiReferenceLink)
 		return response, err
 	}
 
@@ -2975,6 +3069,8 @@ func (client DataSafeClient) deleteLibraryMaskingFormat(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/LibraryMaskingFormat/DeleteLibraryMaskingFormat"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteLibraryMaskingFormat", apiReferenceLink)
 		return response, err
 	}
 
@@ -3030,6 +3126,8 @@ func (client DataSafeClient) deleteMaskingColumn(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/DeleteMaskingColumn"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteMaskingColumn", apiReferenceLink)
 		return response, err
 	}
 
@@ -3085,6 +3183,8 @@ func (client DataSafeClient) deleteMaskingPolicy(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/DeleteMaskingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteMaskingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -3140,6 +3240,8 @@ func (client DataSafeClient) deleteOnPremConnector(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/DeleteOnPremConnector"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteOnPremConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -3195,6 +3297,8 @@ func (client DataSafeClient) deleteReportDefinition(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/DeleteReportDefinition"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteReportDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -3253,6 +3357,8 @@ func (client DataSafeClient) deleteSecurityAssessment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/DeleteSecurityAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSecurityAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -3308,6 +3414,8 @@ func (client DataSafeClient) deleteSensitiveColumn(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveColumn/DeleteSensitiveColumn"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSensitiveColumn", apiReferenceLink)
 		return response, err
 	}
 
@@ -3363,6 +3471,8 @@ func (client DataSafeClient) deleteSensitiveDataModel(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/DeleteSensitiveDataModel"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSensitiveDataModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -3418,6 +3528,8 @@ func (client DataSafeClient) deleteSensitiveType(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/DeleteSensitiveType"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSensitiveType", apiReferenceLink)
 		return response, err
 	}
 
@@ -3473,6 +3585,8 @@ func (client DataSafeClient) deleteTargetAlertPolicyAssociation(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/DeleteTargetAlertPolicyAssociation"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteTargetAlertPolicyAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -3528,6 +3642,8 @@ func (client DataSafeClient) deleteTargetDatabase(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/DeleteTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteTargetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -3586,6 +3702,8 @@ func (client DataSafeClient) deleteUserAssessment(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/DeleteUserAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteUserAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -3649,6 +3767,8 @@ func (client DataSafeClient) discoverAuditTrails(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/DiscoverAuditTrails"
+		err = common.PostProcessServiceError(err, "DataSafe", "DiscoverAuditTrails", apiReferenceLink)
 		return response, err
 	}
 
@@ -3706,6 +3826,8 @@ func (client DataSafeClient) downloadDiscoveryReport(ctx context.Context, reques
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/DownloadDiscoveryReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadDiscoveryReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -3760,6 +3882,8 @@ func (client DataSafeClient) downloadMaskingLog(ctx context.Context, request com
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/DownloadMaskingLog"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadMaskingLog", apiReferenceLink)
 		return response, err
 	}
 
@@ -3817,6 +3941,8 @@ func (client DataSafeClient) downloadMaskingPolicy(ctx context.Context, request 
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/DownloadMaskingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadMaskingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -3873,6 +3999,8 @@ func (client DataSafeClient) downloadMaskingReport(ctx context.Context, request 
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/DownloadMaskingReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadMaskingReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -3932,6 +4060,8 @@ func (client DataSafeClient) downloadPrivilegeScript(ctx context.Context, reques
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/DownloadPrivilegeScript"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadPrivilegeScript", apiReferenceLink)
 		return response, err
 	}
 
@@ -3992,6 +4122,8 @@ func (client DataSafeClient) downloadSecurityAssessmentReport(ctx context.Contex
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/DownloadSecurityAssessmentReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadSecurityAssessmentReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -4049,6 +4181,8 @@ func (client DataSafeClient) downloadSensitiveDataModel(ctx context.Context, req
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/DownloadSensitiveDataModel"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadSensitiveDataModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -4109,6 +4243,8 @@ func (client DataSafeClient) downloadUserAssessmentReport(ctx context.Context, r
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/DownloadUserAssessmentReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadUserAssessmentReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -4164,6 +4300,8 @@ func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafeConfiguration/EnableDataSafeConfiguration"
+		err = common.PostProcessServiceError(err, "DataSafe", "EnableDataSafeConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -4222,6 +4360,8 @@ func (client DataSafeClient) generateDiscoveryReportForDownload(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/GenerateDiscoveryReportForDownload"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateDiscoveryReportForDownload", apiReferenceLink)
 		return response, err
 	}
 
@@ -4281,6 +4421,8 @@ func (client DataSafeClient) generateMaskingPolicyForDownload(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/GenerateMaskingPolicyForDownload"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateMaskingPolicyForDownload", apiReferenceLink)
 		return response, err
 	}
 
@@ -4339,6 +4481,8 @@ func (client DataSafeClient) generateMaskingReportForDownload(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/GenerateMaskingReportForDownload"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateMaskingReportForDownload", apiReferenceLink)
 		return response, err
 	}
 
@@ -4398,6 +4542,8 @@ func (client DataSafeClient) generateOnPremConnectorConfiguration(ctx context.Co
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/GenerateOnPremConnectorConfiguration"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateOnPremConnectorConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -4458,6 +4604,8 @@ func (client DataSafeClient) generateReport(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/GenerateReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -4519,6 +4667,8 @@ func (client DataSafeClient) generateSecurityAssessmentReport(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/GenerateSecurityAssessmentReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateSecurityAssessmentReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -4577,6 +4727,8 @@ func (client DataSafeClient) generateSensitiveDataModelForDownload(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/GenerateSensitiveDataModelForDownload"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateSensitiveDataModelForDownload", apiReferenceLink)
 		return response, err
 	}
 
@@ -4638,6 +4790,8 @@ func (client DataSafeClient) generateUserAssessmentReport(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/GenerateUserAssessmentReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateUserAssessmentReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -4693,6 +4847,8 @@ func (client DataSafeClient) getAlert(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Alert/GetAlert"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetAlert", apiReferenceLink)
 		return response, err
 	}
 
@@ -4748,6 +4904,8 @@ func (client DataSafeClient) getAlertPolicy(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicy/GetAlertPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetAlertPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -4803,6 +4961,8 @@ func (client DataSafeClient) getAuditArchiveRetrieval(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditArchiveRetrieval/GetAuditArchiveRetrieval"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetAuditArchiveRetrieval", apiReferenceLink)
 		return response, err
 	}
 
@@ -4858,6 +5018,8 @@ func (client DataSafeClient) getAuditPolicy(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditPolicy/GetAuditPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetAuditPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -4913,6 +5075,8 @@ func (client DataSafeClient) getAuditProfile(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/GetAuditProfile"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetAuditProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -4968,6 +5132,8 @@ func (client DataSafeClient) getAuditTrail(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrail/GetAuditTrail"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetAuditTrail", apiReferenceLink)
 		return response, err
 	}
 
@@ -5029,6 +5195,8 @@ func (client DataSafeClient) getCompatibleFormatsForDataTypes(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/GetCompatibleFormatsForDataTypes"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetCompatibleFormatsForDataTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -5087,6 +5255,8 @@ func (client DataSafeClient) getCompatibleFormatsForSensitiveTypes(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/GetCompatibleFormatsForSensitiveTypes"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetCompatibleFormatsForSensitiveTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -5142,6 +5312,8 @@ func (client DataSafeClient) getDataSafeConfiguration(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafeConfiguration/GetDataSafeConfiguration"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetDataSafeConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -5197,6 +5369,8 @@ func (client DataSafeClient) getDataSafePrivateEndpoint(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpoint/GetDataSafePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetDataSafePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -5252,6 +5426,8 @@ func (client DataSafeClient) getDiscoveryJob(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DiscoveryJob/GetDiscoveryJob"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetDiscoveryJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -5307,6 +5483,8 @@ func (client DataSafeClient) getDiscoveryJobResult(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DiscoveryJobResult/GetDiscoveryJobResult"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetDiscoveryJobResult", apiReferenceLink)
 		return response, err
 	}
 
@@ -5362,6 +5540,8 @@ func (client DataSafeClient) getLibraryMaskingFormat(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/LibraryMaskingFormat/GetLibraryMaskingFormat"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetLibraryMaskingFormat", apiReferenceLink)
 		return response, err
 	}
 
@@ -5417,6 +5597,8 @@ func (client DataSafeClient) getMaskingColumn(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/GetMaskingColumn"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetMaskingColumn", apiReferenceLink)
 		return response, err
 	}
 
@@ -5472,6 +5654,8 @@ func (client DataSafeClient) getMaskingPolicy(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/GetMaskingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetMaskingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -5527,6 +5711,8 @@ func (client DataSafeClient) getMaskingReport(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingReport/GetMaskingReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetMaskingReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -5582,6 +5768,8 @@ func (client DataSafeClient) getOnPremConnector(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/GetOnPremConnector"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetOnPremConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -5637,6 +5825,8 @@ func (client DataSafeClient) getReport(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Report/GetReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -5691,6 +5881,8 @@ func (client DataSafeClient) getReportContent(ctx context.Context, request commo
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Report/GetReportContent"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetReportContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -5746,6 +5938,8 @@ func (client DataSafeClient) getReportDefinition(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/GetReportDefinition"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetReportDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -5801,6 +5995,8 @@ func (client DataSafeClient) getSecurityAssessment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/GetSecurityAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSecurityAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -5856,6 +6052,8 @@ func (client DataSafeClient) getSecurityAssessmentComparison(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/GetSecurityAssessmentComparison"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSecurityAssessmentComparison", apiReferenceLink)
 		return response, err
 	}
 
@@ -5911,6 +6109,8 @@ func (client DataSafeClient) getSensitiveColumn(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveColumn/GetSensitiveColumn"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSensitiveColumn", apiReferenceLink)
 		return response, err
 	}
 
@@ -5966,6 +6166,8 @@ func (client DataSafeClient) getSensitiveDataModel(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/GetSensitiveDataModel"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSensitiveDataModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -6021,6 +6223,8 @@ func (client DataSafeClient) getSensitiveType(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/GetSensitiveType"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSensitiveType", apiReferenceLink)
 		return response, err
 	}
 
@@ -6076,6 +6280,8 @@ func (client DataSafeClient) getTargetAlertPolicyAssociation(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/GetTargetAlertPolicyAssociation"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetTargetAlertPolicyAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -6131,6 +6337,8 @@ func (client DataSafeClient) getTargetDatabase(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/GetTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetTargetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -6186,6 +6394,8 @@ func (client DataSafeClient) getUserAssessment(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/GetUserAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetUserAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -6241,6 +6451,8 @@ func (client DataSafeClient) getUserAssessmentComparison(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/GetUserAssessmentComparison"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetUserAssessmentComparison", apiReferenceLink)
 		return response, err
 	}
 
@@ -6296,6 +6508,8 @@ func (client DataSafeClient) getWorkRequest(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -6356,6 +6570,8 @@ func (client DataSafeClient) listAlertAnalytics(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertSummary/ListAlertAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAlertAnalytics", apiReferenceLink)
 		return response, err
 	}
 
@@ -6411,6 +6627,8 @@ func (client DataSafeClient) listAlertPolicies(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicy/ListAlertPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAlertPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -6467,6 +6685,8 @@ func (client DataSafeClient) listAlertPolicyRules(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicy/ListAlertPolicyRules"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAlertPolicyRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -6522,6 +6742,8 @@ func (client DataSafeClient) listAlerts(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertSummary/ListAlerts"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAlerts", apiReferenceLink)
 		return response, err
 	}
 
@@ -6577,6 +6799,8 @@ func (client DataSafeClient) listAuditArchiveRetrievals(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditArchiveRetrieval/ListAuditArchiveRetrievals"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditArchiveRetrievals", apiReferenceLink)
 		return response, err
 	}
 
@@ -6641,6 +6865,8 @@ func (client DataSafeClient) listAuditEventAnalytics(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditEventSummary/ListAuditEventAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditEventAnalytics", apiReferenceLink)
 		return response, err
 	}
 
@@ -6706,6 +6932,8 @@ func (client DataSafeClient) listAuditEvents(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditEventSummary/ListAuditEvents"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditEvents", apiReferenceLink)
 		return response, err
 	}
 
@@ -6772,6 +7000,8 @@ func (client DataSafeClient) listAuditPolicies(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditPolicyCollection/ListAuditPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -6837,6 +7067,8 @@ func (client DataSafeClient) listAuditProfileAnalytics(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfileAnalyticCollection/ListAuditProfileAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditProfileAnalytics", apiReferenceLink)
 		return response, err
 	}
 
@@ -6903,6 +7135,8 @@ func (client DataSafeClient) listAuditProfiles(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/ListAuditProfiles"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditProfiles", apiReferenceLink)
 		return response, err
 	}
 
@@ -6968,6 +7202,8 @@ func (client DataSafeClient) listAuditTrailAnalytics(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrailAnalyticCollection/ListAuditTrailAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditTrailAnalytics", apiReferenceLink)
 		return response, err
 	}
 
@@ -7034,6 +7270,8 @@ func (client DataSafeClient) listAuditTrails(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrail/ListAuditTrails"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAuditTrails", apiReferenceLink)
 		return response, err
 	}
 
@@ -7089,6 +7327,8 @@ func (client DataSafeClient) listAvailableAuditVolumes(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/ListAvailableAuditVolumes"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListAvailableAuditVolumes", apiReferenceLink)
 		return response, err
 	}
 
@@ -7144,6 +7384,8 @@ func (client DataSafeClient) listCollectedAuditVolumes(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/ListCollectedAuditVolumes"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCollectedAuditVolumes", apiReferenceLink)
 		return response, err
 	}
 
@@ -7199,6 +7441,8 @@ func (client DataSafeClient) listColumns(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ListColumns"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListColumns", apiReferenceLink)
 		return response, err
 	}
 
@@ -7254,6 +7498,8 @@ func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpointSummary/ListDataSafePrivateEndpoints"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListDataSafePrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -7309,6 +7555,8 @@ func (client DataSafeClient) listDiscoveryAnalytics(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/ListDiscoveryAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListDiscoveryAnalytics", apiReferenceLink)
 		return response, err
 	}
 
@@ -7364,6 +7612,8 @@ func (client DataSafeClient) listDiscoveryJobResults(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DiscoveryJob/ListDiscoveryJobResults"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListDiscoveryJobResults", apiReferenceLink)
 		return response, err
 	}
 
@@ -7419,6 +7669,8 @@ func (client DataSafeClient) listDiscoveryJobs(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DiscoveryJob/ListDiscoveryJobs"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListDiscoveryJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -7474,6 +7726,8 @@ func (client DataSafeClient) listFindings(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/ListFindings"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListFindings", apiReferenceLink)
 		return response, err
 	}
 
@@ -7532,6 +7786,8 @@ func (client DataSafeClient) listGrants(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/ListGrants"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListGrants", apiReferenceLink)
 		return response, err
 	}
 
@@ -7587,6 +7843,8 @@ func (client DataSafeClient) listLibraryMaskingFormats(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/LibraryMaskingFormatSummary/ListLibraryMaskingFormats"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListLibraryMaskingFormats", apiReferenceLink)
 		return response, err
 	}
 
@@ -7642,6 +7900,8 @@ func (client DataSafeClient) listMaskedColumns(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskedColumnSummary/ListMaskedColumns"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskedColumns", apiReferenceLink)
 		return response, err
 	}
 
@@ -7697,6 +7957,8 @@ func (client DataSafeClient) listMaskingAnalytics(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/ListMaskingAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingAnalytics", apiReferenceLink)
 		return response, err
 	}
 
@@ -7752,6 +8014,8 @@ func (client DataSafeClient) listMaskingColumns(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/ListMaskingColumns"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingColumns", apiReferenceLink)
 		return response, err
 	}
 
@@ -7807,6 +8071,8 @@ func (client DataSafeClient) listMaskingPolicies(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/ListMaskingPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -7862,6 +8128,8 @@ func (client DataSafeClient) listMaskingReports(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/ListMaskingReports"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingReports", apiReferenceLink)
 		return response, err
 	}
 
@@ -7917,6 +8185,8 @@ func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnectorSummary/ListOnPremConnectors"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListOnPremConnectors", apiReferenceLink)
 		return response, err
 	}
 
@@ -7974,6 +8244,8 @@ func (client DataSafeClient) listReportDefinitions(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/ListReportDefinitions"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListReportDefinitions", apiReferenceLink)
 		return response, err
 	}
 
@@ -8029,6 +8301,8 @@ func (client DataSafeClient) listReports(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportSummary/ListReports"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListReports", apiReferenceLink)
 		return response, err
 	}
 
@@ -8084,6 +8358,8 @@ func (client DataSafeClient) listRoles(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ListRoles"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListRoles", apiReferenceLink)
 		return response, err
 	}
 
@@ -8139,6 +8415,8 @@ func (client DataSafeClient) listSchemas(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ListSchemas"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSchemas", apiReferenceLink)
 		return response, err
 	}
 
@@ -8205,6 +8483,8 @@ func (client DataSafeClient) listSecurityAssessments(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessmentSummary/ListSecurityAssessments"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSecurityAssessments", apiReferenceLink)
 		return response, err
 	}
 
@@ -8260,6 +8540,8 @@ func (client DataSafeClient) listSensitiveColumns(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveColumn/ListSensitiveColumns"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveColumns", apiReferenceLink)
 		return response, err
 	}
 
@@ -8315,6 +8597,8 @@ func (client DataSafeClient) listSensitiveDataModels(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/ListSensitiveDataModels"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveDataModels", apiReferenceLink)
 		return response, err
 	}
 
@@ -8370,6 +8654,8 @@ func (client DataSafeClient) listSensitiveTypes(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/ListSensitiveTypes"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -8425,6 +8711,8 @@ func (client DataSafeClient) listTables(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ListTables"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTables", apiReferenceLink)
 		return response, err
 	}
 
@@ -8480,6 +8768,8 @@ func (client DataSafeClient) listTargetAlertPolicyAssociations(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociationSummary/ListTargetAlertPolicyAssociations"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetAlertPolicyAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -8535,6 +8825,8 @@ func (client DataSafeClient) listTargetDatabases(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabaseSummary/ListTargetDatabases"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -8601,6 +8893,8 @@ func (client DataSafeClient) listUserAnalytics(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/ListUserAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListUserAnalytics", apiReferenceLink)
 		return response, err
 	}
 
@@ -8667,6 +8961,8 @@ func (client DataSafeClient) listUserAssessments(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessmentSummary/ListUserAssessments"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListUserAssessments", apiReferenceLink)
 		return response, err
 	}
 
@@ -8725,6 +9021,8 @@ func (client DataSafeClient) listUsers(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/ListUsers"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListUsers", apiReferenceLink)
 		return response, err
 	}
 
@@ -8780,6 +9078,8 @@ func (client DataSafeClient) listWorkRequestErrors(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -8835,6 +9135,8 @@ func (client DataSafeClient) listWorkRequestLogs(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -8890,6 +9192,8 @@ func (client DataSafeClient) listWorkRequests(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -8945,6 +9249,8 @@ func (client DataSafeClient) maskData(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/MaskData"
+		err = common.PostProcessServiceError(err, "DataSafe", "MaskData", apiReferenceLink)
 		return response, err
 	}
 
@@ -9005,6 +9311,8 @@ func (client DataSafeClient) modifyGlobalSettings(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafeConfiguration/ModifyGlobalSettings"
+		err = common.PostProcessServiceError(err, "DataSafe", "ModifyGlobalSettings", apiReferenceLink)
 		return response, err
 	}
 
@@ -9060,6 +9368,8 @@ func (client DataSafeClient) patchAlerts(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Alert/PatchAlerts"
+		err = common.PostProcessServiceError(err, "DataSafe", "PatchAlerts", apiReferenceLink)
 		return response, err
 	}
 
@@ -9116,6 +9426,8 @@ func (client DataSafeClient) patchDiscoveryJobResults(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DiscoveryJob/PatchDiscoveryJobResults"
+		err = common.PostProcessServiceError(err, "DataSafe", "PatchDiscoveryJobResults", apiReferenceLink)
 		return response, err
 	}
 
@@ -9173,6 +9485,8 @@ func (client DataSafeClient) patchMaskingColumns(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/PatchMaskingColumns"
+		err = common.PostProcessServiceError(err, "DataSafe", "PatchMaskingColumns", apiReferenceLink)
 		return response, err
 	}
 
@@ -9230,6 +9544,8 @@ func (client DataSafeClient) patchSensitiveColumns(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveColumn/PatchSensitiveColumns"
+		err = common.PostProcessServiceError(err, "DataSafe", "PatchSensitiveColumns", apiReferenceLink)
 		return response, err
 	}
 
@@ -9290,6 +9606,8 @@ func (client DataSafeClient) provisionAuditPolicy(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditPolicy/ProvisionAuditPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "ProvisionAuditPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -9351,6 +9669,8 @@ func (client DataSafeClient) refreshSecurityAssessment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/RefreshSecurityAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "RefreshSecurityAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -9413,6 +9733,8 @@ func (client DataSafeClient) refreshUserAssessment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/RefreshUserAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "RefreshUserAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -9468,6 +9790,8 @@ func (client DataSafeClient) resumeAuditTrail(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrail/ResumeAuditTrail"
+		err = common.PostProcessServiceError(err, "DataSafe", "ResumeAuditTrail", apiReferenceLink)
 		return response, err
 	}
 
@@ -9528,6 +9852,8 @@ func (client DataSafeClient) resumeWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/WorkRequest/ResumeWorkRequest"
+		err = common.PostProcessServiceError(err, "DataSafe", "ResumeWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -9588,6 +9914,8 @@ func (client DataSafeClient) retrieveAuditPolicies(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditPolicy/RetrieveAuditPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "RetrieveAuditPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -9648,6 +9976,8 @@ func (client DataSafeClient) setSecurityAssessmentBaseline(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/SetSecurityAssessmentBaseline"
+		err = common.PostProcessServiceError(err, "DataSafe", "SetSecurityAssessmentBaseline", apiReferenceLink)
 		return response, err
 	}
 
@@ -9708,6 +10038,8 @@ func (client DataSafeClient) setUserAssessmentBaseline(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/SetUserAssessmentBaseline"
+		err = common.PostProcessServiceError(err, "DataSafe", "SetUserAssessmentBaseline", apiReferenceLink)
 		return response, err
 	}
 
@@ -9768,6 +10100,8 @@ func (client DataSafeClient) startAuditTrail(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrail/StartAuditTrail"
+		err = common.PostProcessServiceError(err, "DataSafe", "StartAuditTrail", apiReferenceLink)
 		return response, err
 	}
 
@@ -9823,6 +10157,8 @@ func (client DataSafeClient) stopAuditTrail(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrail/StopAuditTrail"
+		err = common.PostProcessServiceError(err, "DataSafe", "StopAuditTrail", apiReferenceLink)
 		return response, err
 	}
 
@@ -9883,6 +10219,8 @@ func (client DataSafeClient) suspendWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/WorkRequest/SuspendWorkRequest"
+		err = common.PostProcessServiceError(err, "DataSafe", "SuspendWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -9944,6 +10282,8 @@ func (client DataSafeClient) unsetSecurityAssessmentBaseline(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/UnsetSecurityAssessmentBaseline"
+		err = common.PostProcessServiceError(err, "DataSafe", "UnsetSecurityAssessmentBaseline", apiReferenceLink)
 		return response, err
 	}
 
@@ -10005,6 +10345,8 @@ func (client DataSafeClient) unsetUserAssessmentBaseline(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/UnsetUserAssessmentBaseline"
+		err = common.PostProcessServiceError(err, "DataSafe", "UnsetUserAssessmentBaseline", apiReferenceLink)
 		return response, err
 	}
 
@@ -10060,6 +10402,8 @@ func (client DataSafeClient) updateAlert(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Alert/UpdateAlert"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateAlert", apiReferenceLink)
 		return response, err
 	}
 
@@ -10115,6 +10459,8 @@ func (client DataSafeClient) updateAuditArchiveRetrieval(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditArchiveRetrieval/UpdateAuditArchiveRetrieval"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateAuditArchiveRetrieval", apiReferenceLink)
 		return response, err
 	}
 
@@ -10170,6 +10516,8 @@ func (client DataSafeClient) updateAuditPolicy(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditPolicy/UpdateAuditPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateAuditPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -10225,6 +10573,8 @@ func (client DataSafeClient) updateAuditProfile(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditProfile/UpdateAuditProfile"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateAuditProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -10280,6 +10630,8 @@ func (client DataSafeClient) updateAuditTrail(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrail/UpdateAuditTrail"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateAuditTrail", apiReferenceLink)
 		return response, err
 	}
 
@@ -10335,6 +10687,8 @@ func (client DataSafeClient) updateDataSafePrivateEndpoint(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpoint/UpdateDataSafePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateDataSafePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -10390,6 +10744,8 @@ func (client DataSafeClient) updateLibraryMaskingFormat(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/LibraryMaskingFormat/UpdateLibraryMaskingFormat"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateLibraryMaskingFormat", apiReferenceLink)
 		return response, err
 	}
 
@@ -10446,6 +10802,8 @@ func (client DataSafeClient) updateMaskingColumn(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/UpdateMaskingColumn"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateMaskingColumn", apiReferenceLink)
 		return response, err
 	}
 
@@ -10501,6 +10859,8 @@ func (client DataSafeClient) updateMaskingPolicy(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/UpdateMaskingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateMaskingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -10556,6 +10916,8 @@ func (client DataSafeClient) updateOnPremConnector(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/UpdateOnPremConnector"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateOnPremConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -10616,6 +10978,8 @@ func (client DataSafeClient) updateOnPremConnectorWallet(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/UpdateOnPremConnectorWallet"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateOnPremConnectorWallet", apiReferenceLink)
 		return response, err
 	}
 
@@ -10676,6 +11040,8 @@ func (client DataSafeClient) updateReportDefinition(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReportDefinition/UpdateReportDefinition"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateReportDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -10731,6 +11097,8 @@ func (client DataSafeClient) updateSecurityAssessment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/UpdateSecurityAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSecurityAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -10786,6 +11154,8 @@ func (client DataSafeClient) updateSensitiveColumn(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveColumn/UpdateSensitiveColumn"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSensitiveColumn", apiReferenceLink)
 		return response, err
 	}
 
@@ -10842,6 +11212,8 @@ func (client DataSafeClient) updateSensitiveDataModel(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/UpdateSensitiveDataModel"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSensitiveDataModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -10897,6 +11269,8 @@ func (client DataSafeClient) updateSensitiveType(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/UpdateSensitiveType"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSensitiveType", apiReferenceLink)
 		return response, err
 	}
 
@@ -10952,6 +11326,8 @@ func (client DataSafeClient) updateTargetAlertPolicyAssociation(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/UpdateTargetAlertPolicyAssociation"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateTargetAlertPolicyAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -11012,6 +11388,8 @@ func (client DataSafeClient) updateTargetDatabase(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/UpdateTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateTargetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -11067,6 +11445,8 @@ func (client DataSafeClient) updateUserAssessment(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/UpdateUserAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateUserAssessment", apiReferenceLink)
 		return response, err
 	}
 
@@ -11126,6 +11506,8 @@ func (client DataSafeClient) uploadMaskingPolicy(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/UploadMaskingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UploadMaskingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -11184,6 +11566,8 @@ func (client DataSafeClient) uploadSensitiveDataModel(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/UploadSensitiveDataModel"
+		err = common.PostProcessServiceError(err, "DataSafe", "UploadSensitiveDataModel", apiReferenceLink)
 		return response, err
 	}
 

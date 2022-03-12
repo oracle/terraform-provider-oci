@@ -137,6 +137,8 @@ func (client ChannelsClient) createChannel(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Channels", "CreateChannel", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +194,8 @@ func (client ChannelsClient) deleteChannel(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Channel/DeleteChannel"
+		err = common.PostProcessServiceError(err, "Channels", "DeleteChannel", apiReferenceLink)
 		return response, err
 	}
 
@@ -249,6 +253,8 @@ func (client ChannelsClient) getChannel(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Channel/GetChannel"
+		err = common.PostProcessServiceError(err, "Channels", "GetChannel", apiReferenceLink)
 		return response, err
 	}
 
@@ -304,6 +310,8 @@ func (client ChannelsClient) listChannels(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/ChannelSummary/ListChannels"
+		err = common.PostProcessServiceError(err, "Channels", "ListChannels", apiReferenceLink)
 		return response, err
 	}
 
@@ -365,6 +373,8 @@ func (client ChannelsClient) resetChannel(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Channel/ResetChannel"
+		err = common.PostProcessServiceError(err, "Channels", "ResetChannel", apiReferenceLink)
 		return response, err
 	}
 
@@ -427,6 +437,8 @@ func (client ChannelsClient) resumeChannel(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Channel/ResumeChannel"
+		err = common.PostProcessServiceError(err, "Channels", "ResumeChannel", apiReferenceLink)
 		return response, err
 	}
 
@@ -490,6 +502,8 @@ func (client ChannelsClient) updateChannel(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Channel/UpdateChannel"
+		err = common.PostProcessServiceError(err, "Channels", "UpdateChannel", apiReferenceLink)
 		return response, err
 	}
 

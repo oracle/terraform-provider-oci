@@ -21,7 +21,7 @@ type ListManagementAgentInstallKeysRequest struct {
 	// The OCID of the compartment to which a request will be scoped.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// if set to true then it fetches install key for all compartments where user has access to else only on the compartment specified.
+	// if set to true then it fetches resources for all compartments where user has access to else only on the compartment specified.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// Value of this is always "ACCESSIBLE" and any other value is not supported.

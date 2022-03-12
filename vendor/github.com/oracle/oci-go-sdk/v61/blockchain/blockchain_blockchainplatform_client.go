@@ -137,6 +137,8 @@ func (client BlockchainPlatformClient) changeBlockchainPlatformCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/ChangeBlockchainPlatformCompartment"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "ChangeBlockchainPlatformCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -197,6 +199,8 @@ func (client BlockchainPlatformClient) createBlockchainPlatform(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/CreateBlockchainPlatform"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "CreateBlockchainPlatform", apiReferenceLink)
 		return response, err
 	}
 
@@ -257,6 +261,8 @@ func (client BlockchainPlatformClient) createOsn(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/CreateOsn"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "CreateOsn", apiReferenceLink)
 		return response, err
 	}
 
@@ -317,6 +323,8 @@ func (client BlockchainPlatformClient) createPeer(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/CreatePeer"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "CreatePeer", apiReferenceLink)
 		return response, err
 	}
 
@@ -377,6 +385,8 @@ func (client BlockchainPlatformClient) deleteBlockchainPlatform(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/DeleteBlockchainPlatform"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "DeleteBlockchainPlatform", apiReferenceLink)
 		return response, err
 	}
 
@@ -432,6 +442,8 @@ func (client BlockchainPlatformClient) deleteOsn(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/DeleteOsn"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "DeleteOsn", apiReferenceLink)
 		return response, err
 	}
 
@@ -492,6 +504,8 @@ func (client BlockchainPlatformClient) deletePeer(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/DeletePeer"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "DeletePeer", apiReferenceLink)
 		return response, err
 	}
 
@@ -547,6 +561,8 @@ func (client BlockchainPlatformClient) deleteWorkRequest(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/WorkRequest/DeleteWorkRequest"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "DeleteWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -602,6 +618,8 @@ func (client BlockchainPlatformClient) getBlockchainPlatform(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/GetBlockchainPlatform"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "GetBlockchainPlatform", apiReferenceLink)
 		return response, err
 	}
 
@@ -657,6 +675,8 @@ func (client BlockchainPlatformClient) getOsn(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/Osn/GetOsn"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "GetOsn", apiReferenceLink)
 		return response, err
 	}
 
@@ -712,6 +732,8 @@ func (client BlockchainPlatformClient) getPeer(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/Peer/GetPeer"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "GetPeer", apiReferenceLink)
 		return response, err
 	}
 
@@ -767,6 +789,8 @@ func (client BlockchainPlatformClient) getWorkRequest(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -822,6 +846,8 @@ func (client BlockchainPlatformClient) listBlockchainPlatformPatches(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/ListBlockchainPlatformPatches"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "ListBlockchainPlatformPatches", apiReferenceLink)
 		return response, err
 	}
 
@@ -877,6 +903,8 @@ func (client BlockchainPlatformClient) listBlockchainPlatforms(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/ListBlockchainPlatforms"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "ListBlockchainPlatforms", apiReferenceLink)
 		return response, err
 	}
 
@@ -937,6 +965,8 @@ func (client BlockchainPlatformClient) listOsns(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/Osn/ListOsns"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "ListOsns", apiReferenceLink)
 		return response, err
 	}
 
@@ -997,6 +1027,8 @@ func (client BlockchainPlatformClient) listPeers(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/Peer/ListPeers"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "ListPeers", apiReferenceLink)
 		return response, err
 	}
 
@@ -1052,6 +1084,8 @@ func (client BlockchainPlatformClient) listWorkRequestErrors(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1107,6 +1141,8 @@ func (client BlockchainPlatformClient) listWorkRequestLogs(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1162,6 +1198,8 @@ func (client BlockchainPlatformClient) listWorkRequests(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1217,6 +1255,8 @@ func (client BlockchainPlatformClient) previewScaleBlockchainPlatform(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/PreviewScaleBlockchainPlatform"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "PreviewScaleBlockchainPlatform", apiReferenceLink)
 		return response, err
 	}
 
@@ -1277,6 +1317,8 @@ func (client BlockchainPlatformClient) scaleBlockchainPlatform(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/ScaleBlockchainPlatform"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "ScaleBlockchainPlatform", apiReferenceLink)
 		return response, err
 	}
 
@@ -1337,6 +1379,8 @@ func (client BlockchainPlatformClient) startBlockchainPlatform(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/StartBlockchainPlatform"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "StartBlockchainPlatform", apiReferenceLink)
 		return response, err
 	}
 
@@ -1397,6 +1441,8 @@ func (client BlockchainPlatformClient) stopBlockchainPlatform(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/StopBlockchainPlatform"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "StopBlockchainPlatform", apiReferenceLink)
 		return response, err
 	}
 
@@ -1457,6 +1503,8 @@ func (client BlockchainPlatformClient) updateBlockchainPlatform(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/UpdateBlockchainPlatform"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "UpdateBlockchainPlatform", apiReferenceLink)
 		return response, err
 	}
 
@@ -1517,6 +1565,8 @@ func (client BlockchainPlatformClient) updateOsn(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/UpdateOsn"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "UpdateOsn", apiReferenceLink)
 		return response, err
 	}
 
@@ -1577,6 +1627,8 @@ func (client BlockchainPlatformClient) updatePeer(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/UpdatePeer"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "UpdatePeer", apiReferenceLink)
 		return response, err
 	}
 
@@ -1637,6 +1689,8 @@ func (client BlockchainPlatformClient) upgradeBlockchainPlatform(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/blockchain/20191010/BlockchainPlatform/UpgradeBlockchainPlatform"
+		err = common.PostProcessServiceError(err, "BlockchainPlatform", "UpgradeBlockchainPlatform", apiReferenceLink)
 		return response, err
 	}
 

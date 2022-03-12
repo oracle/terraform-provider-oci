@@ -78,6 +78,9 @@ type AutonomousDatabase struct {
 	// **Note:** This parameter cannot be used with the `cpuCoreCount` parameter.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
+	// The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
+	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
 	// The quantity of data in the database, in gigabytes.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 

@@ -137,6 +137,8 @@ func (client DatabaseMigrationClient) abortJob(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/AbortJob"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "AbortJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +194,8 @@ func (client DatabaseMigrationClient) addMigrationObjects(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/AddMigrationObjects"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "AddMigrationObjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -252,6 +256,8 @@ func (client DatabaseMigrationClient) changeAgentCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/ChangeAgentCompartment"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ChangeAgentCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -312,6 +318,8 @@ func (client DatabaseMigrationClient) changeConnectionCompartment(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/ChangeConnectionCompartment"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ChangeConnectionCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -372,6 +380,8 @@ func (client DatabaseMigrationClient) changeMigrationCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/ChangeMigrationCompartment"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ChangeMigrationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -432,6 +442,8 @@ func (client DatabaseMigrationClient) cloneMigration(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/CloneMigration"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "CloneMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -493,6 +505,8 @@ func (client DatabaseMigrationClient) createConnection(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "CreateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -555,6 +569,8 @@ func (client DatabaseMigrationClient) createMigration(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "CreateMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -610,6 +626,8 @@ func (client DatabaseMigrationClient) deleteAgent(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/DeleteAgent"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteAgent", apiReferenceLink)
 		return response, err
 	}
 
@@ -665,6 +683,8 @@ func (client DatabaseMigrationClient) deleteConnection(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/DeleteConnection"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -720,6 +740,8 @@ func (client DatabaseMigrationClient) deleteJob(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/DeleteJob"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -775,6 +797,8 @@ func (client DatabaseMigrationClient) deleteMigration(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/DeleteMigration"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -835,6 +859,8 @@ func (client DatabaseMigrationClient) evaluateMigration(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/EvaluateMigration"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "EvaluateMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -890,6 +916,8 @@ func (client DatabaseMigrationClient) getAdvisorReport(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/GetAdvisorReport"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetAdvisorReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -945,6 +973,8 @@ func (client DatabaseMigrationClient) getAgent(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/GetAgent"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetAgent", apiReferenceLink)
 		return response, err
 	}
 
@@ -1000,6 +1030,8 @@ func (client DatabaseMigrationClient) getConnection(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/GetConnection"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -1055,6 +1087,8 @@ func (client DatabaseMigrationClient) getJob(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/GetJob"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1109,6 +1143,8 @@ func (client DatabaseMigrationClient) getJobOutputContent(ctx context.Context, r
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/GetJobOutputContent"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetJobOutputContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -1164,6 +1200,8 @@ func (client DatabaseMigrationClient) getMigration(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/GetMigration"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1219,6 +1257,8 @@ func (client DatabaseMigrationClient) getWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1274,6 +1314,8 @@ func (client DatabaseMigrationClient) listAgentImages(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/AgentImageSummary/ListAgentImages"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListAgentImages", apiReferenceLink)
 		return response, err
 	}
 
@@ -1329,6 +1371,8 @@ func (client DatabaseMigrationClient) listAgents(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/AgentSummary/ListAgents"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListAgents", apiReferenceLink)
 		return response, err
 	}
 
@@ -1384,6 +1428,8 @@ func (client DatabaseMigrationClient) listConnections(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/ConnectionSummary/ListConnections"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -1439,6 +1485,8 @@ func (client DatabaseMigrationClient) listExcludedObjects(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/ExcludedObjectSummary/ListExcludedObjects"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListExcludedObjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -1494,6 +1542,8 @@ func (client DatabaseMigrationClient) listJobOutputs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/JobOutputSummary/ListJobOutputs"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListJobOutputs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1550,6 +1600,8 @@ func (client DatabaseMigrationClient) listJobs(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/JobSummary/ListJobs"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1605,6 +1657,8 @@ func (client DatabaseMigrationClient) listMigrationObjectTypes(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/MigrationObjectTypeSummary/ListMigrationObjectTypes"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListMigrationObjectTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -1660,6 +1714,8 @@ func (client DatabaseMigrationClient) listMigrationObjects(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/MigrationObjectCollection/ListMigrationObjects"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListMigrationObjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -1715,6 +1771,8 @@ func (client DatabaseMigrationClient) listMigrations(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/MigrationSummary/ListMigrations"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListMigrations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1770,6 +1828,8 @@ func (client DatabaseMigrationClient) listWorkRequestErrors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1825,6 +1885,8 @@ func (client DatabaseMigrationClient) listWorkRequestLogs(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1880,6 +1942,8 @@ func (client DatabaseMigrationClient) listWorkRequests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1935,6 +1999,8 @@ func (client DatabaseMigrationClient) removeMigrationObjects(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/RemoveMigrationObjects"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "RemoveMigrationObjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -1995,6 +2061,8 @@ func (client DatabaseMigrationClient) resumeJob(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/ResumeJob"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ResumeJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -2050,6 +2118,8 @@ func (client DatabaseMigrationClient) retrieveSupportedPhases(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/RetrieveSupportedPhases"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "RetrieveSupportedPhases", apiReferenceLink)
 		return response, err
 	}
 
@@ -2110,6 +2180,8 @@ func (client DatabaseMigrationClient) startMigration(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/StartMigration"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "StartMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -2170,6 +2242,8 @@ func (client DatabaseMigrationClient) updateAgent(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/UpdateAgent"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateAgent", apiReferenceLink)
 		return response, err
 	}
 
@@ -2225,6 +2299,8 @@ func (client DatabaseMigrationClient) updateConnection(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/UpdateConnection"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -2280,6 +2356,8 @@ func (client DatabaseMigrationClient) updateJob(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/UpdateJob"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -2335,6 +2413,8 @@ func (client DatabaseMigrationClient) updateMigration(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/UpdateMigration"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateMigration", apiReferenceLink)
 		return response, err
 	}
 

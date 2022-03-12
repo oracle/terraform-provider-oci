@@ -218,6 +218,7 @@ const (
 	MaintenanceRunSummaryTargetResourceTypeExadataDbSystem                 MaintenanceRunSummaryTargetResourceTypeEnum = "EXADATA_DB_SYSTEM"
 	MaintenanceRunSummaryTargetResourceTypeCloudExadataInfrastructure      MaintenanceRunSummaryTargetResourceTypeEnum = "CLOUD_EXADATA_INFRASTRUCTURE"
 	MaintenanceRunSummaryTargetResourceTypeExaccInfrastructure             MaintenanceRunSummaryTargetResourceTypeEnum = "EXACC_INFRASTRUCTURE"
+	MaintenanceRunSummaryTargetResourceTypeAutonomousVmCluster             MaintenanceRunSummaryTargetResourceTypeEnum = "AUTONOMOUS_VM_CLUSTER"
 	MaintenanceRunSummaryTargetResourceTypeAutonomousDatabase              MaintenanceRunSummaryTargetResourceTypeEnum = "AUTONOMOUS_DATABASE"
 )
 
@@ -227,6 +228,7 @@ var mappingMaintenanceRunSummaryTargetResourceTypeEnum = map[string]MaintenanceR
 	"EXADATA_DB_SYSTEM":                 MaintenanceRunSummaryTargetResourceTypeExadataDbSystem,
 	"CLOUD_EXADATA_INFRASTRUCTURE":      MaintenanceRunSummaryTargetResourceTypeCloudExadataInfrastructure,
 	"EXACC_INFRASTRUCTURE":              MaintenanceRunSummaryTargetResourceTypeExaccInfrastructure,
+	"AUTONOMOUS_VM_CLUSTER":             MaintenanceRunSummaryTargetResourceTypeAutonomousVmCluster,
 	"AUTONOMOUS_DATABASE":               MaintenanceRunSummaryTargetResourceTypeAutonomousDatabase,
 }
 
@@ -236,6 +238,7 @@ var mappingMaintenanceRunSummaryTargetResourceTypeEnumLowerCase = map[string]Mai
 	"exadata_db_system":                 MaintenanceRunSummaryTargetResourceTypeExadataDbSystem,
 	"cloud_exadata_infrastructure":      MaintenanceRunSummaryTargetResourceTypeCloudExadataInfrastructure,
 	"exacc_infrastructure":              MaintenanceRunSummaryTargetResourceTypeExaccInfrastructure,
+	"autonomous_vm_cluster":             MaintenanceRunSummaryTargetResourceTypeAutonomousVmCluster,
 	"autonomous_database":               MaintenanceRunSummaryTargetResourceTypeAutonomousDatabase,
 }
 
@@ -256,6 +259,7 @@ func GetMaintenanceRunSummaryTargetResourceTypeEnumStringValues() []string {
 		"EXADATA_DB_SYSTEM",
 		"CLOUD_EXADATA_INFRASTRUCTURE",
 		"EXACC_INFRASTRUCTURE",
+		"AUTONOMOUS_VM_CLUSTER",
 		"AUTONOMOUS_DATABASE",
 	}
 }

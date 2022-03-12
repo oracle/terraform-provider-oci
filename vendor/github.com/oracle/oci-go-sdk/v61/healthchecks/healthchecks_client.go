@@ -140,6 +140,8 @@ func (client HealthChecksClient) changeHttpMonitorCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/HttpMonitor/ChangeHttpMonitorCompartment"
+		err = common.PostProcessServiceError(err, "HealthChecks", "ChangeHttpMonitorCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -201,6 +203,8 @@ func (client HealthChecksClient) changePingMonitorCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/PingMonitor/ChangePingMonitorCompartment"
+		err = common.PostProcessServiceError(err, "HealthChecks", "ChangePingMonitorCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -263,6 +267,8 @@ func (client HealthChecksClient) createHttpMonitor(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/HttpMonitor/CreateHttpMonitor"
+		err = common.PostProcessServiceError(err, "HealthChecks", "CreateHttpMonitor", apiReferenceLink)
 		return response, err
 	}
 
@@ -320,6 +326,8 @@ func (client HealthChecksClient) createOnDemandHttpProbe(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/HttpProbe/CreateOnDemandHttpProbe"
+		err = common.PostProcessServiceError(err, "HealthChecks", "CreateOnDemandHttpProbe", apiReferenceLink)
 		return response, err
 	}
 
@@ -377,6 +385,8 @@ func (client HealthChecksClient) createOnDemandPingProbe(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/PingProbe/CreateOnDemandPingProbe"
+		err = common.PostProcessServiceError(err, "HealthChecks", "CreateOnDemandPingProbe", apiReferenceLink)
 		return response, err
 	}
 
@@ -439,6 +449,8 @@ func (client HealthChecksClient) createPingMonitor(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/PingMonitor/CreatePingMonitor"
+		err = common.PostProcessServiceError(err, "HealthChecks", "CreatePingMonitor", apiReferenceLink)
 		return response, err
 	}
 
@@ -495,6 +507,8 @@ func (client HealthChecksClient) deleteHttpMonitor(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/HttpMonitor/DeleteHttpMonitor"
+		err = common.PostProcessServiceError(err, "HealthChecks", "DeleteHttpMonitor", apiReferenceLink)
 		return response, err
 	}
 
@@ -551,6 +565,8 @@ func (client HealthChecksClient) deletePingMonitor(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/PingMonitor/DeletePingMonitor"
+		err = common.PostProcessServiceError(err, "HealthChecks", "DeletePingMonitor", apiReferenceLink)
 		return response, err
 	}
 
@@ -606,6 +622,8 @@ func (client HealthChecksClient) getHttpMonitor(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/HttpMonitor/GetHttpMonitor"
+		err = common.PostProcessServiceError(err, "HealthChecks", "GetHttpMonitor", apiReferenceLink)
 		return response, err
 	}
 
@@ -661,6 +679,8 @@ func (client HealthChecksClient) getPingMonitor(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/PingMonitor/GetPingMonitor"
+		err = common.PostProcessServiceError(err, "HealthChecks", "GetPingMonitor", apiReferenceLink)
 		return response, err
 	}
 
@@ -716,6 +736,8 @@ func (client HealthChecksClient) listHealthChecksVantagePoints(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/HealthChecksVantagePointSummary/ListHealthChecksVantagePoints"
+		err = common.PostProcessServiceError(err, "HealthChecks", "ListHealthChecksVantagePoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -771,6 +793,8 @@ func (client HealthChecksClient) listHttpMonitors(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/HttpMonitorSummary/ListHttpMonitors"
+		err = common.PostProcessServiceError(err, "HealthChecks", "ListHttpMonitors", apiReferenceLink)
 		return response, err
 	}
 
@@ -828,6 +852,8 @@ func (client HealthChecksClient) listHttpProbeResults(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/HttpProbeResultSummary/ListHttpProbeResults"
+		err = common.PostProcessServiceError(err, "HealthChecks", "ListHttpProbeResults", apiReferenceLink)
 		return response, err
 	}
 
@@ -885,6 +911,8 @@ func (client HealthChecksClient) listPingMonitors(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/PingMonitorSummary/ListPingMonitors"
+		err = common.PostProcessServiceError(err, "HealthChecks", "ListPingMonitors", apiReferenceLink)
 		return response, err
 	}
 
@@ -945,6 +973,8 @@ func (client HealthChecksClient) listPingProbeResults(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/PingProbeResultSummary/ListPingProbeResults"
+		err = common.PostProcessServiceError(err, "HealthChecks", "ListPingProbeResults", apiReferenceLink)
 		return response, err
 	}
 
@@ -1002,6 +1032,8 @@ func (client HealthChecksClient) updateHttpMonitor(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/HttpMonitor/UpdateHttpMonitor"
+		err = common.PostProcessServiceError(err, "HealthChecks", "UpdateHttpMonitor", apiReferenceLink)
 		return response, err
 	}
 
@@ -1059,6 +1091,8 @@ func (client HealthChecksClient) updatePingMonitor(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/healthchecks/20180501/PingMonitor/UpdatePingMonitor"
+		err = common.PostProcessServiceError(err, "HealthChecks", "UpdatePingMonitor", apiReferenceLink)
 		return response, err
 	}
 

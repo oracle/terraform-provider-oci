@@ -133,6 +133,8 @@ func (client BillingScheduleClient) listBillingSchedules(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "BillingSchedule", "ListBillingSchedules", apiReferenceLink)
 		return response, err
 	}
 

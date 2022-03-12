@@ -139,6 +139,8 @@ func (client EventsClient) changeRuleCompartment(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/events/20181201/Rule/ChangeRuleCompartment"
+		err = common.PostProcessServiceError(err, "Events", "ChangeRuleCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -199,6 +201,8 @@ func (client EventsClient) createRule(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/events/20181201/Rule/CreateRule"
+		err = common.PostProcessServiceError(err, "Events", "CreateRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -254,6 +258,8 @@ func (client EventsClient) deleteRule(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/events/20181201/Rule/DeleteRule"
+		err = common.PostProcessServiceError(err, "Events", "DeleteRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -309,6 +315,8 @@ func (client EventsClient) getRule(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/events/20181201/Rule/GetRule"
+		err = common.PostProcessServiceError(err, "Events", "GetRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -364,6 +372,8 @@ func (client EventsClient) listRules(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/events/20181201/RuleSummary/ListRules"
+		err = common.PostProcessServiceError(err, "Events", "ListRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -419,6 +429,8 @@ func (client EventsClient) updateRule(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/events/20181201/Rule/UpdateRule"
+		err = common.PostProcessServiceError(err, "Events", "UpdateRule", apiReferenceLink)
 		return response, err
 	}
 

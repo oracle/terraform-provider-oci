@@ -132,6 +132,8 @@ func (client DataScienceClient) activateModel(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/ActivateModel"
+		err = common.PostProcessServiceError(err, "DataScience", "ActivateModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -187,6 +189,8 @@ func (client DataScienceClient) activateModelDeployment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeployment/ActivateModelDeployment"
+		err = common.PostProcessServiceError(err, "DataScience", "ActivateModelDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -242,6 +246,8 @@ func (client DataScienceClient) activateNotebookSession(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/NotebookSession/ActivateNotebookSession"
+		err = common.PostProcessServiceError(err, "DataScience", "ActivateNotebookSession", apiReferenceLink)
 		return response, err
 	}
 
@@ -297,6 +303,8 @@ func (client DataScienceClient) cancelJobRun(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/JobRun/CancelJobRun"
+		err = common.PostProcessServiceError(err, "DataScience", "CancelJobRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -352,6 +360,8 @@ func (client DataScienceClient) cancelWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/WorkRequest/CancelWorkRequest"
+		err = common.PostProcessServiceError(err, "DataScience", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -407,6 +417,8 @@ func (client DataScienceClient) changeJobCompartment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Job/ChangeJobCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeJobCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -462,6 +474,8 @@ func (client DataScienceClient) changeJobRunCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/JobRun/ChangeJobRunCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeJobRunCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -522,6 +536,8 @@ func (client DataScienceClient) changeModelCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/ChangeModelCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeModelCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -582,6 +598,8 @@ func (client DataScienceClient) changeModelDeploymentCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeployment/ChangeModelDeploymentCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeModelDeploymentCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -642,6 +660,8 @@ func (client DataScienceClient) changeNotebookSessionCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/NotebookSession/ChangeNotebookSessionCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeNotebookSessionCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -702,6 +722,8 @@ func (client DataScienceClient) changeProjectCompartment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Project/ChangeProjectCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeProjectCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -762,6 +784,8 @@ func (client DataScienceClient) createJob(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Job/CreateJob"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -832,6 +856,8 @@ func (client DataScienceClient) createJobArtifact(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Job/CreateJobArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateJobArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -892,6 +918,8 @@ func (client DataScienceClient) createJobRun(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/JobRun/CreateJobRun"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateJobRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -952,6 +980,8 @@ func (client DataScienceClient) createModel(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/CreateModel"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -1022,6 +1052,8 @@ func (client DataScienceClient) createModelArtifact(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/CreateModelArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateModelArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -1082,6 +1114,8 @@ func (client DataScienceClient) createModelDeployment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeployment/CreateModelDeployment"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateModelDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1142,6 +1176,8 @@ func (client DataScienceClient) createModelProvenance(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/CreateModelProvenance"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateModelProvenance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1202,6 +1238,8 @@ func (client DataScienceClient) createNotebookSession(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/NotebookSession/CreateNotebookSession"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateNotebookSession", apiReferenceLink)
 		return response, err
 	}
 
@@ -1262,6 +1300,8 @@ func (client DataScienceClient) createProject(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Project/CreateProject"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -1317,6 +1357,8 @@ func (client DataScienceClient) deactivateModel(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/DeactivateModel"
+		err = common.PostProcessServiceError(err, "DataScience", "DeactivateModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -1372,6 +1414,8 @@ func (client DataScienceClient) deactivateModelDeployment(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeployment/DeactivateModelDeployment"
+		err = common.PostProcessServiceError(err, "DataScience", "DeactivateModelDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1427,6 +1471,8 @@ func (client DataScienceClient) deactivateNotebookSession(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/NotebookSession/DeactivateNotebookSession"
+		err = common.PostProcessServiceError(err, "DataScience", "DeactivateNotebookSession", apiReferenceLink)
 		return response, err
 	}
 
@@ -1482,6 +1528,8 @@ func (client DataScienceClient) deleteJob(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Job/DeleteJob"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1537,6 +1585,8 @@ func (client DataScienceClient) deleteJobRun(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/JobRun/DeleteJobRun"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteJobRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -1592,6 +1642,8 @@ func (client DataScienceClient) deleteModel(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/DeleteModel"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -1647,6 +1699,8 @@ func (client DataScienceClient) deleteModelDeployment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeployment/DeleteModelDeployment"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteModelDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1702,6 +1756,8 @@ func (client DataScienceClient) deleteNotebookSession(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/NotebookSession/DeleteNotebookSession"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteNotebookSession", apiReferenceLink)
 		return response, err
 	}
 
@@ -1757,6 +1813,8 @@ func (client DataScienceClient) deleteProject(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Project/DeleteProject"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -1812,6 +1870,8 @@ func (client DataScienceClient) getJob(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Job/GetJob"
+		err = common.PostProcessServiceError(err, "DataScience", "GetJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1866,6 +1926,8 @@ func (client DataScienceClient) getJobArtifactContent(ctx context.Context, reque
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Job/GetJobArtifactContent"
+		err = common.PostProcessServiceError(err, "DataScience", "GetJobArtifactContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -1921,6 +1983,8 @@ func (client DataScienceClient) getJobRun(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/JobRun/GetJobRun"
+		err = common.PostProcessServiceError(err, "DataScience", "GetJobRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -1976,6 +2040,8 @@ func (client DataScienceClient) getModel(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModel"
+		err = common.PostProcessServiceError(err, "DataScience", "GetModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -2030,6 +2096,8 @@ func (client DataScienceClient) getModelArtifactContent(ctx context.Context, req
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModelArtifactContent"
+		err = common.PostProcessServiceError(err, "DataScience", "GetModelArtifactContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -2085,6 +2153,8 @@ func (client DataScienceClient) getModelDeployment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeployment/GetModelDeployment"
+		err = common.PostProcessServiceError(err, "DataScience", "GetModelDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2140,6 +2210,8 @@ func (client DataScienceClient) getModelProvenance(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModelProvenance"
+		err = common.PostProcessServiceError(err, "DataScience", "GetModelProvenance", apiReferenceLink)
 		return response, err
 	}
 
@@ -2195,6 +2267,8 @@ func (client DataScienceClient) getNotebookSession(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/NotebookSession/GetNotebookSession"
+		err = common.PostProcessServiceError(err, "DataScience", "GetNotebookSession", apiReferenceLink)
 		return response, err
 	}
 
@@ -2250,6 +2324,8 @@ func (client DataScienceClient) getProject(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Project/GetProject"
+		err = common.PostProcessServiceError(err, "DataScience", "GetProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -2305,6 +2381,8 @@ func (client DataScienceClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "DataScience", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -2360,6 +2438,8 @@ func (client DataScienceClient) headJobArtifact(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Job/HeadJobArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "HeadJobArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -2415,6 +2495,8 @@ func (client DataScienceClient) headModelArtifact(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/HeadModelArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "HeadModelArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -2470,6 +2552,8 @@ func (client DataScienceClient) listFastLaunchJobConfigs(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/FastLaunchJobConfigSummary/ListFastLaunchJobConfigs"
+		err = common.PostProcessServiceError(err, "DataScience", "ListFastLaunchJobConfigs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2525,6 +2609,8 @@ func (client DataScienceClient) listJobRuns(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/JobRunSummary/ListJobRuns"
+		err = common.PostProcessServiceError(err, "DataScience", "ListJobRuns", apiReferenceLink)
 		return response, err
 	}
 
@@ -2580,6 +2666,8 @@ func (client DataScienceClient) listJobShapes(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/JobShapeSummary/ListJobShapes"
+		err = common.PostProcessServiceError(err, "DataScience", "ListJobShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -2635,6 +2723,8 @@ func (client DataScienceClient) listJobs(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/JobSummary/ListJobs"
+		err = common.PostProcessServiceError(err, "DataScience", "ListJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2690,6 +2780,8 @@ func (client DataScienceClient) listModelDeploymentShapes(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeploymentShapeSummary/ListModelDeploymentShapes"
+		err = common.PostProcessServiceError(err, "DataScience", "ListModelDeploymentShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -2745,6 +2837,8 @@ func (client DataScienceClient) listModelDeployments(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeploymentSummary/ListModelDeployments"
+		err = common.PostProcessServiceError(err, "DataScience", "ListModelDeployments", apiReferenceLink)
 		return response, err
 	}
 
@@ -2800,6 +2894,8 @@ func (client DataScienceClient) listModels(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelSummary/ListModels"
+		err = common.PostProcessServiceError(err, "DataScience", "ListModels", apiReferenceLink)
 		return response, err
 	}
 
@@ -2855,6 +2951,8 @@ func (client DataScienceClient) listNotebookSessionShapes(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/NotebookSessionShapeSummary/ListNotebookSessionShapes"
+		err = common.PostProcessServiceError(err, "DataScience", "ListNotebookSessionShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -2910,6 +3008,8 @@ func (client DataScienceClient) listNotebookSessions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/NotebookSessionSummary/ListNotebookSessions"
+		err = common.PostProcessServiceError(err, "DataScience", "ListNotebookSessions", apiReferenceLink)
 		return response, err
 	}
 
@@ -2965,6 +3065,8 @@ func (client DataScienceClient) listProjects(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ProjectSummary/ListProjects"
+		err = common.PostProcessServiceError(err, "DataScience", "ListProjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -3020,6 +3122,8 @@ func (client DataScienceClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/WorkRequest/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "DataScience", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -3075,6 +3179,8 @@ func (client DataScienceClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/WorkRequest/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "DataScience", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -3130,6 +3236,8 @@ func (client DataScienceClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "DataScience", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -3185,6 +3293,8 @@ func (client DataScienceClient) updateJob(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Job/UpdateJob"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -3240,6 +3350,8 @@ func (client DataScienceClient) updateJobRun(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/JobRun/UpdateJobRun"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateJobRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -3295,6 +3407,8 @@ func (client DataScienceClient) updateModel(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/UpdateModel"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -3353,6 +3467,8 @@ func (client DataScienceClient) updateModelDeployment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelDeployment/UpdateModelDeployment"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateModelDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -3408,6 +3524,8 @@ func (client DataScienceClient) updateModelProvenance(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/UpdateModelProvenance"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateModelProvenance", apiReferenceLink)
 		return response, err
 	}
 
@@ -3465,6 +3583,8 @@ func (client DataScienceClient) updateNotebookSession(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/NotebookSession/UpdateNotebookSession"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateNotebookSession", apiReferenceLink)
 		return response, err
 	}
 
@@ -3520,6 +3640,8 @@ func (client DataScienceClient) updateProject(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Project/UpdateProject"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateProject", apiReferenceLink)
 		return response, err
 	}
 

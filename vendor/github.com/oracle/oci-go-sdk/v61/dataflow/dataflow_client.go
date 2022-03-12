@@ -138,6 +138,8 @@ func (client DataFlowClient) changeApplicationCompartment(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Application/ChangeApplicationCompartment"
+		err = common.PostProcessServiceError(err, "DataFlow", "ChangeApplicationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -193,6 +195,8 @@ func (client DataFlowClient) changePrivateEndpointCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/PrivateEndpoint/ChangePrivateEndpointCompartment"
+		err = common.PostProcessServiceError(err, "DataFlow", "ChangePrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -256,6 +260,8 @@ func (client DataFlowClient) changeRunCompartment(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/ChangeRunCompartment"
+		err = common.PostProcessServiceError(err, "DataFlow", "ChangeRunCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -316,6 +322,8 @@ func (client DataFlowClient) createApplication(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Application/CreateApplication"
+		err = common.PostProcessServiceError(err, "DataFlow", "CreateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -376,6 +384,8 @@ func (client DataFlowClient) createPrivateEndpoint(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataFlow", "CreatePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -436,6 +446,8 @@ func (client DataFlowClient) createRun(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/CreateRun"
+		err = common.PostProcessServiceError(err, "DataFlow", "CreateRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -491,6 +503,8 @@ func (client DataFlowClient) deleteApplication(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Application/DeleteApplication"
+		err = common.PostProcessServiceError(err, "DataFlow", "DeleteApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -546,6 +560,8 @@ func (client DataFlowClient) deletePrivateEndpoint(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/PrivateEndpoint/DeletePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataFlow", "DeletePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -602,6 +618,8 @@ func (client DataFlowClient) deleteRun(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/DeleteRun"
+		err = common.PostProcessServiceError(err, "DataFlow", "DeleteRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -657,6 +675,8 @@ func (client DataFlowClient) getApplication(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Application/GetApplication"
+		err = common.PostProcessServiceError(err, "DataFlow", "GetApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -712,6 +732,8 @@ func (client DataFlowClient) getPrivateEndpoint(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/PrivateEndpoint/GetPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataFlow", "GetPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -767,6 +789,8 @@ func (client DataFlowClient) getRun(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/GetRun"
+		err = common.PostProcessServiceError(err, "DataFlow", "GetRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -821,6 +845,8 @@ func (client DataFlowClient) getRunLog(ctx context.Context, request common.OCIRe
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/GetRunLog"
+		err = common.PostProcessServiceError(err, "DataFlow", "GetRunLog", apiReferenceLink)
 		return response, err
 	}
 
@@ -876,6 +902,8 @@ func (client DataFlowClient) getWorkRequest(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "DataFlow", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -931,6 +959,8 @@ func (client DataFlowClient) listApplications(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/ApplicationSummary/ListApplications"
+		err = common.PostProcessServiceError(err, "DataFlow", "ListApplications", apiReferenceLink)
 		return response, err
 	}
 
@@ -986,6 +1016,8 @@ func (client DataFlowClient) listPrivateEndpoints(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/PrivateEndpoint/ListPrivateEndpoints"
+		err = common.PostProcessServiceError(err, "DataFlow", "ListPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -1041,6 +1073,8 @@ func (client DataFlowClient) listRunLogs(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/RunLogSummary/ListRunLogs"
+		err = common.PostProcessServiceError(err, "DataFlow", "ListRunLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1096,6 +1130,8 @@ func (client DataFlowClient) listRuns(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/RunSummary/ListRuns"
+		err = common.PostProcessServiceError(err, "DataFlow", "ListRuns", apiReferenceLink)
 		return response, err
 	}
 
@@ -1151,6 +1187,8 @@ func (client DataFlowClient) listWorkRequestErrors(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "DataFlow", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1206,6 +1244,8 @@ func (client DataFlowClient) listWorkRequestLogs(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/WorkRequestLog/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "DataFlow", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1261,6 +1301,8 @@ func (client DataFlowClient) listWorkRequests(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "DataFlow", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1316,6 +1358,8 @@ func (client DataFlowClient) updateApplication(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Application/UpdateApplication"
+		err = common.PostProcessServiceError(err, "DataFlow", "UpdateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -1373,6 +1417,8 @@ func (client DataFlowClient) updatePrivateEndpoint(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/PrivateEndpoint/UpdatePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataFlow", "UpdatePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1428,6 +1474,8 @@ func (client DataFlowClient) updateRun(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/UpdateRun"
+		err = common.PostProcessServiceError(err, "DataFlow", "UpdateRun", apiReferenceLink)
 		return response, err
 	}
 

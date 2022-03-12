@@ -132,6 +132,8 @@ func (client DataplaneClient) generateScopedAccessToken(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Dataplane", "GenerateScopedAccessToken", apiReferenceLink)
 		return response, err
 	}
 

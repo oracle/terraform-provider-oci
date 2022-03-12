@@ -138,6 +138,8 @@ func (client BlockstorageClient) changeBootVolumeBackupCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeBackup/ChangeBootVolumeBackupCompartment"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ChangeBootVolumeBackupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -195,6 +197,8 @@ func (client BlockstorageClient) changeBootVolumeCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolume/ChangeBootVolumeCompartment"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ChangeBootVolumeCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -252,6 +256,8 @@ func (client BlockstorageClient) changeVolumeBackupCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackup/ChangeVolumeBackupCompartment"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ChangeVolumeBackupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -309,6 +315,8 @@ func (client BlockstorageClient) changeVolumeCompartment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Volume/ChangeVolumeCompartment"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ChangeVolumeCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -366,6 +374,8 @@ func (client BlockstorageClient) changeVolumeGroupBackupCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroupBackup/ChangeVolumeGroupBackupCompartment"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ChangeVolumeGroupBackupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -423,6 +433,8 @@ func (client BlockstorageClient) changeVolumeGroupCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroup/ChangeVolumeGroupCompartment"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ChangeVolumeGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -484,6 +496,8 @@ func (client BlockstorageClient) copyBootVolumeBackup(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeBackup/CopyBootVolumeBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CopyBootVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -545,6 +559,8 @@ func (client BlockstorageClient) copyVolumeBackup(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackup/CopyVolumeBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CopyVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -606,6 +622,8 @@ func (client BlockstorageClient) copyVolumeGroupBackup(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroupBackup/CopyVolumeGroupBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CopyVolumeGroupBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -669,6 +687,8 @@ func (client BlockstorageClient) createBootVolume(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolume/CreateBootVolume"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CreateBootVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -733,6 +753,8 @@ func (client BlockstorageClient) createBootVolumeBackup(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeBackup/CreateBootVolumeBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CreateBootVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -804,6 +826,8 @@ func (client BlockstorageClient) createVolume(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Volume/CreateVolume"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CreateVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -868,6 +892,8 @@ func (client BlockstorageClient) createVolumeBackup(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackup/CreateVolumeBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CreateVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -930,6 +956,8 @@ func (client BlockstorageClient) createVolumeBackupPolicy(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackupPolicy/CreateVolumeBackupPolicy"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CreateVolumeBackupPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -987,6 +1015,8 @@ func (client BlockstorageClient) createVolumeBackupPolicyAssignment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackupPolicyAssignment/CreateVolumeBackupPolicyAssignment"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CreateVolumeBackupPolicyAssignment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1052,6 +1082,8 @@ func (client BlockstorageClient) createVolumeGroup(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroup/CreateVolumeGroup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CreateVolumeGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1113,6 +1145,8 @@ func (client BlockstorageClient) createVolumeGroupBackup(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroupBackup/CreateVolumeGroupBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "CreateVolumeGroupBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1171,6 +1205,8 @@ func (client BlockstorageClient) deleteBootVolume(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteBootVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -1226,6 +1262,8 @@ func (client BlockstorageClient) deleteBootVolumeBackup(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteBootVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1281,6 +1319,8 @@ func (client BlockstorageClient) deleteBootVolumeKmsKey(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteBootVolumeKmsKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -1339,6 +1379,8 @@ func (client BlockstorageClient) deleteVolume(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -1394,6 +1436,8 @@ func (client BlockstorageClient) deleteVolumeBackup(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1452,6 +1496,8 @@ func (client BlockstorageClient) deleteVolumeBackupPolicy(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteVolumeBackupPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -1507,6 +1553,8 @@ func (client BlockstorageClient) deleteVolumeBackupPolicyAssignment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteVolumeBackupPolicyAssignment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1563,6 +1611,8 @@ func (client BlockstorageClient) deleteVolumeGroup(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteVolumeGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1619,6 +1669,8 @@ func (client BlockstorageClient) deleteVolumeGroupBackup(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteVolumeGroupBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1674,6 +1726,8 @@ func (client BlockstorageClient) deleteVolumeKmsKey(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Blockstorage", "DeleteVolumeKmsKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -1729,6 +1783,8 @@ func (client BlockstorageClient) getBlockVolumeReplica(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BlockVolumeReplica/GetBlockVolumeReplica"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetBlockVolumeReplica", apiReferenceLink)
 		return response, err
 	}
 
@@ -1784,6 +1840,8 @@ func (client BlockstorageClient) getBootVolume(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolume/GetBootVolume"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetBootVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -1839,6 +1897,8 @@ func (client BlockstorageClient) getBootVolumeBackup(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeBackup/GetBootVolumeBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetBootVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1894,6 +1954,8 @@ func (client BlockstorageClient) getBootVolumeKmsKey(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeKmsKey/GetBootVolumeKmsKey"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetBootVolumeKmsKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -1949,6 +2011,8 @@ func (client BlockstorageClient) getBootVolumeReplica(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeReplica/GetBootVolumeReplica"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetBootVolumeReplica", apiReferenceLink)
 		return response, err
 	}
 
@@ -2004,6 +2068,8 @@ func (client BlockstorageClient) getVolume(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Volume/GetVolume"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -2059,6 +2125,8 @@ func (client BlockstorageClient) getVolumeBackup(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackup/GetVolumeBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -2114,6 +2182,8 @@ func (client BlockstorageClient) getVolumeBackupPolicy(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackupPolicy/GetVolumeBackupPolicy"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetVolumeBackupPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -2171,6 +2241,8 @@ func (client BlockstorageClient) getVolumeBackupPolicyAssetAssignment(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackupPolicyAssignment/GetVolumeBackupPolicyAssetAssignment"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetVolumeBackupPolicyAssetAssignment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2226,6 +2298,8 @@ func (client BlockstorageClient) getVolumeBackupPolicyAssignment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackupPolicyAssignment/GetVolumeBackupPolicyAssignment"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetVolumeBackupPolicyAssignment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2281,6 +2355,8 @@ func (client BlockstorageClient) getVolumeGroup(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroup/GetVolumeGroup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetVolumeGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -2336,6 +2412,8 @@ func (client BlockstorageClient) getVolumeGroupBackup(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroupBackup/GetVolumeGroupBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetVolumeGroupBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -2391,6 +2469,8 @@ func (client BlockstorageClient) getVolumeGroupReplica(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroupReplica/GetVolumeGroupReplica"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetVolumeGroupReplica", apiReferenceLink)
 		return response, err
 	}
 
@@ -2446,6 +2526,8 @@ func (client BlockstorageClient) getVolumeKmsKey(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeKmsKey/GetVolumeKmsKey"
+		err = common.PostProcessServiceError(err, "Blockstorage", "GetVolumeKmsKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -2501,6 +2583,8 @@ func (client BlockstorageClient) listBlockVolumeReplicas(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BlockVolumeReplica/ListBlockVolumeReplicas"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListBlockVolumeReplicas", apiReferenceLink)
 		return response, err
 	}
 
@@ -2556,6 +2640,8 @@ func (client BlockstorageClient) listBootVolumeBackups(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeBackup/ListBootVolumeBackups"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListBootVolumeBackups", apiReferenceLink)
 		return response, err
 	}
 
@@ -2611,6 +2697,8 @@ func (client BlockstorageClient) listBootVolumeReplicas(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeReplica/ListBootVolumeReplicas"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListBootVolumeReplicas", apiReferenceLink)
 		return response, err
 	}
 
@@ -2666,6 +2754,8 @@ func (client BlockstorageClient) listBootVolumes(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolume/ListBootVolumes"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListBootVolumes", apiReferenceLink)
 		return response, err
 	}
 
@@ -2723,6 +2813,8 @@ func (client BlockstorageClient) listVolumeBackupPolicies(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackupPolicy/ListVolumeBackupPolicies"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListVolumeBackupPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -2778,6 +2870,8 @@ func (client BlockstorageClient) listVolumeBackups(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackup/ListVolumeBackups"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListVolumeBackups", apiReferenceLink)
 		return response, err
 	}
 
@@ -2834,6 +2928,8 @@ func (client BlockstorageClient) listVolumeGroupBackups(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroupBackup/ListVolumeGroupBackups"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListVolumeGroupBackups", apiReferenceLink)
 		return response, err
 	}
 
@@ -2890,6 +2986,8 @@ func (client BlockstorageClient) listVolumeGroupReplicas(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroupReplica/ListVolumeGroupReplicas"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListVolumeGroupReplicas", apiReferenceLink)
 		return response, err
 	}
 
@@ -2946,6 +3044,8 @@ func (client BlockstorageClient) listVolumeGroups(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroup/ListVolumeGroups"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListVolumeGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -3001,6 +3101,8 @@ func (client BlockstorageClient) listVolumes(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Volume/ListVolumes"
+		err = common.PostProcessServiceError(err, "Blockstorage", "ListVolumes", apiReferenceLink)
 		return response, err
 	}
 
@@ -3056,6 +3158,8 @@ func (client BlockstorageClient) updateBootVolume(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolume/UpdateBootVolume"
+		err = common.PostProcessServiceError(err, "Blockstorage", "UpdateBootVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -3107,6 +3211,8 @@ func (client BlockstorageClient) updateBootVolumeBackup(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeBackup/UpdateBootVolumeBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "UpdateBootVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3162,6 +3268,8 @@ func (client BlockstorageClient) updateBootVolumeKmsKey(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BootVolumeKmsKey/UpdateBootVolumeKmsKey"
+		err = common.PostProcessServiceError(err, "Blockstorage", "UpdateBootVolumeKmsKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -3218,6 +3326,8 @@ func (client BlockstorageClient) updateVolume(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Volume/UpdateVolume"
+		err = common.PostProcessServiceError(err, "Blockstorage", "UpdateVolume", apiReferenceLink)
 		return response, err
 	}
 
@@ -3269,6 +3379,8 @@ func (client BlockstorageClient) updateVolumeBackup(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackup/UpdateVolumeBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "UpdateVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3332,6 +3444,8 @@ func (client BlockstorageClient) updateVolumeBackupPolicy(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeBackupPolicy/UpdateVolumeBackupPolicy"
+		err = common.PostProcessServiceError(err, "Blockstorage", "UpdateVolumeBackupPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -3391,6 +3505,8 @@ func (client BlockstorageClient) updateVolumeGroup(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroup/UpdateVolumeGroup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "UpdateVolumeGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3441,6 +3557,8 @@ func (client BlockstorageClient) updateVolumeGroupBackup(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeGroupBackup/UpdateVolumeGroupBackup"
+		err = common.PostProcessServiceError(err, "Blockstorage", "UpdateVolumeGroupBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3496,6 +3614,8 @@ func (client BlockstorageClient) updateVolumeKmsKey(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VolumeKmsKey/UpdateVolumeKmsKey"
+		err = common.PostProcessServiceError(err, "Blockstorage", "UpdateVolumeKmsKey", apiReferenceLink)
 		return response, err
 	}
 

@@ -137,6 +137,8 @@ func (client BdsClient) activateBdsMetastoreConfiguration(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsMetastoreConfiguration/ActivateBdsMetastoreConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "ActivateBdsMetastoreConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -197,6 +199,8 @@ func (client BdsClient) addAutoScalingConfiguration(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/AddAutoScalingConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "AddAutoScalingConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -257,6 +261,8 @@ func (client BdsClient) addBlockStorage(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/AddBlockStorage"
+		err = common.PostProcessServiceError(err, "Bds", "AddBlockStorage", apiReferenceLink)
 		return response, err
 	}
 
@@ -317,6 +323,8 @@ func (client BdsClient) addCloudSql(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/AddCloudSql"
+		err = common.PostProcessServiceError(err, "Bds", "AddCloudSql", apiReferenceLink)
 		return response, err
 	}
 
@@ -377,6 +385,8 @@ func (client BdsClient) addWorkerNodes(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/AddWorkerNodes"
+		err = common.PostProcessServiceError(err, "Bds", "AddWorkerNodes", apiReferenceLink)
 		return response, err
 	}
 
@@ -437,6 +447,8 @@ func (client BdsClient) changeBdsInstanceCompartment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/ChangeBdsInstanceCompartment"
+		err = common.PostProcessServiceError(err, "Bds", "ChangeBdsInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -497,6 +509,8 @@ func (client BdsClient) changeShape(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/ChangeShape"
+		err = common.PostProcessServiceError(err, "Bds", "ChangeShape", apiReferenceLink)
 		return response, err
 	}
 
@@ -557,6 +571,8 @@ func (client BdsClient) createBdsApiKey(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsApiKey/CreateBdsApiKey"
+		err = common.PostProcessServiceError(err, "Bds", "CreateBdsApiKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -617,6 +633,8 @@ func (client BdsClient) createBdsInstance(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/CreateBdsInstance"
+		err = common.PostProcessServiceError(err, "Bds", "CreateBdsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -677,6 +695,8 @@ func (client BdsClient) createBdsMetastoreConfiguration(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsMetastoreConfiguration/CreateBdsMetastoreConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "CreateBdsMetastoreConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -732,6 +752,8 @@ func (client BdsClient) deleteBdsApiKey(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsApiKey/DeleteBdsApiKey"
+		err = common.PostProcessServiceError(err, "Bds", "DeleteBdsApiKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -787,6 +809,8 @@ func (client BdsClient) deleteBdsInstance(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/DeleteBdsInstance"
+		err = common.PostProcessServiceError(err, "Bds", "DeleteBdsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -842,6 +866,8 @@ func (client BdsClient) deleteBdsMetastoreConfiguration(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsMetastoreConfiguration/DeleteBdsMetastoreConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "DeleteBdsMetastoreConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -897,6 +923,8 @@ func (client BdsClient) getAutoScalingConfiguration(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/GetAutoScalingConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "GetAutoScalingConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -952,6 +980,8 @@ func (client BdsClient) getBdsApiKey(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsApiKey/GetBdsApiKey"
+		err = common.PostProcessServiceError(err, "Bds", "GetBdsApiKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -1007,6 +1037,8 @@ func (client BdsClient) getBdsInstance(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/GetBdsInstance"
+		err = common.PostProcessServiceError(err, "Bds", "GetBdsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1062,6 +1094,8 @@ func (client BdsClient) getBdsMetastoreConfiguration(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsMetastoreConfiguration/GetBdsMetastoreConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "GetBdsMetastoreConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1117,6 +1151,8 @@ func (client BdsClient) getWorkRequest(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Bds", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1172,6 +1208,8 @@ func (client BdsClient) listAutoScalingConfigurations(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/ListAutoScalingConfigurations"
+		err = common.PostProcessServiceError(err, "Bds", "ListAutoScalingConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1227,6 +1265,8 @@ func (client BdsClient) listBdsApiKeys(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsApiKey/ListBdsApiKeys"
+		err = common.PostProcessServiceError(err, "Bds", "ListBdsApiKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -1282,6 +1322,8 @@ func (client BdsClient) listBdsInstances(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstanceSummary/ListBdsInstances"
+		err = common.PostProcessServiceError(err, "Bds", "ListBdsInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -1337,6 +1379,8 @@ func (client BdsClient) listBdsMetastoreConfigurations(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsMetastoreConfiguration/ListBdsMetastoreConfigurations"
+		err = common.PostProcessServiceError(err, "Bds", "ListBdsMetastoreConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1392,6 +1436,8 @@ func (client BdsClient) listWorkRequestErrors(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Bds", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1447,6 +1493,8 @@ func (client BdsClient) listWorkRequestLogs(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Bds", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1502,6 +1550,8 @@ func (client BdsClient) listWorkRequests(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Bds", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1562,6 +1612,8 @@ func (client BdsClient) removeAutoScalingConfiguration(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/RemoveAutoScalingConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "RemoveAutoScalingConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1622,6 +1674,8 @@ func (client BdsClient) removeCloudSql(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/RemoveCloudSql"
+		err = common.PostProcessServiceError(err, "Bds", "RemoveCloudSql", apiReferenceLink)
 		return response, err
 	}
 
@@ -1682,6 +1736,8 @@ func (client BdsClient) restartNode(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/RestartNode"
+		err = common.PostProcessServiceError(err, "Bds", "RestartNode", apiReferenceLink)
 		return response, err
 	}
 
@@ -1737,6 +1793,8 @@ func (client BdsClient) testBdsMetastoreConfiguration(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsMetastoreConfiguration/TestBdsMetastoreConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "TestBdsMetastoreConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1792,6 +1850,8 @@ func (client BdsClient) testBdsObjectStorageConnection(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsApiKey/TestBdsObjectStorageConnection"
+		err = common.PostProcessServiceError(err, "Bds", "TestBdsObjectStorageConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -1852,6 +1912,8 @@ func (client BdsClient) updateAutoScalingConfiguration(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/UpdateAutoScalingConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "UpdateAutoScalingConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1907,6 +1969,8 @@ func (client BdsClient) updateBdsInstance(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/UpdateBdsInstance"
+		err = common.PostProcessServiceError(err, "Bds", "UpdateBdsInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1962,6 +2026,8 @@ func (client BdsClient) updateBdsMetastoreConfiguration(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsMetastoreConfiguration/UpdateBdsMetastoreConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "UpdateBdsMetastoreConfiguration", apiReferenceLink)
 		return response, err
 	}
 

@@ -138,6 +138,8 @@ func (client DevopsClient) approveDeployment(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Deployment/ApproveDeployment"
+		err = common.PostProcessServiceError(err, "Devops", "ApproveDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -199,6 +201,8 @@ func (client DevopsClient) cancelBuildRun(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildRun/CancelBuildRun"
+		err = common.PostProcessServiceError(err, "Devops", "CancelBuildRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -260,6 +264,8 @@ func (client DevopsClient) cancelDeployment(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Deployment/CancelDeployment"
+		err = common.PostProcessServiceError(err, "Devops", "CancelDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -321,6 +327,8 @@ func (client DevopsClient) changeProjectCompartment(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Project/ChangeProjectCompartment"
+		err = common.PostProcessServiceError(err, "Devops", "ChangeProjectCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -382,6 +390,8 @@ func (client DevopsClient) createBuildPipeline(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipeline/CreateBuildPipeline"
+		err = common.PostProcessServiceError(err, "Devops", "CreateBuildPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -443,6 +453,8 @@ func (client DevopsClient) createBuildPipelineStage(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipelineStage/CreateBuildPipelineStage"
+		err = common.PostProcessServiceError(err, "Devops", "CreateBuildPipelineStage", apiReferenceLink)
 		return response, err
 	}
 
@@ -504,6 +516,8 @@ func (client DevopsClient) createBuildRun(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildRun/CreateBuildRun"
+		err = common.PostProcessServiceError(err, "Devops", "CreateBuildRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -565,6 +579,8 @@ func (client DevopsClient) createConnection(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Connection/CreateConnection"
+		err = common.PostProcessServiceError(err, "Devops", "CreateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -626,6 +642,8 @@ func (client DevopsClient) createDeployArtifact(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployArtifact/CreateDeployArtifact"
+		err = common.PostProcessServiceError(err, "Devops", "CreateDeployArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -687,6 +705,8 @@ func (client DevopsClient) createDeployEnvironment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployEnvironment/CreateDeployEnvironment"
+		err = common.PostProcessServiceError(err, "Devops", "CreateDeployEnvironment", apiReferenceLink)
 		return response, err
 	}
 
@@ -748,6 +768,8 @@ func (client DevopsClient) createDeployPipeline(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployPipeline/CreateDeployPipeline"
+		err = common.PostProcessServiceError(err, "Devops", "CreateDeployPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -809,6 +831,8 @@ func (client DevopsClient) createDeployStage(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployStage/CreateDeployStage"
+		err = common.PostProcessServiceError(err, "Devops", "CreateDeployStage", apiReferenceLink)
 		return response, err
 	}
 
@@ -870,6 +894,8 @@ func (client DevopsClient) createDeployment(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Deployment/CreateDeployment"
+		err = common.PostProcessServiceError(err, "Devops", "CreateDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -931,6 +957,8 @@ func (client DevopsClient) createProject(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Project/CreateProject"
+		err = common.PostProcessServiceError(err, "Devops", "CreateProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -992,6 +1020,8 @@ func (client DevopsClient) createRepository(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/CreateRepository"
+		err = common.PostProcessServiceError(err, "Devops", "CreateRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -1053,6 +1083,8 @@ func (client DevopsClient) createTrigger(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Trigger/CreateTrigger"
+		err = common.PostProcessServiceError(err, "Devops", "CreateTrigger", apiReferenceLink)
 		return response, err
 	}
 
@@ -1109,6 +1141,8 @@ func (client DevopsClient) deleteBuildPipeline(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipeline/DeleteBuildPipeline"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteBuildPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -1165,6 +1199,8 @@ func (client DevopsClient) deleteBuildPipelineStage(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipelineStage/DeleteBuildPipelineStage"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteBuildPipelineStage", apiReferenceLink)
 		return response, err
 	}
 
@@ -1221,6 +1257,8 @@ func (client DevopsClient) deleteConnection(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Connection/DeleteConnection"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -1277,6 +1315,8 @@ func (client DevopsClient) deleteDeployArtifact(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployArtifact/DeleteDeployArtifact"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteDeployArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -1333,6 +1373,8 @@ func (client DevopsClient) deleteDeployEnvironment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployEnvironment/DeleteDeployEnvironment"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteDeployEnvironment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1389,6 +1431,8 @@ func (client DevopsClient) deleteDeployPipeline(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployPipeline/DeleteDeployPipeline"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteDeployPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -1445,6 +1489,8 @@ func (client DevopsClient) deleteDeployStage(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployStage/DeleteDeployStage"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteDeployStage", apiReferenceLink)
 		return response, err
 	}
 
@@ -1501,6 +1547,8 @@ func (client DevopsClient) deleteProject(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Project/DeleteProject"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -1562,6 +1610,8 @@ func (client DevopsClient) deleteRef(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/DeleteRef"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteRef", apiReferenceLink)
 		return response, err
 	}
 
@@ -1618,6 +1668,8 @@ func (client DevopsClient) deleteRepository(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/DeleteRepository"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -1674,6 +1726,8 @@ func (client DevopsClient) deleteTrigger(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Trigger/DeleteTrigger"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteTrigger", apiReferenceLink)
 		return response, err
 	}
 
@@ -1730,6 +1784,8 @@ func (client DevopsClient) getBuildPipeline(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipeline/GetBuildPipeline"
+		err = common.PostProcessServiceError(err, "Devops", "GetBuildPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -1786,6 +1842,8 @@ func (client DevopsClient) getBuildPipelineStage(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipelineStage/GetBuildPipelineStage"
+		err = common.PostProcessServiceError(err, "Devops", "GetBuildPipelineStage", apiReferenceLink)
 		return response, err
 	}
 
@@ -1842,6 +1900,8 @@ func (client DevopsClient) getBuildRun(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildRun/GetBuildRun"
+		err = common.PostProcessServiceError(err, "Devops", "GetBuildRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -1898,6 +1958,8 @@ func (client DevopsClient) getCommit(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetCommit"
+		err = common.PostProcessServiceError(err, "Devops", "GetCommit", apiReferenceLink)
 		return response, err
 	}
 
@@ -1954,6 +2016,8 @@ func (client DevopsClient) getCommitDiff(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetCommitDiff"
+		err = common.PostProcessServiceError(err, "Devops", "GetCommitDiff", apiReferenceLink)
 		return response, err
 	}
 
@@ -2010,6 +2074,8 @@ func (client DevopsClient) getConnection(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Connection/GetConnection"
+		err = common.PostProcessServiceError(err, "Devops", "GetConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -2066,6 +2132,8 @@ func (client DevopsClient) getDeployArtifact(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployArtifact/GetDeployArtifact"
+		err = common.PostProcessServiceError(err, "Devops", "GetDeployArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -2122,6 +2190,8 @@ func (client DevopsClient) getDeployEnvironment(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployEnvironment/GetDeployEnvironment"
+		err = common.PostProcessServiceError(err, "Devops", "GetDeployEnvironment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2178,6 +2248,8 @@ func (client DevopsClient) getDeployPipeline(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployPipeline/GetDeployPipeline"
+		err = common.PostProcessServiceError(err, "Devops", "GetDeployPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -2234,6 +2306,8 @@ func (client DevopsClient) getDeployStage(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployStage/GetDeployStage"
+		err = common.PostProcessServiceError(err, "Devops", "GetDeployStage", apiReferenceLink)
 		return response, err
 	}
 
@@ -2290,6 +2364,8 @@ func (client DevopsClient) getDeployment(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Deployment/GetDeployment"
+		err = common.PostProcessServiceError(err, "Devops", "GetDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2346,6 +2422,8 @@ func (client DevopsClient) getFileDiff(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetFileDiff"
+		err = common.PostProcessServiceError(err, "Devops", "GetFileDiff", apiReferenceLink)
 		return response, err
 	}
 
@@ -2402,6 +2480,8 @@ func (client DevopsClient) getMirrorRecord(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetMirrorRecord"
+		err = common.PostProcessServiceError(err, "Devops", "GetMirrorRecord", apiReferenceLink)
 		return response, err
 	}
 
@@ -2458,6 +2538,8 @@ func (client DevopsClient) getObject(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryObject/GetObject"
+		err = common.PostProcessServiceError(err, "Devops", "GetObject", apiReferenceLink)
 		return response, err
 	}
 
@@ -2513,6 +2595,8 @@ func (client DevopsClient) getObjectContent(ctx context.Context, request common.
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetObjectContent"
+		err = common.PostProcessServiceError(err, "Devops", "GetObjectContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -2569,6 +2653,8 @@ func (client DevopsClient) getProject(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Project/GetProject"
+		err = common.PostProcessServiceError(err, "Devops", "GetProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -2625,6 +2711,8 @@ func (client DevopsClient) getRef(ctx context.Context, request common.OCIRequest
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetRef"
+		err = common.PostProcessServiceError(err, "Devops", "GetRef", apiReferenceLink)
 		return response, err
 	}
 
@@ -2681,6 +2769,8 @@ func (client DevopsClient) getRepository(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetRepository"
+		err = common.PostProcessServiceError(err, "Devops", "GetRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -2736,6 +2826,8 @@ func (client DevopsClient) getRepositoryArchiveContent(ctx context.Context, requ
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetRepositoryArchiveContent"
+		err = common.PostProcessServiceError(err, "Devops", "GetRepositoryArchiveContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -2792,6 +2884,8 @@ func (client DevopsClient) getRepositoryFileLines(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetRepositoryFileLines"
+		err = common.PostProcessServiceError(err, "Devops", "GetRepositoryFileLines", apiReferenceLink)
 		return response, err
 	}
 
@@ -2848,6 +2942,8 @@ func (client DevopsClient) getTrigger(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Trigger/GetTrigger"
+		err = common.PostProcessServiceError(err, "Devops", "GetTrigger", apiReferenceLink)
 		return response, err
 	}
 
@@ -2904,6 +3000,8 @@ func (client DevopsClient) getWorkRequest(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Devops", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -2960,6 +3058,8 @@ func (client DevopsClient) listAuthors(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListAuthors"
+		err = common.PostProcessServiceError(err, "Devops", "ListAuthors", apiReferenceLink)
 		return response, err
 	}
 
@@ -3016,6 +3116,8 @@ func (client DevopsClient) listBuildPipelineStages(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipelineStageSummary/ListBuildPipelineStages"
+		err = common.PostProcessServiceError(err, "Devops", "ListBuildPipelineStages", apiReferenceLink)
 		return response, err
 	}
 
@@ -3072,6 +3174,8 @@ func (client DevopsClient) listBuildPipelines(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipelineCollection/ListBuildPipelines"
+		err = common.PostProcessServiceError(err, "Devops", "ListBuildPipelines", apiReferenceLink)
 		return response, err
 	}
 
@@ -3128,6 +3232,8 @@ func (client DevopsClient) listBuildRuns(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildRunSummary/ListBuildRuns"
+		err = common.PostProcessServiceError(err, "Devops", "ListBuildRuns", apiReferenceLink)
 		return response, err
 	}
 
@@ -3184,6 +3290,8 @@ func (client DevopsClient) listCommitDiffs(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListCommitDiffs"
+		err = common.PostProcessServiceError(err, "Devops", "ListCommitDiffs", apiReferenceLink)
 		return response, err
 	}
 
@@ -3240,6 +3348,8 @@ func (client DevopsClient) listCommits(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryCommit/ListCommits"
+		err = common.PostProcessServiceError(err, "Devops", "ListCommits", apiReferenceLink)
 		return response, err
 	}
 
@@ -3296,6 +3406,8 @@ func (client DevopsClient) listConnections(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ConnectionCollection/ListConnections"
+		err = common.PostProcessServiceError(err, "Devops", "ListConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -3352,6 +3464,8 @@ func (client DevopsClient) listDeployArtifacts(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployArtifactSummary/ListDeployArtifacts"
+		err = common.PostProcessServiceError(err, "Devops", "ListDeployArtifacts", apiReferenceLink)
 		return response, err
 	}
 
@@ -3408,6 +3522,8 @@ func (client DevopsClient) listDeployEnvironments(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployEnvironmentSummary/ListDeployEnvironments"
+		err = common.PostProcessServiceError(err, "Devops", "ListDeployEnvironments", apiReferenceLink)
 		return response, err
 	}
 
@@ -3464,6 +3580,8 @@ func (client DevopsClient) listDeployPipelines(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployPipelineSummary/ListDeployPipelines"
+		err = common.PostProcessServiceError(err, "Devops", "ListDeployPipelines", apiReferenceLink)
 		return response, err
 	}
 
@@ -3520,6 +3638,8 @@ func (client DevopsClient) listDeployStages(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployStageSummary/ListDeployStages"
+		err = common.PostProcessServiceError(err, "Devops", "ListDeployStages", apiReferenceLink)
 		return response, err
 	}
 
@@ -3576,6 +3696,8 @@ func (client DevopsClient) listDeployments(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeploymentSummary/ListDeployments"
+		err = common.PostProcessServiceError(err, "Devops", "ListDeployments", apiReferenceLink)
 		return response, err
 	}
 
@@ -3632,6 +3754,8 @@ func (client DevopsClient) listMirrorRecords(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListMirrorRecords"
+		err = common.PostProcessServiceError(err, "Devops", "ListMirrorRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -3688,6 +3812,8 @@ func (client DevopsClient) listPaths(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPathSummary/ListPaths"
+		err = common.PostProcessServiceError(err, "Devops", "ListPaths", apiReferenceLink)
 		return response, err
 	}
 
@@ -3744,6 +3870,8 @@ func (client DevopsClient) listProjects(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ProjectSummary/ListProjects"
+		err = common.PostProcessServiceError(err, "Devops", "ListProjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -3800,6 +3928,8 @@ func (client DevopsClient) listRefs(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryRef/ListRefs"
+		err = common.PostProcessServiceError(err, "Devops", "ListRefs", apiReferenceLink)
 		return response, err
 	}
 
@@ -3856,6 +3986,8 @@ func (client DevopsClient) listRepositories(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListRepositories"
+		err = common.PostProcessServiceError(err, "Devops", "ListRepositories", apiReferenceLink)
 		return response, err
 	}
 
@@ -3912,6 +4044,8 @@ func (client DevopsClient) listTriggers(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/TriggerCollection/ListTriggers"
+		err = common.PostProcessServiceError(err, "Devops", "ListTriggers", apiReferenceLink)
 		return response, err
 	}
 
@@ -3968,6 +4102,8 @@ func (client DevopsClient) listWorkRequestErrors(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Devops", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -4024,6 +4160,8 @@ func (client DevopsClient) listWorkRequestLogs(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Devops", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -4080,6 +4218,8 @@ func (client DevopsClient) listWorkRequests(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Devops", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -4136,6 +4276,8 @@ func (client DevopsClient) mirrorRepository(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/MirrorRepository"
+		err = common.PostProcessServiceError(err, "Devops", "MirrorRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -4197,6 +4339,8 @@ func (client DevopsClient) putRepositoryRef(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/PutRepositoryRef"
+		err = common.PostProcessServiceError(err, "Devops", "PutRepositoryRef", apiReferenceLink)
 		return response, err
 	}
 
@@ -4253,6 +4397,8 @@ func (client DevopsClient) updateBuildPipeline(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipeline/UpdateBuildPipeline"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateBuildPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -4309,6 +4455,8 @@ func (client DevopsClient) updateBuildPipelineStage(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildPipelineStage/UpdateBuildPipelineStage"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateBuildPipelineStage", apiReferenceLink)
 		return response, err
 	}
 
@@ -4365,6 +4513,8 @@ func (client DevopsClient) updateBuildRun(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BuildRun/UpdateBuildRun"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateBuildRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -4421,6 +4571,8 @@ func (client DevopsClient) updateConnection(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Connection/UpdateConnection"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -4477,6 +4629,8 @@ func (client DevopsClient) updateDeployArtifact(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployArtifact/UpdateDeployArtifact"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateDeployArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -4533,6 +4687,8 @@ func (client DevopsClient) updateDeployEnvironment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployEnvironment/UpdateDeployEnvironment"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateDeployEnvironment", apiReferenceLink)
 		return response, err
 	}
 
@@ -4589,6 +4745,8 @@ func (client DevopsClient) updateDeployPipeline(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployPipeline/UpdateDeployPipeline"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateDeployPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -4645,6 +4803,8 @@ func (client DevopsClient) updateDeployStage(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/DeployStage/UpdateDeployStage"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateDeployStage", apiReferenceLink)
 		return response, err
 	}
 
@@ -4701,6 +4861,8 @@ func (client DevopsClient) updateDeployment(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Deployment/UpdateDeployment"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -4757,6 +4919,8 @@ func (client DevopsClient) updateProject(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Project/UpdateProject"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -4813,6 +4977,8 @@ func (client DevopsClient) updateRepository(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/UpdateRepository"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -4869,6 +5035,8 @@ func (client DevopsClient) updateTrigger(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Trigger/UpdateTrigger"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateTrigger", apiReferenceLink)
 		return response, err
 	}
 

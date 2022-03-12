@@ -132,6 +132,8 @@ func (client CertificatesManagementClient) cancelCertificateAuthorityDeletion(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthority/CancelCertificateAuthorityDeletion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "CancelCertificateAuthorityDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -189,6 +191,8 @@ func (client CertificatesManagementClient) cancelCertificateAuthorityVersionDele
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthorityVersion/CancelCertificateAuthorityVersionDeletion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "CancelCertificateAuthorityVersionDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -246,6 +250,8 @@ func (client CertificatesManagementClient) cancelCertificateDeletion(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/Certificate/CancelCertificateDeletion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "CancelCertificateDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -301,6 +307,8 @@ func (client CertificatesManagementClient) cancelCertificateVersionDeletion(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateVersion/CancelCertificateVersionDeletion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "CancelCertificateVersionDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -363,6 +371,8 @@ func (client CertificatesManagementClient) changeCaBundleCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CaBundle/ChangeCaBundleCompartment"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ChangeCaBundleCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -425,6 +435,8 @@ func (client CertificatesManagementClient) changeCertificateAuthorityCompartment
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthority/ChangeCertificateAuthorityCompartment"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ChangeCertificateAuthorityCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -487,6 +499,8 @@ func (client CertificatesManagementClient) changeCertificateCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/Certificate/ChangeCertificateCompartment"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ChangeCertificateCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -547,6 +561,8 @@ func (client CertificatesManagementClient) createCaBundle(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CaBundle/CreateCaBundle"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "CreateCaBundle", apiReferenceLink)
 		return response, err
 	}
 
@@ -607,6 +623,8 @@ func (client CertificatesManagementClient) createCertificate(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/Certificate/CreateCertificate"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "CreateCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -667,6 +685,8 @@ func (client CertificatesManagementClient) createCertificateAuthority(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthority/CreateCertificateAuthority"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "CreateCertificateAuthority", apiReferenceLink)
 		return response, err
 	}
 
@@ -722,6 +742,8 @@ func (client CertificatesManagementClient) deleteCaBundle(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CaBundle/DeleteCaBundle"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "DeleteCaBundle", apiReferenceLink)
 		return response, err
 	}
 
@@ -777,6 +799,8 @@ func (client CertificatesManagementClient) getAssociation(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/Association/GetAssociation"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "GetAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -832,6 +856,8 @@ func (client CertificatesManagementClient) getCaBundle(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CaBundle/GetCaBundle"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "GetCaBundle", apiReferenceLink)
 		return response, err
 	}
 
@@ -887,6 +913,8 @@ func (client CertificatesManagementClient) getCertificate(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/Certificate/GetCertificate"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "GetCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -942,6 +970,8 @@ func (client CertificatesManagementClient) getCertificateAuthority(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthority/GetCertificateAuthority"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "GetCertificateAuthority", apiReferenceLink)
 		return response, err
 	}
 
@@ -997,6 +1027,8 @@ func (client CertificatesManagementClient) getCertificateAuthorityVersion(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthorityVersion/GetCertificateAuthorityVersion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "GetCertificateAuthorityVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1052,6 +1084,8 @@ func (client CertificatesManagementClient) getCertificateVersion(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateVersion/GetCertificateVersion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "GetCertificateVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1108,6 +1142,8 @@ func (client CertificatesManagementClient) listAssociations(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/AssociationSummary/ListAssociations"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ListAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1164,6 +1200,8 @@ func (client CertificatesManagementClient) listCaBundles(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CaBundleSummary/ListCaBundles"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ListCaBundles", apiReferenceLink)
 		return response, err
 	}
 
@@ -1220,6 +1258,8 @@ func (client CertificatesManagementClient) listCertificateAuthorities(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthoritySummary/ListCertificateAuthorities"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ListCertificateAuthorities", apiReferenceLink)
 		return response, err
 	}
 
@@ -1276,6 +1316,8 @@ func (client CertificatesManagementClient) listCertificateAuthorityVersions(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthorityVersionSummary/ListCertificateAuthorityVersions"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ListCertificateAuthorityVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -1332,6 +1374,8 @@ func (client CertificatesManagementClient) listCertificateVersions(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateVersionSummary/ListCertificateVersions"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ListCertificateVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -1388,6 +1432,8 @@ func (client CertificatesManagementClient) listCertificates(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateSummary/ListCertificates"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ListCertificates", apiReferenceLink)
 		return response, err
 	}
 
@@ -1448,6 +1494,8 @@ func (client CertificatesManagementClient) revokeCertificateAuthorityVersion(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthorityVersion/RevokeCertificateAuthorityVersion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "RevokeCertificateAuthorityVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1508,6 +1556,8 @@ func (client CertificatesManagementClient) revokeCertificateVersion(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateVersion/RevokeCertificateVersion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "RevokeCertificateVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1563,6 +1613,8 @@ func (client CertificatesManagementClient) scheduleCertificateAuthorityDeletion(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthority/ScheduleCertificateAuthorityDeletion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ScheduleCertificateAuthorityDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1620,6 +1672,8 @@ func (client CertificatesManagementClient) scheduleCertificateAuthorityVersionDe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthorityVersion/ScheduleCertificateAuthorityVersionDeletion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ScheduleCertificateAuthorityVersionDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1677,6 +1731,8 @@ func (client CertificatesManagementClient) scheduleCertificateDeletion(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/Certificate/ScheduleCertificateDeletion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ScheduleCertificateDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1734,6 +1790,8 @@ func (client CertificatesManagementClient) scheduleCertificateVersionDeletion(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateVersion/ScheduleCertificateVersionDeletion"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "ScheduleCertificateVersionDeletion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1789,6 +1847,8 @@ func (client CertificatesManagementClient) updateCaBundle(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CaBundle/UpdateCaBundle"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "UpdateCaBundle", apiReferenceLink)
 		return response, err
 	}
 
@@ -1844,6 +1904,8 @@ func (client CertificatesManagementClient) updateCertificate(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/Certificate/UpdateCertificate"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "UpdateCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -1899,6 +1961,8 @@ func (client CertificatesManagementClient) updateCertificateAuthority(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/certificatesmgmt/20210224/CertificateAuthority/UpdateCertificateAuthority"
+		err = common.PostProcessServiceError(err, "CertificatesManagement", "UpdateCertificateAuthority", apiReferenceLink)
 		return response, err
 	}
 

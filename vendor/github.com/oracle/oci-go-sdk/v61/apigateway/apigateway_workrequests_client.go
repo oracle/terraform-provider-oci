@@ -139,6 +139,8 @@ func (client WorkRequestsClient) cancelWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/WorkRequest/CancelWorkRequest"
+		err = common.PostProcessServiceError(err, "WorkRequests", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -194,6 +196,8 @@ func (client WorkRequestsClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "WorkRequests", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -249,6 +253,8 @@ func (client WorkRequestsClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "WorkRequests", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -304,6 +310,8 @@ func (client WorkRequestsClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/WorkRequestLog/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "WorkRequests", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -359,6 +367,8 @@ func (client WorkRequestsClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "WorkRequests", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 

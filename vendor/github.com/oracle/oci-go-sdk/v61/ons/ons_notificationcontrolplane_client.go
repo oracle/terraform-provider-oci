@@ -141,6 +141,8 @@ func (client NotificationControlPlaneClient) changeTopicCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/NotificationTopic/ChangeTopicCompartment"
+		err = common.PostProcessServiceError(err, "NotificationControlPlane", "ChangeTopicCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -210,6 +212,8 @@ func (client NotificationControlPlaneClient) createTopic(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/NotificationTopic/CreateTopic"
+		err = common.PostProcessServiceError(err, "NotificationControlPlane", "CreateTopic", apiReferenceLink)
 		return response, err
 	}
 
@@ -266,6 +270,8 @@ func (client NotificationControlPlaneClient) deleteTopic(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/NotificationTopic/DeleteTopic"
+		err = common.PostProcessServiceError(err, "NotificationControlPlane", "DeleteTopic", apiReferenceLink)
 		return response, err
 	}
 
@@ -321,6 +327,8 @@ func (client NotificationControlPlaneClient) getTopic(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/NotificationTopic/GetTopic"
+		err = common.PostProcessServiceError(err, "NotificationControlPlane", "GetTopic", apiReferenceLink)
 		return response, err
 	}
 
@@ -377,6 +385,8 @@ func (client NotificationControlPlaneClient) listTopics(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/NotificationTopic/ListTopics"
+		err = common.PostProcessServiceError(err, "NotificationControlPlane", "ListTopics", apiReferenceLink)
 		return response, err
 	}
 
@@ -433,6 +443,8 @@ func (client NotificationControlPlaneClient) updateTopic(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/NotificationTopic/UpdateTopic"
+		err = common.PostProcessServiceError(err, "NotificationControlPlane", "UpdateTopic", apiReferenceLink)
 		return response, err
 	}
 

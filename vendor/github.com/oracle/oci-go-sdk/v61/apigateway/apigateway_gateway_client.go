@@ -139,6 +139,8 @@ func (client GatewayClient) changeGatewayCompartment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Gateway/ChangeGatewayCompartment"
+		err = common.PostProcessServiceError(err, "Gateway", "ChangeGatewayCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -199,6 +201,8 @@ func (client GatewayClient) createGateway(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Gateway", "CreateGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -254,6 +258,8 @@ func (client GatewayClient) deleteGateway(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Gateway/DeleteGateway"
+		err = common.PostProcessServiceError(err, "Gateway", "DeleteGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -309,6 +315,8 @@ func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Gateway/GetGateway"
+		err = common.PostProcessServiceError(err, "Gateway", "GetGateway", apiReferenceLink)
 		return response, err
 	}
 
@@ -364,6 +372,8 @@ func (client GatewayClient) listGateways(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/GatewaySummary/ListGateways"
+		err = common.PostProcessServiceError(err, "Gateway", "ListGateways", apiReferenceLink)
 		return response, err
 	}
 
@@ -419,6 +429,8 @@ func (client GatewayClient) updateGateway(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Gateway/UpdateGateway"
+		err = common.PostProcessServiceError(err, "Gateway", "UpdateGateway", apiReferenceLink)
 		return response, err
 	}
 

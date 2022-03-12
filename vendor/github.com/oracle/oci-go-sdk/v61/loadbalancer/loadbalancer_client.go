@@ -139,6 +139,8 @@ func (client LoadBalancerClient) changeLoadBalancerCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancer/ChangeLoadBalancerCompartment"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ChangeLoadBalancerCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -199,6 +201,8 @@ func (client LoadBalancerClient) createBackend(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreateBackend", apiReferenceLink)
 		return response, err
 	}
 
@@ -259,6 +263,8 @@ func (client LoadBalancerClient) createBackendSet(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreateBackendSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -319,6 +325,8 @@ func (client LoadBalancerClient) createCertificate(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreateCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -380,6 +388,8 @@ func (client LoadBalancerClient) createHostname(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreateHostname", apiReferenceLink)
 		return response, err
 	}
 
@@ -440,6 +450,8 @@ func (client LoadBalancerClient) createListener(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreateListener", apiReferenceLink)
 		return response, err
 	}
 
@@ -520,6 +532,8 @@ func (client LoadBalancerClient) createLoadBalancer(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreateLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -581,6 +595,8 @@ func (client LoadBalancerClient) createPathRouteSet(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreatePathRouteSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -642,6 +658,8 @@ func (client LoadBalancerClient) createRoutingPolicy(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreateRoutingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -698,6 +716,8 @@ func (client LoadBalancerClient) createRuleSet(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreateRuleSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -758,6 +778,8 @@ func (client LoadBalancerClient) createSSLCipherSuite(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "CreateSSLCipherSuite", apiReferenceLink)
 		return response, err
 	}
 
@@ -813,6 +835,8 @@ func (client LoadBalancerClient) deleteBackend(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeleteBackend", apiReferenceLink)
 		return response, err
 	}
 
@@ -869,6 +893,8 @@ func (client LoadBalancerClient) deleteBackendSet(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeleteBackendSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -924,6 +950,8 @@ func (client LoadBalancerClient) deleteCertificate(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeleteCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -979,6 +1007,8 @@ func (client LoadBalancerClient) deleteHostname(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeleteHostname", apiReferenceLink)
 		return response, err
 	}
 
@@ -1034,6 +1064,8 @@ func (client LoadBalancerClient) deleteListener(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeleteListener", apiReferenceLink)
 		return response, err
 	}
 
@@ -1089,6 +1121,8 @@ func (client LoadBalancerClient) deleteLoadBalancer(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeleteLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -1146,6 +1180,8 @@ func (client LoadBalancerClient) deletePathRouteSet(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeletePathRouteSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1203,6 +1239,8 @@ func (client LoadBalancerClient) deleteRoutingPolicy(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeleteRoutingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -1260,6 +1298,8 @@ func (client LoadBalancerClient) deleteRuleSet(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeleteRuleSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1315,6 +1355,8 @@ func (client LoadBalancerClient) deleteSSLCipherSuite(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "DeleteSSLCipherSuite", apiReferenceLink)
 		return response, err
 	}
 
@@ -1370,6 +1412,8 @@ func (client LoadBalancerClient) getBackend(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/Backend/GetBackend"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetBackend", apiReferenceLink)
 		return response, err
 	}
 
@@ -1425,6 +1469,8 @@ func (client LoadBalancerClient) getBackendHealth(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendHealth/GetBackendHealth"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetBackendHealth", apiReferenceLink)
 		return response, err
 	}
 
@@ -1480,6 +1526,8 @@ func (client LoadBalancerClient) getBackendSet(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendSet/GetBackendSet"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetBackendSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1535,6 +1583,8 @@ func (client LoadBalancerClient) getBackendSetHealth(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendSetHealth/GetBackendSetHealth"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetBackendSetHealth", apiReferenceLink)
 		return response, err
 	}
 
@@ -1590,6 +1640,8 @@ func (client LoadBalancerClient) getHealthChecker(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/HealthChecker/GetHealthChecker"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetHealthChecker", apiReferenceLink)
 		return response, err
 	}
 
@@ -1645,6 +1697,8 @@ func (client LoadBalancerClient) getHostname(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/Hostname/GetHostname"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetHostname", apiReferenceLink)
 		return response, err
 	}
 
@@ -1700,6 +1754,8 @@ func (client LoadBalancerClient) getLoadBalancer(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancer/GetLoadBalancer"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -1755,6 +1811,8 @@ func (client LoadBalancerClient) getLoadBalancerHealth(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerHealth/GetLoadBalancerHealth"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetLoadBalancerHealth", apiReferenceLink)
 		return response, err
 	}
 
@@ -1810,6 +1868,8 @@ func (client LoadBalancerClient) getPathRouteSet(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/PathRouteSet/GetPathRouteSet"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetPathRouteSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1865,6 +1925,8 @@ func (client LoadBalancerClient) getRoutingPolicy(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/RoutingPolicy/GetRoutingPolicy"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetRoutingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -1920,6 +1982,8 @@ func (client LoadBalancerClient) getRuleSet(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/RuleSet/GetRuleSet"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetRuleSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1975,6 +2039,8 @@ func (client LoadBalancerClient) getSSLCipherSuite(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/SSLCipherSuite/GetSSLCipherSuite"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetSSLCipherSuite", apiReferenceLink)
 		return response, err
 	}
 
@@ -2030,6 +2096,8 @@ func (client LoadBalancerClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -2085,6 +2153,8 @@ func (client LoadBalancerClient) listBackendSets(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/BackendSet/ListBackendSets"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListBackendSets", apiReferenceLink)
 		return response, err
 	}
 
@@ -2140,6 +2210,8 @@ func (client LoadBalancerClient) listBackends(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/Backend/ListBackends"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListBackends", apiReferenceLink)
 		return response, err
 	}
 
@@ -2195,6 +2267,8 @@ func (client LoadBalancerClient) listCertificates(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/Certificate/ListCertificates"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListCertificates", apiReferenceLink)
 		return response, err
 	}
 
@@ -2250,6 +2324,8 @@ func (client LoadBalancerClient) listHostnames(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/Hostname/ListHostnames"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListHostnames", apiReferenceLink)
 		return response, err
 	}
 
@@ -2310,6 +2386,8 @@ func (client LoadBalancerClient) listListenerRules(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/ListenerRuleSummary/ListListenerRules"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListListenerRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -2365,6 +2443,8 @@ func (client LoadBalancerClient) listLoadBalancerHealths(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerHealthSummary/ListLoadBalancerHealths"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListLoadBalancerHealths", apiReferenceLink)
 		return response, err
 	}
 
@@ -2420,6 +2500,8 @@ func (client LoadBalancerClient) listLoadBalancers(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancer/ListLoadBalancers"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListLoadBalancers", apiReferenceLink)
 		return response, err
 	}
 
@@ -2475,6 +2557,8 @@ func (client LoadBalancerClient) listPathRouteSets(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/PathRouteSet/ListPathRouteSets"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListPathRouteSets", apiReferenceLink)
 		return response, err
 	}
 
@@ -2530,6 +2614,8 @@ func (client LoadBalancerClient) listPolicies(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -2585,6 +2671,8 @@ func (client LoadBalancerClient) listProtocols(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListProtocols", apiReferenceLink)
 		return response, err
 	}
 
@@ -2640,6 +2728,8 @@ func (client LoadBalancerClient) listRoutingPolicies(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/RoutingPolicy/ListRoutingPolicies"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListRoutingPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -2695,6 +2785,8 @@ func (client LoadBalancerClient) listRuleSets(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/RuleSet/ListRuleSets"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListRuleSets", apiReferenceLink)
 		return response, err
 	}
 
@@ -2750,6 +2842,8 @@ func (client LoadBalancerClient) listSSLCipherSuites(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/SSLCipherSuite/ListSSLCipherSuites"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListSSLCipherSuites", apiReferenceLink)
 		return response, err
 	}
 
@@ -2805,6 +2899,8 @@ func (client LoadBalancerClient) listShapes(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListShapes", apiReferenceLink)
 		return response, err
 	}
 
@@ -2860,6 +2956,8 @@ func (client LoadBalancerClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -2920,6 +3018,8 @@ func (client LoadBalancerClient) updateBackend(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateBackend", apiReferenceLink)
 		return response, err
 	}
 
@@ -2980,6 +3080,8 @@ func (client LoadBalancerClient) updateBackendSet(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateBackendSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -3040,6 +3142,8 @@ func (client LoadBalancerClient) updateHealthChecker(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateHealthChecker", apiReferenceLink)
 		return response, err
 	}
 
@@ -3096,6 +3200,8 @@ func (client LoadBalancerClient) updateHostname(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateHostname", apiReferenceLink)
 		return response, err
 	}
 
@@ -3156,6 +3262,8 @@ func (client LoadBalancerClient) updateListener(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateListener", apiReferenceLink)
 		return response, err
 	}
 
@@ -3216,6 +3324,8 @@ func (client LoadBalancerClient) updateLoadBalancer(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 
@@ -3281,6 +3391,8 @@ func (client LoadBalancerClient) updateLoadBalancerShape(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancer/UpdateLoadBalancerShape"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateLoadBalancerShape", apiReferenceLink)
 		return response, err
 	}
 
@@ -3341,6 +3453,8 @@ func (client LoadBalancerClient) updateNetworkSecurityGroups(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/NetworkSecurityGroups/UpdateNetworkSecurityGroups"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateNetworkSecurityGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -3405,6 +3519,8 @@ func (client LoadBalancerClient) updatePathRouteSet(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdatePathRouteSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -3467,6 +3583,8 @@ func (client LoadBalancerClient) updateRoutingPolicy(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateRoutingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -3524,6 +3642,8 @@ func (client LoadBalancerClient) updateRuleSet(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateRuleSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -3584,6 +3704,8 @@ func (client LoadBalancerClient) updateSSLCipherSuite(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "LoadBalancer", "UpdateSSLCipherSuite", apiReferenceLink)
 		return response, err
 	}
 

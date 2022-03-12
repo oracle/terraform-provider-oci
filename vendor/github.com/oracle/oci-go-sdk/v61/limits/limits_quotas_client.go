@@ -137,6 +137,8 @@ func (client QuotasClient) createQuota(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/CreateQuota"
+		err = common.PostProcessServiceError(err, "Quotas", "CreateQuota", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +194,8 @@ func (client QuotasClient) deleteQuota(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/DeleteQuota"
+		err = common.PostProcessServiceError(err, "Quotas", "DeleteQuota", apiReferenceLink)
 		return response, err
 	}
 
@@ -247,6 +251,8 @@ func (client QuotasClient) getQuota(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/GetQuota"
+		err = common.PostProcessServiceError(err, "Quotas", "GetQuota", apiReferenceLink)
 		return response, err
 	}
 
@@ -302,6 +308,8 @@ func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//QuotaSummary/ListQuotas"
+		err = common.PostProcessServiceError(err, "Quotas", "ListQuotas", apiReferenceLink)
 		return response, err
 	}
 
@@ -357,6 +365,8 @@ func (client QuotasClient) updateQuota(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//Quota/UpdateQuota"
+		err = common.PostProcessServiceError(err, "Quotas", "UpdateQuota", apiReferenceLink)
 		return response, err
 	}
 

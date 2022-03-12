@@ -137,6 +137,8 @@ func (client DataLabelingManagementClient) addDatasetLabels(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/AddDatasetLabels"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "AddDatasetLabels", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +194,8 @@ func (client DataLabelingManagementClient) changeDatasetCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/ChangeDatasetCompartment"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ChangeDatasetCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -252,6 +256,8 @@ func (client DataLabelingManagementClient) createDataset(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/CreateDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "CreateDataset", apiReferenceLink)
 		return response, err
 	}
 
@@ -307,6 +313,8 @@ func (client DataLabelingManagementClient) deleteDataset(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/DeleteDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "DeleteDataset", apiReferenceLink)
 		return response, err
 	}
 
@@ -367,6 +375,8 @@ func (client DataLabelingManagementClient) generateDatasetRecords(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/GenerateDatasetRecords"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "GenerateDatasetRecords", apiReferenceLink)
 		return response, err
 	}
 
@@ -422,6 +432,8 @@ func (client DataLabelingManagementClient) getDataset(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/GetDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "GetDataset", apiReferenceLink)
 		return response, err
 	}
 
@@ -477,6 +489,8 @@ func (client DataLabelingManagementClient) getWorkRequest(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -532,6 +546,8 @@ func (client DataLabelingManagementClient) listAnnotationFormats(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/AnnotationFormat/ListAnnotationFormats"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListAnnotationFormats", apiReferenceLink)
 		return response, err
 	}
 
@@ -587,6 +603,8 @@ func (client DataLabelingManagementClient) listDatasets(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/DatasetCollection/ListDatasets"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListDatasets", apiReferenceLink)
 		return response, err
 	}
 
@@ -642,6 +660,8 @@ func (client DataLabelingManagementClient) listWorkRequestErrors(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/WorkRequest/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -697,6 +717,8 @@ func (client DataLabelingManagementClient) listWorkRequestLogs(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/WorkRequest/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -752,6 +774,8 @@ func (client DataLabelingManagementClient) listWorkRequests(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -812,6 +836,8 @@ func (client DataLabelingManagementClient) removeDatasetLabels(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/RemoveDatasetLabels"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "RemoveDatasetLabels", apiReferenceLink)
 		return response, err
 	}
 
@@ -872,6 +898,8 @@ func (client DataLabelingManagementClient) renameDatasetLabels(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/RenameDatasetLabels"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "RenameDatasetLabels", apiReferenceLink)
 		return response, err
 	}
 
@@ -933,6 +961,8 @@ func (client DataLabelingManagementClient) snapshotDataset(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/SnapshotDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "SnapshotDataset", apiReferenceLink)
 		return response, err
 	}
 
@@ -988,6 +1018,8 @@ func (client DataLabelingManagementClient) updateDataset(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/datalabeling/20211001/Dataset/UpdateDataset"
+		err = common.PostProcessServiceError(err, "DataLabelingManagement", "UpdateDataset", apiReferenceLink)
 		return response, err
 	}
 

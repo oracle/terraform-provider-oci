@@ -126,6 +126,8 @@ func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsCrypto", "Decrypt", apiReferenceLink)
 		return response, err
 	}
 
@@ -182,6 +184,8 @@ func (client KmsCryptoClient) encrypt(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsCrypto", "Encrypt", apiReferenceLink)
 		return response, err
 	}
 
@@ -239,6 +243,8 @@ func (client KmsCryptoClient) exportKey(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsCrypto", "ExportKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -294,6 +300,8 @@ func (client KmsCryptoClient) generateDataEncryptionKey(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsCrypto", "GenerateDataEncryptionKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -351,6 +359,8 @@ func (client KmsCryptoClient) sign(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsCrypto", "Sign", apiReferenceLink)
 		return response, err
 	}
 
@@ -408,6 +418,8 @@ func (client KmsCryptoClient) verify(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "KmsCrypto", "Verify", apiReferenceLink)
 		return response, err
 	}
 

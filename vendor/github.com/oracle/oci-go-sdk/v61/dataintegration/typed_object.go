@@ -135,6 +135,10 @@ func (m *typedobject) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := DerivedField{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "TYPED_EXPRESSION":
+		mm := TypedExpression{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FLOW_PORT":
 		mm := FlowPort{}
 		err = json.Unmarshal(data, &mm)

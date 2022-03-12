@@ -134,6 +134,8 @@ func (client AnomalyDetectionClient) cancelWorkRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -194,6 +196,8 @@ func (client AnomalyDetectionClient) changeAiPrivateEndpointCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeAiPrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -254,6 +258,8 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeDataAssetCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -314,6 +320,8 @@ func (client AnomalyDetectionClient) changeModelCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeModelCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -374,6 +382,8 @@ func (client AnomalyDetectionClient) changeProjectCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeProjectCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -434,6 +444,8 @@ func (client AnomalyDetectionClient) createAiPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -494,6 +506,8 @@ func (client AnomalyDetectionClient) createDataAsset(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -554,6 +568,8 @@ func (client AnomalyDetectionClient) createModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -614,6 +630,8 @@ func (client AnomalyDetectionClient) createProject(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -669,6 +687,8 @@ func (client AnomalyDetectionClient) deleteAiPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -724,6 +744,8 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -779,6 +801,8 @@ func (client AnomalyDetectionClient) deleteModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -834,6 +858,8 @@ func (client AnomalyDetectionClient) deleteProject(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -894,6 +920,8 @@ func (client AnomalyDetectionClient) detectAnomalies(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "DetectAnomalies", apiReferenceLink)
 		return response, err
 	}
 
@@ -949,6 +977,8 @@ func (client AnomalyDetectionClient) getAiPrivateEndpoint(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1004,6 +1034,8 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -1059,6 +1091,8 @@ func (client AnomalyDetectionClient) getModel(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -1114,6 +1148,8 @@ func (client AnomalyDetectionClient) getProject(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -1169,6 +1205,8 @@ func (client AnomalyDetectionClient) getWorkRequest(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1224,6 +1262,8 @@ func (client AnomalyDetectionClient) listAiPrivateEndpoints(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListAiPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -1279,6 +1319,8 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListDataAssets", apiReferenceLink)
 		return response, err
 	}
 
@@ -1334,6 +1376,8 @@ func (client AnomalyDetectionClient) listModels(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListModels", apiReferenceLink)
 		return response, err
 	}
 
@@ -1389,6 +1433,8 @@ func (client AnomalyDetectionClient) listProjects(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListProjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -1444,6 +1490,8 @@ func (client AnomalyDetectionClient) listWorkRequestErrors(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1499,6 +1547,8 @@ func (client AnomalyDetectionClient) listWorkRequestLogs(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1554,6 +1604,8 @@ func (client AnomalyDetectionClient) listWorkRequests(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1609,6 +1661,8 @@ func (client AnomalyDetectionClient) updateAiPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1664,6 +1718,8 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -1719,6 +1775,8 @@ func (client AnomalyDetectionClient) updateModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -1774,6 +1832,8 @@ func (client AnomalyDetectionClient) updateProject(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateProject", apiReferenceLink)
 		return response, err
 	}
 

@@ -133,6 +133,8 @@ func (client WaasClient) acceptRecommendations(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Recommendation/AcceptRecommendations"
+		err = common.PostProcessServiceError(err, "Waas", "AcceptRecommendations", apiReferenceLink)
 		return response, err
 	}
 
@@ -193,6 +195,8 @@ func (client WaasClient) cancelWorkRequest(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WorkRequest/CancelWorkRequest"
+		err = common.PostProcessServiceError(err, "Waas", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -255,6 +259,8 @@ func (client WaasClient) changeAddressListCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AddressList/ChangeAddressListCompartment"
+		err = common.PostProcessServiceError(err, "Waas", "ChangeAddressListCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -316,6 +322,8 @@ func (client WaasClient) changeCertificateCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Certificate/ChangeCertificateCompartment"
+		err = common.PostProcessServiceError(err, "Waas", "ChangeCertificateCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -376,6 +384,8 @@ func (client WaasClient) changeCustomProtectionRuleCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CustomProtectionRule/ChangeCustomProtectionRuleCompartment"
+		err = common.PostProcessServiceError(err, "Waas", "ChangeCustomProtectionRuleCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -437,6 +447,8 @@ func (client WaasClient) changeWaasPolicyCompartment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WaasPolicy/ChangeWaasPolicyCompartment"
+		err = common.PostProcessServiceError(err, "Waas", "ChangeWaasPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -497,6 +509,8 @@ func (client WaasClient) createAddressList(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AddressList/CreateAddressList"
+		err = common.PostProcessServiceError(err, "Waas", "CreateAddressList", apiReferenceLink)
 		return response, err
 	}
 
@@ -558,6 +572,8 @@ func (client WaasClient) createCertificate(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Certificate/CreateCertificate"
+		err = common.PostProcessServiceError(err, "Waas", "CreateCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -619,6 +635,8 @@ func (client WaasClient) createCustomProtectionRule(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CustomProtectionRule/CreateCustomProtectionRule"
+		err = common.PostProcessServiceError(err, "Waas", "CreateCustomProtectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -685,6 +703,8 @@ func (client WaasClient) createWaasPolicy(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WaasPolicy/CreateWaasPolicy"
+		err = common.PostProcessServiceError(err, "Waas", "CreateWaasPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -745,6 +765,8 @@ func (client WaasClient) deleteAddressList(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AddressList/DeleteAddressList"
+		err = common.PostProcessServiceError(err, "Waas", "DeleteAddressList", apiReferenceLink)
 		return response, err
 	}
 
@@ -805,6 +827,8 @@ func (client WaasClient) deleteCertificate(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Certificate/DeleteCertificate"
+		err = common.PostProcessServiceError(err, "Waas", "DeleteCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -865,6 +889,8 @@ func (client WaasClient) deleteCustomProtectionRule(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CustomProtectionRule/DeleteCustomProtectionRule"
+		err = common.PostProcessServiceError(err, "Waas", "DeleteCustomProtectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -925,6 +951,8 @@ func (client WaasClient) deleteWaasPolicy(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WaasPolicy/DeleteWaasPolicy"
+		err = common.PostProcessServiceError(err, "Waas", "DeleteWaasPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -980,6 +1008,8 @@ func (client WaasClient) getAddressList(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AddressList/GetAddressList"
+		err = common.PostProcessServiceError(err, "Waas", "GetAddressList", apiReferenceLink)
 		return response, err
 	}
 
@@ -1035,6 +1065,8 @@ func (client WaasClient) getCertificate(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Certificate/GetCertificate"
+		err = common.PostProcessServiceError(err, "Waas", "GetCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -1090,6 +1122,8 @@ func (client WaasClient) getCustomProtectionRule(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CustomProtectionRule/GetCustomProtectionRule"
+		err = common.PostProcessServiceError(err, "Waas", "GetCustomProtectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1145,6 +1179,8 @@ func (client WaasClient) getDeviceFingerprintChallenge(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/DeviceFingerprintChallenge/GetDeviceFingerprintChallenge"
+		err = common.PostProcessServiceError(err, "Waas", "GetDeviceFingerprintChallenge", apiReferenceLink)
 		return response, err
 	}
 
@@ -1200,6 +1236,8 @@ func (client WaasClient) getHumanInteractionChallenge(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/HumanInteractionChallenge/GetHumanInteractionChallenge"
+		err = common.PostProcessServiceError(err, "Waas", "GetHumanInteractionChallenge", apiReferenceLink)
 		return response, err
 	}
 
@@ -1255,6 +1293,8 @@ func (client WaasClient) getJsChallenge(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/JsChallenge/GetJsChallenge"
+		err = common.PostProcessServiceError(err, "Waas", "GetJsChallenge", apiReferenceLink)
 		return response, err
 	}
 
@@ -1310,6 +1350,8 @@ func (client WaasClient) getPolicyConfig(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/PolicyConfig/GetPolicyConfig"
+		err = common.PostProcessServiceError(err, "Waas", "GetPolicyConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -1365,6 +1407,8 @@ func (client WaasClient) getProtectionRule(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/ProtectionRule/GetProtectionRule"
+		err = common.PostProcessServiceError(err, "Waas", "GetProtectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1420,6 +1464,8 @@ func (client WaasClient) getProtectionSettings(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/ProtectionSettings/GetProtectionSettings"
+		err = common.PostProcessServiceError(err, "Waas", "GetProtectionSettings", apiReferenceLink)
 		return response, err
 	}
 
@@ -1475,6 +1521,8 @@ func (client WaasClient) getWaasPolicy(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WaasPolicy/GetWaasPolicy"
+		err = common.PostProcessServiceError(err, "Waas", "GetWaasPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -1530,6 +1578,8 @@ func (client WaasClient) getWafAddressRateLimiting(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AddressRateLimiting/GetWafAddressRateLimiting"
+		err = common.PostProcessServiceError(err, "Waas", "GetWafAddressRateLimiting", apiReferenceLink)
 		return response, err
 	}
 
@@ -1585,6 +1635,8 @@ func (client WaasClient) getWafConfig(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WafConfig/GetWafConfig"
+		err = common.PostProcessServiceError(err, "Waas", "GetWafConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -1640,6 +1692,8 @@ func (client WaasClient) getWorkRequest(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Waas", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1696,6 +1750,8 @@ func (client WaasClient) listAccessRules(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AccessRule/ListAccessRules"
+		err = common.PostProcessServiceError(err, "Waas", "ListAccessRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -1751,6 +1807,8 @@ func (client WaasClient) listAddressLists(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AddressList/ListAddressLists"
+		err = common.PostProcessServiceError(err, "Waas", "ListAddressLists", apiReferenceLink)
 		return response, err
 	}
 
@@ -1807,6 +1865,8 @@ func (client WaasClient) listCachingRules(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CachingRuleSummary/ListCachingRules"
+		err = common.PostProcessServiceError(err, "Waas", "ListCachingRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -1865,6 +1925,8 @@ func (client WaasClient) listCaptchas(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Captcha/ListCaptchas"
+		err = common.PostProcessServiceError(err, "Waas", "ListCaptchas", apiReferenceLink)
 		return response, err
 	}
 
@@ -1920,6 +1982,8 @@ func (client WaasClient) listCertificates(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CertificateSummary/ListCertificates"
+		err = common.PostProcessServiceError(err, "Waas", "ListCertificates", apiReferenceLink)
 		return response, err
 	}
 
@@ -1975,6 +2039,8 @@ func (client WaasClient) listCustomProtectionRules(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CustomProtectionRule/ListCustomProtectionRules"
+		err = common.PostProcessServiceError(err, "Waas", "ListCustomProtectionRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -2030,6 +2096,8 @@ func (client WaasClient) listEdgeSubnets(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/EdgeSubnet/ListEdgeSubnets"
+		err = common.PostProcessServiceError(err, "Waas", "ListEdgeSubnets", apiReferenceLink)
 		return response, err
 	}
 
@@ -2086,6 +2154,8 @@ func (client WaasClient) listGoodBots(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/GoodBot/ListGoodBots"
+		err = common.PostProcessServiceError(err, "Waas", "ListGoodBots", apiReferenceLink)
 		return response, err
 	}
 
@@ -2142,6 +2212,8 @@ func (client WaasClient) listProtectionRules(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/ProtectionRule/ListProtectionRules"
+		err = common.PostProcessServiceError(err, "Waas", "ListProtectionRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -2199,6 +2271,8 @@ func (client WaasClient) listRecommendations(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Recommendation/ListRecommendations"
+		err = common.PostProcessServiceError(err, "Waas", "ListRecommendations", apiReferenceLink)
 		return response, err
 	}
 
@@ -2256,6 +2330,8 @@ func (client WaasClient) listThreatFeeds(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/ThreatFeed/ListThreatFeeds"
+		err = common.PostProcessServiceError(err, "Waas", "ListThreatFeeds", apiReferenceLink)
 		return response, err
 	}
 
@@ -2311,6 +2387,8 @@ func (client WaasClient) listWaasPolicies(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WaasPolicy/ListWaasPolicies"
+		err = common.PostProcessServiceError(err, "Waas", "ListWaasPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -2366,6 +2444,8 @@ func (client WaasClient) listWaasPolicyCustomProtectionRules(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CustomProtectionRule/ListWaasPolicyCustomProtectionRules"
+		err = common.PostProcessServiceError(err, "Waas", "ListWaasPolicyCustomProtectionRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -2421,6 +2501,8 @@ func (client WaasClient) listWafBlockedRequests(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WafBlockedRequest/ListWafBlockedRequests"
+		err = common.PostProcessServiceError(err, "Waas", "ListWafBlockedRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -2478,6 +2560,8 @@ func (client WaasClient) listWafLogs(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WafLog/ListWafLogs"
+		err = common.PostProcessServiceError(err, "Waas", "ListWafLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2535,6 +2619,8 @@ func (client WaasClient) listWafRequests(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WafRequest/ListWafRequests"
+		err = common.PostProcessServiceError(err, "Waas", "ListWafRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -2591,6 +2677,8 @@ func (client WaasClient) listWafTraffic(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WafTrafficDatum/ListWafTraffic"
+		err = common.PostProcessServiceError(err, "Waas", "ListWafTraffic", apiReferenceLink)
 		return response, err
 	}
 
@@ -2646,6 +2734,8 @@ func (client WaasClient) listWhitelists(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Whitelist/ListWhitelists"
+		err = common.PostProcessServiceError(err, "Waas", "ListWhitelists", apiReferenceLink)
 		return response, err
 	}
 
@@ -2701,6 +2791,8 @@ func (client WaasClient) listWorkRequests(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Waas", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -2757,6 +2849,8 @@ func (client WaasClient) purgeCache(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/PurgeCache/PurgeCache"
+		err = common.PostProcessServiceError(err, "Waas", "PurgeCache", apiReferenceLink)
 		return response, err
 	}
 
@@ -2821,6 +2915,8 @@ func (client WaasClient) updateAccessRules(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AccessRule/UpdateAccessRules"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateAccessRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -2876,6 +2972,8 @@ func (client WaasClient) updateAddressList(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AddressList/UpdateAddressList"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateAddressList", apiReferenceLink)
 		return response, err
 	}
 
@@ -2939,6 +3037,8 @@ func (client WaasClient) updateCachingRules(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CachingRule/UpdateCachingRules"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateCachingRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -3004,6 +3104,8 @@ func (client WaasClient) updateCaptchas(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Captcha/UpdateCaptchas"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateCaptchas", apiReferenceLink)
 		return response, err
 	}
 
@@ -3059,6 +3161,8 @@ func (client WaasClient) updateCertificate(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Certificate/UpdateCertificate"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -3119,6 +3223,8 @@ func (client WaasClient) updateCustomProtectionRule(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CustomProtectionRule/UpdateCustomProtectionRule"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateCustomProtectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -3181,6 +3287,8 @@ func (client WaasClient) updateDeviceFingerprintChallenge(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/DeviceFingerprintChallenge/UpdateDeviceFingerprintChallenge"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateDeviceFingerprintChallenge", apiReferenceLink)
 		return response, err
 	}
 
@@ -3242,6 +3350,8 @@ func (client WaasClient) updateGoodBots(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/GoodBot/UpdateGoodBots"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateGoodBots", apiReferenceLink)
 		return response, err
 	}
 
@@ -3302,6 +3412,8 @@ func (client WaasClient) updateHumanInteractionChallenge(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/HumanInteractionChallenge/UpdateHumanInteractionChallenge"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateHumanInteractionChallenge", apiReferenceLink)
 		return response, err
 	}
 
@@ -3362,6 +3474,8 @@ func (client WaasClient) updateJsChallenge(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/JsChallenge/UpdateJsChallenge"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateJsChallenge", apiReferenceLink)
 		return response, err
 	}
 
@@ -3422,6 +3536,8 @@ func (client WaasClient) updatePolicyConfig(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/PolicyConfig/UpdatePolicyConfig"
+		err = common.PostProcessServiceError(err, "Waas", "UpdatePolicyConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -3479,6 +3595,8 @@ func (client WaasClient) updateProtectionRules(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/ProtectionRule/UpdateProtectionRules"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateProtectionRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -3539,6 +3657,8 @@ func (client WaasClient) updateProtectionSettings(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/ProtectionSettings/UpdateProtectionSettings"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateProtectionSettings", apiReferenceLink)
 		return response, err
 	}
 
@@ -3594,6 +3714,8 @@ func (client WaasClient) updateThreatFeeds(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/ThreatFeed/UpdateThreatFeeds"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateThreatFeeds", apiReferenceLink)
 		return response, err
 	}
 
@@ -3656,6 +3778,8 @@ func (client WaasClient) updateWaasPolicy(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WaasPolicy/UpdateWaasPolicy"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateWaasPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -3716,6 +3840,8 @@ func (client WaasClient) updateWaasPolicyCustomProtectionRules(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/CustomProtectionRule/UpdateWaasPolicyCustomProtectionRules"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateWaasPolicyCustomProtectionRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -3776,6 +3902,8 @@ func (client WaasClient) updateWafAddressRateLimiting(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/AddressRateLimiting/UpdateWafAddressRateLimiting"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateWafAddressRateLimiting", apiReferenceLink)
 		return response, err
 	}
 
@@ -3841,6 +3969,8 @@ func (client WaasClient) updateWafConfig(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/WafConfig/UpdateWafConfig"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateWafConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -3905,6 +4035,8 @@ func (client WaasClient) updateWhitelists(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/Whitelist/UpdateWhitelists"
+		err = common.PostProcessServiceError(err, "Waas", "UpdateWhitelists", apiReferenceLink)
 		return response, err
 	}
 

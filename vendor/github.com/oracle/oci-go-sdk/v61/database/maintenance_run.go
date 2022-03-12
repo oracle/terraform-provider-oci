@@ -218,6 +218,7 @@ const (
 	MaintenanceRunTargetResourceTypeExadataDbSystem                 MaintenanceRunTargetResourceTypeEnum = "EXADATA_DB_SYSTEM"
 	MaintenanceRunTargetResourceTypeCloudExadataInfrastructure      MaintenanceRunTargetResourceTypeEnum = "CLOUD_EXADATA_INFRASTRUCTURE"
 	MaintenanceRunTargetResourceTypeExaccInfrastructure             MaintenanceRunTargetResourceTypeEnum = "EXACC_INFRASTRUCTURE"
+	MaintenanceRunTargetResourceTypeAutonomousVmCluster             MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_VM_CLUSTER"
 	MaintenanceRunTargetResourceTypeAutonomousDatabase              MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_DATABASE"
 )
 
@@ -227,6 +228,7 @@ var mappingMaintenanceRunTargetResourceTypeEnum = map[string]MaintenanceRunTarge
 	"EXADATA_DB_SYSTEM":                 MaintenanceRunTargetResourceTypeExadataDbSystem,
 	"CLOUD_EXADATA_INFRASTRUCTURE":      MaintenanceRunTargetResourceTypeCloudExadataInfrastructure,
 	"EXACC_INFRASTRUCTURE":              MaintenanceRunTargetResourceTypeExaccInfrastructure,
+	"AUTONOMOUS_VM_CLUSTER":             MaintenanceRunTargetResourceTypeAutonomousVmCluster,
 	"AUTONOMOUS_DATABASE":               MaintenanceRunTargetResourceTypeAutonomousDatabase,
 }
 
@@ -236,6 +238,7 @@ var mappingMaintenanceRunTargetResourceTypeEnumLowerCase = map[string]Maintenanc
 	"exadata_db_system":                 MaintenanceRunTargetResourceTypeExadataDbSystem,
 	"cloud_exadata_infrastructure":      MaintenanceRunTargetResourceTypeCloudExadataInfrastructure,
 	"exacc_infrastructure":              MaintenanceRunTargetResourceTypeExaccInfrastructure,
+	"autonomous_vm_cluster":             MaintenanceRunTargetResourceTypeAutonomousVmCluster,
 	"autonomous_database":               MaintenanceRunTargetResourceTypeAutonomousDatabase,
 }
 
@@ -256,6 +259,7 @@ func GetMaintenanceRunTargetResourceTypeEnumStringValues() []string {
 		"EXADATA_DB_SYSTEM",
 		"CLOUD_EXADATA_INFRASTRUCTURE",
 		"EXACC_INFRASTRUCTURE",
+		"AUTONOMOUS_VM_CLUSTER",
 		"AUTONOMOUS_DATABASE",
 	}
 }

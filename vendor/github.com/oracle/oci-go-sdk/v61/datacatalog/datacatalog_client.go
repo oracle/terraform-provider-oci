@@ -138,6 +138,8 @@ func (client DataCatalogClient) addDataSelectorPatterns(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/AddDataSelectorPatterns"
+		err = common.PostProcessServiceError(err, "DataCatalog", "AddDataSelectorPatterns", apiReferenceLink)
 		return response, err
 	}
 
@@ -198,6 +200,8 @@ func (client DataCatalogClient) associateCustomProperty(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Type/AssociateCustomProperty"
+		err = common.PostProcessServiceError(err, "DataCatalog", "AssociateCustomProperty", apiReferenceLink)
 		return response, err
 	}
 
@@ -258,6 +262,8 @@ func (client DataCatalogClient) attachCatalogPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/AttachCatalogPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataCatalog", "AttachCatalogPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -313,6 +319,8 @@ func (client DataCatalogClient) changeCatalogCompartment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/ChangeCatalogCompartment"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ChangeCatalogCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -368,6 +376,8 @@ func (client DataCatalogClient) changeCatalogPrivateEndpointCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CatalogPrivateEndpoint/ChangeCatalogPrivateEndpointCompartment"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ChangeCatalogPrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -423,6 +433,8 @@ func (client DataCatalogClient) changeMetastoreCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Metastore/ChangeMetastoreCompartment"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ChangeMetastoreCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -483,6 +495,8 @@ func (client DataCatalogClient) createAttribute(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Attribute/CreateAttribute"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateAttribute", apiReferenceLink)
 		return response, err
 	}
 
@@ -543,6 +557,8 @@ func (client DataCatalogClient) createAttributeTag(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/AttributeTag/CreateAttributeTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateAttributeTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -604,6 +620,8 @@ func (client DataCatalogClient) createCatalog(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/CreateCatalog"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -664,6 +682,8 @@ func (client DataCatalogClient) createCatalogPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CatalogPrivateEndpoint/CreateCatalogPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateCatalogPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -724,6 +744,8 @@ func (client DataCatalogClient) createConnection(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Connection/CreateConnection"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -784,6 +806,8 @@ func (client DataCatalogClient) createCustomProperty(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CustomProperty/CreateCustomProperty"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateCustomProperty", apiReferenceLink)
 		return response, err
 	}
 
@@ -844,6 +868,8 @@ func (client DataCatalogClient) createDataAsset(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/CreateDataAsset"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -904,6 +930,8 @@ func (client DataCatalogClient) createDataAssetTag(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAssetTag/CreateDataAssetTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateDataAssetTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -964,6 +992,8 @@ func (client DataCatalogClient) createEntity(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Entity/CreateEntity"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -1024,6 +1054,8 @@ func (client DataCatalogClient) createEntityTag(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/EntityTag/CreateEntityTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateEntityTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -1084,6 +1116,8 @@ func (client DataCatalogClient) createFolder(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Folder/CreateFolder"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -1144,6 +1178,8 @@ func (client DataCatalogClient) createFolderTag(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/FolderTag/CreateFolderTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateFolderTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -1204,6 +1240,8 @@ func (client DataCatalogClient) createGlossary(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/CreateGlossary"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateGlossary", apiReferenceLink)
 		return response, err
 	}
 
@@ -1264,6 +1302,8 @@ func (client DataCatalogClient) createJob(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Job/CreateJob"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1324,6 +1364,8 @@ func (client DataCatalogClient) createJobDefinition(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobDefinition/CreateJobDefinition"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateJobDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -1384,6 +1426,8 @@ func (client DataCatalogClient) createJobExecution(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobExecution/CreateJobExecution"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateJobExecution", apiReferenceLink)
 		return response, err
 	}
 
@@ -1444,6 +1488,8 @@ func (client DataCatalogClient) createMetastore(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Metastore/CreateMetastore"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateMetastore", apiReferenceLink)
 		return response, err
 	}
 
@@ -1504,6 +1550,8 @@ func (client DataCatalogClient) createNamespace(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Namespace/CreateNamespace"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -1564,6 +1612,8 @@ func (client DataCatalogClient) createPattern(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Pattern/CreatePattern"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreatePattern", apiReferenceLink)
 		return response, err
 	}
 
@@ -1624,6 +1674,8 @@ func (client DataCatalogClient) createTerm(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Term/CreateTerm"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateTerm", apiReferenceLink)
 		return response, err
 	}
 
@@ -1684,6 +1736,8 @@ func (client DataCatalogClient) createTermRelationship(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/TermRelationship/CreateTermRelationship"
+		err = common.PostProcessServiceError(err, "DataCatalog", "CreateTermRelationship", apiReferenceLink)
 		return response, err
 	}
 
@@ -1739,6 +1793,8 @@ func (client DataCatalogClient) deleteAttribute(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Attribute/DeleteAttribute"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteAttribute", apiReferenceLink)
 		return response, err
 	}
 
@@ -1794,6 +1850,8 @@ func (client DataCatalogClient) deleteAttributeTag(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/AttributeTag/DeleteAttributeTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteAttributeTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -1849,6 +1907,8 @@ func (client DataCatalogClient) deleteCatalog(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/DeleteCatalog"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -1904,6 +1964,8 @@ func (client DataCatalogClient) deleteCatalogPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CatalogPrivateEndpoint/DeleteCatalogPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteCatalogPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1959,6 +2021,8 @@ func (client DataCatalogClient) deleteConnection(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Connection/DeleteConnection"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -2014,6 +2078,8 @@ func (client DataCatalogClient) deleteCustomProperty(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CustomProperty/DeleteCustomProperty"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteCustomProperty", apiReferenceLink)
 		return response, err
 	}
 
@@ -2069,6 +2135,8 @@ func (client DataCatalogClient) deleteDataAsset(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/DeleteDataAsset"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -2124,6 +2192,8 @@ func (client DataCatalogClient) deleteDataAssetTag(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAssetTag/DeleteDataAssetTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteDataAssetTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -2179,6 +2249,8 @@ func (client DataCatalogClient) deleteEntity(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Entity/DeleteEntity"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -2234,6 +2306,8 @@ func (client DataCatalogClient) deleteEntityTag(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/EntityTag/DeleteEntityTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteEntityTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -2289,6 +2363,8 @@ func (client DataCatalogClient) deleteFolder(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Folder/DeleteFolder"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -2344,6 +2420,8 @@ func (client DataCatalogClient) deleteFolderTag(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/FolderTag/DeleteFolderTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteFolderTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -2399,6 +2477,8 @@ func (client DataCatalogClient) deleteGlossary(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/DeleteGlossary"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteGlossary", apiReferenceLink)
 		return response, err
 	}
 
@@ -2454,6 +2534,8 @@ func (client DataCatalogClient) deleteJob(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Job/DeleteJob"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -2509,6 +2591,8 @@ func (client DataCatalogClient) deleteJobDefinition(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobDefinition/DeleteJobDefinition"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteJobDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -2564,6 +2648,8 @@ func (client DataCatalogClient) deleteMetastore(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Metastore/DeleteMetastore"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteMetastore", apiReferenceLink)
 		return response, err
 	}
 
@@ -2619,6 +2705,8 @@ func (client DataCatalogClient) deleteNamespace(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Namespace/DeleteNamespace"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -2674,6 +2762,8 @@ func (client DataCatalogClient) deletePattern(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Pattern/DeletePattern"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeletePattern", apiReferenceLink)
 		return response, err
 	}
 
@@ -2729,6 +2819,8 @@ func (client DataCatalogClient) deleteTerm(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Term/DeleteTerm"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteTerm", apiReferenceLink)
 		return response, err
 	}
 
@@ -2784,6 +2876,8 @@ func (client DataCatalogClient) deleteTermRelationship(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/TermRelationship/DeleteTermRelationship"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DeleteTermRelationship", apiReferenceLink)
 		return response, err
 	}
 
@@ -2839,6 +2933,8 @@ func (client DataCatalogClient) detachCatalogPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/DetachCatalogPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DetachCatalogPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -2899,6 +2995,8 @@ func (client DataCatalogClient) disassociateCustomProperty(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Type/DisassociateCustomProperty"
+		err = common.PostProcessServiceError(err, "DataCatalog", "DisassociateCustomProperty", apiReferenceLink)
 		return response, err
 	}
 
@@ -2960,6 +3058,8 @@ func (client DataCatalogClient) expandTreeForGlossary(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/ExpandTreeForGlossary"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ExpandTreeForGlossary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3020,6 +3120,8 @@ func (client DataCatalogClient) exportGlossary(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/ExportGlossary"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ExportGlossary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3076,6 +3178,8 @@ func (client DataCatalogClient) getAttribute(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Attribute/GetAttribute"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetAttribute", apiReferenceLink)
 		return response, err
 	}
 
@@ -3132,6 +3236,8 @@ func (client DataCatalogClient) getAttributeTag(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/AttributeTag/GetAttributeTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetAttributeTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -3188,6 +3294,8 @@ func (client DataCatalogClient) getCatalog(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/GetCatalog"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -3244,6 +3352,8 @@ func (client DataCatalogClient) getCatalogPrivateEndpoint(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CatalogPrivateEndpoint/GetCatalogPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetCatalogPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -3300,6 +3410,8 @@ func (client DataCatalogClient) getConnection(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Connection/GetConnection"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -3356,6 +3468,8 @@ func (client DataCatalogClient) getCustomProperty(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CustomProperty/GetCustomProperty"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetCustomProperty", apiReferenceLink)
 		return response, err
 	}
 
@@ -3412,6 +3526,8 @@ func (client DataCatalogClient) getDataAsset(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/GetDataAsset"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -3468,6 +3584,8 @@ func (client DataCatalogClient) getDataAssetTag(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAssetTag/GetDataAssetTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetDataAssetTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -3524,6 +3642,8 @@ func (client DataCatalogClient) getEntity(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Entity/GetEntity"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -3580,6 +3700,8 @@ func (client DataCatalogClient) getEntityTag(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/EntityTag/GetEntityTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetEntityTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -3636,6 +3758,8 @@ func (client DataCatalogClient) getFolder(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Folder/GetFolder"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -3692,6 +3816,8 @@ func (client DataCatalogClient) getFolderTag(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/FolderTag/GetFolderTag"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetFolderTag", apiReferenceLink)
 		return response, err
 	}
 
@@ -3748,6 +3874,8 @@ func (client DataCatalogClient) getGlossary(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/GetGlossary"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetGlossary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3804,6 +3932,8 @@ func (client DataCatalogClient) getJob(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Job/GetJob"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -3860,6 +3990,8 @@ func (client DataCatalogClient) getJobDefinition(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobDefinition/GetJobDefinition"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetJobDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -3916,6 +4048,8 @@ func (client DataCatalogClient) getJobExecution(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobExecution/GetJobExecution"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetJobExecution", apiReferenceLink)
 		return response, err
 	}
 
@@ -3972,6 +4106,8 @@ func (client DataCatalogClient) getJobLog(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobLog/GetJobLog"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetJobLog", apiReferenceLink)
 		return response, err
 	}
 
@@ -4028,6 +4164,8 @@ func (client DataCatalogClient) getJobMetrics(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobMetric/GetJobMetrics"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetJobMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -4084,6 +4222,8 @@ func (client DataCatalogClient) getMetastore(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Metastore/GetMetastore"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetMetastore", apiReferenceLink)
 		return response, err
 	}
 
@@ -4140,6 +4280,8 @@ func (client DataCatalogClient) getNamespace(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Namespace/GetNamespace"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -4196,6 +4338,8 @@ func (client DataCatalogClient) getPattern(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Pattern/GetPattern"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetPattern", apiReferenceLink)
 		return response, err
 	}
 
@@ -4252,6 +4396,8 @@ func (client DataCatalogClient) getTerm(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Term/GetTerm"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetTerm", apiReferenceLink)
 		return response, err
 	}
 
@@ -4308,6 +4454,8 @@ func (client DataCatalogClient) getTermRelationship(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/TermRelationship/GetTermRelationship"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetTermRelationship", apiReferenceLink)
 		return response, err
 	}
 
@@ -4364,6 +4512,8 @@ func (client DataCatalogClient) getType(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Type/GetType"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetType", apiReferenceLink)
 		return response, err
 	}
 
@@ -4420,6 +4570,8 @@ func (client DataCatalogClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "DataCatalog", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -4480,6 +4632,8 @@ func (client DataCatalogClient) importConnection(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/ImportConnection"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ImportConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -4540,6 +4694,8 @@ func (client DataCatalogClient) importDataAsset(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/ImportDataAsset"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ImportDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -4600,6 +4756,8 @@ func (client DataCatalogClient) importGlossary(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/ImportGlossary"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ImportGlossary", apiReferenceLink)
 		return response, err
 	}
 
@@ -4656,6 +4814,8 @@ func (client DataCatalogClient) listAggregatedPhysicalEntities(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Entity/ListAggregatedPhysicalEntities"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListAggregatedPhysicalEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -4712,6 +4872,8 @@ func (client DataCatalogClient) listAttributeTags(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/AttributeTagCollection/ListAttributeTags"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListAttributeTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -4768,6 +4930,8 @@ func (client DataCatalogClient) listAttributes(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/AttributeCollection/ListAttributes"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListAttributes", apiReferenceLink)
 		return response, err
 	}
 
@@ -4824,6 +4988,8 @@ func (client DataCatalogClient) listCatalogPrivateEndpoints(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CatalogPrivateEndpointSummary/ListCatalogPrivateEndpoints"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListCatalogPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -4880,6 +5046,8 @@ func (client DataCatalogClient) listCatalogs(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CatalogSummary/ListCatalogs"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListCatalogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -4936,6 +5104,8 @@ func (client DataCatalogClient) listConnections(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/ConnectionCollection/ListConnections"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -4992,6 +5162,8 @@ func (client DataCatalogClient) listCustomProperties(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CustomProperty/ListCustomProperties"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListCustomProperties", apiReferenceLink)
 		return response, err
 	}
 
@@ -5048,6 +5220,8 @@ func (client DataCatalogClient) listDataAssetTags(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAssetTagCollection/ListDataAssetTags"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListDataAssetTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -5104,6 +5278,8 @@ func (client DataCatalogClient) listDataAssets(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAssetCollection/ListDataAssets"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListDataAssets", apiReferenceLink)
 		return response, err
 	}
 
@@ -5165,6 +5341,8 @@ func (client DataCatalogClient) listDerivedLogicalEntities(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Pattern/ListDerivedLogicalEntities"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListDerivedLogicalEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -5221,6 +5399,8 @@ func (client DataCatalogClient) listEntities(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Entity/ListEntities"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -5277,6 +5457,8 @@ func (client DataCatalogClient) listEntityTags(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/EntityTagCollection/ListEntityTags"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListEntityTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -5333,6 +5515,8 @@ func (client DataCatalogClient) listFolderTags(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/FolderTagCollection/ListFolderTags"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListFolderTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -5389,6 +5573,8 @@ func (client DataCatalogClient) listFolders(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/FolderCollection/ListFolders"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListFolders", apiReferenceLink)
 		return response, err
 	}
 
@@ -5445,6 +5631,8 @@ func (client DataCatalogClient) listGlossaries(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/ListGlossaries"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListGlossaries", apiReferenceLink)
 		return response, err
 	}
 
@@ -5501,6 +5689,8 @@ func (client DataCatalogClient) listJobDefinitions(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobDefinitionCollection/ListJobDefinitions"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListJobDefinitions", apiReferenceLink)
 		return response, err
 	}
 
@@ -5557,6 +5747,8 @@ func (client DataCatalogClient) listJobExecutions(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobExecutionCollection/ListJobExecutions"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListJobExecutions", apiReferenceLink)
 		return response, err
 	}
 
@@ -5613,6 +5805,8 @@ func (client DataCatalogClient) listJobLogs(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobLogCollection/ListJobLogs"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListJobLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -5669,6 +5863,8 @@ func (client DataCatalogClient) listJobMetrics(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobMetricCollection/ListJobMetrics"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListJobMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -5725,6 +5921,8 @@ func (client DataCatalogClient) listJobs(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobCollection/ListJobs"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -5781,6 +5979,8 @@ func (client DataCatalogClient) listMetastores(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/MetastoreSummary/ListMetastores"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListMetastores", apiReferenceLink)
 		return response, err
 	}
 
@@ -5837,6 +6037,8 @@ func (client DataCatalogClient) listNamespaces(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Namespace/ListNamespaces"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListNamespaces", apiReferenceLink)
 		return response, err
 	}
 
@@ -5893,6 +6095,8 @@ func (client DataCatalogClient) listPatterns(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Pattern/ListPatterns"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListPatterns", apiReferenceLink)
 		return response, err
 	}
 
@@ -5949,6 +6153,8 @@ func (client DataCatalogClient) listRules(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/RuleSummary/ListRules"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -6005,6 +6211,8 @@ func (client DataCatalogClient) listTags(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Term/ListTags"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -6061,6 +6269,8 @@ func (client DataCatalogClient) listTermRelationships(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/TermRelationship/ListTermRelationships"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListTermRelationships", apiReferenceLink)
 		return response, err
 	}
 
@@ -6117,6 +6327,8 @@ func (client DataCatalogClient) listTerms(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Term/ListTerms"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListTerms", apiReferenceLink)
 		return response, err
 	}
 
@@ -6173,6 +6385,8 @@ func (client DataCatalogClient) listTypes(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/TypeCollection/ListTypes"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -6229,6 +6443,8 @@ func (client DataCatalogClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -6285,6 +6501,8 @@ func (client DataCatalogClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/WorkRequestLog/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -6341,6 +6559,8 @@ func (client DataCatalogClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -6397,6 +6617,8 @@ func (client DataCatalogClient) objectStats(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/ObjectStats"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ObjectStats", apiReferenceLink)
 		return response, err
 	}
 
@@ -6457,6 +6679,8 @@ func (client DataCatalogClient) parseConnection(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/ParseConnection"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ParseConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -6513,6 +6737,8 @@ func (client DataCatalogClient) processRecommendation(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/ProcessRecommendation"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ProcessRecommendation", apiReferenceLink)
 		return response, err
 	}
 
@@ -6570,6 +6796,8 @@ func (client DataCatalogClient) recommendations(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/Recommendations"
+		err = common.PostProcessServiceError(err, "DataCatalog", "Recommendations", apiReferenceLink)
 		return response, err
 	}
 
@@ -6630,6 +6858,8 @@ func (client DataCatalogClient) removeDataSelectorPatterns(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/RemoveDataSelectorPatterns"
+		err = common.PostProcessServiceError(err, "DataCatalog", "RemoveDataSelectorPatterns", apiReferenceLink)
 		return response, err
 	}
 
@@ -6686,6 +6916,8 @@ func (client DataCatalogClient) searchCriteria(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/SearchResult/SearchCriteria"
+		err = common.PostProcessServiceError(err, "DataCatalog", "SearchCriteria", apiReferenceLink)
 		return response, err
 	}
 
@@ -6742,6 +6974,8 @@ func (client DataCatalogClient) suggestMatches(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/SuggestResults/SuggestMatches"
+		err = common.PostProcessServiceError(err, "DataCatalog", "SuggestMatches", apiReferenceLink)
 		return response, err
 	}
 
@@ -6801,6 +7035,8 @@ func (client DataCatalogClient) synchronousExportDataAsset(ctx context.Context, 
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/SynchronousExportDataAsset"
+		err = common.PostProcessServiceError(err, "DataCatalog", "SynchronousExportDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -6862,6 +7098,8 @@ func (client DataCatalogClient) testConnection(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Connection/TestConnection"
+		err = common.PostProcessServiceError(err, "DataCatalog", "TestConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -6917,6 +7155,8 @@ func (client DataCatalogClient) updateAttribute(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Attribute/UpdateAttribute"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateAttribute", apiReferenceLink)
 		return response, err
 	}
 
@@ -6972,6 +7212,8 @@ func (client DataCatalogClient) updateCatalog(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/UpdateCatalog"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -7027,6 +7269,8 @@ func (client DataCatalogClient) updateCatalogPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CatalogPrivateEndpoint/UpdateCatalogPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateCatalogPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -7082,6 +7326,8 @@ func (client DataCatalogClient) updateConnection(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Connection/UpdateConnection"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -7137,6 +7383,8 @@ func (client DataCatalogClient) updateCustomProperty(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/CustomProperty/UpdateCustomProperty"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateCustomProperty", apiReferenceLink)
 		return response, err
 	}
 
@@ -7192,6 +7440,8 @@ func (client DataCatalogClient) updateDataAsset(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/UpdateDataAsset"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -7247,6 +7497,8 @@ func (client DataCatalogClient) updateEntity(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Entity/UpdateEntity"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -7302,6 +7554,8 @@ func (client DataCatalogClient) updateFolder(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Folder/UpdateFolder"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -7357,6 +7611,8 @@ func (client DataCatalogClient) updateGlossary(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/UpdateGlossary"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateGlossary", apiReferenceLink)
 		return response, err
 	}
 
@@ -7412,6 +7668,8 @@ func (client DataCatalogClient) updateJob(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Job/UpdateJob"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -7467,6 +7725,8 @@ func (client DataCatalogClient) updateJobDefinition(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/JobDefinition/UpdateJobDefinition"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateJobDefinition", apiReferenceLink)
 		return response, err
 	}
 
@@ -7522,6 +7782,8 @@ func (client DataCatalogClient) updateMetastore(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Metastore/UpdateMetastore"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateMetastore", apiReferenceLink)
 		return response, err
 	}
 
@@ -7577,6 +7839,8 @@ func (client DataCatalogClient) updateNamespace(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Namespace/UpdateNamespace"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -7632,6 +7896,8 @@ func (client DataCatalogClient) updatePattern(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Pattern/UpdatePattern"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdatePattern", apiReferenceLink)
 		return response, err
 	}
 
@@ -7687,6 +7953,8 @@ func (client DataCatalogClient) updateTerm(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Term/UpdateTerm"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateTerm", apiReferenceLink)
 		return response, err
 	}
 
@@ -7742,6 +8010,8 @@ func (client DataCatalogClient) updateTermRelationship(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/TermRelationship/UpdateTermRelationship"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UpdateTermRelationship", apiReferenceLink)
 		return response, err
 	}
 
@@ -7802,6 +8072,8 @@ func (client DataCatalogClient) uploadCredentials(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Connection/UploadCredentials"
+		err = common.PostProcessServiceError(err, "DataCatalog", "UploadCredentials", apiReferenceLink)
 		return response, err
 	}
 
@@ -7858,6 +8130,8 @@ func (client DataCatalogClient) users(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Catalog/Users"
+		err = common.PostProcessServiceError(err, "DataCatalog", "Users", apiReferenceLink)
 		return response, err
 	}
 
@@ -7919,6 +8193,8 @@ func (client DataCatalogClient) validateConnection(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/ValidateConnection"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ValidateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -7980,6 +8256,8 @@ func (client DataCatalogClient) validatePattern(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Pattern/ValidatePattern"
+		err = common.PostProcessServiceError(err, "DataCatalog", "ValidatePattern", apiReferenceLink)
 		return response, err
 	}
 

@@ -138,6 +138,8 @@ func (client OdaClient) changeOdaInstanceCompartment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstance/ChangeOdaInstanceCompartment"
+		err = common.PostProcessServiceError(err, "Oda", "ChangeOdaInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -200,6 +202,8 @@ func (client OdaClient) createOdaInstance(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Oda", "CreateOdaInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -256,6 +260,8 @@ func (client OdaClient) deleteOdaInstance(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstance/DeleteOdaInstance"
+		err = common.PostProcessServiceError(err, "Oda", "DeleteOdaInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -311,6 +317,8 @@ func (client OdaClient) getOdaInstance(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstance/GetOdaInstance"
+		err = common.PostProcessServiceError(err, "Oda", "GetOdaInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -368,6 +376,8 @@ func (client OdaClient) getWorkRequest(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Oda", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -427,6 +437,8 @@ func (client OdaClient) listOdaInstances(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstanceSummary/ListOdaInstances"
+		err = common.PostProcessServiceError(err, "Oda", "ListOdaInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -485,6 +497,8 @@ func (client OdaClient) listWorkRequestErrors(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Oda", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -543,6 +557,8 @@ func (client OdaClient) listWorkRequestLogs(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Oda", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -601,6 +617,8 @@ func (client OdaClient) listWorkRequests(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Oda", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -662,6 +680,8 @@ func (client OdaClient) startOdaInstance(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstance/StartOdaInstance"
+		err = common.PostProcessServiceError(err, "Oda", "StartOdaInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -724,6 +744,8 @@ func (client OdaClient) stopOdaInstance(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstance/StopOdaInstance"
+		err = common.PostProcessServiceError(err, "Oda", "StopOdaInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -779,6 +801,8 @@ func (client OdaClient) updateOdaInstance(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaInstance/UpdateOdaInstance"
+		err = common.PostProcessServiceError(err, "Oda", "UpdateOdaInstance", apiReferenceLink)
 		return response, err
 	}
 

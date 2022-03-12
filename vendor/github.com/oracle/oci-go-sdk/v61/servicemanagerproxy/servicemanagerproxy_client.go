@@ -133,6 +133,8 @@ func (client ServiceManagerProxyClient) getServiceEnvironment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/smp/20210914/ServiceEnvironment/GetServiceEnvironment"
+		err = common.PostProcessServiceError(err, "ServiceManagerProxy", "GetServiceEnvironment", apiReferenceLink)
 		return response, err
 	}
 
@@ -189,6 +191,8 @@ func (client ServiceManagerProxyClient) listServiceEnvironments(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/smp/20210914/ServiceEnvironment/ListServiceEnvironments"
+		err = common.PostProcessServiceError(err, "ServiceManagerProxy", "ListServiceEnvironments", apiReferenceLink)
 		return response, err
 	}
 

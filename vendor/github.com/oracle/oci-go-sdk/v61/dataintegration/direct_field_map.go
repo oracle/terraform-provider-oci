@@ -32,11 +32,15 @@ type DirectFieldMap struct {
 
 	ConfigValues *ConfigValues `mandatory:"false" json:"configValues"`
 
-	// Reference to a typed object.
+	// Deprecated - Reference to a typed object.
 	SourceTypedObject *string `mandatory:"false" json:"sourceTypedObject"`
 
-	// Reference to a typed object.
+	// Deprecated - Reference to a typed object.
 	TargetTypedObject *string `mandatory:"false" json:"targetTypedObject"`
+
+	SourceScopeReference *ScopeReference `mandatory:"false" json:"sourceScopeReference"`
+
+	TargetScopeReference *ScopeReference `mandatory:"false" json:"targetScopeReference"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`

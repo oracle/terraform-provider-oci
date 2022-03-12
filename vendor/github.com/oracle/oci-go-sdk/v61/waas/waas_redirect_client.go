@@ -137,6 +137,8 @@ func (client RedirectClient) changeHttpRedirectCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/HttpRedirect/ChangeHttpRedirectCompartment"
+		err = common.PostProcessServiceError(err, "Redirect", "ChangeHttpRedirectCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -197,6 +199,8 @@ func (client RedirectClient) createHttpRedirect(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/HttpRedirect/CreateHttpRedirect"
+		err = common.PostProcessServiceError(err, "Redirect", "CreateHttpRedirect", apiReferenceLink)
 		return response, err
 	}
 
@@ -257,6 +261,8 @@ func (client RedirectClient) deleteHttpRedirect(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/HttpRedirect/DeleteHttpRedirect"
+		err = common.PostProcessServiceError(err, "Redirect", "DeleteHttpRedirect", apiReferenceLink)
 		return response, err
 	}
 
@@ -312,6 +318,8 @@ func (client RedirectClient) getHttpRedirect(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/HttpRedirect/GetHttpRedirect"
+		err = common.PostProcessServiceError(err, "Redirect", "GetHttpRedirect", apiReferenceLink)
 		return response, err
 	}
 
@@ -367,6 +375,8 @@ func (client RedirectClient) listHttpRedirects(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/HttpRedirect/ListHttpRedirects"
+		err = common.PostProcessServiceError(err, "Redirect", "ListHttpRedirects", apiReferenceLink)
 		return response, err
 	}
 
@@ -427,6 +437,8 @@ func (client RedirectClient) updateHttpRedirect(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waas/20181116/HttpRedirect/UpdateHttpRedirect"
+		err = common.PostProcessServiceError(err, "Redirect", "UpdateHttpRedirect", apiReferenceLink)
 		return response, err
 	}
 
