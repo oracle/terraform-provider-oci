@@ -140,6 +140,8 @@ func (client NosqlClient) changeTableCompartment(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Table/ChangeTableCompartment"
+		err = common.PostProcessServiceError(err, "Nosql", "ChangeTableCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -200,6 +202,8 @@ func (client NosqlClient) createIndex(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Index/CreateIndex"
+		err = common.PostProcessServiceError(err, "Nosql", "CreateIndex", apiReferenceLink)
 		return response, err
 	}
 
@@ -260,6 +264,8 @@ func (client NosqlClient) createTable(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Table/CreateTable"
+		err = common.PostProcessServiceError(err, "Nosql", "CreateTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -315,6 +321,8 @@ func (client NosqlClient) deleteIndex(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Index/DeleteIndex"
+		err = common.PostProcessServiceError(err, "Nosql", "DeleteIndex", apiReferenceLink)
 		return response, err
 	}
 
@@ -370,6 +378,8 @@ func (client NosqlClient) deleteRow(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Row/DeleteRow"
+		err = common.PostProcessServiceError(err, "Nosql", "DeleteRow", apiReferenceLink)
 		return response, err
 	}
 
@@ -425,6 +435,8 @@ func (client NosqlClient) deleteTable(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Table/DeleteTable"
+		err = common.PostProcessServiceError(err, "Nosql", "DeleteTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -480,6 +492,8 @@ func (client NosqlClient) deleteWorkRequest(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/WorkRequest/DeleteWorkRequest"
+		err = common.PostProcessServiceError(err, "Nosql", "DeleteWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -535,6 +549,8 @@ func (client NosqlClient) getIndex(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Index/GetIndex"
+		err = common.PostProcessServiceError(err, "Nosql", "GetIndex", apiReferenceLink)
 		return response, err
 	}
 
@@ -590,6 +606,8 @@ func (client NosqlClient) getRow(ctx context.Context, request common.OCIRequest,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Row/GetRow"
+		err = common.PostProcessServiceError(err, "Nosql", "GetRow", apiReferenceLink)
 		return response, err
 	}
 
@@ -645,6 +663,8 @@ func (client NosqlClient) getTable(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Table/GetTable"
+		err = common.PostProcessServiceError(err, "Nosql", "GetTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -700,6 +720,8 @@ func (client NosqlClient) getWorkRequest(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Nosql", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -755,6 +777,8 @@ func (client NosqlClient) listIndexes(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Index/ListIndexes"
+		err = common.PostProcessServiceError(err, "Nosql", "ListIndexes", apiReferenceLink)
 		return response, err
 	}
 
@@ -810,6 +834,8 @@ func (client NosqlClient) listTableUsage(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Table/ListTableUsage"
+		err = common.PostProcessServiceError(err, "Nosql", "ListTableUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -865,6 +891,8 @@ func (client NosqlClient) listTables(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Table/ListTables"
+		err = common.PostProcessServiceError(err, "Nosql", "ListTables", apiReferenceLink)
 		return response, err
 	}
 
@@ -920,6 +948,8 @@ func (client NosqlClient) listWorkRequestErrors(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/WorkRequest/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Nosql", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -975,6 +1005,8 @@ func (client NosqlClient) listWorkRequestLogs(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/WorkRequest/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Nosql", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1030,6 +1062,8 @@ func (client NosqlClient) listWorkRequests(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Nosql", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1085,6 +1119,8 @@ func (client NosqlClient) prepareStatement(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/QueryResultCollection/PrepareStatement"
+		err = common.PostProcessServiceError(err, "Nosql", "PrepareStatement", apiReferenceLink)
 		return response, err
 	}
 
@@ -1140,6 +1176,8 @@ func (client NosqlClient) query(ctx context.Context, request common.OCIRequest, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/QueryResultCollection/Query"
+		err = common.PostProcessServiceError(err, "Nosql", "Query", apiReferenceLink)
 		return response, err
 	}
 
@@ -1195,6 +1233,8 @@ func (client NosqlClient) summarizeStatement(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/QueryResultCollection/SummarizeStatement"
+		err = common.PostProcessServiceError(err, "Nosql", "SummarizeStatement", apiReferenceLink)
 		return response, err
 	}
 
@@ -1250,6 +1290,8 @@ func (client NosqlClient) updateRow(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Row/UpdateRow"
+		err = common.PostProcessServiceError(err, "Nosql", "UpdateRow", apiReferenceLink)
 		return response, err
 	}
 
@@ -1306,6 +1348,8 @@ func (client NosqlClient) updateTable(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/nosql-database/20190828/Table/UpdateTable"
+		err = common.PostProcessServiceError(err, "Nosql", "UpdateTable", apiReferenceLink)
 		return response, err
 	}
 

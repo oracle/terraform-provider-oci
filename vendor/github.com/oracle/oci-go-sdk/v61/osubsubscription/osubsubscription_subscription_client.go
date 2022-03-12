@@ -135,6 +135,8 @@ func (client SubscriptionClient) listSubscriptions(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Subscription", "ListSubscriptions", apiReferenceLink)
 		return response, err
 	}
 

@@ -137,6 +137,8 @@ func (client GoldenGateClient) cancelDeploymentBackup(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentBackup/CancelDeploymentBackup"
+		err = common.PostProcessServiceError(err, "GoldenGate", "CancelDeploymentBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -197,6 +199,8 @@ func (client GoldenGateClient) changeDatabaseRegistrationCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DatabaseRegistration/ChangeDatabaseRegistrationCompartment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ChangeDatabaseRegistrationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -257,6 +261,8 @@ func (client GoldenGateClient) changeDeploymentBackupCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentBackup/ChangeDeploymentBackupCompartment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ChangeDeploymentBackupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -317,6 +323,8 @@ func (client GoldenGateClient) changeDeploymentCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/ChangeDeploymentCompartment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ChangeDeploymentCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -377,6 +385,8 @@ func (client GoldenGateClient) createDatabaseRegistration(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DatabaseRegistration/CreateDatabaseRegistration"
+		err = common.PostProcessServiceError(err, "GoldenGate", "CreateDatabaseRegistration", apiReferenceLink)
 		return response, err
 	}
 
@@ -437,6 +447,8 @@ func (client GoldenGateClient) createDeployment(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/CreateDeployment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "CreateDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -497,6 +509,8 @@ func (client GoldenGateClient) createDeploymentBackup(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentBackup/CreateDeploymentBackup"
+		err = common.PostProcessServiceError(err, "GoldenGate", "CreateDeploymentBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -552,6 +566,8 @@ func (client GoldenGateClient) deleteDatabaseRegistration(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DatabaseRegistration/DeleteDatabaseRegistration"
+		err = common.PostProcessServiceError(err, "GoldenGate", "DeleteDatabaseRegistration", apiReferenceLink)
 		return response, err
 	}
 
@@ -607,6 +623,8 @@ func (client GoldenGateClient) deleteDeployment(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/DeleteDeployment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "DeleteDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -662,6 +680,8 @@ func (client GoldenGateClient) deleteDeploymentBackup(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentBackup/DeleteDeploymentBackup"
+		err = common.PostProcessServiceError(err, "GoldenGate", "DeleteDeploymentBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -717,6 +737,8 @@ func (client GoldenGateClient) getDatabaseRegistration(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DatabaseRegistration/GetDatabaseRegistration"
+		err = common.PostProcessServiceError(err, "GoldenGate", "GetDatabaseRegistration", apiReferenceLink)
 		return response, err
 	}
 
@@ -772,6 +794,8 @@ func (client GoldenGateClient) getDeployment(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/GetDeployment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "GetDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -827,6 +851,8 @@ func (client GoldenGateClient) getDeploymentBackup(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentBackup/GetDeploymentBackup"
+		err = common.PostProcessServiceError(err, "GoldenGate", "GetDeploymentBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -882,6 +908,8 @@ func (client GoldenGateClient) getDeploymentUpgrade(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentUpgrade/GetDeploymentUpgrade"
+		err = common.PostProcessServiceError(err, "GoldenGate", "GetDeploymentUpgrade", apiReferenceLink)
 		return response, err
 	}
 
@@ -937,6 +965,8 @@ func (client GoldenGateClient) getWorkRequest(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "GoldenGate", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -992,6 +1022,8 @@ func (client GoldenGateClient) listDatabaseRegistrations(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DatabaseRegistration/ListDatabaseRegistrations"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListDatabaseRegistrations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1047,6 +1079,8 @@ func (client GoldenGateClient) listDeploymentBackups(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentBackup/ListDeploymentBackups"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListDeploymentBackups", apiReferenceLink)
 		return response, err
 	}
 
@@ -1102,6 +1136,8 @@ func (client GoldenGateClient) listDeploymentUpgrades(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentUpgrade/ListDeploymentUpgrades"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListDeploymentUpgrades", apiReferenceLink)
 		return response, err
 	}
 
@@ -1157,6 +1193,8 @@ func (client GoldenGateClient) listDeployments(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/ListDeployments"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListDeployments", apiReferenceLink)
 		return response, err
 	}
 
@@ -1212,6 +1250,8 @@ func (client GoldenGateClient) listWorkRequestErrors(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1267,6 +1307,8 @@ func (client GoldenGateClient) listWorkRequestLogs(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1322,6 +1364,8 @@ func (client GoldenGateClient) listWorkRequests(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1382,6 +1426,8 @@ func (client GoldenGateClient) restoreDeployment(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentBackup/RestoreDeployment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "RestoreDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1442,6 +1488,8 @@ func (client GoldenGateClient) startDeployment(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/StartDeployment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "StartDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1502,6 +1550,8 @@ func (client GoldenGateClient) stopDeployment(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/StopDeployment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "StopDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1557,6 +1607,8 @@ func (client GoldenGateClient) updateDatabaseRegistration(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DatabaseRegistration/UpdateDatabaseRegistration"
+		err = common.PostProcessServiceError(err, "GoldenGate", "UpdateDatabaseRegistration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1612,6 +1664,8 @@ func (client GoldenGateClient) updateDeployment(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/UpdateDeployment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "UpdateDeployment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1667,6 +1721,8 @@ func (client GoldenGateClient) updateDeploymentBackup(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentBackup/UpdateDeploymentBackup"
+		err = common.PostProcessServiceError(err, "GoldenGate", "UpdateDeploymentBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1727,6 +1783,8 @@ func (client GoldenGateClient) upgradeDeployment(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/UpgradeDeployment"
+		err = common.PostProcessServiceError(err, "GoldenGate", "UpgradeDeployment", apiReferenceLink)
 		return response, err
 	}
 

@@ -133,6 +133,8 @@ func (client OsManagementClient) addPackagesToSoftwareSource(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/AddPackagesToSoftwareSource"
+		err = common.PostProcessServiceError(err, "OsManagement", "AddPackagesToSoftwareSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -195,6 +197,8 @@ func (client OsManagementClient) attachChildSoftwareSourceToManagedInstance(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/AttachChildSoftwareSourceToManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "AttachChildSoftwareSourceToManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -258,6 +262,8 @@ func (client OsManagementClient) attachManagedInstanceToManagedInstanceGroup(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroup/AttachManagedInstanceToManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "OsManagement", "AttachManagedInstanceToManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -321,6 +327,8 @@ func (client OsManagementClient) attachParentSoftwareSourceToManagedInstance(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/AttachParentSoftwareSourceToManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "AttachParentSoftwareSourceToManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -382,6 +390,8 @@ func (client OsManagementClient) changeManagedInstanceGroupCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroup/ChangeManagedInstanceGroupCompartment"
+		err = common.PostProcessServiceError(err, "OsManagement", "ChangeManagedInstanceGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -443,6 +453,8 @@ func (client OsManagementClient) changeScheduledJobCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/ChangeScheduledJobCompartment"
+		err = common.PostProcessServiceError(err, "OsManagement", "ChangeScheduledJobCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -504,6 +516,8 @@ func (client OsManagementClient) changeSoftwareSourceCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/ChangeSoftwareSourceCompartment"
+		err = common.PostProcessServiceError(err, "OsManagement", "ChangeSoftwareSourceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -566,6 +580,8 @@ func (client OsManagementClient) createManagedInstanceGroup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroup/CreateManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "OsManagement", "CreateManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -629,6 +645,8 @@ func (client OsManagementClient) createScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/CreateScheduledJob"
+		err = common.PostProcessServiceError(err, "OsManagement", "CreateScheduledJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -691,6 +709,8 @@ func (client OsManagementClient) createSoftwareSource(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/CreateSoftwareSource"
+		err = common.PostProcessServiceError(err, "OsManagement", "CreateSoftwareSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -746,6 +766,8 @@ func (client OsManagementClient) deleteManagedInstanceGroup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroup/DeleteManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "OsManagement", "DeleteManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -801,6 +823,8 @@ func (client OsManagementClient) deleteScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/DeleteScheduledJob"
+		err = common.PostProcessServiceError(err, "OsManagement", "DeleteScheduledJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -856,6 +880,8 @@ func (client OsManagementClient) deleteSoftwareSource(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/DeleteSoftwareSource"
+		err = common.PostProcessServiceError(err, "OsManagement", "DeleteSoftwareSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -917,6 +943,8 @@ func (client OsManagementClient) detachChildSoftwareSourceFromManagedInstance(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/DetachChildSoftwareSourceFromManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "DetachChildSoftwareSourceFromManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -977,6 +1005,8 @@ func (client OsManagementClient) detachManagedInstanceFromManagedInstanceGroup(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroup/DetachManagedInstanceFromManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "OsManagement", "DetachManagedInstanceFromManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1038,6 +1068,8 @@ func (client OsManagementClient) detachParentSoftwareSourceFromManagedInstance(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/DetachParentSoftwareSourceFromManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "DetachParentSoftwareSourceFromManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1093,6 +1125,8 @@ func (client OsManagementClient) getErratum(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/Erratum/GetErratum"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetErratum", apiReferenceLink)
 		return response, err
 	}
 
@@ -1148,6 +1182,8 @@ func (client OsManagementClient) getManagedInstance(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/GetManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1203,6 +1239,8 @@ func (client OsManagementClient) getManagedInstanceGroup(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroup/GetManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1258,6 +1296,8 @@ func (client OsManagementClient) getScheduledJob(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/GetScheduledJob"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetScheduledJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1313,6 +1353,8 @@ func (client OsManagementClient) getSoftwarePackage(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/GetSoftwarePackage"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetSoftwarePackage", apiReferenceLink)
 		return response, err
 	}
 
@@ -1368,6 +1410,8 @@ func (client OsManagementClient) getSoftwareSource(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/GetSoftwareSource"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetSoftwareSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -1423,6 +1467,8 @@ func (client OsManagementClient) getWindowsUpdate(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/WindowsUpdate/GetWindowsUpdate"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetWindowsUpdate", apiReferenceLink)
 		return response, err
 	}
 
@@ -1478,6 +1524,8 @@ func (client OsManagementClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "OsManagement", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1538,6 +1586,8 @@ func (client OsManagementClient) installAllPackageUpdatesOnManagedInstance(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/InstallAllPackageUpdatesOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "InstallAllPackageUpdatesOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1598,6 +1648,8 @@ func (client OsManagementClient) installAllUpdatesOnManagedInstanceGroup(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroup/InstallAllUpdatesOnManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "OsManagement", "InstallAllUpdatesOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1658,6 +1710,8 @@ func (client OsManagementClient) installAllWindowsUpdatesOnManagedInstance(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/InstallAllWindowsUpdatesOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "InstallAllWindowsUpdatesOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1718,6 +1772,8 @@ func (client OsManagementClient) installPackageOnManagedInstance(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/InstallPackageOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "InstallPackageOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1778,6 +1834,8 @@ func (client OsManagementClient) installPackageUpdateOnManagedInstance(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/InstallPackageUpdateOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "InstallPackageUpdateOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1838,6 +1896,8 @@ func (client OsManagementClient) installWindowsUpdateOnManagedInstance(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/InstallWindowsUpdateOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "InstallWindowsUpdateOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1893,6 +1953,8 @@ func (client OsManagementClient) listAvailablePackagesForManagedInstance(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ListAvailablePackagesForManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListAvailablePackagesForManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1948,6 +2010,8 @@ func (client OsManagementClient) listAvailableSoftwareSourcesForManagedInstance(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ListAvailableSoftwareSourcesForManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListAvailableSoftwareSourcesForManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -2003,6 +2067,8 @@ func (client OsManagementClient) listAvailableUpdatesForManagedInstance(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ListAvailableUpdatesForManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListAvailableUpdatesForManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -2058,6 +2124,8 @@ func (client OsManagementClient) listAvailableWindowsUpdatesForManagedInstance(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ListAvailableWindowsUpdatesForManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListAvailableWindowsUpdatesForManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -2113,6 +2181,8 @@ func (client OsManagementClient) listErrata(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ErratumSummary/ListErrata"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListErrata", apiReferenceLink)
 		return response, err
 	}
 
@@ -2168,6 +2238,8 @@ func (client OsManagementClient) listManagedInstanceErrata(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ListManagedInstanceErrata"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListManagedInstanceErrata", apiReferenceLink)
 		return response, err
 	}
 
@@ -2223,6 +2295,8 @@ func (client OsManagementClient) listManagedInstanceGroups(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroupSummary/ListManagedInstanceGroups"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListManagedInstanceGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -2278,6 +2352,8 @@ func (client OsManagementClient) listManagedInstances(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceSummary/ListManagedInstances"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListManagedInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -2333,6 +2409,8 @@ func (client OsManagementClient) listPackagesInstalledOnManagedInstance(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ListPackagesInstalledOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListPackagesInstalledOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -2388,6 +2466,8 @@ func (client OsManagementClient) listScheduledJobs(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/ListScheduledJobs"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListScheduledJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2443,6 +2523,8 @@ func (client OsManagementClient) listSoftwareSourcePackages(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/ListSoftwareSourcePackages"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListSoftwareSourcePackages", apiReferenceLink)
 		return response, err
 	}
 
@@ -2498,6 +2580,8 @@ func (client OsManagementClient) listSoftwareSources(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSourceSummary/ListSoftwareSources"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListSoftwareSources", apiReferenceLink)
 		return response, err
 	}
 
@@ -2553,6 +2637,8 @@ func (client OsManagementClient) listUpcomingScheduledJobs(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/ListUpcomingScheduledJobs"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListUpcomingScheduledJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2608,6 +2694,8 @@ func (client OsManagementClient) listWindowsUpdates(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/WindowsUpdateSummary/ListWindowsUpdates"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListWindowsUpdates", apiReferenceLink)
 		return response, err
 	}
 
@@ -2663,6 +2751,8 @@ func (client OsManagementClient) listWindowsUpdatesInstalledOnManagedInstance(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/ListWindowsUpdatesInstalledOnManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListWindowsUpdatesInstalledOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -2718,6 +2808,8 @@ func (client OsManagementClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/WorkRequest/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -2773,6 +2865,8 @@ func (client OsManagementClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/WorkRequest/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -2828,6 +2922,8 @@ func (client OsManagementClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/WorkRequestSummary/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "OsManagement", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -2888,6 +2984,8 @@ func (client OsManagementClient) removePackageFromManagedInstance(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstance/RemovePackageFromManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "RemovePackageFromManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -2943,6 +3041,8 @@ func (client OsManagementClient) removePackagesFromSoftwareSource(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/RemovePackagesFromSoftwareSource"
+		err = common.PostProcessServiceError(err, "OsManagement", "RemovePackagesFromSoftwareSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -3004,6 +3104,8 @@ func (client OsManagementClient) runScheduledJobNow(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/RunScheduledJobNow"
+		err = common.PostProcessServiceError(err, "OsManagement", "RunScheduledJobNow", apiReferenceLink)
 		return response, err
 	}
 
@@ -3060,6 +3162,8 @@ func (client OsManagementClient) searchSoftwarePackages(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/SearchSoftwarePackages"
+		err = common.PostProcessServiceError(err, "OsManagement", "SearchSoftwarePackages", apiReferenceLink)
 		return response, err
 	}
 
@@ -3121,6 +3225,8 @@ func (client OsManagementClient) skipNextScheduledJobExecution(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/SkipNextScheduledJobExecution"
+		err = common.PostProcessServiceError(err, "OsManagement", "SkipNextScheduledJobExecution", apiReferenceLink)
 		return response, err
 	}
 
@@ -3176,6 +3282,8 @@ func (client OsManagementClient) updateManagedInstance(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/UpdateManagedInstanceDetails/UpdateManagedInstance"
+		err = common.PostProcessServiceError(err, "OsManagement", "UpdateManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -3231,6 +3339,8 @@ func (client OsManagementClient) updateManagedInstanceGroup(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ManagedInstanceGroup/UpdateManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "OsManagement", "UpdateManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3286,6 +3396,8 @@ func (client OsManagementClient) updateScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/ScheduledJob/UpdateScheduledJob"
+		err = common.PostProcessServiceError(err, "OsManagement", "UpdateScheduledJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -3341,6 +3453,8 @@ func (client OsManagementClient) updateSoftwareSource(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/os-management/20190801/SoftwareSource/UpdateSoftwareSource"
+		err = common.PostProcessServiceError(err, "OsManagement", "UpdateSoftwareSource", apiReferenceLink)
 		return response, err
 	}
 

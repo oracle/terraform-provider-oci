@@ -59,6 +59,8 @@ type UpdateTaskFromRestTask struct {
 
 	AuthDetails *AuthDetails `mandatory:"false" json:"authDetails"`
 
+	AuthConfig AuthConfig `mandatory:"false" json:"authConfig"`
+
 	Endpoint *Expression `mandatory:"false" json:"endpoint"`
 
 	Headers *interface{} `mandatory:"false" json:"headers"`
@@ -74,6 +76,11 @@ type UpdateTaskFromRestTask struct {
 	ExecuteRestCallConfig *ExecuteRestCallConfig `mandatory:"false" json:"executeRestCallConfig"`
 
 	CancelRestCallConfig *CancelRestCallConfig `mandatory:"false" json:"cancelRestCallConfig"`
+
+	PollRestCallConfig *PollRestCallConfig `mandatory:"false" json:"pollRestCallConfig"`
+
+	// List of typed expressions.
+	TypedExpressions []TypedExpression `mandatory:"false" json:"typedExpressions"`
 
 	// The REST method to use. This property is deprecated, use ExecuteRestCallConfig's methodType property instead.
 	MethodType UpdateTaskFromRestTaskMethodTypeEnum `mandatory:"false" json:"methodType,omitempty"`
@@ -192,6 +199,123 @@ func (m UpdateTaskFromRestTask) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		ModelVersion           *string                                    `json:"modelVersion"`
+		ParentRef              *ParentReference                           `json:"parentRef"`
+		Name                   *string                                    `json:"name"`
+		Description            *string                                    `json:"description"`
+		ObjectStatus           *int                                       `json:"objectStatus"`
+		Identifier             *string                                    `json:"identifier"`
+		InputPorts             []InputPort                                `json:"inputPorts"`
+		OutputPorts            []OutputPort                               `json:"outputPorts"`
+		Parameters             []Parameter                                `json:"parameters"`
+		OpConfigValues         *ConfigValues                              `json:"opConfigValues"`
+		ConfigProviderDelegate *ConfigProvider                            `json:"configProviderDelegate"`
+		RegistryMetadata       *RegistryMetadata                          `json:"registryMetadata"`
+		AuthDetails            *AuthDetails                               `json:"authDetails"`
+		AuthConfig             authconfig                                 `json:"authConfig"`
+		Endpoint               *Expression                                `json:"endpoint"`
+		MethodType             UpdateTaskFromRestTaskMethodTypeEnum       `json:"methodType"`
+		Headers                *interface{}                               `json:"headers"`
+		AdditionalProperties   *string                                    `json:"additionalProperties"`
+		JsonData               *string                                    `json:"jsonData"`
+		ApiCallMode            UpdateTaskFromRestTaskApiCallModeEnum      `json:"apiCallMode"`
+		CancelEndpoint         *Expression                                `json:"cancelEndpoint"`
+		CancelMethodType       UpdateTaskFromRestTaskCancelMethodTypeEnum `json:"cancelMethodType"`
+		ExecuteRestCallConfig  *ExecuteRestCallConfig                     `json:"executeRestCallConfig"`
+		CancelRestCallConfig   *CancelRestCallConfig                      `json:"cancelRestCallConfig"`
+		PollRestCallConfig     *PollRestCallConfig                        `json:"pollRestCallConfig"`
+		TypedExpressions       []TypedExpression                          `json:"typedExpressions"`
+		Key                    *string                                    `json:"key"`
+		ObjectVersion          *int                                       `json:"objectVersion"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.ModelVersion = model.ModelVersion
+
+	m.ParentRef = model.ParentRef
+
+	m.Name = model.Name
+
+	m.Description = model.Description
+
+	m.ObjectStatus = model.ObjectStatus
+
+	m.Identifier = model.Identifier
+
+	m.InputPorts = make([]InputPort, len(model.InputPorts))
+	for i, n := range model.InputPorts {
+		m.InputPorts[i] = n
+	}
+
+	m.OutputPorts = make([]OutputPort, len(model.OutputPorts))
+	for i, n := range model.OutputPorts {
+		m.OutputPorts[i] = n
+	}
+
+	m.Parameters = make([]Parameter, len(model.Parameters))
+	for i, n := range model.Parameters {
+		m.Parameters[i] = n
+	}
+
+	m.OpConfigValues = model.OpConfigValues
+
+	m.ConfigProviderDelegate = model.ConfigProviderDelegate
+
+	m.RegistryMetadata = model.RegistryMetadata
+
+	m.AuthDetails = model.AuthDetails
+
+	nn, e = model.AuthConfig.UnmarshalPolymorphicJSON(model.AuthConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.AuthConfig = nn.(AuthConfig)
+	} else {
+		m.AuthConfig = nil
+	}
+
+	m.Endpoint = model.Endpoint
+
+	m.MethodType = model.MethodType
+
+	m.Headers = model.Headers
+
+	m.AdditionalProperties = model.AdditionalProperties
+
+	m.JsonData = model.JsonData
+
+	m.ApiCallMode = model.ApiCallMode
+
+	m.CancelEndpoint = model.CancelEndpoint
+
+	m.CancelMethodType = model.CancelMethodType
+
+	m.ExecuteRestCallConfig = model.ExecuteRestCallConfig
+
+	m.CancelRestCallConfig = model.CancelRestCallConfig
+
+	m.PollRestCallConfig = model.PollRestCallConfig
+
+	m.TypedExpressions = make([]TypedExpression, len(model.TypedExpressions))
+	for i, n := range model.TypedExpressions {
+		m.TypedExpressions[i] = n
+	}
+
+	m.Key = model.Key
+
+	m.ObjectVersion = model.ObjectVersion
+
+	return
 }
 
 // UpdateTaskFromRestTaskMethodTypeEnum Enum with underlying type: string

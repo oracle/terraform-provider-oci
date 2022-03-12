@@ -139,6 +139,8 @@ func (client AccessRequestsClient) approveAccessRequest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/AccessRequest/ApproveAccessRequest"
+		err = common.PostProcessServiceError(err, "AccessRequests", "ApproveAccessRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -194,6 +196,8 @@ func (client AccessRequestsClient) getAccessRequest(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/AccessRequest/GetAccessRequest"
+		err = common.PostProcessServiceError(err, "AccessRequests", "GetAccessRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -249,6 +253,8 @@ func (client AccessRequestsClient) listAccessRequestHistories(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/AccessRequest/ListAccessRequestHistories"
+		err = common.PostProcessServiceError(err, "AccessRequests", "ListAccessRequestHistories", apiReferenceLink)
 		return response, err
 	}
 
@@ -304,6 +310,8 @@ func (client AccessRequestsClient) listAccessRequests(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/AccessRequest/ListAccessRequests"
+		err = common.PostProcessServiceError(err, "AccessRequests", "ListAccessRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -364,6 +372,8 @@ func (client AccessRequestsClient) rejectAccessRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/AccessRequest/RejectAccessRequest"
+		err = common.PostProcessServiceError(err, "AccessRequests", "RejectAccessRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -424,6 +434,8 @@ func (client AccessRequestsClient) reviewAccessRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/AccessRequest/ReviewAccessRequest"
+		err = common.PostProcessServiceError(err, "AccessRequests", "ReviewAccessRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -484,6 +496,8 @@ func (client AccessRequestsClient) revokeAccessRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/AccessRequest/RevokeAccessRequest"
+		err = common.PostProcessServiceError(err, "AccessRequests", "RevokeAccessRequest", apiReferenceLink)
 		return response, err
 	}
 

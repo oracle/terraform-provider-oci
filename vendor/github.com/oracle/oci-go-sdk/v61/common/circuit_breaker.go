@@ -73,6 +73,12 @@ type ResponseHistory struct {
 	opcReqID     string
 	errorCode    string
 	errorMessage string
+	statusCode   int
+}
+
+//Convert ResponseHistory to human-readable string representation
+func (rh ResponseHistory) String() string {
+	return fmt.Sprintf("Opc-Req-id - %v\nErrorCode - %v - %v\nErrorMessage - %v\n\n", rh.opcReqID, rh.statusCode, rh.errorCode, rh.errorMessage)
 }
 
 // AddToHistory processed the response and adds to response history queue
@@ -81,6 +87,7 @@ func (ocb *OciCircuitBreaker) AddToHistory(resp *http.Response, err ServiceError
 	respHist.opcReqID = err.GetOpcRequestID()
 	respHist.errorCode = err.GetCode()
 	respHist.errorMessage = err.GetMessage()
+	respHist.statusCode = err.GetHTTPStatusCode()
 	respHist.timestamp, _ = time.Parse(time.RFC1123, resp.Header.Get("Date"))
 	ocb.historyQueue = append(ocb.historyQueue, *respHist)
 
@@ -104,7 +111,7 @@ func (ocb *OciCircuitBreaker) AddToHistory(resp *http.Response, err ServiceError
 func (ocb *OciCircuitBreaker) GetHistory() string {
 	getHistoryString := ""
 	for _, value := range ocb.historyQueue {
-		getHistoryString += fmt.Sprintf("Opc-Req-id - %v\nErrorCode - %v\nErrorMessage - %v\n\n", value.opcReqID, value.errorCode, value.errorMessage)
+		getHistoryString += value.String()
 	}
 	return getHistoryString
 }

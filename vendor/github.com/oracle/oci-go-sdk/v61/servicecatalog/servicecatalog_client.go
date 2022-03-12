@@ -132,6 +132,8 @@ func (client ServiceCatalogClient) bulkReplaceServiceCatalogAssociations(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalogAssociation/BulkReplaceServiceCatalogAssociations"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "BulkReplaceServiceCatalogAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -187,6 +189,8 @@ func (client ServiceCatalogClient) changePrivateApplicationCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplication/ChangePrivateApplicationCompartment"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ChangePrivateApplicationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -242,6 +246,8 @@ func (client ServiceCatalogClient) changeServiceCatalogCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalog/ChangeServiceCatalogCompartment"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ChangeServiceCatalogCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -302,6 +308,8 @@ func (client ServiceCatalogClient) createPrivateApplication(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplication/CreatePrivateApplication"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "CreatePrivateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -362,6 +370,8 @@ func (client ServiceCatalogClient) createServiceCatalog(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalog/CreateServiceCatalog"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "CreateServiceCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -422,6 +432,8 @@ func (client ServiceCatalogClient) createServiceCatalogAssociation(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalogAssociation/CreateServiceCatalogAssociation"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "CreateServiceCatalogAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -477,6 +489,8 @@ func (client ServiceCatalogClient) deletePrivateApplication(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplication/DeletePrivateApplication"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "DeletePrivateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -532,6 +546,8 @@ func (client ServiceCatalogClient) deleteServiceCatalog(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalog/DeleteServiceCatalog"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "DeleteServiceCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -587,6 +603,8 @@ func (client ServiceCatalogClient) deleteServiceCatalogAssociation(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalogAssociation/DeleteServiceCatalogAssociation"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "DeleteServiceCatalogAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -642,6 +660,8 @@ func (client ServiceCatalogClient) getPrivateApplication(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplication/GetPrivateApplication"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "GetPrivateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -696,6 +716,8 @@ func (client ServiceCatalogClient) getPrivateApplicationActionDownloadLogo(ctx c
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplication/GetPrivateApplicationActionDownloadLogo"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "GetPrivateApplicationActionDownloadLogo", apiReferenceLink)
 		return response, err
 	}
 
@@ -751,6 +773,8 @@ func (client ServiceCatalogClient) getPrivateApplicationPackage(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplicationPackage/GetPrivateApplicationPackage"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "GetPrivateApplicationPackage", apiReferenceLink)
 		return response, err
 	}
 
@@ -805,6 +829,8 @@ func (client ServiceCatalogClient) getPrivateApplicationPackageActionDownloadCon
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplicationPackage/GetPrivateApplicationPackageActionDownloadConfig"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "GetPrivateApplicationPackageActionDownloadConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -860,6 +886,8 @@ func (client ServiceCatalogClient) getServiceCatalog(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalog/GetServiceCatalog"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "GetServiceCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -915,6 +943,8 @@ func (client ServiceCatalogClient) getServiceCatalogAssociation(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalogAssociation/GetServiceCatalogAssociation"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "GetServiceCatalogAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -970,6 +1000,8 @@ func (client ServiceCatalogClient) getWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -1027,6 +1059,8 @@ func (client ServiceCatalogClient) listApplications(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ApplicationSummary/ListApplications"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ListApplications", apiReferenceLink)
 		return response, err
 	}
 
@@ -1082,6 +1116,8 @@ func (client ServiceCatalogClient) listPrivateApplicationPackages(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplicationPackage/ListPrivateApplicationPackages"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ListPrivateApplicationPackages", apiReferenceLink)
 		return response, err
 	}
 
@@ -1137,6 +1173,8 @@ func (client ServiceCatalogClient) listPrivateApplications(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplication/ListPrivateApplications"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ListPrivateApplications", apiReferenceLink)
 		return response, err
 	}
 
@@ -1192,6 +1230,8 @@ func (client ServiceCatalogClient) listServiceCatalogAssociations(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalogAssociation/ListServiceCatalogAssociations"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ListServiceCatalogAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1247,6 +1287,8 @@ func (client ServiceCatalogClient) listServiceCatalogs(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalog/ListServiceCatalogs"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ListServiceCatalogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1302,6 +1344,8 @@ func (client ServiceCatalogClient) listWorkRequestErrors(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1357,6 +1401,8 @@ func (client ServiceCatalogClient) listWorkRequestLogs(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1412,6 +1458,8 @@ func (client ServiceCatalogClient) listWorkRequests(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1467,6 +1515,8 @@ func (client ServiceCatalogClient) updatePrivateApplication(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplication/UpdatePrivateApplication"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "UpdatePrivateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -1522,6 +1572,8 @@ func (client ServiceCatalogClient) updateServiceCatalog(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/ServiceCatalog/UpdateServiceCatalog"
+		err = common.PostProcessServiceError(err, "ServiceCatalog", "UpdateServiceCatalog", apiReferenceLink)
 		return response, err
 	}
 

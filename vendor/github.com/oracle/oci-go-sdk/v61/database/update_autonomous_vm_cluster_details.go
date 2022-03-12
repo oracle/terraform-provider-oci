@@ -17,6 +17,7 @@ import (
 
 // UpdateAutonomousVmClusterDetails Details for updating the Autonomous VM cluster.
 type UpdateAutonomousVmClusterDetails struct {
+	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`
 
 	// The Oracle license model that applies to the Autonomous VM cluster. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel UpdateAutonomousVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`

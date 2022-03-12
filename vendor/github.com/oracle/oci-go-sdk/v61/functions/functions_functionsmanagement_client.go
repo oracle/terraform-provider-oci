@@ -134,6 +134,8 @@ func (client FunctionsManagementClient) changeApplicationCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/ChangeApplicationCompartment"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "ChangeApplicationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -190,6 +192,8 @@ func (client FunctionsManagementClient) createApplication(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/CreateApplication"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "CreateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -246,6 +250,8 @@ func (client FunctionsManagementClient) createFunction(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/CreateFunction"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "CreateFunction", apiReferenceLink)
 		return response, err
 	}
 
@@ -302,6 +308,8 @@ func (client FunctionsManagementClient) deleteApplication(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/DeleteApplication"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "DeleteApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -358,6 +366,8 @@ func (client FunctionsManagementClient) deleteFunction(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/DeleteFunction"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "DeleteFunction", apiReferenceLink)
 		return response, err
 	}
 
@@ -414,6 +424,8 @@ func (client FunctionsManagementClient) getApplication(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/GetApplication"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "GetApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -470,6 +482,8 @@ func (client FunctionsManagementClient) getFunction(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/GetFunction"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "GetFunction", apiReferenceLink)
 		return response, err
 	}
 
@@ -526,6 +540,8 @@ func (client FunctionsManagementClient) listApplications(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/ApplicationSummary/ListApplications"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "ListApplications", apiReferenceLink)
 		return response, err
 	}
 
@@ -582,6 +598,8 @@ func (client FunctionsManagementClient) listFunctions(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/FunctionSummary/ListFunctions"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "ListFunctions", apiReferenceLink)
 		return response, err
 	}
 
@@ -638,6 +656,8 @@ func (client FunctionsManagementClient) updateApplication(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/UpdateApplication"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "UpdateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -694,6 +714,8 @@ func (client FunctionsManagementClient) updateFunction(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/UpdateFunction"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "UpdateFunction", apiReferenceLink)
 		return response, err
 	}
 

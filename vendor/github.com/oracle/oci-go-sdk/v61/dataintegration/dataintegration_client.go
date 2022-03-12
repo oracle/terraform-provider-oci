@@ -137,6 +137,70 @@ func (client DataIntegrationClient) changeCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Workspace/ChangeCompartment"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ChangeCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeDisApplicationCompartment Moves a DIS Application to a specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ChangeDisApplicationCompartment.go.html to see an example of how to use ChangeDisApplicationCompartment API.
+func (client DataIntegrationClient) ChangeDisApplicationCompartment(ctx context.Context, request ChangeDisApplicationCompartmentRequest) (response ChangeDisApplicationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDisApplicationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDisApplicationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDisApplicationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDisApplicationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDisApplicationCompartmentResponse")
+	}
+	return
+}
+
+// changeDisApplicationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) changeDisApplicationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/disApplications/{disApplicationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDisApplicationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/ChangeDisApplicationCompartment"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ChangeDisApplicationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -197,6 +261,8 @@ func (client DataIntegrationClient) createApplication(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/CreateApplication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -257,6 +323,8 @@ func (client DataIntegrationClient) createConnection(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Connection/CreateConnection"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -317,6 +385,8 @@ func (client DataIntegrationClient) createConnectionValidation(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ConnectionValidation/CreateConnectionValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateConnectionValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -377,6 +447,8 @@ func (client DataIntegrationClient) createDataAsset(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataAsset/CreateDataAsset"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -437,6 +509,8 @@ func (client DataIntegrationClient) createDataFlow(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataFlow/CreateDataFlow"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateDataFlow", apiReferenceLink)
 		return response, err
 	}
 
@@ -497,6 +571,70 @@ func (client DataIntegrationClient) createDataFlowValidation(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataFlowValidation/CreateDataFlowValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateDataFlowValidation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateDisApplication Creates a DIS Application.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateDisApplication.go.html to see an example of how to use CreateDisApplication API.
+func (client DataIntegrationClient) CreateDisApplication(ctx context.Context, request CreateDisApplicationRequest) (response CreateDisApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDisApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDisApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDisApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDisApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDisApplicationResponse")
+	}
+	return
+}
+
+// createDisApplication implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) createDisApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/disApplications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDisApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/CreateDisApplication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateDisApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -557,6 +695,8 @@ func (client DataIntegrationClient) createEntityShape(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataEntity/CreateEntityShape"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateEntityShape", apiReferenceLink)
 		return response, err
 	}
 
@@ -617,6 +757,8 @@ func (client DataIntegrationClient) createExternalPublication(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ExternalPublication/CreateExternalPublication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateExternalPublication", apiReferenceLink)
 		return response, err
 	}
 
@@ -677,6 +819,8 @@ func (client DataIntegrationClient) createExternalPublicationValidation(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ExternalPublicationValidation/CreateExternalPublicationValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateExternalPublicationValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -738,6 +882,8 @@ func (client DataIntegrationClient) createFolder(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Folder/CreateFolder"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -799,6 +945,8 @@ func (client DataIntegrationClient) createFunctionLibrary(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/FunctionLibrary/CreateFunctionLibrary"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateFunctionLibrary", apiReferenceLink)
 		return response, err
 	}
 
@@ -859,6 +1007,8 @@ func (client DataIntegrationClient) createPatch(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/CreatePatch"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreatePatch", apiReferenceLink)
 		return response, err
 	}
 
@@ -919,6 +1069,8 @@ func (client DataIntegrationClient) createPipeline(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Pipeline/CreatePipeline"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreatePipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -979,6 +1131,8 @@ func (client DataIntegrationClient) createPipelineValidation(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/PipelineValidation/CreatePipelineValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreatePipelineValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1039,6 +1193,8 @@ func (client DataIntegrationClient) createProject(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Project/CreateProject"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -1099,6 +1255,8 @@ func (client DataIntegrationClient) createSchedule(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Schedule/CreateSchedule"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateSchedule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1159,6 +1317,8 @@ func (client DataIntegrationClient) createTask(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Task/CreateTask"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -1219,6 +1379,8 @@ func (client DataIntegrationClient) createTaskRun(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskRun/CreateTaskRun"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateTaskRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -1279,6 +1441,8 @@ func (client DataIntegrationClient) createTaskSchedule(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskSchedule/CreateTaskSchedule"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateTaskSchedule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1339,6 +1503,8 @@ func (client DataIntegrationClient) createTaskValidation(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskValidation/CreateTaskValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateTaskValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1399,6 +1565,8 @@ func (client DataIntegrationClient) createUserDefinedFunction(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/UserDefinedFunction/CreateUserDefinedFunction"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateUserDefinedFunction", apiReferenceLink)
 		return response, err
 	}
 
@@ -1459,6 +1627,8 @@ func (client DataIntegrationClient) createUserDefinedFunctionValidation(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/UserDefinedFunctionValidation/CreateUserDefinedFunctionValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateUserDefinedFunctionValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1519,6 +1689,8 @@ func (client DataIntegrationClient) createWorkspace(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Workspace/CreateWorkspace"
+		err = common.PostProcessServiceError(err, "DataIntegration", "CreateWorkspace", apiReferenceLink)
 		return response, err
 	}
 
@@ -1574,6 +1746,8 @@ func (client DataIntegrationClient) deleteApplication(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/DeleteApplication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -1629,6 +1803,8 @@ func (client DataIntegrationClient) deleteConnection(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Connection/DeleteConnection"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -1684,6 +1860,8 @@ func (client DataIntegrationClient) deleteConnectionValidation(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ConnectionValidation/DeleteConnectionValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteConnectionValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1739,6 +1917,8 @@ func (client DataIntegrationClient) deleteDataAsset(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataAsset/DeleteDataAsset"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -1794,6 +1974,8 @@ func (client DataIntegrationClient) deleteDataFlow(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataFlow/DeleteDataFlow"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteDataFlow", apiReferenceLink)
 		return response, err
 	}
 
@@ -1849,6 +2031,65 @@ func (client DataIntegrationClient) deleteDataFlowValidation(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataFlowValidation/DeleteDataFlowValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteDataFlowValidation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDisApplication Removes a DIS application using the specified identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteDisApplication.go.html to see an example of how to use DeleteDisApplication API.
+func (client DataIntegrationClient) DeleteDisApplication(ctx context.Context, request DeleteDisApplicationRequest) (response DeleteDisApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDisApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDisApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDisApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDisApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDisApplicationResponse")
+	}
+	return
+}
+
+// deleteDisApplication implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) deleteDisApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/disApplications/{disApplicationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDisApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/DeleteDisApplication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteDisApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -1904,6 +2145,8 @@ func (client DataIntegrationClient) deleteExternalPublication(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ExternalPublication/DeleteExternalPublication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteExternalPublication", apiReferenceLink)
 		return response, err
 	}
 
@@ -1959,6 +2202,8 @@ func (client DataIntegrationClient) deleteExternalPublicationValidation(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ExternalPublicationValidation/DeleteExternalPublicationValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteExternalPublicationValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2014,6 +2259,8 @@ func (client DataIntegrationClient) deleteFolder(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Folder/DeleteFolder"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -2069,6 +2316,8 @@ func (client DataIntegrationClient) deleteFunctionLibrary(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/FunctionLibrary/DeleteFunctionLibrary"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteFunctionLibrary", apiReferenceLink)
 		return response, err
 	}
 
@@ -2124,6 +2373,8 @@ func (client DataIntegrationClient) deletePatch(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/DeletePatch"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeletePatch", apiReferenceLink)
 		return response, err
 	}
 
@@ -2179,6 +2430,8 @@ func (client DataIntegrationClient) deletePipeline(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Pipeline/DeletePipeline"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeletePipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -2234,6 +2487,8 @@ func (client DataIntegrationClient) deletePipelineValidation(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/PipelineValidation/DeletePipelineValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeletePipelineValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2289,6 +2544,8 @@ func (client DataIntegrationClient) deleteProject(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Project/DeleteProject"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -2344,6 +2601,8 @@ func (client DataIntegrationClient) deleteSchedule(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Schedule/DeleteSchedule"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteSchedule", apiReferenceLink)
 		return response, err
 	}
 
@@ -2399,6 +2658,8 @@ func (client DataIntegrationClient) deleteTask(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Task/DeleteTask"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -2454,6 +2715,8 @@ func (client DataIntegrationClient) deleteTaskRun(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskRun/DeleteTaskRun"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteTaskRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -2509,6 +2772,8 @@ func (client DataIntegrationClient) deleteTaskSchedule(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskSchedule/DeleteTaskSchedule"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteTaskSchedule", apiReferenceLink)
 		return response, err
 	}
 
@@ -2564,6 +2829,8 @@ func (client DataIntegrationClient) deleteTaskValidation(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskValidation/DeleteTaskValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteTaskValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2619,6 +2886,8 @@ func (client DataIntegrationClient) deleteUserDefinedFunction(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/UserDefinedFunction/DeleteUserDefinedFunction"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteUserDefinedFunction", apiReferenceLink)
 		return response, err
 	}
 
@@ -2674,6 +2943,8 @@ func (client DataIntegrationClient) deleteUserDefinedFunctionValidation(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/UserDefinedFunctionValidation/DeleteUserDefinedFunctionValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteUserDefinedFunctionValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2729,6 +3000,8 @@ func (client DataIntegrationClient) deleteWorkspace(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Workspace/DeleteWorkspace"
+		err = common.PostProcessServiceError(err, "DataIntegration", "DeleteWorkspace", apiReferenceLink)
 		return response, err
 	}
 
@@ -2784,6 +3057,8 @@ func (client DataIntegrationClient) getApplication(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/GetApplication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -2839,6 +3114,8 @@ func (client DataIntegrationClient) getConnection(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Connection/GetConnection"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -2894,6 +3171,8 @@ func (client DataIntegrationClient) getConnectionValidation(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ConnectionValidation/GetConnectionValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetConnectionValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2950,6 +3229,8 @@ func (client DataIntegrationClient) getCountStatistic(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Project/GetCountStatistic"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetCountStatistic", apiReferenceLink)
 		return response, err
 	}
 
@@ -3005,6 +3286,8 @@ func (client DataIntegrationClient) getDataAsset(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataAsset/GetDataAsset"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -3060,6 +3343,8 @@ func (client DataIntegrationClient) getDataEntity(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataEntity/GetDataEntity"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetDataEntity", apiReferenceLink)
 		return response, err
 	}
 
@@ -3115,6 +3400,8 @@ func (client DataIntegrationClient) getDataFlow(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataFlow/GetDataFlow"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetDataFlow", apiReferenceLink)
 		return response, err
 	}
 
@@ -3170,6 +3457,8 @@ func (client DataIntegrationClient) getDataFlowValidation(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataFlowValidation/GetDataFlowValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetDataFlowValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -3225,6 +3514,65 @@ func (client DataIntegrationClient) getDependentObject(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/GetDependentObject"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetDependentObject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDisApplication Retrieves an application using the specified OCID.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetDisApplication.go.html to see an example of how to use GetDisApplication API.
+func (client DataIntegrationClient) GetDisApplication(ctx context.Context, request GetDisApplicationRequest) (response GetDisApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDisApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDisApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDisApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDisApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDisApplicationResponse")
+	}
+	return
+}
+
+// getDisApplication implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) getDisApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/disApplications/{disApplicationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDisApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/GetDisApplication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetDisApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -3280,6 +3628,8 @@ func (client DataIntegrationClient) getExternalPublication(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ExternalPublication/GetExternalPublication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetExternalPublication", apiReferenceLink)
 		return response, err
 	}
 
@@ -3335,6 +3685,8 @@ func (client DataIntegrationClient) getExternalPublicationValidation(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ExternalPublicationValidation/GetExternalPublicationValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetExternalPublicationValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -3390,6 +3742,8 @@ func (client DataIntegrationClient) getFolder(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Folder/GetFolder"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -3445,6 +3799,8 @@ func (client DataIntegrationClient) getFunctionLibrary(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/FunctionLibrary/GetFunctionLibrary"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetFunctionLibrary", apiReferenceLink)
 		return response, err
 	}
 
@@ -3500,6 +3856,8 @@ func (client DataIntegrationClient) getPatch(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/GetPatch"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetPatch", apiReferenceLink)
 		return response, err
 	}
 
@@ -3555,6 +3913,8 @@ func (client DataIntegrationClient) getPipeline(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Pipeline/GetPipeline"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -3610,6 +3970,8 @@ func (client DataIntegrationClient) getPipelineValidation(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/PipelineValidation/GetPipelineValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetPipelineValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -3665,6 +4027,8 @@ func (client DataIntegrationClient) getProject(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Project/GetProject"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -3720,6 +4084,8 @@ func (client DataIntegrationClient) getPublishedObject(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/GetPublishedObject"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetPublishedObject", apiReferenceLink)
 		return response, err
 	}
 
@@ -3775,6 +4141,8 @@ func (client DataIntegrationClient) getReference(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Reference/GetReference"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetReference", apiReferenceLink)
 		return response, err
 	}
 
@@ -3830,6 +4198,8 @@ func (client DataIntegrationClient) getSchedule(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Schedule/GetSchedule"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetSchedule", apiReferenceLink)
 		return response, err
 	}
 
@@ -3885,6 +4255,8 @@ func (client DataIntegrationClient) getSchema(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Schema/GetSchema"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetSchema", apiReferenceLink)
 		return response, err
 	}
 
@@ -3940,6 +4312,8 @@ func (client DataIntegrationClient) getTask(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Task/GetTask"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -3995,6 +4369,8 @@ func (client DataIntegrationClient) getTaskRun(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskRun/GetTaskRun"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetTaskRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -4050,6 +4426,8 @@ func (client DataIntegrationClient) getTaskSchedule(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskSchedule/GetTaskSchedule"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetTaskSchedule", apiReferenceLink)
 		return response, err
 	}
 
@@ -4105,6 +4483,8 @@ func (client DataIntegrationClient) getTaskValidation(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskValidation/GetTaskValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetTaskValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -4160,6 +4540,8 @@ func (client DataIntegrationClient) getUserDefinedFunction(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/UserDefinedFunction/GetUserDefinedFunction"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetUserDefinedFunction", apiReferenceLink)
 		return response, err
 	}
 
@@ -4215,6 +4597,8 @@ func (client DataIntegrationClient) getUserDefinedFunctionValidation(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/UserDefinedFunctionValidation/GetUserDefinedFunctionValidation"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetUserDefinedFunctionValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -4270,6 +4654,8 @@ func (client DataIntegrationClient) getWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -4325,6 +4711,8 @@ func (client DataIntegrationClient) getWorkspace(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Workspace/GetWorkspace"
+		err = common.PostProcessServiceError(err, "DataIntegration", "GetWorkspace", apiReferenceLink)
 		return response, err
 	}
 
@@ -4380,6 +4768,8 @@ func (client DataIntegrationClient) listApplications(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/ListApplications"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListApplications", apiReferenceLink)
 		return response, err
 	}
 
@@ -4435,6 +4825,8 @@ func (client DataIntegrationClient) listConnectionValidations(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ConnectionValidation/ListConnectionValidations"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListConnectionValidations", apiReferenceLink)
 		return response, err
 	}
 
@@ -4490,6 +4882,8 @@ func (client DataIntegrationClient) listConnections(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Connection/ListConnections"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListConnections", apiReferenceLink)
 		return response, err
 	}
 
@@ -4545,6 +4939,8 @@ func (client DataIntegrationClient) listDataAssets(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataAsset/ListDataAssets"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListDataAssets", apiReferenceLink)
 		return response, err
 	}
 
@@ -4600,6 +4996,8 @@ func (client DataIntegrationClient) listDataEntities(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataEntity/ListDataEntities"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListDataEntities", apiReferenceLink)
 		return response, err
 	}
 
@@ -4655,6 +5053,8 @@ func (client DataIntegrationClient) listDataFlowValidations(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataFlowValidation/ListDataFlowValidations"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListDataFlowValidations", apiReferenceLink)
 		return response, err
 	}
 
@@ -4710,6 +5110,8 @@ func (client DataIntegrationClient) listDataFlows(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataFlow/ListDataFlows"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListDataFlows", apiReferenceLink)
 		return response, err
 	}
 
@@ -4765,6 +5167,65 @@ func (client DataIntegrationClient) listDependentObjects(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/ListDependentObjects"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListDependentObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDisApplications Retrieves a list of DIS Applications in a compartment and provides options to filter the list.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDisApplications.go.html to see an example of how to use ListDisApplications API.
+func (client DataIntegrationClient) ListDisApplications(ctx context.Context, request ListDisApplicationsRequest) (response ListDisApplicationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDisApplications, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDisApplicationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDisApplicationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDisApplicationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDisApplicationsResponse")
+	}
+	return
+}
+
+// listDisApplications implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) listDisApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/disApplications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDisApplicationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/ListDisApplications"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListDisApplications", apiReferenceLink)
 		return response, err
 	}
 
@@ -4820,6 +5281,8 @@ func (client DataIntegrationClient) listExternalPublicationValidations(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ExternalPublicationValidation/ListExternalPublicationValidations"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListExternalPublicationValidations", apiReferenceLink)
 		return response, err
 	}
 
@@ -4875,6 +5338,8 @@ func (client DataIntegrationClient) listExternalPublications(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ExternalPublication/ListExternalPublications"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListExternalPublications", apiReferenceLink)
 		return response, err
 	}
 
@@ -4930,6 +5395,8 @@ func (client DataIntegrationClient) listFolders(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Folder/ListFolders"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListFolders", apiReferenceLink)
 		return response, err
 	}
 
@@ -4985,6 +5452,8 @@ func (client DataIntegrationClient) listFunctionLibraries(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/FunctionLibrary/ListFunctionLibraries"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListFunctionLibraries", apiReferenceLink)
 		return response, err
 	}
 
@@ -5040,6 +5509,8 @@ func (client DataIntegrationClient) listPatchChanges(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/ListPatchChanges"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListPatchChanges", apiReferenceLink)
 		return response, err
 	}
 
@@ -5095,6 +5566,8 @@ func (client DataIntegrationClient) listPatches(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/ListPatches"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListPatches", apiReferenceLink)
 		return response, err
 	}
 
@@ -5150,6 +5623,8 @@ func (client DataIntegrationClient) listPipelineValidations(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/PipelineValidation/ListPipelineValidations"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListPipelineValidations", apiReferenceLink)
 		return response, err
 	}
 
@@ -5205,6 +5680,8 @@ func (client DataIntegrationClient) listPipelines(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Pipeline/ListPipelines"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListPipelines", apiReferenceLink)
 		return response, err
 	}
 
@@ -5260,6 +5737,8 @@ func (client DataIntegrationClient) listProjects(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Project/ListProjects"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListProjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -5315,6 +5794,8 @@ func (client DataIntegrationClient) listPublishedObjects(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/ListPublishedObjects"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListPublishedObjects", apiReferenceLink)
 		return response, err
 	}
 
@@ -5370,6 +5851,8 @@ func (client DataIntegrationClient) listReferences(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Reference/ListReferences"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListReferences", apiReferenceLink)
 		return response, err
 	}
 
@@ -5425,6 +5908,8 @@ func (client DataIntegrationClient) listSchedules(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Schedule/ListSchedules"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListSchedules", apiReferenceLink)
 		return response, err
 	}
 
@@ -5480,6 +5965,8 @@ func (client DataIntegrationClient) listSchemas(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Schema/ListSchemas"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListSchemas", apiReferenceLink)
 		return response, err
 	}
 
@@ -5535,6 +6022,8 @@ func (client DataIntegrationClient) listTaskRunLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskRunLogSummary/ListTaskRunLogs"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListTaskRunLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -5590,6 +6079,8 @@ func (client DataIntegrationClient) listTaskRuns(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskRun/ListTaskRuns"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListTaskRuns", apiReferenceLink)
 		return response, err
 	}
 
@@ -5645,6 +6136,8 @@ func (client DataIntegrationClient) listTaskSchedules(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskSchedule/ListTaskSchedules"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListTaskSchedules", apiReferenceLink)
 		return response, err
 	}
 
@@ -5700,6 +6193,8 @@ func (client DataIntegrationClient) listTaskValidations(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskValidation/ListTaskValidations"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListTaskValidations", apiReferenceLink)
 		return response, err
 	}
 
@@ -5755,6 +6250,8 @@ func (client DataIntegrationClient) listTasks(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Task/ListTasks"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListTasks", apiReferenceLink)
 		return response, err
 	}
 
@@ -5810,6 +6307,8 @@ func (client DataIntegrationClient) listUserDefinedFunctionValidations(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/UserDefinedFunctionValidation/ListUserDefinedFunctionValidations"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListUserDefinedFunctionValidations", apiReferenceLink)
 		return response, err
 	}
 
@@ -5865,6 +6364,8 @@ func (client DataIntegrationClient) listUserDefinedFunctions(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/UserDefinedFunction/ListUserDefinedFunctions"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListUserDefinedFunctions", apiReferenceLink)
 		return response, err
 	}
 
@@ -5920,6 +6421,8 @@ func (client DataIntegrationClient) listWorkRequestErrors(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/WorkRequest/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -5975,6 +6478,8 @@ func (client DataIntegrationClient) listWorkRequestLogs(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/WorkRequest/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -6030,6 +6535,8 @@ func (client DataIntegrationClient) listWorkRequests(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -6085,6 +6592,8 @@ func (client DataIntegrationClient) listWorkspaces(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Workspace/ListWorkspaces"
+		err = common.PostProcessServiceError(err, "DataIntegration", "ListWorkspaces", apiReferenceLink)
 		return response, err
 	}
 
@@ -6145,6 +6654,8 @@ func (client DataIntegrationClient) startWorkspace(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Workspace/StartWorkspace"
+		err = common.PostProcessServiceError(err, "DataIntegration", "StartWorkspace", apiReferenceLink)
 		return response, err
 	}
 
@@ -6205,6 +6716,8 @@ func (client DataIntegrationClient) stopWorkspace(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Workspace/StopWorkspace"
+		err = common.PostProcessServiceError(err, "DataIntegration", "StopWorkspace", apiReferenceLink)
 		return response, err
 	}
 
@@ -6260,6 +6773,8 @@ func (client DataIntegrationClient) updateApplication(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Application/UpdateApplication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -6315,6 +6830,8 @@ func (client DataIntegrationClient) updateConnection(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Connection/UpdateConnection"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateConnection", apiReferenceLink)
 		return response, err
 	}
 
@@ -6370,6 +6887,8 @@ func (client DataIntegrationClient) updateDataAsset(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataAsset/UpdateDataAsset"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateDataAsset", apiReferenceLink)
 		return response, err
 	}
 
@@ -6425,6 +6944,65 @@ func (client DataIntegrationClient) updateDataFlow(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DataFlow/UpdateDataFlow"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateDataFlow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDisApplication Updates a DIS Application.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateDisApplication.go.html to see an example of how to use UpdateDisApplication API.
+func (client DataIntegrationClient) UpdateDisApplication(ctx context.Context, request UpdateDisApplicationRequest) (response UpdateDisApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDisApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDisApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDisApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDisApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDisApplicationResponse")
+	}
+	return
+}
+
+// updateDisApplication implements the OCIOperation interface (enables retrying operations)
+func (client DataIntegrationClient) updateDisApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/disApplications/{disApplicationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDisApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/DisApplication/UpdateDisApplication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateDisApplication", apiReferenceLink)
 		return response, err
 	}
 
@@ -6480,6 +7058,8 @@ func (client DataIntegrationClient) updateExternalPublication(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/ExternalPublication/UpdateExternalPublication"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateExternalPublication", apiReferenceLink)
 		return response, err
 	}
 
@@ -6535,6 +7115,8 @@ func (client DataIntegrationClient) updateFolder(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Folder/UpdateFolder"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateFolder", apiReferenceLink)
 		return response, err
 	}
 
@@ -6590,6 +7172,8 @@ func (client DataIntegrationClient) updateFunctionLibrary(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/FunctionLibrary/UpdateFunctionLibrary"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateFunctionLibrary", apiReferenceLink)
 		return response, err
 	}
 
@@ -6645,6 +7229,8 @@ func (client DataIntegrationClient) updatePipeline(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Pipeline/UpdatePipeline"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdatePipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -6700,6 +7286,8 @@ func (client DataIntegrationClient) updateProject(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Project/UpdateProject"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateProject", apiReferenceLink)
 		return response, err
 	}
 
@@ -6760,6 +7348,8 @@ func (client DataIntegrationClient) updateReference(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Reference/UpdateReference"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateReference", apiReferenceLink)
 		return response, err
 	}
 
@@ -6815,6 +7405,8 @@ func (client DataIntegrationClient) updateSchedule(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Schedule/UpdateSchedule"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateSchedule", apiReferenceLink)
 		return response, err
 	}
 
@@ -6870,6 +7462,8 @@ func (client DataIntegrationClient) updateTask(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Task/UpdateTask"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -6925,6 +7519,8 @@ func (client DataIntegrationClient) updateTaskRun(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskRun/UpdateTaskRun"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateTaskRun", apiReferenceLink)
 		return response, err
 	}
 
@@ -6980,6 +7576,8 @@ func (client DataIntegrationClient) updateTaskSchedule(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/TaskSchedule/UpdateTaskSchedule"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateTaskSchedule", apiReferenceLink)
 		return response, err
 	}
 
@@ -7035,6 +7633,8 @@ func (client DataIntegrationClient) updateUserDefinedFunction(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/UserDefinedFunction/UpdateUserDefinedFunction"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateUserDefinedFunction", apiReferenceLink)
 		return response, err
 	}
 
@@ -7090,6 +7690,8 @@ func (client DataIntegrationClient) updateWorkspace(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-integration/20200430/Workspace/UpdateWorkspace"
+		err = common.PostProcessServiceError(err, "DataIntegration", "UpdateWorkspace", apiReferenceLink)
 		return response, err
 	}
 

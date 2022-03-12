@@ -135,6 +135,8 @@ func (client LimitsClient) getResourceAvailability(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//ResourceAvailability/GetResourceAvailability"
+		err = common.PostProcessServiceError(err, "Limits", "GetResourceAvailability", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +194,8 @@ func (client LimitsClient) listLimitDefinitions(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//LimitDefinitionSummary/ListLimitDefinitions"
+		err = common.PostProcessServiceError(err, "Limits", "ListLimitDefinitions", apiReferenceLink)
 		return response, err
 	}
 
@@ -247,6 +251,8 @@ func (client LimitsClient) listLimitValues(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//LimitValueSummary/ListLimitValues"
+		err = common.PostProcessServiceError(err, "Limits", "ListLimitValues", apiReferenceLink)
 		return response, err
 	}
 
@@ -303,6 +309,8 @@ func (client LimitsClient) listServices(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/limits//ServiceSummary/ListServices"
+		err = common.PostProcessServiceError(err, "Limits", "ListServices", apiReferenceLink)
 		return response, err
 	}
 

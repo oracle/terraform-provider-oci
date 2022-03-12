@@ -139,6 +139,8 @@ func (client OptimizerClient) bulkApplyRecommendations(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/Recommendation/BulkApplyRecommendations"
+		err = common.PostProcessServiceError(err, "Optimizer", "BulkApplyRecommendations", apiReferenceLink)
 		return response, err
 	}
 
@@ -199,6 +201,8 @@ func (client OptimizerClient) createProfile(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/Profile/CreateProfile"
+		err = common.PostProcessServiceError(err, "Optimizer", "CreateProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -254,6 +258,8 @@ func (client OptimizerClient) deleteProfile(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/Profile/DeleteProfile"
+		err = common.PostProcessServiceError(err, "Optimizer", "DeleteProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -309,6 +315,8 @@ func (client OptimizerClient) filterResourceActions(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/ResourceActionSummary/FilterResourceActions"
+		err = common.PostProcessServiceError(err, "Optimizer", "FilterResourceActions", apiReferenceLink)
 		return response, err
 	}
 
@@ -364,6 +372,8 @@ func (client OptimizerClient) getCategory(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/Category/GetCategory"
+		err = common.PostProcessServiceError(err, "Optimizer", "GetCategory", apiReferenceLink)
 		return response, err
 	}
 
@@ -419,6 +429,8 @@ func (client OptimizerClient) getEnrollmentStatus(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/EnrollmentStatus/GetEnrollmentStatus"
+		err = common.PostProcessServiceError(err, "Optimizer", "GetEnrollmentStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -474,6 +486,8 @@ func (client OptimizerClient) getProfile(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/Profile/GetProfile"
+		err = common.PostProcessServiceError(err, "Optimizer", "GetProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -529,6 +543,8 @@ func (client OptimizerClient) getRecommendation(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/Recommendation/GetRecommendation"
+		err = common.PostProcessServiceError(err, "Optimizer", "GetRecommendation", apiReferenceLink)
 		return response, err
 	}
 
@@ -584,6 +600,8 @@ func (client OptimizerClient) getResourceAction(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/ResourceAction/GetResourceAction"
+		err = common.PostProcessServiceError(err, "Optimizer", "GetResourceAction", apiReferenceLink)
 		return response, err
 	}
 
@@ -639,6 +657,8 @@ func (client OptimizerClient) getWorkRequest(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Optimizer", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -694,6 +714,8 @@ func (client OptimizerClient) listCategories(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/CategorySummary/ListCategories"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListCategories", apiReferenceLink)
 		return response, err
 	}
 
@@ -749,6 +771,8 @@ func (client OptimizerClient) listEnrollmentStatuses(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/EnrollmentStatusSummary/ListEnrollmentStatuses"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListEnrollmentStatuses", apiReferenceLink)
 		return response, err
 	}
 
@@ -805,6 +829,8 @@ func (client OptimizerClient) listHistories(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/HistorySummary/ListHistories"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListHistories", apiReferenceLink)
 		return response, err
 	}
 
@@ -860,6 +886,8 @@ func (client OptimizerClient) listProfileLevels(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/ProfileLevelSummary/ListProfileLevels"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListProfileLevels", apiReferenceLink)
 		return response, err
 	}
 
@@ -915,6 +943,8 @@ func (client OptimizerClient) listProfiles(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/ProfileSummary/ListProfiles"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListProfiles", apiReferenceLink)
 		return response, err
 	}
 
@@ -970,6 +1000,8 @@ func (client OptimizerClient) listRecommendationStrategies(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/RecommendationStrategySummary/ListRecommendationStrategies"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListRecommendationStrategies", apiReferenceLink)
 		return response, err
 	}
 
@@ -1025,6 +1057,8 @@ func (client OptimizerClient) listRecommendations(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/RecommendationSummary/ListRecommendations"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListRecommendations", apiReferenceLink)
 		return response, err
 	}
 
@@ -1080,6 +1114,8 @@ func (client OptimizerClient) listResourceActionQueryableFields(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/QueryableFieldSummary/ListResourceActionQueryableFields"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListResourceActionQueryableFields", apiReferenceLink)
 		return response, err
 	}
 
@@ -1135,6 +1171,8 @@ func (client OptimizerClient) listResourceActions(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/ResourceActionSummary/ListResourceActions"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListResourceActions", apiReferenceLink)
 		return response, err
 	}
 
@@ -1190,6 +1228,8 @@ func (client OptimizerClient) listWorkRequestErrors(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1245,6 +1285,8 @@ func (client OptimizerClient) listWorkRequestLogs(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1300,6 +1342,8 @@ func (client OptimizerClient) listWorkRequests(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Optimizer", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1355,6 +1399,8 @@ func (client OptimizerClient) updateEnrollmentStatus(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/EnrollmentStatus/UpdateEnrollmentStatus"
+		err = common.PostProcessServiceError(err, "Optimizer", "UpdateEnrollmentStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -1410,6 +1456,8 @@ func (client OptimizerClient) updateProfile(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/Profile/UpdateProfile"
+		err = common.PostProcessServiceError(err, "Optimizer", "UpdateProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -1469,6 +1517,8 @@ func (client OptimizerClient) updateRecommendation(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/Recommendation/UpdateRecommendation"
+		err = common.PostProcessServiceError(err, "Optimizer", "UpdateRecommendation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1528,6 +1578,8 @@ func (client OptimizerClient) updateResourceAction(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/advisor/20200606/ResourceAction/UpdateResourceAction"
+		err = common.PostProcessServiceError(err, "Optimizer", "UpdateResourceAction", apiReferenceLink)
 		return response, err
 	}
 

@@ -145,6 +145,8 @@ func (client AutoScalingClient) changeAutoScalingConfigurationCompartment(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingConfiguration/ChangeAutoScalingConfigurationCompartment"
+		err = common.PostProcessServiceError(err, "AutoScaling", "ChangeAutoScalingConfigurationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -205,6 +207,8 @@ func (client AutoScalingClient) createAutoScalingConfiguration(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingConfiguration/CreateAutoScalingConfiguration"
+		err = common.PostProcessServiceError(err, "AutoScaling", "CreateAutoScalingConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -270,6 +274,8 @@ func (client AutoScalingClient) createAutoScalingPolicy(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingPolicy/CreateAutoScalingPolicy"
+		err = common.PostProcessServiceError(err, "AutoScaling", "CreateAutoScalingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -325,6 +331,8 @@ func (client AutoScalingClient) deleteAutoScalingConfiguration(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingConfiguration/DeleteAutoScalingConfiguration"
+		err = common.PostProcessServiceError(err, "AutoScaling", "DeleteAutoScalingConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -380,6 +388,8 @@ func (client AutoScalingClient) deleteAutoScalingPolicy(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingPolicy/DeleteAutoScalingPolicy"
+		err = common.PostProcessServiceError(err, "AutoScaling", "DeleteAutoScalingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -435,6 +445,8 @@ func (client AutoScalingClient) getAutoScalingConfiguration(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingConfiguration/GetAutoScalingConfiguration"
+		err = common.PostProcessServiceError(err, "AutoScaling", "GetAutoScalingConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -490,6 +502,8 @@ func (client AutoScalingClient) getAutoScalingPolicy(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingPolicy/GetAutoScalingPolicy"
+		err = common.PostProcessServiceError(err, "AutoScaling", "GetAutoScalingPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -545,6 +559,8 @@ func (client AutoScalingClient) listAutoScalingConfigurations(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingConfigurationSummary/ListAutoScalingConfigurations"
+		err = common.PostProcessServiceError(err, "AutoScaling", "ListAutoScalingConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -600,6 +616,8 @@ func (client AutoScalingClient) listAutoScalingPolicies(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingPolicySummary/ListAutoScalingPolicies"
+		err = common.PostProcessServiceError(err, "AutoScaling", "ListAutoScalingPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -661,6 +679,8 @@ func (client AutoScalingClient) updateAutoScalingConfiguration(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingConfiguration/UpdateAutoScalingConfiguration"
+		err = common.PostProcessServiceError(err, "AutoScaling", "UpdateAutoScalingConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -721,6 +741,8 @@ func (client AutoScalingClient) updateAutoScalingPolicy(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/autoscaling/20181001/AutoScalingPolicy/UpdateAutoScalingPolicy"
+		err = common.PostProcessServiceError(err, "AutoScaling", "UpdateAutoScalingPolicy", apiReferenceLink)
 		return response, err
 	}
 

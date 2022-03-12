@@ -137,6 +137,8 @@ func (client UsageapiClient) createCustomTable(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CustomTable/CreateCustomTable"
+		err = common.PostProcessServiceError(err, "Usageapi", "CreateCustomTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -197,6 +199,8 @@ func (client UsageapiClient) createQuery(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/Query/CreateQuery"
+		err = common.PostProcessServiceError(err, "Usageapi", "CreateQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -252,6 +256,8 @@ func (client UsageapiClient) deleteCustomTable(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CustomTable/DeleteCustomTable"
+		err = common.PostProcessServiceError(err, "Usageapi", "DeleteCustomTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -307,6 +313,8 @@ func (client UsageapiClient) deleteQuery(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/Query/DeleteQuery"
+		err = common.PostProcessServiceError(err, "Usageapi", "DeleteQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -362,6 +370,8 @@ func (client UsageapiClient) getCustomTable(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CustomTable/GetCustomTable"
+		err = common.PostProcessServiceError(err, "Usageapi", "GetCustomTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -417,6 +427,8 @@ func (client UsageapiClient) getQuery(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/Query/GetQuery"
+		err = common.PostProcessServiceError(err, "Usageapi", "GetQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -472,6 +484,8 @@ func (client UsageapiClient) listCustomTables(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CustomTable/ListCustomTables"
+		err = common.PostProcessServiceError(err, "Usageapi", "ListCustomTables", apiReferenceLink)
 		return response, err
 	}
 
@@ -527,6 +541,8 @@ func (client UsageapiClient) listQueries(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/Query/ListQueries"
+		err = common.PostProcessServiceError(err, "Usageapi", "ListQueries", apiReferenceLink)
 		return response, err
 	}
 
@@ -582,6 +598,8 @@ func (client UsageapiClient) requestSummarizedConfigurations(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/Configuration/RequestSummarizedConfigurations"
+		err = common.PostProcessServiceError(err, "Usageapi", "RequestSummarizedConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -637,6 +655,8 @@ func (client UsageapiClient) requestSummarizedUsages(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/UsageSummary/RequestSummarizedUsages"
+		err = common.PostProcessServiceError(err, "Usageapi", "RequestSummarizedUsages", apiReferenceLink)
 		return response, err
 	}
 
@@ -692,6 +712,8 @@ func (client UsageapiClient) updateCustomTable(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CustomTable/UpdateCustomTable"
+		err = common.PostProcessServiceError(err, "Usageapi", "UpdateCustomTable", apiReferenceLink)
 		return response, err
 	}
 
@@ -747,6 +769,8 @@ func (client UsageapiClient) updateQuery(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/Query/UpdateQuery"
+		err = common.PostProcessServiceError(err, "Usageapi", "UpdateQuery", apiReferenceLink)
 		return response, err
 	}
 

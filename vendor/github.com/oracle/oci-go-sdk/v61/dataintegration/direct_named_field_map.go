@@ -32,11 +32,15 @@ type DirectNamedFieldMap struct {
 
 	ConfigValues *ConfigValues `mandatory:"false" json:"configValues"`
 
-	// Reference to a typed object.
+	// Deprecated - Reference to a typed object.
 	SourceTypedObject *string `mandatory:"false" json:"sourceTypedObject"`
 
-	// Reference to a typed object
+	// Deprecated - Reference to a typed object
 	TargetTypedObject *string `mandatory:"false" json:"targetTypedObject"`
+
+	SourceScopeReference *ScopeReference `mandatory:"false" json:"sourceScopeReference"`
+
+	TargetScopeReference *ScopeReference `mandatory:"false" json:"targetScopeReference"`
 
 	// The source field name.
 	SourceFieldName *string `mandatory:"false" json:"sourceFieldName"`

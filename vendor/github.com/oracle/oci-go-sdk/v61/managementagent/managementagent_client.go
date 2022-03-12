@@ -4,7 +4,8 @@
 
 // Management Agent API
 //
-// API for Management Agent Cloud Service
+// Use the Management Agent API to manage your infrastructure's management agents, including their plugins and install keys.
+// For more information, see Management Agent (https://docs.cloud.oracle.com/iaas/management-agents/index.html).
 //
 
 package managementagent
@@ -137,6 +138,8 @@ func (client ManagementAgentClient) createManagementAgentInstallKey(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgentInstallKey/CreateManagementAgentInstallKey"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "CreateManagementAgentInstallKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +195,8 @@ func (client ManagementAgentClient) deleteManagementAgent(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/DeleteManagementAgent"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "DeleteManagementAgent", apiReferenceLink)
 		return response, err
 	}
 
@@ -247,6 +252,8 @@ func (client ManagementAgentClient) deleteManagementAgentInstallKey(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgentInstallKey/DeleteManagementAgentInstallKey"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "DeleteManagementAgentInstallKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -302,6 +309,8 @@ func (client ManagementAgentClient) deleteWorkRequest(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/WorkRequest/DeleteWorkRequest"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "DeleteWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -362,6 +371,8 @@ func (client ManagementAgentClient) deployPlugins(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/DeployPlugins"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "DeployPlugins", apiReferenceLink)
 		return response, err
 	}
 
@@ -418,6 +429,8 @@ func (client ManagementAgentClient) getAutoUpgradableConfig(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/GetAutoUpgradableConfig"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "GetAutoUpgradableConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -473,6 +486,8 @@ func (client ManagementAgentClient) getManagementAgent(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/GetManagementAgent"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "GetManagementAgent", apiReferenceLink)
 		return response, err
 	}
 
@@ -528,6 +543,8 @@ func (client ManagementAgentClient) getManagementAgentInstallKey(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgentInstallKey/GetManagementAgentInstallKey"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "GetManagementAgentInstallKey", apiReferenceLink)
 		return response, err
 	}
 
@@ -582,6 +599,8 @@ func (client ManagementAgentClient) getManagementAgentInstallKeyContent(ctx cont
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgentInstallKey/GetManagementAgentInstallKeyContent"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "GetManagementAgentInstallKeyContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -637,6 +656,8 @@ func (client ManagementAgentClient) getWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -692,6 +713,8 @@ func (client ManagementAgentClient) listAvailabilityHistories(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/ListAvailabilityHistories"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "ListAvailabilityHistories", apiReferenceLink)
 		return response, err
 	}
 
@@ -752,6 +775,8 @@ func (client ManagementAgentClient) listManagementAgentImages(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgentImage/ListManagementAgentImages"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "ListManagementAgentImages", apiReferenceLink)
 		return response, err
 	}
 
@@ -807,6 +832,8 @@ func (client ManagementAgentClient) listManagementAgentInstallKeys(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgentInstallKey/ListManagementAgentInstallKeys"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "ListManagementAgentInstallKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -862,6 +889,8 @@ func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgentPlugin/ListManagementAgentPlugins"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "ListManagementAgentPlugins", apiReferenceLink)
 		return response, err
 	}
 
@@ -869,7 +898,8 @@ func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Conte
 	return response, err
 }
 
-// ListManagementAgents Returns a list of Management Agent.
+// ListManagementAgents Returns a list of Management Agents.
+// If no explicit page size limit is specified, it will default to 5000.
 //
 // See also
 //
@@ -917,6 +947,8 @@ func (client ManagementAgentClient) listManagementAgents(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/ListManagementAgents"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "ListManagementAgents", apiReferenceLink)
 		return response, err
 	}
 
@@ -972,6 +1004,8 @@ func (client ManagementAgentClient) listWorkRequestErrors(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1027,6 +1061,8 @@ func (client ManagementAgentClient) listWorkRequestLogs(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1082,6 +1118,8 @@ func (client ManagementAgentClient) listWorkRequests(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1143,6 +1181,8 @@ func (client ManagementAgentClient) setAutoUpgradableConfig(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/SetAutoUpgradableConfig"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "SetAutoUpgradableConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -1199,6 +1239,8 @@ func (client ManagementAgentClient) summarizeManagementAgentCounts(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/SummarizeManagementAgentCounts"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "SummarizeManagementAgentCounts", apiReferenceLink)
 		return response, err
 	}
 
@@ -1255,6 +1297,8 @@ func (client ManagementAgentClient) summarizeManagementAgentPluginCounts(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/SummarizeManagementAgentPluginCounts"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "SummarizeManagementAgentPluginCounts", apiReferenceLink)
 		return response, err
 	}
 
@@ -1315,6 +1359,8 @@ func (client ManagementAgentClient) updateManagementAgent(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/UpdateManagementAgent"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "UpdateManagementAgent", apiReferenceLink)
 		return response, err
 	}
 
@@ -1375,6 +1421,8 @@ func (client ManagementAgentClient) updateManagementAgentInstallKey(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgentInstallKey/UpdateManagementAgentInstallKey"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "UpdateManagementAgentInstallKey", apiReferenceLink)
 		return response, err
 	}
 

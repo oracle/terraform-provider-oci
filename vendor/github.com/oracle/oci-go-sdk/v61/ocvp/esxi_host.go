@@ -83,12 +83,11 @@ type EsxiHost struct {
 	// The current state of the ESXi host.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the esxi host that
-	// is failed.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that failed.
 	FailedEsxiHostId *string `mandatory:"false" json:"failedEsxiHostId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the esxi host that
-	// is newly created to replace the failed node.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
+	// is created to replace the failed host.
 	ReplacementEsxiHostId *string `mandatory:"false" json:"replacementEsxiHostId"`
 
 	// The date and time when the new esxi host should start billing cycle.

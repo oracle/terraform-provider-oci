@@ -138,6 +138,8 @@ func (client DashxApisClient) changeManagementDashboardsCompartment(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboard/ChangeManagementDashboardsCompartment"
+		err = common.PostProcessServiceError(err, "DashxApis", "ChangeManagementDashboardsCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -198,6 +200,8 @@ func (client DashxApisClient) changeManagementSavedSearchesCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementSavedSearch/ChangeManagementSavedSearchesCompartment"
+		err = common.PostProcessServiceError(err, "DashxApis", "ChangeManagementSavedSearchesCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -261,6 +265,8 @@ func (client DashxApisClient) createManagementDashboard(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboard/CreateManagementDashboard"
+		err = common.PostProcessServiceError(err, "DashxApis", "CreateManagementDashboard", apiReferenceLink)
 		return response, err
 	}
 
@@ -324,6 +330,8 @@ func (client DashxApisClient) createManagementSavedSearch(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementSavedSearch/CreateManagementSavedSearch"
+		err = common.PostProcessServiceError(err, "DashxApis", "CreateManagementSavedSearch", apiReferenceLink)
 		return response, err
 	}
 
@@ -379,6 +387,8 @@ func (client DashxApisClient) deleteManagementDashboard(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboard/DeleteManagementDashboard"
+		err = common.PostProcessServiceError(err, "DashxApis", "DeleteManagementDashboard", apiReferenceLink)
 		return response, err
 	}
 
@@ -434,6 +444,8 @@ func (client DashxApisClient) deleteManagementSavedSearch(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementSavedSearch/DeleteManagementSavedSearch"
+		err = common.PostProcessServiceError(err, "DashxApis", "DeleteManagementSavedSearch", apiReferenceLink)
 		return response, err
 	}
 
@@ -496,6 +508,8 @@ func (client DashxApisClient) exportDashboard(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboardImportDetails/ExportDashboard"
+		err = common.PostProcessServiceError(err, "DashxApis", "ExportDashboard", apiReferenceLink)
 		return response, err
 	}
 
@@ -556,6 +570,8 @@ func (client DashxApisClient) getManagementDashboard(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboard/GetManagementDashboard"
+		err = common.PostProcessServiceError(err, "DashxApis", "GetManagementDashboard", apiReferenceLink)
 		return response, err
 	}
 
@@ -616,6 +632,8 @@ func (client DashxApisClient) getManagementSavedSearch(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementSavedSearch/GetManagementSavedSearch"
+		err = common.PostProcessServiceError(err, "DashxApis", "GetManagementSavedSearch", apiReferenceLink)
 		return response, err
 	}
 
@@ -681,6 +699,8 @@ func (client DashxApisClient) importDashboard(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboardImportDetails/ImportDashboard"
+		err = common.PostProcessServiceError(err, "DashxApis", "ImportDashboard", apiReferenceLink)
 		return response, err
 	}
 
@@ -736,6 +756,8 @@ func (client DashxApisClient) listManagementDashboards(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboard/ListManagementDashboards"
+		err = common.PostProcessServiceError(err, "DashxApis", "ListManagementDashboards", apiReferenceLink)
 		return response, err
 	}
 
@@ -791,6 +813,8 @@ func (client DashxApisClient) listManagementSavedSearches(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementSavedSearch/ListManagementSavedSearches"
+		err = common.PostProcessServiceError(err, "DashxApis", "ListManagementSavedSearches", apiReferenceLink)
 		return response, err
 	}
 
@@ -851,6 +875,8 @@ func (client DashxApisClient) updateManagementDashboard(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementDashboard/UpdateManagementDashboard"
+		err = common.PostProcessServiceError(err, "DashxApis", "UpdateManagementDashboard", apiReferenceLink)
 		return response, err
 	}
 
@@ -911,6 +937,8 @@ func (client DashxApisClient) updateManagementSavedSearch(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/managementdashboard/20200901/ManagementSavedSearch/UpdateManagementSavedSearch"
+		err = common.PostProcessServiceError(err, "DashxApis", "UpdateManagementSavedSearch", apiReferenceLink)
 		return response, err
 	}
 

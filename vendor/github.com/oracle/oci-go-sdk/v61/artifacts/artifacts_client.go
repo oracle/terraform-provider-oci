@@ -140,6 +140,8 @@ func (client ArtifactsClient) changeContainerRepositoryCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "ChangeContainerRepositoryCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -202,6 +204,8 @@ func (client ArtifactsClient) changeRepositoryCompartment(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "ChangeRepositoryCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -262,6 +266,8 @@ func (client ArtifactsClient) createContainerImageSignature(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "CreateContainerImageSignature", apiReferenceLink)
 		return response, err
 	}
 
@@ -322,6 +328,8 @@ func (client ArtifactsClient) createContainerRepository(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "CreateContainerRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -382,6 +390,8 @@ func (client ArtifactsClient) createRepository(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "CreateRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -437,6 +447,8 @@ func (client ArtifactsClient) deleteContainerImage(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "DeleteContainerImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -492,6 +504,8 @@ func (client ArtifactsClient) deleteContainerImageSignature(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "DeleteContainerImageSignature", apiReferenceLink)
 		return response, err
 	}
 
@@ -547,6 +561,8 @@ func (client ArtifactsClient) deleteContainerRepository(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "DeleteContainerRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -602,6 +618,8 @@ func (client ArtifactsClient) deleteGenericArtifact(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "DeleteGenericArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -657,6 +675,8 @@ func (client ArtifactsClient) deleteGenericArtifactByPath(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "DeleteGenericArtifactByPath", apiReferenceLink)
 		return response, err
 	}
 
@@ -712,6 +732,8 @@ func (client ArtifactsClient) deleteRepository(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "DeleteRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -767,6 +789,8 @@ func (client ArtifactsClient) getContainerConfiguration(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "GetContainerConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -822,6 +846,8 @@ func (client ArtifactsClient) getContainerImage(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "GetContainerImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -877,6 +903,8 @@ func (client ArtifactsClient) getContainerImageSignature(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "GetContainerImageSignature", apiReferenceLink)
 		return response, err
 	}
 
@@ -932,6 +960,8 @@ func (client ArtifactsClient) getContainerRepository(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "GetContainerRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -987,6 +1017,8 @@ func (client ArtifactsClient) getGenericArtifact(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "GetGenericArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -1042,6 +1074,8 @@ func (client ArtifactsClient) getGenericArtifactByPath(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "GetGenericArtifactByPath", apiReferenceLink)
 		return response, err
 	}
 
@@ -1097,6 +1131,8 @@ func (client ArtifactsClient) getRepository(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "GetRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -1152,6 +1188,8 @@ func (client ArtifactsClient) listContainerImageSignatures(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "ListContainerImageSignatures", apiReferenceLink)
 		return response, err
 	}
 
@@ -1207,6 +1245,8 @@ func (client ArtifactsClient) listContainerImages(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "ListContainerImages", apiReferenceLink)
 		return response, err
 	}
 
@@ -1262,6 +1302,8 @@ func (client ArtifactsClient) listContainerRepositories(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "ListContainerRepositories", apiReferenceLink)
 		return response, err
 	}
 
@@ -1317,6 +1359,8 @@ func (client ArtifactsClient) listGenericArtifacts(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "ListGenericArtifacts", apiReferenceLink)
 		return response, err
 	}
 
@@ -1372,6 +1416,8 @@ func (client ArtifactsClient) listRepositories(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "ListRepositories", apiReferenceLink)
 		return response, err
 	}
 
@@ -1432,6 +1478,8 @@ func (client ArtifactsClient) removeContainerVersion(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "RemoveContainerVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1492,6 +1540,8 @@ func (client ArtifactsClient) restoreContainerImage(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "RestoreContainerImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -1547,6 +1597,8 @@ func (client ArtifactsClient) updateContainerConfiguration(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "UpdateContainerConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1602,6 +1654,8 @@ func (client ArtifactsClient) updateContainerRepository(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "UpdateContainerRepository", apiReferenceLink)
 		return response, err
 	}
 
@@ -1657,6 +1711,8 @@ func (client ArtifactsClient) updateGenericArtifact(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "UpdateGenericArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -1712,6 +1768,8 @@ func (client ArtifactsClient) updateGenericArtifactByPath(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "UpdateGenericArtifactByPath", apiReferenceLink)
 		return response, err
 	}
 
@@ -1767,6 +1825,8 @@ func (client ArtifactsClient) updateRepository(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Artifacts", "UpdateRepository", apiReferenceLink)
 		return response, err
 	}
 

@@ -38,8 +38,10 @@ type ProxyField struct {
 	// Detailed description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Reference to a typed object. This can be either a key value to an object within the document, a shall referenced to a `TypedObject`, or a full `TypedObject` definition.
+	// Deprecated - Reference to a typed object. This can be either a key value to an object within the document, a shall referenced to a `TypedObject`, or a full `TypedObject` definition.
 	Scope *interface{} `mandatory:"false" json:"scope"`
+
+	ScopeReference *ScopeReference `mandatory:"false" json:"scopeReference"`
 
 	Type BaseType `mandatory:"false" json:"type"`
 
@@ -115,16 +117,17 @@ func (m ProxyField) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ProxyField) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Key          *string          `json:"key"`
-		ModelVersion *string          `json:"modelVersion"`
-		ParentRef    *ParentReference `json:"parentRef"`
-		ConfigValues *ConfigValues    `json:"configValues"`
-		ObjectStatus *int             `json:"objectStatus"`
-		Name         *string          `json:"name"`
-		Description  *string          `json:"description"`
-		Scope        *interface{}     `json:"scope"`
-		Type         basetype         `json:"type"`
-		Labels       []string         `json:"labels"`
+		Key            *string          `json:"key"`
+		ModelVersion   *string          `json:"modelVersion"`
+		ParentRef      *ParentReference `json:"parentRef"`
+		ConfigValues   *ConfigValues    `json:"configValues"`
+		ObjectStatus   *int             `json:"objectStatus"`
+		Name           *string          `json:"name"`
+		Description    *string          `json:"description"`
+		Scope          *interface{}     `json:"scope"`
+		ScopeReference *ScopeReference  `json:"scopeReference"`
+		Type           basetype         `json:"type"`
+		Labels         []string         `json:"labels"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -147,6 +150,8 @@ func (m *ProxyField) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.Scope = model.Scope
+
+	m.ScopeReference = model.ScopeReference
 
 	nn, e = model.Type.UnmarshalPolymorphicJSON(model.Type.JsonData)
 	if e != nil {

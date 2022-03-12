@@ -137,6 +137,8 @@ func (client SubscriptionServiceClient) authorizeSubscriptionPayment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "SubscriptionService", "AuthorizeSubscriptionPayment", apiReferenceLink)
 		return response, err
 	}
 
@@ -192,6 +194,8 @@ func (client SubscriptionServiceClient) getSubscription(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "SubscriptionService", "GetSubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -247,6 +251,8 @@ func (client SubscriptionServiceClient) listSubscriptions(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "SubscriptionService", "ListSubscriptions", apiReferenceLink)
 		return response, err
 	}
 
@@ -307,6 +313,8 @@ func (client SubscriptionServiceClient) paySubscription(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "SubscriptionService", "PaySubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -362,6 +370,8 @@ func (client SubscriptionServiceClient) updateSubscription(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "SubscriptionService", "UpdateSubscription", apiReferenceLink)
 		return response, err
 	}
 

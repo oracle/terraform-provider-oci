@@ -131,6 +131,8 @@ func (client InvoiceServiceClient) downloadPdfContent(ctx context.Context, reque
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "InvoiceService", "DownloadPdfContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -186,6 +188,8 @@ func (client InvoiceServiceClient) getInvoice(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "InvoiceService", "GetInvoice", apiReferenceLink)
 		return response, err
 	}
 
@@ -241,6 +245,8 @@ func (client InvoiceServiceClient) listInvoiceLines(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "InvoiceService", "ListInvoiceLines", apiReferenceLink)
 		return response, err
 	}
 
@@ -296,6 +302,8 @@ func (client InvoiceServiceClient) listInvoices(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "InvoiceService", "ListInvoices", apiReferenceLink)
 		return response, err
 	}
 
@@ -356,6 +364,8 @@ func (client InvoiceServiceClient) payInvoice(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "InvoiceService", "PayInvoice", apiReferenceLink)
 		return response, err
 	}
 

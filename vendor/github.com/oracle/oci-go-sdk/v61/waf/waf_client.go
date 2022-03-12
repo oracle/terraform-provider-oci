@@ -134,6 +134,8 @@ func (client WafClient) changeNetworkAddressListCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/NetworkAddressList/ChangeNetworkAddressListCompartment"
+		err = common.PostProcessServiceError(err, "Waf", "ChangeNetworkAddressListCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -190,6 +192,8 @@ func (client WafClient) changeWebAppFirewallCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewall/ChangeWebAppFirewallCompartment"
+		err = common.PostProcessServiceError(err, "Waf", "ChangeWebAppFirewallCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -246,6 +250,8 @@ func (client WafClient) changeWebAppFirewallPolicyCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewallPolicy/ChangeWebAppFirewallPolicyCompartment"
+		err = common.PostProcessServiceError(err, "Waf", "ChangeWebAppFirewallPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -306,6 +312,8 @@ func (client WafClient) createNetworkAddressList(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/NetworkAddressList/CreateNetworkAddressList"
+		err = common.PostProcessServiceError(err, "Waf", "CreateNetworkAddressList", apiReferenceLink)
 		return response, err
 	}
 
@@ -366,6 +374,8 @@ func (client WafClient) createWebAppFirewall(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewall/CreateWebAppFirewall"
+		err = common.PostProcessServiceError(err, "Waf", "CreateWebAppFirewall", apiReferenceLink)
 		return response, err
 	}
 
@@ -426,6 +436,8 @@ func (client WafClient) createWebAppFirewallPolicy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewallPolicy/CreateWebAppFirewallPolicy"
+		err = common.PostProcessServiceError(err, "Waf", "CreateWebAppFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -481,6 +493,8 @@ func (client WafClient) deleteNetworkAddressList(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/NetworkAddressList/DeleteNetworkAddressList"
+		err = common.PostProcessServiceError(err, "Waf", "DeleteNetworkAddressList", apiReferenceLink)
 		return response, err
 	}
 
@@ -536,6 +550,8 @@ func (client WafClient) deleteWebAppFirewall(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewall/DeleteWebAppFirewall"
+		err = common.PostProcessServiceError(err, "Waf", "DeleteWebAppFirewall", apiReferenceLink)
 		return response, err
 	}
 
@@ -591,6 +607,8 @@ func (client WafClient) deleteWebAppFirewallPolicy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewallPolicy/DeleteWebAppFirewallPolicy"
+		err = common.PostProcessServiceError(err, "Waf", "DeleteWebAppFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -646,6 +664,8 @@ func (client WafClient) getNetworkAddressList(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/NetworkAddressList/GetNetworkAddressList"
+		err = common.PostProcessServiceError(err, "Waf", "GetNetworkAddressList", apiReferenceLink)
 		return response, err
 	}
 
@@ -701,6 +721,8 @@ func (client WafClient) getWebAppFirewall(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewall/GetWebAppFirewall"
+		err = common.PostProcessServiceError(err, "Waf", "GetWebAppFirewall", apiReferenceLink)
 		return response, err
 	}
 
@@ -756,6 +778,8 @@ func (client WafClient) getWebAppFirewallPolicy(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewallPolicy/GetWebAppFirewallPolicy"
+		err = common.PostProcessServiceError(err, "Waf", "GetWebAppFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -811,6 +835,8 @@ func (client WafClient) getWorkRequest(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "Waf", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -866,6 +892,8 @@ func (client WafClient) listNetworkAddressLists(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/NetworkAddressList/ListNetworkAddressLists"
+		err = common.PostProcessServiceError(err, "Waf", "ListNetworkAddressLists", apiReferenceLink)
 		return response, err
 	}
 
@@ -921,6 +949,8 @@ func (client WafClient) listProtectionCapabilities(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/ProtectionCapability/ListProtectionCapabilities"
+		err = common.PostProcessServiceError(err, "Waf", "ListProtectionCapabilities", apiReferenceLink)
 		return response, err
 	}
 
@@ -976,6 +1006,8 @@ func (client WafClient) listProtectionCapabilityGroupTags(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/ProtectionCapability/ListProtectionCapabilityGroupTags"
+		err = common.PostProcessServiceError(err, "Waf", "ListProtectionCapabilityGroupTags", apiReferenceLink)
 		return response, err
 	}
 
@@ -1031,6 +1063,8 @@ func (client WafClient) listWebAppFirewallPolicies(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewallPolicy/ListWebAppFirewallPolicies"
+		err = common.PostProcessServiceError(err, "Waf", "ListWebAppFirewallPolicies", apiReferenceLink)
 		return response, err
 	}
 
@@ -1086,6 +1120,8 @@ func (client WafClient) listWebAppFirewalls(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewall/ListWebAppFirewalls"
+		err = common.PostProcessServiceError(err, "Waf", "ListWebAppFirewalls", apiReferenceLink)
 		return response, err
 	}
 
@@ -1141,6 +1177,8 @@ func (client WafClient) listWorkRequestErrors(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WorkRequestError/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "Waf", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -1196,6 +1234,8 @@ func (client WafClient) listWorkRequestLogs(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "Waf", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1251,6 +1291,8 @@ func (client WafClient) listWorkRequests(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WorkRequest/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "Waf", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1306,6 +1348,8 @@ func (client WafClient) updateNetworkAddressList(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/NetworkAddressList/UpdateNetworkAddressList"
+		err = common.PostProcessServiceError(err, "Waf", "UpdateNetworkAddressList", apiReferenceLink)
 		return response, err
 	}
 
@@ -1361,6 +1405,8 @@ func (client WafClient) updateWebAppFirewall(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewall/UpdateWebAppFirewall"
+		err = common.PostProcessServiceError(err, "Waf", "UpdateWebAppFirewall", apiReferenceLink)
 		return response, err
 	}
 
@@ -1416,6 +1462,8 @@ func (client WafClient) updateWebAppFirewallPolicy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waf/20210930/WebAppFirewallPolicy/UpdateWebAppFirewallPolicy"
+		err = common.PostProcessServiceError(err, "Waf", "UpdateWebAppFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
 

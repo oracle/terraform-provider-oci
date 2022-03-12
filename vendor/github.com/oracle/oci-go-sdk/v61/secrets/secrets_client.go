@@ -133,6 +133,8 @@ func (client SecretsClient) getSecretBundle(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Secrets", "GetSecretBundle", apiReferenceLink)
 		return response, err
 	}
 
@@ -189,6 +191,8 @@ func (client SecretsClient) getSecretBundleByName(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Secrets", "GetSecretBundleByName", apiReferenceLink)
 		return response, err
 	}
 
@@ -244,6 +248,8 @@ func (client SecretsClient) listSecretBundleVersions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Secrets", "ListSecretBundleVersions", apiReferenceLink)
 		return response, err
 	}
 

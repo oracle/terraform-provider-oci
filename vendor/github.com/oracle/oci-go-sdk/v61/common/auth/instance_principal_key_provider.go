@@ -42,6 +42,14 @@ type instancePrincipalKeyProvider struct {
 	TenancyID        string
 }
 
+type instancePrincipalError struct {
+	err error
+}
+
+func (ipe instancePrincipalError) Error() string {
+	return fmt.Sprintf("%s\nInstance principals authentication can only be used on OCI compute instances. Please confirm this code is running on an OCI compute instance and you have set up the policy properly.\nSee https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm for more info", ipe.err.Error())
+}
+
 // newInstancePrincipalKeyProvider creates and returns an instancePrincipalKeyProvider instance based on
 // x509FederationClient.
 //
@@ -57,7 +65,7 @@ func newInstancePrincipalKeyProvider(modifier func(common.HTTPRequestDispatcher)
 	client, err := clientModifier.Modify(&http.Client{})
 	if err != nil {
 		err = fmt.Errorf("failed to modify client: %s", err.Error())
-		return nil, err
+		return nil, instancePrincipalError{err: err}
 	}
 
 	var region common.Region
@@ -65,7 +73,7 @@ func newInstancePrincipalKeyProvider(modifier func(common.HTTPRequestDispatcher)
 	if region, err = getRegionForFederationClient(client, regionURL); err != nil {
 		err = fmt.Errorf("failed to get the region name from %s: %s", regionURL, err.Error())
 		common.Logf("%v\n", err)
-		return nil, err
+		return nil, instancePrincipalError{err: err}
 	}
 
 	leafCertificateRetriever := newURLBasedX509CertificateRetriever(client,
@@ -78,7 +86,7 @@ func newInstancePrincipalKeyProvider(modifier func(common.HTTPRequestDispatcher)
 
 	if err = leafCertificateRetriever.Refresh(); err != nil {
 		err = fmt.Errorf("failed to refresh the leaf certificate: %s", err.Error())
-		return nil, err
+		return nil, instancePrincipalError{err: err}
 	}
 	tenancyID := extractTenancyIDFromCertificate(leafCertificateRetriever.Certificate())
 
@@ -86,7 +94,7 @@ func newInstancePrincipalKeyProvider(modifier func(common.HTTPRequestDispatcher)
 
 	if err != nil {
 		err = fmt.Errorf("failed to create federation client: %s", err.Error())
-		return nil, err
+		return nil, instancePrincipalError{err: err}
 	}
 
 	provider = &instancePrincipalKeyProvider{FederationClient: federationClient, TenancyID: tenancyID, Region: region}
@@ -127,7 +135,7 @@ func (p *instancePrincipalKeyProvider) RegionForFederationClient() common.Region
 func (p *instancePrincipalKeyProvider) PrivateRSAKey() (privateKey *rsa.PrivateKey, err error) {
 	if privateKey, err = p.FederationClient.PrivateKey(); err != nil {
 		err = fmt.Errorf("failed to get private key: %s", err.Error())
-		return nil, err
+		return nil, instancePrincipalError{err: err}
 	}
 	return privateKey, nil
 }
@@ -136,7 +144,8 @@ func (p *instancePrincipalKeyProvider) KeyID() (string, error) {
 	var securityToken string
 	var err error
 	if securityToken, err = p.FederationClient.SecurityToken(); err != nil {
-		return "", fmt.Errorf("failed to get security token: %s", err.Error())
+		err = fmt.Errorf("failed to get security token: %s", err.Error())
+		return "", instancePrincipalError{err: err}
 	}
 	return fmt.Sprintf("ST$%s", securityToken), nil
 }

@@ -136,6 +136,8 @@ func (client ComputeInstanceAgentClient) cancelInstanceAgentCommand(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/instanceagent/20180530/InstanceAgentCommand/CancelInstanceAgentCommand"
+		err = common.PostProcessServiceError(err, "ComputeInstanceAgent", "CancelInstanceAgentCommand", apiReferenceLink)
 		return response, err
 	}
 
@@ -200,6 +202,8 @@ func (client ComputeInstanceAgentClient) createInstanceAgentCommand(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/instanceagent/20180530/InstanceAgentCommand/CreateInstanceAgentCommand"
+		err = common.PostProcessServiceError(err, "ComputeInstanceAgent", "CreateInstanceAgentCommand", apiReferenceLink)
 		return response, err
 	}
 
@@ -255,6 +259,8 @@ func (client ComputeInstanceAgentClient) getInstanceAgentCommand(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/instanceagent/20180530/InstanceAgentCommand/GetInstanceAgentCommand"
+		err = common.PostProcessServiceError(err, "ComputeInstanceAgent", "GetInstanceAgentCommand", apiReferenceLink)
 		return response, err
 	}
 
@@ -310,6 +316,8 @@ func (client ComputeInstanceAgentClient) getInstanceAgentCommandExecution(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/instanceagent/20180530/InstanceAgentCommandExecution/GetInstanceAgentCommandExecution"
+		err = common.PostProcessServiceError(err, "ComputeInstanceAgent", "GetInstanceAgentCommandExecution", apiReferenceLink)
 		return response, err
 	}
 
@@ -366,6 +374,8 @@ func (client ComputeInstanceAgentClient) listInstanceAgentCommandExecutions(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/instanceagent/20180530/InstanceAgentCommandExecutionSummary/ListInstanceAgentCommandExecutions"
+		err = common.PostProcessServiceError(err, "ComputeInstanceAgent", "ListInstanceAgentCommandExecutions", apiReferenceLink)
 		return response, err
 	}
 
@@ -421,6 +431,8 @@ func (client ComputeInstanceAgentClient) listInstanceAgentCommands(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/instanceagent/20180530/InstanceAgentCommandSummary/ListInstanceAgentCommands"
+		err = common.PostProcessServiceError(err, "ComputeInstanceAgent", "ListInstanceAgentCommands", apiReferenceLink)
 		return response, err
 	}
 

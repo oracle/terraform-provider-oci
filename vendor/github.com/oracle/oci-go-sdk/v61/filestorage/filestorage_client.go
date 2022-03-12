@@ -132,6 +132,8 @@ func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ChangeFileSystemCompartment"
+		err = common.PostProcessServiceError(err, "FileStorage", "ChangeFileSystemCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -187,6 +189,8 @@ func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/ChangeMountTargetCompartment"
+		err = common.PostProcessServiceError(err, "FileStorage", "ChangeMountTargetCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -248,6 +252,8 @@ func (client FileStorageClient) createExport(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Export/CreateExport"
+		err = common.PostProcessServiceError(err, "FileStorage", "CreateExport", apiReferenceLink)
 		return response, err
 	}
 
@@ -331,6 +337,8 @@ func (client FileStorageClient) createFileSystem(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/CreateFileSystem"
+		err = common.PostProcessServiceError(err, "FileStorage", "CreateFileSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -418,6 +426,8 @@ func (client FileStorageClient) createMountTarget(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/CreateMountTarget"
+		err = common.PostProcessServiceError(err, "FileStorage", "CreateMountTarget", apiReferenceLink)
 		return response, err
 	}
 
@@ -479,6 +489,8 @@ func (client FileStorageClient) createSnapshot(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Snapshot/CreateSnapshot"
+		err = common.PostProcessServiceError(err, "FileStorage", "CreateSnapshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -534,6 +546,8 @@ func (client FileStorageClient) deleteExport(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Export/DeleteExport"
+		err = common.PostProcessServiceError(err, "FileStorage", "DeleteExport", apiReferenceLink)
 		return response, err
 	}
 
@@ -591,6 +605,8 @@ func (client FileStorageClient) deleteFileSystem(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/DeleteFileSystem"
+		err = common.PostProcessServiceError(err, "FileStorage", "DeleteFileSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -647,6 +663,8 @@ func (client FileStorageClient) deleteMountTarget(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/DeleteMountTarget"
+		err = common.PostProcessServiceError(err, "FileStorage", "DeleteMountTarget", apiReferenceLink)
 		return response, err
 	}
 
@@ -702,6 +720,8 @@ func (client FileStorageClient) deleteSnapshot(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Snapshot/DeleteSnapshot"
+		err = common.PostProcessServiceError(err, "FileStorage", "DeleteSnapshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -757,6 +777,8 @@ func (client FileStorageClient) getExport(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Export/GetExport"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetExport", apiReferenceLink)
 		return response, err
 	}
 
@@ -812,6 +834,8 @@ func (client FileStorageClient) getExportSet(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ExportSet/GetExportSet"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetExportSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -867,6 +891,8 @@ func (client FileStorageClient) getFileSystem(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/GetFileSystem"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetFileSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -922,6 +948,8 @@ func (client FileStorageClient) getMountTarget(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/GetMountTarget"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetMountTarget", apiReferenceLink)
 		return response, err
 	}
 
@@ -977,6 +1005,8 @@ func (client FileStorageClient) getSnapshot(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Snapshot/GetSnapshot"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetSnapshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -1032,6 +1062,8 @@ func (client FileStorageClient) listExportSets(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ExportSetSummary/ListExportSets"
+		err = common.PostProcessServiceError(err, "FileStorage", "ListExportSets", apiReferenceLink)
 		return response, err
 	}
 
@@ -1089,6 +1121,8 @@ func (client FileStorageClient) listExports(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ExportSummary/ListExports"
+		err = common.PostProcessServiceError(err, "FileStorage", "ListExports", apiReferenceLink)
 		return response, err
 	}
 
@@ -1144,6 +1178,8 @@ func (client FileStorageClient) listFileSystems(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystemSummary/ListFileSystems"
+		err = common.PostProcessServiceError(err, "FileStorage", "ListFileSystems", apiReferenceLink)
 		return response, err
 	}
 
@@ -1199,6 +1235,8 @@ func (client FileStorageClient) listMountTargets(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTargetSummary/ListMountTargets"
+		err = common.PostProcessServiceError(err, "FileStorage", "ListMountTargets", apiReferenceLink)
 		return response, err
 	}
 
@@ -1254,6 +1292,8 @@ func (client FileStorageClient) listSnapshots(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/SnapshotSummary/ListSnapshots"
+		err = common.PostProcessServiceError(err, "FileStorage", "ListSnapshots", apiReferenceLink)
 		return response, err
 	}
 
@@ -1309,6 +1349,8 @@ func (client FileStorageClient) updateExport(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Export/UpdateExport"
+		err = common.PostProcessServiceError(err, "FileStorage", "UpdateExport", apiReferenceLink)
 		return response, err
 	}
 
@@ -1364,6 +1406,8 @@ func (client FileStorageClient) updateExportSet(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ExportSet/UpdateExportSet"
+		err = common.PostProcessServiceError(err, "FileStorage", "UpdateExportSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1420,6 +1464,8 @@ func (client FileStorageClient) updateFileSystem(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/UpdateFileSystem"
+		err = common.PostProcessServiceError(err, "FileStorage", "UpdateFileSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -1475,6 +1521,8 @@ func (client FileStorageClient) updateMountTarget(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/UpdateMountTarget"
+		err = common.PostProcessServiceError(err, "FileStorage", "UpdateMountTarget", apiReferenceLink)
 		return response, err
 	}
 
@@ -1530,6 +1578,8 @@ func (client FileStorageClient) updateSnapshot(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Snapshot/UpdateSnapshot"
+		err = common.PostProcessServiceError(err, "FileStorage", "UpdateSnapshot", apiReferenceLink)
 		return response, err
 	}
 

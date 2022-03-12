@@ -4,7 +4,8 @@
 
 // Management Agent API
 //
-// API for Management Agent Cloud Service
+// Use the Management Agent API to manage your infrastructure's management agents, including their plugins and install keys.
+// For more information, see Management Agent (https://docs.cloud.oracle.com/iaas/management-agents/index.html).
 //
 
 package managementagent
@@ -47,7 +48,7 @@ type WorkRequestResource struct {
 
 	// Additional metadata about the resource that has been operated upon by
 	// this work request. For WorkRequests operationType WORK_DELIVERY the metadata will contain: workDeliveryStatus
-	// indicating the status of the work delivery item &WORKDELIVERYSTATUS, workSubmissionKey the WorkSubmission request id,
+	// indicating the status of the work delivery item as a WorkDeliveryStatus value, workSubmissionKey the WorkSubmission request id,
 	//  and workSubmissionDetails containing any details of result
 	Metadata *interface{} `mandatory:"false" json:"metadata"`
 }

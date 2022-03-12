@@ -4,7 +4,8 @@
 
 // Management Agent API
 //
-// API for Management Agent Cloud Service
+// Use the Management Agent API to manage your infrastructure's management agents, including their plugins and install keys.
+// For more information, see Management Agent (https://docs.cloud.oracle.com/iaas/management-agents/index.html).
 //
 
 package managementagent
@@ -29,6 +30,12 @@ type ManagementAgentImage struct {
 
 	// Agent image platform display name
 	PlatformName *string `mandatory:"false" json:"platformName"`
+
+	// The installation package type
+	PackageType PackageTypesEnum `mandatory:"false" json:"packageType,omitempty"`
+
+	// The installation package target architecture type
+	PackageArchitectureType ArchitectureTypesEnum `mandatory:"false" json:"packageArchitectureType,omitempty"`
 
 	// Agent image size in bytes
 	Size *float32 `mandatory:"false" json:"size"`
@@ -56,6 +63,12 @@ func (m ManagementAgentImage) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlatformType: %s. Supported values are: %s.", m.PlatformType, strings.Join(GetPlatformTypesEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingPackageTypesEnum(string(m.PackageType)); !ok && m.PackageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", m.PackageType, strings.Join(GetPackageTypesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingArchitectureTypesEnum(string(m.PackageArchitectureType)); !ok && m.PackageArchitectureType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageArchitectureType: %s. Supported values are: %s.", m.PackageArchitectureType, strings.Join(GetArchitectureTypesEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
 	}
